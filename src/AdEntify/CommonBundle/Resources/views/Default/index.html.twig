@@ -1,0 +1,24 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <main role="main" id="main">
+
+        <nav>
+            <ul>
+                <li><a href="">Home</a></li>
+                <li><a href="pics/">Pics</a></li>
+            </ul>
+        </nav>
+        <header></header>
+        <aside></aside>
+        <section id="content"></section>
+        <footer>
+            Copyright 2013
+        </footer>
+
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
+{% endblock %}
