@@ -63,3 +63,49 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+
+# FosRestBundle
+fos_rest:
+    view:
+        formats:
+            rss:  false
+            xml:  false
+            json: true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+        mime_types:
+            json: ['application/json', 'application/x-json', 'application/vnd.example-com.foo+json']
+            rss: 'application/rss+xml'
+            jpg: 'image/jpeg'
+            png: 'image/png'
+    body_listener: true
+    param_fetcher_listener: force
+    allowed_methods_listener: true
+    access_denied_listener:
+        json: true
+    format_listener:
+        default_priorities:
+            - html
+            - json
+            - xml
+            - rss
+            - "*/*"
+            # never reached due to "*/*"
+            - ding
+        # the subsequent line overrides the following line, so the default is NULL
+        fallback_format: json
+        fallback_format: ~
+        prefer_extension: true
+    routing_loader:
+        default_format: ~
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true

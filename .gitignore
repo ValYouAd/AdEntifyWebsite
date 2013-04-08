@@ -11,3 +11,25 @@ web/bundles/*
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
+
+# OS & lock files
+/.idea/*
+.idea/*
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.iws
+/.DS_Store
+.DS_Store
+*.lock
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+.idea/workspace.xml
+tasks.xml
