@@ -3,22 +3,24 @@
 {% block body %}
     <main role="main" id="main">
 
-        <nav>
-            <ul>
-                <li><a href="">Home</a></li>
-                <li><a href="pics/">Pics</a></li>
-            </ul>
+        <nav class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav">
+                        <li><a href="">Home</a></li>
+                        <li><a href="pics/">Pics</a></li>
+                    </ul>
+                </div>
+            </div>
         </nav>
-        <header></header>
-        <aside></aside>
-        <section id="content"></section>
+
+        <div id="content" class="container">
+
+        </div>
+
         <footer>
             Copyright 2013
         </footer>
 
     </main>
-{% endblock %}
-
-{% block javascripts %}
-    <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
 {% endblock %}

@@ -19,6 +19,11 @@ var jam = {
             "name": "lodash",
             "location": "../vendor/jam/lodash",
             "main": "./lodash.js"
+        },
+        {
+            "name": "bootstrap",
+            "location": "../vendor/jam/bootstrap",
+            "main": "bootstrap.min.js"
         }
     ],
     "version": "0.2.11",
@@ -26,7 +31,8 @@ var jam = {
         "backbone": {
             "deps": [
                 "jquery",
-                "lodash"
+                "lodash",
+                "bootstrap"
             ],
             "exports": "Backbone"
         },
