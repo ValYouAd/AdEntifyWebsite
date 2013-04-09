@@ -6,7 +6,7 @@ define([
   // creation.
   var app = {
     // The root path to run the application.
-    root: "/AdEntifyFacebookApp/web/app_dev.php/"
+    root: "/AdEntifyFacebookApp/web/fbApp/"
   };
 
   // Localize or create a new JavaScript Template object.
@@ -17,7 +17,7 @@ define([
     // Allow LayoutManager to augment Backbone.View.prototype.
     manage: true,
 
-    prefix: "/app/templates/",
+    prefix: "../bundles/adentifycommon/app/templates/",
 
     fetch: function(path) {
       // Concatenate the file extension.

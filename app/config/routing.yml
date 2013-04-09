@@ -1,4 +1,23 @@
+ad_entify_user:
+    resource: "@AdEntifyUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 ad_entify_common:
     resource: "@AdEntifyCommonBundle/Controller/"
     type:     annotation
     prefix:   /
+
+# Facebook
+_security_check:
+  pattern:  /facebook/login_check
+_security_logout:
+  pattern:  /logout
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+# API REST
+product:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\ProductController

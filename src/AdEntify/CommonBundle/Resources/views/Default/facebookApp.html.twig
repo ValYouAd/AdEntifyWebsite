@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <main role="main" id="main">
+
+        <nav class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="">Home</a></li>
+                            <li><a href="pics/">Pics</a></li>
+                        </ul>
+                        <div class="pull-right" id="user-account">
+                            <div id="facebook-button">
+                                {{ facebook_login_button({'autologoutlink': true}) }}
+                            </div>
+                            <div id="user-information"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div id="content" class="container">
+            <p class="text-info small"><em>Chargement en cours</em></p>
+        </div>
+
+    </main>
+{% endblock %}

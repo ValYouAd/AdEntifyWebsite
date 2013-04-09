@@ -22,6 +22,10 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new AdEntify\CommonBundle\AdEntifyCommonBundle(),
+            new FOS\FacebookBundle\FOSFacebookBundle(),
+            new AdEntify\UserBundle\AdEntifyUserBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

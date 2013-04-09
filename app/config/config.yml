@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: %locale% }
+    translator:      { fallback: %locale% }
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -68,6 +68,7 @@ swiftmailer:
 # FosRestBundle
 fos_rest:
     view:
+        view_response_listener: force
         formats:
             rss:  false
             xml:  false
@@ -102,10 +103,44 @@ fos_rest:
         fallback_format: ~
         prefer_extension: true
     routing_loader:
-        default_format: ~
+        default_format: json
     exception:
         codes:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
             'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
         messages:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }
+
+# Facebook
+fos_facebook:
+    alias:  facebook
+    app_id: 159587157398776
+    secret: 6465372f50a4b1e570cfe4ce7fd62cca
+    cookie: true
+    permissions: [email, user_birthday, user_location]
+    culture:     fr_FR
+
+fos_user:
+    db_driver: orm
+    firewall_name: public
+    user_class: AdEntify\UserBundle\Entity\User
+
+stof_doctrine_extensions:
+    default_locale: fr_FR
+    orm:
+        default:
+            timestampable: true
+            sluggable:     true
+
+# Services
+services:
+    my.facebook.user:
+        class: AdEntify\UserBundle\Security\User\Provider\FacebookProvider
+        arguments:
+            facebook: "@fos_facebook.api"
+            userManager: "@fos_user.user_manager"
+            validator: "@validator"

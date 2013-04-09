@@ -1,6 +1,6 @@
 <?php
 
-namespace AdEntify\CommonBundle\Controller;
+namespace AdEntify\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,11 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/fbApp/")
+     * @Route("/hello/{name}")
      * @Template()
      */
-    public function facebookAppAction()
+    public function indexAction($name)
     {
-        return array();
+        return array('name' => $name);
     }
 }

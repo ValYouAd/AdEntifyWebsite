@@ -20,7 +20,11 @@
         "jms/di-extra-bundle": "1.3.*",
         "friendsofsymfony/rest-bundle": "0.11",
         "jms/metadata": "1.1.1",
-        "jms/serializer-bundle": "0.11"
+        "jms/serializer-bundle": "0.11",
+        "adentify/core-bundle": "dev-master",
+        "friendsofsymfony/facebook-bundle": "1.1.*",
+        "friendsofsymfony/user-bundle": "*",
+        "stof/doctrine-extensions-bundle": "~1.1@dev"
     },
     "scripts": {
         "post-install-cmd": [
@@ -46,5 +50,11 @@
         "branch-alias": {
             "dev-master": "2.2-dev"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/matthieudordolo/AdEntifyCoreBundle"
+        }
+    ]
 }
