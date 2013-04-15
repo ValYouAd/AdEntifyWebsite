@@ -37,7 +37,7 @@ function(app, fbLib, HomePage, Pics, Facebook) {
                this.$("#user-information").html('<span class="label label-success">Bienvenue ' + response.name + '</span>');
             });
          } else {
-            window.location.href = "{{ path('fos_user_security_logout') }}";
+            window.location.href = Routing.generate('fos_user_security_logout');
          }
       },
 
@@ -51,7 +51,6 @@ function(app, fbLib, HomePage, Pics, Facebook) {
 
          app.useLayout().setViews({
             "#content": new HomePage.Views.Content()
-            //"#user-information": new FacebookModule.Views.UserAccount()
          }).render();
       },
 

@@ -20,28 +20,13 @@
         <div id="fb-root"></div>
         {% block body %}{% endblock %}
 
-        {#{{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();'}) }}#}
-        {#{{ facebook_initialize({'xfbml': true}) }}#}
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
         <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
         <script>
             function goLogIn(){
                 window.location = "{{ path('_security_check') }}";
             }
-            /*function onFbInit() {
-                if (typeof(FB) != 'undefined' && FB != null ) {
-                    FB.Event.subscribe('auth.statusChange', function(response) {
-                        if ((response.session || response.authResponse) && response.status === 'connected') {
-                            uid = response.authResponse.userID;
-                            accessToken = response.authResponse.accessToken;
-                            fbStatus = response.status;
-
-                            setTimeout(goLogIn, 500);
-                        } else {
-                            window.location.href = "{{ path('fos_user_security_logout') }}";
-                        }
-                    });
-                }
-            }*/
         </script>
         {% block javascripts %}{% endblock %}
     </body>

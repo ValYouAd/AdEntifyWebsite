@@ -52,9 +52,9 @@ class User extends BaseUser
     private $created_on;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="facebookId", type="string", length=255)
+     * @ORM\Column(name="facebook_id", type="bigint")
      */
     protected $facebookId;
 

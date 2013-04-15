@@ -12,7 +12,6 @@ define([
       },
 
       beforeRender: function() {
-         alert(app.fb.get('status'));
          this.$("#fb-connect-status").html(app.fb.get('status'));
       }
    });

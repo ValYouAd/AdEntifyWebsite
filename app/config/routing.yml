@@ -16,8 +16,13 @@ _security_logout:
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    options:
+        expose: true
 
 # API REST
 product:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\ProductController
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
