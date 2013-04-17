@@ -19,14 +19,15 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new AdEntify\CommonBundle\AdEntifyCommonBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
             new FOS\FacebookBundle\FOSFacebookBundle(),
-            new AdEntify\UserBundle\AdEntifyUserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new AdEntify\UserBundle\AdEntifyUserBundle(),
+            new AdEntify\CoreBundle\AdEntifyCoreBundle(),
+            new AdEntify\CommonBundle\AdEntifyCommonBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

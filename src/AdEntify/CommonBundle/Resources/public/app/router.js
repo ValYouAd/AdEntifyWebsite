@@ -36,9 +36,10 @@ function(app, fbLib, HomePage, Pics, Facebook) {
             FB.api('/me', function(response) {
                this.$("#user-information").html('<span class="label label-success">Bienvenue ' + response.name + '</span>');
             });
-         } else {
-            window.location.href = Routing.generate('fos_user_security_logout');
          }
+         /*else {
+            window.location.href = Routing.generate('fos_user_security_logout');
+         }*/
       },
 
       routes: {

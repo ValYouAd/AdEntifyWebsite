@@ -54,7 +54,9 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%
-        auto_mapping: true
+        entity_managers:
+            default:
+                auto_mapping: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -121,13 +123,13 @@ fos_facebook:
     app_id: 159587157398776
     secret: 6465372f50a4b1e570cfe4ce7fd62cca
     cookie: true
-    permissions: [email, user_birthday, user_location]
+    permissions: [email, user_birthday, user_photos]
     culture:     fr_FR
 
 fos_user:
     db_driver: orm
     firewall_name: public
-    user_class: AdEntify\UserBundle\Entity\User
+    user_class: AdEntify\CoreBundle\Entity\User
 
 stof_doctrine_extensions:
     default_locale: fr_FR
@@ -144,3 +146,8 @@ services:
             facebook: "@fos_facebook.api"
             userManager: "@fos_user.user_manager"
             validator: "@validator"
+
+# General parameters
+parameters:
+    contact_email: contact@adentify.com
+    from_email:    no-reply@adentify.com
