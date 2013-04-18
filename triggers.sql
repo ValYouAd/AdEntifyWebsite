@@ -17,6 +17,7 @@ CREATE TRIGGER tags_count AFTER INSERT ON `tag`
     UPDATE venue SET tags_count = tags_count+1 WHERE id = NEW.venue_id;
     UPDATE product SET tags_count = tags_count+1 WHERE id = NEW.product_id;
     UPDATE person SET tags_count = tags_count+1 WHERE id = NEW.person_id;
+    UPDATE brand b JOIN product p ON p.brand_id = p.id SET b.tags_count = b.tags_count+1 WHERE p.id = NEW.product_id;
  END$$
 DELIMITER ;
 
