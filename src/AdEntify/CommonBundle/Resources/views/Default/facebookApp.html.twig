@@ -5,31 +5,61 @@
 
         <nav class="navbar navbar-fixed-top">
             <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="">Home</a></li>
-                            <li><a href="pics/">Pics</a></li>
-                        </ul>
-                        <div class="pull-right" id="user-account">
-                            <div id="facebook-button">
-                                {{ facebook_login_button({'autologoutlink': true}) }}
-                            </div>
-                            <div id="user-information"></div>
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="">{{ 'Tagged photos'|trans }}</a></li>
+                        <li><a href="untagged/">{{ 'Untagged photos'|trans }}</a></li>
+                    </ul>
+                    <div class="pull-right" id="user-account">
+                        <div id="facebook-button" class="pull-right">
+                            {{ facebook_login_button({'autologoutlink': true}) }}
                         </div>
+                        <div id="user-information" class="pull-right"></div>
+                    </div>
+                    <div class="pull-right">
+                        <a href="upload/" class="btn btn-primary">{{ 'Upload photos'|trans }}</a>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <div id="content" class="container">
-            <p class="text-info small"><em>Chargement en cours</em></p>
+        <div id="dashboard" class="row-fluid view-mode">
+
+            <div id="menu-tools" class="span2">
+                <div class="loading-gif-container">
+                    <div class="loading-gif"></div>
+                </div>
+            </div>
+
+            <div id="content" class="span9">
+                <div class="loading-gif-container">
+                    <div class="loading-gif"></div>
+                </div>
+            </div>
+
+            <div id="ticker" class="span3">
+                <div class="loading-gif-container">
+                    <div class="loading-gif"></div>
+                </div>
+            </div>
+
         </div>
 
     </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
+    <script>
+        function goLogIn(){
+            window.location = "{{ path('_security_check') }}";
+        }
+    </script>
 {% endblock %}

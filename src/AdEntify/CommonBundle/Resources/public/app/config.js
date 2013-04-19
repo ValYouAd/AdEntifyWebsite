@@ -6,8 +6,14 @@ require.config({
   deps: ["../vendor/jam/require.config", "main"],
 
   paths: {
-     facebook: "http://connect.facebook.net/fr_FR/all"
+     facebook: "http://connect.facebook.net/fr_FR/all",
+     "lodash": "../vendor/jam/lodash/dist/lodash.underscore"
   },
+
+   map: {
+      // Ensure Lo-Dash is used instead of underscore.
+      "*": { "underscore": "lodash" }
+   },
 
   shim: {
     // Put shims here.

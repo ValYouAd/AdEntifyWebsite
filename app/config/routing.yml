@@ -22,7 +22,31 @@ fos_user_security:
 # API REST
 product:
     type:     rest
-    resource: AdEntify\CoreBundle\Controller\ProductController
+    resource: AdEntify\CoreBundle\Controller\ProductsController
+
+brand:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\BrandsController
+
+person:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\PeopleController
+
+tag:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\TagsController
+
+like:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\LikesController
+
+comment:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\CommentsController
+
+photo:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\PhotosController
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

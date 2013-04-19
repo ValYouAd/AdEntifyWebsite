@@ -4,17 +4,19 @@ define([
 
    // FB SDK
    "facebook",
+   "modules/facebook",
 
    // Modules
    "modules/homepage",
-   "modules/pics",
-   "modules/facebook"
+   "modules/photos",
+   "modules/upload"
 ],
 
-function(app, fbLib, HomePage, Pics, Facebook) {
+function(app, fbLib, Facebook, HomePage, Photos, Upload) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
+         // Facebook init
          FB.init({
             appId      : '159587157398776',                                   // App ID from the app dashboard
             channelUrl : '//localhost/AdEntifyFacebookApp/web/channel.html', // Channel file for x-domain comms
@@ -25,6 +27,12 @@ function(app, fbLib, HomePage, Pics, Facebook) {
          FB.Event.subscribe('auth.statusChange', this.statusChange);
 
          app.fb = new Facebook.Model();
+
+         // Collections init
+         var collections = {
+            photos: new Photos.Collection()
+         };
+         _.extend(this, collections);
       },
 
       statusChange: function(response) {
@@ -44,26 +52,53 @@ function(app, fbLib, HomePage, Pics, Facebook) {
 
       routes: {
          "": "homepage",
-         "pics/": "pics"
+         "untagged/": "untagged",
+         "upload/": "upload"
       },
 
       homepage: function() {
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new HomePage.Views.Content()
+            "#content": new Photos.Views.Content({
+               tagged: true,
+               photos: this.photos
+            }),
+            "#ticker": new Photos.Views.Ticker(),
+            "#menu-tools": new Photos.Views.MenuTools()
          }).render();
+
+         this.photos.fetch();
       },
 
-      pics: function() {
+      untagged: function() {
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Pics.Views.Content()
+            "#content": new Photos.Views.Content({
+               tagged: false,
+               photos: this.photos
+            }),
+            "#ticker": new Photos.Views.Ticker(),
+            "#menu-tools": new Photos.Views.MenuTools()
+         }).render();
+
+         this.photos.fetch();
+      },
+
+      upload: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Upload.Views.Content()
          }).render();
       },
 
-      reset: function() { }
+      reset: function() {
+         if (this.photos.length) {
+            this.photos.reset();
+         }
+      }
    });
 
    return Router;

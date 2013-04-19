@@ -11,9 +11,23 @@ var jam = {
             "main": "backbone.layoutmanager.js"
         },
         {
+            "name": "bootstrap",
+            "location": "../vendor/jam/bootstrap"
+        },
+        {
+            "name": "isotope",
+            "location": "../vendor/jam/isotope",
+            "main": "jquery.isotope.js"
+        },
+        {
             "name": "jquery",
             "location": "../vendor/jam/jquery",
-            "main": "jquery.js"
+            "main": "dist/jquery.js"
+        },
+        {
+            "name": "jquery-ui",
+            "location": "../vendor/jam/jquery-ui",
+            "main": "dist/jquery-ui.min.js"
         },
         {
             "name": "lodash",
@@ -21,37 +35,175 @@ var jam = {
             "main": "./lodash.js"
         },
         {
-            "name": "bootstrap",
-            "location": "../vendor/jam/bootstrap",
-            "main": "bootstrap.min.js"
+            "name": "modernizer",
+            "location": "../vendor/jam/modernizer",
+            "main": "modernizr-development.js"
+        },
+        {
+            "name": "underscore",
+            "location": "../vendor/jam/underscore",
+            "main": "underscore.js"
         }
     ],
-    "version": "0.2.11",
+    "version": "0.2.15",
     "shim": {
         "backbone": {
             "deps": [
-                "jquery",
-                "lodash",
-                "bootstrap"
+                "underscore",
+                "jquery"
             ],
             "exports": "Backbone"
         },
-        "backbone.layoutmanager": {
+        "jquery-ui": {
+           "deps": [
+              "jquery"
+           ]
+        },
+        "isotope": {
             "deps": [
-                "jquery",
-                "backbone",
-                "lodash"
-            ],
-            "exports": "Backbone.LayoutManager"
+                "jquery"
+            ]
         }
     }
 };
 
 if (typeof require !== "undefined" && require.config) {
-    require.config({packages: jam.packages, shim: jam.shim});
+    require.config({
+    "packages": [
+        {
+            "name": "backbone",
+            "location": "../vendor/jam/backbone",
+            "main": "backbone.js"
+        },
+        {
+            "name": "backbone.layoutmanager",
+            "location": "../vendor/jam/backbone.layoutmanager",
+            "main": "backbone.layoutmanager.js"
+        },
+        {
+            "name": "bootstrap",
+            "location": "../vendor/jam/bootstrap"
+        },
+        {
+            "name": "isotope",
+            "location": "../vendor/jam/isotope",
+            "main": "jquery.isotope.js"
+        },
+        {
+            "name": "jquery",
+            "location": "../vendor/jam/jquery",
+            "main": "dist/jquery.js"
+        },
+        {
+            "name": "jquery-ui",
+            "location": "../vendor/jam/jquery-ui",
+            "main": "dist/jquery-ui.min.js"
+        },
+        {
+            "name": "lodash",
+            "location": "../vendor/jam/lodash",
+            "main": "./lodash.js"
+        },
+        {
+            "name": "modernizer",
+            "location": "../vendor/jam/modernizer",
+            "main": "modernizr-development.js"
+        },
+        {
+            "name": "underscore",
+            "location": "../vendor/jam/underscore",
+            "main": "underscore.js"
+        }
+    ],
+    "shim": {
+        "backbone": {
+            "deps": [
+                "underscore",
+                "jquery"
+            ],
+            "exports": "Backbone"
+        },
+       "jquery-ui": {
+          "deps": [
+             "jquery"
+          ]
+       },
+        "isotope": {
+            "deps": [
+                "jquery"
+            ]
+        }
+    }
+});
 }
 else {
-    var require = {packages: jam.packages, shim: jam.shim};
+    var require = {
+    "packages": [
+        {
+            "name": "backbone",
+            "location": "../vendor/jam/backbone",
+            "main": "backbone.js"
+        },
+        {
+            "name": "backbone.layoutmanager",
+            "location": "../vendor/jam/backbone.layoutmanager",
+            "main": "backbone.layoutmanager.js"
+        },
+        {
+            "name": "bootstrap",
+            "location": "../vendor/jam/bootstrap"
+        },
+        {
+            "name": "isotope",
+            "location": "../vendor/jam/isotope",
+            "main": "jquery.isotope.js"
+        },
+        {
+            "name": "jquery",
+            "location": "../vendor/jam/jquery",
+            "main": "dist/jquery.js"
+        },
+        {
+            "name": "jquery-ui",
+            "location": "../vendor/jam/jquery-ui",
+            "main": "dist/jquery-ui.min.js"
+        },
+        {
+            "name": "lodash",
+            "location": "../vendor/jam/lodash",
+            "main": "./lodash.js"
+        },
+        {
+            "name": "modernizer",
+            "location": "../vendor/jam/modernizer",
+            "main": "modernizr-development.js"
+        },
+        {
+            "name": "underscore",
+            "location": "../vendor/jam/underscore",
+            "main": "underscore.js"
+        }
+    ],
+    "shim": {
+        "backbone": {
+            "deps": [
+                "underscore",
+                "jquery"
+            ],
+            "exports": "Backbone"
+        },
+       "jquery-ui": {
+          "deps": [
+             "jquery"
+          ]
+       },
+        "isotope": {
+            "deps": [
+                "jquery"
+            ]
+        }
+    }
+};
 }
 
 if (typeof exports !== "undefined" && typeof module !== "undefined") {

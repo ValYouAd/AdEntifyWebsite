@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Tagged photos</source>
+                <target>Tagged photos</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Untagged photos</source>
+                <target>Untagged photos</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Loading please wait</source>
+                <target>Loading, please wait...</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Upload photos</source>
+                <target>Upload photos</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

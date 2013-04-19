@@ -3,8 +3,20 @@
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Symfony2 is great</source>
-                <target>J'aime Symfony2</target>
+                <source>Tagged photos</source>
+                <target>Photos taguées</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Untagged photos</source>
+                <target>Photos non taguées</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Loading please wait</source>
+                <target>Chargement en cours, veuillez patienter...</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Upload photos</source>
+                <target>Envoyer mes photos</target>
             </trans-unit>
         </body>
     </file>

@@ -31,6 +31,9 @@ function(app, Router) {
       // refresh.
       evt.preventDefault();
 
+      // event to say that navigation begin
+      app.trigger('global:navigating');
+
       // `Backbone.history.navigate` is sufficient for all Routers and will
       // trigger the correct events. The Router's internal `navigate` method
       // calls this anyways.  The fragment is sliced from the root.

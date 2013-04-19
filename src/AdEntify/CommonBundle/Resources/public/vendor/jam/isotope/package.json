@@ -1,0 +1,43 @@
+{
+  "name": "isotope",
+  "version": "1.5.23",
+  "description": "An exquisite jQuery plugin for magical layouts",
+  "homepage": "http://isotope.metafizzy.co",
+  "keywords": [
+    "isotope",
+    "layout",
+    "metafizzy",
+    "dom",
+    "jquery",
+    "tiles"
+  ],
+  "jam": {
+    "dependencies": {
+      "jquery": ">1.4.3"
+    },
+    "main": "jquery.isotope.js",
+    "shim": {
+      "deps": ["jquery"]
+    },
+    "include": [
+      "jquery.isotope.js",
+      "README.md",
+      "css/style.css"
+    ]
+  },
+  "bugs": {
+    "mail": "yo@metafizzy.co",
+    "web": "http://isotope.metafizzy.co" 
+  },
+  "licenses": [{
+      "type": "Commercial - metafizzy",
+      "url": "http://isotope.metafizzy.co/docs/license.html"
+    }
+  ],
+  "repositories": [{
+      "type": "git", 
+      "url": "https://github.com/desandro/isotope.git"
+    }
+  ],
+  "github": "http://github.com/desandro/isotope"
+}

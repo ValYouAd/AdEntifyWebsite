@@ -19,15 +19,12 @@
     <body>
         <div id="fb-root"></div>
         {% block body %}{% endblock %}
-
-        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-        <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
-        <script>
-            function goLogIn(){
-                window.location = "{{ path('_security_check') }}";
-            }
-        </script>
+        <footer>
+            <div class="container">
+                <p>AdEntify © 2013</p>
+                <p><a href="http://twitter.com/adentify">Twitter</a></p>
+            </div>
+        </footer>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

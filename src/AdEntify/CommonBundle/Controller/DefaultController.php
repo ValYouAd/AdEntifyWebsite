@@ -9,10 +9,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/fbApp/")
+     * @Route("/fbApp/{slug}", requirements={"slug" = "(.+)"})
      * @Template()
      */
-    public function facebookAppAction()
+    public function facebookAppAction($slug)
+    {
+        return array();
+    }
+
+    /**
+     * @Route("/fbApp/")
+     * @Template("AdEntifyCommonBundle:Default:facebookApp.html.twig")
+     */
+    public function facebookIndexAction()
     {
         return array();
     }
