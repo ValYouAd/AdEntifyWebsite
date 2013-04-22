@@ -55,9 +55,10 @@ nav #user-information {
     position: fixed;
     right: 0px;
     height: 100%;
+    top: 0px;
     border-left: 1px solid rgba(0,0,0,.1);
     padding: 45px 20px 10px 10px;
-    top: 0px;
+
     word-wrap: break-word;
 }
 
@@ -188,4 +189,60 @@ body {
 }
 #tools li {
     margin: 10px 0px;
+}
+
+/* Image chackbox */
+.check-image {
+    cursor: pointer;
+}
+.check-image .check-image-container {
+    position: relative;
+}
+.checked .hover-overlay {
+    visibility: hidden!important; /* hide hover-overlay when checked */
+}
+.check-image .checked-overlay,
+.check-image .hover-overlay {
+    background: rgba(0,0,0,0.5);
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+
+    -webkit-transition: opacity 0.2s ease-out;
+    -moz-transition: opacity 0.2s ease-out;
+    -o-transition: opacity 0.2s ease-out;
+    transition: opacity 0.2s ease-out;
+}
+.check-image:hover .hover-overlay,
+.checked .checked-overlay {
+    visibility: visible;
+    opacity: 1;
+}
+.checked-overlay span,
+.hover-overlay span {
+    margin: auto;
+    position: relative;
+    top: 50px;
+}
+
+/* ---------------- */
+/* F A C E B O O K */
+/* ---------------- */
+
+/* Albums */
+#albums-list li:first-child {
+    margin-left: 2.564102564102564%;
+}
+#albums-list li .thumbnail {
+    min-height: 290px;
+}
+/* Photos */
+.action-buttons {
+    display: none;
 }

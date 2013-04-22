@@ -9,10 +9,12 @@ define([
    // Modules
    "modules/homepage",
    "modules/photos",
-   "modules/upload"
+   "modules/upload",
+   "modules/facebookAlbums",
+   "modules/facebookPhotos"
 ],
 
-function(app, fbLib, Facebook, HomePage, Photos, Upload) {
+function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -30,7 +32,9 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload) {
 
          // Collections init
          var collections = {
-            photos: new Photos.Collection()
+            photos: new Photos.Collection(),
+            fbAlbums: new FacebookAlbums.Collection(),
+            fbPhotos: new FacebookPhotos.Collection()
          };
          _.extend(this, collections);
       },
@@ -38,12 +42,8 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload) {
       statusChange: function(response) {
          // Init FB model with the facebook response
          app.fb.setFacebookResponse(response);
-
          if (app.fb.isConnected()) {
-            this.$("#fb-connect-status").html(app.fb.get('status'));
-            FB.api('/me', function(response) {
-               this.$("#user-information").html('<span class="label label-success">Bienvenue ' + response.name + '</span>');
-            });
+            this.$("#user-information").html('<img src="https://graph.facebook.com/' + app.fb.get('userId') + '/picture?width=20&height=20" />');
          }
          /*else {
             window.location.href = Routing.generate('fos_user_security_logout');
@@ -53,7 +53,9 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload) {
       routes: {
          "": "homepage",
          "untagged/": "untagged",
-         "upload/": "upload"
+         "upload/": "upload",
+         "facebook/albums/": "facebookAlbums",
+         "facebook/albums/:id/photos/": "facebookAlbumsPhotos"
       },
 
       homepage: function() {
@@ -94,9 +96,36 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload) {
          }).render();
       },
 
+      facebookAlbums: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new FacebookAlbums.Views.List({
+               albums: this.fbAlbums
+            })
+         }).render();
+      },
+
+      facebookAlbumsPhotos: function(id) {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new FacebookPhotos.Views.List({
+               albumId: id,
+               photos: this.fbPhotos
+            })
+         }).render();
+      },
+
       reset: function() {
          if (this.photos.length) {
             this.photos.reset();
+         }
+         if (this.fbAlbums.length) {
+            this.fbAlbums.reset();
+         }
+         if (this.fbPhotos.length) {
+            this.fbPhotos.reset();
          }
       }
    });

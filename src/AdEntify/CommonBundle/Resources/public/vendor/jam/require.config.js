@@ -54,11 +54,6 @@ var jam = {
             ],
             "exports": "Backbone"
         },
-        "jquery-ui": {
-           "deps": [
-              "jquery"
-           ]
-        },
         "isotope": {
             "deps": [
                 "jquery"
@@ -123,11 +118,6 @@ if (typeof require !== "undefined" && require.config) {
             ],
             "exports": "Backbone"
         },
-       "jquery-ui": {
-          "deps": [
-             "jquery"
-          ]
-       },
         "isotope": {
             "deps": [
                 "jquery"
@@ -192,11 +182,6 @@ else {
             ],
             "exports": "Backbone"
         },
-       "jquery-ui": {
-          "deps": [
-             "jquery"
-          ]
-       },
         "isotope": {
             "deps": [
                 "jquery"

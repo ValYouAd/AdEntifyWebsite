@@ -17,6 +17,7 @@ define([
             this.set('accessToken', response.authResponse.accessToken);
          }
          this.set('status', response.status);
+         app.trigger('global:facebook:connected');
       },
 
       isConnected: function() {

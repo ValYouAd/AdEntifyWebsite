@@ -8,12 +8,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "a0914d28e96307d347f28d6ace6e0a3b5552ea76"
+                "reference": "c48bfa21b723d4267cde0334b77894efd1c1d17d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/a0914d28e96307d347f28d6ace6e0a3b5552ea76",
-                "reference": "a0914d28e96307d347f28d6ace6e0a3b5552ea76",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/c48bfa21b723d4267cde0334b77894efd1c1d17d",
+                "reference": "c48bfa21b723d4267cde0334b77894efd1c1d17d",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-04-18 16:58:30"
+            "time": "2013-04-22 08:51:09"
         },
         {
             "name": "doctrine/annotations",

@@ -123,7 +123,7 @@ fos_facebook:
     app_id: 159587157398776
     secret: 6465372f50a4b1e570cfe4ce7fd62cca
     cookie: true
-    permissions: [email, user_birthday, user_photos]
+    permissions: [email, user_birthday, user_photos, friends_photos, read_friendlists]
     culture:     fr_FR
 
 fos_user:

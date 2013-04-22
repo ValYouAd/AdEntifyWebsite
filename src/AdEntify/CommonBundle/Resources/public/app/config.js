@@ -7,7 +7,9 @@ require.config({
 
   paths: {
      facebook: "http://connect.facebook.net/fr_FR/all",
-     "lodash": "../vendor/jam/lodash/dist/lodash.underscore"
+     "lodash": "../vendor/jam/lodash/dist/lodash.underscore",
+     "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
+     "bootstrap": "../vendor/js/bootstrap.min"
   },
 
    map: {
@@ -16,7 +18,21 @@ require.config({
    },
 
   shim: {
-    // Put shims here.
+     "infinitescroll": {
+        "deps": [
+           "jquery"
+        ]
+     },
+     "bootstrap": {
+        "deps": [
+           "jquery"
+        ]
+     },
+     "jquery-ui": {
+        "deps": [
+           "jquery"
+        ]
+     }
   }
 
 });

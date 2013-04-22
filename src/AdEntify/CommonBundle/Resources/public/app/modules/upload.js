@@ -16,6 +16,14 @@ define([
 
       serialize: function() {
 
+      },
+
+      events: {
+         "click #facebookUploadButton": "facebookUpload"
+      },
+
+      facebookUpload: function() {
+
       }
    });
 

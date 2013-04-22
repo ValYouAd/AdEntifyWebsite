@@ -9,7 +9,8 @@ define([
    "app",
    "isotope",
    "jquery-ui",
-   "modernizer"
+   "modernizer",
+   "infinitescroll"
 ], function(app) {
 
    var Photos = app.module();
@@ -67,6 +68,7 @@ define([
          var that = this;
          container = this.$('#photos-grid');
 
+         // Wait images loaded
          container.imagesLoaded( function(){
             container.isotope({
                itemSelector : 'li',
@@ -76,8 +78,27 @@ define([
                $('#photos-grid').css({visibility: 'visible'});
                $('#photos-grid').animate({'opacity': '1.0'});
             });
+
+            /*// Setup infinite scroll
+            container.infinitescroll({
+                  navSelector  : '#infinite-scroll',    // selector for the paged navigation
+                  nextSelector : '#infinite-scroll a',  // selector for the NEXT link (to page 2)
+                  itemSelector : 'li',     // selector for all items you'll retrieve
+                  loading: {
+                     finishedMsg: 'No more pages to load.',
+                     img: 'http://i.imgur.com/qkKy8.gif'
+                  },
+                  debug: true
+               },
+               // call Isotope as a callback
+               function( newElements ) {
+                  alert('toto');
+                  container.isotope( 'appended', $( newElements ) );
+               }
+            );*/
          });
 
+         // Click on photo
          container.delegate('img', 'click', function() {
             lastImage = $(this);
             that.clickOnPhoto($(this));

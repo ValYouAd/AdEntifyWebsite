@@ -1,0 +1,9 @@
+<div class="thumbnail">
+    <img src="<%= model.get("picture") %>" alt="<%= model.get("name") %>" />
+    <div class="caption">
+        <h3><%= model.get("name") %></h3>
+        <p>
+            <a href="facebook/albums/<%= model.get("id") %>/photos/" class="btn btn-primary btn-small">Utiliser cet album</a>
+        </p>
+    </div>
+</div>
