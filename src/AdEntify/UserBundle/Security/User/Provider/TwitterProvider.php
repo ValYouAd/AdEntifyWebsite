@@ -65,6 +65,9 @@ class TwitterProvider implements UserProviderInterface
                 $user->setPlainPassword($this->randomPassword());
             }
 
+            $email = $user->getEmail();
+            if (empty($email))
+                $user->setEmail('');
             $user->setTwitterId($info->id);
             $user->setTwitterUsername($info->screen_name);
             $user->setFirstname($info->name);
