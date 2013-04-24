@@ -15,6 +15,8 @@ security:
             id: fos_user.user_provider.username
         my_fos_facebook_provider:
             id: my.facebook.user
+        my_fos_twitter_provider:
+            id: my.twitter.user
 
     firewalls:
         login:
@@ -29,10 +31,15 @@ security:
             fos_facebook:
                 app_url:             "http://apps.facebook.com/appName/"
                 server_url:          "http://localhost/AdEntifyFacebookApp/web/fbApp/"
-                login_path:          /login
+                login_path:          /facebook/login
                 check_path:          /facebook/login-check
                 default_target_path: /fbApp/
                 provider:            my_fos_facebook_provider
+            fos_twitter:
+                login_path: /twitter/login
+                check_path: /twitter/login-check
+                default_target_path: /fbApp/
+                provider: my_fos_twitter_provider
             anonymous:               true
             remember_me:
                 key:                 %secret%

@@ -126,6 +126,13 @@ fos_facebook:
     permissions: [email, user_birthday, user_photos, friends_photos, read_friendlists]
     culture:     fr_FR
 
+# Twitter
+fos_twitter:
+    file:
+    consumer_key:    mzKZ8anZeGddPOgVWnQ
+    consumer_secret: d27XZ9UpNyowFiLpugC1EhC8xwdQlwcwtrkTHIXE
+    callback_route:  "_security_check_twitter"
+
 fos_user:
     db_driver: orm
     firewall_name: public
@@ -146,6 +153,13 @@ services:
             facebook: "@fos_facebook.api"
             userManager: "@fos_user.user_manager"
             validator: "@validator"
+    my.twitter.user:
+        class: AdEntify\UserBundle\Security\User\Provider\TwitterProvider
+        arguments:
+            twitter_oauth: "@fos_twitter.api"
+            userManager: "@fos_user.user_manager"
+            validator: "@validator"
+            session: "@session"
 
 # General parameters
 parameters:
