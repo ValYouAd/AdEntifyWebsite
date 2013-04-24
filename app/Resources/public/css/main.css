@@ -3,9 +3,11 @@
 nav .pull-right {
     margin-right: 15px;
 }
-nav #facebook-button,
 nav #user-information {
-    margin-top: 10px;
+    margin-top: 6px;
+}
+nav .loading-gif-container-nomargin {
+    margin-top: 8px;
 }
 
 #menu-tools {
@@ -174,6 +176,10 @@ body {
 /* Loading */
 .loading-gif-container {
     margin: 50px auto;
+    text-align: center;
+}
+.loading-gif-container-nomargin {
+    margin: auto;
     text-align: center;
 }
 .loading-gif {

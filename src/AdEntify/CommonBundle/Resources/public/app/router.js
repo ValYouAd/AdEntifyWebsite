@@ -18,17 +18,27 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
 
    var Router = Backbone.Router.extend({
       initialize: function() {
+         app.fb = new Facebook.Model();
+
          // Facebook init
          FB.init({
             appId      : '159587157398776',                                   // App ID from the app dashboard
-            channelUrl : '//localhost/AdEntifyFacebookApp/web/channel.html', // Channel file for x-domain comms
-            status     : true,                                                // Check Facebook Login status
-            xfbml      : true                                                 // Look for social plugins on the page
+            channelUrl : channelUrl,  // Channel file for x-domain comms
+            status     : false,                                                // Check Facebook Login status
+            xfbml      : true,                                               // Look for social plugins on the page
+            cookie     : true,
+            oauth      : true
          });
 
-         FB.Event.subscribe('auth.statusChange', this.statusChange);
-
-         app.fb = new Facebook.Model();
+         FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+               app.fb.connected(response);
+            } else if (response.status === 'not_authorized') {
+               app.fb.notLoggedIn();
+            } else {
+               app.fb.notLoggedIn();
+            }
+         });
 
          // Collections init
          var collections = {
@@ -39,16 +49,18 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          _.extend(this, collections);
       },
 
-      statusChange: function(response) {
+      /*statusChange: function(response) {
          // Init FB model with the facebook response
          app.fb.setFacebookResponse(response);
          if (app.fb.isConnected()) {
-            this.$("#user-information").html('<img src="https://graph.facebook.com/' + app.fb.get('userId') + '/picture?width=20&height=20" />');
+            setTimeout(function() {
+                  window.location = Routing.generate('_security_check_facebook');
+               }, 500);
          }
-         /*else {
+         *//*else {
             window.location.href = Routing.generate('fos_user_security_logout');
-         }*/
-      },
+         }*//*
+      },*/
 
       routes: {
          "": "homepage",

@@ -18,7 +18,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/fbApp/")
+     * @Route("/fbApp/", name="logedInHome")
      * @Template("AdEntifyCommonBundle:Default:facebookApp.html.twig")
      */
     public function facebookIndexAction()

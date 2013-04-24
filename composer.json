@@ -25,7 +25,8 @@
         "friendsofsymfony/facebook-bundle": "1.1.*",
         "friendsofsymfony/user-bundle": "*",
         "stof/doctrine-extensions-bundle": "~1.1@dev",
-        "friendsofsymfony/jsrouting-bundle": "~1.1"
+        "friendsofsymfony/jsrouting-bundle": "~1.1",
+        "jms/debugging-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

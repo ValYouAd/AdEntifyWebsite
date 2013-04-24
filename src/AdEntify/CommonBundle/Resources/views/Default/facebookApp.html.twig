@@ -1,6 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
+
     <main role="main" id="main">
 
         <nav class="navbar navbar-fixed-top">
@@ -16,13 +17,18 @@
                         <li><a href="untagged/">{{ 'Untagged photos'|trans }}</a></li>
                     </ul>
                     <div class="pull-right" id="user-account">
-                        <div id="facebook-button" class="pull-right">
-                            {{ facebook_login_button({'autologoutlink': true}) }}
+                        <div class="pull-right">
+                            <div id="loading-fb" class="loading-gif-container-nomargin">
+                                <div class="loading-gif"></div>
+                            </div>
+                            <button id="fb-login" class="btn btn-primary btn-small" style="display: none;">Me connecter</button>
+                            <button id="fb-logout" class="btn btn-primary btn-small" style="display: none;">Me déconnecter</button>
+                            {#{{ facebook_login_button({'autologoutlink': true}) }}#}
                         </div>
                         <div id="user-information" class="pull-right"></div>
                     </div>
                     <div class="pull-right">
-                        <a href="upload/" class="btn btn-primary">{{ 'Upload photos'|trans }}</a>
+                        <a href="upload/" class="btn btn-primary btn-small">{{ 'Upload photos'|trans }}</a>
                     </div>
                 </div>
             </div>
@@ -58,8 +64,6 @@
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
     <script>
-        function goLogIn(){
-            window.location = "{{ path('_security_check') }}";
-        }
+        var channelUrl = '{{ asset('channel.html') }}';
     </script>
 {% endblock %}
