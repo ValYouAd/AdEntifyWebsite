@@ -73,6 +73,9 @@ class TwitterProvider implements UserProviderInterface
             $user->setFirstname($info->name);
             $user->addRole('ROLE_TWITTER');
 
+            if (count($this->validator->validate($user, 'Twitter'))) {
+                throw new UsernameNotFoundException('The twitter user could not be stored');
+            }
             $this->userManager->updateUser($user);
         }
 

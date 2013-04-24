@@ -18,13 +18,17 @@
                     </ul>
                     <div class="pull-right" id="user-account">
                         <div class="pull-right">
-                            <div id="loading-fb" class="loading-gif-container-nomargin">
+                            <div id="twitter-authent" class="pull-right">
+                                <a href="{{ path ('_security_login_twitter')}}" id="twitter-login" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') %} hide{% endif %}">Me connecter avec Twitter</a>
+                                <a href="{{ path ('fos_user_security_logout') }}" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') == false %} hide{% endif %}">Me déconnecter</a>
+                            </div>
+                            <div id="facebook-authent" class="pull-right{% if is_granted('ROLE_TWITTER') %} hide{% endif %}">
+                                <button id="fb-login" class="btn btn-primary btn-small hide">Me connecter avec Facebook</button>
+                                <button id="fb-logout" class="btn btn-primary btn-small hide">Me déconnecter</button>
+                            </div>
+                            <div id="loading-authent" class="loading-gif-container-nomargin pull-right">
                                 <div class="loading-gif"></div>
                             </div>
-                            <button id="fb-login" class="btn btn-primary btn-small" style="display: none;">Me connecter</button>
-                            <button id="fb-logout" class="btn btn-primary btn-small" style="display: none;">Me déconnecter</button>
-                            <a href="{{ path ('_security_login_twitter')}}" id="twitter-login" class="btn btn-info btn-small">Me connecter</a>
-                            {#{{ facebook_login_button({'autologoutlink': true}) }}#}
                         </div>
                         <div id="user-information" class="pull-right"></div>
                     </div>

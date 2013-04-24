@@ -9,6 +9,9 @@ nav #user-information {
 nav .loading-gif-container-nomargin {
     margin-top: 8px;
 }
+nav #twitter-authent span {
+    margin-top: 10px;
+}
 
 #menu-tools {
     word-wrap: break-word;

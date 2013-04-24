@@ -21,9 +21,10 @@ define([
 
       notLoggedIn: function() {
          var that = this;
-         $('#loading-fb').hide();
+         $('#loading-authent').hide();
          $('#fb-logout').hide();
          $('#fb-login').show();
+         $('#twitter-authent').show();
          $('#fb-login').click(function() {
             that.login();
          });
@@ -50,8 +51,9 @@ define([
          var that = this;
          this.setFacebookResponse(response);
          app.trigger('global:facebook:connected');
-         $('#loading-fb').hide();
+         $('#loading-authent').hide();
          $('#fb-login').hide();
+         $('#twitter-authent').hide();
          $('#fb-logout').show();
          $('#fb-logout').click(function() {
             that.logout();
