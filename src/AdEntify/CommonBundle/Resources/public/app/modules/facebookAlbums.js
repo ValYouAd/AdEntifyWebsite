@@ -18,11 +18,13 @@ define([
 
       initialize: function() {
          var that = this;
-         FB.api(this.get('cover_photo'), function(response) {
-            if (response && !response.error) {
-               that.set("picture", response.picture);
-            }
-         });
+         if (this.has('cover_photo')) {
+            FB.api(this.get('cover_photo'), function(response) {
+               if (response && !response.error) {
+                  that.set("picture", response.picture);
+               }
+            });
+         }
       }
    });
 
@@ -47,10 +49,6 @@ define([
 
    FacebookAlbums.Views.List = Backbone.View.extend({
       template: "facebookAlbums/list",
-
-      serialize: function() {
-
-      },
 
       beforeRender: function() {
          this.options.albums.each(function(album) {

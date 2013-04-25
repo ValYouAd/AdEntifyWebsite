@@ -6,11 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app",
-   "backbone.layoutmanager",
-   "facebook",
-   "bootstrap"
-], function(app, LayoutManager) {
+   "app"
+], function(app) {
 
    var FacebookPhotos = app.module();
    var error = '';

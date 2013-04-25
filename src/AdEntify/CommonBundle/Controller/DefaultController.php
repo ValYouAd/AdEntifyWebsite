@@ -9,26 +9,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/fbApp/{slug}", requirements={"slug" = "(.+)"})
-     * @Template()
+     * @Route("/app/{slug}", requirements={"slug" = "(.+)"})
+     * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      */
-    public function facebookAppAction($slug)
+    public function appAllAction($slug)
     {
         return array();
     }
 
     /**
-     * @Route("/fbApp/", name="logedInHome")
-     * @Template("AdEntifyCommonBundle:Default:facebookApp.html.twig")
+     * @Route("/app/", name="logedInHome")
+     * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      */
-    public function facebookIndexAction()
+    public function appIndexAction()
     {
         return array();
     }
 
     /**
-     * @Route("/fbApp/instagram/photos/", name="instagram_photos")
-     * @Template("AdEntifyCommonBundle:Default:facebookApp.html.twig")
+     * @Route("/app/instagram/photos/", name="instagram_photos")
+     * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      */
     public function instagramPhotosAction()
     {
