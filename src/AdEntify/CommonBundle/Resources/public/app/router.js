@@ -11,10 +11,11 @@ define([
    "modules/photos",
    "modules/upload",
    "modules/facebookAlbums",
-   "modules/facebookPhotos"
+   "modules/facebookPhotos",
+   "modules/instagramPhotos"
 ],
 
-function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos) {
+function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -35,10 +36,7 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
                app.fb.connected(response);
                setTimeout(function() {
                   // Check facebook connect to the server
-                  $.ajax({
-                        url: Routing.generate('_security_check_facebook')
-                     }
-                  )
+                  $.ajax({ url: Routing.generate('_security_check_facebook') } );
                }, 500);
             } else if (response.status === 'not_authorized') {
                app.fb.notLoggedIn();
@@ -56,25 +54,13 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          _.extend(this, collections);
       },
 
-      /*statusChange: function(response) {
-         // Init FB model with the facebook response
-         app.fb.setFacebookResponse(response);
-         if (app.fb.isConnected()) {
-            setTimeout(function() {
-                  window.location = Routing.generate('_security_check_facebook');
-               }, 500);
-         }
-         *//*else {
-            window.location.href = Routing.generate('fos_user_security_logout');
-         }*//*
-      },*/
-
       routes: {
          "": "homepage",
          "untagged/": "untagged",
          "upload/": "upload",
          "facebook/albums/": "facebookAlbums",
-         "facebook/albums/:id/photos/": "facebookAlbumsPhotos"
+         "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
+         "instagram/photos/": "instagramPhotos"
       },
 
       homepage: function() {
@@ -134,6 +120,12 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
                photos: this.fbPhotos
             })
          }).render();
+      },
+
+      instagramPhotos: function() {
+         this.reset();
+
+
       },
 
       reset: function() {

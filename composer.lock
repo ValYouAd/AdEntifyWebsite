@@ -1,4 +1,8 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
     "hash": "3812b7150fc7179515e0186ec0adf3d4",
     "packages": [
         {
@@ -8,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "82c3112dcd129ef8be1edbd5a20306fd0ca79411"
+                "reference": "8072647d678e1301454b477f9a45cd9bce3bbccb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/82c3112dcd129ef8be1edbd5a20306fd0ca79411",
-                "reference": "82c3112dcd129ef8be1edbd5a20306fd0ca79411",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/8072647d678e1301454b477f9a45cd9bce3bbccb",
+                "reference": "8072647d678e1301454b477f9a45cd9bce3bbccb",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-04-24 14:29:23"
+            "time": "2013-04-25 08:50:20"
         },
         {
             "name": "doctrine/annotations",

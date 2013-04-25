@@ -25,4 +25,13 @@ class DefaultController extends Controller
     {
         return array();
     }
+
+    /**
+     * @Route("/fbApp/instagram/photos/", name="instagram_photos")
+     * @Template("AdEntifyCommonBundle:Default:facebookApp.html.twig")
+     */
+    public function instagramPhotosAction()
+    {
+        return array();
+    }
 }

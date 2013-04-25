@@ -165,5 +165,8 @@ services:
 parameters:
     contact_email: contact@adentify.com
     from_email:    no-reply@adentify.com
-    instagram_client_id:     db51217592cf490aab08224763fc6cea
-    instagram_client_secret: 48017f2c3cf441d6996ca7813e1abeb9
+
+# Instagram
+ad_entify_instagram:
+    client_id: db51217592cf490aab08224763fc6cea
+    client_secret: 48017f2c3cf441d6996ca7813e1abeb9
