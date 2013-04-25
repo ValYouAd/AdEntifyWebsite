@@ -1,0 +1,86 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+{% stylesheets
+    '@AdEntifyCommonBundle/Resources/public/css/index.css'
+%}
+<link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {{ facebook_initialize({'xfbml': true }) }}
+    <div class="wrapper">
+        <div class="container">
+
+            <div id="logo" class="text-center">
+                <img src="{{ asset('img/logo.png') }}" alt="AdEntify" />
+            </div>
+
+            <hr class="soften" />
+
+            <div id="loading" class="loading-gif-container hide">
+                <div class="loading-gif"></div>
+                <p><em class="small muted">Connexion en cours...</em></p>
+            </div>
+            <div id="authent-container" class="row-fluid">
+                <div class="span6">
+                    <h2 class="text-center">Me connecter</h2>
+                    <div class="text-center">
+                        <p>
+                            <button onclick="facebookConnect();" class="btn btn-primary btn-large">Facebook</button>
+                            <a href="{{ path ('_security_login_twitter')}}" class="btn btn-info btn-large">Twitter</a>
+                        </p>
+                    </div>
+                    <form class="text-center">
+                        <fieldset>
+                            <input type="text" placeholder="Mon email"><br>
+                            <input type="password" placeholder="Mon mot de passe"><br>
+                            <button type="submit" class="btn">Me connecter</button>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="border span6 text-center">
+                    <h2>M'inscrire</h2>
+                    <form class="text-center">
+                        <fieldset>
+                            <input type="text" placeholder="Mon email"><br>
+                            <input type="password" placeholder="Mon mot de passe"><br>
+                            <input type="password" placeholder="Je confirme mon mot de passe"><br>
+                            <button type="submit" class="btn">M'inscrire</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="push"></div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="span4">
+                    <p></p><a href="#">Contact</a> · <a href="#">Press</a> · <a href="#">Jobs</a></p>
+                </div>
+                <div class="span4">
+
+                </div>
+                <div class="span4">
+                    <p>AdEntify © 2013</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var channelUrl = '{{ asset('channel.html') }}';
+    </script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script src="{{ asset('bundles/adentifycommon/vendor/jam/jquery/dist/jquery.js') }}"></script>
+    {% javascripts '@AdEntifyCommonBundle/Resources/public/js/facebookConnect.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

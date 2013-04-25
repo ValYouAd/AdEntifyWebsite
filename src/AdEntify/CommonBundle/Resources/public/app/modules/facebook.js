@@ -42,9 +42,7 @@ define([
       },
 
       logout: function() {
-         FB.logout(function() {
-            window.location.href = Routing.generate('logedInHome');
-         });
+         window.location.href = Routing.generate('fos_user_security_logout');
       },
 
       connected: function(response) {

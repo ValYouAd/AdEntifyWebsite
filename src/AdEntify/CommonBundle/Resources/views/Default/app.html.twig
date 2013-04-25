@@ -12,6 +12,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div class="nav-collapse collapse">
+                    <div class="pull-left">
+                        <a href="./" id="logo-small"></a>
+                    </div>
                     <ul class="nav">
                         <li><a href="">{{ 'Tagged photos'|trans }}</a></li>
                         <li><a href="untagged/">{{ 'Untagged photos'|trans }}</a></li>
@@ -65,10 +68,10 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
     <script>
         var channelUrl = '{{ asset('channel.html') }}';
     </script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
 {% endblock %}

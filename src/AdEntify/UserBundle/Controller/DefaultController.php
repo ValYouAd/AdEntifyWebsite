@@ -18,7 +18,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/facebook/login-check", name="_security_logout_facebook")
+     * @Route("/facebook/logout-check", name="_security_logout_facebook")
      */
     public function facebookLogoutAction()
     {
