@@ -46,9 +46,14 @@ class TwitterProvider implements UserProviderInterface
         return $this->userManager->findUserBy(array('twitterId' => $twitterID));
     }
 
+    public function findUserByTwitterUserName($twitterUsername)
+    {
+        return $this->userManager->findUserBy(array('twitterUsername' => $twitterUsername));
+    }
+
     public function loadUserByUsername($username)
     {
-        $user = $this->findUserByTwitterId($username);
+        $user = $this->findUserByTwitterUserName($username);
 
         $this->twitter_oauth->setOAuthToken($this->session->get('access_token'), $this->session->get('access_token_secret'));
 
@@ -71,11 +76,15 @@ class TwitterProvider implements UserProviderInterface
             $user->setTwitterId($info->id);
             $user->setTwitterUsername($info->screen_name);
             $user->setFirstname($info->name);
+            $user->setLastname($info->name);
+            $lastname = $user->getLastname();
+            if (empty($lastname))
+                $user->setLastname($info->name);
             $user->addRole('ROLE_TWITTER');
-
-            if (count($this->validator->validate($user, 'Twitter'))) {
+            if (count($this->validator->validate($user))) {
                 throw new UsernameNotFoundException('The twitter user could not be stored');
             }
+
             $this->userManager->updateUser($user);
         }
 
