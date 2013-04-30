@@ -1,0 +1,9 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    {% block fos_user_content %}
+        <p>{{ 'registration.confirmed'|trans({}, 'FOSUserBundle') }}</p>
+        <p>{{ 'Please wait...'|trans() }}</p>
+        <meta http-equiv="refresh" content="3;URL='{{ path('loggedInHome') }}'">
+    {% endblock fos_user_content %}
+{% endblock %}

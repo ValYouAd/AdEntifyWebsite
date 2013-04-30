@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="1">
                 <source>Please wait...</source>
-                <target>Veuillez patienter, vous allez être rediriger dans quelques secondes...</target>
+                <target>Please wait...</target>
             </trans-unit>
         </body>
     </file>

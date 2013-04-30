@@ -1,0 +1,21 @@
+registration:
+    submit: M'inscrire
+    confirmed: Félicitations, votre compte est maintenant activé.
+
+security:
+    login:
+        username: "Nom d'utilisateur"
+        email: "E-mail"
+        password: "Mot de passe"
+        remember_me: Se souvenir de moi
+        submit: Me connecter
+
+form:
+    group_name: "Nom du groupe :"
+    username: "Nom d'utilisateur"
+    email: "Mon e-mail"
+    current_password: "Mot de passe actuel"
+    password: "Mon mot de passe"
+    password_confirmation: "Je confirme mon mot de passe"
+    new_password: "Nouveau mot de passe"
+    new_password_confirmation: "Confirmez votre mot de passe"

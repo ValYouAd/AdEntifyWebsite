@@ -135,7 +135,7 @@ fos_twitter:
 
 fos_user:
     db_driver: orm
-    firewall_name: public
+    firewall_name: main
     user_class: AdEntify\CoreBundle\Entity\User
 
 stof_doctrine_extensions:

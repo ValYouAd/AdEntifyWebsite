@@ -32,24 +32,11 @@
                             <a href="{{ path ('_security_login_twitter')}}" class="btn btn-info btn-large">Twitter</a>
                         </p>
                     </div>
-                    <form class="text-center">
-                        <fieldset>
-                            <input type="text" placeholder="Mon email"><br>
-                            <input type="password" placeholder="Mon mot de passe"><br>
-                            <button type="submit" class="btn">Me connecter</button>
-                        </fieldset>
-                    </form>
+                    {% render controller('FOSUserBundle:Security:login') %}
                 </div>
                 <div class="border span6 text-center">
                     <h2>M'inscrire</h2>
-                    <form class="text-center">
-                        <fieldset>
-                            <input type="text" placeholder="Mon email"><br>
-                            <input type="password" placeholder="Mon mot de passe"><br>
-                            <input type="password" placeholder="Je confirme mon mot de passe"><br>
-                            <button type="submit" class="btn">M'inscrire</button>
-                        </fieldset>
-                    </form>
+                    {% render controller('FOSUserBundle:Registration:register') %}
                 </div>
             </div>
         </div>

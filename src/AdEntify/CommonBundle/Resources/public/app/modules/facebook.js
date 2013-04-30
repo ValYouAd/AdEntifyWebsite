@@ -46,6 +46,11 @@ define([
       },
 
       connected: function(response) {
+         setTimeout(function() {
+            // Check facebook connect to the server
+            console.log('check fb');
+            $.ajax({ url: Routing.generate('_security_check_facebook') } );
+         }, 500);
          var that = this;
          this.setFacebookResponse(response);
          app.trigger('global:facebook:connected');

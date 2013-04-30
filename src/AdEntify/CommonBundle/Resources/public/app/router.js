@@ -34,10 +34,6 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                app.fb.connected(response);
-               setTimeout(function() {
-                  // Check facebook connect to the server
-                  $.ajax({ url: Routing.generate('_security_check_facebook') } );
-               }, 500);
             } else if (response.status === 'not_authorized') {
                app.fb.notLoggedIn();
             } else {
