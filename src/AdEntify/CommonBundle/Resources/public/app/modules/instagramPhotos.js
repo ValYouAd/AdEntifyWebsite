@@ -180,7 +180,7 @@ define([
       photoRightsClick: function() {
          if ($('.photos-rights:checked').length != 2) {
             $('.submit-photos').hide();
-            app.useLayout().setView("#errors", new FacebookPhotos.Views.ErrorNoRights()).render();
+            app.useLayout().setView("#errors", new InstagramPhotos.Views.ErrorNoRights()).render();
             $('.alert').alert();
          } else {
             $('.submit-photos').fadeIn('fast');
@@ -189,7 +189,7 @@ define([
    });
 
    InstagramPhotos.Views.ErrorNoRights = Backbone.View.extend({
-      template: "facebookPhotos/errors/noRights"
+      template: "instagramPhotos/errors/noRights"
    });
 
    return InstagramPhotos;
