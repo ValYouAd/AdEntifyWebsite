@@ -22,6 +22,20 @@ security:
         login:
             pattern:   ^/(login$|register|resetting)  # Les adresses de ces pages sont login, register et resetting
             anonymous: true                           # On autorise bien évidemment les anonymes sur ces pages !
+        oauth_token:
+            pattern:    ^/oauth/v2/token
+            security:   false
+        oauth_authorize:
+            pattern:    ^/oauth/v2/auth
+            form_login:
+                provider: fos_userbundle
+                check_path: /oauth/v2/auth_login_check
+                login_path: /oauth/v2/auth_login
+            anonymous: true
+        api:
+            pattern:    ^/api
+            fos_oauth:  true
+            stateless:  true
         main:
             # since anonymous is allowed users will not be forced to login
             pattern:   ^/.*
@@ -49,4 +63,5 @@ security:
                 handlers: ["adentify_fos_facebook.logout_handler"]
 
     access_control:
+        #- { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

@@ -30,30 +30,59 @@ fos_user_security:
 product:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\ProductsController
+    options:
+        expose: true
 
 brand:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\BrandsController
+    options:
+        expose: true
 
 person:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\PeopleController
+    options:
+        expose: true
 
 tag:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\TagsController
+    options:
+        expose: true
 
 like:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\LikesController
+    options:
+        expose: true
 
 comment:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\CommentsController
+    options:
+        expose: true
 
 photo:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\PhotosController
+    options:
+        expose: true
 
+oauthuserinfo:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\OAuthUserInfoController
+    options:
+        expose: true
+
+
+# OAuth
+fos_oauth_server_token:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
+
+fos_oauth_server_authorize:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/authorize.xml"
+
+# JS Routing
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new FOS\TwitterBundle\FOSTwitterBundle(),
+            new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
 
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 

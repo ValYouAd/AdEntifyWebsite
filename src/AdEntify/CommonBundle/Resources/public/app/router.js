@@ -12,14 +12,24 @@ define([
    "modules/upload",
    "modules/facebookAlbums",
    "modules/facebookPhotos",
-   "modules/instagramPhotos"
+   "modules/instagramPhotos",
+   "modules/adentifyOAuth"
 ],
 
-function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos) {
+function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
+         AdEntifyOAuth) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
+         console.log('router initialize');
+
+         // Initialize Fb
          app.fb = new Facebook.Model();
+         // Get AdEntify accesstoken for AdEntify API
+         app.oauth = new AdEntifyOAuth.Model();
+         app.oauth.loadAccessToken(function() {
+            console.log(app.oauth.get('accessToken'));
+         });
 
          // Facebook init
          FB.init({
@@ -45,7 +55,8 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          var collections = {
             photos: new Photos.Collection(),
             fbAlbums: new FacebookAlbums.Collection(),
-            fbPhotos: new FacebookPhotos.Collection()
+            fbPhotos: new FacebookPhotos.Collection(),
+            instagramPhotos : new InstagramPhotos.Collection()
          };
          _.extend(this, collections);
       },
@@ -121,7 +132,11 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
       instagramPhotos: function() {
          this.reset();
 
-
+         app.useLayout().setViews({
+            "#content": new InstagramPhotos.Views.List({
+               photos: this.instagramPhotos
+            })
+         }).render();
       },
 
       reset: function() {
@@ -133,6 +148,9 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          }
          if (this.fbPhotos.length) {
             this.fbPhotos.reset();
+         }
+         if (this.instagramPhotos.length) {
+            this.instagramPhotos.reset();
          }
       }
    });

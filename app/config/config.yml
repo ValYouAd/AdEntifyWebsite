@@ -170,3 +170,13 @@ parameters:
 ad_entify_instagram:
     client_id: db51217592cf490aab08224763fc6cea
     client_secret: 48017f2c3cf441d6996ca7813e1abeb9
+
+# OAuth
+fos_oauth_server:
+    db_driver: orm       # Driver availables: orm, mongodb, or propel
+    client_class:        AdEntify\CoreBundle\Entity\OAuth\Client
+    access_token_class:  AdEntify\CoreBundle\Entity\OAuth\AccessToken
+    refresh_token_class: AdEntify\CoreBundle\Entity\OAuth\RefreshToken
+    auth_code_class:     AdEntify\CoreBundle\Entity\OAuth\AuthCode
+    service:
+        user_provider: fos_user.user_manager

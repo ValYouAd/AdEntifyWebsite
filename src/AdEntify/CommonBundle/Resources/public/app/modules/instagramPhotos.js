@@ -11,20 +11,14 @@ define([
 ], function(app) {
 
    var InstagramPhotos = app.module();
+   var error = '';
 
    InstagramPhotos.Model = Backbone.Model.extend({
       smallPicture: null,
 
       initialize: function() {
          var images = this.get('images');
-         if (images && images.length > 0) {
-            var image = _.find(images, function(image) {
-               return image['width'] == 180;
-            });
-            if (image) {
-               this.set('smallPicture', image['source']);
-            }
-         }
+         this.set('smallPicture', images['thumbnail']['url']);
       }
    });
 
@@ -72,17 +66,10 @@ define([
    });
 
    InstagramPhotos.Views.List = Backbone.View.extend({
-      template: "facebookPhotos/list",
+      template: "instagramPhotos/list",
 
       initialize: function() {
-         var that = this;
-         if (app.fb.isConnected()) {
-            this.loadPhotos();
-         } else {
-            app.on('global:facebook:connected', function() {
-               that.loadPhotos();
-            });
-         }
+         this.loadPhotos();
 
          this.listenTo(this.options.photos, {
             "add": this.render
@@ -91,7 +78,7 @@ define([
 
       beforeRender: function() {
          this.options.photos.each(function(photo) {
-            this.insertView("#photos-list", new FacebookPhotos.Views.Item({
+            this.insertView("#photos-list", new InstagramPhotos.Views.Item({
                model: photo
             }));
          }, this);
@@ -105,6 +92,50 @@ define([
 
       loadPhotos: function() {
          var that = this;
+
+         // Get instagram token
+         app.oauth.loadAccessToken(function() {
+            $.ajax({
+               url: Routing.generate('api_v1_get_oauthuserinfos'),
+               headers : {
+                  "Authorization": app.oauth.getAuthorizationHeader()
+               },
+               success: function(data) {
+                  if (!data || data.error) {
+                     error = data.error;
+                  } else {
+                     var instagramOAuthInfos = _.first(data, function(service) {
+                        if (service.service_name == 'instagram') {
+                           return true;
+                        } else { return false; }
+                     });
+                     // Connect to Instagram API
+                     if (instagramOAuthInfos) {
+                        $.ajax({
+                           url: 'https://api.instagram.com/v1/users/' + instagramOAuthInfos[0].service_user_id + '/media/recent/?access_token='
+                              + instagramOAuthInfos[0].service_access_token,
+                           dataType: 'jsonp',
+                           success: function(response) {
+                              var photos = [];
+                              for (var i= 0, l=response.data.length; i<l; i++) {
+                                 photos[i] = response.data[i];
+                              }
+                              that.options.photos.add(photos);
+                           },
+                           error : function() {
+                              console.log('impossible de récupérer les photos instagram');
+                           }
+                        })
+                     }
+                  }
+               },
+               error: function() {
+                  error = 'Can\'t get instagram token.';
+               }
+            });
+         });
+
+         /*
          FB.api(this.options.albumId + '/photos', function(response) {
             if (!response || response.error) {
                error = response.error;
@@ -116,7 +147,7 @@ define([
                that.options.photos.add(photos);
             }
             $('#loading-photos').fadeOut('fast');
-         });
+         });*/
       },
 
       events: {
