@@ -56,6 +56,16 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/app/flickr/photos/", name="flickr_photos")
+     * @Template("AdEntifyCommonBundle:Default:app.html.twig")
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function flickrPhotosAction()
+    {
+        return array();
+    }
+
+    /**
      * @Route("/getUserAccessToken", name="get_user_access_token", methods="POST")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */

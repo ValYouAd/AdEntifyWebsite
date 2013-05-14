@@ -1,9 +1,3 @@
-<?php
-
-for ($i=0; $i<=9;$i++){
-    echo 'http://www.thegtaplace.com/images/gtav/screencaps/trailer3_trevor_00'.$i.'.jpg<br>';
-}
-for ($i=10; $i<=58;$i++){
-    echo 'http://www.thegtaplace.com/images/gtav/screencaps/trailer3_trevor_0'.$i.'.jpg<br>';
-}
-?>
+GET&https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Frequest_token&oauth_callback%3Dhttp%3A%2F%2Flocalhost%2FAdEntifyFacebookApp%2Fweb%2Fflickr%2Fauthentication%26oauth_consumer_key%3D370e2e2f28c0ca81fd6a5a336a6e2c89%26oauth_nonce%3Dba7079cfaa105c748e9c303cdc3f067e%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1367938534%26oauth_version%3D1.0
+GET&https%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Frequest_token&oauth_callback%3Dhttp%253A252Flocalhost%2FAdEntifyFacebookApp%252Fweb%252Fflickr%252Fauthentication%26oauth_consumer_key%3D370e2e2f28c0ca81fd6a5a336a6e2c89%26oauth_nonce%3D4f9392f35dd6bd346fffd9df6e75700a%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1367938542%26oauth_version%3D1.0
+GET&http%3A%2F%2Fwww.flickr.com%2Fservices%2Foauth%2Frequest_token&oauth_callback%3Dhttp%253A%252F%252Fwww.example.com%26oauth_consumer_key%3D653e7a6ecc1d528c516cc8f92cf98611%26oauth_nonce%3D95613465%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1305586162%26oauth_version%3D1.0

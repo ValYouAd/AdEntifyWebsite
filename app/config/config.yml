@@ -180,3 +180,8 @@ fos_oauth_server:
     auth_code_class:     AdEntify\CoreBundle\Entity\OAuth\AuthCode
     service:
         user_provider: fos_user.user_manager
+
+# Flickr
+ad_entify_flickr:
+    client_id:     370e2e2f28c0ca81fd6a5a336a6e2c89
+    client_secret: 6084b60c02b4c8fc

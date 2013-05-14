@@ -1,3 +1,8 @@
+ad_entify_flickr:
+    resource: "@AdEntifyFlickrBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 ad_entify_instagram:
     resource: "@AdEntifyInstagramBundle/Controller/"
     type:     annotation
