@@ -13,23 +13,21 @@ define([
    "modules/facebookAlbums",
    "modules/facebookPhotos",
    "modules/instagramPhotos",
-   "modules/adentifyOAuth"
+   "modules/adentifyOAuth",
+   "modules/flickrSets",
+   "modules/flickrPhotos"
 ],
 
 function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth) {
+         AdEntifyOAuth, FlickrSets, FlickrPhotos) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
-         console.log('router initialize');
-
          // Initialize Fb
          app.fb = new Facebook.Model();
          // Get AdEntify accesstoken for AdEntify API
          app.oauth = new AdEntifyOAuth.Model();
-         app.oauth.loadAccessToken(function() {
-            console.log(app.oauth.get('accessToken'));
-         });
+         app.oauth.loadAccessToken();
 
          // Facebook init
          FB.init({
@@ -56,7 +54,9 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
             photos: new Photos.Collection(),
             fbAlbums: new FacebookAlbums.Collection(),
             fbPhotos: new FacebookPhotos.Collection(),
-            instagramPhotos : new InstagramPhotos.Collection()
+            istgPhotos : new InstagramPhotos.Collection(),
+            flrSets: new FlickrSets.Collection(),
+            flrPhotos: new FlickrPhotos.Collection()
          };
          _.extend(this, collections);
       },
@@ -67,7 +67,9 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          "upload/": "upload",
          "facebook/albums/": "facebookAlbums",
          "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
-         "instagram/photos/": "instagramPhotos"
+         "instagram/photos/": "instagramPhotos",
+         "flickr/sets/": "flickrSets",
+         "flickr/sets/:id/photos/": "flickrPhotos"
       },
 
       homepage: function() {
@@ -134,7 +136,28 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
 
          app.useLayout().setViews({
             "#content": new InstagramPhotos.Views.List({
-               photos: this.instagramPhotos
+               photos: this.istgPhotos
+            })
+         }).render();
+      },
+
+      flickrSets: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new FlickrSets.Views.List({
+               sets: this.flrSets
+            })
+         }).render();
+      },
+
+      flickrPhotos: function(id) {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new FlickrPhotos.Views.List({
+               photos: this.flrPhotos,
+               albumId: id
             })
          }).render();
       },
@@ -149,8 +172,14 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          if (this.fbPhotos.length) {
             this.fbPhotos.reset();
          }
-         if (this.instagramPhotos.length) {
-            this.instagramPhotos.reset();
+         if (this.istgPhotos.length) {
+            this.istgPhotos.reset();
+         }
+         if (this.flrSets.length) {
+            this.flrSets.reset();
+         }
+         if (this.flrPhotos.length) {
+            this.flrPhotos.reset();
          }
       }
    });

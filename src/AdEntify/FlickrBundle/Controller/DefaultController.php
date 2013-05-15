@@ -14,6 +14,8 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 class DefaultController extends Controller
 {
     const SERVICE_NAME = 'flickr';
+    const SESSION_REQUEST_TOKEN = 'flickr-request-token';
+    const SESSION_REQUEST_TOKEN_SECRET = 'flickr-request-token-secret';
 
     /**
      * @Route("/flickr/request-token", name="flickr_request_token")
@@ -21,29 +23,51 @@ class DefaultController extends Controller
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function getRequestTokenAction() {
-        $flickrUrl = 'https://www.flickr.com/services/oauth/request_token';
+        $flickrUrl = 'http://www.flickr.com/services/oauth/request_token';
         $callbackUrl = $this->generateUrl('flickr_authent', array(), true);
 
+        // Sign request
         $flickrRequestSigner = new FlickrRequestSigner();
         $requestInfos = $flickrRequestSigner->signRequest(
             $flickrUrl,
             $this->container->getParameter('flickr.client_id'),
             $this->container->getParameter('flickr.client_secret'),
-            $callbackUrl,
+            array(
+                'oauth_callback=' => $callbackUrl,
+            ),
             'GET'
         );
-        /*echo 'https://www.flickr.com/services/oauth/request_token?oauth_nonce='
+
+        // Get request token
+        $requestTokenUrl = $flickrUrl.'?oauth_nonce='
             .urlencode($requestInfos['nonce']).'&oauth_timestamp='.$requestInfos['time']
             .'&oauth_consumer_key='.$this->container->getParameter('flickr.client_id')
             .'&oauth_signature_method=HMAC-SHA1&oauth_version=1.0&oauth_signature='.urlencode($requestInfos['signature'])
-            .'&oauth_callback='.urlencode($callbackUrl);die;*/
-        return $this->redirect(
-            'https://www.flickr.com/services/oauth/request_token?oauth_nonce='
-            .urlencode($requestInfos['nonce']).'&oauth_timestamp='.$requestInfos['time']
-            .'&oauth_consumer_key='.$this->container->getParameter('flickr.client_id')
-            .'&oauth_signature_method=HMAC-SHA1&oauth_version=1.0&oauth_signature='.urlencode($requestInfos['signature'])
-            .'&oauth_callback='.urlencode($callbackUrl)
-        );
+            .'&oauth_callback='.urlencode($callbackUrl);
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt ($ch, CURLOPT_URL, $requestTokenUrl);
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // Parse flickr response
+        parse_str($response, $output);
+
+        if (array_key_exists('oauth_callback_confirmed', $output) && $output['oauth_callback_confirmed'] == true) {
+            // Save token in session
+            $session = $this->getRequest()->getSession();
+            $session->set(self::SESSION_REQUEST_TOKEN, $output['oauth_token']);
+            $session->set(self::SESSION_REQUEST_TOKEN_SECRET,  $output['oauth_token_secret']);
+
+            // Redirect user to authorize page
+            return $this->redirect(
+                'http://www.flickr.com/services/oauth/authorize?oauth_token='.$output['oauth_token']
+            );
+        } else {
+            throw new AuthenticationException('Can\'t get Flickr feed');
+        }
     }
 
     /**
@@ -55,51 +79,150 @@ class DefaultController extends Controller
     {
         if ($this->getRequest()->query->has('error')) {
             throw new AuthenticationException($this->getRequest()->query->get('error_reason'));
-        } else if ($this->getRequest()->query->has('code')) {
-            // Now we have a code for our AdEntify application, get an access token
-            $url = "http://www.flickr.com/services/oauth/request_token";
-            $access_token_parameters = array(
-                'client_id'		=>     $this->container->getParameter('flickr.client_id'),
-                'client_secret' =>     $this->container->getParameter('flickr.client_secret'),
-                'redirect_uri'	=>     $this->generateUrl('flickr_authent', array(), true),
-                'code'			=>     $this->getRequest()->query->get('code')
-            );
-            $curl = curl_init($url);
-            curl_setopt($curl,CURLOPT_POST, true);
-            curl_setopt($curl,CURLOPT_POSTFIELDS, $access_token_parameters);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $json = json_decode(curl_exec($curl));
+        } else if ($this->getRequest()->query->has('oauth_token') &&
+                    $this->getRequest()->query->has('oauth_verifier')) {
 
-            // Save flickr infos
-            $loggedInUser = $this->container->get('security.context')->getToken()->getUser();
-            $em = $this->getDoctrine()->getManager();
+            // Get token, token secret & verifier
+            $session = $this->getRequest()->getSession();
+            $token = $this->getRequest()->query->get('oauth_token');
+            $verifier = $this->getRequest()->query->get('oauth_verifier');
+            $tokenSecret = $session->get(self::SESSION_REQUEST_TOKEN_SECRET);
 
-            $oAuthUserInfo = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findOneBy(array(
-                'serviceUserId' => $json->user->id,
-                'serviceName' => self::SERVICE_NAME
-            ));
-            $exist = $oAuthUserInfo ? true : false;
+            // Check if token is the same that token in session
+            if ($token == $session->get(self::SESSION_REQUEST_TOKEN)) {
+                // Delete session
+                $session->remove(self::SESSION_REQUEST_TOKEN);
 
-            $oAuthUserInfo = $exist ? $oAuthUserInfo : new OAuthUserInfo();
-            $oAuthUserInfo
-                ->setUser($loggedInUser)
-                ->setServiceAccessToken($json->access_token)
-                ->setServiceName(self::SERVICE_NAME)
-                ->setServiceUsername($json->user->username)
-                ->setServiceFullName($json->user->full_name)
-                ->setServiceUserId($json->user->id);
+                // Exchange request token for an access token
+                $flickrUrl = 'http://www.flickr.com/services/oauth/access_token';
 
-            if ($exist) {
-                $em->merge($oAuthUserInfo);
+                // Sign request
+                $flickrRequestSigner = new FlickrRequestSigner();
+                $requestInfos = $flickrRequestSigner->signRequest(
+                    $flickrUrl,
+                    $this->container->getParameter('flickr.client_id'),
+                    $this->container->getParameter('flickr.client_secret'),
+                    array(
+                        'oauth_token=' => $token,
+                        'oauth_verifier=' => $verifier,
+                    ),
+                    $tokenSecret,
+                    'GET'
+                );
+
+                // Get access token
+                $accessTokenUrl = $flickrUrl.'?oauth_nonce='
+                    .urlencode($requestInfos['nonce']).'&oauth_timestamp='.$requestInfos['time']
+                    .'&oauth_consumer_key='.$this->container->getParameter('flickr.client_id')
+                    .'&oauth_signature_method=HMAC-SHA1&oauth_version=1.0&oauth_signature='.urlencode($requestInfos['signature'])
+                    .'&oauth_verifier='.$verifier.'&oauth_token='.$token;
+                $ch = curl_init();
+                $timeout = 5;
+                curl_setopt ($ch, CURLOPT_URL, $accessTokenUrl);
+                curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+                $response = curl_exec($ch);
+                curl_close($ch);
+
+                // Parse flickr response
+                parse_str($response, $output);
+
+                if (array_key_exists('fullname', $output)) {
+                    // Save flickr infos
+                    $loggedInUser = $this->container->get('security.context')->getToken()->getUser();
+                    $em = $this->getDoctrine()->getManager();
+
+                    $oAuthUserInfo = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findOneBy(array(
+                        'serviceUserId' => urldecode($output['user_nsid']),
+                        'serviceName' => self::SERVICE_NAME
+                    ));
+                    $exist = $oAuthUserInfo ? true : false;
+
+                    $oAuthUserInfo = $exist ? $oAuthUserInfo : new OAuthUserInfo();
+                    $oAuthUserInfo
+                        ->setUser($loggedInUser)
+                        ->setServiceAccessToken($output['oauth_token'])
+                        ->setServiceAccessTokenSecret($output['oauth_token_secret'])
+                        ->setServiceName(self::SERVICE_NAME)
+                        ->setServiceUsername(urldecode($output['username']))
+                        ->setServiceFullName(urldecode($output['fullname']))
+                        ->setServiceUserId(urldecode($output['user_nsid']));
+
+                    if ($exist)
+                        $em->merge($oAuthUserInfo);
+                    else
+                        $em->persist($oAuthUserInfo);
+                    $em->flush();
+
+                    return $this->redirect($this->generateUrl('flickr_photos'));
+                } else {
+                    throw new AuthenticationException('Can\'t get Flickr feed');
+                }
             } else {
-                $em->persist($oAuthUserInfo);
+                throw new AuthenticationException('Can\'t get Flickr feed');
             }
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('flickr_photos'));
         }
         else {
-            throw new AuthenticationException('Can\'t get Instagram feed');
+            throw new AuthenticationException('Can\'t get Flickr feed');
+        }
+    }
+
+    /**
+     * @Route("/flickr/sets/photos/{id}", name="flickr_sets_photos")
+     * @Template()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function getPhotosAction($id)
+    {
+        $loggedInUser = $this->container->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $oAuthUserInfo = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findOneBy(array(
+            'user' => $loggedInUser->getId(),
+            'serviceName' => self::SERVICE_NAME
+        ));
+
+        if ($oAuthUserInfo) {
+            // Exchange request token for an access token
+            $flickrUrl = 'http://api.flickr.com/services/rest/';
+
+            // Sign request
+            $flickrRequestSigner = new FlickrRequestSigner();
+            $requestInfos = $flickrRequestSigner->signRequest(
+                $flickrUrl,
+                $this->container->getParameter('flickr.client_id'),
+                $this->container->getParameter('flickr.client_secret'),
+                array(
+                    'extras=' => 'original_format,o_dims,views,media,path_alias,url_sq,url_t,url_s,url_m,url_o',
+                    'photoset_id=' => $id,
+                    'oauth_token=' => $oAuthUserInfo->getServiceAccessToken(),
+                    'privacy_filter=' => '1,2,3,4,5'
+                ),
+                '',
+                'GET'
+            );
+
+            // Get photos of set
+            $accessTokenUrl = $flickrUrl.'?method=flickr.photosets.getPhotos&nojsoncallback=1&format=json&oauth_nonce='
+                .urlencode($requestInfos['nonce']).'&oauth_timestamp='.$requestInfos['time']
+                .'&oauth_consumer_key='.$this->container->getParameter('flickr.client_id')
+                .'&oauth_signature_method=HMAC-SHA1&oauth_version=1.0&oauth_signature='.urlencode($requestInfos['signature'])
+                .'&oauth_token='.$oAuthUserInfo->getServiceAccessToken().'&extras=original_format,o_dims,views,media,path_alias,url_sq,url_t,url_s,url_m,url_o'
+                .'&photoset_id='.$id.'&privacy_filter=1,2,3,4,5';
+
+            $ch = curl_init();
+            $timeout = 5;
+            curl_setopt ($ch, CURLOPT_URL, $accessTokenUrl);
+            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            $response = json_decode(curl_exec($ch));
+            curl_close($ch);
+
+            $response = new Response(json_encode($response->photoset->photo));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        } else {
+            throw new AuthenticationException('Can\'t get Flickr feed');
         }
     }
 }

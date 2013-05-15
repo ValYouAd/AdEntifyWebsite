@@ -16,7 +16,8 @@ define([
          if (this.get('accessToken') != ''
                && this.get('expiresAt') != ''
                && this.get('expiresAt') > currentTimestamp) {
-            callback();
+            if (typeof callback !== "undefined")
+               callback();
          } else {
             $.ajax({
                type: 'POST',
@@ -24,11 +25,13 @@ define([
                success: function(data) {
                   that.set('accessToken', data.access_token);
                   that.set('expiresAt', data.expires_at);
-                  callback();
+                  if (typeof callback !== "undefined")
+                     callback();
                },
                error: function() {
                   console.log('cant retrieve access token');
-                  callback();
+                  if (typeof callback !== "undefined")
+                     callback();
                }
             });
          }

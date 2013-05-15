@@ -9,7 +9,8 @@ require.config({
      facebook: "http://connect.facebook.net/fr_FR/all",
      "lodash": "../vendor/jam/lodash/dist/lodash.underscore",
      "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
-     "bootstrap": "../vendor/js/bootstrap.min"
+     "bootstrap": "../vendor/js/bootstrap.min",
+     "hmacsha1": "../vendor/js/hmac-sha1"
   },
 
    map: {

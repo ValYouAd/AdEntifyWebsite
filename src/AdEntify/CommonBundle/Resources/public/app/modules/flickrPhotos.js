@@ -17,8 +17,7 @@ define([
       smallPicture: null,
 
       initialize: function() {
-         var images = this.get('images');
-         this.set('smallPicture', images['thumbnail']['url']);
+         this.set('smallPicture', this.get('url_s'));
       }
    });
 
@@ -93,61 +92,22 @@ define([
       loadPhotos: function() {
          var that = this;
 
-         // Get instagram token
-         app.oauth.loadAccessToken(function() {
-            $.ajax({
-               url: Routing.generate('api_v1_get_oauthuserinfos'),
-               headers : {
-                  "Authorization": app.oauth.getAuthorizationHeader()
-               },
-               success: function(data) {
-                  if (!data || data.error) {
-                     error = data.error;
-                  } else {
-                     var instagramOAuthInfos = _.first(data, function(service) {
-                        if (service.service_name == 'flickr') {
-                           return true;
-                        } else { return false; }
-                     });
-                     // Connect to Instagram API
-                     if (instagramOAuthInfos) {
-                        $.ajax({
-                           url: 'https://api.instagram.com/v1/users/' + instagramOAuthInfos[0].service_user_id + '/media/recent/?access_token='
-                              + instagramOAuthInfos[0].service_access_token,
-                           dataType: 'jsonp',
-                           success: function(response) {
-                              var photos = [];
-                              for (var i= 0, l=response.data.length; i<l; i++) {
-                                 photos[i] = response.data[i];
-                              }
-                              that.options.photos.add(photos);
-                           },
-                           error : function() {
-                              console.log('impossible de récupérer les photos instagram');
-                           }
-                        })
-                     }
-                  }
-               },
-               error: function() {
-                  error = 'Can\'t get instagram token.';
+         // Get flickr set photos
+         $.ajax({
+            url: Routing.generate('flickr_sets_photos', { 'id': this.options.albumId }),
+            dataType: 'json',
+            success: function(response) {
+               var photos = [];
+               for (var i= 0, l=response.length; i<l; i++) {
+                  photos[i] = response[i];
                }
-            });
+               that.options.photos.add(photos);
+            },
+            error : function(e) {
+               // TODO : error
+               console.log('impossible de récupérer les photos flickr');
+            }
          });
-
-         /*
-          FB.api(this.options.albumId + '/photos', function(response) {
-          if (!response || response.error) {
-          error = response.error;
-          } else {
-          var photos = [];
-          for (var i=0, l=response.data.length; i<l; i++) {
-          photos[i] = response.data[i];
-          }
-          that.options.photos.add(photos);
-          }
-          $('#loading-photos').fadeOut('fast');
-          });*/
       },
 
       events: {
@@ -164,16 +124,16 @@ define([
          // Get checked images
          checkedImages = $('.checked img');
          if (checkedImages.length > 0) {
-            var fbImages = [];
+            var images = [];
             _.each(checkedImages, function(image, index) {
-               fbImages[index] = {
+               images[index] = {
                   'source' : $(image).data('source-url'),
                   'width' : $(image).data('source-width'),
                   'height' : $(image).data('source-height')
                };
             });
 
-            // POST Fb images to database
+            // POST images to database
          }
       },
 

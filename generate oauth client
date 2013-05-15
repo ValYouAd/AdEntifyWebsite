@@ -1,0 +1,1 @@
+php app/console adentify:oauth:client:create --redirect-uri "http://localhost/AdEntifyFacebookApp/web/" --grant-type token --grant-type authorization_code
