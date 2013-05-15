@@ -27,7 +27,7 @@ define([
    });
 
    FlickrPhotos.Views.Item = Backbone.View.extend({
-      template: "flickrPhotos/item",
+      template: "externalServicePhotos/item",
 
       tagName: "li span2",
 
@@ -65,7 +65,7 @@ define([
    });
 
    FlickrPhotos.Views.List = Backbone.View.extend({
-      template: "flickrPhotos/list",
+      template: "externalServicePhotos/list",
 
       initialize: function() {
          this.loadPhotos();
@@ -149,7 +149,7 @@ define([
    });
 
    FlickrPhotos.Views.ErrorNoRights = Backbone.View.extend({
-      template: "flickrPhotos/errors/noRights"
+      template: "externalServicePhotos/errors/noRights"
    });
 
    return FlickrPhotos;

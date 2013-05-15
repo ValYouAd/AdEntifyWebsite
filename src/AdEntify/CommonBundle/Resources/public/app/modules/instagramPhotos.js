@@ -28,7 +28,7 @@ define([
    });
 
    InstagramPhotos.Views.Item = Backbone.View.extend({
-      template: "instagramPhotos/item",
+      template: "externalServicePhotos/item",
 
       tagName: "li span2",
 
@@ -66,7 +66,7 @@ define([
    });
 
    InstagramPhotos.Views.List = Backbone.View.extend({
-      template: "instagramPhotos/list",
+      template: "externalServicePhotos/list",
 
       initialize: function() {
          this.loadPhotos();
@@ -189,7 +189,7 @@ define([
    });
 
    InstagramPhotos.Views.ErrorNoRights = Backbone.View.extend({
-      template: "instagramPhotos/errors/noRights"
+      template: "externalServicePhotos/errors/noRights"
    });
 
    return InstagramPhotos;

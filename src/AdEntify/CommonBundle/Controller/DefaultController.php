@@ -56,11 +56,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/app/flickr/photos/", name="flickr_photos")
+     * @Route("/app/flickr/sets/", name="flickr_sets")
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
-    public function flickrPhotosAction()
+    public function flickrSetsAction()
     {
         return array();
     }

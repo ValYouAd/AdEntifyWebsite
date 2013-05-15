@@ -23,6 +23,17 @@ class DefaultController extends Controller
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function getRequestTokenAction() {
+        $loggedInUser = $this->container->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $oAuthUserInfo = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findOneBy(array(
+            'user' => $loggedInUser->getId(),
+            'serviceName' => self::SERVICE_NAME
+        ));
+
+        if ($oAuthUserInfo)
+            return $this->redirect($this->generateUrl('flickr_sets'));
+
         $flickrUrl = 'http://www.flickr.com/services/oauth/request_token';
         $callbackUrl = $this->generateUrl('flickr_authent', array(), true);
 
@@ -33,7 +44,7 @@ class DefaultController extends Controller
             $this->container->getParameter('flickr.client_id'),
             $this->container->getParameter('flickr.client_secret'),
             array(
-                'oauth_callback=' => $callbackUrl,
+                'oauth_callback=' => urlencode($callbackUrl),
             ),
             'GET'
         );
@@ -154,7 +165,7 @@ class DefaultController extends Controller
                         $em->persist($oAuthUserInfo);
                     $em->flush();
 
-                    return $this->redirect($this->generateUrl('flickr_photos'));
+                    return $this->redirect($this->generateUrl('flickr_sets'));
                 } else {
                     throw new AuthenticationException('Can\'t get Flickr feed');
                 }

@@ -34,7 +34,7 @@ define([
    });
 
    FacebookPhotos.Views.Item = Backbone.View.extend({
-      template: "facebookPhotos/item",
+      template: "externalServicePhotos/item",
 
       tagName: "li span2",
 
@@ -72,7 +72,7 @@ define([
    });
 
    FacebookPhotos.Views.List = Backbone.View.extend({
-      template: "facebookPhotos/list",
+      template: "externalServicePhotos/list",
 
       initialize: function() {
          var that = this;
@@ -158,7 +158,7 @@ define([
    });
 
    FacebookPhotos.Views.ErrorNoRights = Backbone.View.extend({
-      template: "facebookPhotos/errors/noRights"
+      template: "externalServicePhotos/errors/noRights"
    });
 
    return FacebookPhotos;

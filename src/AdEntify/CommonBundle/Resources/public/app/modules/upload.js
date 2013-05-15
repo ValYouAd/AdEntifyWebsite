@@ -14,16 +14,12 @@ define([
    Upload.Views.Content = Backbone.View.extend({
       template: "upload/content",
 
-      serialize: function() {
-
-      },
-
       events: {
-         "click #facebookUploadButton": "facebookUpload"
+         "click #flickrUploadButton": "flickrUpload"
       },
 
-      facebookUpload: function() {
-
+      flickrUpload: function() {
+         window.location.href = Routing.generate('flickr_request_token');
       }
    });
 
