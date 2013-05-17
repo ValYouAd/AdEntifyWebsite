@@ -87,7 +87,8 @@ class DefaultController extends Controller
         if ($token) {
             $accessToken = array(
                 'access_token' => $token->getToken(),
-                'expires_at' => $token->getExpiresAt()
+                'expires_at' => $token->getExpiresAt(),
+                'user_id' => $token->getUser()->getId()
             );
         } else {
             // Delete old tokens

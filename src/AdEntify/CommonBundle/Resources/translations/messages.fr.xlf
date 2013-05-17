@@ -18,6 +18,14 @@
                 <source>Upload photos</source>
                 <target>Envoyer mes photos</target>
             </trans-unit>
+            <trans-unit id="5">
+                <source>My tagged photos</source>
+                <target>Mes photos taguées</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>My untagged photos</source>
+                <target>Mes photos non taguées</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

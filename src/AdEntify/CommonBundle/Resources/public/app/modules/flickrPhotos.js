@@ -14,10 +14,20 @@ define([
    var error = '';
 
    FlickrPhotos.Model = Backbone.Model.extend({
-      smallPicture: null,
+      smallUrl: null,
+      originalUrl: null,
+      originalWidth: null,
+      originalHeight: null,
+      servicePhotoId: null,
+      title: null,
 
       initialize: function() {
-         this.set('smallPicture', this.get('url_s'));
+         this.set('thumbUrl', this.get('url_s'));
+         this.set('servicePhotoId', this.get('id'));
+         if (this.has('title'))
+            this.set('title', this.get('title'));
+         if (this.has('url_o'))
+            this.set('originalUrl', this.get('url_o'));
       }
    });
 
@@ -127,13 +137,65 @@ define([
             var images = [];
             _.each(checkedImages, function(image, index) {
                images[index] = {
-                  'source' : $(image).data('source-url'),
-                  'width' : $(image).data('source-width'),
-                  'height' : $(image).data('source-height')
+                  'source' : $(image).data('original-url'),
+                  'width' : $(image).data('original-width'),
+                  'height' : $(image).data('original-height'),
+                  'title' : $(image).data('title'),
+                  'id': $(image).data('service-photo-id')
                };
             });
 
-            // POST images to database
+            // Get larger images size
+            var deferreds = [];
+            _.each(images, function(image) {
+               if (!image.source) {
+                  deferreds.push($.ajax({
+                     url: 'http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&format=json&api_key=370e2e2f28c0ca81fd6a5a336a6e2c89'
+                        + '&photo_id='+ image.id + '&jsoncallback=?',
+                     dataType: 'jsonp',
+                     success: function(response) {
+                        if (response.sizes.size.length) {
+                           var largerSize = null;
+                           _.each(response.sizes.size, function(size) {
+                              if (!largerSize) {
+                                 largerSize = size;
+                              } else {
+                                 if (parseInt(largerSize.width) < parseInt(size.width)) {
+                                    largerSize = size;
+                                 }
+                              }
+                           });
+                           image.source = largerSize.source;
+                           image.width = largerSize.width;
+                           image.height = largerSize.height;
+                        }
+                     },
+                     error : function() {
+                        // TODO : error
+                     }
+                  }));
+               }
+            });
+
+            $.when.apply(null, deferreds).done(function() {
+               // POST images to database
+               $.ajax({
+                  url : Routing.generate('upload_load_external_photos'),
+                  type: 'POST',
+                  data: { 'images': images },
+                  success: function(response) {
+                     if (!response.error) {
+                        // redirect to untagged tab
+                        Backbone.history.navigate('me/untagged/', true);
+                     } else {
+                        // TODO error
+                     }
+                  },
+                  error: function(e) {
+                     // TODO error
+                  }
+               })
+            });
          }
       },
 

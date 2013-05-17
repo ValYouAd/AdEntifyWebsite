@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "e5284ba01db4007664286de1945f906de19f8010"
+                "reference": "12b0a4af903ad5761001372317b989f0c025e74f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/e5284ba01db4007664286de1945f906de19f8010",
-                "reference": "e5284ba01db4007664286de1945f906de19f8010",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/12b0a4af903ad5761001372317b989f0c025e74f",
+                "reference": "12b0a4af903ad5761001372317b989f0c025e74f",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-05-14 16:10:23"
+            "time": "2013-05-16 17:00:29"
         },
         {
             "name": "doctrine/annotations",
@@ -1797,16 +1797,16 @@
         },
         {
             "name": "kriswallsmith/assetic",
-            "version": "v1.1.0-beta1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "v1.1.0-beta1"
+                "reference": "v1.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/v1.1.0-beta1",
-                "reference": "v1.1.0-beta1",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/v1.1.0",
+                "reference": "v1.1.0",
                 "shasum": ""
             },
             "require": {
@@ -1864,7 +1864,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-13 06:03:18"
+            "time": "2013-05-16 05:28:39"
         },
         {
             "name": "monolog/monolog",

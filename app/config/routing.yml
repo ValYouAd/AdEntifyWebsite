@@ -93,3 +93,11 @@ fos_oauth_server_authorize:
 # JS Routing
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+# Upload
+upload:
+    resource: AdEntify\CoreBundle\Controller\UploadController
+    type:     annotation
+    prefix:   /
+    options:
+        expose: true

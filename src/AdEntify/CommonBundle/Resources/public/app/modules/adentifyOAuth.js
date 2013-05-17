@@ -7,7 +7,8 @@ define([
    AdEntifyOAuth.Model = Backbone.Model.extend({
       defaults: {
          accessToken: '',
-         expiresAt: ''
+         expiresAt: '',
+         userId: ''
       },
 
       loadAccessToken: function(callback) {
@@ -15,6 +16,7 @@ define([
          var currentTimestamp = Math.round(new Date().getTime() / 1000);
          if (this.get('accessToken') != ''
                && this.get('expiresAt') != ''
+               && this.get('userId') != ''
                && this.get('expiresAt') > currentTimestamp) {
             if (typeof callback !== "undefined")
                callback();
@@ -25,6 +27,7 @@ define([
                success: function(data) {
                   that.set('accessToken', data.access_token);
                   that.set('expiresAt', data.expires_at);
+                  that.set('userId', data.user_id);
                   if (typeof callback !== "undefined")
                      callback();
                },

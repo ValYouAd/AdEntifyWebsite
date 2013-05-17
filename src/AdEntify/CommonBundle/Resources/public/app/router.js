@@ -9,6 +9,7 @@ define([
    // Modules
    "modules/homepage",
    "modules/photos",
+   "modules/myPhotos",
    "modules/upload",
    "modules/facebookAlbums",
    "modules/facebookPhotos",
@@ -18,7 +19,7 @@ define([
    "modules/flickrPhotos"
 ],
 
-function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
+function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos) {
 
    var Router = Backbone.Router.extend({
@@ -52,6 +53,7 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          // Collections init
          var collections = {
             photos: new Photos.Collection(),
+            myPhotos: new MyPhotos.Collection(),
             fbAlbums: new FacebookAlbums.Collection(),
             fbPhotos: new FacebookPhotos.Collection(),
             istgPhotos : new InstagramPhotos.Collection(),
@@ -65,6 +67,8 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          "": "homepage",
          "untagged/": "untagged",
          "upload/": "upload",
+         "me/tagged/": "meTagged",
+         "me/untagged/": "meUntagged",
          "facebook/albums/": "facebookAlbums",
          "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
          "instagram/photos/": "instagramPhotos",
@@ -100,6 +104,36 @@ function(app, fbLib, Facebook, HomePage, Photos, Upload, FacebookAlbums, Faceboo
          }).render();
 
          this.photos.fetch();
+      },
+
+      meTagged: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+
+         });
+
+         this.myPhotos.fetch();
+      },
+
+      meUntagged: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new MyPhotos.Views.Content({
+               photos: this.myPhotos
+            }),
+            "#ticker": new MyPhotos.Views.Ticker(),
+            "#menu-tools": new MyPhotos.Views.MenuTools()
+         });
+
+         var that = this;
+         app.oauth.loadAccessToken(function() {
+            that.myPhotos.fetch({
+               headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
+            });
+         });
       },
 
       upload: function() {

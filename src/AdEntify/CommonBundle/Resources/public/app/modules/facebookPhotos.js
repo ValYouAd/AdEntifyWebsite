@@ -13,7 +13,7 @@ define([
    var error = '';
 
    FacebookPhotos.Model = Backbone.Model.extend({
-      smallPicture: null,
+      smallUrl: null,
 
       initialize: function() {
          var images = this.get('images');
@@ -22,8 +22,16 @@ define([
                return image['width'] == 180;
             });
             if (image) {
-               this.set('smallPicture', image['source']);
+               this.set('thumbUrl', image['source']);
+               this.set('smallUrl', image['source']);
+               this.set('smallWidth', image['width']);
+               this.set('smallHeight', image['height']);
             }
+            // Get larger image
+            this.set('originalUrl', images[0].source);
+            this.set('originalWidth', images[0].width);
+            this.set('originalHeight', images[0].height);
+            this.set('servicePhotoId', this.get('id'));
          }
       }
    });
@@ -136,13 +144,33 @@ define([
             var fbImages = [];
             _.each(checkedImages, function(image, index) {
                fbImages[index] = {
-                  'source' : $(image).data('source-url'),
-                  'width' : $(image).data('source-width'),
-                  'height' : $(image).data('source-height')
+                  'originalSource' : $(image).data('original-url'),
+                  'originalWidth' : $(image).data('original-width'),
+                  'originalHeight' : $(image).data('original-height'),
+                  'smallSource': $(image).data('small-url'),
+                  'smallWidth': $(image).data('small-width'),
+                  'smallHeight': $(image).data('small-height'),
+                  'id': $(image).data('service-photo-id')
                };
             });
 
-            // POST Fb images to database
+            // POST images to database
+            $.ajax({
+               url : Routing.generate('upload_load_external_photos'),
+               type: 'POST',
+               data: { 'images': fbImages },
+               success: function(response) {
+                  if (!response.error) {
+                     // redirect to untagged tab
+                     Backbone.history.navigate('me/untagged/', true);
+                  } else {
+                     // TODO error
+                  }
+               },
+               error: function(e) {
+                  // TODO error
+               }
+            });
          }
       },
 

@@ -2,7 +2,10 @@
     <div class="check-image-container">
         <div class="checked-overlay"><span class="label label-success">Sélectionné</span></div>
         <div class="hover-overlay"><span class="label label-info">Sélectionner</span></div>
-        <img class="check-image-img" src="<%= model.get("smallPicture") %>" data-source-url="<%= model.get("source") %>"
-        data-source-width="<%= model.get("width") %>" data-source-height="<%= model.get("height") %>" />
+        <img class="check-image-img" src="<%= model.get("thumbUrl") %>" data-small-url="<%= model.get("smallUrl") %>"
+        data-small-width="<%= model.get("smallWidth") %>" data-small-height="<%= model.get("smallHeight") %>"
+        data-original-url="<%= model.get("originalUrl") %>" data-original-width="<%= model.get("originalWidth") %>"
+        data-original-height="<%= model.get("originalHeight") %>" data-service-photo-id="<%= model.get("servicePhotoId") %>"
+        data-title="<%= model.get("title") %>" />
     </div>
 </div>

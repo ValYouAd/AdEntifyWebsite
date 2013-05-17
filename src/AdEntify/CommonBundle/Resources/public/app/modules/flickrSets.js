@@ -107,7 +107,7 @@ define([
                               // TODO : error
                               console.log('impossible de récupérer les albums Flickr');
                            }
-                        })
+                        });
                      } else {
                         // TODO : Redirect to error page
                      }
