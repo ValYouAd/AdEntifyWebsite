@@ -7,62 +7,25 @@
  */
 define([
    "app",
-   "bootstrap"
-], function(app) {
+   "bootstrap",
+   "modules/externalServicePhotos"
+], function(app, bootstrap, ExternalServicePhotos) {
 
    var InstagramPhotos = app.module();
    var error = '';
 
    InstagramPhotos.Model = Backbone.Model.extend({
-      smallPicture: null,
+      thumbUrl: null,
 
       initialize: function() {
          var images = this.get('images');
-         this.set('smallPicture', images['thumbnail']['url']);
+         this.set('thumbUrl', images['thumbnail']['url']);
       }
    });
 
    InstagramPhotos.Collection = Backbone.Collection.extend({
       model: InstagramPhotos.Model,
       cache: true
-   });
-
-   InstagramPhotos.Views.Item = Backbone.View.extend({
-      template: "externalServicePhotos/item",
-
-      tagName: "li span2",
-
-      serialize: function() {
-         return { model: this.model };
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
-      },
-
-      events: {
-         "click .check-image" : "toggleCheckedImage"
-      },
-
-      toggleCheckedImage: function(e) {
-         var container = $(e.currentTarget).find('.check-image-container');
-         if (container.length > 0) {
-            container.toggleClass('checked');
-         }
-         this.checkActionButtons();
-      },
-
-      afertRender: function() {
-         this.checkActionButtons();
-      },
-
-      checkActionButtons: function() {
-         if ($('.check-image .checked').length > 0) {
-            $('.action-buttons').fadeIn('fast');
-         } else {
-            $('.action-buttons').fadeOut('fast');
-         }
-      }
    });
 
    InstagramPhotos.Views.List = Backbone.View.extend({
@@ -78,7 +41,7 @@ define([
 
       beforeRender: function() {
          this.options.photos.each(function(photo) {
-            this.insertView("#photos-list", new InstagramPhotos.Views.Item({
+            this.insertView("#photos-list", new ExternalServicePhotos.Views.Item({
                model: photo
             }));
          }, this);
@@ -134,20 +97,6 @@ define([
                }
             });
          });
-
-         /*
-         FB.api(this.options.albumId + '/photos', function(response) {
-            if (!response || response.error) {
-               error = response.error;
-            } else {
-               var photos = [];
-               for (var i=0, l=response.data.length; i<l; i++) {
-                  photos[i] = response.data[i];
-               }
-               that.options.photos.add(photos);
-            }
-            $('#loading-photos').fadeOut('fast');
-         });*/
       },
 
       events: {
@@ -164,32 +113,44 @@ define([
          // Get checked images
          checkedImages = $('.checked img');
          if (checkedImages.length > 0) {
-            var fbImages = [];
+            var images = [];
             _.each(checkedImages, function(image, index) {
-               fbImages[index] = {
-                  'source' : $(image).data('source-url'),
-                  'width' : $(image).data('source-width'),
-                  'height' : $(image).data('source-height')
+               images[index] = {
+                  'originalSource' : $(image).data('original-url'),
+                  'originalWidth' : $(image).data('original-width'),
+                  'originalHeight' : $(image).data('original-height')
                };
             });
 
-            // POST Fb images to database
+            // POST images to database
+            $.ajax({
+               url : Routing.generate('upload_load_external_photos'),
+               type: 'POST',
+               data: { 'images': images },
+               success: function(response) {
+                  if (!response.error) {
+                     // redirect to untagged tab
+                     Backbone.history.navigate('me/untagged/', true);
+                  } else {
+                     // TODO error
+                  }
+               },
+               error: function(e) {
+                  // TODO error
+               }
+            });
          }
       },
 
       photoRightsClick: function() {
          if ($('.photos-rights:checked').length != 2) {
             $('.submit-photos').hide();
-            app.useLayout().setView("#errors", new InstagramPhotos.Views.ErrorNoRights()).render();
+            app.useLayout().setView("#errors", new ExternalServicePhotos.Views.ErrorNoRights()).render();
             $('.alert').alert();
          } else {
             $('.submit-photos').fadeIn('fast');
          }
       }
-   });
-
-   InstagramPhotos.Views.ErrorNoRights = Backbone.View.extend({
-      template: "externalServicePhotos/errors/noRights"
    });
 
    return InstagramPhotos;

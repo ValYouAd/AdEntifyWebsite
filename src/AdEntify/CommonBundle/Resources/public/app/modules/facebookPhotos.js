@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app"
-], function(app) {
+   "app",
+   "modules/externalServicePhotos"
+], function(app, ExternalServicePhotos) {
 
    var FacebookPhotos = app.module();
    var error = '';
@@ -41,44 +42,6 @@ define([
       cache: true
    });
 
-   FacebookPhotos.Views.Item = Backbone.View.extend({
-      template: "externalServicePhotos/item",
-
-      tagName: "li span2",
-
-      serialize: function() {
-         return { model: this.model };
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
-      },
-
-      events: {
-         "click .check-image" : "toggleCheckedImage"
-      },
-
-      toggleCheckedImage: function(e) {
-         var container = $(e.currentTarget).find('.check-image-container');
-         if (container.length > 0) {
-            container.toggleClass('checked');
-         }
-         this.checkActionButtons();
-      },
-
-      afertRender: function() {
-         this.checkActionButtons();
-      },
-
-      checkActionButtons: function() {
-         if ($('.check-image .checked').length > 0) {
-            $('.action-buttons').fadeIn('fast');
-         } else {
-            $('.action-buttons').fadeOut('fast');
-         }
-      }
-   });
-
    FacebookPhotos.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/list",
 
@@ -99,7 +62,7 @@ define([
 
       beforeRender: function() {
          this.options.photos.each(function(photo) {
-            this.insertView("#photos-list", new FacebookPhotos.Views.Item({
+            this.insertView("#photos-list", new ExternalServicePhotos.Views.Item({
                model: photo
             }));
          }, this);
@@ -177,16 +140,12 @@ define([
       photoRightsClick: function() {
          if ($('.photos-rights:checked').length != 2) {
             $('.submit-photos').hide();
-            app.useLayout().setView("#errors", new FacebookPhotos.Views.ErrorNoRights()).render();
+            app.useLayout().setView("#errors", new ExternalServicePhotos.Views.ErrorNoRights()).render();
             $('.alert').alert();
          } else {
             $('.submit-photos').fadeIn('fast');
          }
       }
-   });
-
-   FacebookPhotos.Views.ErrorNoRights = Backbone.View.extend({
-      template: "externalServicePhotos/errors/noRights"
    });
 
    return FacebookPhotos;

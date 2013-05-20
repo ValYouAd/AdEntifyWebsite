@@ -202,7 +202,7 @@ define([
    });
 
    MyPhotos.Views.MenuTools = Backbone.View.extend({
-      template: "photos/menuTools",
+      template: "myPhotos/menuTools",
 
       serialize: function() {
          return {};

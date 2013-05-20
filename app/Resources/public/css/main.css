@@ -29,6 +29,8 @@ nav #twitter-authent span {
     margin-top: 10px;
 }
 
+/* Menu Tools
+----------------------- */
 #menu-tools {
     word-wrap: break-word;
     position: fixed;
@@ -54,6 +56,14 @@ nav #twitter-authent span {
     -o-transform: translatex(157.4%);
     transform: translatex(157.4%);
 }
+#tools {
+    list-style-type: none;
+}
+#tools li {
+    margin: 10px 0px;
+}
+/* End Menu Tools
+----------------------- */
 
 #content {
     position: relative;
@@ -72,7 +82,7 @@ nav #twitter-authent span {
     transform: translatex(20%);
 }
 
-#ticker {
+#menu-right {
     position: fixed;
     right: 0px;
     height: 100%;
@@ -176,7 +186,6 @@ li div.large img { max-width: 100%; margin: auto; }
     -o-transition-duration: 0s;
     transition-duration: 0s;
 }
-
 /* END : Isotope */
 
 /* Loading */
@@ -193,14 +202,6 @@ li div.large img { max-width: 100%; margin: auto; }
     width: 24px;
     height: 24px;
     margin: 0px auto 10px auto;
-}
-
-/* Menu tools */
-#tools {
-    list-style-type: none;
-}
-#tools li {
-    margin: 10px 0px;
 }
 
 /* Image chackbox */

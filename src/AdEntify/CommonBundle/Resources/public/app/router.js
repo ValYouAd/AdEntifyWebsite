@@ -16,11 +16,12 @@ define([
    "modules/instagramPhotos",
    "modules/adentifyOAuth",
    "modules/flickrSets",
-   "modules/flickrPhotos"
+   "modules/flickrPhotos",
+   "modules/externalServicePhotos"
 ],
 
 function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos) {
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -84,7 +85,7 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
                tagged: true,
                photos: this.photos
             }),
-            "#ticker": new Photos.Views.Ticker(),
+            "#menu-right": new Photos.Views.Ticker(),
             "#menu-tools": new Photos.Views.MenuTools()
          }).render();
 
@@ -99,7 +100,7 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
                tagged: false,
                photos: this.photos
             }),
-            "#ticker": new Photos.Views.Ticker(),
+            "#menu-right": new Photos.Views.Ticker(),
             "#menu-tools": new Photos.Views.MenuTools()
          }).render();
 
@@ -123,7 +124,7 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             "#content": new MyPhotos.Views.Content({
                photos: this.myPhotos
             }),
-            "#ticker": new MyPhotos.Views.Ticker(),
+            "#menu-right": new MyPhotos.Views.Ticker(),
             "#menu-tools": new MyPhotos.Views.MenuTools()
          });
 
