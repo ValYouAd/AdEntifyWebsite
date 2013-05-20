@@ -20,6 +20,13 @@ define([
       initialize: function() {
          var images = this.get('images');
          this.set('thumbUrl', images['thumbnail']['url']);
+         // Get larger image
+         this.set('originalUrl', images['standard_resolution']['url']);
+         this.set('originalWidth', images['standard_resolution']['width']);
+         this.set('originalHeight', images['standard_resolution']['height']);
+         this.set('servicePhotoId', this.get('id'));
+         if (this.has('caption'))
+            this.set('title', this.get('caption')['text']);
       }
    });
 
@@ -117,7 +124,9 @@ define([
                images[index] = {
                   'originalSource' : $(image).data('original-url'),
                   'originalWidth' : $(image).data('original-width'),
-                  'originalHeight' : $(image).data('original-height')
+                  'originalHeight' : $(image).data('original-height'),
+                  'title' : $(image).data('title'),
+                  'id': $(image).data('service-photo-id')
                };
             });
 

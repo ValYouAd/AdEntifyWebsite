@@ -147,6 +147,8 @@ define([
          var containerDiv = image.parents('.photo-container');
          var mediumUrl = image.attr('src');
 
+         this.updateMenuTools(image.data("id"));
+
          if (parentDiv) {
             openedContainer = parentDiv;
             lastImageContainer = parentDiv;
@@ -190,6 +192,11 @@ define([
          $('html, body').animate({
             scrollTop: lastImageContainer.offset().top - 60
          }, 300);
+      },
+
+      updateMenuTools: function(photoId) {
+         $currentPhoto = this.options.photos.get(photoId);
+         $('#menu-tools #photo-caption').val($currentPhoto.get('caption'));
       },
 
       initialize: function() {
