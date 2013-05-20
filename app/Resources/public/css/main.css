@@ -29,19 +29,22 @@ nav #twitter-authent span {
     margin-top: 10px;
 }
 
+section#content {
+    padding-left: 20px;
+}
+
 /* Menu Tools
 ----------------------- */
 #menu-tools {
     word-wrap: break-word;
     position: fixed;
-    right: 0px;
+    left: -23.076923076923077%;
     height: 100%;
     border-right: 1px solid #e5e5e5;
     background-color: #f5f5f5;
     padding: 45px 20px 10px;
     top: 0px;
     height: 100%;
-    left: -23.404255319148934%;
 
     -webkit-transition: all 0.3s ease-out;
     -ms-transition: all 0.3s ease-out;
@@ -50,11 +53,11 @@ nav #twitter-authent span {
     transition: all 0.3s ease-out;
 }
 .edit-mode #menu-tools {
-    -webkit-transform: translatex(157.4%);
-    -ms-transform: translatex(157.4%);
-    -moz-transform: translatex(157.4%);
-    -o-transform: translatex(157.4%);
-    transform: translatex(157.4%);
+    -webkit-transform: translatex(100%);
+    -ms-transform: translatex(100%);
+    -moz-transform: translatex(100%);
+    -o-transform: translatex(100%);
+    transform: translatex(100%);
 }
 #tools {
     list-style-type: none;
@@ -64,23 +67,6 @@ nav #twitter-authent span {
 }
 /* End Menu Tools
 ----------------------- */
-
-#content {
-    position: relative;
-
-    -webkit-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-}
-.edit-mode #content  {
-    -webkit-transform: translatex(20%);
-    -ms-transform: translatex(20%);
-    -moz-transform: translatex(20%);
-    -o-transform: translatex(20%);
-    transform: translatex(20%);
-}
 
 #menu-right {
     position: fixed;
@@ -104,6 +90,23 @@ footer p {
     color: #777;
 }
 
+#photos {
+    position: relative;
+
+    -webkit-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+.edit-mode #photos  {
+    -webkit-transform: translatex(32%);
+    -ms-transform: translatex(32%);
+    -moz-transform: translatex(32%);
+    -o-transform: translatex(32%);
+    transform: translatex(32%);
+}
+
 /* Isotope */
 #photos-grid {
     margin-bottom: 20px;
@@ -117,20 +120,46 @@ ul#photos-grid {
 ul#photos-grid li {
     margin: 10px;
     float: left;
+    box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
+}
+ul#photos-grid .photo {
+    border: 1px solid #ddd;
+    -webkit-transition: border-color 0.2s ease-in-out;
+    -moz-transition: border-color 0.2s ease-in-out;
+    -o-transition: border-color 0.2s ease-in-out;
+    transition: border-color 0.2s ease-in-out;
+    padding: 4px;
+    box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
+}
+ul#photos-grid .photo:hover {
+    border-color: #0088cc;
 }
 
-li div.medium { width: 330px; text-align: center; }
-li div.medium img { max-width: 330px; margin: auto; }
-li div.large { width: 100%; text-align: center; }
-li div.large img { max-width: 100%; margin: auto; }
-
+ul#photos-grid li div.photo-container {
+    position: relative;
+}
+ul#photos-grid li div.photo-overlay {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+ul#photos-grid li div.photo-overlay .tag {
+    position: absolute;
+}
+ul#photos-grid li div.medium { width: 340px; text-align: center; }
+ul#photos-grid li div.medium img { max-width: 100%; margin: auto; }
+ul#photos-grid li div.large { width: 100%; text-align: center; }
+ul#photos-grid li div.large img { max-width: 100%; margin: auto; }
 .img-polaroid {
     border: 1px solid #ddd;
     -webkit-transition: border-color 0.2s ease-in-out;
     -moz-transition: border-color 0.2s ease-in-out;
     -o-transition: border-color 0.2s ease-in-out;
     transition: border-color 0.2s ease-in-out;
-    cursor: pointer;
+    box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
 }
 .img-polaroid:hover {
     border-color: #0088cc;
@@ -204,7 +233,8 @@ li div.large img { max-width: 100%; margin: auto; }
     margin: 0px auto 10px auto;
 }
 
-/* Image chackbox */
+/* Image checkbox
+----------------------- */
 .check-image {
     cursor: pointer;
 }
@@ -243,10 +273,11 @@ li div.large img { max-width: 100%; margin: auto; }
     position: relative;
     top: 50px;
 }
+/* End image checkbox
+----------------------- */
 
-/* ---------------- */
-/* F A C E B O O K */
-/* ---------------- */
+/* Facebook
+----------------------- */
 
 /* Albums */
 #albums-list li:first-child {
@@ -259,3 +290,23 @@ li div.large img { max-width: 100%; margin: auto; }
 .action-buttons {
     display: none;
 }
+
+/* End Facebook
+----------------------- */
+
+/* MODULE :  External Service Photos
+------------------------------------ */
+.external-photos .photos-selected {
+    display: none;
+}
+/* End M : External Service Photos
+------------------------------------ */
+
+
+
+
+/*
+----------------------- */
+
+/*
+----------------------- */

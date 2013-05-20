@@ -124,8 +124,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             "#content": new MyPhotos.Views.Content({
                photos: this.myPhotos
             }),
-            "#menu-right": new MyPhotos.Views.Ticker(),
-            "#menu-tools": new MyPhotos.Views.MenuTools()
+            "#menu-right": new MyPhotos.Views.Ticker()
+            //"#menu-tools": new MyPhotos.Views.MenuTools()
          });
 
          var that = this;
@@ -141,7 +141,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Upload.Views.Content()
+            "#content": new Upload.Views.Content(),
+            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
          }).render();
       },
 
@@ -151,7 +152,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          app.useLayout().setViews({
             "#content": new FacebookAlbums.Views.List({
                albums: this.fbAlbums
-            })
+            }),
+            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
          }).render();
       },
 
@@ -162,7 +164,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             "#content": new FacebookPhotos.Views.List({
                albumId: id,
                photos: this.fbPhotos
-            })
+            }),
+            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
          }).render();
       },
 
@@ -172,7 +175,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          app.useLayout().setViews({
             "#content": new InstagramPhotos.Views.List({
                photos: this.istgPhotos
-            })
+            }),
+            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
          }).render();
       },
 
@@ -182,7 +186,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          app.useLayout().setViews({
             "#content": new FlickrSets.Views.List({
                sets: this.flrSets
-            })
+            }),
+            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
          }).render();
       },
 
@@ -193,7 +198,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             "#content": new FlickrPhotos.Views.List({
                photos: this.flrPhotos,
                albumId: id
-            })
+            }),
+            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
          }).render();
       },
 

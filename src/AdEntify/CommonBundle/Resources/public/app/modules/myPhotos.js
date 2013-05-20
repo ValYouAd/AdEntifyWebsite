@@ -18,6 +18,7 @@ define([
    var openedImage = null;
    var lastImageContainer = null;
    var container = null;
+   var currentPhotoOverlay = null;
 
    MyPhotos.Model = Backbone.Model.extend({
       initialize: function() {
@@ -62,6 +63,8 @@ define([
                model: photo
             }));
          }, this);
+
+         this.insertView("#menu-tools", new MyPhotos.Views.MenuTools());
       },
 
       afterRender: function() {
@@ -80,10 +83,12 @@ define([
             });
          });
 
-         // Click on photo
-         container.delegate('img', 'click', function() {
-            lastImage = $(this);
-            that.clickOnPhoto($(this));
+         // Click on photo overlay
+         container.delegate('.photo-overlay', 'click', function() {
+            if ($('#dashboard').hasClass('view-mode')) {
+               lastImage = $(this).siblings('img[data-type="medium"]');
+               that.clickOnPhoto(lastImage);
+            }
          });
       },
 
@@ -91,7 +96,9 @@ define([
          // Already in edit mode
          if (imageClicked.data('type') == 'large') {
             $("#dashboard").toggleClass('edit-mode view-mode');
-            $("#ticker").switchClass("span1", "span3");
+            $('#content').switchClass('span11', 'span9');
+            $("aside").switchClass("span1", "span3");
+            $('#photos').switchClass('span9', 'span12');
             // Resize to medium size
             this.resizeToMediumSize(imageClicked, true);
             openedContainer = null;
@@ -102,9 +109,12 @@ define([
             }
             if (!openedContainer) {
                $("#dashboard").toggleClass('edit-mode view-mode');
-               $('#ticker').switchClass("span3", "span1");
+               $('aside').switchClass("span3", "span1");
+               $('#content').switchClass('span9', 'span11');
+               $('#photos').switchClass('span12', 'span9');
                if (!Modernizr.csstransitions) {
-                  $('#menu-tools').animate({left: "157.4%"});
+                  $('#menu-tools').animate({left: "63%"});
+                  $('#photos').animate({left: "28%"});
                }
                // Resize to large size
                this.resizeToLargeSize(imageClicked);
@@ -123,7 +133,7 @@ define([
          // Show medium image
          image.siblings("img[data-type='medium']").show();
          // Resize container
-         image.parent().removeClass('large').addClass('medium');
+         image.parents('.photo').removeClass('large').addClass('medium');
          // Relayout if ask
          if (relayout) {
             container.isotope('reLayout', this.relayoutEnded);
@@ -133,7 +143,8 @@ define([
       resizeToLargeSize: function(image) {
          var largeUrl = image.data('large-url');
          var largeWidth = image.data('large-width');
-         var parentDiv = image.parent();
+         var parentDiv = image.parents('.photo');
+         var containerDiv = image.parents('.photo-container');
          var mediumUrl = image.attr('src');
 
          if (parentDiv) {
@@ -164,9 +175,8 @@ define([
                   src: largeUrl,
                   'data-medium': mediumUrl,
                   'data-type': "large",
-                  style: "display: none;",
-                  class: "img-polaroid"
-               }).appendTo(parentDiv).load(function() {
+                  style: "display: none;"
+               }).appendTo(containerDiv).load(function() {
                      openedImage = $(this);
                      image.hide();
                      image.width(image.data("medium-width"));
@@ -194,26 +204,63 @@ define([
    });
 
    MyPhotos.Views.Ticker = Backbone.View.extend({
-      template: "photos/ticker",
-
-      serialize: function() {
-         return {};
-      }
+      template: "photos/ticker"
    });
 
    MyPhotos.Views.MenuTools = Backbone.View.extend({
       template: "myPhotos/menuTools",
 
-      serialize: function() {
-         return {};
-      },
-
       close: function() {
+         this.unloadTagging();
          app.trigger('global:closeMenuTools');
       },
 
+      addTag: function() {
+         $photo = $('#photos-grid .large');
+         currentPhotoOverlay = $photo.find('.photo-overlay');
+         this.setupTagging();
+      },
+
+      setupTagging: function() {
+         currentPhotoOverlay.css({ cursor: 'crosshair'});
+         currentPhotoOverlay.bind('click', this.addTagHandler);
+      },
+
+      unloadTagging: function() {
+         if (currentPhotoOverlay) {
+            currentPhotoOverlay.css({ cursor: 'pointer'});
+            currentPhotoOverlay.unbind('click', this.addTagHandler);
+         }
+      },
+
+      addTagHandler: function(e) {
+         var xPosition = e.offsetX / e.currentTarget.clientWidth;
+         var yPosition = e.offsetY / e.currentTarget.clientHeight;
+
+         // Add new tag
+         tag = document.createElement("div");
+         tag.innerHTML = '<i class="icon-tag"></i>';
+         tag.setAttribute('style', 'left: ' + xPosition*100 + '%; top: ' + yPosition*100  + '%');
+         tag.setAttribute('class', 'tag');
+         $(tag).appendTo(currentPhotoOverlay);
+         app.useLayout().setView("#menu-tools .form", new MyPhotos.Views.AddTagForm()).render();
+      },
+
       events: {
-         "click .close": "close"
+         "click .close": "close",
+         "click #add-tag": "addTag",
+         "click .cancel": "close"
+      }
+   });
+
+   MyPhotos.Views.AddTagForm = Backbone.View.extend({
+      template: "myPhotos/addTagForm",
+
+      afterRender: function() {
+         $('.nav-tabs a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+         })
       }
    });
 

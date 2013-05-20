@@ -43,6 +43,8 @@ define([
       initialize: function() {
          this.loadPhotos();
 
+         app.on('externalServicePhoto:submitPhotos', this.submitPhotos);
+
          this.listenTo(this.options.photos, {
             "add": this.render
          });
@@ -81,11 +83,6 @@ define([
                console.log('impossible de récupérer les photos flickr');
             }
          });
-      },
-
-      events: {
-         "click .submit-photos": "submitPhotos",
-         "click .photos-rights": "photoRightsClick"
       },
 
       submitPhotos: function(e) {
@@ -159,16 +156,6 @@ define([
                   }
                })
             });
-         }
-      },
-
-      photoRightsClick: function() {
-         if ($('.photos-rights:checked').length != 2) {
-            $('.submit-photos').hide();
-            app.useLayout().setView("#errors", new ExternalServicePhotos.Views.ErrorNoRights()).render();
-            $('.alert').alert();
-         } else {
-            $('.submit-photos').fadeIn('fast');
          }
       }
    });

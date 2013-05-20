@@ -55,6 +55,8 @@ define([
             });
          }
 
+         app.on('externalServicePhoto:submitPhotos', this.submitPhotos);
+
          this.listenTo(this.options.photos, {
             "add": this.render
          });
@@ -88,11 +90,6 @@ define([
             }
             $('#loading-photos').fadeOut('fast');
          });
-      },
-
-      events: {
-         "click .submit-photos": "submitPhotos",
-         "click .photos-rights": "photoRightsClick"
       },
 
       submitPhotos: function(e) {
@@ -134,16 +131,6 @@ define([
                   // TODO error
                }
             });
-         }
-      },
-
-      photoRightsClick: function() {
-         if ($('.photos-rights:checked').length != 2) {
-            $('.submit-photos').hide();
-            app.useLayout().setView("#errors", new ExternalServicePhotos.Views.ErrorNoRights()).render();
-            $('.alert').alert();
-         } else {
-            $('.submit-photos').fadeIn('fast');
          }
       }
    });

@@ -23,14 +23,6 @@ define([
          this.set('title', this.attributes.title._content);
          this.set('description', this.attributes.description._content);
          this.set('id', this.attributes.id);
-
-         /*if (this.has('cover_photo')) {
-            FB.api(this.get('cover_photo'), function(response) {
-               if (response && !response.error) {
-                  that.set("picture", response.picture);
-               }
-            });
-         }*/
       }
    });
 
@@ -84,7 +76,7 @@ define([
                   if (!data || data.error) {
                      error = data.error;
                   } else {
-                     var flickrOAuthInfos = _.first(data, function(service) {
+                     var flickrOAuthInfos = _.find(data, function(service) {
                         if (service.service_name == 'flickr') {
                            return true;
                         } else { return false; }
@@ -93,7 +85,7 @@ define([
                      if (flickrOAuthInfos) {
                         $.ajax({
                            url: 'http://api.flickr.com/services/rest/?method=flickr.photosets.getList&format=json&api_key=370e2e2f28c0ca81fd6a5a336a6e2c89'
-                              + '&user_id='+ flickrOAuthInfos[0].service_user_id + '&jsoncallback=?',
+                              + '&user_id='+ flickrOAuthInfos.service_user_id + '&jsoncallback=?',
                            dataType: 'jsonp',
                            success: function(response) {
                               var sets = [];
