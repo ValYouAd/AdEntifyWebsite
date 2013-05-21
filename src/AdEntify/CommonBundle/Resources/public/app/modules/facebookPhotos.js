@@ -118,7 +118,7 @@ define([
             $.ajax({
                url : Routing.generate('upload_load_external_photos'),
                type: 'POST',
-               data: { 'images': fbImages },
+               data: { 'images': fbImages, 'source': 'facebook' },
                success: function(response) {
                   if (!response.error) {
                      // redirect to untagged tab

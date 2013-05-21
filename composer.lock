@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "16a9cf1f64a410aa50bd76b2b67d9b420f60228f"
+                "reference": "7a5ae98066bc0bb6ae67aebdc12b2d7a6394a8a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/16a9cf1f64a410aa50bd76b2b67d9b420f60228f",
-                "reference": "16a9cf1f64a410aa50bd76b2b67d9b420f60228f",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/7a5ae98066bc0bb6ae67aebdc12b2d7a6394a8a0",
+                "reference": "7a5ae98066bc0bb6ae67aebdc12b2d7a6394a8a0",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-05-17 11:22:20"
+            "time": "2013-05-21 10:22:55"
         },
         {
             "name": "doctrine/annotations",
@@ -176,9 +176,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -242,7 +242,7 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -822,26 +822,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSOAuthServerBundle.git",
-                "reference": "733a672d715c98e40ae0ccf8a788beab7ea0b323"
+                "reference": "31c18469388159c035b34052b27e347ecefdf221"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSOAuthServerBundle/zipball/733a672d715c98e40ae0ccf8a788beab7ea0b323",
-                "reference": "733a672d715c98e40ae0ccf8a788beab7ea0b323",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSOAuthServerBundle/zipball/31c18469388159c035b34052b27e347ecefdf221",
+                "reference": "31c18469388159c035b34052b27e347ecefdf221",
                 "shasum": ""
             },
             "require": {
                 "friendsofsymfony/oauth2-php": ">=1.0.4,<1.1",
                 "php": ">=5.3.3",
-                "symfony/framework-bundle": ">=2.1,<2.3-dev",
-                "symfony/security-bundle": ">=2.1,<2.3-dev"
+                "symfony/framework-bundle": ">=2.1,<2.4-dev",
+                "symfony/security-bundle": ">=2.1,<2.4-dev"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "*",
                 "doctrine/mongodb-odm": "*",
                 "doctrine/orm": ">=2.2,<2.5-dev",
-                "symfony/class-loader": ">=2.1,<2.3-dev",
-                "symfony/yaml": ">=2.1,<2.3-dev",
+                "symfony/class-loader": ">=2.1,<2.4-dev",
+                "symfony/yaml": ">=2.1,<2.4-dev",
                 "willdurand/propel-typehintable-behavior": "1.0.*"
             },
             "suggest": {
@@ -877,7 +877,7 @@
                 "oauth2",
                 "server"
             ],
-            "time": "2013-04-27 13:02:33"
+            "time": "2013-05-17 18:56:21"
         },
         {
             "name": "friendsofsymfony/oauth2-php",
@@ -1363,7 +1363,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1515,7 +1515,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1686,7 +1686,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1754,7 +1754,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1964,7 +1964,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],

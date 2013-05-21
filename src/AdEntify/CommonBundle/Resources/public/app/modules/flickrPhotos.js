@@ -142,7 +142,7 @@ define([
                $.ajax({
                   url : Routing.generate('upload_load_external_photos'),
                   type: 'POST',
-                  data: { 'images': images },
+                  data: { 'images': images, 'source': 'flickr' },
                   success: function(response) {
                      if (!response.error) {
                         // redirect to untagged tab
