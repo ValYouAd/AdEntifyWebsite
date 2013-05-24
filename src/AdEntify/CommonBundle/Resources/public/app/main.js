@@ -12,6 +12,16 @@ function(app, Router) {
   // navigation from this instance.
   app.router = new Router();
 
+   // Extend Backbone View
+   _.extend(Backbone.View.prototype, {
+      stopLoading: function() {
+         app.stopLoading();
+      },
+      startLoading: function() {
+         app.startLoading();
+      }
+   });
+
   // Trigger the initial route and enable HTML5 History API support, set the
   // root folder to '/' by default.  Change in app.js.
   Backbone.history.start({ pushState: true, root: app.root });
@@ -31,10 +41,14 @@ function(app, Router) {
       // refresh.
       evt.preventDefault();
 
-      // `Backbone.history.navigate` is sufficient for all Routers and will
-      // trigger the correct events. The Router's internal `navigate` method
-      // calls this anyways.  The fragment is sliced from the root.
-      Backbone.history.navigate(href.attr, true);
+       if (href.attr != window.location.href.replace(root, '')) {
+          app.startLoading(function() {
+             // `Backbone.history.navigate` is sufficient for all Routers and will
+             // trigger the correct events. The Router's internal `navigate` method
+             // calls this anyways.  The fragment is sliced from the root.
+             Backbone.history.navigate(href.attr, { trigger: true });
+          });
+       }
     }
   });
 

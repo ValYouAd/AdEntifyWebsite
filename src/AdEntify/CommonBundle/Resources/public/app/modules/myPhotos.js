@@ -7,11 +7,8 @@
  */
 define([
    "app",
-   "isotope",
-   "jquery-ui",
-   "modernizer",
-   "infinitescroll"
-], function(app) {
+   "modules/photo"
+], function(app, Photo) {
 
    var MyPhotos = app.module();
    var openedContainer = null;
@@ -20,15 +17,8 @@ define([
    var container = null;
    var currentPhotoOverlay = null;
 
-   MyPhotos.Model = Backbone.Model.extend({
-      initialize: function() {
-         this.set('medium_url', app.rootUrl + '/uploads/photos/' + app.oauth.get('userId') + '/medium/' + this.get('medium_url'));
-         this.set('large_url', app.rootUrl + '/uploads/photos/' + app.oauth.get('userId') + '/large/' + this.get('large_url'));
-      }
-   });
-
    MyPhotos.Collection = Backbone.Collection.extend({
-      model: MyPhotos.Model,
+      model: Photo.Model,
 
       cache: true,
 
@@ -212,7 +202,47 @@ define([
    });
 
    MyPhotos.Views.Ticker = Backbone.View.extend({
-      template: "photos/ticker"
+      template: "common/tickerPhotoList",
+
+      serialize: function() {
+         return { collection: this.options.tickerPhotos };
+      },
+
+      beforeRender: function() {
+         this.options.tickerPhotos.each(function(photo) {
+            this.insertView("#ticker-photos", new MyPhotos.Views.TickerItem({
+               model: photo
+            }));
+         }, this);
+      },
+
+      afterRender: function () {
+         if (this.options.tagged) {
+            $('#ticker-photos-title').html('Mes photos non taguées');
+         } else {
+            $('#ticker-photos-title').html('Mes photos taguées');
+         }
+      },
+
+      initialize: function() {
+         this.listenTo(this.options.tickerPhotos, {
+            "sync": this.render
+         });
+      }
+   });
+
+   MyPhotos.Views.TickerItem = Backbone.View.extend({
+      template: "common/tickerPhotoItem",
+
+      tagName: "li",
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+      }
    });
 
    MyPhotos.Views.MenuTools = Backbone.View.extend({

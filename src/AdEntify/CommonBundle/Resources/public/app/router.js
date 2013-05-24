@@ -17,14 +17,19 @@ define([
    "modules/adentifyOAuth",
    "modules/flickrSets",
    "modules/flickrPhotos",
-   "modules/externalServicePhotos"
+   "modules/externalServicePhotos",
+   "modules/photo"
 ],
 
 function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos) {
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
+         this.listenTo(this, {
+            'route': this.routeTriggered
+         });
+
          // Initialize Fb
          app.fb = new Facebook.Model();
          // Get AdEntify accesstoken for AdEntify API
@@ -54,7 +59,9 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          // Collections init
          var collections = {
             photos: new Photos.Collection(),
+            tickerPhotos: new Photos.Collection(),
             myPhotos: new MyPhotos.Collection(),
+            myTickerPhotos: new MyPhotos.Collection(),
             fbAlbums: new FacebookAlbums.Collection(),
             fbPhotos: new FacebookPhotos.Collection(),
             istgPhotos : new InstagramPhotos.Collection(),
@@ -62,6 +69,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             flrPhotos: new FlickrPhotos.Collection()
          };
          _.extend(this, collections);
+
+         app.on('domchange:title', this.onDomChangeTitle, this);
       },
 
       routes: {
@@ -74,7 +83,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
          "instagram/photos/": "instagramPhotos",
          "flickr/sets/": "flickrSets",
-         "flickr/sets/:id/photos/": "flickrPhotos"
+         "flickr/sets/:id/photos/": "flickrPhotos",
+         "photo/:id/": "photoDetail"
       },
 
       homepage: function() {
@@ -111,10 +121,26 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          this.reset();
 
          app.useLayout().setViews({
-
+            "#content": new MyPhotos.Views.Content({
+               photos: this.myPhotos
+            }),
+            "#menu-right": new MyPhotos.Views.Ticker({
+               tickerPhotos: this.myTickerPhotos,
+               tagged: true
+            })
          });
 
-         this.myPhotos.fetch();
+         var that = this;
+         app.oauth.loadAccessToken(function() {
+            that.myPhotos.fetch({
+               headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
+            });
+            that.myTickerPhotos.fetch({
+               headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
+            });
+         });
       },
 
       meUntagged: function() {
@@ -124,8 +150,10 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             "#content": new MyPhotos.Views.Content({
                photos: this.myPhotos
             }),
-            "#menu-right": new MyPhotos.Views.Ticker()
-            //"#menu-tools": new MyPhotos.Views.MenuTools()
+            "#menu-right": new MyPhotos.Views.Ticker({
+               tickerPhotos: this.myTickerPhotos,
+               tagged: false
+            })
          });
 
          var that = this;
@@ -133,6 +161,10 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             that.myPhotos.fetch({
                headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
+            });
+            that.myTickerPhotos.fetch({
+               headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
             });
          });
       },
@@ -203,9 +235,34 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          }).render();
       },
 
+      photoDetail: function(id) {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Photo.Views.Content({
+               photo: new Photo.Model({ 'id': id })
+            }),
+            "#menu-right": new MyPhotos.Views.Ticker({
+               tickerPhotos: this.myTickerPhotos,
+               tagged: false
+            })
+         });
+
+         var that = this;
+         app.oauth.loadAccessToken(function() {
+            that.myTickerPhotos.fetch({
+               headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
+            });
+         });
+      },
+
       reset: function() {
          if (this.photos.length) {
             this.photos.reset();
+         }
+         if (this.tickerPhotos.length) {
+            this.tickerPhotos.reset();
          }
          if (this.fbAlbums.length) {
             this.fbAlbums.reset();
@@ -222,6 +279,22 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          if (this.flrPhotos.length) {
             this.flrPhotos.reset();
          }
+         if (this.myPhotos.length) {
+            this.myPhotos.reset();
+         }
+         if (this.myTickerPhotos.length) {
+            this.myTickerPhotos.reset();
+         }
+      },
+
+      onDomChangeTitle: function(title) {
+         if (typeof title !== 'undefined' && title != '') {
+            $(document).attr('title', title);
+         }
+      },
+
+      routeTriggered: function() {
+         app.stopLoading();
       }
    });
 

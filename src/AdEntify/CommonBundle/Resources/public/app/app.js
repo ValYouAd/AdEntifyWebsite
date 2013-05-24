@@ -79,6 +79,14 @@ define([
 
             // Cache the reference.
             return this.layout;
+         },
+
+         startLoading: function(complete) {
+            $('#dashboard').fadeOut(200, complete);
+         },
+
+         stopLoading: function(complete) {
+            $('#dashboard').fadeIn(complete);
          }
       }, Backbone.Events);
 

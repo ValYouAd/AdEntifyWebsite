@@ -80,6 +80,7 @@ section#content {
     top: 0px;
     border-left: 1px solid rgba(0,0,0,.1);
     padding: 45px 20px 10px 10px;
+    overflow: auto;
 
     word-wrap: break-word;
 }
@@ -127,18 +128,6 @@ ul#photos-grid li {
     float: left;
     box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
 }
-/*ul#photos-grid .photo {
-    border: 1px solid #ddd;
-    -webkit-transition: border-color 0.2s ease-in-out;
-    -moz-transition: border-color 0.2s ease-in-out;
-    -o-transition: border-color 0.2s ease-in-out;
-    transition: border-color 0.2s ease-in-out;
-    padding: 4px;
-    box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
-}
-ul#photos-grid .photo:hover {
-    border-color: #0088cc;
-}*/
 
 ul#photos-grid li div.photo-container {
     position: relative;
@@ -307,7 +296,35 @@ ul#photos-grid li div.large img { max-width: 100%; margin: auto; }
 /* End M : External Service Photos
 ------------------------------------ */
 
+/* Common Templates
+----------------------- */
 
+/* Ticker */
+#ticker-photos-title {
+
+}
+ul#ticker-photos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+    ul#ticker-photos li {
+        float: left;
+        margin: 2px;
+    }
+
+/*
+----------------------- */
+
+
+/* Divers
+----------------------- */
+.fadeOut {
+    display: none;
+}
+
+/*
+----------------------- */
 
 
 /*
