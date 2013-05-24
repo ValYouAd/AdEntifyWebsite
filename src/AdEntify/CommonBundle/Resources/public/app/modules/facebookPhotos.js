@@ -19,16 +19,32 @@ define([
       initialize: function() {
          var images = this.get('images');
          if (images && images.length > 0) {
-            var image = _.find(images, function(image) {
+            var smallImage = _.find(images, function(image) {
                return image['width'] == 180;
             });
-            if (image) {
-               this.set('thumbUrl', image['source']);
-               this.set('smallUrl', image['source']);
-               this.set('smallWidth', image['width']);
-               this.set('smallHeight', image['height']);
+            var mediumImage = _.find(images, function(image) {
+               return image['width'] == 320;
+            });
+            var largeImage = _.find(images, function(image) {
+               return image['width'] == 960;
+            });
+            if (smallImage) {
+               this.set('thumbUrl', smallImage['source']);
+               this.set('smallUrl', smallImage['source']);
+               this.set('smallWidth', smallImage['width']);
+               this.set('smallHeight', smallImage['height']);
             }
-            // Get larger image
+            if (mediumImage) {
+               this.set('mediumUrl', mediumImage['source']);
+               this.set('mediumWidth', mediumImage['width']);
+               this.set('mediumHeight', mediumImage['height']);
+            }
+            if (largeImage) {
+               this.set('largeUrl', largeImage['source']);
+               this.set('largeWidth', largeImage['width']);
+               this.set('largeHeight', largeImage['height']);
+            }
+            // Get larger image (original)
             this.set('originalUrl', images[0].source);
             this.set('originalWidth', images[0].width);
             this.set('originalHeight', images[0].height);
@@ -110,6 +126,12 @@ define([
                   'smallSource': $(image).data('small-url'),
                   'smallWidth': $(image).data('small-width'),
                   'smallHeight': $(image).data('small-height'),
+                  'mediumSource': $(image).data('medium-url'),
+                  'mediumWidth': $(image).data('medium-width'),
+                  'mediumHeight': $(image).data('medium-height'),
+                  'largeSource': $(image).data('large-url'),
+                  'largeWidth': $(image).data('large-width'),
+                  'largeHeight': $(image).data('large-height'),
                   'id': $(image).data('service-photo-id')
                };
             });

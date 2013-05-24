@@ -185,3 +185,16 @@ fos_oauth_server:
 ad_entify_flickr:
     client_id:     370e2e2f28c0ca81fd6a5a336a6e2c89
     client_secret: 6084b60c02b4c8fc
+
+# Imagine
+avalanche_imagine:
+    filters:
+        small:
+            type:    thumbnail
+            options: { size: [150, 9999], mode: inset, quality: 60 }
+        medium:
+            type:    thumbnail
+            options: { size: [320, 9999], mode: inset, quality: 80 }
+        large:
+            type:    thumbnail
+            options: { size: [1024, 9999], mode: inset, quality: 100 }

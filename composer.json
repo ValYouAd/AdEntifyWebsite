@@ -29,7 +29,8 @@
         "jms/debugging-bundle": "dev-master",
         "kertz/twitteroauth": "dev-master",
         "friendsofsymfony/twitter-bundle": "dev-master",
-        "friendsofsymfony/oauth-server-bundle": "dev-master"
+        "friendsofsymfony/oauth-server-bundle": "dev-master",
+       "avalanche123/imagine-bundle": "v2.1"
     },
     "scripts": {
         "post-install-cmd": [

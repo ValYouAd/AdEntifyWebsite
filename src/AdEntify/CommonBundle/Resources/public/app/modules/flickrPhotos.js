@@ -97,9 +97,9 @@ define([
             var images = [];
             _.each(checkedImages, function(image, index) {
                images[index] = {
-                  'source' : $(image).data('original-url'),
-                  'width' : $(image).data('original-width'),
-                  'height' : $(image).data('original-height'),
+                  'originalSource' : $(image).data('original-url'),
+                  'originalWidth' : $(image).data('original-width'),
+                  'originalHeight' : $(image).data('original-height'),
                   'title' : $(image).data('title'),
                   'id': $(image).data('service-photo-id')
                };
@@ -117,17 +117,31 @@ define([
                         if (response.sizes.size.length) {
                            var largerSize = null;
                            _.each(response.sizes.size, function(size) {
+                              width = parseInt(size.width);
+                              if (width == 1024) {
+                                 image.largeSource = size.source;
+                                 image.largeWidth = size.width;
+                                 image.largeHeight = size.height;
+                              } else if(width == 320) {
+                                 image.mediumSource = size.source;
+                                 image.mediumWidth = size.width;
+                                 image.mediumHeight = size.height;
+                              } else if (width == 150) {
+                                 image.smallSource = size.source;
+                                 image.smallWidth = size.width;
+                                 image.smallHeight = size.height;
+                              }
                               if (!largerSize) {
                                  largerSize = size;
                               } else {
-                                 if (parseInt(largerSize.width) < parseInt(size.width)) {
+                                 if (parseInt(largerSize.width) < width) {
                                     largerSize = size;
                                  }
                               }
                            });
-                           image.source = largerSize.source;
-                           image.width = largerSize.width;
-                           image.height = largerSize.height;
+                           image.originalSource = largerSize.source;
+                           image.originalWidth = largerSize.width;
+                           image.originalHeight = largerSize.height;
                         }
                      },
                      error : function() {

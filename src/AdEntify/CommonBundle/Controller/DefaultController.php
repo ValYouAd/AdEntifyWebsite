@@ -2,6 +2,8 @@
 
 namespace AdEntify\CommonBundle\Controller;
 
+use AdEntify\CoreBundle\Model\Thumb;
+use AdEntify\CoreBundle\Util\FileTools;
 use FOS\OAuthServerBundle\Event\OAuthEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

@@ -30,6 +30,8 @@ class AppKernel extends Kernel
 
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 
+            new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
+
             new AdEntify\UserBundle\AdEntifyUserBundle(),
             new AdEntify\CoreBundle\AdEntifyCoreBundle(),
             new AdEntify\CommonBundle\AdEntifyCommonBundle(),

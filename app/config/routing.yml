@@ -101,3 +101,7 @@ upload:
     prefix:   /
     options:
         expose: true
+
+_imagine:
+    resource: .
+    type:     imagine
