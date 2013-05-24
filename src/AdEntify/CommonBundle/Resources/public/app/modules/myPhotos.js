@@ -22,7 +22,8 @@ define([
 
    MyPhotos.Model = Backbone.Model.extend({
       initialize: function() {
-         this.set('original_url', app.rootUrl + '/uploads/photos/' + app.oauth.get('userId') + '/original/' + this.get('original_url'))
+         this.set('medium_url', app.rootUrl + '/uploads/photos/' + app.oauth.get('userId') + '/medium/' + this.get('medium_url'));
+         this.set('large_url', app.rootUrl + '/uploads/photos/' + app.oauth.get('userId') + '/large/' + this.get('large_url'));
       }
    });
 
