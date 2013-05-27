@@ -82,6 +82,11 @@ oauthuserinfo:
     options:
         expose: true
 
+security:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\SecurityController
+    options:
+        expose: true
 
 # OAuth
 fos_oauth_server_token:

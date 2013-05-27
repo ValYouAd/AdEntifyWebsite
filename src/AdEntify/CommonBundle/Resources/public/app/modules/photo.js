@@ -17,6 +17,13 @@ define([
          return Routing.generate('api_v1_get_photo');
       },
 
+      toJSON: function() {
+         return { photo: {
+            caption: this.get('caption'),
+            _token: this.get('_token')
+         }}
+      },
+
       fullSmallUrl: '',
       fullMediumUrl : '',
       fullLargeUrl : '',
@@ -74,7 +81,6 @@ define([
          var that = this;
          app.oauth.loadAccessToken(function() {
             that.options.photo.fetch({
-               headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                success: function() {
                   loaded = true;
                   app.trigger('domchange:title', that.options.photo.get('caption'));

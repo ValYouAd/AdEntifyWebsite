@@ -7,8 +7,13 @@
  */
 define([
    "app",
-   "modules/photo"
-], function(app, Photo) {
+   "isotope",
+   "jquery-ui",
+   "modernizer",
+   "infinitescroll",
+   "bootstrap",
+   "modules/tag"
+], function(app, Tag) {
 
    var MyPhotos = app.module();
    var openedContainer = null;
@@ -16,9 +21,33 @@ define([
    var lastImageContainer = null;
    var container = null;
    var currentPhotoOverlay = null;
+   var currentPhoto = null;
+
+   MyPhotos.Model = Backbone.Model.extend({
+      urlRoot: function() {
+         return Routing.generate('api_v1_get_photo');
+      },
+
+      fullSmallUrl: '',
+      fullMediumUrl : '',
+      fullLargeUrl : '',
+
+      toJSON: function() {
+         return { photo: {
+            caption: this.get('caption'),
+            _token: this.get('_token')
+         }}
+      },
+
+      initialize: function() {
+         this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/medium/' + this.get('medium_url'));
+         this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/large/' + this.get('large_url'));
+         this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/small/' + this.get('small_url'));
+      }
+   });
 
    MyPhotos.Collection = Backbone.Collection.extend({
-      model: Photo.Model,
+      model: MyPhotos.Model,
 
       cache: true,
 
@@ -76,10 +105,8 @@ define([
 
          // Click on photo overlay
          container.delegate('.photo-overlay', 'click', function() {
-            if ($('#dashboard').hasClass('view-mode')) {
-               lastImage = $(this).siblings('img[data-type="medium"]');
-               that.clickOnPhoto(lastImage);
-            }
+            lastImage = $(this).siblings('img[data-type="medium"]');
+            that.clickOnPhoto(lastImage);
          });
       },
 
@@ -141,8 +168,8 @@ define([
          this.updateMenuTools(image.data("id"));
 
          if (parentDiv) {
-            openedContainer = parentDiv;
-            lastImageContainer = parentDiv;
+            openedContainer = containerDiv;
+            lastImageContainer = containerDiv;
 
             var largeImage = parentDiv.children("img[data-type='large']");
             // Check if large image is already loaded
@@ -186,8 +213,20 @@ define([
       },
 
       updateMenuTools: function(photoId) {
-         $currentPhoto = this.options.photos.get(photoId);
-         $('#menu-tools #photo-caption').val($currentPhoto.get('caption'));
+         currentPhoto = this.options.photos.get(photoId);
+         $('#menu-tools #photo-caption').val(currentPhoto.get('caption'));
+      },
+
+      submitPhotoDetails: function() {
+         if (currentPhoto) {
+            currentPhoto.set('caption', $('#menu-tools #photo-caption').val());
+            currentPhoto.getToken('photo_item', function() {
+               currentPhoto.url = Routing.generate('api_v1_get_photo', { id: currentPhoto.get('id')});
+               currentPhoto.save();
+               var btn = $('#form-details button[type="submit"]');
+               btn.button('reset');
+            });
+         }
       },
 
       initialize: function() {
@@ -198,9 +237,11 @@ define([
          app.on('global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
          });
+         app.on('myPhotos:submitPhotoDetails', this.submitPhotoDetails);
       }
    });
 
+   // Ticker (List of photos)
    MyPhotos.Views.Ticker = Backbone.View.extend({
       template: "common/tickerPhotoList",
 
@@ -216,14 +257,6 @@ define([
          }, this);
       },
 
-      afterRender: function () {
-         if (this.options.tagged) {
-            $('#ticker-photos-title').html('Mes photos non taguées');
-         } else {
-            $('#ticker-photos-title').html('Mes photos taguées');
-         }
-      },
-
       initialize: function() {
          this.listenTo(this.options.tickerPhotos, {
             "sync": this.render
@@ -231,6 +264,7 @@ define([
       }
    });
 
+   // Ticker item (Photo)
    MyPhotos.Views.TickerItem = Backbone.View.extend({
       template: "common/tickerPhotoItem",
 
@@ -245,6 +279,7 @@ define([
       }
    });
 
+   // Menu Tools
    MyPhotos.Views.MenuTools = Backbone.View.extend({
       template: "myPhotos/menuTools",
 
@@ -272,22 +307,35 @@ define([
       },
 
       addTagHandler: function(e) {
-         var xPosition = e.offsetX / e.currentTarget.clientWidth;
-         var yPosition = e.offsetY / e.currentTarget.clientHeight;
+         var tagRadius = 12.5;
+         var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
+         var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
 
          // Add new tag
          tag = document.createElement("div");
-         tag.innerHTML = '<i class="icon-tag"></i>';
+         /*tag.innerHTML = '<i class="icon-tag icon-white"></i>';*/
          tag.setAttribute('style', 'left: ' + xPosition*100 + '%; top: ' + yPosition*100  + '%');
          tag.setAttribute('class', 'tag');
          $(tag).appendTo(currentPhotoOverlay);
-         app.useLayout().setView("#menu-tools .form", new MyPhotos.Views.AddTagForm()).render();
+         app.useLayout().setView("#menu-tools .form", new Tag.Views.AddTagForm()).render();
+      },
+
+      // Detail Form Submit
+      submitPhotoDetails: function(e) {
+         e.preventDefault();
+         // Validate
+         if ($('#photo-caption').val()) {
+            var btn = $('#form-details button[type="submit"]');
+            btn.button('loading');
+            app.trigger('myPhotos:submitPhotoDetails');
+         }
       },
 
       events: {
          "click .close": "close",
          "click #add-tag": "addTag",
-         "click .cancel": "close"
+         "click .cancel": "close",
+         "click #form-details button[type='submit']": "submitPhotoDetails"
       }
    });
 

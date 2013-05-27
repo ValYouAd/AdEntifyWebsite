@@ -3,14 +3,67 @@ require([
   "app",
 
   // Main Router.
-  "router"
+  "router",
+
+   // App State
+   "modules/appState"
 ],
 
-function(app, Router) {
+function(app, Router, AppState) {
 
   // Define your master router on the application namespace and trigger all
   // navigation from this instance.
   app.router = new Router();
+
+   // Extend App
+   _.extend(app, {
+      appState: function() {
+         if (typeof(this.appstate) == 'undefined')
+            this.appstate = new AppState.Model();
+         return this.appstate;
+      }
+   });
+
+   // Extend Backbone Model
+   _.extend(Backbone.Model.prototype, {
+      sync: function(method, model, options) {
+         if (!options.headers) {
+            app.oauth.loadAccessToken(function() {
+               options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
+            });
+         }
+         return Backbone.sync(method, model, options);
+      },
+
+      getToken: function(intention, callback) {
+         var that = this;
+         app.oauth.loadAccessToken(function() {
+            $.ajax({
+               headers : {
+                  "Authorization": app.oauth.getAuthorizationHeader()
+               },
+               url: Routing.generate('api_v1_get_csrftoken', { intention: intention}),
+               success: function(data) {
+                  that.set('_token', data);
+                  if (callback)
+                     callback();
+               }
+            });
+         });
+      }
+   });
+
+   // Extend Backbone Collection
+   _.extend(Backbone.Collection.prototype, {
+      sync: function(method, collection, options) {
+         if (!options.headers) {
+            app.oauth.loadAccessToken(function() {
+               options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
+            });
+         }
+         return Backbone.sync(method, collection, options);
+      }
+   });
 
    // Extend Backbone View
    _.extend(Backbone.View.prototype, {
