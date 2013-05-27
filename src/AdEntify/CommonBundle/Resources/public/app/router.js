@@ -130,14 +130,11 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             })
          });
 
-         var that = this;
-         app.oauth.loadAccessToken(function() {
-            that.myPhotos.fetch({
-               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
-            });
-            that.myTickerPhotos.fetch({
-               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
-            });
+         this.myPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
+         });
+         this.myTickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
          });
       },
 
@@ -154,14 +151,11 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             })
          });
 
-         var that = this;
-         app.oauth.loadAccessToken(function() {
-            that.myPhotos.fetch({
-               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
-            });
-            that.myTickerPhotos.fetch({
-               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
-            });
+         this.myPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
+         });
+         this.myTickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
          });
       },
 
@@ -244,11 +238,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             })
          });
 
-         var that = this;
-         app.oauth.loadAccessToken(function() {
-            that.myTickerPhotos.fetch({
-               url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
-            });
+         this.myTickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
          });
       },
 

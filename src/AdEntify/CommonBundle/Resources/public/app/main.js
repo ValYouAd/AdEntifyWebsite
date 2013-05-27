@@ -30,9 +30,11 @@ function(app, Router, AppState) {
          if (!options.headers) {
             app.oauth.loadAccessToken(function() {
                options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
+               return Backbone.sync(method, model, options);
             });
+         } else {
+            return Backbone.sync(method, model, options);
          }
-         return Backbone.sync(method, model, options);
       },
 
       getToken: function(intention, callback) {
@@ -59,9 +61,11 @@ function(app, Router, AppState) {
          if (!options.headers) {
             app.oauth.loadAccessToken(function() {
                options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
+               return Backbone.sync(method, collection, options);
             });
+         } else {
+            return Backbone.sync(method, collection, options);
          }
-         return Backbone.sync(method, collection, options);
       }
    });
 

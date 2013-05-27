@@ -7,12 +7,12 @@
  */
 define([
    "app",
+   "modules/tag",
    "isotope",
    "jquery-ui",
    "modernizer",
    "infinitescroll",
-   "bootstrap",
-   "modules/tag"
+   "bootstrap"
 ], function(app, Tag) {
 
    var MyPhotos = app.module();
@@ -283,41 +283,32 @@ define([
    MyPhotos.Views.MenuTools = Backbone.View.extend({
       template: "myPhotos/menuTools",
 
+      initialize: function() {
+         app.on('tagMenuTools:cancel', this.showTools);
+      },
+
       close: function() {
-         this.unloadTagging();
          app.trigger('global:closeMenuTools');
       },
 
       addTag: function() {
-         $photo = $('#photos-grid .large');
-         currentPhotoOverlay = $photo.find('.photo-overlay');
-         this.setupTagging();
+         app.useLayout().setView("#tool-details", new Tag.Views.MenuTools({
+            tags: new Tag.Collection()
+         })).render();
+         app.trigger('tagMenuTools:addTag');
+         this.hideTools();
       },
 
-      setupTagging: function() {
-         currentPhotoOverlay.css({ cursor: 'crosshair'});
-         currentPhotoOverlay.bind('click', this.addTagHandler);
+      hideTools: function() {
+         $('#tools').fadeOut('fast', function() {
+            $('#tool-details').fadeIn('fast');
+         });
       },
 
-      unloadTagging: function() {
-         if (currentPhotoOverlay) {
-            currentPhotoOverlay.css({ cursor: 'pointer'});
-            currentPhotoOverlay.unbind('click', this.addTagHandler);
-         }
-      },
-
-      addTagHandler: function(e) {
-         var tagRadius = 12.5;
-         var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
-         var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
-
-         // Add new tag
-         tag = document.createElement("div");
-         /*tag.innerHTML = '<i class="icon-tag icon-white"></i>';*/
-         tag.setAttribute('style', 'left: ' + xPosition*100 + '%; top: ' + yPosition*100  + '%');
-         tag.setAttribute('class', 'tag');
-         $(tag).appendTo(currentPhotoOverlay);
-         app.useLayout().setView("#menu-tools .form", new Tag.Views.AddTagForm()).render();
+      showTools: function() {
+         $('#tool-details').fadeOut('fast', function() {
+            $('#tools').fadeIn('fast');
+         });
       },
 
       // Detail Form Submit
@@ -334,7 +325,6 @@ define([
       events: {
          "click .close": "close",
          "click #add-tag": "addTag",
-         "click .cancel": "close",
          "click #form-details button[type='submit']": "submitPhotoDetails"
       }
    });

@@ -140,26 +140,28 @@ ul#photos-grid li div.photo-overlay {
     height: 100%;
     cursor: pointer;
 }
+ul#photos-grid li div.photo-overlay ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul#photos-grid li div.photo-overlay li {
+    margin: 0;
+    padding: 0;
+}
 ul#photos-grid li div.photo-overlay .tag {
     position: absolute;
     background: rgba(0,0,0,0.9);
     width: 25px;
     height: 25px;
     border-radius: 12.5px;
-    -webkit-animation: smallerCircle 0.5s ease;
-       -moz-animation: smallerCircle 0.5s ease;
-        -ms-animation: smallerCircle 0.5s ease;
-         -o-animation: smallerCircle 0.5s ease;
-            animation: smallerCircle 0.5s ease;
 }
-ul#photos-grid li div.photo-overlay .tag:hover {
-    zoom: 1.2; /* IE */
-    -moz-transform: scale(1.2); /* Firefox */
-    -moz-transform-origin: 0 0;
-    -o-transform: scale(1.2); /* Opera */
-    -o-transform-origin: 0 0;
-    -webkit-transform: scale(1.2); /* Safari And Chrome */
-    -webkit-transform-origin: 0 0;
+ul#photos-grid li div.photo-overlay .new-tag {
+    -webkit-animation: smallerCircle 0.5s ease;
+    -moz-animation: smallerCircle 0.5s ease;
+    -ms-animation: smallerCircle 0.5s ease;
+    -o-animation: smallerCircle 0.5s ease;
+    animation: smallerCircle 0.5s ease;
 }
 @keyframes smallerCircle {
     from {
