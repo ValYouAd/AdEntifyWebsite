@@ -26,14 +26,15 @@ require.config({
      },
      "bootstrap": {
         "deps": [
+           "jquery-ui",
            "jquery"
         ]
      },
      "Backbone": {
         "deps": [
+           "jquery",
            "facebook",
-           "bootstrap",
-           "jquery"
+           "bootstrap"
         ]
      },
      "jquery-ui": {

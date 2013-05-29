@@ -2,21 +2,37 @@
     <fieldset>
         <legend>Ajouter un tag</legend>
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#person" data-toggle="tab" data-bypass="">Personne</a></li>
+            <li class="active"><a href="#product" data-toggle="tab" data-bypass="">Produit</a></li>
             <li><a href="#venue" data-toggle="tab" data-bypass="">Lieu</a></li>
-            <li><a href="#product" data-toggle="tab" data-bypass="">Produit</a></li>
+            <li><a href="#person" data-toggle="tab" data-bypass="">Personne</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="person">
-                Personne
+            <div class="tab-pane active" id="product">
+                <label>Entrez le nom de votre produit</label>
+                <input id="product-text" name="product-text" type="text" placeholder="Nom de votre produit">
+                <label id="product-description" name="product-description">Description de votre produit</label>
+                <textarea></textarea>
+                <p><button type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> Ajouter le produit</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
             </div>
             <div class="tab-pane" id="venue">
-                Lieu
+                <p id="support-geolocation">
+                    <span><small>Vous cherchez un lieu autour de vous ? Améliorez la pertinence de votre recherche.</small></span><br>
+                    <button class="btn btn-info btn-geolocation" data-loading-text="récupération de votre localisation..."><i class="icon-map-marker icon-white"></i> Utiliser ma géolocalisation</button>
+                </p>
+                <p id="not-support-geolocation" class="fadeOut">Votre navigateur ne supporte pas la géolocalisation.</p>
+                <label>Entrez le nom de votre lieu <i class="icon-refresh fadeOut rotate" id="loading-venue"></i></label>
+                <input id="venue-text" autocomplete="off" data-provide="typeahead" type="text" placeholder="Monument, restaurant, adresse...">
+                <label>Description de votre lieu</label>
+                <textarea id="venue-description"></textarea>
+                <label>Lien</label>
+                <input id="venue-link" type="text">
+                <p><button  type="submit" class="btn btn-success btn-small"><i class="icon-ok icon-white"></i> Valider ce lieu et ajouter le tag</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
             </div>
-            <div class="tab-pane" id="product">
-                Produit
+            <div class="tab-pane" id="person">
+                <label>Entrez le prénom ou le nom de la personne que vous souhaiter taguer</label>
+                <input id="person-text" type="text" placeholder="Prénom, nom...">
+                <p><button type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> Ajouter la personne</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
             </div>
         </div>
-        <p><button class="btn btn-success btn-small"><i class="icon-ok icon-white"></i> Valider</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
     </fieldset>
 </form>

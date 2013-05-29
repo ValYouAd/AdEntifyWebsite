@@ -88,6 +88,12 @@ security:
     options:
         expose: true
 
+venue:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\VenuesController
+    options:
+        expose: true
+
 # OAuth
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"

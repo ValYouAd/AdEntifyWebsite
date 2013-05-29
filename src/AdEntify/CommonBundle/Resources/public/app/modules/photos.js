@@ -108,8 +108,6 @@ define([
       clickOnPhoto: function(imageClicked) {
          // Already in edit mode
          if (imageClicked.data('type') == 'large') {
-            $("#dashboard").toggleClass('edit-mode view-mode');
-            $("#ticker").switchClass("span1", "span3");
             // Resize to medium size
             this.resizeToMediumSize(imageClicked, true);
             openedContainer = null;
@@ -119,11 +117,6 @@ define([
                this.resizeToMediumSize(openedContainer.children("img[data-type='large']"));
             }
             if (!openedContainer) {
-               $("#dashboard").toggleClass('edit-mode view-mode');
-               $('#ticker').switchClass("span3", "span1");
-               if (!Modernizr.csstransitions) {
-                  $('#menu-tools').animate({left: "157.4%"});
-               }
                // Resize to large size
                this.resizeToLargeSize(imageClicked);
             } else {

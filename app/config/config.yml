@@ -198,3 +198,9 @@ avalanche_imagine:
         large:
             type:    thumbnail
             options: { size: [1024, 9999], mode: inset, quality: 100 }
+
+# AdEntify Core
+ad_entify_core:
+    foursquare:
+        client_id:     "FTCUYTRQ5C4TMDYBAYB4PVVQEKMSG2HCDYNXKD2MHHURLPEZ"
+        client_secret: "1I2D3YVPIN2RFPCMTLER5TROVTTZVBT4KT1ML3PTUBLMFYR1"

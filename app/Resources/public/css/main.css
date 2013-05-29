@@ -59,12 +59,14 @@ section#content {
     -o-transform: translatex(100%);
     transform: translatex(100%);
 }
-#tools {
-    list-style-type: none;
-}
-#tools li {
-    margin: 10px 0px;
-}
+    #tools {
+        list-style-type: none;
+    }
+    #tools li {
+        margin: 10px 0px;
+    }
+
+/* Smartphone */
 @media (max-width:767px){
     #menu-tools {
         display: none;
@@ -401,6 +403,62 @@ ul#ticker-photos {
 ----------------------- */
 .fadeOut {
     display: none;
+}
+.mt1 {
+    margin-top: 10px;
+}
+.mt2 {
+    margin-top: 20px;
+}
+.mt3 {
+    margin-top: 30px;
+}
+.rotate {
+    -webkit-animation: rotate 1s linear infinite;
+    -moz-animation: rotate 1s linear infinite;
+    -ms-animation: rotate 1s linear infinite;
+    -o-animation: rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
+}
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@-moz-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@-ms-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@-o-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
 }
 
 /*

@@ -7,17 +7,26 @@
  */
 define([
    "app",
-   "bootstrap"
+   "bootstrap",
+   "modernizer"
 ], function(app) {
 
    var Tag = app.module();
    var currentPhotoOverlay = null;
    var currentTag = null;
    var tags = null;
+   var currentVenues = {};
+   var currentVenue = null;
 
    Tag.Model = Backbone.Model.extend({
       urlRoot: function() {
          return Routing.generate('api_v1_get_tag');
+      },
+
+      toJSON: function() {
+         var jsonAttributes = this.attributes;
+         delete jsonAttributes.class;
+         return { tag: jsonAttributes }
       }
    });
 
@@ -81,6 +90,7 @@ define([
       },
 
       cancel: function() {
+         this.unloadTagging();
          app.trigger('tagMenuTools:cancel');
       },
 
@@ -110,9 +120,9 @@ define([
          var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
          var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
 
-         // Remove tags arent validated
+         // Remove tags arent persisted
          tags.each(function(tag) {
-            if (!tag.has('validated')) {
+            if (!tag.has('persisted')) {
                tags.remove(tag);
             }
          });
@@ -143,24 +153,122 @@ define([
    Tag.Views.AddTagForm = Backbone.View.extend({
       template: "tag/addForm",
 
+      afterRender: function() {
+         // Tabs
+         $('.nav-tabs a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+         });
+
+         // Venue
+         if (!Modernizr.geolocation) {
+            $('#support-geolocation').fadeOut('fast', function() {
+               $('#not-support-geolocation').fadeIn('fast');
+            })
+         }
+         $('#venue-text').typeahead({
+            source: function(query, process) {
+               $('#loading-venue').css({'display': 'inline-block'});
+               app.oauth.loadAccessToken(function() {
+                  var url = Routing.generate('api_v1_get_venue_search', { query: query });
+                  if (app.appState().getCurrentPosition()) {
+                     url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
+                  }
+                  $.ajax({
+                     url: url,
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     data: {
+                        radius: 3000
+                     },
+                     success: function(data) {
+                        if (typeof data !== undefined && data.length > 0) {
+                           var venues = []
+                           currentVenues = {};
+                           _.each(data, function(venue) {
+                              venues.push(venue.name);
+                              currentVenues[venue.name] = venue;
+                           });
+                           process(venues);
+                        }
+                        $('#loading-venue').fadeOut(200);
+                     }
+                  });
+               });
+            },
+            minLength: 2,
+            items: 10,
+            updater: function(selectedItem) {
+               currentVenue = currentVenues[selectedItem];
+               $('#venue-link').val(currentVenue.link ? currentVenue.link : currentVenue.foursquare_short_link);
+               return selectedItem;
+            }
+         });
+      },
+
       cancel: function(e) {
          e.preventDefault();
          // Remove current tag
          if (currentTag)
             tags.remove(currentTag);
+         app.appState().set('currentPosition', '');
          // Hide form
          app.trigger('tagMenuTools:cancel');
       },
 
-      afterRender: function() {
-         $('.nav-tabs a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-         })
+      geolocation: function(e) {
+         e.preventDefault();
+         if (Modernizr.geolocation) {
+            var btn = $('.btn-geolocation');
+            btn.button('loading');
+            navigator.geolocation.getCurrentPosition(function(position) {
+               app.appState().set('currentPosition', position);
+               btn.button('reset');
+               $('#support-geolocation').html('<div class="alert fade in alert-success"><small>Nous venons de vous <strong>géolocaliser avec succès.</strong></small></div>');
+            });
+         }
+      },
+
+      submit: function(e) {
+         e.preventDefault();
+         $activePane = $('.tab-content .active');
+
+         switch ($activePane.attr('id')) {
+            case 'product':
+               break;
+            case 'venue':
+               if (currentVenue && currentTag && $('#venue-link').val()) {
+                  // Set venue info
+                  currentVenue.link = $('#venue-link').val();
+                  currentVenue.description = $('#venue-description').val();
+                  // TODO: Get foursquare link
+                  // Link tag to photo
+                  //currentTag.set('photo', app.appState().getCurrentPhotoModel());
+                  // Set tag info
+                  currentTag.set('type', 'place');
+                  //currentTag.set('venue', currentVenue);
+                  currentTag.set('title', currentVenue.name);
+                  currentTag.set('description', currentVenue.description);
+                  currentTag.set('link', currentVenue.link);
+                  currentTag.url = Routing.generate('api_v1_post_tag');
+                  currentTag.getToken('tag_item', function() {
+                     currentTag.save().done(function(data) {
+                        // Flag tag to persisted
+                        currentTag.set('persisted', '');
+                     }).fail(function(textStatus, errorThrown) {
+                           // TODO: show alert
+                        });
+                  });
+               }
+               break;
+            case 'person':
+               break;
+         }
       },
 
       events: {
-         "click .cancel-add-tag": "cancel"
+         "click .cancel-add-tag": "cancel",
+         "click .btn-geolocation": "geolocation",
+         "submit": "submit"
       }
    });
 

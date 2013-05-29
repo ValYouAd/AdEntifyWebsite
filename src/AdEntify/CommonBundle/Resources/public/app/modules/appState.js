@@ -5,13 +5,18 @@ define([
    var AppState = app.module();
 
    AppState.Model = Backbone.Model.extend({
-      defaults: {
-         currentPhotoModel: null
+      getCurrentPhotoModel: function() {
+         if (this.has('currentPhotoModel') && typeof this.get('currentPhotoModel') !== 'undefined'
+            && this.get('currentPhotoModel')) {
+            return this.get('currentPhotoModel');
+         } else
+            return false;
       },
 
-      getCurrentPhotoModel: function() {
-         if (typeof(this.get('currentPhotoModel')) != 'undefined') {
-            return this.get('currentPhotoModel');
+      getCurrentPosition: function() {
+         if (this.has('currentPosition') && typeof this.get('currentPosition') !== 'undefined'
+            && this.get('currentPosition')) {
+            return this.get('currentPosition');
          } else
             return false;
       }

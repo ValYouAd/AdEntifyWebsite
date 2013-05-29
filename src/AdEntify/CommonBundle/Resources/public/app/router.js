@@ -45,7 +45,6 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             cookie     : true,
             oauth      : true
          });
-
          FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                app.fb.connected(response);
@@ -70,6 +69,13 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          };
          _.extend(this, collections);
 
+         // Nav current
+         $('.nav a').click(function() {
+            $(this).parent().siblings('.active').removeClass('active');
+            $(this).parent().addClass('active');
+         });
+
+         // Dom events
          app.on('domchange:title', this.onDomChangeTitle, this);
       },
 

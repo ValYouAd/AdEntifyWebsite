@@ -11,8 +11,7 @@ define([
    "isotope",
    "jquery-ui",
    "modernizer",
-   "infinitescroll",
-   "bootstrap"
+   "infinitescroll"
 ], function(app, Tag) {
 
    var MyPhotos = app.module();
@@ -71,7 +70,7 @@ define([
    });
 
    MyPhotos.Views.Content = Backbone.View.extend({
-      template: "photos/content",
+      template: "myPhotos/content",
 
       serialize: function() {
          return { collection: this.options.photos };
@@ -326,17 +325,6 @@ define([
          "click .close": "close",
          "click #add-tag": "addTag",
          "click #form-details button[type='submit']": "submitPhotoDetails"
-      }
-   });
-
-   MyPhotos.Views.AddTagForm = Backbone.View.extend({
-      template: "myPhotos/addTagForm",
-
-      afterRender: function() {
-         $('.nav-tabs a').click(function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-         })
       }
    });
 
