@@ -17,9 +17,7 @@ define([
       },
 
       toJSON: function() {
-         var jsonAttributes = this.attributes;
-         delete jsonAttributes.class;
-         return { venue: jsonAttributes }
+         return { venue: this.attributes }
       },
 
       entityToModel: function(venueEntity) {
@@ -30,6 +28,12 @@ define([
          this.set('link', venueEntity.link);
          this.set('lat', venueEntity.lat);
          this.set('lng', venueEntity.lng);
+         this.set('address', venueEntity.address);
+         this.set('postalCode', venueEntity.postal_code);
+         this.set('city', venueEntity.city);
+         this.set('state', venueEntity.state);
+         this.set('country', venueEntity.country);
+         this.set('cc', venueEntity.cc);
       }
    });
 

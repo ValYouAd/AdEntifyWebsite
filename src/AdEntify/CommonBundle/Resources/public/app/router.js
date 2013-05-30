@@ -98,14 +98,20 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
 
          app.useLayout().setViews({
             "#content": new Photos.Views.Content({
-               tagged: true,
                photos: this.photos
             }),
-            "#menu-right": new Photos.Views.Ticker(),
-            "#menu-tools": new Photos.Views.MenuTools()
+            "#menu-right": new Photos.Views.Ticker({
+               tickerPhotos: this.tickerPhotos,
+               tagged: false
+            })
          }).render();
 
-         this.photos.fetch();
+         this.photos.fetch({
+            url: Routing.generate('api_v1_get_photos', { tagged: true })
+         });
+         this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photos', { tagged: false })
+         });
       },
 
       untagged: function() {
@@ -113,14 +119,20 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
 
          app.useLayout().setViews({
             "#content": new Photos.Views.Content({
-               tagged: false,
                photos: this.photos
             }),
-            "#menu-right": new Photos.Views.Ticker(),
-            "#menu-tools": new Photos.Views.MenuTools()
+            "#menu-right": new Photos.Views.Ticker({
+               tickerPhotos: this.tickerPhotos,
+               tagged: true
+            })
          }).render();
 
-         this.photos.fetch();
+         this.photos.fetch({
+            url: Routing.generate('api_v1_get_photos', { tagged: false })
+         });
+         this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photos', { tagged: true })
+         });
       },
 
       meTagged: function() {

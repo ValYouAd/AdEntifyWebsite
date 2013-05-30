@@ -1,3 +1,6 @@
 <div class="photo medium">
-    <img src="<%= model.get("media")["m"] %>" data-type="medium" data-large-width="800" data-large-url="<%= model.get("media")["m"].replace("_m.", "_c.") %>" />
+    <div class="photo-container">
+        <div class="photo-overlay"></div>
+        <img src="<%= model.get("fullMediumUrl") %>" data-id="<%= model.get("id") %>" data-type="medium" data-large-width="<%= model.get("large_width") %>" data-large-url="<%= model.get("fullLargeUrl") %>" />
+    </div>
 </div>

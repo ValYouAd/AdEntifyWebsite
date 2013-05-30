@@ -19,19 +19,25 @@ define([
    var lastImageContainer = null;
    var container = null;
 
-   Photos.Model = Backbone.Model.extend({ });
+   Photos.Model = Backbone.Model.extend({
+      fullSmallUrl: '',
+      fullMediumUrl : '',
+      fullLargeUrl : '',
+
+      initialize: function() {
+         this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/medium/' + this.get('medium_url'));
+         this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/large/' + this.get('large_url'));
+         this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/small/' + this.get('small_url'));
+      }
+   });
 
    Photos.Collection = Backbone.Collection.extend({
       model: Photos.Model,
 
-      url: function() {
-         return "http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?";
-      },
-
       cache: true,
 
       parse: function(obj) {
-         return obj.items;
+         return obj;
       }
    });
 
@@ -78,24 +84,6 @@ define([
                $('#photos-grid').css({visibility: 'visible'});
                $('#photos-grid').animate({'opacity': '1.0'});
             });
-
-            /*// Setup infinite scroll
-            container.infinitescroll({
-                  navSelector  : '#infinite-scroll',    // selector for the paged navigation
-                  nextSelector : '#infinite-scroll a',  // selector for the NEXT link (to page 2)
-                  itemSelector : 'li',     // selector for all items you'll retrieve
-                  loading: {
-                     finishedMsg: 'No more pages to load.',
-                     img: 'http://i.imgur.com/qkKy8.gif'
-                  },
-                  debug: true
-               },
-               // call Isotope as a callback
-               function( newElements ) {
-                  alert('toto');
-                  container.isotope( 'appended', $( newElements ) );
-               }
-            );*/
          });
 
          // Click on photo
@@ -204,27 +192,41 @@ define([
       }
    });
 
+   // Ticker (List of photos)
    Photos.Views.Ticker = Backbone.View.extend({
-      template: "photos/ticker",
+      template: "common/tickerPhotoList",
 
       serialize: function() {
-         return {};
+         return { collection: this.options.tickerPhotos };
+      },
+
+      beforeRender: function() {
+         this.options.tickerPhotos.each(function(photo) {
+            this.insertView("#ticker-photos", new Photos.Views.TickerItem({
+               model: photo
+            }));
+         }, this);
+      },
+
+      initialize: function() {
+         this.listenTo(this.options.tickerPhotos, {
+            "sync": this.render
+         });
       }
    });
 
-   Photos.Views.MenuTools = Backbone.View.extend({
-      template: "photos/menuTools",
+   // Ticker item (Photo)
+   Photos.Views.TickerItem = Backbone.View.extend({
+      template: "common/tickerPhotoItem",
+
+      tagName: "li",
 
       serialize: function() {
-         return {};
+         return { model: this.model };
       },
 
-      close: function() {
-         app.trigger('global:closeMenuTools');
-      },
-
-      events: {
-         "click .close": "close"
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
       }
    });
 
