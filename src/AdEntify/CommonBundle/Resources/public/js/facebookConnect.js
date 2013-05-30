@@ -1,8 +1,7 @@
 function facebookConnect() {
-
    $('#authent-container').fadeOut('fast', function() {
       $('#loading').fadeIn('fast');
-   })
+   });
 
    FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
@@ -14,7 +13,7 @@ function facebookConnect() {
             } else {
                // cancelled
             }
-         });
+         }, {scope: facebookPermissions});
       } else {
          FB.login(function(response) {
             if (response.authResponse) {
@@ -22,7 +21,7 @@ function facebookConnect() {
             } else {
                // cancelled
             }
-         });
+         }, {scope: facebookPermissions});
       }
    });
 }

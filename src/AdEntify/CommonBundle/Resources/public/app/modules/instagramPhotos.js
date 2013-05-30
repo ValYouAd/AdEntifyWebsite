@@ -66,47 +66,49 @@ define([
          var that = this;
 
          // Get instagram token
-         app.oauth.loadAccessToken(function() {
-            $.ajax({
-               url: Routing.generate('api_v1_get_oauthuserinfos'),
-               headers : {
-                  "Authorization": app.oauth.getAuthorizationHeader()
-               },
-               success: function(data) {
-                  if (!data || data.error) {
-                     error = data.error;
-                  } else {
-                     var instagramOAuthInfos = _.find(data, function(service) {
-                        if (service.service_name == 'instagram') {
-                           return true;
-                        } else { return false; }
-                     });
-                     // Connect to Instagram API
-                     if (instagramOAuthInfos) {
-                        $.ajax({
-                           url: 'https://api.instagram.com/v1/users/' + instagramOAuthInfos.service_user_id + '/media/recent/?access_token='
-                              + instagramOAuthInfos.service_access_token,
-                           dataType: 'jsonp',
-                           success: function(response) {
-                              var photos = [];
-                              for (var i= 0, l=response.data.length; i<l; i++) {
-                                 photos[i] = response.data[i];
-                              }
-                              that.options.photos.add(photos);
-                           },
-                           error : function() {
-                              console.log('impossible de récupérer les photos instagram');
-                           }
-                        })
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_get_oauthuserinfos'),
+                  headers : {
+                     "Authorization": app.oauth.getAuthorizationHeader()
+                  },
+                  success: function(data) {
+                     if (!data || data.error) {
+                        error = data.error;
                      } else {
-                        // TODO error : pas de token instagram
+                        var instagramOAuthInfos = _.find(data, function(service) {
+                           if (service.service_name == 'instagram') {
+                              return true;
+                           } else { return false; }
+                        });
+                        // Connect to Instagram API
+                        if (instagramOAuthInfos) {
+                           $.ajax({
+                              url: 'https://api.instagram.com/v1/users/' + instagramOAuthInfos.service_user_id + '/media/recent/?access_token='
+                                 + instagramOAuthInfos.service_access_token,
+                              dataType: 'jsonp',
+                              success: function(response) {
+                                 var photos = [];
+                                 for (var i= 0, l=response.data.length; i<l; i++) {
+                                    photos[i] = response.data[i];
+                                 }
+                                 that.options.photos.add(photos);
+                              },
+                              error : function() {
+                                 console.log('impossible de récupérer les photos instagram');
+                              }
+                           })
+                        } else {
+                           // TODO error : pas de token instagram
+                        }
                      }
+                  },
+                  error: function() {
+                     error = 'Can\'t get instagram token.';
                   }
-               },
-               error: function() {
-                  error = 'Can\'t get instagram token.';
-               }
-            });
+               });
+            }
          });
       },
 

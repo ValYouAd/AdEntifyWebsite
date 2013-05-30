@@ -13,6 +13,14 @@ define([
             return false;
       },
 
+      getCurrentPhotoId: function() {
+         if (this.has('currentPhotoId') && typeof this.get('currentPhotoId') !== 'undefined'
+            && this.get('currentPhotoId')) {
+            return this.get('currentPhotoId');
+         } else
+            return false;
+      },
+
       getCurrentPosition: function() {
          if (this.has('currentPosition') && typeof this.get('currentPosition') !== 'undefined'
             && this.get('currentPosition')) {

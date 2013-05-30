@@ -21,7 +21,7 @@
 
             <div id="loading" class="loading-gif-container hide">
                 <div class="loading-gif"></div>
-                <p><em class="small muted">Connexion en cours...</em></p>
+                <p><em class="small muted">Connexion à Facebook en cours...</em></p>
             </div>
             <div id="authent-container" class="row-fluid">
                 <div class="span6">
@@ -63,6 +63,7 @@
 {% block javascripts %}
     <script>
         var channelUrl = '{{ asset('channel.html') }}';
+        var facebookPermissions = '{{ facebook_permissions }}';
     </script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>

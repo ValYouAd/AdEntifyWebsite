@@ -30,13 +30,8 @@ assetic:
     debug:          %kernel.debug%
     use_controller: false
     bundles:        [ 'AdEntifyCommonBundle' ]
-    #java: /usr/bin/java
     filters:
         cssrewrite: ~
-        #closure:
-        #    jar: %kernel.root_dir%/Resources/java/compiler.jar
-        #yui_css:
-        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
 
 # Doctrine Configuration
 doctrine:
@@ -48,9 +43,6 @@ doctrine:
         user:     %database_user%
         password: %database_password%
         charset:  UTF8
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
-        # e.g. database_path: %kernel.root_dir%/data/data.db3
-        # path:     %database_path%
 
     orm:
         auto_generate_proxy_classes: %kernel.debug%
@@ -120,17 +112,17 @@ sensio_framework_extra:
 # Facebook
 fos_facebook:
     alias:  facebook
-    app_id: 159587157398776
-    secret: 6465372f50a4b1e570cfe4ce7fd62cca
+    app_id: %facebook_app_id%
+    secret: %facebook_secret%
     cookie: true
-    permissions: [email, user_birthday, user_photos, friends_photos, read_friendlists]
+    permissions: [%facebook_permissions%]
     culture:     fr_FR
 
 # Twitter
 fos_twitter:
     file:
-    consumer_key:    mzKZ8anZeGddPOgVWnQ
-    consumer_secret: d27XZ9UpNyowFiLpugC1EhC8xwdQlwcwtrkTHIXE
+    consumer_key:    %twitter_consumer_key%
+    consumer_secret: %twitter_consumer_secret%
     callback_route:  "_security_check_twitter"
 
 fos_user:
@@ -163,13 +155,35 @@ services:
 
 # General parameters
 parameters:
-    contact_email: contact@adentify.com
-    from_email:    no-reply@adentify.com
+    contact_email:            contact@adentify.com
+    from_email:               no-reply@adentify.com
+    instagram_client_id:      db51217592cf490aab08224763fc6cea
+    instagram_client_secret:  48017f2c3cf441d6996ca7813e1abeb9
+    flickr_client_id:         370e2e2f28c0ca81fd6a5a336a6e2c89
+    flickr_client_secret:     6084b60c02b4c8fc
+    foursquare_client_id:     FTCUYTRQ5C4TMDYBAYB4PVVQEKMSG2HCDYNXKD2MHHURLPEZ
+    foursquare_client_secret: 1I2D3YVPIN2RFPCMTLER5TROVTTZVBT4KT1ML3PTUBLMFYR1
+    twitter_consumer_key:     mzKZ8anZeGddPOgVWnQ
+    twitter_consumer_secret:  d27XZ9UpNyowFiLpugC1EhC8xwdQlwcwtrkTHIXE
+    facebook_app_id:          159587157398776
+    facebook_secret:          6465372f50a4b1e570cfe4ce7fd62cca
+    facebook_permissions:     email, user_birthday, user_photos, friends_photos, read_friendlists
+
+# Twig globals
+twig:
+    globals:
+        instagram_client_id:      %instagram_client_id%
+        flickr_client_id:         %flickr_client_id%
+        foursquare_client_id:     %foursquare_client_id%
+        twitter_consumer_key:     %twitter_consumer_key%
+        facebook_app_id:          %facebook_app_id%
+        facebook_permissions:     %facebook_permissions%
+
 
 # Instagram
 ad_entify_instagram:
-    client_id: db51217592cf490aab08224763fc6cea
-    client_secret: 48017f2c3cf441d6996ca7813e1abeb9
+    client_id: %instagram_client_id%
+    client_secret: %instagram_client_secret%
 
 # OAuth
 fos_oauth_server:
@@ -183,18 +197,18 @@ fos_oauth_server:
 
 # Flickr
 ad_entify_flickr:
-    client_id:     370e2e2f28c0ca81fd6a5a336a6e2c89
-    client_secret: 6084b60c02b4c8fc
+    client_id:     %flickr_client_id%
+    client_secret: %flickr_client_secret%
 
 # Imagine
 avalanche_imagine:
     filters:
         small:
             type:    thumbnail
-            options: { size: [150, 9999], mode: inset, quality: 80 }
+            options: { size: [150, 9999], mode: inset, quality: 90 }
         medium:
             type:    thumbnail
-            options: { size: [320, 9999], mode: inset, quality: 80 }
+            options: { size: [320, 9999], mode: inset, quality: 100 }
         large:
             type:    thumbnail
             options: { size: [1024, 9999], mode: inset, quality: 100 }
@@ -202,5 +216,5 @@ avalanche_imagine:
 # AdEntify Core
 ad_entify_core:
     foursquare:
-        client_id:     "FTCUYTRQ5C4TMDYBAYB4PVVQEKMSG2HCDYNXKD2MHHURLPEZ"
-        client_secret: "1I2D3YVPIN2RFPCMTLER5TROVTTZVBT4KT1ML3PTUBLMFYR1"
+        client_id:     %foursquare_client_id%
+        client_secret: %foursquare_client_secret%

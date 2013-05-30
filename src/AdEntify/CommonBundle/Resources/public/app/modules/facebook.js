@@ -38,7 +38,7 @@ define([
             } else {
                // cancelled
             }
-         });
+         }, {scope: facebookPermissions});
       },
 
       logout: function() {

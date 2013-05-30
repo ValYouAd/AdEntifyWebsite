@@ -14,6 +14,12 @@ define([
    Upload.Views.Content = Backbone.View.extend({
       template: "upload/content",
 
+      serialize: function() {
+         return {
+            model: { appRoot: app.rootUrl, instagramClientId: instagramClientId }
+         }
+      },
+
       events: {
          "click #flickrUploadButton": "flickrUpload"
       },

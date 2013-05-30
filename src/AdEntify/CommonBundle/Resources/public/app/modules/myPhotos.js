@@ -212,8 +212,8 @@ define([
       },
 
       updateMenuTools: function(photoId) {
-         currentPhoto = this.options.photos.get(photoId);
-         $('#menu-tools #photo-caption').val(currentPhoto.get('caption'));
+         app.appState().set('currentPhotoModel', this.options.photos.get(photoId));
+         $('#menu-tools #photo-caption').val(app.appState().getCurrentPhotoModel().get('caption'));
       },
 
       submitPhotoDetails: function() {
@@ -284,6 +284,7 @@ define([
 
       initialize: function() {
          app.on('tagMenuTools:cancel', this.showTools);
+         app.on('tagMenuTools:tagAdded', this.showTools);
       },
 
       close: function() {

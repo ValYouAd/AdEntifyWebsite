@@ -7,9 +7,10 @@
  */
 define([
    "app",
+   "modules/venue",
    "bootstrap",
    "modernizer"
-], function(app) {
+], function(app, Venue) {
 
    var Tag = app.module();
    var currentPhotoOverlay = null;
@@ -17,6 +18,7 @@ define([
    var tags = null;
    var currentVenues = {};
    var currentVenue = null;
+   var venuesSearchTimeout = null
 
    Tag.Model = Backbone.Model.extend({
       urlRoot: function() {
@@ -168,32 +170,38 @@ define([
          }
          $('#venue-text').typeahead({
             source: function(query, process) {
-               $('#loading-venue').css({'display': 'inline-block'});
-               app.oauth.loadAccessToken(function() {
-                  var url = Routing.generate('api_v1_get_venue_search', { query: query });
-                  if (app.appState().getCurrentPosition()) {
-                     url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
-                  }
-                  $.ajax({
-                     url: url,
-                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                     data: {
-                        radius: 3000
-                     },
-                     success: function(data) {
-                        if (typeof data !== undefined && data.length > 0) {
-                           var venues = []
-                           currentVenues = {};
-                           _.each(data, function(venue) {
-                              venues.push(venue.name);
-                              currentVenues[venue.name] = venue;
-                           });
-                           process(venues);
+               if (venuesSearchTimeout)
+                  clearTimeout(venuesSearchTimeout);
+               venuesSearchTimeout = setTimeout(function() {
+                  $('#loading-venue').css({'display': 'inline-block'});
+                  app.oauth.loadAccessToken({
+                     success: function() {
+                        var url = Routing.generate('api_v1_get_venue_search', { query: query });
+                        if (app.appState().getCurrentPosition()) {
+                           url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
                         }
-                        $('#loading-venue').fadeOut(200);
+                        $.ajax({
+                           url: url,
+                           headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                           data: {
+                              radius: 3000
+                           },
+                           success: function(data) {
+                              if (typeof data !== undefined && data.length > 0) {
+                                 var venues = []
+                                 currentVenues = {};
+                                 _.each(data, function(venue) {
+                                    venues.push(venue.name);
+                                    currentVenues[venue.name] = venue;
+                                 });
+                                 process(venues);
+                              }
+                              $('#loading-venue').fadeOut(200);
+                           }
+                        });
                      }
                   });
-               });
+               }, 400);
             },
             minLength: 2,
             items: 10,
@@ -240,23 +248,38 @@ define([
                   // Set venue info
                   currentVenue.link = $('#venue-link').val();
                   currentVenue.description = $('#venue-description').val();
-                  // TODO: Get foursquare link
-                  // Link tag to photo
-                  //currentTag.set('photo', app.appState().getCurrentPhotoModel());
-                  // Set tag info
-                  currentTag.set('type', 'place');
-                  //currentTag.set('venue', currentVenue);
-                  currentTag.set('title', currentVenue.name);
-                  currentTag.set('description', currentVenue.description);
-                  currentTag.set('link', currentVenue.link);
-                  currentTag.url = Routing.generate('api_v1_post_tag');
-                  currentTag.getToken('tag_item', function() {
-                     currentTag.save().done(function(data) {
-                        // Flag tag to persisted
-                        currentTag.set('persisted', '');
-                     }).fail(function(textStatus, errorThrown) {
+                  // POST currentVenue
+                  venue = new Venue.Model();
+                  venue.entityToModel(currentVenue);
+                  venue.url = Routing.generate('api_v1_post_venue');
+                  venue.getToken('venue_item', function() {
+                     venue.save(null, {
+                        success: function(data) {
+                           // Link tag to photo
+                           currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+                           // Set tag info
+                           currentTag.set('type', 'place');
+                           currentTag.set('venue', venue.get('id'));
+                           currentTag.set('title', currentVenue.name);
+                           currentTag.set('description', currentVenue.description);
+                           currentTag.set('link', currentVenue.link);
+                           currentTag.url = Routing.generate('api_v1_post_tag');
+                           currentTag.getToken('tag_item', function() {
+                              currentTag.save(null, {
+                                 success: function() {
+                                    currentTag.set('persisted', '');
+                                    app.trigger('tagMenuTools:tagAdded');
+                                 },
+                                 error: function() {
+                                    // TODO: show alert
+                                 }
+                              });
+                           });
+                        },
+                        error: function() {
                            // TODO: show alert
-                        });
+                        }
+                     })
                   });
                }
                break;

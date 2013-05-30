@@ -38,7 +38,7 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
 
          // Facebook init
          FB.init({
-            appId      : '159587157398776',                                   // App ID from the app dashboard
+            appId      : facebookAppId,                                   // App ID from the app dashboard
             channelUrl : channelUrl,  // Channel file for x-domain comms
             status     : false,                                                // Check Facebook Login status
             xfbml      : true,                                               // Look for social plugins on the page

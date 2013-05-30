@@ -28,9 +28,14 @@ function(app, Router, AppState) {
    _.extend(Backbone.Model.prototype, {
       sync: function(method, model, options) {
          if (!options.headers) {
-            app.oauth.loadAccessToken(function() {
-               options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
-               return Backbone.sync(method, model, options);
+            app.oauth.loadAccessToken({
+               success: function() {
+                     options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
+                     return Backbone.sync(method, model, options);
+                  },
+               error: function() {
+                  window.location.href = Routing.generate('home_logoff');
+               }
             });
          } else {
             return Backbone.sync(method, model, options);
@@ -39,18 +44,23 @@ function(app, Router, AppState) {
 
       getToken: function(intention, callback) {
          var that = this;
-         app.oauth.loadAccessToken(function() {
-            $.ajax({
-               headers : {
-                  "Authorization": app.oauth.getAuthorizationHeader()
-               },
-               url: Routing.generate('api_v1_get_csrftoken', { intention: intention}),
-               success: function(data) {
-                  that.set('_token', data);
-                  if (callback)
-                     callback();
-               }
-            });
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  headers : {
+                     "Authorization": app.oauth.getAuthorizationHeader()
+                  },
+                  url: Routing.generate('api_v1_get_csrftoken', { intention: intention}),
+                  success: function(data) {
+                     that.set('_token', data);
+                     if (callback)
+                        callback();
+                  }
+               });
+            },
+            error: function () {
+               window.location.href = Routing.generate('home_logoff');
+            }
          });
       }
    });
@@ -59,9 +69,14 @@ function(app, Router, AppState) {
    _.extend(Backbone.Collection.prototype, {
       sync: function(method, collection, options) {
          if (!options.headers) {
-            app.oauth.loadAccessToken(function() {
-               options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
-               return Backbone.sync(method, collection, options);
+            app.oauth.loadAccessToken({
+               success: function() {
+                  options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
+                  return Backbone.sync(method, collection, options);
+               },
+               error: function() {
+                  window.location.href = Routing.generate('home_logoff');
+               }
             });
          } else {
             return Backbone.sync(method, collection, options);

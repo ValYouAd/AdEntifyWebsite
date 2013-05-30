@@ -66,6 +66,9 @@
 {% block javascripts %}
     <script>
         var channelUrl = '{{ asset('channel.php') }}';
+        var instagramClientId = '{{ instagram_client_id }}';
+        var facebookAppId = '{{ facebook_app_id }}';
+        var facebookPermissions = '{{ facebook_permissions }}';
     </script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>

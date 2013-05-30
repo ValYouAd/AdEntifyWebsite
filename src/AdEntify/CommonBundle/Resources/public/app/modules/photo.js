@@ -79,13 +79,15 @@ define([
 
       initialize: function() {
          var that = this;
-         app.oauth.loadAccessToken(function() {
-            that.options.photo.fetch({
-               success: function() {
-                  loaded = true;
-                  app.trigger('domchange:title', that.options.photo.get('caption'));
-               }
-            });
+         app.oauth.loadAccessToken({
+            success: function() {
+               that.options.photo.fetch({
+                  success: function() {
+                     loaded = true;
+                     app.trigger('domchange:title', that.options.photo.get('caption'));
+                  }
+               });
+            }
          });
          this.listenTo(this.options.photo, {
             'sync': this.render

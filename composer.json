@@ -30,7 +30,8 @@
         "kertz/twitteroauth": "dev-master",
         "friendsofsymfony/twitter-bundle": "dev-master",
         "friendsofsymfony/oauth-server-bundle": "dev-master",
-       "avalanche123/imagine-bundle": "v2.1"
+        "kriswallsmith/assetic": "v1.1.0-alpha4",
+        "avalanche123/imagine-bundle": "v2.1"
     },
     "scripts": {
         "post-install-cmd": [
