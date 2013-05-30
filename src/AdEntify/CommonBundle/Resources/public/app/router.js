@@ -70,6 +70,12 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          _.extend(this, collections);
 
          // Nav current
+         currentPage = window.location.pathname.replace(app.root, '');
+         $currentLink = $('.nav a[href="' + currentPage + '"]');
+         if ($currentLink.length > 0) {
+            $currentLink.parent().siblings('.active').removeClass('active');
+            $currentLink.parent().addClass('active');
+         }
          $('.nav a').click(function() {
             $(this).parent().siblings('.active').removeClass('active');
             $(this).parent().addClass('active');

@@ -88,6 +88,9 @@ define([
          app.on('global:closeMenuTools', function() {
             that.unloadTagging();
          });
+         app.on('tagMenuTools:tagAdded', function() {
+            that.unloadTagging();
+         });
          tags = new Tag.Collection();
       },
 
@@ -245,6 +248,8 @@ define([
                break;
             case 'venue':
                if (currentVenue && currentTag && $('#venue-link').val()) {
+                  $submitMenu = $('#submit-venue');
+                  $submitMenu.button('loading');
                   // Set venue info
                   currentVenue.link = $('#venue-link').val();
                   currentVenue.description = $('#venue-description').val();

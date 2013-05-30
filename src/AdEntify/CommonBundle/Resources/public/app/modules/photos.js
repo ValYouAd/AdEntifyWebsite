@@ -25,9 +25,9 @@ define([
       fullLargeUrl : '',
 
       initialize: function() {
-         this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/medium/' + this.get('medium_url'));
-         this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/large/' + this.get('large_url'));
-         this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/small/' + this.get('small_url'));
+         this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
+         this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
+         this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
       }
    });
 
@@ -86,10 +86,10 @@ define([
             });
          });
 
-         // Click on photo
-         container.delegate('img', 'click', function() {
-            lastImage = $(this);
-            that.clickOnPhoto($(this));
+         // Click on photo overlay
+         container.delegate('.photo-overlay', 'click', function() {
+            lastImage = $(this).siblings('img[data-type="medium"]');
+            that.clickOnPhoto(lastImage);
          });
       },
 
@@ -132,12 +132,13 @@ define([
       resizeToLargeSize: function(image) {
          var largeUrl = image.data('large-url');
          var largeWidth = image.data('large-width');
-         var parentDiv = image.parent();
+         var parentDiv = image.parents('.photo');
+         var containerDiv = image.parents('.photo-container');
          var mediumUrl = image.attr('src');
 
          if (parentDiv) {
-            openedContainer = parentDiv;
-            lastImageContainer = parentDiv;
+            openedContainer = containerDiv;
+            lastImageContainer = containerDiv;
 
             var largeImage = parentDiv.children("img[data-type='large']");
             // Check if large image is already loaded
@@ -163,9 +164,8 @@ define([
                   src: largeUrl,
                   'data-medium': mediumUrl,
                   'data-type': "large",
-                  style: "display: none;",
-                  class: "img-polaroid"
-               }).appendTo(parentDiv).load(function() {
+                  style: "display: none;"
+               }).appendTo(containerDiv).load(function() {
                      openedImage = $(this);
                      image.hide();
                      image.width(image.data("medium-width"));
