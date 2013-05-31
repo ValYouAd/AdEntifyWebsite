@@ -24,9 +24,11 @@ define([
          }}
       },
 
-      fullSmallUrl: '',
-      fullMediumUrl : '',
-      fullLargeUrl : '',
+      defaults: {
+         fullSmallUrl: '',
+         fullMediumUrl : '',
+         fullLargeUrl : ''
+      },
 
       initialize: function() {
          this.listenTo(this, {
@@ -36,9 +38,9 @@ define([
       },
 
       updateUrl: function() {
-         this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/medium/' + this.get('medium_url'));
-         this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/large/' + this.get('large_url'));
-         this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + app.oauth.get('userId') + '/small/' + this.get('small_url'));
+         this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
+         this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
+         this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
       }
    });
 

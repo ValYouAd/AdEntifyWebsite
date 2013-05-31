@@ -20,9 +20,11 @@ define([
    var container = null;
 
    Photos.Model = Backbone.Model.extend({
-      fullSmallUrl: '',
-      fullMediumUrl : '',
-      fullLargeUrl : '',
+      defaults: {
+         fullSmallUrl: '',
+         fullMediumUrl : '',
+         fullLargeUrl : ''
+      },
 
       initialize: function() {
          this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
@@ -33,7 +35,6 @@ define([
 
    Photos.Collection = Backbone.Collection.extend({
       model: Photos.Model,
-
       cache: true,
 
       parse: function(obj) {
@@ -44,7 +45,7 @@ define([
    Photos.Views.Item = Backbone.View.extend({
       template: "photos/item",
 
-      tagName: "li",
+      tagName: "li class='isotope-li'",
 
       serialize: function() {
          return { model: this.model };
@@ -52,6 +53,23 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      },
+
+      showTags: function() {
+         $tags = $(this.el).find('.tags');
+         if ($tags.length > 0) {
+            if ($tags.data('state') == 'hidden') {
+               $tags.fadeIn('fast');
+               $tags.data('state', 'visible');
+            } else {
+               $tags.fadeOut('fast');
+               $tags.data('state', 'hidden');
+            }
+         }
+      },
+
+      events: {
+         "click .adentify-pastille": "showTags"
       }
    });
 
@@ -77,7 +95,7 @@ define([
          // Wait images loaded
          container.imagesLoaded( function(){
             container.isotope({
-               itemSelector : 'li',
+               itemSelector : 'li.isotope-li',
                animationEngine: 'best-available'
             });
             $('#loading-photos').fadeOut('fast', function() {
@@ -87,10 +105,10 @@ define([
          });
 
          // Click on photo overlay
-         container.delegate('.photo-overlay', 'click', function() {
+         /*container.delegate('.photo-overlay', 'click', function() {
             lastImage = $(this).siblings('img[data-type="medium"]');
             that.clickOnPhoto(lastImage);
-         });
+         });*/
       },
 
       clickOnPhoto: function(imageClicked) {

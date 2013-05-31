@@ -1,1 +1,6 @@
-<a href="photo/<%= model.get("id") %>/"><img src="<%= model.get("fullSmallUrl") %>" /></a>
+<div class="ticker-item-container">
+    <div class="ticker-item-overlay"></div>
+    <span class="photo-caption"><small><%= model.get("caption") %></small></span>
+    <a href="photo/<%= model.get("id") %>/"><img src="<%= model.get("fullSmallUrl") %>" /></a>
+    <a href="photo/<%= model.get("id") %>/" class="btn btn-info btn-mini view-photo"><i class="icon-picture icon-white"></i> voir la photo</a>
+</div>
