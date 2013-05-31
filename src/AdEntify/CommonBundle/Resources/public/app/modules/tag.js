@@ -214,16 +214,15 @@ define([
                return selectedItem;
             }
          });
-      },
 
-      cancel: function(e) {
-         e.preventDefault();
-         // Remove current tag
-         if (currentTag)
-            tags.remove(currentTag);
-         app.appState().set('currentPosition', '');
-         // Hide form
-         app.trigger('tagMenuTools:cancel');
+         // Person
+         if (!app.fb.isConnected()) {
+            $('.tab-pane .fb-loggedin').fadeOut('fast');
+            $('.tab-pane .fb-loggedout').fadeIn('fast');
+         } else {
+            $('.tab-pane .fb-loggedout').fadeOut('fast');
+            $('.tab-pane .fb-loggedin').fadeIn('fast');
+         }
       },
 
       geolocation: function(e) {
@@ -237,6 +236,16 @@ define([
                $('#support-geolocation').html('<div class="alert fade in alert-success"><small>Nous venons de vous <strong>géolocaliser avec succès.</strong></small></div>');
             });
          }
+      },
+
+      cancel: function(e) {
+         e.preventDefault();
+         // Remove current tag
+         if (currentTag)
+            tags.remove(currentTag);
+         app.appState().set('currentPosition', '');
+         // Hide form
+         app.trigger('tagMenuTools:cancel');
       },
 
       submit: function(e) {
