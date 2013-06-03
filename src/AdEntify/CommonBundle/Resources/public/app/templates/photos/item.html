@@ -5,13 +5,7 @@
         <% } %>
         <div class="photo-overlay">
             <% if (model.get("tags_count") > 0) { %>
-            <ul class="tags fadeOut" data-state="hidden">
-            <% _.each(model.get("tags"), function(tag) { %>
-                <li>
-                    <div class="tag" style="left: <%= tag.x_position * 100 %>%; top: <%= tag.y_position * 100 %>%"></div>
-                </li>
-            <% }); %>
-            </ul>
+            <ul class="tags fadeOut" data-state="hidden"></ul>
             <% } %>
         </div>
         <img src="<%= model.get("fullMediumUrl") %>" data-id="<%= model.get("id") %>" data-type="medium" data-large-width="<%= model.get("large_width") %>" data-large-url="<%= model.get("fullLargeUrl") %>" />

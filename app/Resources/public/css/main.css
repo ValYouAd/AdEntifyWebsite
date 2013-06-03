@@ -169,21 +169,44 @@ ul#photos-grid {
         height: 100%;
         cursor: pointer;
     }
-    ul#photos-grid li div.photo-overlay ul {
+    ul#photos-grid .tags {
         list-style-type: none;
         margin: 0;
         padding: 0;
     }
-    ul#photos-grid li div.photo-overlay li {
+    ul#photos-grid .tags li {
         margin: 0;
         padding: 0;
     }
-    ul#photos-grid li div.photo-overlay .tag {
+    ul#photos-grid .tag {
         position: absolute;
         background: rgba(0,0,0,0.9);
         width: 25px;
         height: 25px;
         border-radius: 12.5px;
+    }
+    ul#photos-grid .popover {
+        position: absolute;
+        top: auto;
+        bottom: 30px;
+        left: -50%;
+        display: block!important;
+        opacity: 0;
+        z-index: 2000;
+        padding: 4px 6px;
+
+        -webkit-transition: opacity 0.3s ease-out;
+           -moz-transition: opacity 0.3s ease-out;
+            -ms-transition: opacity 0.3s ease-out;
+             -o-transition: opacity 0.3s ease-out;
+                transition: opacity 0.3s ease-out;
+    }
+    ul#photos-grid .tag:hover .popover {
+        opacity: 1;
+    }
+    ul#photos-grid .tag .map {
+        width: 270px;
+        height: 260px;
     }
     ul#photos-grid li div.photo-overlay .new-tag {
         -webkit-animation: smallerCircle 0.5s ease;

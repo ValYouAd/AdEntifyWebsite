@@ -21,8 +21,6 @@ define([
    var currentVenue = null;
    var currentPerson = null;
    var venuesSearchTimeout = null;
-   var personsSearchTimeout = null;
-   var productsSearchTimeout = null
 
    Tag.Model = Backbone.Model.extend({
       urlRoot: function() {
@@ -42,7 +40,32 @@ define([
    });
 
    Tag.Views.Item = Backbone.View.extend({
-      template: "tag/item",
+      template: "tag/types/item",
+      tagName: "li",
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      afterRender: function() {
+
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+      },
+
+      hoverTag: function() {
+
+      },
+
+      events: {
+         "hover .tag": "hoverTag"
+      }
+   });
+
+   Tag.Views.PersonItem = Backbone.View.extend({
+      template: "tag/types/person",
       tagName: "li",
 
       serialize: function() {
@@ -51,6 +74,48 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      }
+   });
+
+   Tag.Views.VenueItem = Backbone.View.extend({
+      template: "tag/types/venue",
+      tagName: "li",
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+      },
+
+      hoverTag: function() {
+         if (!this.model.has('map_loaded')) {
+            this.model.set('map_loaded', true);
+            $map = $(this.el).find('.map');
+            var latLng = new google.maps.LatLng(this.model.get('venue')['lat'], this.model.get('venue')['lng']);
+            var mapOptions = {
+               zoom:  14,
+               center: latLng,
+               scrollwheel: false,
+               navigationControl: false,
+               mapTypeControl: false,
+               scaleControl: false,
+               draggable: false,
+               mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map($map.get(0), mapOptions);
+            var marker = new google.maps.Marker({
+               position: latLng,
+               map: map,
+               animation: google.maps.Animation.DROP,
+               title: this.model.get('venue')['name']
+            });
+         }
+      },
+
+      events: {
+         "hover .tag": "hoverTag"
       }
    });
 
@@ -137,8 +202,8 @@ define([
          });
 
          var tag = new Tag.Model();
-         tag.set('xPosition', xPosition);
-         tag.set('yPosition', yPosition);
+         tag.set('x_position', xPosition);
+         tag.set('y_position', yPosition);
          tag.set('class', 'new-tag');
          tags.add(tag);
          currentTag = tag;

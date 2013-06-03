@@ -7,11 +7,12 @@
  */
 define([
    "app",
+   "modules/tag",
    "isotope",
    "jquery-ui",
    "modernizer",
    "infinitescroll"
-], function(app) {
+], function(app, Tag) {
 
    var Photos = app.module();
    var openedContainer = null;
@@ -53,6 +54,27 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      },
+
+      beforeRender: function() {
+         if (this.model.has('tags') && this.model.get('tags').length > 0) {
+            var that = this;
+            _.each(this.model.get('tags'), function(tag) {
+               if (tag.type == 'place') {
+                  that.insertView(".tags", new Tag.Views.VenueItem({
+                     model: new Tag.Model(tag)
+                  }));
+               } else if (tag.type == 'person') {
+                  that.insertView(".tags", new Tag.Views.PersonItem({
+                     model: new Tag.Model(tag)
+                  }));
+               } else {
+                  that.insertView(".tags", new Tag.Views.Item({
+                     model: new Tag.Model(tag)
+                  }));
+               }
+            });
+         }
       },
 
       showTags: function() {
