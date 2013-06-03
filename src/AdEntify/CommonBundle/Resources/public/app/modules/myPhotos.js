@@ -112,7 +112,7 @@ define([
       clickOnPhoto: function(imageClicked) {
          // Already in edit mode
          if (imageClicked.data('type') == 'large') {
-            $("#dashboard").toggleClass('edit-mode view-mode');
+            $("#dashboard").removeClass('edit-mode').addClass('view-mode');
             $('#content').switchClass('span11', 'span9');
             $("aside").switchClass("span1", "span3");
             $('#photos').switchClass('span9', 'span12');
@@ -125,7 +125,7 @@ define([
                this.resizeToMediumSize(openedContainer.children("img[data-type='large']"));
             }
             if (!openedContainer) {
-               $("#dashboard").toggleClass('edit-mode view-mode');
+               $("#dashboard").removeClass('view-mode').addClass('edit-mode');
                $('aside').switchClass("span3", "span1");
                $('#content').switchClass('span9', 'span11');
                $('#photos').switchClass('span12', 'span9');

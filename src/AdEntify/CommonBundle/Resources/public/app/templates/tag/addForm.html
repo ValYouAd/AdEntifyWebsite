@@ -30,9 +30,9 @@
             </div>
             <div class="tab-pane" id="person">
                 <div class="fb-loggedin">
-                    <label>Entrez le prénom ou le nom de la personne que vous souhaiter taguer</label>
-                    <input id="person-text" type="text" placeholder="Prénom, nom...">
-                    <p><button type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> Ajouter la personne</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
+                    <label>Entrez le prénom ou le nom de la personne que vous souhaitez taguer <i class="icon-refresh fadeOut rotate" id="loading-person"></i></label>
+                    <input id="person-text" autocomplete="off" data-provide="typeahead" type="text" placeholder="Prénom, nom...">
+                    <p><button id="submit-person" data-loading-text="Ajout en cours..." type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> Valider la personne et ajouter le tag</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
                 </div>
                 <div class="fb-loggedout alert alert-danger fadeOut">
                     Vous n'êtes <b>pas connecté à Facebook.</b> Nous ne pouvons pas récupérer vos amis.

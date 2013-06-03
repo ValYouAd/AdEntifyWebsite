@@ -8,9 +8,10 @@
 define([
    "app",
    "modules/venue",
+   "modules/person",
    "bootstrap",
    "modernizer"
-], function(app, Venue) {
+], function(app, Venue, Person) {
 
    var Tag = app.module();
    var currentPhotoOverlay = null;
@@ -18,7 +19,10 @@ define([
    var tags = null;
    var currentVenues = {};
    var currentVenue = null;
-   var venuesSearchTimeout = null
+   var currentPerson = null;
+   var venuesSearchTimeout = null;
+   var personsSearchTimeout = null;
+   var productsSearchTimeout = null
 
    Tag.Model = Backbone.Model.extend({
       urlRoot: function() {
@@ -204,7 +208,7 @@ define([
                         });
                      }
                   });
-               }, 400);
+               }, 500);
             },
             minLength: 2,
             items: 10,
@@ -223,6 +227,34 @@ define([
             $('.tab-pane .fb-loggedout').fadeOut('fast');
             $('.tab-pane .fb-loggedin').fadeIn('fast');
          }
+         $('#person-text').typeahead({
+            source: function(query, process) {
+               $('#loading-person').css({'display': 'inline-block'});
+               app.fb.loadFriends({
+                  success: function(friends) {
+                     var friendsNames = [];
+                     _.each(friends, function(friend) {
+                        friendsNames.push(friend.name);
+                     });
+                     process(friendsNames);
+                     $('#loading-person').fadeOut(200);
+                  }
+               });
+            },
+            minLength: 2,
+            items: 10,
+            updater: function(selectedItem) {
+               app.fb.loadFriends({
+                  success: function(friends) {
+                     currentPerson = _.find(friends, function(friend) {
+                        if (friend.name == selectedItem)
+                           return friend;
+                     });
+                  }
+               });
+               return selectedItem;
+            }
+         })
       },
 
       geolocation: function(e) {
@@ -257,8 +289,8 @@ define([
                break;
             case 'venue':
                if (currentVenue && currentTag && $('#venue-link').val()) {
-                  $submitMenu = $('#submit-venue');
-                  $submitMenu.button('loading');
+                  $submit = $('#submit-venue');
+                  $submit.button('loading');
                   // Set venue info
                   currentVenue.link = $('#venue-link').val();
                   currentVenue.description = $('#venue-description').val();
@@ -268,7 +300,7 @@ define([
                   venue.url = Routing.generate('api_v1_post_venue');
                   venue.getToken('venue_item', function() {
                      venue.save(null, {
-                        success: function(data) {
+                        success: function() {
                            // Link tag to photo
                            currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
                            // Set tag info
@@ -293,11 +325,46 @@ define([
                         error: function() {
                            // TODO: show alert
                         }
-                     })
+                     });
                   });
                }
                break;
             case 'person':
+               if (currentPerson) {
+                  $submit = $('#submit-person');
+                  $submit.button('loading');
+                  person = new Person.Model();
+                  person.entityToModel(currentPerson);
+                  person.url = Routing.generate('api_v1_post_person');
+                  person.getToken('person_item', function() {
+                     person.save(null, {
+                        success: function() {
+                           // Link tag to photo
+                           currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+                           // Set tag info
+                           currentTag.set('type', 'person');
+                           currentTag.set('person', person.get('id'));
+                           currentTag.set('title', currentPerson.name);
+                           currentTag.set('link', 'https://www.facebook.com/' + currentPerson.id);
+                           currentTag.url = Routing.generate('api_v1_post_tag');
+                           currentTag.getToken('tag_item', function() {
+                              currentTag.save(null, {
+                                 success: function() {
+                                    currentTag.set('persisted', '');
+                                    app.trigger('tagMenuTools:tagAdded');
+                                 },
+                                 error: function() {
+                                    // TODO: show alert
+                                 }
+                              });
+                           });
+                        },
+                        error: function() {
+                           // TODO: show alert
+                        }
+                     });
+                  });
+               }
                break;
          }
       },

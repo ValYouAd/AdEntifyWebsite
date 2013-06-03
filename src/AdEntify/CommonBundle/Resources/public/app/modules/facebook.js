@@ -8,7 +8,8 @@ define([
       defaults: {
          userId : 0,
          accessToken: '',
-         status: 'unknown'
+         status: 'unknown',
+         friends: null
       },
 
       setFacebookResponse: function(response) {
@@ -65,6 +66,26 @@ define([
 
       isConnected: function() {
          return this.get('status') === 'connected' ? true: false;
+      },
+
+      loadFriends: function(options) {
+         options || (options = {});
+         var that = this;
+         if (!this.get('friends')) {
+            FB.api('/me/friends?fields=name,first_name,last_name,gender', function(response) {
+               if (response && !response.error) {
+                  that.set('friends', response.data);
+                  if (options.success)
+                     options.success(response.data);
+               } else {
+                  if (options.error)
+                     options.error();
+               }
+            });
+         } else {
+            if (options.success)
+               options.success(this.get('friends'));
+         }
       }
    });
 
