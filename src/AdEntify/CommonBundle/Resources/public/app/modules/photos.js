@@ -28,9 +28,9 @@ define([
       },
 
       initialize: function() {
-         this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
-         this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
-         this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
+         this.set('fullMediumUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
+         this.set('fullLargeUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
+         this.set('fullSmallUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
       }
    });
 
@@ -134,8 +134,9 @@ define([
       },
 
       clickOnPhoto: function(imageClicked) {
+         var photoDiv = imageClicked.parents('.photo')
          // Already in edit mode
-         if (imageClicked.data('type') == 'large') {
+         if (photoDiv.hasClass('large')) {
             // Resize to medium size
             this.resizeToMediumSize(imageClicked, true);
             openedContainer = null;
@@ -162,11 +163,12 @@ define([
          // Show medium image
          image.siblings("img[data-type='medium']").show();
          // Resize container
-         image.parent().removeClass('large').addClass('medium');
+         image.parents('.photo').removeClass('large').addClass('medium');
          // Relayout if ask
          if (relayout) {
             container.isotope('reLayout', this.relayoutEnded);
          }
+         openedContainer = null;
       },
 
       resizeToLargeSize: function(image) {
@@ -180,7 +182,7 @@ define([
             openedContainer = containerDiv;
             lastImageContainer = containerDiv;
 
-            var largeImage = parentDiv.children("img[data-type='large']");
+            var largeImage = containerDiv.children('img[data-type="large"]');
             // Check if large image is already loaded
             if (largeImage.length > 0) {
                openedImage = largeImage;
@@ -190,8 +192,6 @@ define([
                largeImage.show();
                container.isotope("reLayout", this.relayoutEnded);
             } else {
-               // Save medium width
-               image.data("medium-width", image.width());
                // Increase medium image size before loading the large one
                image.width(largeWidth);
                image.height('auto');
