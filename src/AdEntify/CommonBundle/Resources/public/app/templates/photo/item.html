@@ -18,8 +18,8 @@
     </div>
     <div class="span6">
         <h2>Partager la photo</h2>
-        <a href="https://twitter.com/share" class="twitter-share-button" data-url="<%= pageUrl %>" data-text="Découvrez mon image intéractive sur #AdEntify : <%= pageUrl %>" data-via="AdEntify" data-lang="fr">Tweeter</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        <iframe allowtransparency="true" frameborder="0" scrolling="no"
+                src="https://platform.twitter.com/widgets/tweet_button.html?text=Découvrez mon image intéractive sur <%= encodeURIComponent("#") %>AdEntify : <%= pageUrl %>&via=AdEntify&lang=fr" style="width:130px; height:20px;"></iframe>
         <div class="g-plusone" data-size="medium" data-href="<%= pageUrl %>"></div>
         <script type="text/javascript">
             window.___gcfg = {lang: 'fr'};
