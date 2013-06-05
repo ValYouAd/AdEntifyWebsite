@@ -62,8 +62,7 @@ define([
             $('.full-photo').fadeIn();
          });
          $('#fbcomment').append('<div class="fb-comments" data-href="' + window.location.href + '" data-width="' + $('#fbcomment').width() + '" data-num-posts="10"></div>');
-         FB.XFBML.parse($('#fbcomment').get(0));
-         FB.XFBML.parse($('#fblike').get(0));
+         FB.XFBML.parse();
       },
 
       initialize: function() {
