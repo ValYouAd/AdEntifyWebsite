@@ -68,6 +68,16 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      },
+
+      like: function() {
+         app.like().like(this.model);
+         $likeCount = $(this.el).find('#like-count');
+         $likeCount.html(this.model.get('likes_count') + 1);
+      },
+
+      events: {
+         "click #like": "like"
       }
    });
 

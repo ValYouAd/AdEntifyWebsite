@@ -7,10 +7,11 @@ require([
 
    // App State
    "modules/appState",
-   "modules/tagStats"
+   "modules/tagStats",
+   "modules/like"
 ],
 
-function(app, Router, AppState, TagStats) {
+function(app, Router, AppState, TagStats, Like) {
 
   // Define your master router on the application namespace and trigger all
   // navigation from this instance.
@@ -27,6 +28,11 @@ function(app, Router, AppState, TagStats) {
          if (typeof this.tagstats === 'undefined')
             this.tagstats = new TagStats.Model();
          return this.tagstats;
+      },
+      like: function() {
+         if (typeof this.likeObj === 'undefined')
+            this.likeObj = new Like.Model();
+         return this.likeObj;
       }
    });
 

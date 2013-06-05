@@ -1,9 +1,12 @@
 <div class="pull-right">
-    <button type="button" class="btn btn-primary" data-toggle="button"><i class="icon-heart icon-white"></i> Like</button>
+    <button id="like" type="button" class="btn btn-primary" data-toggle="button"><i class="icon-heart icon-white"></i> Like</button>
 </div>
 <h1 class="lead"><%= model.get("caption") %></h1>
 <div class="full-photo fadeOut text-center">
     <img src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" id="photo" />
+</div>
+<div>
+    <span id="like-count" class="badge badge-info"><%= model.get("likes_count") %></span> Likes
 </div>
 
 <hr>
