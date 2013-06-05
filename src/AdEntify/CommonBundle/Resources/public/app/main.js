@@ -6,10 +6,12 @@ require([
   "router",
 
    // App State
-   "modules/appState"
+   "modules/appState",
+   "modules/tagStats",
+   "modules/like"
 ],
 
-function(app, Router, AppState) {
+function(app, Router, AppState, TagStats, Like) {
 
   // Define your master router on the application namespace and trigger all
   // navigation from this instance.
@@ -18,9 +20,19 @@ function(app, Router, AppState) {
    // Extend App
    _.extend(app, {
       appState: function() {
-         if (typeof(this.appstate) == 'undefined')
+         if (typeof this.appstate === 'undefined')
             this.appstate = new AppState.Model();
          return this.appstate;
+      },
+      tagStats: function() {
+         if (typeof this.tagstats === 'undefined')
+            this.tagstats = new TagStats.Model();
+         return this.tagstats;
+      },
+      like: function() {
+         if (typeof this.likeObj === 'undefined')
+            this.likeObj = new Like.Model();
+         return this.likeObj;
       }
    });
 

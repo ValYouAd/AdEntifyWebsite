@@ -6,11 +6,12 @@ require.config({
   deps: ["../vendor/jam/require.config", "main"],
 
   paths: {
-     facebook: "http://connect.facebook.net/fr_FR/all",
+     facebook: "//connect.facebook.net/fr_FR/all",
      "lodash": "../vendor/jam/lodash/dist/lodash.underscore",
      "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
      "bootstrap": "../vendor/js/bootstrap.min",
-     "hmacsha1": "../vendor/js/hmac-sha1"
+     "hmacsha1": "../vendor/js/hmac-sha1",
+     "pinterest": "//assets.pinterest.com/js/pinit"
   },
 
    map: {

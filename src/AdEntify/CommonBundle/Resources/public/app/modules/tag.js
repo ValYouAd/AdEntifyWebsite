@@ -42,31 +42,39 @@ define([
    Tag.Views.Item = Backbone.View.extend({
       template: "tag/types/item",
       tagName: "li",
+      hoverTimeout: null,
 
       serialize: function() {
          return { model: this.model };
-      },
-
-      afterRender: function() {
-
       },
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
       },
 
-      hoverTag: function() {
+      hoverIn: function() {
+         clearTimeout(this.hoverTimeout);
+         $(this.el).find('.popover').show();
+         app.tagStats().tagHover(this.model);
+      },
 
+      hoverOut: function() {
+         var that = this;
+         this.hoverTimeout = setTimeout(function() {
+            $(that.el).find('.popover').hide();
+         }, 200);
       },
 
       events: {
-         "hover .tag": "hoverTag"
+         "mouseenter .tag": "hoverIn",
+         "mouseleave .tag": "hoverOut"
       }
    });
 
    Tag.Views.PersonItem = Backbone.View.extend({
       template: "tag/types/person",
       tagName: "li",
+      hoverTimeout: null,
 
       serialize: function() {
          return { model: this.model };
@@ -74,12 +82,31 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      },
+
+      hoverIn: function() {
+         clearTimeout(this.hoverTimeout);
+         $(this.el).find('.popover').show();
+         app.tagStats().tagHover(this.model);
+      },
+
+      hoverOut: function() {
+         var that = this;
+         this.hoverTimeout = setTimeout(function() {
+            $(that.el).find('.popover').hide();
+         }, 200);
+      },
+
+      events: {
+         "mouseenter .tag": "hoverIn",
+         "mouseleave .tag": "hoverOut"
       }
    });
 
    Tag.Views.VenueItem = Backbone.View.extend({
       template: "tag/types/venue",
       tagName: "li",
+      hoverTimeout: null,
 
       serialize: function() {
          return { model: this.model };
@@ -89,11 +116,12 @@ define([
          this.listenTo(this.model, "change", this.render);
       },
 
-      hoverTag: function() {
+      hoverIn: function() {
+         clearTimeout(this.hoverTimeout);
+         $(this.el).find('.popover').show();
          if (!this.model.has('map_loaded')) {
-            this.model.set('map_loaded', true);
             $map = $(this.el).find('.map');
-            var latLng = new google.maps.LatLng(this.model.get('venue')['lat'], this.model.get('venue')['lng']);
+            var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
             var mapOptions = {
                zoom:  14,
                center: latLng,
@@ -105,17 +133,30 @@ define([
                mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var map = new google.maps.Map($map.get(0), mapOptions);
-            var marker = new google.maps.Marker({
+            new google.maps.Marker({
                position: latLng,
                map: map,
                animation: google.maps.Animation.DROP,
                title: this.model.get('venue')['name']
             });
+            this.model.set('map', map);
+            this.model.set('map_loaded', true);
+         } else {
+            google.maps.event.trigger(this.model.get('map'), 'resize')
          }
+         app.tagStats().tagHover(this.model);
+      },
+
+      hoverOut: function() {
+         var that = this;
+         this.hoverTimeout = setTimeout(function() {
+            $(that.el).find('.popover').hide();
+         }, 200);
       },
 
       events: {
-         "hover .tag": "hoverTag"
+         "mouseenter .tag": "hoverIn",
+         "mouseleave .tag": "hoverOut"
       }
    });
 

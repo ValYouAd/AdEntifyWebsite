@@ -5,6 +5,7 @@ define([
    var AppState = app.module();
 
    AppState.Model = Backbone.Model.extend({
+
       getCurrentPhotoModel: function() {
          if (this.has('currentPhotoModel') && typeof this.get('currentPhotoModel') !== 'undefined'
             && this.get('currentPhotoModel')) {

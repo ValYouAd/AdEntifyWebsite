@@ -6,7 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app"
+   "app",
+   "pinterest"
 ], function(app) {
 
    var Photo = app.module();
@@ -38,9 +39,9 @@ define([
       },
 
       updateUrl: function() {
-         this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
-         this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
-         this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
+         this.set('fullMediumUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
+         this.set('fullLargeUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
+         this.set('fullSmallUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
       }
    });
 
@@ -50,17 +51,32 @@ define([
       tagName: "div",
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            pageUrl: window.location.href
+         };
       },
 
       afterRender: function() {
          $('.full-photo #photo').load(function() {
             $('.full-photo').fadeIn();
          });
+         $('#fbcomment').append('<div class="fb-comments" data-href="' + window.location.href + '" data-width="' + $('#fbcomment').width() + '" data-num-posts="10"></div>');
+         FB.XFBML.parse();
       },
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      },
+
+      like: function() {
+         app.like().like(this.model);
+         $likeCount = $(this.el).find('#like-count');
+         $likeCount.html(this.model.get('likes_count') + 1);
+      },
+
+      events: {
+         "click #like": "like"
       }
    });
 

@@ -190,8 +190,6 @@ ul#photos-grid {
         top: auto;
         bottom: 30px;
         left: -50%;
-        display: block!important;
-        opacity: 0;
         z-index: 2000;
         padding: 4px 6px;
 
@@ -200,9 +198,6 @@ ul#photos-grid {
             -ms-transition: opacity 0.3s ease-out;
              -o-transition: opacity 0.3s ease-out;
                 transition: opacity 0.3s ease-out;
-    }
-    ul#photos-grid .tag:hover .popover {
-        opacity: 1;
     }
     ul#photos-grid .tag .map {
         width: 270px;
@@ -503,47 +498,21 @@ ul#ticker-photos {
     -o-animation: rotate 1s linear infinite;
     animation: rotate 1s linear infinite;
 }
-@-webkit-keyframes rotate {
-    from {
-        -webkit-transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-    }
-}
-@-moz-keyframes rotate {
-    from {
-        -webkit-transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-    }
-}
-@-ms-keyframes rotate {
-    from {
-        -webkit-transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-    }
-}
-@-o-keyframes rotate {
-    from {
-        -webkit-transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-    }
-}
-@keyframes rotate {
-    from {
-        -webkit-transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-    }
-}
+@-webkit-keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+   @-moz-keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+    @-ms-keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+     @-o-keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+        @keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
 
+#fblike {
+    display: inline-block;
+}
+.pinterest {
+    display: inline-block;
+    height: 20px;
+    vertical-align: top;
+    margin-left: 40px;
+}
 /*
 ----------------------- */
 
