@@ -94,6 +94,13 @@ venue:
     options:
         expose: true
 
+tagStat:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\TagStatsController
+    options:
+        expose: true
+
+
 # OAuth
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
