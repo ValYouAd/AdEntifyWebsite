@@ -11,10 +11,6 @@ var jam = {
             "main": "backbone.layoutmanager.js"
         },
         {
-            "name": "bootstrap",
-            "location": "../vendor/jam/bootstrap"
-        },
-        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -76,10 +72,6 @@ if (typeof require !== "undefined" && require.config) {
             "main": "backbone.layoutmanager.js"
         },
         {
-            "name": "bootstrap",
-            "location": "../vendor/jam/bootstrap"
-        },
-        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -138,10 +130,6 @@ else {
             "name": "backbone.layoutmanager",
             "location": "../vendor/jam/backbone.layoutmanager",
             "main": "backbone.layoutmanager.js"
-        },
-        {
-            "name": "bootstrap",
-            "location": "../vendor/jam/bootstrap"
         },
         {
             "name": "isotope",

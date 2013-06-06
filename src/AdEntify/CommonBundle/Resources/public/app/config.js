@@ -11,7 +11,8 @@ require.config({
      "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
      "bootstrap": "../vendor/js/bootstrap.min",
      "hmacsha1": "../vendor/js/hmac-sha1",
-     "pinterest": "//assets.pinterest.com/js/pinit"
+     "pinterest": "//assets.pinterest.com/js/pinit",
+     "i18next": "i18next.amd.withJQuery-1.6.3.min"
   },
 
    map: {
@@ -21,6 +22,11 @@ require.config({
 
   shim: {
      "infinitescroll": {
+        "deps": [
+           "jquery"
+        ]
+     },
+     "i18next": {
         "deps": [
            "jquery"
         ]
@@ -35,7 +41,8 @@ require.config({
         "deps": [
            "jquery",
            "facebook",
-           "bootstrap"
+           "bootstrap",
+           "i18next"
         ]
      },
      "jquery-ui": {

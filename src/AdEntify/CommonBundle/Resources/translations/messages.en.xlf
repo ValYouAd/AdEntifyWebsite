@@ -38,6 +38,10 @@
                 <source>Log in with Facebook</source>
                 <target>Log in with Facebook</target>
             </trans-unit>
+            <trans-unit id="10">
+                <source>Log in with Twitter</source>
+                <target>Log in with Twitter</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
