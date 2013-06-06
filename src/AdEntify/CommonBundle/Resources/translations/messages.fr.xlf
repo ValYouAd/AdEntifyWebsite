@@ -30,6 +30,14 @@
                 <source>Brands</source>
                 <target>Les marques</target>
             </trans-unit>
+            <trans-unit id="8">
+                <source>Log off</source>
+                <target>Me déconnecter</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Log in with Facebook</source>
+                <target>Me connecter avec Facebook</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -29,8 +29,8 @@
                                 <a href="{{ path ('fos_user_security_logout') }}" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') == false %} hide{% endif %}">Me déconnecter</a>
                             </div>
                             <div id="facebook-authent" class="pull-right">
-                                <button id="fb-login" class="btn btn-primary btn-small hide">Me connecter avec Facebook</button>
-                                <button id="fb-logout" class="btn btn-primary btn-small hide">Me déconnecter</button>
+                                <button id="fb-login" class="btn btn-primary btn-small hide">{{ 'Log in with Facebook'|trans }}</button>
+                                <button id="fb-logout" class="btn btn-primary btn-small hide">{{ 'Log off'|trans }}</button>
                             </div>
                             <div id="loading-authent" class="loading-gif-container-nomargin pull-right">
                                 <div class="loading-gif"></div>

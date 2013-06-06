@@ -57,6 +57,7 @@ define([
          this.listenTo(this.options.brands, {
             "sync": this.render
          });
+         app.trigger('domchange:title', 'Les marques référencées - AdEntify');
       }
    });
 

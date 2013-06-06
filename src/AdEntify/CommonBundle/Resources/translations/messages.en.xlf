@@ -18,6 +18,26 @@
                 <source>Upload photos</source>
                 <target>Upload photos</target>
             </trans-unit>
+            <trans-unit id="5">
+                <source>My tagged photos</source>
+                <target>My tagged photos</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>My untagged photos</source>
+                <target>My untagged photos</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Brands</source>
+                <target>Brands</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Log off</source>
+                <target>Log off</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Log in with Facebook</source>
+                <target>Log in with Facebook</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
