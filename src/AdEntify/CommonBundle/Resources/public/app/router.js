@@ -2,11 +2,8 @@ define([
    // Application.
    "app",
 
-   // FB SDK
-   "facebook",
-   "modules/facebook",
-
    // Modules
+   "modules/facebook",
    "modules/homepage",
    "modules/photos",
    "modules/myPhotos",
@@ -18,11 +15,12 @@ define([
    "modules/flickrSets",
    "modules/flickrPhotos",
    "modules/externalServicePhotos",
-   "modules/photo"
+   "modules/photo",
+   "modules/brand"
 ],
 
-function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo) {
+function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -65,7 +63,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
             fbPhotos: new FacebookPhotos.Collection(),
             istgPhotos : new InstagramPhotos.Collection(),
             flrSets: new FlickrSets.Collection(),
-            flrPhotos: new FlickrPhotos.Collection()
+            flrPhotos: new FlickrPhotos.Collection(),
+            brands: new Brand.Collection()
          };
          _.extend(this, collections);
 
@@ -96,7 +95,8 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          "instagram/photos/": "instagramPhotos",
          "flickr/sets/": "flickrSets",
          "flickr/sets/:id/photos/": "flickrPhotos",
-         "photo/:id/": "photoDetail"
+         "photo/:id/": "photoDetail",
+         "brands/": "brands"
       },
 
       homepage: function() {
@@ -267,6 +267,18 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          });
       },
 
+      brands: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Brand.Views.List({
+               brands: this.brands
+            })
+         });
+
+         this.brands.fetch();
+      },
+
       reset: function() {
          if (this.photos.length) {
             this.photos.reset();
@@ -294,6 +306,9 @@ function(app, fbLib, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbum
          }
          if (this.myTickerPhotos.length) {
             this.myTickerPhotos.reset();
+         }
+         if (this.brands.length) {
+            this.brands.reset();
          }
       },
 
