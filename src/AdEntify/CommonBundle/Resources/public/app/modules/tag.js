@@ -119,8 +119,7 @@ define([
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
          $(this.el).find('.popover').show();
-         if (!this.model.has('map_loaded')) {
-            $map = $(this.el).find('.map');
+         if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
             var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
             var mapOptions = {
                zoom:  14,
@@ -132,17 +131,12 @@ define([
                draggable: false,
                mapTypeId: google.maps.MapTypeId.ROADMAP
             };
-            var map = new google.maps.Map($map.get(0), mapOptions);
+            var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
             new google.maps.Marker({
                position: latLng,
-               map: map,
-               animation: google.maps.Animation.DROP,
-               title: this.model.get('venue')['name']
+               map: gMap
             });
-            this.model.set('map', map);
-            this.model.set('map_loaded', true);
-         } else {
-            google.maps.event.trigger(this.model.get('map'), 'resize')
+            $('#map' + this.model.get('id')).addClass('loaded');
          }
          app.tagStats().tagHover(this.model);
       },

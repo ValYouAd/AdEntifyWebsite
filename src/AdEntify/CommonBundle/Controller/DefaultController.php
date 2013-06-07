@@ -14,6 +14,16 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
+     * @Route("/")
+     */
+    public function indexNoLocaleAction()
+    {
+        return $this->redirect($this->generateUrl('home_logoff', array(
+            '_locale' => $this->getRequest()->getLocale()
+        )));
+    }
+
+    /**
      * @Route("{_locale}/", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
      * @Template()
      */
@@ -47,6 +57,17 @@ class DefaultController extends Controller
     public function appIndexAction()
     {
         return array();
+    }
+
+    /**
+     * @Route("/app/")
+     * @Template("AdEntifyCommonBundle:Default:app.html.twig")
+     */
+    public function appNoLocaleAction()
+    {
+        return $this->redirect($this->generateUrl('loggedInHome', array(
+            '_locale' => $this->getRequest()->getLocale()
+        )));
     }
 
     /**

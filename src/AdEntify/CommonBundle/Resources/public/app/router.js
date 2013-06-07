@@ -124,7 +124,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             case 'en':
                return i18nRoutes.en;
             default:
-               return i18nRoutes.en;
+               return i18nRoutes.fr;
          }
       },
 
