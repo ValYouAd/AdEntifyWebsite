@@ -1,0 +1,8 @@
+{
+   "brand": {
+      "pageTitle": "List of brands in AdEntify",
+      "pageSubTitle": "__count__ brand",
+      "pageSubTitle_plural": "__count__ brands",
+      "tagged": "Tagged __count__ times"
+   }
+}

@@ -1,0 +1,19 @@
+Tagged photos: Tagged photos
+Untagged photos: Untagged photos
+Loading please wait: Loading, please wait...
+Upload photos: Upload photos
+My tagged photos: My tagged photos
+My untagged photos: My untagged photos
+Brands: Brands
+Log off: Log off
+Log in with Facebook: Log in with Facebook
+Log in with Twitter: Log in with Twitter
+My photos: My photos
+My profile: My profile
+
+#Routing
+photos/untagged/: photos/untagged/
+my/photos/tagged/: my/photos/tagged/
+my/photos/untagged/: my/photos/untagged/
+brands/: brands/
+my/profile/: my/profile/

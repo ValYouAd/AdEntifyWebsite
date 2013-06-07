@@ -5,17 +5,15 @@ require([
   // Main Router.
   "router",
 
+   "i18next2",
+
    // App State
    "modules/appState",
    "modules/tagStats",
    "modules/like"
 ],
 
-function(app, Router, AppState, TagStats, Like) {
-
-  // Define your master router on the application namespace and trigger all
-  // navigation from this instance.
-  app.router = new Router();
+function(app, Router, i18n, AppState, TagStats, Like) {
 
    // Extend App
    _.extend(app, {
@@ -46,7 +44,7 @@ function(app, Router, AppState, TagStats, Like) {
                      return Backbone.sync(method, model, options);
                   },
                error: function() {
-                  window.location.href = Routing.generate('home_logoff');
+                  window.location.href = Routing.generate('home_logoff', { '_locale': app.appState().getLocale() });
                }
             });
          } else {
@@ -71,7 +69,7 @@ function(app, Router, AppState, TagStats, Like) {
                });
             },
             error: function () {
-               window.location.href = Routing.generate('home_logoff');
+               window.location.href = Routing.generate('home_logoff', { '_locale': app.appState().getLocale() });
             }
          });
       }
@@ -87,7 +85,7 @@ function(app, Router, AppState, TagStats, Like) {
                   return Backbone.sync(method, collection, options);
                },
                error: function() {
-                  window.location.href = Routing.generate('home_logoff');
+                  window.location.href = Routing.generate('home_logoff', { '_locale': app.appState().getLocale() });
                }
             });
          } else {
@@ -106,9 +104,20 @@ function(app, Router, AppState, TagStats, Like) {
       }
    });
 
-  // Trigger the initial route and enable HTML5 History API support, set the
-  // root folder to '/' by default.  Change in app.js.
-  Backbone.history.start({ pushState: true, root: app.root });
+   i18n.init({
+      lng: app.appState().getLocale(),
+      resGetPath: app.rootUrl + "/bundles/adentifycommon/app/locales/__lng__/__ns__.json",
+      ns: { namespaces: ['adentify'], defaultNs: 'adentify'},
+      useDataAttrOptions: true
+   }).done(function() {
+      // Define your master router on the application namespace and trigger all
+      // navigation from this instance.
+      app.router = new Router();
+
+      // Trigger the initial route and enable HTML5 History API support, set the
+      // root folder to '/' by default.  Change in app.js.
+      Backbone.history.start({ pushState: true, root: app.root });
+   });
 
   // All navigation that is relative should be passed through the navigate
   // method, to be processed by the router. If the link has a `data-bypass`

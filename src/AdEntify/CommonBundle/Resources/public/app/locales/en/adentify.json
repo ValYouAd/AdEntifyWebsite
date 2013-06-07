@@ -1,0 +1,34 @@
+{
+   "brand": {
+      "pageTitle": "List of brands in AdEntify",
+      "pageSubTitle": "__count__ brand",
+      "pageSubTitle_plural": "__count__ brands",
+      "tagged": "Tagged __count__ times"
+   },
+   "myprofile": {
+      "generalSettings": "General settings",
+      "labelLang": "Language",
+      "french": "French",
+      "english": "English",
+      "changePasswordLegend": "Change password",
+      "actualPassword": "Current password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "saveChanges": "Save changes",
+      "cancel": "Cancel"
+   },
+   "routing": {
+      "photos/untagged/": "photos/untagged/",
+      "upload/": "upload/",
+      "my/photos/tagged/": "my/photos/tagged/",
+      "my/photos/untagged/": "my/photos/untagged/",
+      "facebook/albums/": "facebook/albums/",
+      "facebook/albums/:id/photos/": "facebook/albums/__id__/photos/",
+      "instagram/photos/": "instagram/photos/",
+      "flickr/sets/": "flickr/sets/",
+      "flickr/sets/:id/photos/": "flickr/sets/__id__/photos/",
+      "photo/:id/": "photo/__id__/",
+      "brands/": "brands/",
+      "my/profile/": "my/profile/"
+   }
+}

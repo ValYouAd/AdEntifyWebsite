@@ -17,20 +17,26 @@
                     </div>
                     <ul class="nav">
                         <li class="active"><a href="">{{ 'Tagged photos'|trans }}</a></li>
-                        <li><a href="untagged/">{{ 'Untagged photos'|trans }}</a></li>
-                        <li><a href="me/tagged/">{{ 'My tagged photos'|trans }}</a></li>
-                        <li><a href="me/untagged/">{{ 'My untagged photos'|trans }}</a></li>
-                        <li><a href="brands/">{{ 'Brands'|trans }}</a></li>
+                        <li><a href="{{ 'photos/untagged/'|trans }}">{{ 'Untagged photos'|trans }}</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" data-bypass="">{{ 'My photos'|trans }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelleby="drop1">
+                                <li role="presentation"><a role="menuitem" href="{{ 'my/photos/tagged/'|trans }}">{{ 'My tagged photos'|trans }}</a></li>
+                                <li role="presentation"><a role="menuitem" href="{{ 'my/photos/untagged/'|trans }}">{{ 'My untagged photos'|trans }}</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ 'brands/'|trans }}">{{ 'Brands'|trans }}</a></li>
+                        <li><a href="{{ 'my/profile/'|trans }}">{{ 'My profile'|trans }}</a></li>
                     </ul>
                     <div class="pull-right" id="user-account">
                         <div class="pull-right">
                             <div id="twitter-authent" class="pull-right">
-                                <a href="{{ path ('_security_login_twitter')}}" id="twitter-login" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') %} hide{% endif %}">Me connecter avec Twitter</a>
-                                <a href="{{ path ('fos_user_security_logout') }}" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') == false %} hide{% endif %}">Me déconnecter</a>
+                                <a href="{{ path ('_security_login_twitter')}}" id="twitter-login" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') %} hide{% endif %}">{{ 'Log in with Twitter'|trans }}</a>
+                                <a href="{{ path ('fos_user_security_logout') }}" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') == false %} hide{% endif %}">{{ 'Log off'|trans }}</a>
                             </div>
                             <div id="facebook-authent" class="pull-right">
-                                <button id="fb-login" class="btn btn-primary btn-small hide">Me connecter avec Facebook</button>
-                                <button id="fb-logout" class="btn btn-primary btn-small hide">Me déconnecter</button>
+                                <button id="fb-login" class="btn btn-primary btn-small hide">{{ 'Log in with Facebook'|trans }}</button>
+                                <button id="fb-logout" class="btn btn-primary btn-small hide">{{ 'Log off'|trans }}</button>
                             </div>
                             <div id="loading-authent" class="loading-gif-container-nomargin pull-right">
                                 <div class="loading-gif"></div>
@@ -70,6 +76,7 @@
         var instagramClientId = '{{ instagram_client_id }}';
         var facebookAppId = '{{ facebook_app_id }}';
         var facebookPermissions = '{{ facebook_permissions }}';
+        var currentLocale = '{{ app.request.locale }}';
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&sensor=false"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

@@ -58,8 +58,8 @@ define([
       },
 
       afterRender: function() {
-         $('.full-photo #photo').load(function() {
-            $('.full-photo').fadeIn();
+         $('.full-photo img').load(function() {
+            $('#photo').fadeIn();
          });
          $('#fbcomment').append('<div class="fb-comments" data-href="' + window.location.href + '" data-width="' + $('#fbcomment').width() + '" data-num-posts="10"></div>');
          FB.XFBML.parse();

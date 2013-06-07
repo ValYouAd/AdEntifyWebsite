@@ -16,11 +16,12 @@ define([
    "modules/flickrPhotos",
    "modules/externalServicePhotos",
    "modules/photo",
-   "modules/brand"
+   "modules/brand",
+   "modules/myProfile"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand) {
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MyProfile) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -84,19 +85,47 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          app.on('domchange:title', this.onDomChangeTitle, this);
       },
 
-      routes: {
-         "": "homepage",
-         "untagged/": "untagged",
-         "upload/": "upload",
-         "me/tagged/": "meTagged",
-         "me/untagged/": "meUntagged",
-         "facebook/albums/": "facebookAlbums",
-         "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
-         "instagram/photos/": "instagramPhotos",
-         "flickr/sets/": "flickrSets",
-         "flickr/sets/:id/photos/": "flickrPhotos",
-         "photo/:id/": "photoDetail",
-         "brands/": "brands"
+      routes: function() {
+         i18nRoutes = {
+            "fr": {
+               "": "homepage",
+               "photos/non-taguees/": "untagged",
+               "upload/": "upload",
+               "mes/photos/taguees/": "meTagged",
+               "mes/photos/non-taguees/": "meUntagged",
+               "facebook/albums/": "facebookAlbums",
+               "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
+               "instagram/photos/": "instagramPhotos",
+               "flickr/sets/": "flickrSets",
+               "flickr/sets/:id/photos/": "flickrPhotos",
+               "photo/:id/": "photoDetail",
+               "marques/": "brands",
+               "mon/profil/": "myProfile"
+            },
+            "en" : {
+               "": "homepage",
+               "photos/untagged/": "untagged",
+               "upload/": "upload",
+               "my/photos/tagged/": "meTagged",
+               "my/photos/untagged/": "meUntagged",
+               "facebook/albums/": "facebookAlbums",
+               "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
+               "instagram/photos/": "instagramPhotos",
+               "flickr/sets/": "flickrSets",
+               "flickr/sets/:id/photos/": "flickrPhotos",
+               "photo/:id/": "photoDetail",
+               "brands/": "brands",
+               "my/profile/": "myProfile"
+            }
+         };
+         switch (app.appState().getLocale()) {
+            case 'fr':
+               return i18nRoutes.fr;
+            case 'en':
+               return i18nRoutes.en;
+            default:
+               return i18nRoutes.en;
+         }
       },
 
       homepage: function() {
@@ -260,7 +289,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                tickerPhotos: this.myTickerPhotos,
                tagged: false
             })
-         });
+         }).render();
 
          this.myTickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
@@ -274,9 +303,18 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#content": new Brand.Views.List({
                brands: this.brands
             })
-         });
+         }).render();
 
          this.brands.fetch();
+      },
+
+      myProfile: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new MyProfile.Views.Detail(),
+            "#menu-right": new MyProfile.Views.MenuRight()
+         }).render();
       },
 
       reset: function() {

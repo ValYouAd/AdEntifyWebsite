@@ -1,0 +1,34 @@
+{
+   "brand": {
+      "pageTitle": "Les marques référencées sur AdEntify",
+      "pageSubTitle": "__count__ marque",
+      "pageSubTitle_plural": "__count__ marques",
+      "tagged": "Taguée __count__ fois"
+   },
+   "myprofile": {
+      "generalSettings": "Paramètres généraux",
+      "labelLang": "Langue du site",
+      "french": "Français",
+      "english": "Anglais",
+      "changePasswordLegend": "Changer de mot de passe",
+      "actualPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "saveChanges": "Sauvegarder mes changements",
+      "cancel": "Annuler"
+   },
+   "routing": {
+      "photos/untagged/": "photos/non-taguees/",
+      "upload/": "upload/",
+      "my/photos/tagged/": "mes/photos/taguees/",
+      "me/photos/untagged/": "mes/photos/non-taguees/",
+      "facebook/albums/": "facebook/albums/",
+      "facebook/albums/:id/photos/": "facebook/albums/__id__/photos/",
+      "instagram/photos/": "instagram/photos/",
+      "flickr/sets/": "flickr/albums/",
+      "flickr/sets/:id/photos/": "flickr/albums/__id__/photos/",
+      "photo/:id/": "photo/__id__/",
+      "brands/": "marques/",
+      "my/profile/": "mon/profil/"
+   }
+}

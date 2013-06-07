@@ -11,7 +11,7 @@ define([
       // creation.
       var app = {
          // The root path to run the application.
-         root: "/AdEntifyFacebookApp/web/app/",
+         root: "/AdEntifyFacebookApp/web/" + currentLocale + "/app/",
          rootUrl: "http://localhost/AdEntifyFacebookApp/web/"
       };
 
@@ -23,7 +23,7 @@ define([
          // Allow LayoutManager to augment Backbone.View.prototype.
          manage: true,
 
-         prefix: "../bundles/adentifycommon/app/templates/",
+         prefix: "../../bundles/adentifycommon/app/templates/",
 
          fetch: function(path) {
             // Concatenate the file extension.

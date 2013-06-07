@@ -1,0 +1,19 @@
+Tagged photos: Photos taguées
+Untagged photos: Photos non taguées
+Loading please wait: Chargement en cours, veuillez patienter...
+Upload photos: Envoyer mes photos
+My tagged photos: Mes photos taguées
+My untagged photos: Mes photos non taguées
+Brands: Les marques
+Log off: Me déconnecter
+Log in with Facebook: Me connecter avec Facebook
+Log in with Twitter: Me connecter avec Twitter
+My photos: Mes photos
+My profile: Mon profil
+
+#Routing
+photos/untagged/: photos/non-taguees/
+my/photos/tagged/: mes/photos/taguees/
+my/photos/untagged/: mes/photos/non-taguees/
+brands/: marques/
+my/profile/: mon/profil/

@@ -7,11 +7,12 @@ require.config({
 
   paths: {
      facebook: "//connect.facebook.net/fr_FR/all",
-     "lodash": "../vendor/jam/lodash/dist/lodash.underscore",
+     "lodash": "../vendor/jam/lodash/dist/lodash.underscore.min",
      "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
      "bootstrap": "../vendor/js/bootstrap.min",
      "hmacsha1": "../vendor/js/hmac-sha1",
-     "pinterest": "//assets.pinterest.com/js/pinit"
+     "pinterest": "//assets.pinterest.com/js/pinit",
+     "i18n": "i18next.amd.withJQuery-1.6.3.min"
   },
 
    map: {
@@ -21,6 +22,11 @@ require.config({
 
   shim: {
      "infinitescroll": {
+        "deps": [
+           "jquery"
+        ]
+     },
+     "i18n": {
         "deps": [
            "jquery"
         ]
