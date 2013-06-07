@@ -112,6 +112,8 @@ define([
          this.listenTo(this.options.sets, {
             "add": this.render
          });
+
+         app.trigger('domchange:title', $.t('flickr.albumsPageTitle'));
       }
    });
 

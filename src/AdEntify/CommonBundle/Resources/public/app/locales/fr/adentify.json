@@ -5,7 +5,16 @@
       "pageSubTitle_plural": "__count__ marques",
       "tagged": "Taguée __count__ fois"
    },
-   "myprofile": {
+   "photos": {
+      "pageTitleTagged": "Photos taguées - AdEntify",
+      "pageTitleUntagged": "Photos non taguées - AdEntify"
+   },
+   "myPhotos": {
+      "pageTitleTagged": "Mes photos taguées - AdEntify",
+      "pageTitleUntagged": "Mes photos non taguées - AdEntify"
+   },
+   "myProfile": {
+      "pageTitle": "Mon profil - AdEntify",
       "generalSettings": "Paramètres généraux",
       "labelLang": "Langue du site",
       "french": "Français",
@@ -16,6 +25,20 @@
       "confirmPassword": "Confirmer le mot de passe",
       "saveChanges": "Sauvegarder mes changements",
       "cancel": "Annuler"
+   },
+   "upload": {
+      "pageTitle": "Envoyer mes photos - AdEntify"
+   },
+   "facebook": {
+      "albumsPageTitle": "Mes albums Facebook - AdEntify",
+      "photosPageTitle": "Mes photos Facebook - AdEntify"
+   },
+   "instagram": {
+      "pageTitle": "Mes photos Instagram - AdEntify"
+   },
+   "flickr": {
+      "albumsPageTitle": "Mes albums Flickr - AdEntify",
+      "photosPageTitle": "Mes photos Flickr - AdEntify"
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",

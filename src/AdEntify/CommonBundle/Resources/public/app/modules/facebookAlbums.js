@@ -88,10 +88,10 @@ define([
                that.loadAlbums();
             });
          }
-
          this.listenTo(this.options.albums, {
             "add": this.render
          });
+         app.trigger('domchange:title', $.t('facebook.albumsPageTitle'));
       }
    });
 

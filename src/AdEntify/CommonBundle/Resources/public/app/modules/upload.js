@@ -26,6 +26,10 @@ define([
 
       flickrUpload: function() {
          window.location.href = Routing.generate('flickr_request_token');
+      },
+
+      initialize: function() {
+         app.trigger('domchange:title', $.t('upload.pageTitle'));
       }
    });
 

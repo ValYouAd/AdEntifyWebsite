@@ -229,6 +229,11 @@ define([
          app.on('global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
          });
+         if (this.options.tagged) {
+            app.trigger('domchange:title', $.t('photos.pageTitleTagged'));
+         } else {
+            app.trigger('domchange:title', $.t('photos.pageTitleUntagged'));
+         }
       }
    });
 
