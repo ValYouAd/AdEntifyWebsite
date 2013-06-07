@@ -42,6 +42,7 @@ define([
          this.loadPhotos();
 
          app.on('externalServicePhoto:submitPhotos', this.submitPhotos);
+         app.trigger('domchange:title', $.t('instagram.pageTitle'));
 
          this.listenTo(this.options.photos, {
             "add": this.render

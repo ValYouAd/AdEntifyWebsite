@@ -72,6 +72,7 @@ define([
          }
 
          app.on('externalServicePhoto:submitPhotos', this.submitPhotos);
+         app.trigger('domchange:title', $.t('facebook.photosPageTitle'));
 
          this.listenTo(this.options.photos, {
             "add": this.render

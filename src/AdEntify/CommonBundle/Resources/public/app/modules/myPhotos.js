@@ -237,6 +237,11 @@ define([
             that.clickOnPhoto(openedImage);
          });
          app.on('myPhotos:submitPhotoDetails', this.submitPhotoDetails);
+         if (this.options.tagged) {
+            app.trigger('domchange:title', $.t('myPhotos.pageTitleTagged'));
+         } else {
+            app.trigger('domchange:title', $.t('myPhotos.pageTitleUntagged'));
+         }
       }
    });
 

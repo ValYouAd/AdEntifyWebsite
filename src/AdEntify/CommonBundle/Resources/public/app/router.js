@@ -133,11 +133,11 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          app.useLayout().setViews({
             "#content": new Photos.Views.Content({
-               photos: this.photos
+               photos: this.photos,
+               tagged: true
             }),
             "#menu-right": new Photos.Views.Ticker({
-               tickerPhotos: this.tickerPhotos,
-               tagged: false
+               tickerPhotos: this.tickerPhotos
             })
          }).render();
 
@@ -154,11 +154,11 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          app.useLayout().setViews({
             "#content": new Photos.Views.Content({
-               photos: this.photos
+               photos: this.photos,
+               tagged: false
             }),
             "#menu-right": new Photos.Views.Ticker({
-               tickerPhotos: this.tickerPhotos,
-               tagged: true
+               tickerPhotos: this.tickerPhotos
             })
          }).render();
 
@@ -175,11 +175,11 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          app.useLayout().setViews({
             "#content": new MyPhotos.Views.Content({
-               photos: this.myPhotos
+               photos: this.myPhotos,
+               tagged: true
             }),
             "#menu-right": new MyPhotos.Views.Ticker({
-               tickerPhotos: this.myTickerPhotos,
-               tagged: true
+               tickerPhotos: this.myTickerPhotos
             })
          });
 
@@ -196,11 +196,11 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          app.useLayout().setViews({
             "#content": new MyPhotos.Views.Content({
-               photos: this.myPhotos
+               photos: this.myPhotos,
+               tagged: false
             }),
             "#menu-right": new MyPhotos.Views.Ticker({
-               tickerPhotos: this.myTickerPhotos,
-               tagged: false
+               tickerPhotos: this.myTickerPhotos
             })
          });
 

@@ -24,17 +24,12 @@ define([
       },
 
       initialize: function() {
-         //this.listenTo(this.model, "change", this.render);
-         app.trigger('domchange:title', 'Mon profil');
+         app.trigger('domchange:title', $.t('myProfile.pageTitle'));
       },
 
       submit: function(e) {
          e.preventDefault();
-
          window.location.href = Routing.generate('change_lang', {'locale': $('#lang').val()});
-         /*$.i18n.setLng($('#lang').val(), function() {
-            $('main').i18n();
-         });*/
       },
 
       events: {
@@ -43,9 +38,7 @@ define([
    });
 
    MyProfile.Views.MenuRight = Backbone.View.extend({
-      template: "myProfile/menuRight",
-
-
+      template: "myProfile/menuRight"
    });
 
 
