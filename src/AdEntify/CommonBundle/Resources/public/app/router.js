@@ -285,7 +285,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new MyProfile.Views.Detail()
+            "#content": new MyProfile.Views.Detail(),
+            "#menu-right": new MyProfile.Views.MenuRight()
          }).render();
       },
 

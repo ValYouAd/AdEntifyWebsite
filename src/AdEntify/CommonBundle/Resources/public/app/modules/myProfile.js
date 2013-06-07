@@ -18,10 +18,6 @@ define([
    MyProfile.Views.Detail = Backbone.View.extend({
       template: "myProfile/detail",
 
-     /* serialize: function() {
-         return { model: this.model };
-      },
-*/
       afterRender: function() {
          $(this.el).i18n();
       },
@@ -44,27 +40,10 @@ define([
       }
    });
 
-   MyProfile.Views.Content = Backbone.View.extend({
-      template: "myProfile/content",
+   MyProfile.Views.MenuRight = Backbone.View.extend({
+      template: "myProfile/menuRight",
 
-      serialize: function() {
-         return { collection: this.options.photos };
-      },
 
-      beforeRender: function() {
-         /*this.options.photos.each(function(photo) {
-            this.insertView("#photos-grid", new MyProfile.Views.Item({
-               model: photo
-            }));
-         }, this);*/
-      },
-
-      initialize: function() {
-         /*this.listenTo(this.options.photos, {
-            "sync": this.render
-         });*/
-         app.trigger('domchange:title', 'Mon profil');
-      }
    });
 
 
