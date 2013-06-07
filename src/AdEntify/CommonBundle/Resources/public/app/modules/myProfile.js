@@ -19,6 +19,7 @@ define([
       template: "myProfile/detail",
 
       afterRender: function() {
+         $(this.el).find('option[value="' + app.appState().getLocale() + '"]').attr("selected", "selected");
          $(this.el).i18n();
       },
 
@@ -30,9 +31,10 @@ define([
       submit: function(e) {
          e.preventDefault();
 
-         $.i18n.setLng($('#lang').val(), function() {
+         window.location.href = Routing.generate('change_lang', {'locale': $('#lang').val()});
+         /*$.i18n.setLng($('#lang').val(), function() {
             $('main').i18n();
-         });
+         });*/
       },
 
       events: {

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
-     * @Route("", name="home_logoff")
+     * @Route("{_locale}", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
      * @Template()
      */
     public function indexAction()
@@ -28,7 +28,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/app/{slug}", requirements={"slug" = "(.+)"})
+     * @Route("/{_locale}/app/{slug}", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr","slug" = "(.+)"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
@@ -38,7 +38,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/app/", name="loggedInHome")
+     * @Route("/{_locale}/app/", name="loggedInHome", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
@@ -48,7 +48,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/app/instagram/photos/", name="instagram_photos")
+     * @Route("/{_locale}/app/instagram/photos/", name="instagram_photos")
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
@@ -58,7 +58,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/app/flickr/sets/", name="flickr_sets")
+     * @Route("/{_locale}/app/flickr/sets/", name="flickr_sets")
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
@@ -131,5 +131,14 @@ class DefaultController extends Controller
         $response = new Response(json_encode($accessToken));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    /**
+     * @Route("/lang/{locale}", requirements={"locale" = "en|fr"}, name="change_lang")
+     */
+    public function langAction($locale)
+    {
+        $this->getRequest()->getSession()->set('_locale', $locale);
+        return $this->redirect($this->generateUrl('loggedInHome', array('_locale' => $locale)));
     }
 }

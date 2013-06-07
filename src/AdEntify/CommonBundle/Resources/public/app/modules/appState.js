@@ -6,7 +6,7 @@ define([
 
    AppState.Model = Backbone.Model.extend({
       defaults: {
-         locale: 'fr'
+         locale: currentLocale
       },
 
       getLocale: function() {

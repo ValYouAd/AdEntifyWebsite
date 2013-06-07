@@ -85,20 +85,47 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          app.on('domchange:title', this.onDomChangeTitle, this);
       },
 
-      routes: {
-         "": "homepage",
-         "untagged/": "untagged",
-         "upload/": "upload",
-         "me/tagged/": "meTagged",
-         "me/untagged/": "meUntagged",
-         "facebook/albums/": "facebookAlbums",
-         "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
-         "instagram/photos/": "instagramPhotos",
-         "flickr/sets/": "flickrSets",
-         "flickr/sets/:id/photos/": "flickrPhotos",
-         "photo/:id/": "photoDetail",
-         "brands/": "brands",
-         "me/profile/": "meProfile"
+      routes: function() {
+         i18nRoutes = {
+            "fr": {
+               "": "homepage",
+               "non-taguees/": "untagged",
+               "upload/": "upload",
+               "mes/photos-taguees/": "meTagged",
+               "mes/photos-non-taguees/": "meUntagged",
+               "facebook/albums/": "facebookAlbums",
+               "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
+               "instagram/photos/": "instagramPhotos",
+               "flickr/albums/": "flickrSets",
+               "flickr/albums/:id/photos/": "flickrPhotos",
+               "photo/:id/": "photoDetail",
+               "marques/": "brands",
+               "mon/profil/": "meProfile"
+            },
+            "en" : {
+               "": "homepage",
+               "untagged/": "untagged",
+               "upload/": "upload",
+               "my/tagged-photos/": "meTagged",
+               "my/untagged-photos/": "meUntagged",
+               "facebook/albums/": "facebookAlbums",
+               "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
+               "instagram/photos/": "instagramPhotos",
+               "flickr/sets/": "flickrSets",
+               "flickr/sets/:id/photos/": "flickrPhotos",
+               "photo/:id/": "photoDetail",
+               "brands/": "brands",
+               "my/profile/": "meProfile"
+            }
+         };
+         switch (app.appState().getLocale()) {
+            case 'fr':
+               return i18nRoutes.fr;
+            case 'en':
+               return i18nRoutes.en;
+            default:
+               return i18nRoutes.en;
+         }
       },
 
       homepage: function() {

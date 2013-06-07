@@ -16,5 +16,19 @@
       "confirmPassword": "Confirm password",
       "saveChanges": "Save changes",
       "cancel": "Cancel"
+   },
+   "routing": {
+      "untagged/": "untagged/",
+      "upload/": "upload/",
+      "me/tagged/": "me/tagged/",
+      "me/untagged/": "me/untagged/",
+      "facebook/albums/": "facebook/albums/",
+      "facebook/albums/:id/photos/": "facebook/albums/__id__/photos/",
+      "instagram/photos/": "instagram/photos/",
+      "flickr/sets/": "flickr/sets/",
+      "flickr/sets/:id/photos/": "flickr/sets/__id__/photos/",
+      "photo/:id/": "photo/__id__/",
+      "brands/": "brands/",
+      "me/profile/": "me/profile/"
    }
 }
