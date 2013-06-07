@@ -89,25 +89,25 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          i18nRoutes = {
             "fr": {
                "": "homepage",
-               "non-taguees/": "untagged",
+               "photos/non-taguees/": "untagged",
                "upload/": "upload",
-               "mes/photos-taguees/": "meTagged",
-               "mes/photos-non-taguees/": "meUntagged",
+               "mes/photos/taguees/": "meTagged",
+               "mes/photos/non-taguees/": "meUntagged",
                "facebook/albums/": "facebookAlbums",
                "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
                "instagram/photos/": "instagramPhotos",
-               "flickr/albums/": "flickrSets",
-               "flickr/albums/:id/photos/": "flickrPhotos",
+               "flickr/sets/": "flickrSets",
+               "flickr/sets/:id/photos/": "flickrPhotos",
                "photo/:id/": "photoDetail",
                "marques/": "brands",
-               "mon/profil/": "meProfile"
+               "mon/profil/": "myProfile"
             },
             "en" : {
                "": "homepage",
-               "untagged/": "untagged",
+               "photos/untagged/": "untagged",
                "upload/": "upload",
-               "my/tagged-photos/": "meTagged",
-               "my/untagged-photos/": "meUntagged",
+               "my/photos/tagged/": "meTagged",
+               "my/photos/untagged/": "meUntagged",
                "facebook/albums/": "facebookAlbums",
                "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
                "instagram/photos/": "instagramPhotos",
@@ -115,7 +115,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "flickr/sets/:id/photos/": "flickrPhotos",
                "photo/:id/": "photoDetail",
                "brands/": "brands",
-               "my/profile/": "meProfile"
+               "my/profile/": "myProfile"
             }
          };
          switch (app.appState().getLocale()) {
@@ -308,7 +308,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.brands.fetch();
       },
 
-      meProfile: function() {
+      myProfile: function() {
          this.reset();
 
          app.useLayout().setViews({

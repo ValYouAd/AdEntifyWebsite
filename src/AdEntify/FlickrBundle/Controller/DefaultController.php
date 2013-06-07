@@ -32,7 +32,7 @@ class DefaultController extends Controller
         ));
 
         if ($oAuthUserInfo)
-            return $this->redirect($this->generateUrl('flickr_sets'));
+            return $this->redirect($this->generateUrl('flickr_sets', array('_locale' => $this->getRequest()->getLocale())));
 
         $flickrUrl = 'http://www.flickr.com/services/oauth/request_token';
         $callbackUrl = $this->generateUrl('flickr_authent', array(), true);
@@ -165,7 +165,7 @@ class DefaultController extends Controller
                         $em->persist($oAuthUserInfo);
                     $em->flush();
 
-                    return $this->redirect($this->generateUrl('flickr_sets'));
+                    return $this->redirect($this->generateUrl('flickr_sets', array('_locale' => $this->getRequest()->getLocale())));
                 } else {
                     throw new AuthenticationException('Can\'t get Flickr feed');
                 }

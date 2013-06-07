@@ -44,7 +44,7 @@ function(app, Router, i18n, AppState, TagStats, Like) {
                      return Backbone.sync(method, model, options);
                   },
                error: function() {
-                  window.location.href = Routing.generate('home_logoff');
+                  window.location.href = Routing.generate('home_logoff', { '_locale': app.appState().getLocale() });
                }
             });
          } else {
@@ -69,7 +69,7 @@ function(app, Router, i18n, AppState, TagStats, Like) {
                });
             },
             error: function () {
-               window.location.href = Routing.generate('home_logoff');
+               window.location.href = Routing.generate('home_logoff', { '_locale': app.appState().getLocale() });
             }
          });
       }
@@ -85,7 +85,7 @@ function(app, Router, i18n, AppState, TagStats, Like) {
                   return Backbone.sync(method, collection, options);
                },
                error: function() {
-                  window.location.href = Routing.generate('home_logoff');
+                  window.location.href = Routing.generate('home_logoff', { '_locale': app.appState().getLocale() });
                }
             });
          } else {

@@ -12,8 +12,8 @@ My photos: My photos
 My profile: My profile
 
 #Routing
-untagged/: untagged/
-my/tagged-photos/: my/tagged-photos/
-my/untagged-photos/: my/untagged-photos/
+photos/untagged/: photos/untagged/
+my/photos/tagged/: my/photos/tagged/
+my/photos/untagged/: my/photos/untagged/
 brands/: brands/
 my/profile/: my/profile/

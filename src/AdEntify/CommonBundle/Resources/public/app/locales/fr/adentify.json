@@ -18,10 +18,10 @@
       "cancel": "Annuler"
    },
    "routing": {
-      "untagged/": "non-taguees/",
+      "photos/untagged/": "photos/non-taguees/",
       "upload/": "upload/",
-      "me/tagged/": "moi/taguees/",
-      "me/untagged/": "moi/non-taguees/",
+      "my/photos/tagged/": "mes/photos/taguees/",
+      "me/photos/untagged/": "mes/photos/non-taguees/",
       "facebook/albums/": "facebook/albums/",
       "facebook/albums/:id/photos/": "facebook/albums/__id__/photos/",
       "instagram/photos/": "instagram/photos/",
@@ -29,6 +29,6 @@
       "flickr/sets/:id/photos/": "flickr/albums/__id__/photos/",
       "photo/:id/": "photo/__id__/",
       "brands/": "marques/",
-      "me/profile/": "moi/profil/"
+      "my/profile/": "mon/profil/"
    }
 }

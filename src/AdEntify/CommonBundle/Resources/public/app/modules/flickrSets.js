@@ -15,10 +15,6 @@ define([
    var loaded = false;
 
    FlickrSets.Model = Backbone.Model.extend({
-      title: '',
-      description: '',
-      id: '',
-
       initialize: function() {
          this.set('title', this.attributes.title._content);
          this.set('description', this.attributes.description._content);

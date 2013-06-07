@@ -14,14 +14,16 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
-     * @Route("{_locale}", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
+     * @Route("{_locale}/", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
      * @Template()
      */
     public function indexAction()
     {
         $securityContext = $this->container->get('security.context');
         if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
-            return $this->redirect($this->generateUrl('loggedInHome'));
+            return $this->redirect($this->generateUrl('loggedInHome', array(
+                '_locale' => $this->getRequest()->getLocale()
+            )));
         }
 
         return array();
@@ -139,6 +141,8 @@ class DefaultController extends Controller
     public function langAction($locale)
     {
         $this->getRequest()->getSession()->set('_locale', $locale);
-        return $this->redirect($this->generateUrl('loggedInHome', array('_locale' => $locale)));
+        return $this->redirect($this->generateUrl('loggedInHome', array(
+            '_locale' => $locale
+        )));
     }
 }

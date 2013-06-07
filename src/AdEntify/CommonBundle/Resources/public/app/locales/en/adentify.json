@@ -18,10 +18,10 @@
       "cancel": "Cancel"
    },
    "routing": {
-      "untagged/": "untagged/",
+      "photos/untagged/": "photos/untagged/",
       "upload/": "upload/",
-      "me/tagged/": "me/tagged/",
-      "me/untagged/": "me/untagged/",
+      "my/photos/tagged/": "my/photos/tagged/",
+      "my/photos/untagged/": "my/photos/untagged/",
       "facebook/albums/": "facebook/albums/",
       "facebook/albums/:id/photos/": "facebook/albums/__id__/photos/",
       "instagram/photos/": "instagram/photos/",
@@ -29,6 +29,6 @@
       "flickr/sets/:id/photos/": "flickr/sets/__id__/photos/",
       "photo/:id/": "photo/__id__/",
       "brands/": "brands/",
-      "me/profile/": "me/profile/"
+      "my/profile/": "my/profile/"
    }
 }
