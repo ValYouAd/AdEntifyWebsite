@@ -42,7 +42,7 @@ security:
             form_login:                      # On définit notre méthode d'authentification
                 provider:    fos_userbundle  # On lit l'authentification au provider définit plus haut
                 remember_me: true            # On active la possibilité du "Se souvenir de moi" (désactivé par défaut)
-                default_target_path: /{_locale}/app/
+                default_target_path: /app/
                 login_path:  /
             fos_facebook:
                 app_url:             "http://apps.facebook.com/appName/"
