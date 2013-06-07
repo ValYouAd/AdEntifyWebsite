@@ -42,6 +42,14 @@
                 <source>Log in with Twitter</source>
                 <target>Log in with Twitter</target>
             </trans-unit>
+            <trans-unit id="11">
+                <source>My photos</source>
+                <target>My photos</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>My profile</source>
+                <target>My profile</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

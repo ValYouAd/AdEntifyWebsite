@@ -16,11 +16,12 @@ define([
    "modules/flickrPhotos",
    "modules/externalServicePhotos",
    "modules/photo",
-   "modules/brand"
+   "modules/brand",
+   "modules/myProfile"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand) {
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MyProfile) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -96,7 +97,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          "flickr/sets/": "flickrSets",
          "flickr/sets/:id/photos/": "flickrPhotos",
          "photo/:id/": "photoDetail",
-         "brands/": "brands"
+         "brands/": "brands",
+         "me/profile/": "meProfile"
       },
 
       homepage: function() {
@@ -260,7 +262,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                tickerPhotos: this.myTickerPhotos,
                tagged: false
             })
-         });
+         }).render();
 
          this.myTickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
@@ -274,9 +276,17 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#content": new Brand.Views.List({
                brands: this.brands
             })
-         });
+         }).render();
 
          this.brands.fetch();
+      },
+
+      meProfile: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new MyProfile.Views.Detail()
+         }).render();
       },
 
       reset: function() {

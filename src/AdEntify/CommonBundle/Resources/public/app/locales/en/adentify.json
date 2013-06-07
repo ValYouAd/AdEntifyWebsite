@@ -1,0 +1,20 @@
+{
+   "brand": {
+      "pageTitle": "List of brands in AdEntify",
+      "pageSubTitle": "__count__ brand",
+      "pageSubTitle_plural": "__count__ brands",
+      "tagged": "Tagged __count__ times"
+   },
+   "myprofile": {
+      "generalSettings": "General settings",
+      "labelLang": "Language",
+      "french": "French",
+      "english": "English",
+      "changePasswordLegend": "Change password",
+      "actualPassword": "Current password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "saveChanges": "Save changes",
+      "cancel": "Cancel"
+   }
+}

@@ -52,6 +52,10 @@ define([
          }, this);
       },
 
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
       initialize: function() {
          var that = this;
          this.listenTo(this.options.brands, {

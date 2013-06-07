@@ -18,9 +18,15 @@
                     <ul class="nav">
                         <li class="active"><a href="">{{ 'Tagged photos'|trans }}</a></li>
                         <li><a href="untagged/">{{ 'Untagged photos'|trans }}</a></li>
-                        <li><a href="me/tagged/">{{ 'My tagged photos'|trans }}</a></li>
-                        <li><a href="me/untagged/">{{ 'My untagged photos'|trans }}</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" data-bypass="">{{ 'My photos'|trans }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelleby="drop1">
+                                <li role="presentation"><a role="menuitem" href="me/tagged/">{{ 'My tagged photos'|trans }}</a></li>
+                                <li role="presentation"><a role="menuitem" href="me/untagged/">{{ 'My untagged photos'|trans }}</a></li>
+                            </ul>
+                        </li>
                         <li><a href="brands/">{{ 'Brands'|trans }}</a></li>
+                        <li><a href="me/profile/">{{ 'My profile'|trans }}</a></li>
                     </ul>
                     <div class="pull-right" id="user-account">
                         <div class="pull-right">

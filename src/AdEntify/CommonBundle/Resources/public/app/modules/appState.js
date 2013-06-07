@@ -5,6 +5,17 @@ define([
    var AppState = app.module();
 
    AppState.Model = Backbone.Model.extend({
+      defaults: {
+         locale: 'fr'
+      },
+
+      getLocale: function() {
+         return this.get('locale');
+      },
+
+      setLocale: function(locale) {
+         this.set('locale', locale);
+      },
 
       getCurrentPhotoModel: function() {
          if (this.has('currentPhotoModel') && typeof this.get('currentPhotoModel') !== 'undefined'

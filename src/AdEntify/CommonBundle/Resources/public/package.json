@@ -13,7 +13,8 @@
       "backbone.layoutmanager": "*",
       "isotope": "*",
       "jquery-ui": "*",
-      "modernizer": "*"
+      "modernizer": "*",
+      "i18next2": "1.6.3c"
     }
   }
 }

@@ -11,6 +11,11 @@ var jam = {
             "main": "backbone.layoutmanager.js"
         },
         {
+            "name": "i18next2",
+            "location": "../vendor/jam/i18next2",
+            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
+        },
+        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -28,7 +33,7 @@ var jam = {
         {
             "name": "lodash",
             "location": "../vendor/jam/lodash",
-            "main": "./lodash.js"
+            "main": "./dist/lodash.compat.js"
         },
         {
             "name": "modernizer",
@@ -41,7 +46,7 @@ var jam = {
             "main": "underscore.js"
         }
     ],
-    "version": "0.2.15",
+    "version": "0.2.17",
     "shim": {
         "backbone": {
             "deps": [
@@ -49,6 +54,11 @@ var jam = {
                 "jquery"
             ],
             "exports": "Backbone"
+        },
+        "i18next2": {
+            "deps": [
+                "jquery"
+            ]
         },
         "isotope": {
             "deps": [
@@ -72,6 +82,11 @@ if (typeof require !== "undefined" && require.config) {
             "main": "backbone.layoutmanager.js"
         },
         {
+            "name": "i18next2",
+            "location": "../vendor/jam/i18next2",
+            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
+        },
+        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -89,7 +104,7 @@ if (typeof require !== "undefined" && require.config) {
         {
             "name": "lodash",
             "location": "../vendor/jam/lodash",
-            "main": "./lodash.js"
+            "main": "./dist/lodash.compat.js"
         },
         {
             "name": "modernizer",
@@ -109,6 +124,11 @@ if (typeof require !== "undefined" && require.config) {
                 "jquery"
             ],
             "exports": "Backbone"
+        },
+        "i18next2": {
+            "deps": [
+                "jquery"
+            ]
         },
         "isotope": {
             "deps": [
@@ -132,6 +152,11 @@ else {
             "main": "backbone.layoutmanager.js"
         },
         {
+            "name": "i18next2",
+            "location": "../vendor/jam/i18next2",
+            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
+        },
+        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -149,7 +174,7 @@ else {
         {
             "name": "lodash",
             "location": "../vendor/jam/lodash",
-            "main": "./lodash.js"
+            "main": "./dist/lodash.compat.js"
         },
         {
             "name": "modernizer",
@@ -169,6 +194,11 @@ else {
                 "jquery"
             ],
             "exports": "Backbone"
+        },
+        "i18next2": {
+            "deps": [
+                "jquery"
+            ]
         },
         "isotope": {
             "deps": [

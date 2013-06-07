@@ -1,0 +1,20 @@
+{
+   "brand": {
+      "pageTitle": "Les marques référencées sur AdEntify",
+      "pageSubTitle": "__count__ marque",
+      "pageSubTitle_plural": "__count__ marques",
+      "tagged": "Taguée __count__ fois"
+   },
+   "myprofile": {
+      "generalSettings": "Paramètres généraux",
+      "labelLang": "Langue du site",
+      "french": "Français",
+      "english": "Anglais",
+      "changePasswordLegend": "Changer de mot de passe",
+      "actualPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "saveChanges": "Sauvegarder mes changements",
+      "cancel": "Annuler"
+   }
+}
