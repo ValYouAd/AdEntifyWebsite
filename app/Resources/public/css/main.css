@@ -70,7 +70,6 @@ section#content {
 .view-mode #menu-tools {
 
 }
-
 /* Smartphone */
 @media (max-width:767px){
     #menu-tools {
@@ -353,6 +352,14 @@ ul#photos-grid {
 }
 
 /* End Facebook
+----------------------- */
+
+/* MODULE : Tag
+----------------------- */
+#brand-logo img {
+    /*max-width: 150px;*/
+}
+/*
 ----------------------- */
 
 /* MODULE :  External Service Photos

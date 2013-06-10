@@ -65,6 +65,7 @@
       "useGeolocation": "Utiliser ma géolocalisation",
       "noSupportGeolocation": "Votre navigateur ne supporte pas la géolocalisation.",
       "loadingGeolocalization": "récupération de votre localisation...",
+      "geolocationSuccess": "Nous venons de vous <strong>géolocaliser avec succès.</strong>",
       "labelPlaceName": "Entrez le nom de votre lieu",
       "labelPlaceDescription": "Description de votre lieu",
       "placeholderPlaceName": "Monument, restaurant, adresse...",
@@ -76,7 +77,9 @@
       "placeholderPersonName": "Prénom, nom...",
       "submitPerson": "Valider la personne et ajouter le tag",
       "addingInProgress": "Ajout en cours...",
-      "textNoFacebookConnect": "Vous n'êtes <b>pas connecté à Facebook.</b> Nous ne pouvons pas récupérer vos amis."
+      "textNoFacebookConnect": "Vous n'êtes <b>pas connecté à Facebook.</b> Nous ne pouvons pas récupérer vos amis.",
+      "placeholderBrandName": "Coca-cola, Apple, Zara...",
+      "labelBrandName": "Entrez le nom de la marque"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
