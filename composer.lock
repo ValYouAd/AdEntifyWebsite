@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "ef3013a5f65b948ba4d529f45a138b345d010be6"
+                "reference": "00eb499c2d8536bba30828455fecdf9b558a99cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/ef3013a5f65b948ba4d529f45a138b345d010be6",
-                "reference": "ef3013a5f65b948ba4d529f45a138b345d010be6",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/00eb499c2d8536bba30828455fecdf9b558a99cc",
+                "reference": "00eb499c2d8536bba30828455fecdf9b558a99cc",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-06-05 16:46:38"
+            "time": "2013-06-10 13:40:07"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -709,16 +709,16 @@
         },
         {
             "name": "facebook/php-sdk",
-            "version": "v3.2.0",
+            "version": "v3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/facebook-php-sdk.git",
-                "reference": "v3.2.0"
+                "reference": "v3.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/facebook-php-sdk/zipball/v3.2.0",
-                "reference": "v3.2.0",
+                "url": "https://api.github.com/repos/facebook/facebook-php-sdk/zipball/v3.2.2",
+                "reference": "v3.2.2",
                 "shasum": ""
             },
             "require": {
@@ -748,32 +748,32 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2012-08-14 17:28:20"
+            "time": "2013-01-15 21:37:15"
         },
         {
             "name": "friendsofsymfony/facebook-bundle",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "target-dir": "FOS/FacebookBundle",
             "source": {
                 "type": "git",
-                "url": "git://github.com/FriendsOfSymfony/FOSFacebookBundle.git",
-                "reference": "1.1.0"
+                "url": "https://github.com/FriendsOfSymfony/FOSFacebookBundle.git",
+                "reference": "1.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/FriendsOfSymfony/FOSFacebookBundle/archive/1.1.0.zip",
-                "reference": "1.1.0",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSFacebookBundle/zipball/1.1.1",
+                "reference": "1.1.1",
                 "shasum": ""
             },
             "require": {
-                "facebook/php-sdk": "v3.2",
+                "facebook/php-sdk": "3.2.*",
                 "php": ">=5.3.2",
                 "symfony/framework-bundle": ">=2.1,<2.3",
                 "symfony/security-bundle": ">=2.1,<2.3",
                 "symfony/twig-bundle": ">=2.1,<2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7"
+                "phpunit/phpunit": "3.7.*"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -806,7 +806,7 @@
             "keywords": [
                 "facebook"
             ],
-            "time": "2013-01-20 19:15:02"
+            "time": "2013-01-31 12:15:22"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -869,12 +869,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSOAuthServerBundle.git",
-                "reference": "31c18469388159c035b34052b27e347ecefdf221"
+                "reference": "d2d96b35ed96df10f77b83298fbdff0a9e6a5cbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSOAuthServerBundle/zipball/31c18469388159c035b34052b27e347ecefdf221",
-                "reference": "31c18469388159c035b34052b27e347ecefdf221",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSOAuthServerBundle/zipball/d2d96b35ed96df10f77b83298fbdff0a9e6a5cbe",
+                "reference": "d2d96b35ed96df10f77b83298fbdff0a9e6a5cbe",
                 "shasum": ""
             },
             "require": {
@@ -924,7 +924,7 @@
                 "oauth2",
                 "server"
             ],
-            "time": "2013-05-17 18:56:21"
+            "time": "2013-06-06 15:08:39"
         },
         {
             "name": "friendsofsymfony/oauth2-php",
@@ -2739,16 +2739,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.13.0",
+            "version": "v1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "v1.13.0"
+                "reference": "v1.13.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.0",
-                "reference": "v1.13.0",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.1",
+                "reference": "v1.13.1",
                 "shasum": ""
             },
             "require": {
@@ -2784,7 +2784,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-05-10 15:12:43"
+            "time": "2013-06-06 06:06:01"
         }
     ],
     "packages-dev": [

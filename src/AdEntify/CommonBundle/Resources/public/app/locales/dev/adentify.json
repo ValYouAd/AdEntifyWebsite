@@ -1,8 +1,119 @@
 {
    "brand": {
-      "pageTitle": "List of brands in AdEntify",
-      "pageSubTitle": "__count__ brand",
-      "pageSubTitle_plural": "__count__ brands",
-      "tagged": "Tagged __count__ times"
+      "pageTitle": "Les marques référencées sur AdEntify",
+      "pageSubTitle": "__count__ marque",
+      "pageSubTitle_plural": "__count__ marques",
+      "tagged": "Taguée __count__ fois"
+   },
+   "photos": {
+      "pageTitleTagged": "Photos taguées - AdEntify",
+      "pageTitleUntagged": "Photos non taguées - AdEntify",
+      "loading": "Chargement des photos en cours..."
+   },
+   "myPhotos": {
+      "pageTitleTagged": "Mes photos taguées - AdEntify",
+      "pageTitleUntagged": "Mes photos non taguées - AdEntify",
+      "tools": "Outils",
+      "addTagButton": "Ajouter un tag",
+      "legendPhotoDetails": "Détails de la photo",
+      "labelTitle": "Titre"
+   },
+   "myProfile": {
+      "pageTitle": "Mon profil - AdEntify",
+      "generalSettings": "Paramètres généraux",
+      "labelLang": "Langue du site",
+      "french": "Français",
+      "english": "Anglais",
+      "changePasswordLegend": "Changer de mot de passe",
+      "actualPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "saveChanges": "Sauvegarder mes changements",
+      "cancel": "Annuler"
+   },
+   "upload": {
+      "pageTitle": "Envoyer mes photos - AdEntify",
+      "send": "Envoyer",
+      "sendPhotos": "Ajoutez vos photos sur AdEntify",
+      "textWhichService": "A partir de quel service souhaitez-vous envoyer vos photos ?"
+   },
+   "facebook": {
+      "albumsPageTitle": "Mes albums Facebook - AdEntify",
+      "photosPageTitle": "Mes photos Facebook - AdEntify",
+      "loadingAlbums": "Chargement des albums en cours...",
+      "useThisAlbum": "Utiliser cet album"
+   },
+   "instagram": {
+      "pageTitle": "Mes photos Instagram - AdEntify"
+   },
+   "flickr": {
+      "albumsPageTitle": "Mes albums Flickr - AdEntify",
+      "photosPageTitle": "Mes photos Flickr - AdEntify",
+      "loadingAlbums": "Chargement des albums en cours...",
+      "useThisAlbum": "Utiliser cet album"
+   },
+   "tag": {
+      "legendAddTag": "Ajouter un tag",
+      "product": "Produit",
+      "place": "Lieu",
+      "person": "Personne",
+      "labelProductName": "Entrez le nom de votre produit",
+      "labelProductDescription": "Description de votre produit",
+      "placeholderProductName": "Nom de votre produit",
+      "buttonAddProduct": "Ajouter le produit",
+      "textGeolocation": "Vous cherchez un lieu autour de vous ? Améliorez la pertinence de votre recherche.",
+      "useGeolocation": "Utiliser ma géolocalisation",
+      "noSupportGeolocation": "Votre navigateur ne supporte pas la géolocalisation.",
+      "loadingGeolocalization": "récupération de votre localisation...",
+      "labelPlaceName": "Entrez le nom de votre lieu",
+      "labelPlaceDescription": "Description de votre lieu",
+      "placeholderPlaceName": "Monument, restaurant, adresse...",
+      "labelPlaceLink": "Lien",
+      "submitPlace": "Valider ce lieu et ajouter le tag",
+      "cancelTagAdding": "Annuler l'ajout de tag",
+      "textAddTagToPhoto": "Cliquez sur la photo à l'endroit souhaité afin d'y ajouter un tag.",
+      "labelPersonName": "Entrez le prénom ou le nom de la personne que vous souhaitez taguer",
+      "placeholderPersonName": "Prénom, nom...",
+      "submitPerson": "Valider la personne et ajouter le tag",
+      "addingInProgress": "Ajout en cours...",
+      "textNoFacebookConnect": "Vous n'êtes <b>pas connecté à Facebook.</b> Nous ne pouvons pas récupérer vos amis."
+   },
+   "photo": {
+      "loadingPhoto": "Chargement de la photo en cours...",
+      "like": "J'aime",
+      "likes": "J'aime",
+      "comments": "Commentaires",
+      "share": "Partager la photo",
+      "link": "Lien vers la photo",
+      "embed": "Intégrer la photo"
+   },
+   "externalServicePhotos": {
+      "select": "Sélectionner",
+      "selected": "Sélectionnée",
+      "download": "Récupération de vos photos en cours...",
+      "noSelectedPhoto": "Vous n'avez sélectionné aucune photo pour le moment.",
+      "haveRights": "Je dispose des droits pour ces photos",
+      "submit": "Valider mes photos",
+      "textSelectedPhotos": "Vous avez sélectionné",
+      "textSelectedPhotos2": "photo(s) afin de les partager à AdEntify."
+   },
+   "common": {
+      "viewPhoto": "voir la photo",
+      "submit": "Valider",
+      "cancel": "Annuler"
+   },
+   "routing": {
+      "photos/untagged/": "photos/non-taguees/",
+      "upload/": "upload/",
+      "my/photos/tagged/": "mes/photos/taguees/",
+      "me/photos/untagged/": "mes/photos/non-taguees/",
+      "facebook/albums/": "facebook/albums/",
+      "facebook/albums/:id/photos/": "facebook/albums/__id__/photos/",
+      "instagram/photos/": "instagram/photos/",
+      "flickr/sets/": "flickr/albums/",
+      "flickr/sets/:id/photos/": "flickr/albums/__id__/photos/",
+      "photo/:id/": "photo/__id__/",
+      "brands/": "marques/",
+      "my/profile/": "mon/profil/"
    }
 }

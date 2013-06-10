@@ -58,6 +58,7 @@ define([
       },
 
       afterRender: function() {
+         $(this.el).i18n();
          $('.full-photo img').load(function() {
             $('#photo').fadeIn();
          });

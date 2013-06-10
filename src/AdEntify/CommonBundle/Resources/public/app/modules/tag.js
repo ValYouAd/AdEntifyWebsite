@@ -17,6 +17,8 @@ define([
    var currentPhotoOverlay = null;
    var currentTag = null;
    var tags = null;
+   var currentBrands = {};
+   var currentBrand = null;
    var currentVenues = {};
    var currentVenue = null;
    var currentPerson = null;
@@ -275,6 +277,40 @@ define([
             $(this).tab('show');
          });
 
+         // Brand/Product
+         $('#brand-name').typeahead({
+            source: function(query, process) {
+               app.oauth.loadAccessToken({
+                  success: function() {
+                     $.ajax({
+                        url: Routing.generate('api_v1_get_brand_search', { query: query }),
+                        headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                        success: function(response) {
+                           if (typeof response !== 'undefined' && response.length > 0) {
+                              var brands = [];
+                              currentBrands = {};
+                              _.each(response, function(brand) {
+                                 brands.push(brand.name);
+                                 currentBrands[brand.name] = brand;
+                              });
+                              process(brands);
+                           }
+                        }
+                     });
+                  }
+               });
+            },
+            minLength: 2,
+            items: 10,
+            updater: function(selectedItem) {
+               currentBrand = currentBrands[selectedItem];
+               if (currentBrand) {
+                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" />');
+               }
+               return selectedItem;
+            }
+         });
+
          // Venue
          if (!Modernizr.geolocation) {
             $('#support-geolocation').fadeOut('fast', function() {
@@ -300,7 +336,7 @@ define([
                               radius: 3000
                            },
                            success: function(data) {
-                              if (typeof data !== undefined && data.length > 0) {
+                              if (typeof data !== 'undefined' && data.length > 0) {
                                  var venues = []
                                  currentVenues = {};
                                  _.each(data, function(venue) {
@@ -360,7 +396,7 @@ define([
                });
                return selectedItem;
             }
-         })
+         });
       },
 
       geolocation: function(e) {
@@ -371,7 +407,7 @@ define([
             navigator.geolocation.getCurrentPosition(function(position) {
                app.appState().set('currentPosition', position);
                btn.button('reset');
-               $('#support-geolocation').html('<div class="alert fade in alert-success"><small>Nous venons de vous <strong>géolocaliser avec succès.</strong></small></div>');
+               $('#support-geolocation').html('<div class="alert fade in alert-success"><small>' + $.t('tag.geolocationSuccess') + '</small></div>');
             });
          }
       },

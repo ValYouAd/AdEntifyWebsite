@@ -65,6 +65,7 @@
       "useGeolocation": "Use geo-localization",
       "noSupportGeolocation": "Your browser don't support geo-localization.",
       "loadingGeolocalization": "geo-localization in progress...",
+      "geolocationSuccess": "You are <strong>geo-localized with success.</strong>",
       "labelPlaceName": "Place name",
       "labelPlaceDescription": "Place description",
       "placeholderPlaceName": "Monument, restaurant, address...",
@@ -75,7 +76,9 @@
       "labelPersonName": "Entrer the firstname or lastname of the person you want to tag",
       "placeholderPersonName": "Firstname, lastname...",
       "submitPerson": "Submit this person and add tag",
-      "textNoFacebookConnect": "You aren't <b>connected to Facebook.</b> We can't get your friends."
+      "textNoFacebookConnect": "You aren't <b>connected to Facebook.</b> We can't get your friends.",
+      "placeholderBrandName": "Coca-cola, Apple, Zara...",
+      "labelBrandName": "Entrez le nom de la marque"
    },
    "photo": {
       "loadingPhoto": "Loading photo in progress...",
