@@ -254,6 +254,10 @@ define([
          app.trigger('global:closeMenuTools');
       },
 
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
       events: {
          "click .cancel-add-tag": "cancel"
       }
@@ -263,6 +267,8 @@ define([
       template: "tag/addForm",
 
       afterRender: function() {
+         $(this.el).i18n();
+
          // Tabs
          $('.nav-tabs a').click(function (e) {
             e.preventDefault();

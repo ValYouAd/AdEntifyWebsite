@@ -36,6 +36,10 @@ define([
          return { model: this.model };
       },
 
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
       }
@@ -53,6 +57,7 @@ define([
       },
 
       afterRender: function() {
+         $(this.el).i18n();
          if (loaded) {
             $('#loading-sets').hide();
          }

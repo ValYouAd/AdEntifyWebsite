@@ -193,8 +193,7 @@ ul#photos-grid {
     }
     ul#photos-grid .popover {
         position: absolute;
-        top: auto;
-        bottom: 30px;
+        top: 30px;
         left: -50%;
         z-index: 2000;
         padding: 4px 6px;

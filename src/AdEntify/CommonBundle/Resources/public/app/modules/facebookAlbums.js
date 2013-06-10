@@ -42,6 +42,10 @@ define([
          return { model: this.model };
       },
 
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
       }
@@ -59,6 +63,7 @@ define([
       },
 
       afterRender: function() {
+         $(this.el).i18n();
          if (this.options.albums.length > 0) {
             $('#loading-albums').hide();
          }

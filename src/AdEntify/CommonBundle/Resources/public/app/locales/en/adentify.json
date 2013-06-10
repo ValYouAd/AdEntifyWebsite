@@ -7,11 +7,16 @@
    },
    "photos": {
       "pageTitleTagged": "Tagged photos - AdEntify",
-      "pageTitleUntagged": "Untagged photos - AdEntify"
+      "pageTitleUntagged": "Untagged photos - AdEntify",
+      "loading": "Loading photos in progress..."
    },
    "myPhotos": {
-      "pageTitleTagged": "Mes photos taguées - AdEntify",
-      "pageTitleUntagged": "Mes photos non taguées - AdEntify"
+      "pageTitleTagged": "My tagged photos - AdEntify",
+      "pageTitleUntagged": "My untagged photos - AdEntify",
+      "tools": "Tools",
+      "addTagButton": "Add a tag",
+      "legendPhotoDetails": "Photo details",
+      "labelTitle": "Caption"
    },
    "myProfile": {
       "pageTitle": "My profile",
@@ -27,18 +32,74 @@
       "cancel": "Cancel"
    },
    "upload": {
-      "pageTitle": "Send my photos - AdEntify"
+      "pageTitle": "Send my photos - AdEntify",
+      "send": "Send",
+      "sendPhotos": "Upload your photos to AdEntify",
+      "textWhichService": "From which service do you want to get your photos?"
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",
-      "photosPageTitle": "My Facebook photos - AdEntify"
+      "photosPageTitle": "My Facebook photos - AdEntify",
+      "loadingAlbums": "Loading albums in progress...",
+      "useThisAlbum": "Use this album"
    },
    "instagram": {
       "pageTitle": "My Instagram photos - AdEntify"
    },
    "flickr": {
       "albumsPageTitle": "My Flickr sets - AdEntify",
-      "photosPageTitle": "My Flickr photos - AdEntify"
+      "photosPageTitle": "My Flickr photos - AdEntify",
+      "loadingAlbums": "Loading albums in progress...",
+      "useThisAlbum": "Use this album"
+   },
+   "tag": {
+      "legendAddTag": "Add a tag",
+      "product": "Product",
+      "place": "Place",
+      "person": "Person",
+      "labelProductName": "Product name",
+      "labelProductDescription": "Product description",
+      "placeholderProductName": "Name of the product",
+      "buttonAddProduct": "Add product",
+      "textGeolocation": "You search a place arround? Increase search relevance.",
+      "useGeolocation": "Use geo-localization",
+      "noSupportGeolocation": "Your browser don't support geo-localization.",
+      "loadingGeolocalization": "geo-localization in progress...",
+      "labelPlaceName": "Place name",
+      "labelPlaceDescription": "Place description",
+      "placeholderPlaceName": "Monument, restaurant, address...",
+      "labelPlaceLink": "Link",
+      "submitPlace": "Submit this place and add tag",
+      "cancelTagAdding": "Cancel tag insert",
+      "textAddTagToPhoto": "Click on the photo on the desired spot to add a tag.",
+      "labelPersonName": "Entrer the firstname or lastname of the person you want to tag",
+      "placeholderPersonName": "Firstname, lastname...",
+      "submitPerson": "Submit this person and add tag",
+      "textNoFacebookConnect": "You aren't <b>connected to Facebook.</b> We can't get your friends."
+   },
+   "photo": {
+      "loadingPhoto": "Loading photo in progress...",
+      "like": "Like",
+      "likes": "Likes",
+      "comments": "Comments",
+      "share": "Share photo",
+      "link": "Link to photo",
+      "embed": "Embed photo"
+   },
+   "externalServicePhotos": {
+      "select": "Select",
+      "selected": "Selected",
+      "download": "Photos downloading in progress...",
+      "noSelectedPhoto": "You haven't selected photo for this moment.",
+      "haveRights": "I own rights for these photos",
+      "submit": "Submit my photos",
+      "textSelectedPhotos": "You have selected",
+      "textSelectedPhotos2": "photo(s) to share with AdEntify."
+   },
+   "common": {
+      "viewPhoto": "view photo",
+      "submit": "Submit",
+      "cancel": "Cancel"
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",
