@@ -39,12 +39,17 @@ define([
       },
 
       afertRender: function() {
+         $(this.el).i18n();
          this.checkActionButtons();
       }
    });
 
    ExternalServicePhotos.Views.ErrorNoRights = Backbone.View.extend({
-      template: "externalServicePhotos/errors/noRights"
+      template: "externalServicePhotos/errors/noRights",
+
+      afterRender: function() {
+         $(this.el).i18n();
+      }
    });
 
    ExternalServicePhotos.Views.MenuRight = Backbone.View.extend({
@@ -85,7 +90,13 @@ define([
       },
 
       submitPhotos: function(e) {
+         btn = $('.submit-photos');
+         btn.button('loading');
          app.trigger('externalServicePhoto:submitPhotos', e);
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
       }
    });
 

@@ -28,6 +28,10 @@ define([
          window.location.href = Routing.generate('flickr_request_token');
       },
 
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
       initialize: function() {
          app.trigger('domchange:title', $.t('upload.pageTitle'));
       }

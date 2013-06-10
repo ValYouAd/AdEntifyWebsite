@@ -60,6 +60,7 @@ define([
       },
 
       afterRender: function() {
+         $(this.el).i18n();
          if (this.options.photos.length > 0) {
             $('#loading-photos').hide();
          }
@@ -161,7 +162,7 @@ define([
                   success: function(response) {
                      if (!response.error) {
                         // redirect to untagged tab
-                        Backbone.history.navigate('me/untagged/', true);
+                        Backbone.history.navigate($.t('me/photos/untagged/'), true);
                      } else {
                         // TODO error
                      }

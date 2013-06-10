@@ -1,42 +1,43 @@
 <form>
     <fieldset>
-        <legend>Ajouter un tag</legend>
+        <legend data-i18n="tag.legendAddTag"></legend>
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#product" data-toggle="tab" data-bypass="">Produit</a></li>
-            <li><a href="#venue" data-toggle="tab" data-bypass="">Lieu</a></li>
-            <li><a href="#person" data-toggle="tab" data-bypass="">Personne</a></li>
+            <li class="active"><a href="#product" data-toggle="tab" data-bypass="" data-i18n="tag.product"></a></li>
+            <li><a href="#venue" data-toggle="tab" data-bypass="" data-i18n="tag.place"></a></li>
+            <li><a href="#person" data-toggle="tab" data-bypass="" data-i18n="tag.person"></a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="product">
-                <label>Entrez le nom de votre produit</label>
-                <input id="product-text" name="product-text" type="text" placeholder="Nom de votre produit">
-                <label id="product-description" name="product-description">Description de votre produit</label>
+                <label data-i18n="tag.labelProductName"></label>
+                <input id="product-text" name="product-text" type="text" data-i18n="[placeholder]tag.placeholderProductName">
+                <label id="product-description" name="product-description" data-i18n="tag.labelProductDescription"></label>
                 <textarea></textarea>
-                <p><button type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> Ajouter le produit</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
+                <p><button type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> <span data-i18n="tag.buttonAddProduct"></span></button>
+                    <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> <span data-i18n="common.cancel"></span></button></p>
             </div>
             <div class="tab-pane" id="venue">
                 <p id="support-geolocation">
-                    <span><small>Vous cherchez un lieu autour de vous ? Améliorez la pertinence de votre recherche.</small></span><br>
-                    <button class="btn btn-info btn-geolocation" data-loading-text="récupération de votre localisation..."><i class="icon-map-marker icon-white"></i> Utiliser ma géolocalisation</button>
+                    <span><small data-i18n="tag.textGeolocation"></small></span><br>
+                    <button class="btn btn-info btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="icon-map-marker icon-white"></i> <span data-i18n="tag.useGeolocation"></span></button>
                 </p>
-                <p id="not-support-geolocation" class="fadeOut">Votre navigateur ne supporte pas la géolocalisation.</p>
-                <label>Entrez le nom de votre lieu <i class="icon-refresh fadeOut rotate" id="loading-venue"></i></label>
-                <input id="venue-text" autocomplete="off" data-provide="typeahead" type="text" placeholder="Monument, restaurant, adresse...">
-                <label>Description de votre lieu</label>
+                <p id="not-support-geolocation" class="fadeOut" data-i18n="tag.noSupportGeolocation"></p>
+                <label><span data-i18n="tag.labelPlaceName"></span> <i class="icon-refresh fadeOut rotate" id="loading-venue"></i></label>
+                <input id="venue-text" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPlaceName">
+                <label data-i18n="tag.labelPlaceDescription"></label>
                 <textarea id="venue-description"></textarea>
-                <label>Lien</label>
+                <label data-i18n="tag.labelPlaceLink"></label>
                 <input id="venue-link" type="text">
-                <p><button id="submit-venue" data-loading-text="Ajout en cours..." type="submit" class="btn btn-success btn-small"><i class="icon-ok icon-white"></i> Valider ce lieu et ajouter le tag</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
+                <p><button id="submit-venue" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn btn-success btn-small"><i class="icon-ok icon-white"></i> <span data-i18n="tag.submitPlace"></span></button>
+                    <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> <span data-i18n="common.cancel"></span></button></p>
             </div>
             <div class="tab-pane" id="person">
                 <div class="fb-loggedin">
-                    <label>Entrez le prénom ou le nom de la personne que vous souhaitez taguer <i class="icon-refresh fadeOut rotate" id="loading-person"></i></label>
-                    <input id="person-text" autocomplete="off" data-provide="typeahead" type="text" placeholder="Prénom, nom...">
-                    <p><button id="submit-person" data-loading-text="Ajout en cours..." type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> Valider la personne et ajouter le tag</button> <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> Annuler</button></p>
+                    <label><span data-i18n="tag.labelPersonName"></span> <i class="icon-refresh fadeOut rotate" id="loading-person"></i></label>
+                    <input id="person-text" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPersonName">
+                    <p><button id="submit-person" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> <span data-i18n="tag.submitPerson"></span></button>
+                        <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> <span data-i18n="common.cancel"></span></button></p>
                 </div>
-                <div class="fb-loggedout alert alert-danger fadeOut">
-                    Vous n'êtes <b>pas connecté à Facebook.</b> Nous ne pouvons pas récupérer vos amis.
-                </div>
+                <div class="fb-loggedout alert alert-danger fadeOut" data-i18n="[html]tag.textNoFacebookConnect"></div>
             </div>
         </div>
     </fieldset>
