@@ -112,10 +112,7 @@ define([
       clickOnPhoto: function(imageClicked) {
          // Already in edit mode
          if (imageClicked.data('type') == 'large') {
-            $("#dashboard").removeClass('edit-mode').addClass('view-mode');
-            $('#content').switchClass('span11', 'span9');
-            $("aside").switchClass("span1", "span3");
-            $('#photos').switchClass('span9', 'span12');
+            this.defaultLayout();
             // Resize to medium size
             this.resizeToMediumSize(imageClicked, true);
             openedContainer = null;
@@ -211,6 +208,13 @@ define([
          }, 300);
       },
 
+      defaultLayout: function() {
+         $("#dashboard").removeClass('edit-mode').addClass('view-mode');
+         $('#content').switchClass('span11', 'span9');
+         $("aside").switchClass("span1", "span3");
+         $('#photos').switchClass('span9', 'span12');
+      },
+
       updateMenuTools: function(photoId) {
          app.appState().set('currentPhotoModel', this.options.photos.get(photoId));
          $('#menu-tools #photo-caption').val(app.appState().getCurrentPhotoModel().get('caption'));
@@ -229,6 +233,9 @@ define([
       },
 
       initialize: function() {
+         this.defaultLayout();
+         openedContainer = null;
+
          var that = this;
          this.listenTo(this.options.photos, {
             "sync": this.render

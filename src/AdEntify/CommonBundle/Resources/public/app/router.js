@@ -357,6 +357,15 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
       },
 
       routeTriggered: function() {
+         if ($('#dashboard').hasClass('edit-mode')) {
+            $("#dashboard").removeClass('edit-mode').addClass('view-mode');
+         }
+         if ($('#content').hasClass('span11')) {
+            $('#content').switchClass('span11', 'span9');
+         }
+         if ($("aside").hasClass('span1')) {
+            $("aside").switchClass("span1", "span3");
+         }
          app.stopLoading();
       }
    });
