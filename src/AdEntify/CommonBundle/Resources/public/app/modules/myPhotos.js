@@ -27,9 +27,11 @@ define([
          return Routing.generate('api_v1_get_photo');
       },
 
-      fullSmallUrl: '',
-      fullMediumUrl : '',
-      fullLargeUrl : '',
+      defaults: {
+         fullSmallUrl: '',
+         fullMediumUrl : '',
+         fullLargeUrl : ''
+      },
 
       toJSON: function() {
          return { photo: {
@@ -221,11 +223,12 @@ define([
       },
 
       submitPhotoDetails: function() {
-         if (currentPhoto) {
-            currentPhoto.set('caption', $('#menu-tools #photo-caption').val());
-            currentPhoto.getToken('photo_item', function() {
-               currentPhoto.url = Routing.generate('api_v1_get_photo', { id: currentPhoto.get('id')});
-               currentPhoto.save();
+         if (app.appState().getCurrentPhotoModel()) {
+
+            app.appState().getCurrentPhotoModel().set('caption', $('#menu-tools #photo-caption').val());
+            app.appState().getCurrentPhotoModel().getToken('photo_item', function() {
+               app.appState().getCurrentPhotoModel().url = Routing.generate('api_v1_get_photo', { id: app.appState().getCurrentPhotoModel().get('id')});
+               app.appState().getCurrentPhotoModel().save();
                var btn = $('#form-details button[type="submit"]');
                btn.button('reset');
             });

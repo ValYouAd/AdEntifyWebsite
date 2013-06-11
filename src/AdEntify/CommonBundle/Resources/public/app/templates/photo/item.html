@@ -3,10 +3,12 @@
 </div>
 <h1 class="lead"><%= model.get("caption") %></h1>
 <div class="full-photo text-center">
+    <div class="photo-overlay"></div>
     <img src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" />
 </div>
 <div class="mt1">
     <span id="like-count" class="badge badge-info"><%= model.get("likes_count") %></span> <span data-i18n="photo.likes"></span>
+    <div class="pull-right"><small class="muted">Source : <%= model.get("source") %></small></div>
 </div>
 
 <hr>

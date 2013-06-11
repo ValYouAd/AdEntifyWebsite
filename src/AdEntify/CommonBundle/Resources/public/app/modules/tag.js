@@ -280,6 +280,7 @@ define([
          // Brand/Product
          $('#brand-name').typeahead({
             source: function(query, process) {
+               $('#loading-brand').css({'display': 'inline-block'});
                app.oauth.loadAccessToken({
                   success: function() {
                      $.ajax({
@@ -294,6 +295,7 @@ define([
                                  currentBrands[brand.name] = brand;
                               });
                               process(brands);
+                              $('#loading-brand').fadeOut(200);
                            }
                         }
                      });
@@ -305,7 +307,7 @@ define([
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                if (currentBrand) {
-                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" />');
+                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" />');
                }
                return selectedItem;
             }
@@ -321,7 +323,7 @@ define([
             source: function(query, process) {
                if (venuesSearchTimeout)
                   clearTimeout(venuesSearchTimeout);
-               venuesSearchTimeout = setTimeout(function() {
+                  venuesSearchTimeout = setTimeout(function() {
                   $('#loading-venue').css({'display': 'inline-block'});
                   app.oauth.loadAccessToken({
                      success: function() {
