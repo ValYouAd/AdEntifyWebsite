@@ -59,7 +59,7 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags') && this.model.get('tags').length > 0) {
+         if (this.model.has('tags') && this.model.get('tags').length > 0 && $(this.el).find('.tags').children().length == 0) {
             var that = this;
             _.each(this.model.get('tags'), function(tag) {
                if (tag.type == 'place') {
@@ -84,12 +84,7 @@ define([
          $('.full-photo img').load(function() {
             $('#photo').fadeIn();
          });
-         $('#fbcomment').append('<div class="fb-comments" data-href="' + window.location.href + '" data-width="' + $('#fbcomment').width() + '" data-num-posts="10"></div>');
          FB.XFBML.parse();
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
       },
 
       like: function() {

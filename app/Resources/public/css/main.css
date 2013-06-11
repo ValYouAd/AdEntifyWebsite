@@ -147,6 +147,9 @@ ul#photos-grid {
     ul#photos-grid li div.photo-container {
         position: relative;
     }
+    ul#photos-grid li div.photo-overlay {
+        cursor: pointer;
+    }
     ul#photos-grid li div.photo-overlay .new-tag {
         -webkit-animation: smallerCircle 0.5s ease;
         -moz-animation: smallerCircle 0.5s ease;
@@ -327,7 +330,9 @@ div.photo-overlay {
     top: 0px;
     width: 100%;
     height: 100%;
-    cursor: pointer;
+}
+.full-photo div.photo-overlay {
+    cursor: auto;
 }
 .tags {
     list-style-type: none;

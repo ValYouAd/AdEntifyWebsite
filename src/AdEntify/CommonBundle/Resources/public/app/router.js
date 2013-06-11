@@ -350,6 +350,11 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          }
       },
 
+      // Shortcut for building a url.
+      go: function() {
+         return this.navigate(_.toArray(arguments).join("/"), true);
+      },
+
       onDomChangeTitle: function(title) {
          if (typeof title !== 'undefined' && title != '') {
             $(document).attr('title', title);
