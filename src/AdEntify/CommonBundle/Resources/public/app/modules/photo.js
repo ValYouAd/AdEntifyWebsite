@@ -7,8 +7,9 @@
  */
 define([
    "app",
+   "modules/tag",
    "pinterest"
-], function(app) {
+], function(app, Tag) {
 
    var Photo = app.module();
    var loaded = false;
@@ -57,17 +58,33 @@ define([
          };
       },
 
+      beforeRender: function() {
+         if (this.model.has('tags') && this.model.get('tags').length > 0 && $(this.el).find('.tags').children().length == 0) {
+            var that = this;
+            _.each(this.model.get('tags'), function(tag) {
+               if (tag.type == 'place') {
+                  that.insertView(".tags", new Tag.Views.VenueItem({
+                     model: new Tag.Model(tag)
+                  }));
+               } else if (tag.type == 'person') {
+                  that.insertView(".tags", new Tag.Views.PersonItem({
+                     model: new Tag.Model(tag)
+                  }));
+               } else {
+                  that.insertView(".tags", new Tag.Views.Item({
+                     model: new Tag.Model(tag)
+                  }));
+               }
+            });
+         }
+      },
+
       afterRender: function() {
          $(this.el).i18n();
          $('.full-photo img').load(function() {
             $('#photo').fadeIn();
          });
-         $('#fbcomment').append('<div class="fb-comments" data-href="' + window.location.href + '" data-width="' + $('#fbcomment').width() + '" data-num-posts="10"></div>');
          FB.XFBML.parse();
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
       },
 
       like: function() {
@@ -76,8 +93,22 @@ define([
          $likeCount.html(this.model.get('likes_count') + 1);
       },
 
+      showTags: function() {
+         $tags = $(this.el).find('.tags');
+         if ($tags.length > 0) {
+            if ($tags.data('state') == 'hidden') {
+               $tags.fadeIn('fast');
+               $tags.data('state', 'visible');
+            } else {
+               $tags.fadeOut('fast');
+               $tags.data('state', 'hidden');
+            }
+         }
+      },
+
       events: {
-         "click #like": "like"
+         "click #like": "like",
+         "click .adentify-pastille": "showTags"
       }
    });
 
