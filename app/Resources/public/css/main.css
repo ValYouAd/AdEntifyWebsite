@@ -147,66 +147,6 @@ ul#photos-grid {
     ul#photos-grid li div.photo-container {
         position: relative;
     }
-    ul#photos-grid .adentify-pastille {
-        opacity: 0;
-        background: url('../img/pastille.png') no-repeat;
-        -webkit-transition: opacity 0.3s ease-out;
-           -moz-transition: opacity 0.3s ease-out;
-            -ms-transition: opacity 0.3s ease-out;
-             -o-transition: opacity 0.3s ease-out;
-                transition: opacity 0.3s ease-out;
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 2;
-        cursor: pointer;
-    }
-    ul#photos-grid .photo-container:hover .adentify-pastille {
-        opacity: 1;
-    }
-    ul#photos-grid li div.photo-overlay {
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-    }
-    ul#photos-grid .tags {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-    ul#photos-grid .tags li {
-        margin: 0;
-        padding: 0;
-    }
-    ul#photos-grid .tag {
-        position: absolute;
-        background: rgba(0,0,0,0.9);
-        width: 25px;
-        height: 25px;
-        border-radius: 12.5px;
-    }
-    ul#photos-grid .popover {
-        position: absolute;
-        top: 30px;
-        left: -50%;
-        z-index: 2000;
-        padding: 4px 6px;
-
-        -webkit-transition: opacity 0.3s ease-out;
-           -moz-transition: opacity 0.3s ease-out;
-            -ms-transition: opacity 0.3s ease-out;
-             -o-transition: opacity 0.3s ease-out;
-                transition: opacity 0.3s ease-out;
-    }
-    ul#photos-grid .tag .map {
-        width: 270px;
-        height: 260px;
-    }
     ul#photos-grid li div.photo-overlay .new-tag {
         -webkit-animation: smallerCircle 0.5s ease;
         -moz-animation: smallerCircle 0.5s ease;
@@ -352,6 +292,77 @@ ul#photos-grid {
 }
 
 /* End Facebook
+----------------------- */
+
+/* MODULE : Photo
+----------------------- */
+.full-photo .photo-container {
+    display: inline-block;
+}
+.photo-container {
+    position: relative;
+}
+.adentify-pastille {
+    opacity: 0;
+    background: url('../img/pastille.png') no-repeat;
+    -webkit-transition: opacity 0.3s ease-out;
+    -moz-transition: opacity 0.3s ease-out;
+    -ms-transition: opacity 0.3s ease-out;
+    -o-transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    cursor: pointer;
+}
+.photo-container:hover .adentify-pastille {
+    opacity: 1;
+}
+div.photo-overlay {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.tags {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.tags li {
+    margin: 0;
+    padding: 0;
+}
+.tag {
+    position: absolute;
+    background: rgba(0,0,0,0.9);
+    width: 25px;
+    height: 25px;
+    border-radius: 12.5px;
+}
+.popover {
+    position: absolute;
+    top: 30px;
+    left: -50%;
+    z-index: 2000;
+    padding: 4px 6px;
+
+    -webkit-transition: opacity 0.3s ease-out;
+    -moz-transition: opacity 0.3s ease-out;
+    -ms-transition: opacity 0.3s ease-out;
+    -o-transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
+}
+.tag .map {
+    width: 270px;
+    height: 260px;
+}
+/*
 ----------------------- */
 
 /* MODULE : Tag
