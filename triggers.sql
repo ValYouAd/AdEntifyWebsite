@@ -30,3 +30,12 @@ CREATE TRIGGER products_count AFTER INSERT ON `products`
     UPDATE venues SET products_count = products_count+1 WHERE id = NEW.purchaseVenue_id;
  END$$
 DELIMITER ;
+
+# Mise à jour compteurs de photos
+DROP TRIGGER IF EXISTS  `photos_count`;
+DELIMITER $$
+CREATE TRIGGER photos_count AFTER INSERT ON `photos`
+ FOR EACH ROW BEGIN
+    UPDATE users u SET photos_count = photos_count+1 WHERE u.id = NEW.owner_id;
+ END$$
+DELIMITER ;

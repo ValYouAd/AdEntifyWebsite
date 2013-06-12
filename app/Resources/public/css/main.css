@@ -487,6 +487,9 @@ ul#ticker-photos {
     vertical-align: top;
     margin-left: 40px;
 }
+.ph1 {
+    padding-left: 10px; padding-right: 10px;
+}
 /*
 ----------------------- */
 

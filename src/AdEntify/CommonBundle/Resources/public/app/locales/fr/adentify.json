@@ -100,6 +100,13 @@
       "textSelectedPhotos": "Vous avez sélectionné",
       "textSelectedPhotos2": "photo(s) afin de les partager à AdEntify."
    },
+   "profile": {
+      "photosCount": "<label class='badge badge-success'>__count__</label> photos",
+      "photosCount_plural": "<label class='badge badge-success'>__count__</label> photos",
+      "follow": "Suivre",
+      "pageTitle": "__name__ - Profil AdEntify",
+      "loadingProfile": "Chargement du profil en cours..."
+   },
    "common": {
       "viewPhoto": "voir la photo",
       "submit": "Valider",

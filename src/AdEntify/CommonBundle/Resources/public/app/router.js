@@ -17,11 +17,12 @@ define([
    "modules/externalServicePhotos",
    "modules/photo",
    "modules/brand",
-   "modules/myProfile"
+   "modules/myProfile",
+   "modules/profile"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MyProfile) {
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MyProfile, Profile) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -100,7 +101,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "flickr/sets/:id/photos/": "flickrPhotos",
                "photo/:id/": "photoDetail",
                "marques/": "brands",
-               "mon/profil/": "myProfile"
+               "mon/profil/": "myProfile",
+               "profil/:id": "profile"
             },
             "en" : {
                "": "homepage",
@@ -115,7 +117,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "flickr/sets/:id/photos/": "flickrPhotos",
                "photo/:id/": "photoDetail",
                "brands/": "brands",
-               "my/profile/": "myProfile"
+               "my/profile/": "myProfile",
+               "profile/:id": "profile"
             }
          };
          switch (app.appState().getLocale()) {
@@ -315,6 +318,27 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#content": new MyProfile.Views.Detail(),
             "#menu-right": new MyProfile.Views.MenuRight()
          }).render();
+      },
+
+      profile: function(id) {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Photos.Views.Content({
+               photos: this.photos,
+               userId: id,
+               tagged: true
+            }),
+            "#menu-right": new Profile.Views.MenuRight({
+               user: new Profile.Model({
+                  id: id
+               })
+            })
+         }).render();
+
+         this.photos.fetch({
+            url: Routing.generate('api_v1_get_user_photos', { id: id })
+         });
       },
 
       reset: function() {

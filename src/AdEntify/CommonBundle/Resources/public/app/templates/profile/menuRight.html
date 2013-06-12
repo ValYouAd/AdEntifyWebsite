@@ -1,0 +1,12 @@
+<div id="loading-profile" class="loading-gif-container">
+    <div class="loading-gif"></div>
+    <p><em class="small muted" data-i18n="profile.loadingProfile"></em></p>
+</div>
+<div id="profile" class="mt3 fadeOut">
+    <div class="ph1 pull-left">
+        <img class="img-polaroid m1" src="https://graph.facebook.com/<%= model.get("facebook_id") %>/picture?type=normal" alt="<%= model.get("firstname") %> <%= model.get("lastname") %>" />
+    </div>
+    <p class="lead"><%= model.get("firstname") %> <%= model.get("lastname") %></p>
+    <p data-i18n="[html]profile.photosCount" data-i18n-options='{"count": <%= model.get("photos_count") %>}'></p>
+    <p class="mt2"><button id="follow" data-toggle="button" type="button" class="btn btn-info"><i class="icon-plus icon-white"></i> <span data-i18n="profile.follow"></span></button></p>
+</div>

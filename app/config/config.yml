@@ -218,3 +218,11 @@ ad_entify_core:
     foursquare:
         client_id:     %foursquare_client_id%
         client_secret: %foursquare_client_secret%
+
+jms_serializer:
+    metadata:
+        auto_detection: true
+        directories:
+            FOSUserBundle:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "@AdEntifyUserBundle/Resources/config/serializer/fos"
