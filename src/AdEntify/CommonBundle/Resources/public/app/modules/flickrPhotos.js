@@ -162,7 +162,7 @@ define([
                   success: function(response) {
                      if (!response.error) {
                         // redirect to untagged tab
-                        Backbone.history.navigate($.t('me/photos/untagged/'), true);
+                        Backbone.history.navigate($.t('my/photos/untagged/'), true);
                      } else {
                         // TODO error
                      }

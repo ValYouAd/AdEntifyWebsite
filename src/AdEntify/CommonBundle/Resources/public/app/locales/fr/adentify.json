@@ -116,7 +116,7 @@
       "photos/untagged/": "photos/non-taguees/",
       "upload/": "upload/",
       "my/photos/tagged/": "mes/photos/taguees/",
-      "me/photos/untagged/": "mes/photos/non-taguees/",
+      "my/photos/untagged/": "mes/photos/non-taguees/",
       "facebook/albums/": "facebook/albums/",
       "facebook/albums/:id/photos/": "facebook/albums/__id__/photos/",
       "instagram/photos/": "instagram/photos/",

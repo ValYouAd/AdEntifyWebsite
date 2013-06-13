@@ -41,12 +41,14 @@ define([
       initialize: function() {
          this.loadPhotos();
 
-         app.on('externalServicePhoto:submitPhotos', this.submitPhotos);
+         app.on('externalServicePhoto:submitPhotos', this.submitPhotos, this);
          app.trigger('domchange:title', $.t('instagram.pageTitle'));
 
          this.listenTo(this.options.photos, {
             "add": this.render
          });
+
+         this.photos = this.options.photos;
       },
 
       beforeRender: function() {
@@ -124,14 +126,20 @@ define([
          checkedImages = $('.checked img');
          if (checkedImages.length > 0) {
             var images = [];
+            var that = this;
             _.each(checkedImages, function(image, index) {
-               images[index] = {
+               instagramImage = {
                   'originalSource' : $(image).data('original-url'),
                   'originalWidth' : $(image).data('original-width'),
                   'originalHeight' : $(image).data('original-height'),
                   'title' : $(image).data('title'),
                   'id': $(image).data('service-photo-id')
                };
+               photoModel = that.photos.get(instagramImage.id);
+               if (photoModel.has('location')) {
+                  instagramImage.location = photoModel.get('location');
+               }
+               images[index] = instagramImage;
             });
 
             // POST images to database
@@ -142,7 +150,7 @@ define([
                success: function(response) {
                   if (!response.error) {
                      // redirect to untagged tab
-                     Backbone.history.navigate($.t('me/photos/untagged/'), true);
+                     Backbone.history.navigate($.t('my/photos/untagged/'), true);
                   } else {
                      // TODO error
                   }

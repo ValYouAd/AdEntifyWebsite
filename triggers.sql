@@ -37,5 +37,6 @@ DELIMITER $$
 CREATE TRIGGER photos_count AFTER INSERT ON `photos`
  FOR EACH ROW BEGIN
     UPDATE users u SET photos_count = photos_count+1 WHERE u.id = NEW.owner_id;
+    UPDATE venues v SET photos_count = photos_count+1 WHERE v.id = NEW.venue_id;
  END$$
 DELIMITER ;
