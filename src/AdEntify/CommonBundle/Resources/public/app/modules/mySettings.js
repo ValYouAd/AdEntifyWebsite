@@ -9,14 +9,14 @@ define([
    "app"
 ], function(app) {
 
-   var MyProfile = app.module();
+   var MySettings = app.module();
 
-   MyProfile.Model = Backbone.Model.extend({
+   MySettings.Model = Backbone.Model.extend({
 
    });
 
-   MyProfile.Views.Detail = Backbone.View.extend({
-      template: "myProfile/detail",
+   MySettings.Views.Detail = Backbone.View.extend({
+      template: "mySettings/detail",
 
       afterRender: function() {
          $(this.el).find('option[value="' + app.appState().getLocale() + '"]').attr("selected", "selected");
@@ -24,7 +24,7 @@ define([
       },
 
       initialize: function() {
-         app.trigger('domchange:title', $.t('myProfile.pageTitle'));
+         app.trigger('domchange:title', $.t('mySettings.pageTitle'));
       },
 
       submit: function(e) {
@@ -37,10 +37,10 @@ define([
       }
    });
 
-   MyProfile.Views.MenuRight = Backbone.View.extend({
-      template: "myProfile/menuRight"
+   MySettings.Views.MenuRight = Backbone.View.extend({
+      template: "mySettings/menuRight"
    });
 
 
-   return MyProfile;
+   return MySettings;
 });

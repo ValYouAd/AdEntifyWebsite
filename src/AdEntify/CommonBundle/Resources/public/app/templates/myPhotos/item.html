@@ -1,6 +1,15 @@
 <div class="photo medium">
     <div class="photo-container">
-        <div class="photo-overlay"></div>
-        <img src="<%= model.get("fullMediumUrl") %>" data-id="<%= model.get("id") %>" data-type="medium" data-large-width="<%= model.get("large_width") %>" data-large-url="<%= model.get("fullLargeUrl") %>" />
+        <% if (model.get("tags_count") > 0) { %>
+        <div class="adentify-pastille"></div>
+        <% } %>
+        <div class="photo-overlay">
+            <% if (model.get("tags_count") > 0) { %>
+            <ul class="tags fadeOut" data-state="hidden"></ul>
+            <% } %>
+        </div>
+        <img src="<%= model.get("fullMediumUrl") %>" data-id="<%= model.get("id") %>" data-type="medium"
+        data-medium-width="<%= model.get("medium_width") %>" data-large-width="<%= model.get("large_width") %>"
+        data-large-url="<%= model.get("fullLargeUrl") %>" />
     </div>
 </div>

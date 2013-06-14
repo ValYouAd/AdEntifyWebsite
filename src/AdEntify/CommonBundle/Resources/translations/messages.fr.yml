@@ -9,11 +9,11 @@ Log off: Me déconnecter
 Log in with Facebook: Me connecter avec Facebook
 Log in with Twitter: Me connecter avec Twitter
 My photos: Mes photos
-My profile: Mon profil
+My settings: Mes paramètres
 
 #Routing
 photos/untagged/: photos/non-taguees/
 my/photos/tagged/: mes/photos/taguees/
 my/photos/untagged/: mes/photos/non-taguees/
 brands/: marques/
-my/profile/: mon/profil/
+my/settings/: mes/parametres/

@@ -18,8 +18,8 @@
       "legendPhotoDetails": "Détails de la photo",
       "labelTitle": "Titre"
    },
-   "myProfile": {
-      "pageTitle": "Mon profil - AdEntify",
+   "mySettings": {
+      "pageTitle": "Mes paramètres - AdEntify",
       "generalSettings": "Paramètres généraux",
       "labelLang": "Langue du site",
       "french": "Français",
@@ -65,6 +65,7 @@
       "useGeolocation": "Utiliser ma géolocalisation",
       "noSupportGeolocation": "Votre navigateur ne supporte pas la géolocalisation.",
       "loadingGeolocalization": "récupération de votre localisation...",
+      "geolocationSuccess": "Nous venons de vous <strong>géolocaliser avec succès.</strong>",
       "labelPlaceName": "Entrez le nom de votre lieu",
       "labelPlaceDescription": "Description de votre lieu",
       "placeholderPlaceName": "Monument, restaurant, adresse...",
@@ -76,7 +77,9 @@
       "placeholderPersonName": "Prénom, nom...",
       "submitPerson": "Valider la personne et ajouter le tag",
       "addingInProgress": "Ajout en cours...",
-      "textNoFacebookConnect": "Vous n'êtes <b>pas connecté à Facebook.</b> Nous ne pouvons pas récupérer vos amis."
+      "textNoFacebookConnect": "Vous n'êtes <b>pas connecté à Facebook.</b> Nous ne pouvons pas récupérer vos amis.",
+      "placeholderBrandName": "Coca-cola, Apple, Zara...",
+      "labelBrandName": "Entrez le nom de la marque"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -96,6 +99,13 @@
       "submit": "Valider mes photos",
       "textSelectedPhotos": "Vous avez sélectionné",
       "textSelectedPhotos2": "photo(s) afin de les partager à AdEntify."
+   },
+   "profile": {
+      "photosCount": "<label class='badge badge-success'>__count__</label> photos",
+      "photosCount_plural": "<label class='badge badge-success'>__count__</label> photos",
+      "follow": "Suivre",
+      "pageTitle": "__name__ - Profil AdEntify",
+      "loadingProfile": "Chargement du profil en cours..."
    },
    "common": {
       "viewPhoto": "voir la photo",

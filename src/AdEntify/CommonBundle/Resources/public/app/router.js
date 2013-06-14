@@ -17,12 +17,12 @@ define([
    "modules/externalServicePhotos",
    "modules/photo",
    "modules/brand",
-   "modules/myProfile",
+   "modules/mySettings",
    "modules/profile"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MyProfile, Profile) {
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -92,8 +92,9 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "": "homepage",
                "photos/non-taguees/": "untagged",
                "upload/": "upload",
-               "mes/photos/taguees/": "meTagged",
-               "mes/photos/non-taguees/": "meUntagged",
+               "mes/photos/taguees/": "myTagged",
+               "mes/photos/non-taguees/": "myUntagged",
+               "mes/parametres/": "mySettings",
                "facebook/albums/": "facebookAlbums",
                "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
                "instagram/photos/": "instagramPhotos",
@@ -108,8 +109,9 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "": "homepage",
                "photos/untagged/": "untagged",
                "upload/": "upload",
-               "my/photos/tagged/": "meTagged",
-               "my/photos/untagged/": "meUntagged",
+               "my/photos/tagged/": "myTagged",
+               "my/photos/untagged/": "myUntagged",
+               "my/settings/": "mySettings",
                "facebook/albums/": "facebookAlbums",
                "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
                "instagram/photos/": "instagramPhotos",
@@ -173,7 +175,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          });
       },
 
-      meTagged: function() {
+      myTagged: function() {
          this.reset();
 
          app.useLayout().setViews({
@@ -194,7 +196,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          });
       },
 
-      meUntagged: function() {
+      myUntagged: function() {
          this.reset();
 
          app.useLayout().setViews({
@@ -311,12 +313,12 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.brands.fetch();
       },
 
-      myProfile: function() {
+      mySettings: function() {
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new MyProfile.Views.Detail(),
-            "#menu-right": new MyProfile.Views.MenuRight()
+            "#content": new MySettings.Views.Detail(),
+            "#menu-right": new MySettings.Views.MenuRight()
          }).render();
       },
 

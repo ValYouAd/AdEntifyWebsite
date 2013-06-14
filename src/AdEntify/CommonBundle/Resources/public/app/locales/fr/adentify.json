@@ -18,8 +18,8 @@
       "legendPhotoDetails": "Détails de la photo",
       "labelTitle": "Titre"
    },
-   "myProfile": {
-      "pageTitle": "Mon profil - AdEntify",
+   "mySettings": {
+      "pageTitle": "Mes paramètres - AdEntify",
       "generalSettings": "Paramètres généraux",
       "labelLang": "Langue du site",
       "french": "Français",

@@ -50,17 +50,47 @@ define([
    MyPhotos.Collection = Backbone.Collection.extend({
       model: MyPhotos.Model,
 
-      cache: true,
-
-      parse: function(obj) {
-         return obj;
-      }
+      cache: true
    });
 
    MyPhotos.Views.Item = Backbone.View.extend({
       template: "myPhotos/item",
 
-      tagName: "li",
+      tagName: "li class='isotope-li'",
+
+      beforeRender: function() {
+         if (this.model.has('tags') && this.model.get('tags').length > 0 && $(this.el).find('.tags').children().length == 0) {
+            var that = this;
+            _.each(this.model.get('tags'), function(tag) {
+               if (tag.type == 'place') {
+                  that.insertView(".tags", new Tag.Views.VenueItem({
+                     model: new Tag.Model(tag)
+                  }));
+               } else if (tag.type == 'person') {
+                  that.insertView(".tags", new Tag.Views.PersonItem({
+                     model: new Tag.Model(tag)
+                  }));
+               } else {
+                  that.insertView(".tags", new Tag.Views.Item({
+                     model: new Tag.Model(tag)
+                  }));
+               }
+            });
+         }
+      },
+
+      showTags: function() {
+         $tags = $(this.el).find('.tags');
+         if ($tags.length > 0) {
+            if ($tags.data('state') == 'hidden') {
+               $tags.fadeIn('fast');
+               $tags.data('state', 'visible');
+            } else {
+               $tags.fadeOut('fast');
+               $tags.data('state', 'hidden');
+            }
+         }
+      },
 
       serialize: function() {
          return { model: this.model };
@@ -68,6 +98,10 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      },
+
+      events: {
+         "click .adentify-pastille": "showTags"
       }
    });
 
@@ -95,7 +129,7 @@ define([
          // Wait images loaded
          container.imagesLoaded( function(){
             container.isotope({
-               itemSelector : 'li',
+               itemSelector : 'li.isotope-li',
                animationEngine: 'best-available'
             });
             $('#loading-photos').fadeOut('fast', function() {
