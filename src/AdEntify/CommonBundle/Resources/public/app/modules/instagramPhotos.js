@@ -150,7 +150,7 @@ define([
                success: function(response) {
                   if (!response.error) {
                      // redirect to untagged tab
-                     Backbone.history.navigate($.t('my/photos/untagged/'), true);
+                     Backbone.history.navigate($.t('routing.my/photos/untagged/'), true);
                   } else {
                      // TODO error
                   }

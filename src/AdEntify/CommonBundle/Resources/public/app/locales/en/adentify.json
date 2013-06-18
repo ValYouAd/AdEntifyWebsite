@@ -76,6 +76,7 @@
       "labelPersonName": "Entrer the firstname or lastname of the person you want to tag",
       "placeholderPersonName": "Firstname, lastname...",
       "submitPerson": "Submit this person and add tag",
+      "addingInProgress": "Adding in progress...",
       "textNoFacebookConnect": "You aren't <b>connected to Facebook.</b> We can't get your friends.",
       "placeholderBrandName": "Coca-cola, Apple, Zara...",
       "labelBrandName": "Entrez le nom de la marque"
@@ -98,6 +99,13 @@
       "submit": "Submit my photos",
       "textSelectedPhotos": "You have selected",
       "textSelectedPhotos2": "photo(s) to share with AdEntify."
+   },
+   "profile": {
+      "photosCount": "<label class='badge badge-success'>__count__</label> photos",
+      "photosCount_plural": "<label class='badge badge-success'>__count__</label> photos",
+      "follow": "Follow",
+      "pageTitle": "__name__ - AdEntify Profile",
+      "loadingProfile": "Loading profile in progress..."
    },
    "common": {
       "viewPhoto": "view photo",
