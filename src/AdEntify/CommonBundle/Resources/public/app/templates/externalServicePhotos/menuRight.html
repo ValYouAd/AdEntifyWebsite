@@ -4,11 +4,25 @@
     </div>
     <div class="photos-selected">
         <p><span data-i18n="externalServicePhotos.textSelectedPhotos"></span> <span class="photo-count badge badge-success"></span> <span data-i18n="externalServicePhotos.textSelectedPhotos2"></span></p>
-        <p class="text-center">
-            <label>
-                <input type="checkbox" checked="checked" class="photos-rights" /> <span data-i18n="externalServicePhotos.haveRights"></span>
-            </label>
-            <button class="submit-photos btn btn-success btn-large" data-i18n="[data-loading-text]externalServicePhotos.download;externalServicePhotos.submit"></button>
-        </p>
+        <form>
+            <fieldset>
+                <legend data-i18n="externalServicePhotos.settings"></legend>
+                <label data-i18n="externalServicePhotos.labelPhotosConfidentiality"></label>
+                <select id="photos-confidentiality" name="photos-confidentiality">
+                    <option value="private" data-i18n="externalServicePhotos.private"></option>
+                    <option value="public" data-i18n="externalServicePhotos.public"></option>
+                </select>
+                <label></label>
+                <select name="photos-categories">
+
+                </select>
+                <label>
+                    <input type="checkbox" checked="checked" class="photos-rights" /> <span data-i18n="externalServicePhotos.haveRights"></span>
+                </label>
+                <p class="text-center mt2">
+                    <button class="submit-photos btn btn-success btn-large" data-i18n="[data-loading-text]externalServicePhotos.download;externalServicePhotos.submit"></button>
+                </p>
+            </fieldset>
+        </form>
     </div>
 </div>

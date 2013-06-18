@@ -98,7 +98,11 @@
       "haveRights": "Je dispose des droits pour ces photos",
       "submit": "Valider mes photos",
       "textSelectedPhotos": "Vous avez sélectionné",
-      "textSelectedPhotos2": "photo(s) afin de les partager à AdEntify."
+      "textSelectedPhotos2": "photo(s) afin de les partager avec AdEntify.",
+      "settings": "Paramètres",
+      "labelPhotosConfidentiality": "Je souhaite que mes photos soient",
+      "private": "Privées",
+      "public": "Publiques"
    },
    "profile": {
       "photosCount": "<label class='badge badge-success'>__count__</label> photos",

@@ -111,7 +111,7 @@ define([
          });
       },
 
-      submitPhotos: function(e) {
+      submitPhotos: function(options) {
          // Show loader
          $('#photos-container').fadeOut('fast', function() {
             $('#loading-upload').fadeIn('fast');
@@ -136,7 +136,8 @@ define([
                   'largeSource': $(image).data('large-url'),
                   'largeWidth': $(image).data('large-width'),
                   'largeHeight': $(image).data('large-height'),
-                  'id': $(image).data('service-photo-id')
+                  'id': $(image).data('service-photo-id'),
+                  'confidentiality': options.confidentiality
                };
                photoModel = that.photos.get(fbImage.id);
                if (photoModel.has('place')) {

@@ -57,12 +57,14 @@ define([
 
       imageChecked: function(count) {
          if (count > 0) {
-            $('.no-photo-selected').fadeOut('fast');
-            $('.photos-selected').fadeIn('fast');
-            $('.photo-count').html(count);
+            $('.no-photo-selected').fadeOut('fast', function() {
+               $('.photos-selected').fadeIn('fast');
+               $('.photo-count').html(count);
+            });
          } else {
-            $('.photos-selected').fadeOut('fast');
-            $('.no-photo-selected').fadeIn('fast');
+            $('.photos-selected').fadeOut('fast', function() {
+               $('.no-photo-selected').fadeIn('fast');
+            });
          }
       },
 
@@ -90,9 +92,13 @@ define([
       },
 
       submitPhotos: function(e) {
+         e.preventDefault();
          btn = $('.submit-photos');
          btn.button('loading');
-         app.trigger('externalServicePhoto:submitPhotos', e);
+         confidentiality = $('#photos-confidentiality option:selected').val() == 'private' ? 'private' : 'public';
+         app.trigger('externalServicePhoto:submitPhotos', {
+            confidentiality: confidentiality
+         });
       },
 
       afterRender: function() {

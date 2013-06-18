@@ -103,7 +103,8 @@ define([
                   'originalWidth' : $(image).data('original-width'),
                   'originalHeight' : $(image).data('original-height'),
                   'title' : $(image).data('title'),
-                  'id': $(image).data('service-photo-id')
+                  'id': $(image).data('service-photo-id'),
+                  'confidentiality': options.confidentiality
                };
             });
 
