@@ -374,6 +374,11 @@ define([
                   'height': '150px',
                   'margin': '10px 0px'
                });
+               if (currentVenue.address) {
+                  $('#venue-informations').html('<span class="muted">' + currentVenue.address + (currentVenue.postal_code ? ' ' + currentVenue.postal_code : '') + (currentVenue.city ? ' ' + currentVenue.city : '') + '</span>').css({
+                     'margin': '10px 0px'
+                  });
+               }
                var gMap = new google.maps.Map(document.getElementById('previsualisation-tag-map'), mapOptions);
                new google.maps.Marker({
                   position: latLng,
