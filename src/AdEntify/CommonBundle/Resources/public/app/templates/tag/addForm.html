@@ -7,6 +7,7 @@
             <li><a href="#person" data-toggle="tab" data-bypass="" data-i18n="tag.person"></a></li>
         </ul>
         <div class="tab-content">
+            <!-- Produit -->
             <div class="tab-pane active" id="product">
                 <label><span data-i18n="tag.labelBrandName"></span> <i class="icon-refresh fadeOut rotate" id="loading-brand"></i></label>
                 <input id="brand-name" name="brand-name" type="text" data-i18n="[placeholder]tag.placeholderBrandName">
@@ -18,6 +19,7 @@
                 <p><button type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> <span data-i18n="tag.buttonAddProduct"></span></button>
                     <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> <span data-i18n="common.cancel"></span></button></p>
             </div>
+            <!-- Lieu -->
             <div class="tab-pane" id="venue">
                 <p id="support-geolocation">
                     <span><small data-i18n="tag.textGeolocation"></small></span><br>
@@ -26,6 +28,8 @@
                 <p id="not-support-geolocation" class="fadeOut" data-i18n="tag.noSupportGeolocation"></p>
                 <label><span data-i18n="tag.labelPlaceName"></span> <i class="icon-refresh fadeOut rotate" id="loading-venue"></i></label>
                 <input id="venue-text" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPlaceName">
+                <div id="previsualisation-tag-map"></div>
+                <div id="venue-informations"></div>
                 <label data-i18n="tag.labelPlaceDescription"></label>
                 <textarea id="venue-description"></textarea>
                 <label data-i18n="tag.labelPlaceLink"></label>
@@ -33,6 +37,7 @@
                 <p><button id="submit-venue" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn btn-success btn-small"><i class="icon-ok icon-white"></i> <span data-i18n="tag.submitPlace"></span></button>
                     <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white"></i> <span data-i18n="common.cancel"></span></button></p>
             </div>
+            <!-- Personne -->
             <div class="tab-pane" id="person">
                 <div class="fb-loggedin">
                     <label><span data-i18n="tag.labelPersonName"></span> <i class="icon-refresh fadeOut rotate" id="loading-person"></i></label>

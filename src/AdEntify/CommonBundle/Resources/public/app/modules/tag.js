@@ -358,6 +358,27 @@ define([
             items: 10,
             updater: function(selectedItem) {
                currentVenue = currentVenues[selectedItem];
+               var latLng = new google.maps.LatLng(currentVenue.lat, currentVenue.lng);
+               var mapOptions = {
+                  zoom:  14,
+                  center: latLng,
+                  scrollwheel: false,
+                  navigationControl: false,
+                  mapTypeControl: false,
+                  scaleControl: false,
+                  draggable: false,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+               };
+               $('#previsualisation-tag-map').css({
+                  'width': '100%',
+                  'height': '150px',
+                  'margin': '10px 0px'
+               });
+               var gMap = new google.maps.Map(document.getElementById('previsualisation-tag-map'), mapOptions);
+               new google.maps.Marker({
+                  position: latLng,
+                  map: gMap
+               });
                $('#venue-link').val(currentVenue.link ? currentVenue.link : currentVenue.foursquare_short_link);
                return selectedItem;
             }
