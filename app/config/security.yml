@@ -46,7 +46,7 @@ security:
                 login_path:  /
             fos_facebook:
                 app_url:             "http://apps.facebook.com/appName/"
-                server_url:          "http://localhost/AdEntifyFacebookApp/web/app/"
+                server_url:          "http://localhost/AdEntifyFacebookApp/web/"
                 login_path:          /
                 check_path:          /facebook/login-check
                 default_target_path: /app/

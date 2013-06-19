@@ -97,7 +97,7 @@ define([
 
       loadPhotos: function() {
          var that = this;
-         FB.api(this.options.albumId + '/photos', function(response) {
+         FB.api(this.options.albumId + '/photos?limit=200', function(response) {
             if (!response || response.error) {
                error = response.error;
             } else {

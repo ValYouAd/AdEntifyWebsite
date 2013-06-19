@@ -1,6 +1,6 @@
 <div class="ticker-item-container">
-    <div class="ticker-item-overlay"></div>
+    <a href="photo/<%= model.get("id") %>/"><div class="ticker-item-overlay"></div></a>
     <span class="photo-caption"><small><%= model.get("caption") %></small></span>
-    <a href="photo/<%= model.get("id") %>/"><img src="<%= model.get("fullSmallUrl") %>" /></a>
+    <img src="<%= model.get("fullSmallUrl") %>" />
     <a href="photo/<%= model.get("id") %>/" class="btn btn-info btn-mini view-photo"><i class="icon-picture icon-white"></i> <span data-i18n="common.viewPhoto"></span></a>
 </div>
