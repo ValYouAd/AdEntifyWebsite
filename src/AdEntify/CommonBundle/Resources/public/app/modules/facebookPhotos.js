@@ -49,6 +49,8 @@ define([
             this.set('originalWidth', images[0].width);
             this.set('originalHeight', images[0].height);
             this.set('servicePhotoId', this.get('id'));
+            if (this.has('name'))
+               this.set('title', this.get('name'));
          }
       }
    });
@@ -137,6 +139,7 @@ define([
                   'largeWidth': $(image).data('large-width'),
                   'largeHeight': $(image).data('large-height'),
                   'id': $(image).data('service-photo-id'),
+                  'title' : $(image).data('title'),
                   'confidentiality': options.confidentiality
                };
                photoModel = that.photos.get(fbImage.id);

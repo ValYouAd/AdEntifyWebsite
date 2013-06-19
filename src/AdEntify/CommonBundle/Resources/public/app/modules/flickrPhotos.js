@@ -25,8 +25,6 @@ define([
       initialize: function() {
          this.set('thumbUrl', this.get('url_s'));
          this.set('servicePhotoId', this.get('id'));
-         if (this.has('title'))
-            this.set('title', this.get('title'));
          if (this.has('url_o'))
             this.set('originalUrl', this.get('url_o'));
       }
