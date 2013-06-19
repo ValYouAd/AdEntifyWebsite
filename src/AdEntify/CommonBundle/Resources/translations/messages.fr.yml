@@ -10,6 +10,8 @@ Log in with Facebook: Me connecter avec Facebook
 Log in with Twitter: Me connecter avec Twitter
 My photos: Mes photos
 My settings: Mes paramètres
+Categories: Catégories
+All categories: Toutes les catégories
 
 #Routing
 photos/untagged/: photos/non-taguees/
@@ -17,3 +19,4 @@ my/photos/tagged/: mes/photos/taguees/
 my/photos/untagged/: mes/photos/non-taguees/
 brands/: marques/
 my/settings/: mes/parametres/
+category/: categorie/

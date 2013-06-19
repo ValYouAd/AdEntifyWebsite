@@ -16,11 +16,19 @@
                         <a href="./" id="logo-small"></a>
                     </div>
                     <ul class="nav">
-                        <li><a href="">{{ 'Tagged photos'|trans }}</a></li>
-                        <li><a href="{{ 'photos/untagged/'|trans }}">{{ 'Untagged photos'|trans }}</a></li>
+                        <li>
+                            <a class="dropdown" data-toggle="dropdown" data-bypass="">{{ 'Categories'|trans }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelleby="drop1">
+                                <li role="presentation"><a role="menuitem" href="">{{ 'All categories'|trans }}</a></li>
+                                {% for category in categories %}
+                                    <li role="presentation"><a role="menuitem" href="{{ 'category/'|trans }}{{ category.slug }}">{{ category.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {#<li><a href="{{ 'photos/untagged/'|trans }}">{{ 'Untagged photos'|trans }}</a></li>#}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" data-bypass="">{{ 'My photos'|trans }} <b class="caret"></b></a>
-                            <ul class="dropdown-menu" role="menu" aria-labelleby="drop1">
+                            <ul class="dropdown-menu" role="menu" aria-labelleby="drop2">
                                 <li role="presentation"><a role="menuitem" href="{{ 'my/photos/tagged/'|trans }}">{{ 'My tagged photos'|trans }}</a></li>
                                 <li role="presentation"><a role="menuitem" href="{{ 'my/photos/untagged/'|trans }}">{{ 'My untagged photos'|trans }}</a></li>
                             </ul>

@@ -8,7 +8,9 @@
    "photos": {
       "pageTitleTagged": "Photos taguées - AdEntify",
       "pageTitleUntagged": "Photos non taguées - AdEntify",
-      "loading": "Chargement des photos en cours..."
+      "loading": "Chargement des photos en cours...",
+      "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
+      "noPhotos": "Aucune photo à afficher."
    },
    "myPhotos": {
       "pageTitleTagged": "Mes photos taguées - AdEntify",
@@ -110,6 +112,10 @@
       "follow": "Suivre",
       "pageTitle": "__name__ - Profil AdEntify",
       "loadingProfile": "Chargement du profil en cours..."
+   },
+   "category": {
+      "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
+      "noPhotos": "Aucune photo pour cette catégorie."
    },
    "common": {
       "viewPhoto": "voir la photo",

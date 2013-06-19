@@ -8,7 +8,9 @@
    "photos": {
       "pageTitleTagged": "Tagged photos - AdEntify",
       "pageTitleUntagged": "Untagged photos - AdEntify",
-      "loading": "Loading photos in progress..."
+      "loading": "Loading photos in progress...",
+      "errorPhotosLoading": "Can't get photos. Please try again.",
+      "noPhotos": "No photo."
    },
    "myPhotos": {
       "pageTitleTagged": "My tagged photos - AdEntify",
@@ -106,6 +108,10 @@
       "follow": "Follow",
       "pageTitle": "__name__ - AdEntify Profile",
       "loadingProfile": "Loading profile in progress..."
+   },
+   "category": {
+      "errorPhotosLoading": "Can't get photos. Please try again.",
+      "noPhotos": "No photo."
    },
    "common": {
       "viewPhoto": "view photo",

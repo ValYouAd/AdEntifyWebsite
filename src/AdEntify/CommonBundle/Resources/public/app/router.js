@@ -18,11 +18,13 @@ define([
    "modules/photo",
    "modules/brand",
    "modules/mySettings",
-   "modules/profile"
+   "modules/profile",
+   "modules/common"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile) {
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile,
+         Common) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -103,7 +105,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "photo/:id/": "photoDetail",
                "marques/": "brands",
                "mon/profil/": "myProfile",
-               "profil/:id": "profile"
+               "profil/:id": "profile",
+               "categorie/:slug": "category"
             },
             "en" : {
                "": "homepage",
@@ -120,7 +123,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "photo/:id/": "photoDetail",
                "brands/": "brands",
                "my/profile/": "myProfile",
-               "profile/:id": "profile"
+               "profile/:id": "profile",
+               "category/:slug": "category"
             }
          };
          switch (app.appState().getLocale()) {
@@ -146,11 +150,24 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             })
          }).render();
 
+         var that = this;
          this.photos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: true })
+            url: Routing.generate('api_v1_get_photos', { tagged: true }),
+            success: function(collection) {
+               that.successCallback(collection, 'photos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('photos.errorPhotosLoading');
+            }
          });
          this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: false })
+            url: Routing.generate('api_v1_get_photos', { tagged: false }),
+            success: function(collection) {
+               that.successCallback(collection, 'photos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('photos.errorPhotosLoading');
+            }
          });
       },
 
@@ -167,11 +184,24 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             })
          }).render();
 
+         var that = this;
          this.photos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: false })
+            url: Routing.generate('api_v1_get_photos', { tagged: false }),
+            success: function(collection) {
+               that.successCallback(collection, 'photos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('photos.errorPhotosLoading');
+            }
          });
          this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: true })
+            url: Routing.generate('api_v1_get_photos', { tagged: true }),
+            success: function(collection) {
+               that.successCallback(collection, 'photos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('photos.errorPhotosLoading');
+            }
          });
       },
 
@@ -188,11 +218,24 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             })
          });
 
+         var that = this;
          this.myPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true }),
+            success: function(collection) {
+               that.successCallback(collection, 'myPhotos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('myPhotos.errorPhotosLoading');
+            }
          });
          this.myTickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false }),
+            success: function(collection) {
+               that.successCallback(collection, 'myPhotos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('myPhotos.errorPhotosLoading');
+            }
          });
       },
 
@@ -209,11 +252,24 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             })
          });
 
+         var that = this;
          this.myPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false })
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false }),
+            success: function(collection) {
+               that.successCallback(collection, 'myPhotos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('myPhotos.errorPhotosLoading');
+            }
          });
          this.myTickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
+            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true }),
+            success: function(collection) {
+               that.successCallback(collection, 'myPhotos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('myPhotos.errorPhotosLoading');
+            }
          });
       },
 
@@ -343,6 +399,34 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          });
       },
 
+      category: function(slug) {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Photos.Views.Content({
+               photos: this.photos,
+               tagged: true
+            }),
+            "#menu-right": new Photos.Views.Ticker({
+               tickerPhotos: this.tickerPhotos
+            })
+         }).render();
+
+         var that = this;
+         this.photos.fetch({
+            url: Routing.generate('api_v1_get_category_photos', { slug: slug }),
+            success: function(collection) {
+               that.successCallback(collection, 'category.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('category.errorPhotosLoading');
+            }
+         });
+         /*this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_category_photos', { slug: slug })
+         });*/
+      },
+
       reset: function() {
          if (this.photos.length) {
             this.photos.reset();
@@ -398,6 +482,23 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             $("aside").switchClass("span1", "span3");
          }
          app.stopLoading();
+      },
+
+      successCallback: function(collection, translationKey) {
+         if (collection.length == 0) {
+            app.useLayout().setView("#content", new Common.Views.Alert({
+               class: Common.alertInfo,
+               message: $.t(translationKey)
+            })).render();
+         }
+      },
+
+      errorCallback: function(translationKey) {
+         app.useLayout().setView("#content", new Common.Views.Alert({
+            class: Common.alertError,
+            message: $.t(translationKey),
+            showClose: true
+         })).render();
       }
    });
 

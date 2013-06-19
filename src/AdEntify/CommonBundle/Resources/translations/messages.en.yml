@@ -10,6 +10,8 @@ Log in with Facebook: Log in with Facebook
 Log in with Twitter: Log in with Twitter
 My photos: My photos
 My profile: My profile
+Categories: Categories
+All categories: All categories
 
 #Routing
 photos/untagged/: photos/untagged/
@@ -17,3 +19,4 @@ my/photos/tagged/: my/photos/tagged/
 my/photos/untagged/: my/photos/untagged/
 brands/: brands/
 my/profile/: my/profile/
+category/: category/
