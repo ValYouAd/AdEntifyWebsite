@@ -1,0 +1,32 @@
+<div class="external-albums mt3">
+    <div class="no-album-selected">
+        <div class="alert fade in alert-info">
+            <span data-i18n="externalServicePhotos.noSelectedAlbum"></span>
+        </div>
+    </div>
+    <div class="albums-selected fadeOut">
+        <p><span data-i18n="externalServicePhotos.textSelectedAlbums"></span> <span class="album-count badge badge-success">0</span> <span data-i18n="externalServicePhotos.textSelectedAlbums2"></span></p>
+        <form>
+            <fieldset>
+                <legend data-i18n="externalServicePhotos.settings"></legend>
+                <label data-i18n="externalServicePhotos.labelPhotosConfidentiality"></label>
+                <select id="photos-confidentiality" name="photos-confidentiality">
+                    <option value="private" data-i18n="externalServicePhotos.private"></option>
+                    <option value="public" data-i18n="externalServicePhotos.public"></option>
+                </select>
+                <label data-i18n="externalServicePhotos.labelPhotosCategories"></label>
+                <select name="photos-categories" class="selectCategories" multiple="multiple">
+                    <% _.forEach(categories.models, function(category) { %>
+                    <option value="<%= category.get('id') %>"><%= category.get('name') %></option>
+                    <% }); %>
+                </select>
+                <label>
+                    <input type="checkbox" checked="checked" class="photos-rights" /> <span data-i18n="externalServicePhotos.haveRights"></span>
+                </label>
+                <p class="text-center mt2">
+                    <button class="submit-photos btn btn-success btn-large" data-i18n="[data-loading-text]externalServicePhotos.downloadAlbums;externalServicePhotos.submitAlbums"></button>
+                </p>
+            </fieldset>
+        </form>
+    </div>
+</div>

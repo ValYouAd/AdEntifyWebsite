@@ -12,6 +12,7 @@ My photos: Mes photos
 My settings: Mes paramètres
 Categories: Catégories
 All categories: Toutes les catégories
+My AdEntify: Mon AdEntify
 
 #Routing
 photos/untagged/: photos/non-taguees/
@@ -20,3 +21,4 @@ my/photos/untagged/: mes/photos/non-taguees/
 brands/: marques/
 my/settings/: mes/parametres/
 category/: categorie/
+my/adentify/: mon/adentify/

@@ -7,8 +7,9 @@
  */
 define([
    "app",
+   "modules/externalServicePhotos",
    "hmacsha1"
-], function(app) {
+], function(app, ExternalServicePhotos) {
 
    var FlickrSets = app.module();
    var error = '';
@@ -19,6 +20,7 @@ define([
          this.set('title', this.attributes.title._content);
          this.set('description', this.attributes.description._content);
          this.set('id', this.attributes.id);
+         this.set('url', 'flickr/sets/' + this.get("id") + '/photos/');
       }
    });
 
@@ -27,30 +29,12 @@ define([
       cache: true
    });
 
-   FlickrSets.Views.Item = Backbone.View.extend({
-      template: "flickrSets/item",
-
-      tagName: "li class='span2'",
-
-      serialize: function() {
-         return { model: this.model };
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
-      }
-   });
-
    FlickrSets.Views.List = Backbone.View.extend({
-      template: "flickrSets/list",
+      template: "externalServicePhotos/albumList",
 
       beforeRender: function() {
          this.options.sets.each(function(album) {
-            this.insertView("#sets-list", new FlickrSets.Views.Item({
+            this.insertView("#sets-list", new ExternalServicePhotos.Views.AlbumItem({
                model: album
             }));
          }, this);

@@ -1,6 +1,8 @@
 <div class="external-photos mt3">
     <div class="no-photo-selected">
-        <p data-i18n="externalServicePhotos.noSelectedPhoto"></p>
+        <div class="alert fade in alert-info">
+            <span data-i18n="externalServicePhotos.noSelectedPhoto"></span>
+        </div>
     </div>
     <div class="photos-selected">
         <p><span data-i18n="externalServicePhotos.textSelectedPhotos"></span> <span class="photo-count badge badge-success"></span> <span data-i18n="externalServicePhotos.textSelectedPhotos2"></span></p>
@@ -12,7 +14,7 @@
                     <option value="private" data-i18n="externalServicePhotos.private"></option>
                     <option value="public" data-i18n="externalServicePhotos.public"></option>
                 </select>
-                <label></label>
+                <label data-i18n="externalServicePhotos.labelPhotosCategories"></label>
                 <select name="photos-categories">
 
                 </select>

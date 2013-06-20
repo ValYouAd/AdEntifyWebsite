@@ -19,12 +19,13 @@ define([
    "modules/brand",
    "modules/mySettings",
    "modules/profile",
-   "modules/common"
+   "modules/common",
+   "modules/category"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile,
-         Common) {
+         Common, Category) {
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -68,7 +69,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             istgPhotos : new InstagramPhotos.Collection(),
             flrSets: new FlickrSets.Collection(),
             flrPhotos: new FlickrPhotos.Collection(),
-            brands: new Brand.Collection()
+            brands: new Brand.Collection(),
+            categories: new Category.Collection()
          };
          _.extend(this, collections);
 
@@ -106,7 +108,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "marques/": "brands",
                "mon/profil/": "myProfile",
                "profil/:id": "profile",
-               "categorie/:slug": "category"
+               "categorie/:slug": "category",
+               "mon/adentify/": "myAdentify"
             },
             "en" : {
                "": "homepage",
@@ -124,7 +127,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "brands/": "brands",
                "my/profile/": "myProfile",
                "profile/:id": "profile",
-               "category/:slug": "category"
+               "category/:slug": "category",
+               "my/adentify/": "myAdentify"
             }
          };
          switch (app.appState().getLocale()) {
@@ -278,7 +282,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          app.useLayout().setViews({
             "#content": new Upload.Views.Content(),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
+            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos()
          }).render();
       },
 
@@ -287,10 +291,15 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          app.useLayout().setViews({
             "#content": new FacebookAlbums.Views.List({
-               albums: this.fbAlbums
+               albums: this.fbAlbums,
+               categories: this.categories
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
+            "#menu-right": new ExternalServicePhotos.Views.MenuRightAlbums({
+               categories: this.categories
+            })
          }).render();
+
+         this.categories.fetch();
       },
 
       facebookAlbumsPhotos: function(id) {
@@ -301,7 +310,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                albumId: id,
                photos: this.fbPhotos
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
+            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos()
          }).render();
       },
 
@@ -312,7 +321,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#content": new InstagramPhotos.Views.List({
                photos: this.istgPhotos
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
+            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos()
          }).render();
       },
 
@@ -323,7 +332,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#content": new FlickrSets.Views.List({
                sets: this.flrSets
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
+            "#menu-right": new ExternalServicePhotos.Views.MenuRightAlbums()
          }).render();
       },
 
@@ -335,7 +344,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                photos: this.flrPhotos,
                albumId: id
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRight()
+            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos()
          }).render();
       },
 
@@ -485,6 +494,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
       },
 
       successCallback: function(collection, translationKey) {
+         // Check if collection is empty
          if (collection.length == 0) {
             app.useLayout().setView("#content", new Common.Views.Alert({
                class: Common.alertInfo,
@@ -499,6 +509,40 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             message: $.t(translationKey),
             showClose: true
          })).render();
+      },
+
+      myAdentify: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Photos.Views.Content({
+               photos: this.photos,
+               tagged: false
+            }),
+            "#menu-right": new Photos.Views.Ticker({
+               tickerPhotos: this.tickerPhotos
+            })
+         }).render();
+
+         var that = this;
+         this.photos.fetch({
+            url: Routing.generate('api_v1_get_photos', { tagged: false }),
+            success: function(collection) {
+               that.successCallback(collection, 'photos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('photos.errorPhotosLoading');
+            }
+         });
+         this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photos', { tagged: true }),
+            success: function(collection) {
+               that.successCallback(collection, 'photos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('photos.errorPhotosLoading');
+            }
+         });
       }
    });
 

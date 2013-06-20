@@ -290,6 +290,9 @@ ul#photos-grid {
 #albums-list li .thumbnail {
     min-height: 290px;
 }
+#albums-list select {
+    width: auto;
+}
 /* Photos */
 .action-buttons {
     display: none;
@@ -490,6 +493,12 @@ ul#ticker-photos {
 }
 .ph1 {
     padding-left: 10px; padding-right: 10px;
+}
+.select2-container {
+    width: 100%;
+}
+.select2-container input[type="text"] {
+    width: 100%;
 }
 /*
 ----------------------- */

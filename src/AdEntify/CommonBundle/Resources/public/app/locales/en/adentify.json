@@ -41,18 +41,14 @@
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",
-      "photosPageTitle": "My Facebook photos - AdEntify",
-      "loadingAlbums": "Loading albums in progress...",
-      "useThisAlbum": "Use this album"
+      "photosPageTitle": "My Facebook photos - AdEntify"
    },
    "instagram": {
       "pageTitle": "My Instagram photos - AdEntify"
    },
    "flickr": {
       "albumsPageTitle": "My Flickr sets - AdEntify",
-      "photosPageTitle": "My Flickr photos - AdEntify",
-      "loadingAlbums": "Loading albums in progress...",
-      "useThisAlbum": "Use this album"
+      "photosPageTitle": "My Flickr photos - AdEntify"
    },
    "tag": {
       "legendAddTag": "Add a tag",
@@ -100,7 +96,21 @@
       "haveRights": "I own rights for these photos",
       "submit": "Submit my photos",
       "textSelectedPhotos": "You have selected",
-      "textSelectedPhotos2": "photo(s) to share with AdEntify."
+      "textSelectedPhotos2": "photo(s) to share with AdEntify.",
+      "settings": "Settongs",
+      "labelPhotosConfidentiality": "I wish that my photos be",
+      "private": "Private",
+      "public": "Public",
+      "loadingAlbums": "Loading albums in progress...",
+      "viewPhotos": "View photos",
+      "selectAlbum": "Select",
+      "noSelectedAlbum": "ou haven't selected album for this moment.",
+      "labelPhotosCategories": "Select one or more categories for your photos",
+      "textSelectedAlbums": "You have selected",
+      "textSelectedAlbums2": "album(s) to share with AdEntify.",
+      "alertAlbumSelected": "Album <strong>__name__</strong> was added to selection",
+      "submitAlbums": "Send my albums",
+      "downloadAlbums": "Albums downloading in progress..."
    },
    "profile": {
       "photosCount": "<label class='badge badge-success'>__count__</label> photos",
@@ -130,6 +140,7 @@
       "flickr/sets/:id/photos/": "flickr/sets/__id__/photos/",
       "photo/:id/": "photo/__id__/",
       "brands/": "brands/",
-      "my/profile/": "my/profile/"
+      "my/profile/": "my/profile/",
+      "my/adentify/": "my/adentify/"
    }
 }

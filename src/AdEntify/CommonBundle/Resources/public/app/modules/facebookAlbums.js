@@ -7,8 +7,11 @@
  */
 define([
    "app",
-   "facebook"
-], function(app) {
+   "modules/externalServicePhotos",
+   "modules/category",
+   "facebook",
+   "select2"
+], function(app, ExternalServicePhotos, Category) {
 
    var FacebookAlbums = app.module();
    var error = '';
@@ -25,6 +28,7 @@ define([
                }
             });
          }
+         this.set('url', 'facebook/albums/' + this.get("id") + '/photos/');
       }
    });
 
@@ -33,31 +37,14 @@ define([
       cache: true
    });
 
-   FacebookAlbums.Views.Item = Backbone.View.extend({
-      template: "facebookAlbums/item",
-
-      tagName: "li class='span2'",
-
-      serialize: function() {
-         return { model: this.model };
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
-      }
-   });
-
    FacebookAlbums.Views.List = Backbone.View.extend({
-      template: "facebookAlbums/list",
+      template: "externalServicePhotos/albumList",
 
       beforeRender: function() {
          this.options.albums.each(function(album) {
-            this.insertView("#albums-list", new FacebookAlbums.Views.Item({
-               model: album
+            this.insertView("#albums-list", new ExternalServicePhotos.Views.AlbumItem({
+               model: album,
+               categories: this.categories
             }));
          }, this);
       },
@@ -94,9 +81,13 @@ define([
             });
          }
          this.listenTo(this.options.albums, {
-            "add": this.render
+            "sync": this.render
          });
          app.trigger('domchange:title', $.t('facebook.albumsPageTitle'));
+         this.categories = this.options.categories;
+         this.listenTo(this.options.categories, {
+            "sync": this.render
+         });
       }
    });
 

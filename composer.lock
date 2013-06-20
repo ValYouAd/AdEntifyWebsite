@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "1495adac7e4e981c8b963514aaf000c4df7ecb5a"
+                "reference": "ac48f337542e2a248a4f33116da5dd13e7aac7d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/1495adac7e4e981c8b963514aaf000c4df7ecb5a",
-                "reference": "1495adac7e4e981c8b963514aaf000c4df7ecb5a",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/ac48f337542e2a248a4f33116da5dd13e7aac7d4",
+                "reference": "ac48f337542e2a248a4f33116da5dd13e7aac7d4",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-06-19 12:42:15"
+            "time": "2013-06-20 09:31:00"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -2311,12 +2311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
-                "reference": "9701288b8584b732618e0a70cfeab6ced1bf332b"
+                "reference": "7618302c798edbe5f13cd7d7f6aab4b21110a135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/9701288b8584b732618e0a70cfeab6ced1bf332b",
-                "reference": "9701288b8584b732618e0a70cfeab6ced1bf332b",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/7618302c798edbe5f13cd7d7f6aab4b21110a135",
+                "reference": "7618302c798edbe5f13cd7d7f6aab4b21110a135",
                 "shasum": ""
             },
             "require": {
@@ -2364,7 +2364,7 @@
                 "translatable",
                 "tree"
             ],
-            "time": "2013-06-16 18:38:55"
+            "time": "2013-06-20 00:09:53"
         },
         {
             "name": "swiftmailer/swiftmailer",

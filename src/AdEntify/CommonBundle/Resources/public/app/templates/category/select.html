@@ -1,0 +1,5 @@
+<select class="selectCategories" multiple="multiple">
+    <% _.forEach(collection, function(category) { %>
+        <option><%= category.get('name') %></option>
+    <% }); %>
+</select>

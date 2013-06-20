@@ -42,8 +42,7 @@
    "facebook": {
       "albumsPageTitle": "Mes albums Facebook - AdEntify",
       "photosPageTitle": "Mes photos Facebook - AdEntify",
-      "loadingAlbums": "Chargement des albums en cours...",
-      "useThisAlbum": "Utiliser cet album"
+      "loadingAlbums": "Chargement des albums en cours..."
    },
    "instagram": {
       "pageTitle": "Mes photos Instagram - AdEntify"
@@ -51,8 +50,7 @@
    "flickr": {
       "albumsPageTitle": "Mes albums Flickr - AdEntify",
       "photosPageTitle": "Mes photos Flickr - AdEntify",
-      "loadingAlbums": "Chargement des albums en cours...",
-      "useThisAlbum": "Utiliser cet album"
+      "loadingAlbums": "Chargement des albums en cours..."
    },
    "tag": {
       "legendAddTag": "Ajouter un tag",
@@ -104,7 +102,17 @@
       "settings": "Paramètres",
       "labelPhotosConfidentiality": "Je souhaite que mes photos soient",
       "private": "Privées",
-      "public": "Publiques"
+      "public": "Publiques",
+      "loadingAlbums": "Chargement des albums en cours...",
+      "viewPhotos": "Voir les photos",
+      "selectAlbum": "Sélectionner",
+      "noSelectedAlbum": "Vous n'avez sélectionné aucun album pour le moment.",
+      "labelPhotosCategories": "Choisissez une ou plusieurs catégories pour vos photos",
+      "textSelectedAlbums": "Vous avez sélectionné",
+      "textSelectedAlbums2": "album(s) afin de les partager avec AdEntify.",
+      "alertAlbumSelected": "L'album <strong>__name__</strong> a été ajouté à la sélection",
+      "submitAlbums": "Envoyer mes albums",
+      "downloadAlbums": "Récupération de vos albums en cours..."
    },
    "profile": {
       "photosCount": "<label class='badge badge-success'>__count__</label> photos",
@@ -134,6 +142,7 @@
       "flickr/sets/:id/photos/": "flickr/albums/__id__/photos/",
       "photo/:id/": "photo/__id__/",
       "brands/": "marques/",
-      "my/profile/": "mon/profil/"
+      "my/profile/": "mon/profil/",
+      "my/adentify/": "mon/adentify/"
    }
 }

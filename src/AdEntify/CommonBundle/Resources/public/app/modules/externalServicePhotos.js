@@ -11,7 +11,6 @@ define([
 ], function(app) {
 
    var ExternalServicePhotos = app.module();
-   var error = '';
 
    ExternalServicePhotos.Views.Item = Backbone.View.extend({
       template: "externalServicePhotos/item",
@@ -44,6 +43,51 @@ define([
       }
    });
 
+   ExternalServicePhotos.Views.AlbumItem = Backbone.View.extend({
+      template: "externalServicePhotos/albumItem",
+
+      tagName: "li class='span2'",
+
+      serialize: function() {
+         return {
+            model: this.model,
+            categories : this.categories
+         };
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         if (this.categories.length > 0)
+            $(this.el).find('.selectCategories').select2();
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+         this.categories = this.options.categories;
+      },
+
+      selectAlbum: function() {
+         var that = this;
+         $(this.el).find('.caption-select').fadeOut('fast', function() {
+            $(that.el).find('.caption-selected').fadeIn();
+         });
+         app.trigger('externalServicePhotos:selectAlbum', this.model);
+      },
+
+      cancelSelection: function() {
+         var that = this;
+         $(this.el).find('.caption-selected').fadeOut('fast', function() {
+            $(that.el).find('.caption-select').fadeIn();
+         });
+         app.trigger('externalServicePhotos:cancelSelectAlbum', this.model);
+      },
+
+      events: {
+         "click .selectAlbum": "selectAlbum",
+         "click .cancelSelection": "cancelSelection"
+      }
+   });
+
    ExternalServicePhotos.Views.ErrorNoRights = Backbone.View.extend({
       template: "externalServicePhotos/errors/noRights",
 
@@ -52,8 +96,8 @@ define([
       }
    });
 
-   ExternalServicePhotos.Views.MenuRight = Backbone.View.extend({
-      template: "externalServicePhotos/menuRight",
+   ExternalServicePhotos.Views.MenuRightPhotos = Backbone.View.extend({
+      template: "externalServicePhotos/menuRightPhotos",
 
       imageChecked: function(count) {
          if (count > 0) {
@@ -103,6 +147,81 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+      }
+   });
+
+   ExternalServicePhotos.Views.MenuRightAlbums = Backbone.View.extend({
+      template: "externalServicePhotos/menuRightAlbums",
+
+      serialize: function() {
+         return {
+            categories : this.categories
+         };
+      },
+
+      checkAlbumsSelected: function() {
+         var that = this;
+         if (this.checkedAlbums.length > 0) {
+            $('.no-album-selected').fadeOut('fast', function() {
+               $('.albums-selected').fadeIn('fast');
+               $('.album-count').html(that.checkedAlbums.length);
+            });
+         } else {
+            $('.albums-selected').fadeOut('fast', function() {
+               $('.no-album-selected').fadeIn('fast');
+            });
+         }
+      },
+
+      initialize: function() {
+         var that = this;
+         this.checkedAlbums = [];
+         app.on('externalServicePhotos:selectAlbum', function(album) {
+            that.checkedAlbums.push(album);
+            that.checkAlbumsSelected();
+         });
+         app.on('externalServicePhotos:cancelSelectAlbum', function(album) {
+            index = _.indexOf(that.checkedAlbums, album);
+            if (index > -1)
+               that.checkedAlbums.splice(index, 1);
+            that.checkAlbumsSelected();
+         });
+         this.categories = this.options.categories;
+         this.listenTo(this.options.categories, {
+            "sync": this.render
+         });
+      },
+
+      events: {
+         "click .photos-rights": "photoRightsClick",
+         "click .submit-photos": "submitAlbums"
+      },
+
+      photoRightsClick: function() {
+         if ($('.photos-rights:checked').length != 1) {
+            $('.submit-photos').hide();
+            app.useLayout().setView("#errors", new ExternalServicePhotos.Views.ErrorNoRights()).render();
+            $('.alert').alert();
+         } else {
+            $('.alert').alert('close');
+            $('.submit-photos').fadeIn('fast');
+         }
+      },
+
+      submitAlbums: function(e) {
+         e.preventDefault();
+         btn = $('.submit-photos');
+         btn.button('loading');
+         confidentiality = $('#photos-confidentiality option:selected').val() == 'private' ? 'private' : 'public';
+         app.trigger('externalServicePhoto:submitPhotos', {
+            confidentiality: confidentiality
+         });
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         if (typeof this.categories !== 'undefined' && this.categories.length > 0)
+            $(this.el).find('.selectCategories').select2();
       }
    });
 

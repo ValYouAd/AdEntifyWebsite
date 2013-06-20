@@ -1,5 +1,13 @@
 {% extends "::base.html.twig" %}
 
+{% block stylesheets %}
+    {% stylesheets
+    '../app/Resources/public/css/select2.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block body %}
 
     <main role="main" id="main">
@@ -25,6 +33,7 @@
                                 {% endfor %}
                             </ul>
                         </li>
+                        <li><a href="{{ 'my/adentify/'|trans }}">{{ 'My AdEntify'|trans }}</a></li>
                         {#<li><a href="{{ 'photos/untagged/'|trans }}">{{ 'Untagged photos'|trans }}</a></li>#}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" data-bypass="">{{ 'My photos'|trans }} <b class="caret"></b></a>
