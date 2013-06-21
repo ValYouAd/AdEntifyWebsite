@@ -120,10 +120,10 @@ define([
                itemSelector : 'li.isotope-li',
                animationEngine: 'best-available'
             });
-            $('#loading-photos').fadeOut('fast', function() {
-               $('#photos-grid').css({visibility: 'visible'});
-               $('#photos-grid').animate({'opacity': '1.0'});
-            });
+            /*$('#loading-photos').fadeOut('fast', function() {
+             $('#photos-grid').css({visibility: 'visible'});
+             $('#photos-grid').animate({'opacity': '1.0'});
+             });*/
          });
 
          // Click on photo overlay

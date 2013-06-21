@@ -167,10 +167,10 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.tickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photos', { tagged: false }),
             success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos');
+               that.successCallback(collection, 'photos.noPhotos', '#menu-right');
             },
             error: function() {
-               that.errorCallback('photos.errorPhotosLoading');
+               that.errorCallback('photos.errorPhotosLoading', '#menu-right');
             }
          });
       },
@@ -201,10 +201,10 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.tickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photos', { tagged: true }),
             success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos');
+               that.successCallback(collection, 'photos.noPhotos', '#menu-right');
             },
             error: function() {
-               that.errorCallback('photos.errorPhotosLoading');
+               that.errorCallback('photos.errorPhotosLoading', '#menu-right');
             }
          });
       },
@@ -235,10 +235,10 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.myTickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false }),
             success: function(collection) {
-               that.successCallback(collection, 'myPhotos.noPhotos');
+               that.successCallback(collection, 'myPhotos.noPhotos', '#menu-right');
             },
             error: function() {
-               that.errorCallback('myPhotos.errorPhotosLoading');
+               that.errorCallback('myPhotos.errorPhotosLoading', '#menu-right');
             }
          });
       },
@@ -269,10 +269,10 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.myTickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true }),
             success: function(collection) {
-               that.successCallback(collection, 'myPhotos.noPhotos');
+               that.successCallback(collection, 'myPhotos.noPhotos', '#menu-right');
             },
             error: function() {
-               that.errorCallback('myPhotos.errorPhotosLoading');
+               that.errorCallback('myPhotos.errorPhotosLoading', '#menu-right');
             }
          });
       },
@@ -436,6 +436,40 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          });*/
       },
 
+      myAdentify: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Photos.Views.Content({
+               photos: this.photos,
+               tagged: false
+            }),
+            "#menu-right": new Photos.Views.Ticker({
+               tickerPhotos: this.tickerPhotos
+            })
+         }).render();
+
+         var that = this;
+         this.photos.fetch({
+            url: Routing.generate('api_v1_get_photos', { tagged: false }),
+            success: function(collection) {
+               that.successCallback(collection, 'photos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('photos.errorPhotosLoading');
+            }
+         });
+         this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photos', { tagged: true }),
+            success: function(collection) {
+               that.successCallback(collection, 'photos.noPhotos', '#menu-right');
+            },
+            error: function() {
+               that.errorCallback('photos.errorPhotosLoading', '#menu-right');
+            }
+         });
+      },
+
       reset: function() {
          if (this.photos.length) {
             this.photos.reset();
@@ -493,56 +527,24 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          app.stopLoading();
       },
 
-      successCallback: function(collection, translationKey) {
+      successCallback: function(collection, translationKey, target) {
+         target = (typeof target === "undefined") ? "#content" : target;
          // Check if collection is empty
          if (collection.length == 0) {
-            app.useLayout().setView("#content", new Common.Views.Alert({
+            app.useLayout().setView(target, new Common.Views.Alert({
                class: Common.alertInfo,
                message: $.t(translationKey)
             })).render();
          }
       },
 
-      errorCallback: function(translationKey) {
-         app.useLayout().setView("#content", new Common.Views.Alert({
+      errorCallback: function(translationKey, target) {
+         target = (typeof target === "undefined") ? "#content" : target;
+         app.useLayout().setView(target, new Common.Views.Alert({
             class: Common.alertError,
             message: $.t(translationKey),
             showClose: true
          })).render();
-      },
-
-      myAdentify: function() {
-         this.reset();
-
-         app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
-               photos: this.photos,
-               tagged: false
-            }),
-            "#menu-right": new Photos.Views.Ticker({
-               tickerPhotos: this.tickerPhotos
-            })
-         }).render();
-
-         var that = this;
-         this.photos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: false }),
-            success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos');
-            },
-            error: function() {
-               that.errorCallback('photos.errorPhotosLoading');
-            }
-         });
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: true }),
-            success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos');
-            },
-            error: function() {
-               that.errorCallback('photos.errorPhotosLoading');
-            }
-         });
       }
    });
 

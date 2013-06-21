@@ -91,6 +91,9 @@ section#content {
 
     word-wrap: break-word;
 }
+#menu-right .alert {
+    margin-top: 20px;
+}
 /* Smartphone */
 @media (max-width:767px){
     #menu-right {
@@ -132,8 +135,8 @@ footer p {
 #photos-grid {
     margin-bottom: 20px;
     clear: both;
-    visibility: hidden;
-    opacity: 0;
+    /*visibility: hidden;
+    opacity: 0;*/
 }
 ul#photos-grid {
     list-style-type: none;

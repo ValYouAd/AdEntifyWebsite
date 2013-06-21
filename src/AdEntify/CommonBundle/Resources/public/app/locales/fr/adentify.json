@@ -18,7 +18,9 @@
       "tools": "Outils",
       "addTagButton": "Ajouter un tag",
       "legendPhotoDetails": "Détails de la photo",
-      "labelTitle": "Titre"
+      "labelTitle": "Titre",
+      "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
+      "noPhotos": "Aucune photo à afficher."
    },
    "mySettings": {
       "pageTitle": "Mes paramètres - AdEntify",
