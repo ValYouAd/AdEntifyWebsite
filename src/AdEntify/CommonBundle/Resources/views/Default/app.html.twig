@@ -10,6 +10,8 @@
 
 {% block body %}
 
+    {% set full_root_url = root_url ~ app.request.locale ~ '/app/' %}
+
     <main role="main" id="main">
 
         <nav class="navbar navbar-fixed-top">
@@ -21,29 +23,29 @@
                 </button>
                 <div class="nav-collapse collapse">
                     <div class="pull-left">
-                        <a href="./" id="logo-small"></a>
+                        <a href="{{ full_root_url }}" id="logo-small"></a>
                     </div>
                     <ul class="nav">
                         <li>
                             <a class="dropdown" data-toggle="dropdown" data-bypass="">{{ 'Categories'|trans }} <b class="caret"></b></a>
                             <ul class="dropdown-menu" role="menu" aria-labelleby="drop1">
-                                <li role="presentation"><a role="menuitem" href="">{{ 'All categories'|trans }}</a></li>
+                                <li role="presentation"><a role="menuitem" href="{{ full_root_url }}">{{ 'All categories'|trans }}</a></li>
                                 {% for category in categories %}
-                                    <li role="presentation"><a role="menuitem" href="{{ 'category/'|trans }}{{ category.slug }}">{{ category.name }}</a></li>
+                                    <li role="presentation"><a role="menuitem" href="{{ 'category/'|trans }}{{ category.slug }}" data-name="{{ category.name }}">{{ category.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li><a href="{{ 'my/adentify/'|trans }}">{{ 'My AdEntify'|trans }}</a></li>
+                        <li><a href="{{ full_root_url }}{{ 'my/adentify/'|trans }}">{{ 'My AdEntify'|trans }}</a></li>
                         {#<li><a href="{{ 'photos/untagged/'|trans }}">{{ 'Untagged photos'|trans }}</a></li>#}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" data-bypass="">{{ 'My photos'|trans }} <b class="caret"></b></a>
                             <ul class="dropdown-menu" role="menu" aria-labelleby="drop2">
-                                <li role="presentation"><a role="menuitem" href="{{ 'my/photos/tagged/'|trans }}">{{ 'My tagged photos'|trans }}</a></li>
-                                <li role="presentation"><a role="menuitem" href="{{ 'my/photos/untagged/'|trans }}">{{ 'My untagged photos'|trans }}</a></li>
+                                <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/tagged/'|trans }}">{{ 'My tagged photos'|trans }}</a></li>
+                                <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/untagged/'|trans }}">{{ 'My untagged photos'|trans }}</a></li>
                             </ul>
                         </li>
-                        <li><a href="{{ 'brands/'|trans }}">{{ 'Brands'|trans }}</a></li>
-                        <li><a href="{{ 'my/settings/'|trans }}">{{ 'My settings'|trans }}</a></li>
+                        <li><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'Brands'|trans }}</a></li>
+                        <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}">{{ 'My settings'|trans }}</a></li>
                     </ul>
                     <div class="pull-right" id="user-account">
                         <div class="pull-right">

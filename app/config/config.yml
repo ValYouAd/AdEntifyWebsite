@@ -169,6 +169,7 @@ parameters:
     facebook_app_id:          159587157398776
     facebook_secret:          6465372f50a4b1e570cfe4ce7fd62cca
     facebook_permissions:     email, user_birthday, user_photos, friends_photos, read_friendlists
+    root_url:                 "http://localhost/AdEntifyFacebookApp/web/"
 
 # Twig globals
 twig:
@@ -179,6 +180,8 @@ twig:
         twitter_consumer_key:     %twitter_consumer_key%
         facebook_app_id:          %facebook_app_id%
         facebook_permissions:     %facebook_permissions%
+        root_url:                 %root_url%
+
 
 
 # Instagram

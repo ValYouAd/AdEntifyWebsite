@@ -139,7 +139,7 @@ function(app, Router, i18n, AppState, TagStats, Like) {
              // `Backbone.history.navigate` is sufficient for all Routers and will
              // trigger the correct events. The Router's internal `navigate` method
              // calls this anyways.  The fragment is sliced from the root.
-             Backbone.history.navigate(href.attr, { trigger: true });
+             Backbone.history.navigate(href.attr.replace(root, ''), { trigger: true });
           });
        }
     }

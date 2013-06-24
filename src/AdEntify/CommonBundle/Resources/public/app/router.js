@@ -215,7 +215,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          app.useLayout().setViews({
             "#content": new MyPhotos.Views.Content({
                photos: this.myPhotos,
-               tagged: true
+               tagged: true,
+               title: $.t('myPhotos.titleTagged')
             }),
             "#menu-right": new MyPhotos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
@@ -249,7 +250,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          app.useLayout().setViews({
             "#content": new MyPhotos.Views.Content({
                photos: this.myPhotos,
-               tagged: false
+               tagged: false,
+               title: $.t('myPhotos.titleUntagged')
             }),
             "#menu-right": new MyPhotos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
@@ -442,7 +444,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          app.useLayout().setViews({
             "#content": new Photos.Views.Content({
                photos: this.photos,
-               tagged: false
+               pageTitle: $.t('myAdentify.pageTitle'),
+               title: $.t('myAdentify.title')
             }),
             "#menu-right": new Photos.Views.Ticker({
                tickerPhotos: this.tickerPhotos
@@ -451,7 +454,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          var that = this;
          this.photos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: false }),
+            url: Routing.generate('api_v1_get_user_feed'),
             success: function(collection) {
                that.successCallback(collection, 'photos.noPhotos');
             },

@@ -15,6 +15,8 @@
    "myPhotos": {
       "pageTitleTagged": "My tagged photos - AdEntify",
       "pageTitleUntagged": "My untagged photos - AdEntify",
+      "titleTagged": "Mes photos taguées",
+      "titleUntagged": "Mes photos non taguées",
       "tools": "Tools",
       "addTagButton": "Add a tag",
       "legendPhotoDetails": "Photo details",
@@ -122,6 +124,10 @@
    "category": {
       "errorPhotosLoading": "Can't get photos. Please try again.",
       "noPhotos": "No photo."
+   },
+   "myAdentify": {
+      "pageTitle": "Mon flux photos - AdEntify",
+      "title": "Mon flux photos"
    },
    "common": {
       "viewPhoto": "view photo",

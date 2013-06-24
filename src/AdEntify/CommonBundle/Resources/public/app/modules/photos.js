@@ -112,6 +112,9 @@ define([
 
       afterRender: function() {
          var that = this;
+
+         $(this.el).find('.photos-title').html(this.title);
+
          container = this.$('#photos-grid');
 
          // Wait images loaded
@@ -120,10 +123,10 @@ define([
                itemSelector : 'li.isotope-li',
                animationEngine: 'best-available'
             });
-            /*$('#loading-photos').fadeOut('fast', function() {
-             $('#photos-grid').css({visibility: 'visible'});
-             $('#photos-grid').animate({'opacity': '1.0'});
-             });*/
+            $('#loading-photos').fadeOut('fast', function() {
+               /*$('#photos-grid').css({visibility: 'visible'});
+               $('#photos-grid').animate({'opacity': '1.0'});*/
+            });
          });
 
          // Click on photo overlay
@@ -231,8 +234,14 @@ define([
          });
          if (this.options.tagged) {
             app.trigger('domchange:title', $.t('photos.pageTitleTagged'));
-         } else {
+         } else if (this.options.pageTitle) {
+            app.trigger('domchange:title', this.options.pageTitle);
+         }
+         else {
             app.trigger('domchange:title', $.t('photos.pageTitleUntagged'));
+         }
+         if (typeof this.options.title !== 'undefined') {
+            this.title = this.options.title;
          }
       }
    });

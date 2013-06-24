@@ -124,6 +124,7 @@ define([
 
       afterRender: function() {
          var that = this;
+         $(this.el).find('.photos-title').html(this.title);
          container = this.$('#photos-grid');
 
          // Wait images loaded
@@ -133,8 +134,8 @@ define([
                animationEngine: 'best-available'
             });
             $('#loading-photos').fadeOut('fast', function() {
-               $('#photos-grid').css({visibility: 'visible'});
-               $('#photos-grid').animate({'opacity': '1.0'});
+               /*$('#photos-grid').css({visibility: 'visible'});
+               $('#photos-grid').animate({'opacity': '1.0'});*/
             });
          });
 
@@ -285,6 +286,9 @@ define([
             app.trigger('domchange:title', $.t('myPhotos.pageTitleTagged'));
          } else {
             app.trigger('domchange:title', $.t('myPhotos.pageTitleUntagged'));
+         }
+         if (typeof this.options.title !== 'undefined') {
+            this.title = this.options.title;
          }
       }
    });
