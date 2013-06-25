@@ -99,7 +99,10 @@ define([
       template: "photos/content",
 
       serialize: function() {
-         return { collection: this.options.photos };
+         return {
+            collection: this.options.photos,
+            category: this.category
+         };
       },
 
       beforeRender: function() {
@@ -113,7 +116,10 @@ define([
       afterRender: function() {
          var that = this;
 
-         $(this.el).find('.photos-title').html(this.title);
+         if (typeof this.title !== "undefined")
+            $(this.el).find('.photos-title').html(this.title);
+
+         $(this.el).i18n();
 
          container = this.$('#photos-grid');
 
@@ -232,14 +238,22 @@ define([
          app.on('global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
          });
+
          if (this.options.tagged) {
             app.trigger('domchange:title', $.t('photos.pageTitleTagged'));
          } else if (this.options.pageTitle) {
             app.trigger('domchange:title', this.options.pageTitle);
          }
-         else {
+         else if (this.options.category) {
+            this.category = this.options.category;
+            this.listenTo(this.options.category, {
+               "change": this.render
+            });
+         }
+         else if (!this.options.tagged) {
             app.trigger('domchange:title', $.t('photos.pageTitleUntagged'));
          }
+
          if (typeof this.options.title !== 'undefined') {
             this.title = this.options.title;
          }

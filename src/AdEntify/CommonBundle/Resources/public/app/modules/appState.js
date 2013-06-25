@@ -39,6 +39,14 @@ define([
             return this.get('currentPosition');
          } else
             return false;
+      },
+
+      getLastClickedAhref: function() {
+         return this.has('lastClickedAhref') ? this.get('lastClickedAhref') : null;
+      },
+
+      setLastClickedAhref: function(evt) {
+         this.set('lastClickedAhref', evt)
       }
    });
 

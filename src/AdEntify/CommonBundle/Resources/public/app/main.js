@@ -130,9 +130,10 @@ function(app, Router, i18n, AppState, TagStats, Like) {
 
     // Ensure the root is part of the anchor href, meaning it's relative.
     if (href.prop.slice(0, root.length) === root) {
-      // Stop the default event to ensure the link will not cause a page
-      // refresh.
-      evt.preventDefault();
+       // Stop the default event to ensure the link will not cause a page
+       // refresh.
+       evt.preventDefault();
+       app.appState().setLastClickedAhref(evt);
 
        if (href.attr != window.location.href.replace(root, '')) {
           app.startLoading(function() {

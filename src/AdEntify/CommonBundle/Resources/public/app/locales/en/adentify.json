@@ -123,7 +123,9 @@
    },
    "category": {
       "errorPhotosLoading": "Can't get photos. Please try again.",
-      "noPhotos": "No photo."
+      "noPhotos": "No photo.",
+      "pageTitle": "Photos __name__ - AdEntify",
+      "title": "__name__"
    },
    "myAdentify": {
       "pageTitle": "Mon flux photos - AdEntify",

@@ -413,10 +413,12 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
       category: function(slug) {
          this.reset();
 
+         var category = new Category.Model();
+
          app.useLayout().setViews({
             "#content": new Photos.Views.Content({
                photos: this.photos,
-               tagged: true
+               category: category
             }),
             "#menu-right": new Photos.Views.Ticker({
                tickerPhotos: this.tickerPhotos
@@ -424,6 +426,27 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          }).render();
 
          var that = this;
+
+         // Get category
+         if (this.categories.length > 0) {
+            var foundCategory = _.first(this.categories.where({ slug: slug }));
+            if (foundCategory) {
+               category.set('name', foundCategory.get('name'));
+               that.onDomChangeTitle($.t('category.pageTitle', { 'name': foundCategory.get('name') }));
+            }
+         } else {
+            this.categories.fetch({
+               success: function(collection) {
+                  var foundCategory = _.first(collection.where({ slug: slug }));
+                  if (foundCategory) {
+                     category.set('name', foundCategory.get('name'));
+                     that.onDomChangeTitle($.t('category.pageTitle', { 'name': foundCategory.get('name') }));
+                  }
+               }
+            });
+         }
+
+         // Get category photos
          this.photos.fetch({
             url: Routing.generate('api_v1_get_category_photos', { slug: slug }),
             success: function(collection) {
@@ -537,7 +560,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             app.useLayout().setView(target, new Common.Views.Alert({
                class: Common.alertInfo,
                message: $.t(translationKey)
-            })).render();
+            }), true).render();
          }
       },
 
@@ -547,7 +570,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             class: Common.alertError,
             message: $.t(translationKey),
             showClose: true
-         })).render();
+         }), true).render();
       }
    });
 
