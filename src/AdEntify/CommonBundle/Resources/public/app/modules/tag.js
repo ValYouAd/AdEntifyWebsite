@@ -384,7 +384,7 @@ define([
                   position: latLng,
                   map: gMap
                });
-               $('#venue-link').val(currentVenue.link ? currentVenue.link : currentVenue.foursquare_short_link);
+               $('#venue-link').val(currentVenue.link ? currentVenue.link : '');
                return selectedItem;
             }
          });
