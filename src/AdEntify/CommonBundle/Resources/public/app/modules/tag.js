@@ -170,7 +170,7 @@ define([
       afterRender: function() {
          setTimeout(function() {
             tags.each(function(tag) {
-               tag.set('class', '');
+               tag.set('cssClass', '');
             });
          }, 500);
       },
@@ -241,7 +241,7 @@ define([
          var tag = new Tag.Model();
          tag.set('x_position', xPosition);
          tag.set('y_position', yPosition);
-         tag.set('class', 'new-tag');
+         tag.set('cssClass', 'new-tag');
          tags.add(tag);
          currentTag = tag;
 

@@ -135,26 +135,27 @@ footer p {
 #photos-grid {
     margin-bottom: 20px;
     clear: both;
+    overflow: visible!important;
     /*visibility: hidden;
     opacity: 0;*/
 }
-ul#photos-grid {
+#photos-grid {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-    ul#photos-grid li {
+    #photos-grid li {
         margin: 3px;
         float: left;
         box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
     }
-    ul#photos-grid li div.photo-container {
+    #photos-grid li div.photo-container {
         position: relative;
     }
-    ul#photos-grid li div.photo-overlay {
+    #photos-grid li div.photo-overlay {
         cursor: pointer;
     }
-    ul#photos-grid li div.photo-overlay .new-tag {
+    #photos-grid li div.photo-overlay .new-tag {
         -webkit-animation: smallerCircle 0.5s ease;
         -moz-animation: smallerCircle 0.5s ease;
         -ms-animation: smallerCircle 0.5s ease;
@@ -167,10 +168,10 @@ ul#photos-grid {
          @-o-keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
             @keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
 
-    ul#photos-grid li div.medium { width: 320px; text-align: center; }
-    ul#photos-grid li div.medium img { max-width: 100%; margin: auto; }
-    ul#photos-grid li div.large { width: 100%; text-align: center; }
-    ul#photos-grid li div.large img { max-width: 100%; margin: auto; }
+    #photos-grid li div.medium { width: 320px; text-align: center; }
+    #photos-grid li div.medium img { max-width: 100%; margin: auto; }
+    #photos-grid li div.large { width: 100%; text-align: center; }
+    #photos-grid li div.large img { max-width: 100%; margin: auto; }
 
 /**** Isotope Filtering ****/
 
@@ -462,6 +463,9 @@ ul#ticker-photos {
 ----------------------- */
 .fadeOut {
     display: none;
+}
+.opacity0 {
+    opacity: 0;
 }
 .mt1 {
     margin-top: 10px;

@@ -22,23 +22,24 @@ define([
       },
 
       initialize: function(options) {
-         switch(options.class) {
+         switch(options.cssClass) {
             case Common.alertError:
-               this.set('class', Common.alertError);
+               this.set('cssClass', Common.alertError);
             break;
             case Common.alertInfo:
-               this.set('class', Common.alertInfo);
+               this.set('cssClass', Common.alertInfo);
             break;
             case Common.alertSuccess:
-               this.set('class', Common.alertSuccess);
+               this.set('cssClass', Common.alertSuccess);
             break;
             default:
-               this.set('class', Common.alertWarning);
+               this.set('cssClass', Common.alertWarning);
             break;
          }
          this.set('message', options.message);
-         if (typeof options.showClose !== 'undefined')
+         if (typeof options.showClose !== 'undefined') {
             this.set('showClose', options.showClose)
+         }
       }
    });
 
@@ -54,7 +55,7 @@ define([
             this.options.showClose = false;
 
          this.model = new Common.AlertModel({
-            class: this.options.class,
+            cssClass: this.options.cssClass,
             message: this.options.message,
             showClose: this.options.showClose
          });

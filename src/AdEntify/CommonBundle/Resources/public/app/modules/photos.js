@@ -77,6 +77,12 @@ define([
          }
       },
 
+      afterRender: function() {
+         $(this.el).find('img').load(function() {
+            $(this).animate({'opacity': '1.0'});
+         });
+      },
+
       showTags: function() {
          $tags = $(this.el).find('.tags');
          if ($tags.length > 0) {
@@ -122,17 +128,13 @@ define([
          $(this.el).i18n();
 
          container = this.$('#photos-grid');
-
          // Wait images loaded
          container.imagesLoaded( function(){
             container.isotope({
                itemSelector : 'li.isotope-li',
                animationEngine: 'best-available'
             });
-            $('#loading-photos').fadeOut('fast', function() {
-               /*$('#photos-grid').css({visibility: 'visible'});
-               $('#photos-grid').animate({'opacity': '1.0'});*/
-            });
+            $('#loading-photos').fadeOut('fast');
          });
 
          // Click on photo overlay

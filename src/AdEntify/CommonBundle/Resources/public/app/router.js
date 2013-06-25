@@ -222,7 +222,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#menu-right": new MyPhotos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
             })
-         });
+         }).render();
 
          var that = this;
          this.myPhotos.fetch({
@@ -257,7 +257,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#menu-right": new MyPhotos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
             })
-         });
+         }).render();
 
          var that = this;
          this.myPhotos.fetch({
@@ -487,7 +487,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             }
          });
          this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: true }),
+            url: Routing.generate('api_v1_get_photos', { tagged: false }),
             success: function(collection) {
                that.successCallback(collection, 'photos.noPhotos', '#menu-right');
             },
@@ -559,7 +559,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          // Check if collection is empty
          if (collection.length == 0) {
             app.useLayout().setView(target, new Common.Views.Alert({
-               class: Common.alertInfo,
+               cssClass: Common.alertInfo,
                message: $.t(translationKey)
             }), true).render();
          }
@@ -568,7 +568,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
       errorCallback: function(translationKey, target) {
          target = (typeof target === "undefined") ? "#content" : target;
          app.useLayout().setView(target, new Common.Views.Alert({
-            class: Common.alertError,
+            cssClass: Common.alertError,
             message: $.t(translationKey),
             showClose: true
          }), true).render();

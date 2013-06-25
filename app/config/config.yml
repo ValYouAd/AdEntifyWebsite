@@ -182,8 +182,6 @@ twig:
         facebook_permissions:     %facebook_permissions%
         root_url:                 %root_url%
 
-
-
 # Instagram
 ad_entify_instagram:
     client_id: %instagram_client_id%
