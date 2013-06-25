@@ -457,9 +457,16 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                that.errorCallback('category.errorPhotosLoading');
             }
          });
-         /*this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_category_photos', { slug: slug })
-         });*/
+         // Get category photos untagged
+         this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: false }),
+            success: function(collection) {
+               that.successCallback(collection, 'category.noPhotos', '#menu-right');
+            },
+            error: function() {
+               that.errorCallback('category.errorPhotosLoading', '#menu-right');
+            }
+         });
       },
 
       myAdentify: function() {
@@ -535,6 +542,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          return this.navigate(_.toArray(arguments).join("/"), true);
       },
 
+      // Change title of window
       onDomChangeTitle: function(title) {
          if (typeof title !== 'undefined' && title != '') {
             $(document).attr('title', title);

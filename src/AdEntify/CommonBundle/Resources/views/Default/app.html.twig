@@ -31,7 +31,7 @@
                             <ul class="dropdown-menu" role="menu" aria-labelleby="drop1">
                                 <li role="presentation"><a role="menuitem" href="{{ full_root_url }}">{{ 'All categories'|trans }}</a></li>
                                 {% for category in categories %}
-                                    <li role="presentation"><a role="menuitem" href="{{ 'category/'|trans }}{{ category.slug }}" data-name="{{ category.name }}">{{ category.name }}</a></li>
+                                    <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'category/'|trans }}{{ category.slug }}/" data-name="{{ category.name }}">{{ category.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
