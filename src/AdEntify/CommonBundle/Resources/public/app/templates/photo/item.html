@@ -17,7 +17,10 @@
 </div>
 <div class="mt1">
     <span id="like-count" class="badge badge-info"><%= model.get("likes_count") %></span> <span data-i18n="photo.likes"></span>
-    <div class="pull-right"><small class="muted">Source : <%= model.get("source") %></small></div>
+    <div class="pull-right">
+        <a href="<%= model.get("profileLink") %>" class="btn btn-info">Voir le profil de <%= model.get('fullname') %></a>
+        <small class="muted">Source : <%= model.get("source") %></small>
+    </div>
 </div>
 
 <hr>

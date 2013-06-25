@@ -107,8 +107,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "photo/:id/": "photoDetail",
                "marques/": "brands",
                "mon/profil/": "myProfile",
-               "profil/:id": "profile",
-               "categorie/:slug": "category",
+               "profil/:id/": "profile",
+               "categorie/:slug/": "category",
                "mon/adentify/": "myAdentify"
             },
             "en" : {
@@ -126,8 +126,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "photo/:id/": "photoDetail",
                "brands/": "brands",
                "my/profile/": "myProfile",
-               "profile/:id": "profile",
-               "category/:slug": "category",
+               "profile/:id/": "profile",
+               "category/:slug/": "category",
                "my/adentify/": "myAdentify"
             }
          };

@@ -12,7 +12,8 @@ define([
       var app = {
          // The root path to run the application.
          root: "/AdEntifyFacebookApp/web/" + currentLocale + "/app/",
-         rootUrl: "http://localhost/AdEntifyFacebookApp/web/"
+         rootUrl: "http://localhost/AdEntifyFacebookApp/web/",
+         beginUrl: location.protocol + "//" + location.host
       };
 
       // Localize or create a new JavaScript Template object.

@@ -142,13 +142,15 @@
       "my/photos/tagged/": "my/photos/tagged/",
       "my/photos/untagged/": "my/photos/untagged/",
       "facebook/albums/": "facebook/albums/",
-      "facebook/albums/:id/photos/": "facebook/albums/__id__/photos/",
+      "facebook/albums/id/photos/": "facebook/albums/__id__/photos/",
       "instagram/photos/": "instagram/photos/",
       "flickr/sets/": "flickr/sets/",
-      "flickr/sets/:id/photos/": "flickr/sets/__id__/photos/",
-      "photo/:id/": "photo/__id__/",
+      "flickr/sets/id/photos/": "flickr/sets/__id__/photos/",
+      "photo/id/": "photo/__id__/",
       "brands/": "brands/",
       "my/profile/": "my/profile/",
-      "my/adentify/": "my/adentify/"
+      "my/adentify/": "my/adentify/",
+      "profile/id/": "profile/__id__/",
+      "category/slug/": "category/__slug__/"
    }
 }

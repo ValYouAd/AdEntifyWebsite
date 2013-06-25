@@ -62,7 +62,7 @@ function(app, Router, i18n, AppState, TagStats, Like) {
                   },
                   url: Routing.generate('api_v1_get_csrftoken', { intention: intention}),
                   success: function(data) {
-                     that.set('_token', data);
+                        that.set('_token', data);
                      if (callback)
                         callback();
                   }
@@ -108,7 +108,8 @@ function(app, Router, i18n, AppState, TagStats, Like) {
       lng: app.appState().getLocale(),
       resGetPath: app.rootUrl + "bundles/adentifycommon/app/locales/__lng__/__ns__.json",
       ns: { namespaces: ['adentify'], defaultNs: 'adentify'},
-      useDataAttrOptions: true
+      useDataAttrOptions: true,
+      debug: true
    }).done(function() {
       // Define your master router on the application namespace and trigger all
       // navigation from this instance.
