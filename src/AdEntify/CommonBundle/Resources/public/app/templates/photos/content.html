@@ -3,6 +3,10 @@
         <div class="loading-gif"></div>
         <p><em class="small muted" data-i18n="photos.loading"></em></p>
     </div>
+    <% if (category) { %>
     <h1 class="lead photos-title" data-i18n="category.title" data-i18n-options='{"name": "<%= category.get("name") %>"}'></h1>
+    <% } else { %>
+    <h1 class="lead photos-title"></h1>
+    <% } %>
     <ul id="photos-grid" class="transitions-enabled clearfix"></ul>
 </div>

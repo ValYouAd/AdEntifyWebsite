@@ -147,7 +147,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          app.useLayout().setViews({
             "#content": new Photos.Views.Content({
                photos: this.photos,
-               tagged: true
+               tagged: true,
+               title: $.t('category.titleAll')
             }),
             "#menu-right": new Photos.Views.Ticker({
                tickerPhotos: this.tickerPhotos

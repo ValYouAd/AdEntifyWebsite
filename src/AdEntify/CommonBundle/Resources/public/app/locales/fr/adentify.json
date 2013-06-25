@@ -129,7 +129,8 @@
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
       "noPhotos": "Aucune photo pour cette catégorie.",
       "pageTitle": "Photos __name__ - AdEntify",
-      "title": " __name__"
+      "title": " __name__",
+      "titleAll": "Toutes les catégories"
    },
    "myAdentify": {
       "pageTitle": "Mon flux photos - AdEntify",

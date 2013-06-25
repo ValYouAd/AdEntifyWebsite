@@ -135,7 +135,7 @@ function(app, Router, i18n, AppState, TagStats, Like) {
        evt.preventDefault();
        app.appState().setLastClickedAhref(evt);
 
-       if (href.attr != window.location.href.replace(root, '')) {
+       if (href.attr.replace(root, '') != window.location.href.replace(root, '')) {
           app.startLoading(function() {
              // `Backbone.history.navigate` is sufficient for all Routers and will
              // trigger the correct events. The Router's internal `navigate` method
