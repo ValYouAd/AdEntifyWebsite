@@ -31,7 +31,7 @@ define([
 
       toJSON: function() {
          var jsonAttributes = this.attributes;
-         delete jsonAttributes.class;
+         delete jsonAttributes.cssClass;
          return { tag: jsonAttributes }
       }
    });
