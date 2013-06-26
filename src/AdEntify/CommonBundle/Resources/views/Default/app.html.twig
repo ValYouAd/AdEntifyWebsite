@@ -90,6 +90,9 @@
 
 {% block javascripts %}
     <script>
+        if (window.location.hash == '#_=_'){
+            window.location.hash = '';
+        }
         var channelUrl = '{{ asset('channel.php') }}';
         var instagramClientId = '{{ instagram_client_id }}';
         var facebookAppId = '{{ facebook_app_id }}';
