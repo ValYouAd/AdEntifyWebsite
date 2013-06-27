@@ -51,11 +51,19 @@ security:
                 check_path:          /facebook/login-check
                 default_target_path: /app/
                 provider:            my_fos_facebook_provider
-            fos_twitter:
-                login_path: /
-                check_path: /twitter/login-check
-                default_target_path: /app/
-                provider: my_fos_twitter_provider
+            #fos_twitter:
+            #    login_path: /
+            #    check_path: /twitter/login-check
+            #    default_target_path: /app/
+            #    provider: my_fos_twitter_provider
+            oauth:
+                resource_owners:
+                    instagram:           "/login/check-instagram"
+                    flickr:             "/login/check-flickr"
+                login_path:        /
+                failure_path:      /
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider.fosub_bridge
             anonymous:               true
             remember_me:
                 key:                 %secret%
