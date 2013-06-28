@@ -8,8 +8,9 @@
 define([
    "app",
    "modules/tag",
+   "modules/common",
    "pinterest"
-], function(app, Tag) {
+], function(app, Tag, Common) {
 
    var Photo = app.module();
    var loaded = false;
@@ -135,11 +136,26 @@ define([
          app.oauth.loadAccessToken({
             success: function() {
                that.options.photo.fetch({
-                  success: function() {
+                  success: function(model, resp) {
+                     if (resp == null) {
+                        app.useLayout().setView('#content', new Common.Views.Alert({
+                           cssClass: Common.alertInfo,
+                           message: $.t('photo.noPhoto'),
+                           showClose: true
+                        }), true).render();
+                     } else {
+                        app.trigger('domchange:title', that.options.photo.get('caption'));
+                     }
                      loaded = true;
-                     app.trigger('domchange:title', that.options.photo.get('caption'));
                   }
                });
+            },
+            error: function() {
+               app.useLayout().setView('#content', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('photo.errorLoading'),
+                  showClose: true
+               }), true).render();
             }
          });
          this.listenTo(this.options.photo, {

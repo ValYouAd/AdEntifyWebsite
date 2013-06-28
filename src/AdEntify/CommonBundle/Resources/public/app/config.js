@@ -30,7 +30,8 @@ require.config({
      },
      "i18n": {
         "deps": [
-           "jquery"
+           "jquery",
+           "Backbone"
         ]
      },
      "bootstrap": {

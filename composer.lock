@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "79e628f1e5353f4a6e2eab26b1a69b3ad19b1fd9"
+                "reference": "6d9bf8e8c324ecf1c85a0c64086d465d0818c768"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/79e628f1e5353f4a6e2eab26b1a69b3ad19b1fd9",
-                "reference": "79e628f1e5353f4a6e2eab26b1a69b3ad19b1fd9",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/6d9bf8e8c324ecf1c85a0c64086d465d0818c768",
+                "reference": "6d9bf8e8c324ecf1c85a0c64086d465d0818c768",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-06-27 09:53:01"
+            "time": "2013-06-28 15:43:56"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -361,9 +361,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],

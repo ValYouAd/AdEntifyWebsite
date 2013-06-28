@@ -88,7 +88,9 @@
       "comments": "Comments",
       "share": "Share photo",
       "link": "Link to photo",
-      "embed": "Embed photo"
+      "embed": "Embed photo",
+      "errorLoading": "Can't get photo. Please try again.",
+      "noPhoto": "The photo doesn't exist or you aren't authorized to wiew it."
    },
    "externalServicePhotos": {
       "select": "Select",
