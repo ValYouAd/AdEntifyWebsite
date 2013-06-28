@@ -12,7 +12,7 @@ define([
       var app = {
          // The root path to run the application.
          root: "/AdEntifyFacebookApp/web/" + currentLocale + "/app/",
-         rootUrl: "http://localhost/AdEntifyFacebookApp/web/",
+         rootUrl: "http://localhost.local/AdEntifyFacebookApp/web/",
          beginUrl: location.protocol + "//" + location.host
       };
 

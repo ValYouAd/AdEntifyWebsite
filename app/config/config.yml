@@ -229,19 +229,19 @@ jms_serializer:
                 namespace_prefix: "FOS\\UserBundle"
                 path: "@AdEntifyUserBundle/Resources/config/serializer/fos"
 
-hwi_oauth:
-    firewall_name: main
-    resource_owners:
-        flickr:
-            type:           flickr
-            client_id:      %flickr_client_id%
-            client_secret:  %flickr_client_secret%
-        instagram:
-            type:           instagram
-            client_id:      %instagram_client_id%
-            client_secret:  %instagram_client_secret%
-    fosub:
-        username_iterations: 30
-        properties:
-            flickr:     flickrId
-            instagram:  instagramId
+#hwi_oauth:
+#    firewall_name: main
+#    resource_owners:
+#        flickr:
+#            type:           flickr
+#            client_id:      %flickr_client_id%
+#            client_secret:  %flickr_client_secret%
+#        instagram:
+#            type:           instagram
+#            client_id:      %instagram_client_id%
+#            client_secret:  %instagram_client_secret%
+#    fosub:
+#        username_iterations: 30
+#        properties:
+#            flickr:     flickrId
+#            instagram:  instagramId
