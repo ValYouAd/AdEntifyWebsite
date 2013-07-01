@@ -9,6 +9,7 @@ define([
    "app",
    "modules/venue",
    "modules/person",
+   "select2",
    "bootstrap",
    "modernizer"
 ], function(app, Venue, Person) {
@@ -310,8 +311,30 @@ define([
                   $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" />');
                }
                return selectedItem;
+            },
+            highlighter: function(item) {
+               return '<div><img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
             }
          });
+        /* $('#brand-name').select2({
+            placeholder: $.t('tag.placeholderBrandName'),
+            ajax: {
+               url: Routing.generate('api_v1_get_brand_search', { query: '' }),
+               headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+               data: function(term, page) {
+                  return {
+
+                  }
+               }
+            },
+            minimumInputLength: 2,
+            formatResult: function(brand) {
+               return "<strong>"+ brand.name + "</strong>";
+            },
+            formatSelection: function(brand) {
+               return brand.name;
+            }
+         });*/
 
          // Venue
          if (!Modernizr.geolocation) {

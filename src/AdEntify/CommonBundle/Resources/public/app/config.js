@@ -12,7 +12,6 @@ require.config({
      "bootstrap": "../vendor/js/bootstrap.min",
      "hmacsha1": "../vendor/js/hmac-sha1",
      "pinterest": "//assets.pinterest.com/js/pinit",
-     "i18n": "i18next.amd.withJQuery-1.6.3.min",
      "select2": "../vendor/js/select2/select2",
      "select2fr": "../vendor/js/select2/select2_locale_fr"
   },
@@ -26,12 +25,6 @@ require.config({
      "infinitescroll": {
         "deps": [
            "jquery"
-        ]
-     },
-     "i18n": {
-        "deps": [
-           "jquery",
-           "Backbone"
         ]
      },
      "bootstrap": {
