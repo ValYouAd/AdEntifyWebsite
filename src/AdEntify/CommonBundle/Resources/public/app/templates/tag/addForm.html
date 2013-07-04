@@ -12,22 +12,33 @@
                 <label><span data-i18n="tag.labelBrandName"></span> <i class="icon-refresh fadeOut rotate" id="loading-brand"></i></label>
                 <input id="brand-name" name="brand-name" type="text" data-i18n="[placeholder]tag.placeholderBrandName">
                 <div id="brand-logo" class="text-center"></div>
-                <label data-i18n="tag.labelProductName"></label>
-                <input id="product-text" name="product-text" type="text" data-i18n="[placeholder]tag.placeholderProductName">
-                <label id="product-description" name="product-description" data-i18n="tag.labelProductDescription"></label>
-                <textarea></textarea>
+                <label><span data-i18n="tag.labelProductName"></span> <i class="icon-refresh fadeOut rotate" id="loading-product"></i></label>
+                <input id="product-name" name="product-text" type="text" data-i18n="[placeholder]tag.placeholderProductName">
+                <div id="product-image" class="text-center"></div>
+                <label data-i18n="tag.labelProductDescription"></label>
+                <textarea id="product-description" name="product-description" ></textarea>
+                <label data-i18n="tag.productBuyPlace"></label>
+                <p class="support-geolocation">
+                    <span><small data-i18n="tag.textGeolocation"></small></span><br>
+                    <button class="btn btn-info btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="icon-map-marker icon-white"></i> <span data-i18n="tag.useGeolocation"></span></button>
+                </p>
+                <p class="fadeOut not-support-geolocation" data-i18n="tag.noSupportGeolocation"></p>
+                <label><span data-i18n="tag.labelPlaceName"></span> <i class="icon-refresh fadeOut rotate" id="product-loading-venue"></i></label>
+                <input id="product-venue-name" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderProductPlaceName">
+                <div id="product-previsualisation-tag-map"></div>
+                <div id="product-venue-informations"></div>
                 <p><button type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> <span data-i18n="tag.buttonAddProduct"></span></button>
                     <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white" type="button"></i> <span data-i18n="common.cancel"></span></button></p>
             </div>
             <!-- Lieu -->
             <div class="tab-pane" id="venue">
-                <p id="support-geolocation">
+                <p class="support-geolocation">
                     <span><small data-i18n="tag.textGeolocation"></small></span><br>
                     <button class="btn btn-info btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="icon-map-marker icon-white"></i> <span data-i18n="tag.useGeolocation"></span></button>
                 </p>
-                <p id="not-support-geolocation" class="fadeOut" data-i18n="tag.noSupportGeolocation"></p>
+                <p class="fadeOut not-support-geolocation" data-i18n="tag.noSupportGeolocation"></p>
                 <label><span data-i18n="tag.labelPlaceName"></span> <i class="icon-refresh fadeOut rotate" id="loading-venue"></i></label>
-                <input id="venue-text" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPlaceName">
+                <input id="venue-name" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPlaceName">
                 <div id="previsualisation-tag-map"></div>
                 <div id="venue-informations"></div>
                 <label data-i18n="tag.labelPlaceDescription"></label>

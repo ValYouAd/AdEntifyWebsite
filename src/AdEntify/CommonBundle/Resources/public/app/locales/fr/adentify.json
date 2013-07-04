@@ -83,7 +83,10 @@
       "addingInProgress": "Ajout en cours...",
       "textNoFacebookConnect": "Vous n'êtes <b>pas connecté à Facebook.</b> Nous ne pouvons pas récupérer vos amis.",
       "placeholderBrandName": "Coca-cola, Apple, Zara...",
-      "labelBrandName": "Entrez le nom de la marque"
+      "labelBrandName": "Entrez le nom de la marque",
+      "buyThere": "J'ai acheté le produit chez ce distributeur.",
+      "productBuyPlace": "Lieu d'achat du produit",
+      "placeholderProductPlaceName": "Magasin, distributeur, grande surface..."
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",

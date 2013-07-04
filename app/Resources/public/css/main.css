@@ -393,8 +393,9 @@ div.photo-overlay {
 
 /* MODULE : Tag
 ----------------------- */
-#brand-logo img {
-    /*max-width: 150px;*/
+.brand-logo,
+.product-image {
+    max-height: 100px;
 }
 /*
 ----------------------- */

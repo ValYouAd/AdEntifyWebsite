@@ -20,6 +20,8 @@ define([
    var tags = null;
    var currentBrands = {};
    var currentBrand = null;
+   var currentProducts = {};
+   var currentProduct = null;
    var currentVenues = {};
    var currentVenue = null;
    var currentPerson = null;
@@ -308,7 +310,7 @@ define([
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                if (currentBrand) {
-                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" />');
+                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                }
                return selectedItem;
             },
@@ -316,100 +318,80 @@ define([
                return '<div><img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
             }
          });
-        /* $('#brand-name').select2({
-            placeholder: $.t('tag.placeholderBrandName'),
-            ajax: {
-               url: Routing.generate('api_v1_get_brand_search', { query: '' }),
-               headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-               data: function(term, page) {
-                  return {
 
-                  }
-               }
-            },
-            minimumInputLength: 2,
-            formatResult: function(brand) {
-               return "<strong>"+ brand.name + "</strong>";
-            },
-            formatSelection: function(brand) {
-               return brand.name;
-            }
-         });*/
-
-         // Venue
-         if (!Modernizr.geolocation) {
-            $('#support-geolocation').fadeOut('fast', function() {
-               $('#not-support-geolocation').fadeIn('fast');
-            })
-         }
-         $('#venue-text').typeahead({
+         $('#product-name').typeahead({
             source: function(query, process) {
-               if (venuesSearchTimeout)
-                  clearTimeout(venuesSearchTimeout);
-                  venuesSearchTimeout = setTimeout(function() {
-                  $('#loading-venue').css({'display': 'inline-block'});
-                  app.oauth.loadAccessToken({
-                     success: function() {
-                        var url = Routing.generate('api_v1_get_venue_search', { query: query });
-                        if (app.appState().getCurrentPosition()) {
-                           url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
-                        }
-                        $.ajax({
-                           url: url,
-                           headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                           data: {
-                              radius: 3000
-                           },
-                           success: function(data) {
-                              if (typeof data !== 'undefined' && data.length > 0) {
-                                 var venues = []
-                                 currentVenues = {};
-                                 _.each(data, function(venue) {
-                                    venues.push(venue.name);
-                                    currentVenues[venue.name] = venue;
-                                 });
-                                 process(venues);
-                              }
-                              $('#loading-venue').fadeOut(200);
+               $('#loading-product').css({'display': 'inline-block'});
+               app.oauth.loadAccessToken({
+                  success: function() {
+                     $.ajax({
+                        url: Routing.generate('api_v1_get_product_search', { query: query }),
+                        headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                        success: function(response) {
+                           if (typeof response !== 'undefined' && response.length > 0) {
+                              var products = [];
+                              currentProducts = {};
+                              _.each(response, function(product) {
+                                 products.push(product.name);
+                                 currentProducts[product.name] = product;
+                              });
+                              process(products);
+                              $('#loading-product').fadeOut(200);
                            }
-                        });
-                     }
-                  });
-               }, 500);
+                        }
+                     });
+                  }
+               });
             },
             minLength: 2,
             items: 10,
             updater: function(selectedItem) {
-               currentVenue = currentVenues[selectedItem];
-               var latLng = new google.maps.LatLng(currentVenue.lat, currentVenue.lng);
-               var mapOptions = {
-                  zoom:  14,
-                  center: latLng,
-                  scrollwheel: false,
-                  navigationControl: false,
-                  mapTypeControl: false,
-                  scaleControl: false,
-                  draggable: false,
-                  mapTypeId: google.maps.MapTypeId.ROADMAP
-               };
-               $('#previsualisation-tag-map').css({
-                  'width': '100%',
-                  'height': '150px',
-                  'margin': '10px 0px'
-               });
-               if (currentVenue.address) {
-                  $('#venue-informations').html('<span class="muted">' + currentVenue.address + (currentVenue.postal_code ? ' ' + currentVenue.postal_code : '') + (currentVenue.city ? ' ' + currentVenue.city : '') + '</span>').css({
-                     'margin': '10px 0px'
-                  });
+               currentProduct = currentProducts[selectedItem];
+               if (currentProduct) {
+                  $('#product-image').html('<img src="' + currentProduct.medium_url + '" style="margin: 10px 0px;" class="product-image" />');
+                  $('#product-description').html(currentProduct.description);
+                  // Check if product has a brand
+                  if (currentProduct.brand) {
+                     currentBrand = currentProduct.brand;
+                     $('#brand-name').val(currentBrand.name);
+                     $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
+                  }
                }
-               var gMap = new google.maps.Map(document.getElementById('previsualisation-tag-map'), mapOptions);
-               new google.maps.Marker({
-                  position: latLng,
-                  map: gMap
-               });
-               $('#venue-link').val(currentVenue.link ? currentVenue.link : '');
                return selectedItem;
+            },
+            highlighter: function(item) {
+               return '<div><img style="height: 20px;" src="' + currentProducts[item].small_url + '"> ' + item + '</div>'
             }
+         });
+
+         // Venue
+         if (!Modernizr.geolocation) {
+            $('.support-geolocation').fadeOut('fast', function() {
+               $('.not-support-geolocation').fadeIn('fast');
+            });
+         }
+         var that = this;
+         $('#venue-name').typeahead({
+            source: function(query, process) {
+               return that.venueSource(query, process, 'loading-venue');
+            },
+            minLength: 2,
+            items: 10,
+            updater: function(selectedItem) {
+               return that.venueUpdater(selectedItem, 'previsualisation-tag-map', 'venue-informations', 'venue-link');
+            },
+            highlighter: that.venueHighlighter
+         });
+         $('#product-venue-name').typeahead({
+            source: function(query, process) {
+               return that.venueSource(query, process, 'product-loading-venue');
+            },
+            minLength: 2,
+            items: 10,
+            updater: function(selectedItem) {
+               return that.venueUpdater(selectedItem, 'product-previsualisation-tag-map', 'product-venue-informations', null);
+            },
+            highlighter: that.venueHighlighter
          });
 
          // Person
@@ -450,15 +432,88 @@ define([
          });
       },
 
+      venueSource: function(query, process, loadingDiv) {
+         if (venuesSearchTimeout)
+            clearTimeout(venuesSearchTimeout);
+         venuesSearchTimeout = setTimeout(function() {
+            $('#'+loadingDiv).css({'display': 'inline-block'});
+            app.oauth.loadAccessToken({
+               success: function() {
+                  var url = Routing.generate('api_v1_get_venue_search', { query: query });
+                  if (app.appState().getCurrentPosition()) {
+                     url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
+                  }
+                  $.ajax({
+                     url: url,
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     data: {
+                        radius: 3000
+                     },
+                     success: function(data) {
+                        if (typeof data !== 'undefined' && data.length > 0) {
+                           var venues = []
+                           currentVenues = {};
+                           _.each(data, function(venue) {
+                              venues.push(venue.name + ' |{' + venue.foursquare_id);
+                              currentVenues[venue.name + ' |{' + venue.foursquare_id] = venue;
+                           });
+                           process(venues);
+                        }
+                        $('#'+loadingDiv).fadeOut(200);
+                     }
+                  });
+               }
+            });
+         }, 500);
+      },
+
+      venueUpdater: function(selectedItem, mapDiv, venueInformationDiv, venueLinkDiv) {
+         currentVenue = currentVenues[selectedItem];
+         var latLng = new google.maps.LatLng(currentVenue.lat, currentVenue.lng);
+         var mapOptions = {
+            zoom:  14,
+            center: latLng,
+            scrollwheel: false,
+            navigationControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            draggable: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+         };
+         $('#'+mapDiv).css({
+            'width': '100%',
+            'height': '150px',
+            'margin': '10px 0px'
+         });
+         if (currentVenue.address) {
+            $('#'+venueInformationDiv).html('<span class="muted">' + currentVenue.address + (currentVenue.postal_code ? ' ' + currentVenue.postal_code : '') + (currentVenue.city ? ' ' + currentVenue.city : '') + '</span>').css({
+               'margin': '10px 0px'
+            });
+         }
+         var gMap = new google.maps.Map(document.getElementById(mapDiv), mapOptions);
+         new google.maps.Marker({
+            position: latLng,
+            map: gMap
+         });
+         if (venueLinkDiv) {
+            $('#'+venueLinkDiv).val(currentVenue.link ? currentVenue.link : '');
+         }
+         return currentVenue.name;
+      },
+
+      venueHighlighter: function(item) {
+         return '<div>' + currentVenues[item].name + ' ' + currentVenues[item].address + (currentVenues[item].postal_code ? ' ' + currentVenues[item].postal_code : '') + (currentVenues[item].city ? ' ' + currentVenues[item].city : '') + '</div>'
+      },
+
       geolocation: function(e) {
          e.preventDefault();
          if (Modernizr.geolocation) {
-            var btn = $('.btn-geolocation');
+            var btn = $(e.currentTarget);
             btn.button('loading');
             navigator.geolocation.getCurrentPosition(function(position) {
                app.appState().set('currentPosition', position);
                btn.button('reset');
-               $('#support-geolocation').html('<div class="alert fade in alert-success"><small>' + $.t('tag.geolocationSuccess') + '</small></div>');
+               $(e.currentTarget).parents('.support-geolocation').html('<div class="alert fade in alert-success"><small>' + $.t('tag.geolocationSuccess') + '</small></div>');
             });
          }
       },
@@ -479,6 +534,7 @@ define([
 
          switch ($activePane.attr('id')) {
             case 'product':
+               currentTag.set('');
                break;
             case 'venue':
                if (currentVenue && currentTag && $('#venue-link').val()) {
