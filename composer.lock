@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "ea91060f88c23114ff7c062338182d3723b29cad"
+                "reference": "802ebb790a93eb7fdc3859787c6274b5a1ac5887"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/ea91060f88c23114ff7c062338182d3723b29cad",
-                "reference": "ea91060f88c23114ff7c062338182d3723b29cad",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/802ebb790a93eb7fdc3859787c6274b5a1ac5887",
+                "reference": "802ebb790a93eb7fdc3859787c6274b5a1ac5887",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-04 19:06:24"
+            "time": "2013-07-09 08:12:19"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -929,21 +929,21 @@
         },
         {
             "name": "friendsofsymfony/oauth2-php",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/oauth2-php.git",
-                "reference": "1.0.6"
+                "reference": "1.0.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/oauth2-php/zipball/1.0.6",
-                "reference": "1.0.6",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/oauth2-php/zipball/1.0.7",
+                "reference": "1.0.7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/http-foundation": ">=2.0,<3.0"
+                "symfony/http-foundation": "~2.0"
             },
             "type": "library",
             "extra": {
@@ -976,7 +976,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2013-06-26 14:35:24"
+            "time": "2013-07-08 07:51:48"
         },
         {
             "name": "friendsofsymfony/rest",
@@ -1300,12 +1300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "0.3.0-alpha1"
+                "reference": "6b63b55c219933ba7a921bea479780d9f2d94ff9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/0.3.0-alpha1",
-                "reference": "0.3.0-alpha1",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/6b63b55c219933ba7a921bea479780d9f2d94ff9",
+                "reference": "6b63b55c219933ba7a921bea479780d9f2d94ff9",
                 "shasum": ""
             },
             "require": {
@@ -1389,7 +1389,7 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-07-03 18:42:26"
+            "time": "2013-07-10 07:29:43"
         },
         {
             "name": "imagine/imagine",
@@ -1580,12 +1580,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSDebuggingBundle.git",
-                "reference": "553d88809c3bc2c1ad801018e03343433b3c7f46"
+                "reference": "fe3f24654208582766d565560f97e702fb46b943"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSDebuggingBundle/zipball/553d88809c3bc2c1ad801018e03343433b3c7f46",
-                "reference": "553d88809c3bc2c1ad801018e03343433b3c7f46",
+                "url": "https://api.github.com/repos/schmittjoh/JMSDebuggingBundle/zipball/fe3f24654208582766d565560f97e702fb46b943",
+                "reference": "fe3f24654208582766d565560f97e702fb46b943",
                 "shasum": ""
             },
             "require": {
@@ -1615,7 +1615,7 @@
             "keywords": [
                 "debugging"
             ],
-            "time": "2013-06-26 14:41:00"
+            "time": "2013-07-09 08:59:11"
         },
         {
             "name": "jms/di-extra-bundle",

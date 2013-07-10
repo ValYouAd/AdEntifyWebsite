@@ -502,7 +502,7 @@ define([
       },
 
       venueHighlighter: function(item) {
-         return '<div>' + currentVenues[item].name + ' ' + currentVenues[item].address + (currentVenues[item].postal_code ? ' ' + currentVenues[item].postal_code : '') + (currentVenues[item].city ? ' ' + currentVenues[item].city : '') + '</div>'
+         return '<div>' + currentVenues[item].name + ' <small class="muted">' + currentVenues[item].address + (currentVenues[item].postal_code ? ' ' + currentVenues[item].postal_code : '') + (currentVenues[item].city ? ' ' + currentVenues[item].city : '') + '</small></div>'
       },
 
       geolocation: function(e) {
@@ -534,7 +534,26 @@ define([
 
          switch ($activePane.attr('id')) {
             case 'product':
-               currentTag.set('');
+               // Link tag to photo
+               currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+               // Set tag info
+               currentTag.set('type', 'product');
+               currentTag.set('product', currentProduct.get('id'));
+               currentTag.set('title', currentProduct.name);
+               currentTag.set('description', currentProduct.description);
+               currentTag.set('link', currentVenue.link);
+               currentTag.url = Routing.generate('api_v1_post_tag');
+               currentTag.getToken('tag_item', function() {
+                  currentTag.save(null, {
+                     success: function() {
+                        currentTag.set('persisted', '');
+                        app.trigger('tagMenuTools:tagAdded');
+                     },
+                     error: function() {
+                        // TODO: show alert
+                     }
+                  });
+               });
                break;
             case 'venue':
                if (currentVenue && currentTag && $('#venue-link').val()) {
