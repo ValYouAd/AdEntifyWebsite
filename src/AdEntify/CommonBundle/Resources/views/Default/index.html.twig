@@ -24,7 +24,7 @@
                     <h2 class="text-center">Me connecter</h2>
                     <div class="text-center">
                         <p>
-                            <a href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}" class="btn btn-primary btn-large">Facebook</a>
+                            <a onclick="facebookConnect();" {#href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}"#} class="btn btn-primary btn-large">Facebook</a>
                             <a href="{{ path ('_security_login_twitter')}}" class="btn btn-info btn-large">Twitter</a>
                         </p>
                     </div>
@@ -64,7 +64,7 @@
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script src="{{ asset('bundles/adentifycommon/vendor/jam/jquery/dist/jquery.js') }}"></script>
-    {#{% javascripts '@AdEntifyCommonBundle/Resources/public/js/facebookConnect.js' %}
+    {% javascripts '@AdEntifyCommonBundle/Resources/public/js/facebookConnect.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}#}
+    {% endjavascripts %}
 {% endblock %}

@@ -9,9 +9,11 @@ define([
    "app",
    "modules/venue",
    "modules/person",
+   "modules/common",
+   "select2",
    "bootstrap",
    "modernizer"
-], function(app, Venue, Person) {
+], function(app, Venue, Person, Common) {
 
    var Tag = app.module();
    var currentPhotoOverlay = null;
@@ -19,6 +21,8 @@ define([
    var tags = null;
    var currentBrands = {};
    var currentBrand = null;
+   var currentProducts = {};
+   var currentProduct = null;
    var currentVenues = {};
    var currentVenue = null;
    var currentPerson = null;
@@ -107,6 +111,57 @@ define([
 
    Tag.Views.VenueItem = Backbone.View.extend({
       template: "tag/types/venue",
+      tagName: "li",
+      hoverTimeout: null,
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+      },
+
+      hoverIn: function() {
+         clearTimeout(this.hoverTimeout);
+         $(this.el).find('.popover').show();
+         if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
+            var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
+            var mapOptions = {
+               zoom:  14,
+               center: latLng,
+               scrollwheel: false,
+               navigationControl: false,
+               mapTypeControl: false,
+               scaleControl: false,
+               draggable: false,
+               mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
+            new google.maps.Marker({
+               position: latLng,
+               map: gMap
+            });
+            $('#map' + this.model.get('id')).addClass('loaded');
+         }
+         app.tagStats().tagHover(this.model);
+      },
+
+      hoverOut: function() {
+         var that = this;
+         this.hoverTimeout = setTimeout(function() {
+            $(that.el).find('.popover').hide();
+         }, 200);
+      },
+
+      events: {
+         "mouseenter .tag": "hoverIn",
+         "mouseleave .tag": "hoverOut"
+      }
+   });
+
+   Tag.Views.ProductItem = Backbone.View.extend({
+      template: "tag/types/product",
       tagName: "li",
       hoverTimeout: null,
 
@@ -307,86 +362,89 @@ define([
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                if (currentBrand) {
-                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" />');
+                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                }
                return selectedItem;
+            },
+            highlighter: function(item) {
+               return '<div><img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
+            }
+         });
+
+         $('#product-name').typeahead({
+            source: function(query, process) {
+               $('#loading-product').css({'display': 'inline-block'});
+               app.oauth.loadAccessToken({
+                  success: function() {
+                     $.ajax({
+                        url: Routing.generate('api_v1_get_product_search', { query: query }),
+                        headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                        success: function(response) {
+                           if (typeof response !== 'undefined' && response.length > 0) {
+                              var products = [];
+                              currentProducts = {};
+                              _.each(response, function(product) {
+                                 products.push(product.name);
+                                 currentProducts[product.name] = product;
+                              });
+                              process(products);
+                              $('#loading-product').fadeOut(200);
+                           }
+                        }
+                     });
+                  }
+               });
+            },
+            minLength: 2,
+            items: 10,
+            updater: function(selectedItem) {
+               currentProduct = currentProducts[selectedItem];
+               if (currentProduct) {
+                  $('#product-image').html('<img src="' + currentProduct.medium_url + '" style="margin: 10px 0px;" class="product-image" />');
+                  $('#product-description').html(currentProduct.description);
+                  $('#product-purchase-url').val(currentProduct.purchase_url);
+                  // Check if product has a brand
+                  if (currentProduct.brand) {
+                     currentBrand = currentProduct.brand;
+                     $('#brand-name').val(currentBrand.name);
+                     $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
+                  }
+               }
+               return selectedItem;
+            },
+            highlighter: function(item) {
+               return '<div><img style="height: 20px;" src="' + currentProducts[item].small_url + '"> ' + item + '</div>'
             }
          });
 
          // Venue
          if (!Modernizr.geolocation) {
-            $('#support-geolocation').fadeOut('fast', function() {
-               $('#not-support-geolocation').fadeIn('fast');
-            })
+            $('.support-geolocation').fadeOut('fast', function() {
+               $('.not-support-geolocation').fadeIn('fast');
+            });
          }
-         $('#venue-text').typeahead({
+         var that = this;
+         $('#venue-name').typeahead({
             source: function(query, process) {
-               if (venuesSearchTimeout)
-                  clearTimeout(venuesSearchTimeout);
-                  venuesSearchTimeout = setTimeout(function() {
-                  $('#loading-venue').css({'display': 'inline-block'});
-                  app.oauth.loadAccessToken({
-                     success: function() {
-                        var url = Routing.generate('api_v1_get_venue_search', { query: query });
-                        if (app.appState().getCurrentPosition()) {
-                           url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
-                        }
-                        $.ajax({
-                           url: url,
-                           headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                           data: {
-                              radius: 3000
-                           },
-                           success: function(data) {
-                              if (typeof data !== 'undefined' && data.length > 0) {
-                                 var venues = []
-                                 currentVenues = {};
-                                 _.each(data, function(venue) {
-                                    venues.push(venue.name);
-                                    currentVenues[venue.name] = venue;
-                                 });
-                                 process(venues);
-                              }
-                              $('#loading-venue').fadeOut(200);
-                           }
-                        });
-                     }
-                  });
-               }, 500);
+               return that.venueSource(query, process, 'loading-venue');
             },
             minLength: 2,
             items: 10,
             updater: function(selectedItem) {
-               currentVenue = currentVenues[selectedItem];
-               var latLng = new google.maps.LatLng(currentVenue.lat, currentVenue.lng);
-               var mapOptions = {
-                  zoom:  14,
-                  center: latLng,
-                  scrollwheel: false,
-                  navigationControl: false,
-                  mapTypeControl: false,
-                  scaleControl: false,
-                  draggable: false,
-                  mapTypeId: google.maps.MapTypeId.ROADMAP
-               };
-               $('#previsualisation-tag-map').css({
-                  'width': '100%',
-                  'height': '150px',
-                  'margin': '10px 0px'
-               });
-               if (currentVenue.address) {
-                  $('#venue-informations').html('<span class="muted">' + currentVenue.address + (currentVenue.postal_code ? ' ' + currentVenue.postal_code : '') + (currentVenue.city ? ' ' + currentVenue.city : '') + '</span>').css({
-                     'margin': '10px 0px'
-                  });
-               }
-               var gMap = new google.maps.Map(document.getElementById('previsualisation-tag-map'), mapOptions);
-               new google.maps.Marker({
-                  position: latLng,
-                  map: gMap
-               });
-               $('#venue-link').val(currentVenue.link ? currentVenue.link : '');
-               return selectedItem;
-            }
+               return that.venueUpdater(selectedItem, 'previsualisation-tag-map', 'venue-informations', 'venue-link');
+            },
+            highlighter: that.venueHighlighter
+         });
+         $('#product-venue-name').typeahead({
+            source: function(query, process) {
+               return that.venueSource(query, process, 'product-loading-venue');
+            },
+            minLength: 2,
+            items: 10,
+            updater: function(selectedItem) {
+               return that.venueUpdater(selectedItem, 'product-previsualisation-tag-map', 'product-venue-informations', null);
+            },
+            highlighter: that.venueHighlighter
          });
 
          // Person
@@ -427,15 +485,88 @@ define([
          });
       },
 
+      venueSource: function(query, process, loadingDiv) {
+         if (venuesSearchTimeout)
+            clearTimeout(venuesSearchTimeout);
+         venuesSearchTimeout = setTimeout(function() {
+            $('#'+loadingDiv).css({'display': 'inline-block'});
+            app.oauth.loadAccessToken({
+               success: function() {
+                  var url = Routing.generate('api_v1_get_venue_search', { query: query });
+                  if (app.appState().getCurrentPosition()) {
+                     url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
+                  }
+                  $.ajax({
+                     url: url,
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     data: {
+                        radius: 3000
+                     },
+                     success: function(data) {
+                        if (typeof data !== 'undefined' && data.length > 0) {
+                           var venues = []
+                           currentVenues = {};
+                           _.each(data, function(venue) {
+                              venues.push(venue.name + ' |{' + venue.foursquare_id);
+                              currentVenues[venue.name + ' |{' + venue.foursquare_id] = venue;
+                           });
+                           process(venues);
+                        }
+                        $('#'+loadingDiv).fadeOut(200);
+                     }
+                  });
+               }
+            });
+         }, 500);
+      },
+
+      venueUpdater: function(selectedItem, mapDiv, venueInformationDiv, venueLinkDiv) {
+         currentVenue = currentVenues[selectedItem];
+         var latLng = new google.maps.LatLng(currentVenue.lat, currentVenue.lng);
+         var mapOptions = {
+            zoom:  14,
+            center: latLng,
+            scrollwheel: false,
+            navigationControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            draggable: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+         };
+         $('#'+mapDiv).css({
+            'width': '100%',
+            'height': '150px',
+            'margin': '10px 0px'
+         });
+         if (currentVenue.address) {
+            $('#'+venueInformationDiv).html('<span class="muted">' + currentVenue.address + (currentVenue.postal_code ? ' ' + currentVenue.postal_code : '') + (currentVenue.city ? ' ' + currentVenue.city : '') + '</span>').css({
+               'margin': '10px 0px'
+            });
+         }
+         var gMap = new google.maps.Map(document.getElementById(mapDiv), mapOptions);
+         new google.maps.Marker({
+            position: latLng,
+            map: gMap
+         });
+         if (venueLinkDiv) {
+            $('#'+venueLinkDiv).val(currentVenue.link ? currentVenue.link : '');
+         }
+         return currentVenue.name;
+      },
+
+      venueHighlighter: function(item) {
+         return '<div>' + currentVenues[item].name + ' <small class="muted">' + currentVenues[item].address + (currentVenues[item].postal_code ? ' ' + currentVenues[item].postal_code : '') + (currentVenues[item].city ? ' ' + currentVenues[item].city : '') + '</small></div>'
+      },
+
       geolocation: function(e) {
          e.preventDefault();
          if (Modernizr.geolocation) {
-            var btn = $('.btn-geolocation');
+            var btn = $(e.currentTarget);
             btn.button('loading');
             navigator.geolocation.getCurrentPosition(function(position) {
                app.appState().set('currentPosition', position);
                btn.button('reset');
-               $('#support-geolocation').html('<div class="alert fade in alert-success"><small>' + $.t('tag.geolocationSuccess') + '</small></div>');
+               $(e.currentTarget).parents('.support-geolocation').html('<div class="alert fade in alert-success"><small>' + $.t('tag.geolocationSuccess') + '</small></div>');
             });
          }
       },
@@ -456,10 +587,46 @@ define([
 
          switch ($activePane.attr('id')) {
             case 'product':
+               $submit = $('#submit-product');
+               if (currentProduct && currentTag) {
+                  $submit.button('loading');
+                  var that = this;
+                  // Check if there is a venue for the current product
+                  if (currentVenue) {
+                     // POST currentVenue
+                     venue = new Venue.Model();
+                     venue.entityToModel(currentVenue);
+                     venue.set('products', [ currentProduct.id ]);
+                     venue.url = Routing.generate('api_v1_post_venue');
+                     venue.getToken('venue_item', function() {
+                        venue.save(null, {
+                           success: function() {
+                              that.postProduct();
+                           },
+                           error: function() {
+                              app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.errorVenuePost'),
+                                 showClose: true
+                              })).render();
+                           }
+                        });
+                     });
+                  } else {
+                     this.postProduct();
+                  }
+               } else {
+                  $submit.button('reset');
+                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.noProductSelected'),
+                     showClose: true
+                  })).render();
+               }
                break;
             case 'venue':
-               if (currentVenue && currentTag && $('#venue-link').val()) {
-                  $submit = $('#submit-venue');
+               $submit = $('#submit-venue');
+               if (currentVenue && currentTag) {
                   $submit.button('loading');
                   // Set venue info
                   currentVenue.link = $('#venue-link').val();
@@ -487,21 +654,38 @@ define([
                                     app.trigger('tagMenuTools:tagAdded');
                                  },
                                  error: function() {
-                                    // TODO: show alert
+                                    $submit.button('reset');
+                                    app.useLayout().setView('.alert-venue', new Common.Views.Alert({
+                                       cssClass: Common.alertError,
+                                       message: $.t('tag.errorTagPost'),
+                                       showClose: true
+                                    })).render();
                                  }
                               });
                            });
                         },
                         error: function() {
-                           // TODO: show alert
+                           $submit.button('reset');
+                           app.useLayout().setView('.alert-venue', new Common.Views.Alert({
+                              cssClass: Common.alertError,
+                              message: $.t('tag.errorVenuePost'),
+                              showClose: true
+                           })).render();
                         }
                      });
                   });
+               } else {
+                  $submit.button('reset');
+                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.noVenueSelected'),
+                     showClose: true
+                  })).render();
                }
                break;
             case 'person':
+               $submit = $('#submit-person');
                if (currentPerson) {
-                  $submit = $('#submit-person');
                   $submit.button('loading');
                   person = new Person.Model();
                   person.entityToModel(currentPerson);
@@ -524,12 +708,14 @@ define([
                                     app.trigger('tagMenuTools:tagAdded');
                                  },
                                  error: function() {
+                                    $submit.button('reset');
                                     // TODO: show alert
                                  }
                               });
                            });
                         },
                         error: function() {
+                           $submit.button('reset');
                            // TODO: show alert
                         }
                      });
@@ -537,6 +723,33 @@ define([
                }
                break;
          }
+      },
+
+      postProduct: function() {
+         // Link tag to photo
+         currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+         // Set tag info
+         currentTag.set('type', 'product');
+         currentTag.set('product', currentProduct.id);
+         currentTag.set('title', currentProduct.name);
+         currentTag.set('description', currentProduct.description);
+         currentTag.set('link', currentProduct.purchase_url);
+         currentTag.url = Routing.generate('api_v1_post_tag');
+         currentTag.getToken('tag_item', function() {
+            currentTag.save(null, {
+               success: function() {
+                  currentTag.set('persisted', '');
+                  app.trigger('tagMenuTools:tagAdded');
+               },
+               error: function() {
+                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorTagPost'),
+                     showClose: true
+                  })).render();
+               }
+            });
+         });
       },
 
       events: {
