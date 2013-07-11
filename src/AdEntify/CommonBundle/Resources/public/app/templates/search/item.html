@@ -1,0 +1,9 @@
+<% if (model.get('type') == 'product') { %>
+    <img src="<%= model.get('product')['small_url'] %>" class="mh35 p5 pull-left" /> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<% } else if (model.get('type') == 'person') { %>
+    <img src="https://graph.facebook.com/<%= model.get('person')['facebook_id'] %>/picture?type=square" class="mh35 p5 pull-left" /> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<% } else { %>
+    <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<% } %>
+ <small class="muted"> Photo : <%= model.get('photo')['caption']  %></small>
+<div class="clearfix"></div>

@@ -20,13 +20,14 @@ define([
    "modules/mySettings",
    "modules/profile",
    "modules/common",
-   "modules/category"
+   "modules/category",
+   "modules/search"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile,
-         Common, Category) {
-
+         Common, Category, Search) {
+   var searchSetup = false;
    var Router = Backbone.Router.extend({
       initialize: function() {
          this.listenTo(this, {
@@ -70,7 +71,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             flrSets: new FlickrSets.Collection(),
             flrPhotos: new FlickrPhotos.Collection(),
             brands: new Brand.Collection(),
-            categories: new Category.Collection()
+            categories: new Category.Collection(),
+            searchResults: new Search.Collection()
          };
          _.extend(this, collections);
 
@@ -534,6 +536,13 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          }
          if (this.brands.length) {
             this.brands.reset();
+         }
+         // Add search form if not already set
+         if (!searchSetup) {
+            searchSetup = true;
+            app.useLayout().setView('#search-bar', new Search.Views.Form({
+               searchResults: this.searchResults
+            })).render();
          }
       },
 

@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "b66756ab3c597c2d50fdce4ed63cce2cc739338b"
+                "reference": "f9e840a080ecb96c4bc7efb7a460ee74c007ce5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/b66756ab3c597c2d50fdce4ed63cce2cc739338b",
-                "reference": "b66756ab3c597c2d50fdce4ed63cce2cc739338b",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/f9e840a080ecb96c4bc7efb7a460ee74c007ce5e",
+                "reference": "f9e840a080ecb96c4bc7efb7a460ee74c007ce5e",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-10 13:37:31"
+            "time": "2013-07-11 17:02:25"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -893,12 +893,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "f488f26fc0bf4d9c3be96135004ca42ab825a897"
+                "reference": "cb9c23b63a578f20d677292168ed739f3c2d4699"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/f488f26fc0bf4d9c3be96135004ca42ab825a897",
-                "reference": "f488f26fc0bf4d9c3be96135004ca42ab825a897",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/cb9c23b63a578f20d677292168ed739f3c2d4699",
+                "reference": "cb9c23b63a578f20d677292168ed739f3c2d4699",
                 "shasum": ""
             },
             "require": {
@@ -958,7 +958,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-07-08 20:52:41"
+            "time": "2013-07-10 13:41:35"
         },
         {
             "name": "friendsofsymfony/twitter-bundle",

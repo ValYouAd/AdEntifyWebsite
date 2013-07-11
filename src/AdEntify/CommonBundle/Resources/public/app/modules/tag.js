@@ -625,8 +625,8 @@ define([
                }
                break;
             case 'venue':
-               if (currentVenue && currentTag && $('#venue-link').val()) {
-                  $submit = $('#submit-venue');
+               $submit = $('#submit-venue');
+               if (currentVenue && currentTag) {
                   $submit.button('loading');
                   // Set venue info
                   currentVenue.link = $('#venue-link').val();
@@ -654,6 +654,7 @@ define([
                                     app.trigger('tagMenuTools:tagAdded');
                                  },
                                  error: function() {
+                                    $submit.button('reset');
                                     app.useLayout().setView('.alert-venue', new Common.Views.Alert({
                                        cssClass: Common.alertError,
                                        message: $.t('tag.errorTagPost'),
@@ -664,6 +665,7 @@ define([
                            });
                         },
                         error: function() {
+                           $submit.button('reset');
                            app.useLayout().setView('.alert-venue', new Common.Views.Alert({
                               cssClass: Common.alertError,
                               message: $.t('tag.errorVenuePost'),
@@ -672,11 +674,18 @@ define([
                         }
                      });
                   });
+               } else {
+                  $submit.button('reset');
+                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.noVenueSelected'),
+                     showClose: true
+                  })).render();
                }
                break;
             case 'person':
+               $submit = $('#submit-person');
                if (currentPerson) {
-                  $submit = $('#submit-person');
                   $submit.button('loading');
                   person = new Person.Model();
                   person.entityToModel(currentPerson);
@@ -699,12 +708,14 @@ define([
                                     app.trigger('tagMenuTools:tagAdded');
                                  },
                                  error: function() {
+                                    $submit.button('reset');
                                     // TODO: show alert
                                  }
                               });
                            });
                         },
                         error: function() {
+                           $submit.button('reset');
                            // TODO: show alert
                         }
                      });

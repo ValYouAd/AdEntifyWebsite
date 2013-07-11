@@ -91,7 +91,8 @@
       "placeholderProductPurchaseUrl": "http://",
       "noProductSelected": "Vous devez sélectionner un produit",
       "errorTagPost": "Une erreur est survenue lors de l'ajout du tag",
-      "errorVenuePost": "Une erreur est survenue lors de l'ajout du lieu"
+      "errorVenuePost": "Une erreur est survenue lors de l'ajout du lieu",
+      "noVenueSelected": "Vous devez sélectionner un lieu avant de valider"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -146,10 +147,15 @@
       "pageTitle": "Mon flux photos - AdEntify",
       "title": "Mon flux photos"
    },
+   "search": {
+      "placeHolderKeywords": "Tapez votre mot clé",
+      "inProgress": "Recherche en cours..."
+   },
    "common": {
       "viewPhoto": "voir la photo",
       "submit": "Valider",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "searchButton": "Rechercher"
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",
