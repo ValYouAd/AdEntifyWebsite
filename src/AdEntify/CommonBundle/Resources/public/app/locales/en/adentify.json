@@ -82,7 +82,12 @@
       "labelBrandName": "Entrez le nom de la marque",
       "buyThere": "J'ai acheté le produit chez ce distributeur.",
       "productBuyPlace": "Lieu d'achat du produit",
-      "placeholderProductPlaceName": "Magasin, distributeur, grande surface..."
+      "placeholderProductPlaceName": "Magasin, distributeur, grande surface...",
+      "labelProductPurchaseUrl": "Entrez l'url pour acheter ce produit",
+      "placeholderProductPurchaseUrl": "http://",
+      "noProductSelected": "Vous devez sélectionner un produit",
+      "errorTagPost": "Une erreur est survenue lors de l'ajout du tag",
+      "errorVenuePost": "Une erreur est survenue lors de l'ajout du lieu"
    },
    "photo": {
       "loadingPhoto": "Loading photo in progress...",

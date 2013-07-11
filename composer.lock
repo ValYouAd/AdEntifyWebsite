@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "134ea75b86dcb708556ae84129842da2",
+    "hash": "1816035b10db5cdc9022accc2bd3e1b9",
     "packages": [
         {
             "name": "adentify/core-bundle",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "2e221a1855d1330f751f16f2c3209a31a636fd91"
+                "reference": "b66756ab3c597c2d50fdce4ed63cce2cc739338b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/2e221a1855d1330f751f16f2c3209a31a636fd91",
-                "reference": "2e221a1855d1330f751f16f2c3209a31a636fd91",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/b66756ab3c597c2d50fdce4ed63cce2cc739338b",
+                "reference": "b66756ab3c597c2d50fdce4ed63cce2cc739338b",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-10 09:29:47"
+            "time": "2013-07-10 13:37:31"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -722,7 +722,7 @@
         },
         {
             "name": "friendsofsymfony/oauth-server-bundle",
-            "version": "dev-master",
+            "version": "1.3.1",
             "target-dir": "FOS/OAuthServerBundle",
             "source": {
                 "type": "git",
@@ -736,10 +736,10 @@
                 "shasum": ""
             },
             "require": {
-                "friendsofsymfony/oauth2-php": "~1.0.4",
+                "friendsofsymfony/oauth2-php": ">=1.0.4,<1.1",
                 "php": ">=5.3.3",
-                "symfony/framework-bundle": "~2.1",
-                "symfony/security-bundle": "~2.1"
+                "symfony/framework-bundle": ">=2.1,<3.0",
+                "symfony/security-bundle": ">=2.1,<3.0"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": ">=1.0,<2.0",
@@ -2930,7 +2930,6 @@
         "jms/debugging-bundle": 20,
         "kertz/twitteroauth": 20,
         "friendsofsymfony/twitter-bundle": 20,
-        "friendsofsymfony/oauth-server-bundle": 20,
         "hwi/oauth-bundle": 20
     },
     "platform": {

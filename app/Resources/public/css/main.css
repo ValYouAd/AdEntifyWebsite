@@ -384,6 +384,9 @@ div.photo-overlay {
     -o-transition: opacity 0.3s ease-out;
     transition: opacity 0.3s ease-out;
 }
+    .popover-product {
+        min-width: 250px;
+    }
 .tag .map {
     width: 270px;
     height: 260px;

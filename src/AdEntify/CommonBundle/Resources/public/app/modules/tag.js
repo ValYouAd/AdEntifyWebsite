@@ -9,10 +9,11 @@ define([
    "app",
    "modules/venue",
    "modules/person",
+   "modules/common",
    "select2",
    "bootstrap",
    "modernizer"
-], function(app, Venue, Person) {
+], function(app, Venue, Person, Common) {
 
    var Tag = app.module();
    var currentPhotoOverlay = null;
@@ -110,6 +111,57 @@ define([
 
    Tag.Views.VenueItem = Backbone.View.extend({
       template: "tag/types/venue",
+      tagName: "li",
+      hoverTimeout: null,
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+      },
+
+      hoverIn: function() {
+         clearTimeout(this.hoverTimeout);
+         $(this.el).find('.popover').show();
+         if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
+            var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
+            var mapOptions = {
+               zoom:  14,
+               center: latLng,
+               scrollwheel: false,
+               navigationControl: false,
+               mapTypeControl: false,
+               scaleControl: false,
+               draggable: false,
+               mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
+            new google.maps.Marker({
+               position: latLng,
+               map: gMap
+            });
+            $('#map' + this.model.get('id')).addClass('loaded');
+         }
+         app.tagStats().tagHover(this.model);
+      },
+
+      hoverOut: function() {
+         var that = this;
+         this.hoverTimeout = setTimeout(function() {
+            $(that.el).find('.popover').hide();
+         }, 200);
+      },
+
+      events: {
+         "mouseenter .tag": "hoverIn",
+         "mouseleave .tag": "hoverOut"
+      }
+   });
+
+   Tag.Views.ProductItem = Backbone.View.extend({
+      template: "tag/types/product",
       tagName: "li",
       hoverTimeout: null,
 
@@ -350,6 +402,7 @@ define([
                if (currentProduct) {
                   $('#product-image').html('<img src="' + currentProduct.medium_url + '" style="margin: 10px 0px;" class="product-image" />');
                   $('#product-description').html(currentProduct.description);
+                  $('#product-purchase-url').val(currentProduct.purchase_url);
                   // Check if product has a brand
                   if (currentProduct.brand) {
                      currentBrand = currentProduct.brand;
@@ -534,26 +587,42 @@ define([
 
          switch ($activePane.attr('id')) {
             case 'product':
-               // Link tag to photo
-               currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
-               // Set tag info
-               currentTag.set('type', 'product');
-               currentTag.set('product', currentProduct.get('id'));
-               currentTag.set('title', currentProduct.name);
-               currentTag.set('description', currentProduct.description);
-               currentTag.set('link', currentVenue.link);
-               currentTag.url = Routing.generate('api_v1_post_tag');
-               currentTag.getToken('tag_item', function() {
-                  currentTag.save(null, {
-                     success: function() {
-                        currentTag.set('persisted', '');
-                        app.trigger('tagMenuTools:tagAdded');
-                     },
-                     error: function() {
-                        // TODO: show alert
-                     }
-                  });
-               });
+               $submit = $('#submit-product');
+               if (currentProduct && currentTag) {
+                  $submit.button('loading');
+                  var that = this;
+                  // Check if there is a venue for the current product
+                  if (currentVenue) {
+                     // POST currentVenue
+                     venue = new Venue.Model();
+                     venue.entityToModel(currentVenue);
+                     venue.set('products', [ currentProduct.id ]);
+                     venue.url = Routing.generate('api_v1_post_venue');
+                     venue.getToken('venue_item', function() {
+                        venue.save(null, {
+                           success: function() {
+                              that.postProduct();
+                           },
+                           error: function() {
+                              app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.errorVenuePost'),
+                                 showClose: true
+                              })).render();
+                           }
+                        });
+                     });
+                  } else {
+                     this.postProduct();
+                  }
+               } else {
+                  $submit.button('reset');
+                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.noProductSelected'),
+                     showClose: true
+                  })).render();
+               }
                break;
             case 'venue':
                if (currentVenue && currentTag && $('#venue-link').val()) {
@@ -585,13 +654,21 @@ define([
                                     app.trigger('tagMenuTools:tagAdded');
                                  },
                                  error: function() {
-                                    // TODO: show alert
+                                    app.useLayout().setView('.alert-venue', new Common.Views.Alert({
+                                       cssClass: Common.alertError,
+                                       message: $.t('tag.errorTagPost'),
+                                       showClose: true
+                                    })).render();
                                  }
                               });
                            });
                         },
                         error: function() {
-                           // TODO: show alert
+                           app.useLayout().setView('.alert-venue', new Common.Views.Alert({
+                              cssClass: Common.alertError,
+                              message: $.t('tag.errorVenuePost'),
+                              showClose: true
+                           })).render();
                         }
                      });
                   });
@@ -635,6 +712,33 @@ define([
                }
                break;
          }
+      },
+
+      postProduct: function() {
+         // Link tag to photo
+         currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+         // Set tag info
+         currentTag.set('type', 'product');
+         currentTag.set('product', currentProduct.id);
+         currentTag.set('title', currentProduct.name);
+         currentTag.set('description', currentProduct.description);
+         currentTag.set('link', currentProduct.purchase_url);
+         currentTag.url = Routing.generate('api_v1_post_tag');
+         currentTag.getToken('tag_item', function() {
+            currentTag.save(null, {
+               success: function() {
+                  currentTag.set('persisted', '');
+                  app.trigger('tagMenuTools:tagAdded');
+               },
+               error: function() {
+                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorTagPost'),
+                     showClose: true
+                  })).render();
+               }
+            });
+         });
       },
 
       events: {

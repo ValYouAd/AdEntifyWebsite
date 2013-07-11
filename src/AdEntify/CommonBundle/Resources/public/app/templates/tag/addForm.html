@@ -9,12 +9,15 @@
         <div class="tab-content">
             <!-- Produit -->
             <div class="tab-pane active" id="product">
+                <div class="alert-product"></div>
                 <label><span data-i18n="tag.labelBrandName"></span> <i class="icon-refresh fadeOut rotate" id="loading-brand"></i></label>
                 <input id="brand-name" name="brand-name" type="text" data-i18n="[placeholder]tag.placeholderBrandName">
                 <div id="brand-logo" class="text-center"></div>
                 <label><span data-i18n="tag.labelProductName"></span> <i class="icon-refresh fadeOut rotate" id="loading-product"></i></label>
                 <input id="product-name" name="product-text" type="text" data-i18n="[placeholder]tag.placeholderProductName">
                 <div id="product-image" class="text-center"></div>
+                <label data-i18n="tag.labelProductPurchaseUrl"></label>
+                <input id="product-purchase-url" name="product-purchase-url" type="text" data-i18n="[placeholder]tag.placeholderProductPurchaseUrl">
                 <label data-i18n="tag.labelProductDescription"></label>
                 <textarea id="product-description" name="product-description" ></textarea>
                 <label data-i18n="tag.productBuyPlace"></label>
@@ -27,11 +30,12 @@
                 <input id="product-venue-name" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderProductPlaceName">
                 <div id="product-previsualisation-tag-map"></div>
                 <div id="product-venue-informations"></div>
-                <p><button type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> <span data-i18n="tag.buttonAddProduct"></span></button>
+                <p><button id="submit-product" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> <span data-i18n="tag.buttonAddProduct"></span></button>
                     <button class="btn btn-danger btn-small cancel-add-tag"><i class="icon-remove icon-white" type="button"></i> <span data-i18n="common.cancel"></span></button></p>
             </div>
             <!-- Lieu -->
             <div class="tab-pane" id="venue">
+                <div class="alert-venue"></div>
                 <p class="support-geolocation">
                     <span><small data-i18n="tag.textGeolocation"></small></span><br>
                     <button class="btn btn-info btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="icon-map-marker icon-white"></i> <span data-i18n="tag.useGeolocation"></span></button>
@@ -50,6 +54,7 @@
             </div>
             <!-- Personne -->
             <div class="tab-pane" id="person">
+                <div class="alert-person"></div>
                 <div class="fb-loggedin">
                     <label><span data-i18n="tag.labelPersonName"></span> <i class="icon-refresh fadeOut rotate" id="loading-person"></i></label>
                     <input id="person-text" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPersonName">
