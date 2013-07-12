@@ -99,7 +99,8 @@
       "link": "Link to photo",
       "embed": "Embed photo",
       "errorLoading": "Can't get photo. Please try again.",
-      "noPhoto": "The photo doesn't exist or you aren't authorized to wiew it."
+      "noPhoto": "The photo doesn't exist or you aren't authorized to wiew it.",
+      "favorites": "Ajouter à mes favoris"
    },
    "externalServicePhotos": {
       "select": "Select",

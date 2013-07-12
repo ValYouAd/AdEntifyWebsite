@@ -96,7 +96,7 @@ define([
       },
 
       like: function() {
-         app.like().like(this.model);
+         app.photoActions().like(this.model);
          $likeCount = $(this.el).find('#like-count');
          $likeCount.html(this.model.get('likes_count') + 1);
       },
@@ -114,9 +114,14 @@ define([
          }
       },
 
+      favorite: function() {
+         app.photoActions().favorite(this.model);
+      },
+
       events: {
-         "click #like": "like",
-         "click .adentify-pastille": "showTags"
+         "click .like-button": "like",
+         "click .adentify-pastille": "showTags",
+         "click .favorite-button": "favorite"
       }
    });
 
@@ -130,6 +135,7 @@ define([
       },
 
       afterRender: function() {
+         $(this.el).i18n();
          if (loaded) {
             $('#loading-photo').fadeOut(200);
          }

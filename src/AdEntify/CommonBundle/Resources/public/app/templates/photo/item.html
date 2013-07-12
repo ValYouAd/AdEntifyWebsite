@@ -1,7 +1,9 @@
 <div class="pull-right">
-    <button id="like" type="button" class="btn btn-primary" data-toggle="button"><i class="icon-heart icon-white"></i> <span data-i18n="photo.like"></span></button>
+    <button type="button" class="btn btn-primary like-button" data-toggle="button"><i class="icon-heart icon-white"></i> <span data-i18n="photo.like"></span></button>
+    <button type="button" class="btn btn-primary favorite-button" data-toggle="button"><i class="icon-star icon-white"></i> <span data-i18n="photo.favorites"></span></button>
 </div>
 <h1 class="lead"><%= model.get("caption") %></h1>
+<div class="clearfix"></div>
 <div class="full-photo text-center">
     <div class="photo-container">
         <% if (model.get("tags_count") > 0) { %>

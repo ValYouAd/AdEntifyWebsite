@@ -9,9 +9,9 @@ define([
    "app"
 ], function(app) {
 
-   var Like = app.module();
+   var PhotoActions = app.module();
 
-   Like.Model = Backbone.Model.extend({
+   PhotoActions.Model = Backbone.Model.extend({
 
       like: function(photo) {
          app.oauth.loadAccessToken({
@@ -24,9 +24,21 @@ define([
                });
             }
          });
-      }
+      },
 
+      favorite: function(photo) {
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_post_photo_favorite'),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  type: 'POST',
+                  data: { photoId: photo.get('id') }
+               });
+            }
+         });
+      }
    });
 
-   return Like;
+   return PhotoActions;
 });
