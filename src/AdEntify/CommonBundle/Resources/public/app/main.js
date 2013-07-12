@@ -10,10 +10,10 @@ require([
    // App State
    "modules/appState",
    "modules/tagStats",
-   "modules/like"
+   "modules/photoActions"
 ],
 
-function(app, Router, i18n, AppState, TagStats, Like) {
+function(app, Router, i18n, AppState, TagStats, PhotoActions) {
 
    // Extend App
    _.extend(app, {
@@ -27,10 +27,10 @@ function(app, Router, i18n, AppState, TagStats, Like) {
             this.tagstats = new TagStats.Model();
          return this.tagstats;
       },
-      like: function() {
-         if (typeof this.likeObj === 'undefined')
-            this.likeObj = new Like.Model();
-         return this.likeObj;
+      photoActions: function() {
+         if (typeof this.photoActionsObj === 'undefined')
+            this.photoActionsObj = new PhotoActions.Model();
+         return this.photoActionsObj;
       }
    });
 
