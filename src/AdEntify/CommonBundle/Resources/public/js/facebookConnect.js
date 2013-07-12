@@ -13,7 +13,7 @@ function facebookConnect() {
             } else {
                // cancelled
             }
-         }, {scope: facebookPermissions});
+         }, { scope: facebookPermissions });
       } else {
          FB.login(function(response) {
             if (response.authResponse) {
@@ -21,7 +21,7 @@ function facebookConnect() {
             } else {
                // cancelled
             }
-         }, {scope: facebookPermissions});
+         }, { scope: facebookPermissions });
       }
    });
 }

@@ -40,3 +40,12 @@ CREATE TRIGGER photos_count AFTER INSERT ON `photos`
     UPDATE venues v SET photos_count = photos_count+1 WHERE v.id = NEW.venue_id;
  END$$
 DELIMITER ;
+
+# Mise à jour des compteurs de lieux
+DROP TRIGGER IF EXISTS  `venues_count`;
+DELIMITER $$
+CREATE TRIGGER venues_count AFTER INSERT ON `brand_venue`
+ FOR EACH ROW BEGIN
+    UPDATE brands b SET b.venues_count = b.venues_count+1 WHERE b.id = NEW.brand_id;
+ END$$
+DELIMITER ;

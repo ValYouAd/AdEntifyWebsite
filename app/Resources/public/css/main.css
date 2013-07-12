@@ -384,6 +384,9 @@ div.photo-overlay {
     -o-transition: opacity 0.3s ease-out;
     transition: opacity 0.3s ease-out;
 }
+    .popover-product {
+        min-width: 250px;
+    }
 .tag .map {
     width: 270px;
     height: 260px;
@@ -393,8 +396,9 @@ div.photo-overlay {
 
 /* MODULE : Tag
 ----------------------- */
-#brand-logo img {
-    /*max-width: 150px;*/
+.brand-logo,
+.product-image {
+    max-height: 100px;
 }
 /*
 ----------------------- */
@@ -406,6 +410,27 @@ div.photo-overlay {
 }
 /* End M : External Service Photos
 ------------------------------------ */
+
+/* MODULE : Search
+----------------------- */
+.search-bar {
+    position: relative;
+}
+    .search-results-container {
+        position: absolute;
+        top: 35px;
+        left: auto;
+        right: 0px;
+    }
+    .search-results-list {
+        list-style-type: none;
+        margin: 0;
+    }
+    .search-results-list li {
+        margin: 4px 0px;
+    }
+/*
+----------------------- */
 
 /* Common Templates
 ----------------------- */
@@ -480,6 +505,7 @@ ul#ticker-photos {
 .opacity0 {
     opacity: 0;
 }
+/* Margins */
 .mt1 {
     margin-top: 10px;
 }
@@ -488,6 +514,17 @@ ul#ticker-photos {
 }
 .mt3 {
     margin-top: 30px;
+}
+/* Max Height */
+.mh25 {
+    max-height: 25px;
+}
+.mh35 {
+    max-height: 35px;
+}
+/* Paddings */
+.p5 {
+    padding: 5px;
 }
 .rotate {
     -webkit-animation: rotate 1s linear infinite;

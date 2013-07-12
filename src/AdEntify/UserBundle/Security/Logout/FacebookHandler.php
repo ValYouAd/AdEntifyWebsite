@@ -33,7 +33,6 @@ class FacebookHandler implements LogoutHandlerInterface
     public function logout(Request $request, Response $response, TokenInterface $token)
     {
         $user = $this->securityContext->getToken()->getUser();
-
         $response->headers->clearCookie('fbsr_'.$user->getFacebookId());
     }
 }

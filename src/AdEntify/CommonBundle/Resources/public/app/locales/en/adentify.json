@@ -79,7 +79,16 @@
       "addingInProgress": "Adding in progress...",
       "textNoFacebookConnect": "You aren't <b>connected to Facebook.</b> We can't get your friends.",
       "placeholderBrandName": "Coca-cola, Apple, Zara...",
-      "labelBrandName": "Entrez le nom de la marque"
+      "labelBrandName": "Entrez le nom de la marque",
+      "buyThere": "J'ai acheté le produit chez ce distributeur.",
+      "productBuyPlace": "Lieu d'achat du produit",
+      "placeholderProductPlaceName": "Magasin, distributeur, grande surface...",
+      "labelProductPurchaseUrl": "Entrez l'url pour acheter ce produit",
+      "placeholderProductPurchaseUrl": "http://",
+      "noProductSelected": "Vous devez sélectionner un produit",
+      "errorTagPost": "Une erreur est survenue lors de l'ajout du tag",
+      "errorVenuePost": "Une erreur est survenue lors de l'ajout du lieu",
+      "noVenueSelected": "Vous devez sélectionner un lieu avant de valider"
    },
    "photo": {
       "loadingPhoto": "Loading photo in progress...",
@@ -88,7 +97,9 @@
       "comments": "Comments",
       "share": "Share photo",
       "link": "Link to photo",
-      "embed": "Embed photo"
+      "embed": "Embed photo",
+      "errorLoading": "Can't get photo. Please try again.",
+      "noPhoto": "The photo doesn't exist or you aren't authorized to wiew it."
    },
    "externalServicePhotos": {
       "select": "Select",
@@ -131,10 +142,15 @@
       "pageTitle": "Mon flux photos - AdEntify",
       "title": "Mon flux photos"
    },
+   "search": {
+      "placeHolderKeywords": "Tapez votre mot clé",
+      "inProgress": "Recherche en cours..."
+   },
    "common": {
       "viewPhoto": "view photo",
       "submit": "Submit",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "searchButton": "Rechercher"
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",

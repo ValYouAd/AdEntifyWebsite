@@ -68,6 +68,10 @@ define([
                   that.insertView(".tags", new Tag.Views.PersonItem({
                      model: new Tag.Model(tag)
                   }));
+               } else if (tag.type == 'product') {
+                  that.insertView(".tags", new Tag.Views.ProductItem({
+                     model: new Tag.Model(tag)
+                  }));
                } else {
                   that.insertView(".tags", new Tag.Views.Item({
                      model: new Tag.Model(tag)

@@ -19,7 +19,7 @@ class DefaultController extends Controller
     public function indexNoLocaleAction()
     {
         return $this->redirect($this->generateUrl('home_logoff', array(
-            '_locale' => $this->getRequest()->getLocale()
+            '_locale' => $this->getCurrentLocale()
         )));
     }
 
@@ -32,7 +32,7 @@ class DefaultController extends Controller
         $securityContext = $this->container->get('security.context');
         if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
             return $this->redirect($this->generateUrl('loggedInHome', array(
-                '_locale' => $this->getRequest()->getLocale()
+                '_locale' => $this->getCurrentLocale()
             )));
         }
 
@@ -84,7 +84,7 @@ class DefaultController extends Controller
     public function appNoLocaleAction()
     {
         return $this->redirect($this->generateUrl('loggedInHome', array(
-            '_locale' => $this->getRequest()->getLocale()
+            '_locale' => $this->getCurrentLocale()
         )));
     }
 
@@ -180,8 +180,42 @@ class DefaultController extends Controller
     public function langAction($locale)
     {
         $this->getRequest()->getSession()->set('_locale', $locale);
+        $this->setUserLocale($locale);
         return $this->redirect($this->generateUrl('loggedInHome', array(
             '_locale' => $locale
         )));
+    }
+
+    /**
+     * Get current locale from user if logged and set, instead, get from request
+     *
+     * @return string
+     */
+    private function getCurrentLocale() {
+        $locale = $this->getRequest()->getLocale();
+        $securityContext = $this->container->get('security.context');
+        if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            if ($user->getLocale()) {
+                $locale = $user->getLocale();
+            }
+        }
+
+        return $locale;
+    }
+
+    /**
+     * Set locale for the current user if logged
+     *
+     * @param $locale
+     */
+    private function setUserLocale($locale) {
+        $securityContext = $this->container->get('security.context');
+        if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $user->setLocale($locale);
+            $this->getDoctrine()->getManager()->merge($user);
+            $this->getDoctrine()->getManager()->flush();
+        }
     }
 }

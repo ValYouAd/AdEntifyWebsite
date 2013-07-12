@@ -108,8 +108,7 @@ function(app, Router, i18n, AppState, TagStats, Like) {
       lng: app.appState().getLocale(),
       resGetPath: app.rootUrl + "bundles/adentifycommon/app/locales/__lng__/__ns__.json",
       ns: { namespaces: ['adentify'], defaultNs: 'adentify'},
-      useDataAttrOptions: true,
-      debug: true
+      useDataAttrOptions: true
    }).done(function() {
       // Define your master router on the application namespace and trigger all
       // navigation from this instance.

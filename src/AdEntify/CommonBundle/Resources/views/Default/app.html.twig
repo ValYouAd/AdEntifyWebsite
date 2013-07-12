@@ -65,6 +65,7 @@
                     <div class="pull-right">
                         <a href="upload/" class="btn btn-primary btn-small">{{ 'Upload photos'|trans }}</a>
                     </div>
+                    <div class="pull-right" id="search-bar"></div>
                 </div>
             </div>
         </nav>
@@ -90,6 +91,9 @@
 
 {% block javascripts %}
     <script>
+        if (window.location.hash == '#_=_'){
+            window.location.hash = '';
+        }
         var channelUrl = '{{ asset('channel.php') }}';
         var instagramClientId = '{{ instagram_client_id }}';
         var facebookAppId = '{{ facebook_app_id }}';
