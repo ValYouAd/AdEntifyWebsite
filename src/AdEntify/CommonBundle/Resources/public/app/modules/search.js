@@ -49,12 +49,12 @@ define([
          this.listenTo(this.options.searchResults, {
             "sync": this.render
          });
+         app.on('search:starting', function() {
+            $('.search-results-container').fadeIn();
+            $('.search-loading').fadeIn();
+         });
          app.on('search:completed', function() {
             $('.search-loading').stop().fadeOut();
-         });
-         app.on('search:starting', function() {
-            $('.search-results-container').stop().fadeIn();
-            $('.search-loading').stop().fadeIn();
          });
       }
    });
