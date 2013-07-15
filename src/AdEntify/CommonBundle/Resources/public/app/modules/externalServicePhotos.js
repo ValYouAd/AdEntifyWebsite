@@ -99,6 +99,12 @@ define([
    ExternalServicePhotos.Views.MenuRightPhotos = Backbone.View.extend({
       template: "externalServicePhotos/menuRightPhotos",
 
+      serialize: function() {
+         return {
+            categories : this.categories
+         };
+      },
+
       imageChecked: function(count) {
          if (count > 0) {
             $('.no-photo-selected').fadeOut('fast', function() {
@@ -116,6 +122,10 @@ define([
          var that = this;
          app.on('externalServicePhoto:imageChecked', function(count) {
             that.imageChecked(count);
+         });
+         this.categories = this.options.categories;
+         this.listenTo(this.options.categories, {
+            "sync": this.render
          });
       },
 
@@ -147,6 +157,8 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+         if (typeof this.categories !== 'undefined' && this.categories.length > 0)
+            $(this.el).find('.selectCategories').select2();
       }
    });
 

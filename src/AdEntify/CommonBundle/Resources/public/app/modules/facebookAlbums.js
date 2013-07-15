@@ -8,10 +8,9 @@
 define([
    "app",
    "modules/externalServicePhotos",
-   "modules/category",
    "facebook",
    "select2"
-], function(app, ExternalServicePhotos, Category) {
+], function(app, ExternalServicePhotos) {
 
    var FacebookAlbums = app.module();
    var error = '';

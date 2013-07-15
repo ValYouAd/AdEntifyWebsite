@@ -51,7 +51,8 @@ var jam = {
         "backbone": {
             "deps": [
                 "underscore",
-                "jquery"
+                "jquery",
+                "i18next2"
             ],
             "exports": "Backbone"
         },
@@ -121,7 +122,8 @@ if (typeof require !== "undefined" && require.config) {
         "backbone": {
             "deps": [
                 "underscore",
-                "jquery"
+                "jquery",
+               "i18next2"
             ],
             "exports": "Backbone"
         },
@@ -191,7 +193,8 @@ else {
         "backbone": {
             "deps": [
                 "underscore",
-                "jquery"
+                "jquery",
+               "i18next2"
             ],
             "exports": "Backbone"
         },

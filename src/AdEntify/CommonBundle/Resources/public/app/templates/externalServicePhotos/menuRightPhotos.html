@@ -15,8 +15,10 @@
                     <option value="public" data-i18n="externalServicePhotos.public"></option>
                 </select>
                 <label data-i18n="externalServicePhotos.labelPhotosCategories"></label>
-                <select name="photos-categories">
-
+                <select name="photos-categories" class="selectCategories" multiple="multiple">
+                    <% _.forEach(categories.models, function(category) { %>
+                    <option value="<%= category.get('id') %>"><%= category.get('name') %></option>
+                    <% }); %>
                 </select>
                 <label>
                     <input type="checkbox" checked="checked" class="photos-rights" /> <span data-i18n="externalServicePhotos.haveRights"></span>
