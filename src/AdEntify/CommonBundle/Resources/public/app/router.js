@@ -111,7 +111,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "mon/profil/": "myProfile",
                "profil/:id/": "profile",
                "categorie/:slug/": "category",
-               "mon/adentify/": "myAdentify"
+               "mon/adentify/": "myAdentify",
+               "mes/photos/favorites/": "favoritesPhotos"
             },
             "en" : {
                "": "homepage",
@@ -130,7 +131,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "my/profile/": "myProfile",
                "profile/:id/": "profile",
                "category/:slug/": "category",
-               "my/adentify/": "myAdentify"
+               "my/adentify/": "myAdentify",
+               "my/photos/favorites/": "favoritesPhotos"
             }
          };
          switch (app.appState().getLocale()) {
@@ -519,6 +521,32 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             },
             error: function() {
                that.errorCallback('photos.errorPhotosLoading', '#menu-right');
+            }
+         });
+      },
+
+      favoritesPhotos: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new MyPhotos.Views.Content({
+               photos: this.myPhotos,
+               tagged: true,
+               title: $.t('myPhotos.titleFavorites')
+            }),
+            "#menu-right": new MyPhotos.Views.Ticker({
+               tickerPhotos: this.myTickerPhotos
+            })
+         }).render();
+
+         var that = this;
+         this.myPhotos.fetch({
+            url: Routing.generate('api_v1_get_user_favorites'),
+            success: function(collection) {
+               that.successCallback(collection, 'myPhotos.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('myPhotos.errorPhotosLoading');
             }
          });
       },
