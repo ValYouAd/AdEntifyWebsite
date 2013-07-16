@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app"
-], function(app) {
+   "app",
+   "modules/photos"
+], function(app, Photos) {
 
    var Profile = app.module();
 
@@ -17,15 +18,19 @@ define([
       }
    });
 
-   Profile.Views.Content = Backbone.View.extend({
-      template: "profile/Content"
-   });
-
    Profile.Views.MenuRight = Backbone.View.extend({
       template: "profile/menuRight",
 
       serialize: function() {
          return { model: this.model };
+      },
+
+      beforeRender: function() {
+         this.options.likesPhotos.each(function(photo) {
+            this.insertView(".ticker-photos", new Photos.Views.TickerItem({
+               model: photo
+            }));
+         }, this);
       },
 
       afterRender: function() {
@@ -59,6 +64,9 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.user, {
+            "sync": this.render
+         });
+         this.listenTo(this.options.likesPhotos, {
             "sync": this.render
          });
          var that = this;

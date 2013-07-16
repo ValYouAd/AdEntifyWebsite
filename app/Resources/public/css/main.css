@@ -458,16 +458,16 @@ div.photo-overlay {
 ----------------------- */
 
 /* Ticker */
-#ticker-photos {
+.ticker-photos {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-    #ticker-photos li {
+    .ticker-photos li {
         float: left;
         margin: 2px;
     }
-    #ticker-photos .ticker-item-container {
+    .ticker-photos .ticker-item-container {
         position: relative;
         color: white;
     }
@@ -482,7 +482,7 @@ div.photo-overlay {
         transition: opacity 0.4s ease-out;
         opacity: 0;
     }
-    #ticker-photos .ticker-item-overlay {
+    .ticker-photos .ticker-item-overlay {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -496,11 +496,11 @@ div.photo-overlay {
                 transition: opacity 0.4s ease-out;
         opacity: 0;
     }
-    #ticker-photos .ticker-item-container:hover .ticker-item-overlay {
+    .ticker-photos .ticker-item-container:hover .ticker-item-overlay {
         background: rgba(0,0,0,0.5);
         opacity: 1;
     }
-    #ticker-photos .photo-caption {
+    .ticker-photos .photo-caption {
         position: absolute;
         top: 22px;
         left: 6px;
@@ -511,7 +511,7 @@ div.photo-overlay {
         word-wrap: break-word;
         line-height: 1em;
     }
-    #ticker-photos .user-information {
+    .ticker-photos .user-information {
         position: absolute;
         left: 6px;
         bottom: 6px;
@@ -525,12 +525,12 @@ div.photo-overlay {
         text-rendering: optimizelegibility;
         font-size: 11px;
     }
-    #ticker-photos .user-information a {
+    .ticker-photos .user-information a {
         color: white;
     }
-    #ticker-photos .ticker-item-container:hover .counters,
-    #ticker-photos .ticker-item-container:hover .photo-caption,
-    #ticker-photos .ticker-item-container:hover .user-information {
+    .ticker-photos .ticker-item-container:hover .counters,
+    .ticker-photos .ticker-item-container:hover .photo-caption,
+    .ticker-photos .ticker-item-container:hover .user-information {
         opacity: 1;
         z-index: 2;
     }

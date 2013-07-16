@@ -135,7 +135,9 @@
       "photosCount_plural": "<label class='badge badge-success'>__count__</label> photos",
       "follow": "Suivre",
       "pageTitle": "__name__ - Profil AdEntify",
-      "loadingProfile": "Chargement du profil en cours..."
+      "loadingProfile": "Chargement du profil en cours...",
+      "memberPhotos": "Photos de l'utilisateur",
+      "lastLikedPhotos": "Dernières photos aimés"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",

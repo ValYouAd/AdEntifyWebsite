@@ -131,7 +131,9 @@
       "photosCount_plural": "<label class='badge badge-success'>__count__</label> photos",
       "follow": "Follow",
       "pageTitle": "__name__ - AdEntify Profile",
-      "loadingProfile": "Loading profile in progress..."
+      "loadingProfile": "Loading profile in progress...",
+      "memberPhotos": "Photos de l'utilisateur",
+      "lastLikedPhotos": "Last liked photos"
    },
    "category": {
       "errorPhotosLoading": "Can't get photos. Please try again.",

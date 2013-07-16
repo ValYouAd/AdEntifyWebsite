@@ -317,7 +317,7 @@ define([
 
       beforeRender: function() {
          this.options.tickerPhotos.each(function(photo) {
-            this.insertView("#ticker-photos", new MyPhotos.Views.TickerItem({
+            this.insertView(".ticker-photos", new MyPhotos.Views.TickerItem({
                model: photo
             }));
          }, this);

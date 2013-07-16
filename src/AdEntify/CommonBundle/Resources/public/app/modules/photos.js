@@ -42,7 +42,10 @@ define([
       cache: true,
 
       parse: function(obj) {
-         return obj;
+         if (typeof obj !== 'undefined' && typeof obj.data !== 'undefined') {
+            return obj.data;
+         }
+         else return obj;
       }
    });
 
@@ -277,7 +280,7 @@ define([
 
       beforeRender: function() {
          this.options.tickerPhotos.each(function(photo) {
-            this.insertView("#ticker-photos", new Photos.Views.TickerItem({
+            this.insertView(".ticker-photos", new Photos.Views.TickerItem({
                model: photo
             }));
          }, this);
