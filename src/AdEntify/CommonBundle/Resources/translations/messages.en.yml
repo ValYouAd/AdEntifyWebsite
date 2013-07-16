@@ -13,6 +13,7 @@ My profile: My profile
 Categories: Categories
 All categories: All categories
 My AdEntify: My AdEntify
+My favorites photos: My favorites photos
 
 #Routing
 photos/untagged/: photos/untagged/
@@ -22,3 +23,4 @@ brands/: brands/
 my/profile/: my/profile/
 category/: category/
 my/adentify/: my/adentify/
+my/photos/favorites/: my/photos/favorites/

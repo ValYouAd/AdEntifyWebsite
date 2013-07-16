@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "62a29c74cf3d38fab23d2a610cd3f4783d1ac26a"
+                "reference": "9778e679cd726bb8f2c40503ea301cdefbf5a60d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/62a29c74cf3d38fab23d2a610cd3f4783d1ac26a",
-                "reference": "62a29c74cf3d38fab23d2a610cd3f4783d1ac26a",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/9778e679cd726bb8f2c40503ea301cdefbf5a60d",
+                "reference": "9778e679cd726bb8f2c40503ea301cdefbf5a60d",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-12 16:32:45"
+            "time": "2013-07-15 08:53:50"
         },
         {
             "name": "avalanche123/imagine-bundle",

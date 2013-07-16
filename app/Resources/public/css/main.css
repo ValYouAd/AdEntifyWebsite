@@ -168,6 +168,25 @@ footer p {
     #photos-grid .photo-overlay:hover .view-photo {
         opacity: 1;
     }
+    #photos-grid .photo-overlay .bottom-right {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        opacity: 0;
+        -webkit-transition: opacity 0.2s ease-out;
+        -moz-transition: opacity 0.2s ease-out;
+        -o-transition: opacity 0.2s ease-out;
+        transition: opacity 0.2s ease-out;
+        color: white;
+        text-shadow: 0 0 3px rgba(0,0,0,0.8);
+        text-rendering: optimizelegibility;
+    }
+    #photos-grid .photo-overlay:hover .bottom-right {
+        opacity: 1;
+    }
+    #photos-grid .photo-overlay .user-information a {
+        color: #FFF;
+    }
     #photos-grid .photo-overlay .new-tag {
         -webkit-animation: smallerCircle 0.5s ease;
         -moz-animation: smallerCircle 0.5s ease;
@@ -387,6 +406,9 @@ div.photo-overlay {
     .popover-product {
         min-width: 250px;
     }
+        .popover-product .brand-logo {
+            max-height: 50px;
+        }
 .tag .map {
     width: 270px;
     height: 260px;
@@ -436,20 +458,31 @@ div.photo-overlay {
 ----------------------- */
 
 /* Ticker */
-ul#ticker-photos {
+#ticker-photos {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-    ul#ticker-photos li {
+    #ticker-photos li {
         float: left;
         margin: 2px;
     }
-    ul#ticker-photos .ticker-item-container {
+    #ticker-photos .ticker-item-container {
         position: relative;
         color: white;
     }
-    ul#ticker-photos .ticker-item-overlay {
+    .ticker-item-container .counters {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        -webkit-transition: opacity 0.4s ease-out;
+        -moz-transition: opacity 0.4s ease-out;
+        -ms-transition: opacity 0.4s ease-out;
+        -o-transition: opacity 0.4s ease-out;
+        transition: opacity 0.4s ease-out;
+        opacity: 0;
+    }
+    #ticker-photos .ticker-item-overlay {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -463,21 +496,22 @@ ul#ticker-photos {
                 transition: opacity 0.4s ease-out;
         opacity: 0;
     }
-    ul#ticker-photos .ticker-item-container:hover .ticker-item-overlay {
+    #ticker-photos .ticker-item-container:hover .ticker-item-overlay {
         background: rgba(0,0,0,0.5);
         opacity: 1;
     }
-    ul#ticker-photos .photo-caption {
+    #ticker-photos .photo-caption {
         position: absolute;
-        top: 6px;
+        top: 22px;
         left: 6px;
         opacity: 0;
         width: 100%;
         padding-right: 12px;
         box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
         word-wrap: break-word;
+        line-height: 1em;
     }
-    ul#ticker-photos .view-photo {
+    #ticker-photos .user-information {
         position: absolute;
         left: 6px;
         bottom: 6px;
@@ -487,9 +521,16 @@ ul#ticker-photos {
             -ms-transition: opacity 0.4s ease-out;
              -o-transition: opacity 0.4s ease-out;
                 transition: opacity 0.4s ease-out;
+        text-shadow: 0 0 3px rgba(0,0,0,0.8);
+        text-rendering: optimizelegibility;
+        font-size: 11px;
     }
-    ul#ticker-photos .ticker-item-container:hover .photo-caption,
-    ul#ticker-photos .ticker-item-container:hover .view-photo {
+    #ticker-photos .user-information a {
+        color: white;
+    }
+    #ticker-photos .ticker-item-container:hover .counters,
+    #ticker-photos .ticker-item-container:hover .photo-caption,
+    #ticker-photos .ticker-item-container:hover .user-information {
         opacity: 1;
         z-index: 2;
     }

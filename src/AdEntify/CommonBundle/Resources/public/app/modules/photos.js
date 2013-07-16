@@ -31,6 +31,9 @@ define([
          this.set('fullMediumUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
          this.set('fullLargeUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
          this.set('fullSmallUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
+         this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
+         if (this.has('owner'))
+            this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
       }
    });
 
@@ -124,8 +127,6 @@ define([
       },
 
       afterRender: function() {
-         var that = this;
-
          if (typeof this.title !== "undefined")
             $(this.el).find('.photos-title').html(this.title);
 

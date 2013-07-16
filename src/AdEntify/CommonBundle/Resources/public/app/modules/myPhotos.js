@@ -44,6 +44,9 @@ define([
          this.set('fullMediumUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
          this.set('fullLargeUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
          this.set('fullSmallUrl', app.rootUrl + '/uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
+         this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
+         if (this.has('owner'))
+            this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
       }
    });
 
@@ -70,6 +73,10 @@ define([
                   that.insertView(".tags", new Tag.Views.PersonItem({
                      model: new Tag.Model(tag)
                   }));
+               } else if (tag.type == 'product') {
+                  that.insertView(".tags", new Tag.Views.ProductItem({
+                     model: new Tag.Model(tag)
+                  }));
                } else {
                   that.insertView(".tags", new Tag.Views.Item({
                      model: new Tag.Model(tag)
@@ -77,6 +84,12 @@ define([
                }
             });
          }
+      },
+
+      afterRender: function() {
+         $(this.el).find('img').load(function() {
+            $(this).animate({'opacity': '1.0'});
+         });
       },
 
       showTags: function() {
@@ -124,6 +137,7 @@ define([
 
       afterRender: function() {
          var that = this;
+         $(this.el).i18n();
          $(this.el).find('.photos-title').html(this.title);
          container = this.$('#photos-grid');
 
