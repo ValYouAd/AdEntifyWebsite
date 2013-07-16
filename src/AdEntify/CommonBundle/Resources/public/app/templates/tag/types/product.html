@@ -5,5 +5,10 @@
     <% if (model.get("description")) { %>
     <p><%= model.get("description") %></p>
     <% } %>
+    <% if (model.has("product") && model.get("product")["brand"]) { %>
+    <div class="brand pull-right">
+        <img src="<%= model.get("product")["brand"]["small_logo_url"] %>" alt="<%= model.get("product")["brand"]["name"] %>" class="brand-logo" />
+    </div>
+    <% } %>
     <a href="<%= model.get("product")["purchase_url"] %>" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a>
 </div>

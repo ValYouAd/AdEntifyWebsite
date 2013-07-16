@@ -406,6 +406,9 @@ div.photo-overlay {
     .popover-product {
         min-width: 250px;
     }
+        .popover-product .brand-logo {
+            max-height: 50px;
+        }
 .tag .map {
     width: 270px;
     height: 260px;
@@ -499,13 +502,14 @@ div.photo-overlay {
     }
     #ticker-photos .photo-caption {
         position: absolute;
-        top: 6px;
+        top: 22px;
         left: 6px;
         opacity: 0;
         width: 100%;
         padding-right: 12px;
         box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
         word-wrap: break-word;
+        line-height: 1em;
     }
     #ticker-photos .user-information {
         position: absolute;

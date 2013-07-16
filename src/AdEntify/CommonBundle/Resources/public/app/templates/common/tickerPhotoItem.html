@@ -3,7 +3,7 @@
     <span class="photo-caption"><small><%= model.get("caption") %></small></span>
     <img src="<%= model.get("fullSmallUrl") %>" />
     <div class="user-information text-right">
-        <% if (model.get("owner")["facebook_id"]) { %><img src="https://graph.facebook.com/<%= model.get("owner")["facebook_id"] %>/picture?width=15&height=15" alt="<%= model.get("fullname") %>" /><% } %> <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a>
+        <% if (model.get("owner")["facebook_id"]) { %><img src="https://graph.facebook.com/<%= model.get("owner")["facebook_id"] %>/picture?width=20&height=20" alt="<%= model.get("fullname") %>" /><% } %> <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a>
     </div>
     <div class="counters text-right">
         <i class="icon-heart icon-white"></i> <%= model.get("likes_count") %> <i class="icon-tag icon-white"></i> <%= model.get("tags_count") %>
