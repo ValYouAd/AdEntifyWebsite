@@ -1,9 +1,14 @@
 <% if (model.get('type') == 'product') { %>
-    <img src="<%= model.get('product')['small_url'] %>" class="mh35 p5 pull-left" /> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh35 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
 <% } else if (model.get('type') == 'person') { %>
-    <img src="https://graph.facebook.com/<%= model.get('person')['facebook_id'] %>/picture?type=square" class="mh35 p5 pull-left" /> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<a href="photo/<%= model.get('photo')['id'] %>/"><img src="https://graph.facebook.com/<%= model.get('person')['facebook_id'] %>/picture?type=square" class="mh35 p5 pull-left" /></a> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
 <% } else { %>
-    <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh35 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
 <% } %>
- <small class="muted"> Photo : <%= model.get('photo')['caption']  %></small>
+<div>
+    <div class="pull-right">
+        <i class="icon-heart"></i> <%= model.get("photo")["likes_count"] %> <i class="icon-tag"></i> <%= model.get("photo")["tags_count"] %>
+    </div>
+    <small>Par <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a></small>
+</div>
 <div class="clearfix"></div>

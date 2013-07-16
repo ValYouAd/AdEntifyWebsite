@@ -418,17 +418,22 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#content": new Photos.Views.Content({
                photos: this.photos,
                userId: id,
-               tagged: true
+               tagged: true,
+               title: $.t('profile.memberPhotos')
             }),
             "#menu-right": new Profile.Views.MenuRight({
                user: new Profile.Model({
                   id: id
-               })
+               }),
+               likesPhotos: this.tickerPhotos
             })
          }).render();
 
          this.photos.fetch({
             url: Routing.generate('api_v1_get_user_photos', { id: id })
+         });
+         this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_user_liked_photos', { id: id })
          });
       },
 

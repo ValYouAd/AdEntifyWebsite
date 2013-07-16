@@ -37,7 +37,8 @@ require.config({
         "deps": [
            "jquery",
            "facebook",
-           "bootstrap"
+           "bootstrap",
+           "i18next2"
         ]
      },
      "jquery-ui": {

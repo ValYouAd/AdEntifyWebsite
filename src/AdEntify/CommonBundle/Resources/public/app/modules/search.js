@@ -4,7 +4,20 @@ define([
 
    var Search = app.module();
 
-   Search.Model = Backbone.Model.extend({});
+   Search.Model = Backbone.Model.extend({
+      initialize: function() {
+         this.listenTo(this, {
+            'change': this.updateUrl,
+            'add': this.updateUrl
+         });
+      },
+
+      updateUrl: function() {
+         this.set('photoSmallUrl', app.rootUrl + 'uploads/photos/users/' + this.get('photo')['owner']['id'] + '/small/' + this.get('photo')['small_url']);
+         this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('photo')['owner']['id'] }));
+         this.set('fullname', this.get('photo')['owner']['firstname'] + ' ' + this.get('photo')['owner']['lastname']);
+      }
+   });
 
    Search.Collection = Backbone.Collection.extend({
       model: Search.Model,
