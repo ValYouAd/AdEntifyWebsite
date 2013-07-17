@@ -137,7 +137,9 @@
       "pageTitle": "__name__ - Profil AdEntify",
       "loadingProfile": "Chargement du profil en cours...",
       "memberPhotos": "Photos de l'utilisateur",
-      "lastLikedPhotos": "Dernières photos aimés"
+      "lastLikedPhotos": "Dernières photos aimés",
+      "noLikedPhotos": "L'utilisateur n'a aimé aucune photo pour le moment.",
+      "errorLikedPhotos": "Impossible de récupérer les photos aimés."
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",

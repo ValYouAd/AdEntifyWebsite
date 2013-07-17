@@ -7,8 +7,9 @@
  */
 define([
    "app",
-   "modules/photos"
-], function(app, Photos) {
+   "modules/photos",
+   "modules/common"
+], function(app, Photos, Common) {
 
    var Profile = app.module();
 
@@ -67,7 +68,23 @@ define([
             "sync": this.render
          });
          this.listenTo(this.options.likesPhotos, {
-            "sync": this.render
+            "sync": function(collection) {
+               if (collection.length == 0) {
+                  app.useLayout().setView('.alert-ticker-photos', new Common.Views.Alert({
+                     cssClass: Common.alertInfo,
+                     message: $.t('profile.noLikedPhotos'),
+                     showClose: true
+                  })).render();
+               }
+               this.render();
+            },
+            "error": function() {
+               app.useLayout().setView('.alert-ticker-photos', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('profile.errorLikedPhotos'),
+                  showClose: true
+               })).render();
+            }
          });
          var that = this;
          this.model = this.options.user;
