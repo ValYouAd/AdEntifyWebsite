@@ -4,12 +4,14 @@ namespace AdEntify\CommonBundle\Controller;
 
 use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\FileTools;
+use Doctrine\Tests\Common\Annotations\False;
 use FOS\OAuthServerBundle\Event\OAuthEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
 {
@@ -184,6 +186,20 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('loggedInHome', array(
             '_locale' => $locale
         )));
+    }
+
+    /**
+     * @Route("/r/{id}", name="redirect_url")
+     */
+    public function redirectAction($id)
+    {
+        $shortUrl = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:ShortUrl')
+            ->findByBase64IdAndUpdateCounter($id);
+        if ($shortUrl !== false) {
+            return $this->redirect($shortUrl->getUrl(), 301);
+        } else {
+            throw new NotFoundHttpException('Redirect url not found');
+        }
     }
 
     /**
