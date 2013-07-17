@@ -15,7 +15,7 @@ define([
       hoveredTags: [],
       clickedTags: [],
 
-      tagHover: function(tag) {
+      hover: function(tag) {
          hoveredTag = _.find(this.hoveredTags, function(t) {
             return t.get('id') == tag.get('id') ? true : false;
          });
@@ -25,7 +25,7 @@ define([
          }
       },
 
-      tagClick: function(tag) {
+      click: function(tag) {
          clickedTags = _.find(this.clickedTags, function(t) {
             return t.get('id') == tag.get('id') ? true : false;
          });

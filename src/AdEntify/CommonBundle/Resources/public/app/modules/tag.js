@@ -61,7 +61,7 @@ define([
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
          $(this.el).find('.popover').show();
-         app.tagStats().tagHover(this.model);
+         app.tagStats().hover(this.model);
       },
 
       hoverOut: function() {
@@ -71,9 +71,14 @@ define([
          }, 200);
       },
 
+      clickTag: function() {
+         app.tagStats().click(this.model);
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
-         "mouseleave .tag": "hoverOut"
+         "mouseleave .tag": "hoverOut",
+         "click a[href]": "clickTag"
       }
    });
 
@@ -93,7 +98,7 @@ define([
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
          $(this.el).find('.popover').show();
-         app.tagStats().tagHover(this.model);
+         app.tagStats().hover(this.model);
       },
 
       hoverOut: function() {
@@ -103,9 +108,14 @@ define([
          }, 200);
       },
 
+      clickTag: function() {
+         app.tagStats().click(this.model);
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
-         "mouseleave .tag": "hoverOut"
+         "mouseleave .tag": "hoverOut",
+         "click a[href]": "clickTag"
       }
    });
 
@@ -144,7 +154,7 @@ define([
             });
             $('#map' + this.model.get('id')).addClass('loaded');
          }
-         app.tagStats().tagHover(this.model);
+         app.tagStats().hover(this.model);
       },
 
       hoverOut: function() {
@@ -154,9 +164,14 @@ define([
          }, 200);
       },
 
+      clickTag: function() {
+         app.tagStats().click(this.model);
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
-         "mouseleave .tag": "hoverOut"
+         "mouseleave .tag": "hoverOut",
+         "click a[href]": "clickTag"
       }
    });
 
@@ -195,7 +210,7 @@ define([
             });
             $('#map' + this.model.get('id')).addClass('loaded');
          }
-         app.tagStats().tagHover(this.model);
+         app.tagStats().hover(this.model);
       },
 
       hoverOut: function() {
@@ -205,9 +220,14 @@ define([
          }, 200);
       },
 
+      clickTag: function() {
+         app.tagStats().click(this.model);
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
-         "mouseleave .tag": "hoverOut"
+         "mouseleave .tag": "hoverOut",
+         "click a[href]": "clickTag"
       }
    });
 
