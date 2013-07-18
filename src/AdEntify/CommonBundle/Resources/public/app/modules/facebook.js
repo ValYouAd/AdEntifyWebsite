@@ -86,6 +86,107 @@ define([
             if (options.success)
                options.success(this.get('friends'));
          }
+      },
+
+      createBrandTagStory: function(brand, photo) {
+         FB.api(
+            'me/objects/testkeitboor:brand',
+            'post',
+            {
+               object: {
+                  app_id: facebookAppId,
+                  type: "testkeitboor:brand",
+                  title: brand.name,
+                  url: app.beginUrl + app.root + $.t('routing.brands/')
+               }
+            }, function(response) {
+               if (typeof response.error === "undefined") {
+                  FB.api(
+                     'me/testkeitboor:tag',
+                     'post',
+                     {
+                        image : app.rootUrl + 'uploads/photos/users/' + photo.get('owner')['id'] + '/large/' + photo.get('large_url'),
+                        url: app.beginUrl + app.root + $.t('routing.photo/id/', { id: photo.get('id')}),
+                        brand: response.id
+                     },
+                     function(response) {
+                     }
+                  );
+               }
+            }
+         );
+      },
+
+      createVenueStory: function(venue, photo) {
+         FB.api(
+            'me/objects/testkeitboor:venue',
+            'post',
+            {
+               object: {
+                  app_id: facebookAppId,
+                  type: "testkeitboor:venue",
+                  title: venue.get('name'),
+                  description: venue.get('description'),
+                  url: app.beginUrl + app.root + $.t('routing.photo/id/', { id: photo.get('id')}),
+                  data: {
+                     location: {
+                        latitude: venue.get('lat'),
+                        longitude: venue.get('lng'),
+                        altitude: '0'
+                     }
+                  }
+               }
+            }, function(response) {
+               if (typeof response.error === "undefined") {
+                  FB.api(
+                     'me/testkeitboor:tag',
+                     'post',
+                     {
+                        image : app.rootUrl + 'uploads/photos/users/' + photo.get('owner')['id'] + '/large/' + photo.get('large_url'),
+                        url: app.beginUrl + app.root + $.t('routing.photo/id/', { id: photo.get('id')}),
+                        venue: response.id
+                     },
+                     function(response) {
+                     }
+                  );
+               }
+            }
+         );
+      },
+
+      createPersonStory: function(person, photo) {
+         FB.api(
+            'me/objects/profile',
+            'post',
+            {
+               object: {
+                  app_id: facebookAppId,
+                  type: "profile",
+                  title: person.get('firstname') + ' ' + person.get('lastname'),
+                  url: app.beginUrl + app.root + $.t('routing.profile/id/', { id: person.get('id') }),
+                  data: {
+                     first_name: person.get('firstname'),
+                     last_name: person.get('lastname'),
+                     gender: person.get('gender'),
+                     profile_id: person.get('facebookId')
+                  }
+               }
+            }, function(response) {
+               if (typeof response.error === "undefined") {
+                  FB.api(
+                     'me/testkeitboor:tag',
+                     'post',
+                     {
+                        image : app.rootUrl + 'uploads/photos/users/' + photo.get('owner')['id'] + '/large/' + photo.get('large_url'),
+                        url: app.beginUrl + app.root + $.t('routing.photo/id/', { id: photo.get('id')}),
+                        profile: response.id
+                     },
+                     function(response) {
+                     }
+                  );
+               }
+            }
+         );
       }
    });
 

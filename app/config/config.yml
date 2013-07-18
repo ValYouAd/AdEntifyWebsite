@@ -168,7 +168,7 @@ parameters:
     twitter_consumer_secret:  d27XZ9UpNyowFiLpugC1EhC8xwdQlwcwtrkTHIXE
     facebook_app_id:          159587157398776
     facebook_secret:          6465372f50a4b1e570cfe4ce7fd62cca
-    facebook_permissions:     email,user_birthday,user_photos,friends_photos,read_friendlists
+    facebook_permissions:     email,user_birthday,user_photos,friends_photos,read_friendlists,publish_actions
     root_url:                 "http://localhost/AdEntifyFacebookApp/web/"
 
 # Twig globals
