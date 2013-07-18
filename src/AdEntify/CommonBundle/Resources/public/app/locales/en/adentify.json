@@ -151,11 +151,15 @@
       "placeHolderKeywords": "Tapez votre mot clé",
       "inProgress": "Recherche en cours..."
    },
+   "comment": {
+      "noComments": "No comments"
+   },
    "common": {
       "viewPhoto": "view photo",
       "submit": "Submit",
       "cancel": "Cancel",
-      "searchButton": "Rechercher"
+      "searchButton": "Rechercher",
+      "formatDate": "__month__/__day__/__year__ at __hours__h__minutes__"
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",

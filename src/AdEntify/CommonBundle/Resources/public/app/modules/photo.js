@@ -9,8 +9,9 @@ define([
    "app",
    "modules/tag",
    "modules/common",
+   "modules/comment",
    "pinterest"
-], function(app, Tag, Common) {
+], function(app, Tag, Common, Comment) {
 
    var Photo = app.module();
    var loaded = false;
@@ -52,12 +53,43 @@ define([
 
    Photo.Views.Item = Backbone.View.extend({
       template: "photo/item",
-
       tagName: "div",
+
+      initialize: function() {
+         this.model = this.options.photo;
+
+         this.listenTo(this.options.photo, {
+            "error": function() {
+               app.useLayout().setView('#content', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('photo.errorLoading'),
+                  showClose: true
+               }), true).render();
+            },
+            "sync": function(model, resp) {
+               if (resp == null) {
+                  app.useLayout().setView('#content', new Common.Views.Alert({
+                     cssClass: Common.alertInfo,
+                     message: $.t('photo.noPhoto'),
+                     showClose: true
+                  }), true).render();
+               } else {
+                  app.trigger('domchange:title', this.options.photo.get('caption'));
+               }
+               this.render();
+            }
+         });
+
+         // Comments
+         app.useLayout().setView('.comments', new Comment.Views.List({
+            comments: this.options.comments,
+            photoId: this.options.photoId
+         }));
+      },
 
       serialize: function() {
          return {
-            model: this.model,
+            model: this.options.photo,
             pageUrl: window.location.href
          };
       },
@@ -93,6 +125,7 @@ define([
             $('#photo').fadeIn();
          });
          FB.XFBML.parse();
+         app.useLayout().getView('.comments').render();
       },
 
       like: function() {
@@ -122,58 +155,6 @@ define([
          "click .like-button": "like",
          "click .adentify-pastille": "showTags",
          "click .favorite-button": "favorite"
-      }
-   });
-
-   Photo.Views.Content = Backbone.View.extend({
-      template: "photo/content",
-
-      beforeRender: function() {
-         this.insertView('#photo', new Photo.Views.Item({
-            model: this.options.photo
-         }));
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-         if (loaded) {
-            $('#loading-photo').fadeOut(200);
-         }
-      },
-
-      initialize: function() {
-         var that = this;
-         app.oauth.loadAccessToken({
-            success: function() {
-               that.options.photo.fetch({
-                  success: function(model, resp) {
-                     if (resp == null) {
-                        app.useLayout().setView('#content', new Common.Views.Alert({
-                           cssClass: Common.alertInfo,
-                           message: $.t('photo.noPhoto'),
-                           showClose: true
-                        }), true).render();
-                     } else {
-                        app.trigger('domchange:title', that.options.photo.get('caption'));
-                     }
-                     loaded = true;
-                  }
-               });
-            },
-            error: function() {
-               app.useLayout().setView('#content', new Common.Views.Alert({
-                  cssClass: Common.alertError,
-                  message: $.t('photo.errorLoading'),
-                  showClose: true
-               }), true).render();
-            }
-         });
-         this.listenTo(this.options.photo, {
-            'sync': this.render
-         });
-         this.listenTo(this.options.comments, {
-           'sync': this.render
-         });
       }
    });
 

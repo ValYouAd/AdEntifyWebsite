@@ -31,6 +31,10 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions) {
          if (typeof this.photoActionsObj === 'undefined')
             this.photoActionsObj = new PhotoActions.Model();
          return this.photoActionsObj;
+      },
+      formatDate: function(stringDate) {
+         var date = new Date(stringDate);
+         return $.t('common.formatDate', { 'day': date.getDate(), 'month' : date.getMonth(), 'year': date.getFullYear(), 'hours': date.getHours(), 'minutes': date.getMinutes() });
       }
    });
 
