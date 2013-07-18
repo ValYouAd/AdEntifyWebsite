@@ -1,0 +1,9 @@
+<% if (model.get("author")["facebook_id"]) { %>
+<a class="pull-left" href="<%= model.get("profileLink") %>">
+    <img class="media-object" src="https://graph.facebook.com/<%= model.get("author")["facebook_id"] %>/picture?width=64&height=64" alt="<%= model.get("fullname") %>">
+</a>
+<% } %>
+<div class="media-body">
+    <h4 class="media-heading">Posté par <%= model.get("fullname") %> le <%= model.get("date") %></h4>
+    <p><%= model.get("body") %></p>
+</div>
