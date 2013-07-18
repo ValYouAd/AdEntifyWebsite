@@ -18,11 +18,11 @@ define([
    Comment.Collection = Backbone.Collection.extend({
       model: Comment.Model,
       cache: true,
-      url: Routing.generate('api_v1_get_brands')
+      url: Routing.generate('api_v1_get_comments')
    });
 
    Comment.Views.Item = Backbone.View.extend({
-      template: "brand/item",
+      template: "comment/item",
       tagName: "li class='thumbnail span3'",
 
       serialize: function() {
@@ -35,19 +35,19 @@ define([
    });
 
    Comment.Views.List = Backbone.View.extend({
-      template: "brand/list",
+      template: "comment/list",
 
       serialize: function() {
          return {
-            collection: this.options.brands,
-            brandsCount: typeof this.options.brands !== 'undefined' ? this.options.brands.length : 0
+            collection: this.options.comments,
+            commentsCount: typeof this.options.comments !== 'undefined' ? this.options.comments.length : 0
          };
       },
 
       beforeRender: function() {
-         this.options.brands.each(function(brand) {
-            this.insertView("#brands", new Comment.Views.Item({
-               model: brand
+         this.options.comments.each(function(comment) {
+            this.insertView("#comments", new Comment.Views.Item({
+               model: comment
             }));
          }, this);
       },
@@ -58,10 +58,9 @@ define([
 
       initialize: function() {
          var that = this;
-         this.listenTo(this.options.brands, {
+         this.listenTo(this.options.comments, {
             "sync": this.render
          });
-         app.trigger('domchange:title', $.t('brand.pageTitle'));
       }
    });
 
