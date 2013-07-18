@@ -21,12 +21,13 @@ define([
    "modules/profile",
    "modules/common",
    "modules/category",
-   "modules/search"
+   "modules/search",
+   "modules/comment"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile,
-         Common, Category, Search) {
+         Common, Category, Search, Comment) {
    var searchSetup = false;
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -72,7 +73,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             flrPhotos: new FlickrPhotos.Collection(),
             brands: new Brand.Collection(),
             categories: new Category.Collection(),
-            searchResults: new Search.Collection()
+            searchResults: new Search.Collection(),
+            comments: new Comment.Collection()
          };
          _.extend(this, collections);
 
@@ -377,7 +379,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          app.useLayout().setViews({
             "#content": new Photo.Views.Content({
-               photo: new Photo.Model({ 'id': id })
+               photo: new Photo.Model({ 'id': id }),
+               comments: this.comments
             }),
             "#menu-right": new MyPhotos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos,
@@ -387,6 +390,9 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
          this.myTickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
+         });
+         this.comments.fetch({
+            url: Routing.generate('api_v1_get_photo_comments', { id: id })
          });
       },
 

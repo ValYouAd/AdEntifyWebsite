@@ -171,6 +171,9 @@ define([
          this.listenTo(this.options.photo, {
             'sync': this.render
          });
+         this.listenTo(this.options.comments, {
+           'sync': this.render
+         });
       }
    });
 
