@@ -377,10 +377,12 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
       photoDetail: function(id) {
          this.reset();
 
+         var photo = new Photo.Model({ 'id': id });
          app.useLayout().setViews({
-            "#content": new Photo.Views.Content({
-               photo: new Photo.Model({ 'id': id }),
-               comments: this.comments
+            "#content": new Photo.Views.Item({
+               photo: photo,
+               comments: this.comments,
+               photoId: id
             }),
             "#menu-right": new MyPhotos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos,
@@ -388,6 +390,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             })
          }).render();
 
+         photo.fetch();
          this.myTickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
          });
