@@ -450,9 +450,37 @@ div.photo-overlay {
     }
     .search-results-list li {
         margin: 4px 0px;
+        border-bottom: 1px solid #eeeeee;
     }
 /*
 ----------------------- */
+
+/* MODULE : Notifications
+----------------------- */
+#notifications {
+    position: relative;
+}
+    #notifications .popover {
+        position: absolute;
+        top: 35px;
+        left: auto;
+        right: 0px;
+        min-width: 300px;
+    }
+    .notifications-list .pull-left {
+        margin-right: 5px;
+    }
+    .notifications-list {
+        list-style-type: none;
+        margin: 0;
+    }
+    .notifications-list li {
+        padding: 5px;
+        border-bottom: 1px solid #eeeeee;
+    }
+/*
+----------------------- */
+
 
 /* Common Templates
 ----------------------- */

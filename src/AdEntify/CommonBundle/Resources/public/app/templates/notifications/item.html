@@ -1,0 +1,12 @@
+<div class="status pull-left">
+    <% if (model.get('status') == 'read') { %>
+    <span class="label label-success"><i class="icon-ok icon-white"></i></span>
+    <% } %>
+</div>
+<div class="pull-right">
+    <% if (model.get('status') == 'unread') { %>
+    <button class="btn btn-success btn-mini button-read"><i class="icon-white icon-ok"></i> <span data-i18n="notification.read"></span></button>
+    <% } %>
+</div>
+<div class="message"><%= model.get("message") %></div>
+<div class="clearfix"></div>

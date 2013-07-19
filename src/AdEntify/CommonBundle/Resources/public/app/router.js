@@ -22,13 +22,17 @@ define([
    "modules/common",
    "modules/category",
    "modules/search",
-   "modules/comment"
+   "modules/comment",
+   "modules/notifications"
 ],
 
 function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile,
-         Common, Category, Search, Comment) {
+         Common, Category, Search, Comment, Notifications) {
+
    var searchSetup = false;
+   var notificationsSetup = false;
+
    var Router = Backbone.Router.extend({
       initialize: function() {
          this.listenTo(this, {
@@ -74,7 +78,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             brands: new Brand.Collection(),
             categories: new Category.Collection(),
             searchResults: new Search.Collection(),
-            comments: new Comment.Collection()
+            comments: new Comment.Collection(),
+            notifications: new Notifications.Collection()
          };
          _.extend(this, collections);
 
@@ -604,6 +609,12 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             searchSetup = true;
             app.useLayout().setView('#search-bar', new Search.Views.Form({
                searchResults: this.searchResults
+            })).render();
+         }
+         if (!notificationsSetup) {
+            notificationsSetup = true;
+            app.useLayout().setView('#notifications', new Notifications.Views.List({
+               notifications: this.notifications
             })).render();
          }
       },
