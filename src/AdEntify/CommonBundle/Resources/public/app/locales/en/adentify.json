@@ -20,7 +20,11 @@
       "tools": "Tools",
       "addTagButton": "Add a tag",
       "legendPhotoDetails": "Photo details",
-      "labelTitle": "Caption"
+      "labelTitle": "Caption",
+      "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
+      "noPhotos": "Aucune photo à afficher.",
+      "titleFavorites": "Mes photos favorites",
+      "pageTitleFavorites": "My favorites photos - AdEntify"
    },
    "mySettings": {
       "pageTitle": "My settings - AdEntify",

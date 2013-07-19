@@ -22,7 +22,9 @@
       "legendPhotoDetails": "Détails de la photo",
       "labelTitle": "Titre",
       "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
-      "noPhotos": "Aucune photo à afficher."
+      "noPhotos": "Aucune photo à afficher.",
+      "titleFavorites": "Mes photos favorites",
+      "pageTitleFavorites": "Mes photos favorites - AdEntify"
    },
    "mySettings": {
       "pageTitle": "Mes paramètres - AdEntify",
