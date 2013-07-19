@@ -126,6 +126,12 @@ category:
     options:
         expose: true
 
+notification:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\NotificationsController
+    options:
+        expose: true
+
 # OAuth
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"

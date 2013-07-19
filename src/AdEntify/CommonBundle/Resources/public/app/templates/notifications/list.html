@@ -1,0 +1,5 @@
+<button class="btn btn-small notifications-button" title="Notifications" data-toggle="button"><i class="icon-flag"></i><% if (notifications && notifications.length > 0) { %> <span class="badge badge-important"><%= notifications.length %></span><% } %></button>
+<div class="popover fadeOut">
+    <div class="alert-notifications"></div>
+    <ul class="notifications-list"></ul>
+</div>
