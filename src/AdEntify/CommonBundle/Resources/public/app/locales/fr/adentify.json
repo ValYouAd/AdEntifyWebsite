@@ -22,7 +22,9 @@
       "legendPhotoDetails": "Détails de la photo",
       "labelTitle": "Titre",
       "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
-      "noPhotos": "Aucune photo à afficher."
+      "noPhotos": "Aucune photo à afficher.",
+      "titleFavorites": "Mes photos favorites",
+      "pageTitleFavorites": "Mes photos favorites - AdEntify"
    },
    "mySettings": {
       "pageTitle": "Mes paramètres - AdEntify",
@@ -164,6 +166,11 @@
       "noBody": "Veuillez tapez un message avant de valider votre message",
       "addButtonLoading": "Ajout en cours...",
       "errorCommentPost": "Une erreur est survenue lors de l'ajout de votre commentaire. Veuillez réessayer"
+   },
+   "notification": {
+      "read": "lu",
+      "unread": "non lu",
+      "inProgress": "Récupération des notifications en cours..."
    },
    "common": {
       "viewPhoto": "voir la photo",

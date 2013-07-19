@@ -20,7 +20,11 @@
       "tools": "Tools",
       "addTagButton": "Add a tag",
       "legendPhotoDetails": "Photo details",
-      "labelTitle": "Caption"
+      "labelTitle": "Caption",
+      "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
+      "noPhotos": "Aucune photo à afficher.",
+      "titleFavorites": "Mes photos favorites",
+      "pageTitleFavorites": "My favorites photos - AdEntify"
    },
    "mySettings": {
       "pageTitle": "My settings - AdEntify",
@@ -152,7 +156,17 @@
       "inProgress": "Recherche en cours..."
    },
    "comment": {
-      "noComments": "No comments"
+      "noComments": "No comments",
+      "addTitle": "Ecrire un commentaire",
+      "labelBody": "Tapez votre message",
+      "addButton": "Valider",
+      "noBody": "Veuillez tapez un message avant de valider votre message",
+      "addButtonLoading": "Ajout en cours...",
+      "errorCommentPost": "Une erreur est survenue lors de l'ajout de votre commentaire. Veuillez réessayer"
+   },
+   "notification": {
+      "read": "lu",
+      "unread": "non lu"
    },
    "common": {
       "viewPhoto": "view photo",

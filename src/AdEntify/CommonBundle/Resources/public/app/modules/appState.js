@@ -9,6 +9,10 @@ define([
          locale: currentLocale
       },
 
+      getCurrentUserId: function() {
+         return currentUserId;
+      },
+
       getLocale: function() {
          return this.get('locale');
       },
