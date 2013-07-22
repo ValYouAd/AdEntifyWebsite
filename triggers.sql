@@ -27,7 +27,6 @@ DELIMITER $$
 CREATE TRIGGER products_count AFTER INSERT ON `products`
  FOR EACH ROW BEGIN
     UPDATE brands SET products_count = products_count+1 WHERE id = NEW.brand_id;
-    UPDATE venues SET products_count = products_count+1 WHERE id = NEW.purchaseVenue_id;
  END$$
 DELIMITER ;
 
@@ -41,11 +40,20 @@ CREATE TRIGGER photos_count AFTER INSERT ON `photos`
  END$$
 DELIMITER ;
 
-# Mise à jour des compteurs de lieux
+# Mise à jour des compteurs de lieux/marques
 DROP TRIGGER IF EXISTS  `venues_count`;
 DELIMITER $$
-CREATE TRIGGER venues_count AFTER INSERT ON `brand_venue`
+CREATE TRIGGER venues_count AFTER INSERT ON `venue_brand`
  FOR EACH ROW BEGIN
     UPDATE brands b SET b.venues_count = b.venues_count+1 WHERE b.id = NEW.brand_id;
+ END$$
+DELIMITER ;
+
+# Mise à jour des compteurs de lieux/produits
+DROP TRIGGER IF EXISTS  `venues_count`;
+DELIMITER $$
+CREATE TRIGGER venues_count AFTER INSERT ON `venue_product`
+ FOR EACH ROW BEGIN
+    UPDATE venues v SET v.products_count = v.products_count+1 WHERE v.id = NEW.venue_id;
  END$$
 DELIMITER ;
