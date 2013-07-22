@@ -295,8 +295,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Upload.Views.Content(),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos()
+            "#content": new Upload.Views.Content()
          }).render();
       },
 
