@@ -174,7 +174,8 @@
       "read": "lu",
       "unread": "non lu",
       "inProgress": "Récupération des notifications en cours...",
-      "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer."
+      "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer.",
+      "noNotifications": "Aucune notification pour le moment"
    },
    "common": {
       "viewPhoto": "voir la photo",

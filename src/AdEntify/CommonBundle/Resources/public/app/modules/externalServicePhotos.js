@@ -57,12 +57,21 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-         if (this.categories.length > 0)
+         if (this.categories.length > 0) {
+            var that = this;
             $(this.el).find('.selectCategories').select2();
+            $(this.el).find('.selectCategories').on('change', function() {
+               that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
+            });
+         }
+         $(this.el).find('.photos-confidentiality').change(function() {
+            if ($(this).val())
+               that.model.set('confidentiality', $(this).val());
+         });
       },
 
       initialize: function() {
-         this.listenTo(this.model, "change", this.render);
+         //this.listenTo(this.model, "change", this.render);
          this.categories = this.options.categories;
       },
 
@@ -133,8 +142,8 @@ define([
             })).render();
          });
          app.on('externalPhotos:uploadingInProgress', function() {
-            $('#uploadInProgressModal').modal({
-               backdrop: false,
+            $('#uploadInProgressModal').appendTo("body").modal({
+               backdrop: true,
                show: true
             });
             $('#uploadInProgressModal').on('hidden', function() {
@@ -169,7 +178,8 @@ define([
          btn.button('loading');
          confidentiality = $('#photos-confidentiality option:selected').val() == 'private' ? 'private' : 'public';
          app.trigger('externalServicePhoto:submitPhotos', {
-            confidentiality: confidentiality
+            confidentiality: confidentiality,
+            categories: $(this.el).find('.selectCategories').select2('val')
          });
       },
 
@@ -210,6 +220,24 @@ define([
             that.checkedAlbums.push(album);
             that.checkAlbumsSelected();
          });
+         app.on('externalPhotos:uploadingError', function() {
+            btn = $('.submit-photos');
+            btn.button('reset');
+            app.useLayout().setView('.alert-upload-photos', new Common.Views.Alert({
+               cssClass: Common.alertError,
+               message: $.t('externalServicePhotos.uploadingError'),
+               showClose: true
+            })).render();
+         });
+         app.on('externalPhotos:uploadingInProgress', function() {
+            $('#uploadInProgressModal').appendTo("body").modal({
+               backdrop: true,
+               show: true
+            });
+            $('#uploadInProgressModal').on('hidden', function() {
+               Backbone.history.navigate($.t('routing.my/adentify/'), true);
+            });
+         });
          app.on('externalServicePhotos:cancelSelectAlbum', function(album) {
             index = _.indexOf(that.checkedAlbums, album);
             if (index > -1)
@@ -243,8 +271,10 @@ define([
          btn = $('.submit-photos');
          btn.button('loading');
          confidentiality = $('#photos-confidentiality option:selected').val() == 'private' ? 'private' : 'public';
-         app.trigger('externalServicePhoto:submitPhotos', {
-            confidentiality: confidentiality
+         app.trigger('externalServicePhoto:submitAlbums', {
+            /*confidentiality: confidentiality,
+            categories: $(this.el).find('.selectCategories').select2('val'),*/
+            albums: this.checkedAlbums
          });
       },
 

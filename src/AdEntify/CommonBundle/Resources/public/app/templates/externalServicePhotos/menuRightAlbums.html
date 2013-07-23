@@ -1,4 +1,5 @@
 <div class="external-albums mt3">
+    <div class="alert-upload-photos"></div>
     <div class="no-album-selected">
         <div class="alert fade in alert-info">
             <span data-i18n="externalServicePhotos.noSelectedAlbum"></span>
@@ -6,7 +7,7 @@
     </div>
     <div class="albums-selected fadeOut">
         <p><span data-i18n="externalServicePhotos.textSelectedAlbums"></span> <span class="album-count badge badge-success">0</span> <span data-i18n="externalServicePhotos.textSelectedAlbums2"></span></p>
-        <form>
+        <!--<form>
             <fieldset>
                 <legend data-i18n="externalServicePhotos.settings"></legend>
                 <label data-i18n="externalServicePhotos.labelPhotosConfidentiality"></label>
@@ -19,14 +20,27 @@
                     <% _.forEach(categories.models, function(category) { %>
                     <option value="<%= category.get('id') %>"><%= category.get('name') %></option>
                     <% }); %>
-                </select>
+                </select>-->
                 <label>
                     <input type="checkbox" checked="checked" class="photos-rights" /> <span data-i18n="externalServicePhotos.haveRights"></span>
                 </label>
                 <p class="text-center mt2">
                     <button class="submit-photos btn btn-success btn-large" data-i18n="[data-loading-text]externalServicePhotos.downloadAlbums;externalServicePhotos.submitAlbums"></button>
                 </p>
-            </fieldset>
-        </form>
+            <!--</fieldset>
+        </form>-->
+    </div>
+</div>
+
+<div id="uploadInProgressModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="uploadInProgressLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="uploadInProgressLabel" data-i18n="externalServicePhotos.modalUploadTitle"></h3>
+    </div>
+    <div class="modal-body">
+        <p data-i18n="externalServicePhotos.modalUploadText"></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" data-i18n="common.close"></button>
     </div>
 </div>
