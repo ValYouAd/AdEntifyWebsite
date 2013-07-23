@@ -1,4 +1,5 @@
 <div class="external-photos mt3">
+    <div class="alert-upload-photos"></div>
     <div class="no-photo-selected">
         <div class="alert fade in alert-info">
             <span data-i18n="externalServicePhotos.noSelectedPhoto"></span>
@@ -28,5 +29,18 @@
                 </p>
             </fieldset>
         </form>
+    </div>
+</div>
+
+<div id="uploadInProgressModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="uploadInProgressLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="uploadInProgressLabel" data-i18n="externalServicePhotos.modalUploadTitle"></h3>
+    </div>
+    <div class="modal-body">
+        <p data-i18n="externalServicePhotos.modalUploadText"></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" data-i18n="common.close"></button>
     </div>
 </div>

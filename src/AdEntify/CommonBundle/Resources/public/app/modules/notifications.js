@@ -20,7 +20,6 @@ define([
             'status': this.get('status')
          }}
       }
-
    });
 
    Notifications.Collection = Backbone.Collection.extend({
@@ -57,7 +56,8 @@ define([
       },
 
       events: {
-         "click .button-read": "notificationRead"
+         "click .button-read": "notificationRead",
+         "click a[href]": "notificationRead"
       }
    });
 

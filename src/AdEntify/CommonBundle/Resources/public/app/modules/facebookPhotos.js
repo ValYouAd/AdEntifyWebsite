@@ -99,15 +99,11 @@ define([
 
       loadPhotos: function() {
          var that = this;
-         FB.api(this.options.albumId + '/photos?limit=200', function(response) {
-            if (!response || response.error) {
+         app.fb.loadPhotos(this.options.albumId, function(response) {
+            if (response.error){
                error = response.error;
             } else {
-               var photos = [];
-               for (var i=0, l=response.data.length; i<l; i++) {
-                  photos[i] = response.data[i];
-               }
-               that.options.photos.add(photos);
+               that.options.photos.add(response);
             }
             $('#loading-photos').fadeOut('fast');
          });
@@ -140,7 +136,8 @@ define([
                   'largeHeight': $(image).data('large-height'),
                   'id': $(image).data('service-photo-id'),
                   'title' : $(image).data('title'),
-                  'confidentiality': options.confidentiality
+                  'confidentiality': options.confidentiality,
+                  'categories': options.categories
                };
                photoModel = that.photos.get(fbImage.id);
                if (photoModel.has('place')) {
@@ -154,16 +151,15 @@ define([
                url : Routing.generate('upload_load_external_photos'),
                type: 'POST',
                data: { 'images': fbImages, 'source': 'facebook' },
-               success: function(response) {
-                  if (!response.error) {
-                     // redirect to untagged tab
-                     Backbone.history.navigate($.t('routing.my/photos/untagged/'), true);
-                  } else {
-                     // TODO error
-                  }
+               success: function() {
+                  app.trigger('externalPhotos:uploadingInProgress');
                },
                error: function(e) {
-                  // TODO error
+                  // Hide loader
+                  $('#loading-upload').fadeOut('fast', function() {
+                     $('#photos-container').fadeIn('fast');
+                  });
+                  app.trigger('externalPhotos:uploadingError');
                }
             });
          }
