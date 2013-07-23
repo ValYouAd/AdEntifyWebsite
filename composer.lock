@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "668ebda876a8a7ff0d5d7b1beb78f418be4d2e36"
+                "reference": "ea7aa71a0baaccbd30065a69e3a69190bda4096e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/668ebda876a8a7ff0d5d7b1beb78f418be4d2e36",
-                "reference": "668ebda876a8a7ff0d5d7b1beb78f418be4d2e36",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/ea7aa71a0baaccbd30065a69e3a69190bda4096e",
+                "reference": "ea7aa71a0baaccbd30065a69e3a69190bda4096e",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-19 17:17:42"
+            "time": "2013-07-23 15:29:51"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -1159,12 +1159,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "2b9d365e0a0601147f84997c3f9cf530be959812"
+                "reference": "68b309fd36818139a11d320b65d26b57fbb23521"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/2b9d365e0a0601147f84997c3f9cf530be959812",
-                "reference": "2b9d365e0a0601147f84997c3f9cf530be959812",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/68b309fd36818139a11d320b65d26b57fbb23521",
+                "reference": "68b309fd36818139a11d320b65d26b57fbb23521",
                 "shasum": ""
             },
             "require": {
@@ -1248,7 +1248,7 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-07-17 08:42:56"
+            "time": "2013-07-23 12:40:30"
         },
         {
             "name": "imagine/imagine",

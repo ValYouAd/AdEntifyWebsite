@@ -187,6 +187,23 @@ define([
                }
             }
          );
+      },
+
+      loadPhotos: function(albumId, callback) {
+         FB.api(albumId + '/photos?limit=200', function(response) {
+            if (!response || response.error) {
+               callback({
+                  error: response.error
+               });
+            } else {
+               var photos = [];
+               for (var i=0, l=response.data.length; i<l; i++) {
+                  photos[i] = response.data[i];
+               }
+               if (typeof callback !== 'undefined')
+                  callback(photos);
+            }
+         });
       }
    });
 

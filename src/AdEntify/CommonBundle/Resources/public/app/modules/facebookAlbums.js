@@ -8,15 +8,20 @@
 define([
    "app",
    "modules/externalServicePhotos",
+   "modules/facebookPhotos",
    "facebook",
    "select2"
-], function(app, ExternalServicePhotos) {
+], function(app, ExternalServicePhotos, FacebookPhotos) {
 
    var FacebookAlbums = app.module();
    var error = '';
 
    FacebookAlbums.Model = Backbone.Model.extend({
       picture: null,
+      defaults: {
+         confidentiality: 'private',
+         categories: []
+      },
 
       initialize: function() {
          var that = this;
@@ -38,6 +43,26 @@ define([
 
    FacebookAlbums.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/albumList",
+
+      initialize: function() {
+         var that = this;
+         if (app.fb.isConnected()) {
+            this.loadAlbums();
+         } else {
+            app.on('global:facebook:connected', function() {
+               that.loadAlbums();
+            });
+         }
+         app.on('externalServicePhoto:submitAlbums', this.submitAlbums, this);
+         this.listenTo(this.options.albums, {
+            "sync": this.render
+         });
+         app.trigger('domchange:title', $.t('facebook.albumsPageTitle'));
+         this.categories = this.options.categories;
+         this.listenTo(this.options.categories, {
+            "sync": this.render
+         });
+      },
 
       beforeRender: function() {
          this.options.albums.each(function(album) {
@@ -70,23 +95,65 @@ define([
          });
       },
 
-      initialize: function() {
-         var that = this;
-         if (app.fb.isConnected()) {
-            this.loadAlbums();
-         } else {
-            app.on('global:facebook:connected', function() {
-               that.loadAlbums();
+      submitAlbums: function(options) {
+         var fbImages = [];
+         var stack = [];
+         _.each(options.albums, function(album) {
+            stack.push(1);
+            app.fb.loadPhotos(album.get('id'), function(response) {
+               stack.splice(0, 1);
+               if (!response.error) {
+                  _.each(response, function(photo) {
+                     model = new FacebookPhotos.Model(photo);
+                     fbImage = {
+                        'originalSource' : model.get('originalUrl'),
+                        'originalWidth' : model.get('originalWidth'),
+                        'originalHeight' : model.get('originalHeight'),
+                        'smallSource': model.get('smallUrl'),
+                        'smallWidth': model.get('smallWidth'),
+                        'smallHeight': model.get('smallHeight'),
+                        'mediumSource': model.get('mediumUrl'),
+                        'mediumWidth': model.get('mediumWidth'),
+                        'mediumHeight': model.get('mediumHeight'),
+                        'largeSource': model.get('largeUrl'),
+                        'largeWidth': model.get('largeWidth'),
+                        'largeHeight': model.get('largeHeight'),
+                        'id': model.get('servicePhotoId'),
+                        'title' : model.get('title'),
+                        'confidentiality': album.get('confidentiality'),
+                        'categories': album.get('categories')
+                     };
+                     if (model.has('place')) {
+                        fbImage.place = model.get('place');
+                     }
+                     fbImages.push(fbImage);
+                  });
+               }
             });
-         }
-         this.listenTo(this.options.albums, {
-            "sync": this.render
          });
-         app.trigger('domchange:title', $.t('facebook.albumsPageTitle'));
-         this.categories = this.options.categories;
-         this.listenTo(this.options.categories, {
-            "sync": this.render
-         });
+
+         var albumLoaded = setInterval(function() {
+            if (stack.length == 0) {
+               // POST images to database
+               $.ajax({
+                  url : Routing.generate('upload_load_external_photos'),
+                  type: 'POST',
+                  data: { 'images': fbImages, 'source': 'facebook' },
+                  success: function() {
+                     app.trigger('externalPhotos:uploadingInProgress');
+                  },
+                  error: function(e) {
+                     // Hide loader
+                     $('#loading-upload').fadeOut('fast', function() {
+                        $('#photos-container').fadeIn('fast');
+                     });
+                     app.trigger('externalPhotos:uploadingError');
+                  }
+               });
+
+               clearInterval(albumLoaded);
+            }
+         }, 1000);
       }
    });
 
