@@ -7,8 +7,9 @@
  */
 define([
    "app",
+   "modules/common",
    "bootstrap"
-], function(app) {
+], function(app, Common) {
 
    var ExternalServicePhotos = app.module();
 
@@ -37,9 +38,8 @@ define([
          app.trigger('externalServicePhoto:imageChecked', $('.check-image .checked').length);
       },
 
-      afertRender: function() {
+      afterRender: function() {
          $(this.el).i18n();
-         this.checkActionButtons();
       }
    });
 
@@ -122,6 +122,24 @@ define([
          var that = this;
          app.on('externalServicePhoto:imageChecked', function(count) {
             that.imageChecked(count);
+         });
+         app.on('externalPhotos:uploadingError', function() {
+            btn = $('.submit-photos');
+            btn.button('reset');
+            app.useLayout().setView('.alert-upload-photos', new Common.Views.Alert({
+               cssClass: Common.alertError,
+               message: $.t('externalServicePhotos.uploadingError'),
+               showClose: true
+            })).render();
+         });
+         app.on('externalPhotos:uploadingInProgress', function() {
+            $('#uploadInProgressModal').modal({
+               backdrop: false,
+               show: true
+            });
+            $('#uploadInProgressModal').on('hidden', function() {
+               Backbone.history.navigate($.t('routing.my/adentify/'), true);
+            });
          });
          this.categories = this.options.categories;
          this.listenTo(this.options.categories, {

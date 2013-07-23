@@ -154,16 +154,15 @@ define([
                url : Routing.generate('upload_load_external_photos'),
                type: 'POST',
                data: { 'images': fbImages, 'source': 'facebook' },
-               success: function(response) {
-                  if (!response.error) {
-                     // redirect to untagged tab
-                     Backbone.history.navigate($.t('routing.my/photos/untagged/'), true);
-                  } else {
-                     // TODO error
-                  }
+               success: function() {
+                  app.trigger('externalPhotos:uploadingInProgress');
                },
                error: function(e) {
-                  // TODO error
+                  // Hide loader
+                  $('#loading-upload').fadeOut('fast', function() {
+                     $('#photos-container').fadeIn('fast');
+                  });
+                  app.trigger('externalPhotos:uploadingError');
                }
             });
          }

@@ -8,5 +8,9 @@
     <button class="btn btn-success btn-mini button-read"><i class="icon-white icon-ok"></i> <span data-i18n="notification.read"></span></button>
     <% } %>
 </div>
-<div class="message"><%= model.get("message") %></div>
+<% if (model.get("type") == "upload") { %>
+<div class="message"><a data-i18n="[href]routing.my/photos/untagged/"><span data-i18n="<%= model.get("message") %>"></span></a></div>
+<% } else { %>
+<div class="message"><span data-i18n="<%= model.get("message") %>"></span></div>
+<% } %>
 <div class="clearfix"></div>

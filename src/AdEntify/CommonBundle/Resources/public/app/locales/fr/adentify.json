@@ -130,7 +130,10 @@
       "textSelectedAlbums2": "album(s) afin de les partager avec AdEntify.",
       "alertAlbumSelected": "L'album <strong>__name__</strong> a été ajouté à la sélection",
       "submitAlbums": "Envoyer mes albums",
-      "downloadAlbums": "Récupération de vos albums en cours..."
+      "downloadAlbums": "Récupération de vos albums en cours...",
+      "uploadingError": "Impossible d'envoyer vos photos, veuillez réessayer ou nous contacter si l'erreur persiste",
+      "modalUploadTitle": "Envoie des photos en cours",
+      "modalUploadText": "Vos photos sont en cours de récupération. Vous recevrez une notification en haut à droite de votre écran dès que ces dernières seront prêtes. Vous pourrez alors taguer vos photos."
    },
    "profile": {
       "photosCount": "<label class='badge badge-success'>__count__</label> photos",
@@ -170,14 +173,16 @@
    "notification": {
       "read": "lu",
       "unread": "non lu",
-      "inProgress": "Récupération des notifications en cours..."
+      "inProgress": "Récupération des notifications en cours...",
+      "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer."
    },
    "common": {
       "viewPhoto": "voir la photo",
       "submit": "Valider",
       "cancel": "Annuler",
       "searchButton": "Rechercher",
-      "formatDate": "__day__/__month__/__year__ à __hours__h__minutes__"
+      "formatDate": "__day__/__month__/__year__ à __hours__h__minutes__",
+      "close": "Fermer"
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",

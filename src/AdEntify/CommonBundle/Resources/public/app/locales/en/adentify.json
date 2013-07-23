@@ -166,7 +166,9 @@
    },
    "notification": {
       "read": "lu",
-      "unread": "non lu"
+      "unread": "non lu",
+      "inProgress": "Récupération des notifications en cours...",
+      "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer."
    },
    "common": {
       "viewPhoto": "view photo",
