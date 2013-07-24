@@ -263,13 +263,13 @@ define([
 
       initialize: function() {
          var that = this;
-         app.on('tagMenuTools:addTag', function() {
+         this.listenTo(app, 'tagMenuTools:addTag', function() {
             that.addTag();
          });
-         app.on('global:closeMenuTools', function() {
+         this.listenTo(app, 'global:closeMenuTools', function() {
             that.unloadTagging();
          });
-         app.on('tagMenuTools:tagAdded', function() {
+         this.listenTo(app, 'tagMenuTools:tagAdded', function() {
             that.unloadTagging();
          });
          tags = new Tag.Collection();

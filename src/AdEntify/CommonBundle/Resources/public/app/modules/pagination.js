@@ -28,7 +28,7 @@ define([
       initialize: function() {
          var that = this;
          this.collection = this.options.collection;
-         app.on('pagination:nextPageLoaded', function() {
+         this.listenTo(app, 'pagination:nextPageLoaded', function() {
             // Check if there is more data to load
             if (!that.options.collection.hasNextPage()) {
                that.loadMoreButton.fadeOut('fast');

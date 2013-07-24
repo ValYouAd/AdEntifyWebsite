@@ -90,7 +90,7 @@ define([
          });
          // Start polling
          this.pollNotifications(this.options.notifications);
-         app.on('notifications:delete', function(model) {
+         this.listenTo(app, 'notifications:delete', function(model) {
             if (model)
                that.notifications.remove(model);
          });

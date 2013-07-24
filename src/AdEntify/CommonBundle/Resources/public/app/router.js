@@ -96,7 +96,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          });
 
          // Dom events
-         app.on('domchange:title', this.onDomChangeTitle, this);
+         this.listenTo(app, 'domchange:title', this.onDomChangeTitle);
       },
 
       routes: function() {

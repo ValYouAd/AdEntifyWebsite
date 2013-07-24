@@ -68,12 +68,12 @@ define([
          if (app.fb.isConnected()) {
             this.loadPhotos();
          } else {
-            app.on('global:facebook:connected', function() {
+            this.listenTo(app, 'global:facebook:connected', function() {
                that.loadPhotos();
             });
          }
 
-         app.on('externalServicePhoto:submitPhotos', this.submitPhotos, this);
+         this.listenTo(app, 'externalServicePhoto:submitPhotos', this.submitPhotos);
          app.trigger('domchange:title', $.t('facebook.photosPageTitle'));
 
          this.listenTo(this.options.photos, {

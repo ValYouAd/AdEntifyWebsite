@@ -129,11 +129,11 @@ define([
 
          var that = this;
          this.options.photos.once("sync", this.render, this);
-         app.on('global:closeMenuTools', function() {
+         this.listenTo(app, 'global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
          });
-         app.on('myPhotos:submitPhotoDetails', this.submitPhotoDetails);
-         app.on('pagination:loadNextPage', this.loadMorePhotos, this);
+         this.listenTo(app, 'myPhotos:submitPhotoDetails', this.submitPhotoDetails);
+         this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
 
          if (this.options.tagged) {
             app.trigger('domchange:title', $.t('myPhotos.pageTitleTagged'));
@@ -391,8 +391,8 @@ define([
       template: "myPhotos/menuTools",
 
       initialize: function() {
-         app.on('tagMenuTools:cancel', this.showTools);
-         app.on('tagMenuTools:tagAdded', this.showTools);
+         this.listenTo(app, 'tagMenuTools:cancel', this.showTools);
+         this.listenTo(app, 'tagMenuTools:tagAdded', this.showTools);
       },
 
       close: function() {

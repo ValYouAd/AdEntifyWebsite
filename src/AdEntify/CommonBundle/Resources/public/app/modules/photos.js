@@ -113,10 +113,10 @@ define([
          var that = this;
          this.options.photos.once("sync", this.render, this);
 
-         app.on('global:closeMenuTools', function() {
+         this.listenTo(app, 'global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
          });
-         app.on('pagination:loadNextPage', this.loadMorePhotos, this);
+         this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
 
          if (this.options.tagged) {
             app.trigger('domchange:title', $.t('photos.pageTitleTagged'));
