@@ -129,10 +129,10 @@ define([
 
       initialize: function() {
          var that = this;
-         app.on('externalServicePhoto:imageChecked', function(count) {
+         this.listenTo(app, 'externalServicePhoto:imageChecked', function(count) {
             that.imageChecked(count);
          });
-         app.on('externalPhotos:uploadingError', function() {
+         this.listenTo(app, 'externalPhotos:uploadingError', function() {
             btn = $('.submit-photos');
             btn.button('reset');
             app.useLayout().setView('.alert-upload-photos', new Common.Views.Alert({

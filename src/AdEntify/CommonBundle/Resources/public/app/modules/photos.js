@@ -8,11 +8,12 @@
 define([
    "app",
    "modules/tag",
+   "modules/pagination",
    "isotope",
    "jquery-ui",
    "modernizer",
    "infinitescroll"
-], function(app, Tag) {
+], function(app, Tag, Pagination) {
 
    var Photos = app.module();
    var openedContainer = null;
@@ -39,14 +40,7 @@ define([
 
    Photos.Collection = Backbone.Collection.extend({
       model: Photos.Model,
-      cache: true,
-
-      parse: function(obj) {
-         if (typeof obj !== 'undefined' && typeof obj.data !== 'undefined') {
-            return obj.data;
-         }
-         else return obj;
-      }
+      cache: true
    });
 
    Photos.Views.Item = Backbone.View.extend({
@@ -91,6 +85,7 @@ define([
          $(this.el).find('img').load(function() {
             $(this).animate({'opacity': '1.0'});
          });
+         $(this.el).i18n();
       },
 
       showTags: function() {
@@ -114,6 +109,35 @@ define([
    Photos.Views.Content = Backbone.View.extend({
       template: "photos/content",
 
+      initialize: function() {
+         var that = this;
+         this.options.photos.once("sync", this.render, this);
+
+         this.listenTo(app, 'global:closeMenuTools', function() {
+            that.clickOnPhoto(openedImage);
+         });
+         this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
+
+         if (this.options.tagged) {
+            app.trigger('domchange:title', $.t('photos.pageTitleTagged'));
+         } else if (this.options.pageTitle) {
+            app.trigger('domchange:title', this.options.pageTitle);
+         }
+         else if (this.options.category) {
+            this.category = this.options.category;
+            this.listenTo(this.options.category, {
+               "change": this.render
+            });
+         }
+         else if (!this.options.tagged) {
+            app.trigger('domchange:title', $.t('photos.pageTitleUntagged'));
+         }
+
+         if (typeof this.options.title !== 'undefined') {
+            this.title = this.options.title;
+         }
+      },
+
       serialize: function() {
          return {
             collection: this.options.photos,
@@ -127,6 +151,23 @@ define([
                model: photo
             }));
          }, this);
+      },
+
+      newRender: true,
+      renderNew: function(photo) {
+         view = new Photos.Views.Item({
+            model: photo
+         });
+         if (this.newRender) {
+            this.newRender = false;
+            view.on('afterRender', function() {
+               // Wait images loaded
+               container.imagesLoaded( function() {
+                  container.isotope('appended', $('.isotope-li:not(.isotope-item)'));
+               });
+            });
+         }
+         app.useLayout().insertView("#photos-grid", view).render();
       },
 
       afterRender: function() {
@@ -150,6 +191,15 @@ define([
             lastImage = $(this).siblings('img[data-type="medium"]');
             that.clickOnPhoto(lastImage);
          });*/
+
+         // Pagination
+         app.useLayout().insertView("#photos", new Pagination.Views.NextPage({
+            collection: this.options.photos,
+            model: new Pagination.Model({
+               buttonText: 'photos.loadMore',
+               loadingText: 'photos.loadingMore'
+            })
+         })).render();
       },
 
       clickOnPhoto: function(imageClicked) {
@@ -240,33 +290,13 @@ define([
          }, 300);
       },
 
-      initialize: function() {
-         var that = this;
-         this.listenTo(this.options.photos, {
-            "sync": this.render
+      loadMorePhotos: function() {
+         this.newRender = true;
+         this.stopListening(this.options.photos, 'add');
+         this.listenTo(this.options.photos, 'add', this.renderNew);
+         this.options.photos.nextPage(function() {
+            app.trigger('pagination:nextPageLoaded');
          });
-         app.on('global:closeMenuTools', function() {
-            that.clickOnPhoto(openedImage);
-         });
-
-         if (this.options.tagged) {
-            app.trigger('domchange:title', $.t('photos.pageTitleTagged'));
-         } else if (this.options.pageTitle) {
-            app.trigger('domchange:title', this.options.pageTitle);
-         }
-         else if (this.options.category) {
-            this.category = this.options.category;
-            this.listenTo(this.options.category, {
-               "change": this.render
-            });
-         }
-         else if (!this.options.tagged) {
-            app.trigger('domchange:title', $.t('photos.pageTitleUntagged'));
-         }
-
-         if (typeof this.options.title !== 'undefined') {
-            this.title = this.options.title;
-         }
       }
    });
 

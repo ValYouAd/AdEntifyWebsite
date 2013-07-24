@@ -41,7 +41,7 @@ define([
       initialize: function() {
          var that = this;
 
-         app.on('externalServicePhoto:submitAlbums', this.submitAlbums, this);
+         this.listenTo(app, 'externalServicePhoto:submitAlbums', this.submitAlbums);
 
          // Get flickr token
          app.oauth.loadAccessToken({

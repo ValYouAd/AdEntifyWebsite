@@ -49,11 +49,11 @@ define([
          if (app.fb.isConnected()) {
             this.loadAlbums();
          } else {
-            app.on('global:facebook:connected', function() {
+            this.listenTo(app, 'global:facebook:connected', function() {
                that.loadAlbums();
             });
          }
-         app.on('externalServicePhoto:submitAlbums', this.submitAlbums, this);
+         this.listenTo(app, 'externalServicePhoto:submitAlbums', this.submitAlbums, this);
          this.listenTo(this.options.albums, {
             "sync": this.render
          });

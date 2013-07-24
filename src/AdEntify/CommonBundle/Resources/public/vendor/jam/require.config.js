@@ -51,8 +51,7 @@ var jam = {
         "backbone": {
             "deps": [
                 "underscore",
-                "jquery",
-               "i18next2"
+                "jquery"
             ],
             "exports": "Backbone"
         },

@@ -62,11 +62,11 @@ define([
          this.listenTo(this.options.searchResults, {
             "sync": this.render
          });
-         app.on('search:starting', function() {
+         this.listenTo(app, 'search:starting', function() {
             $('.search-results-container').fadeIn();
             $('.search-loading').fadeIn();
          });
-         app.on('search:completed', function() {
+         this.listenTo(app, 'search:completed', function() {
             $('.search-loading').stop().fadeOut();
          });
       }

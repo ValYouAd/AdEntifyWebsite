@@ -95,6 +95,53 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions) {
          } else {
             return Backbone.sync(method, collection, options);
          }
+      },
+      parse: function(obj) {
+         // Check if there is pagination
+         if (typeof obj !== 'undefined' && typeof obj.data !== 'undefined') {
+            if (typeof obj.paging !== 'undefined') {
+               if (typeof obj.paging.next !== 'undefined')
+                  this.next = obj.paging.next
+               if (typeof obj.paging.previous !== 'undefined')
+                  this.previous = obj.paging.previous
+            }
+            return obj.data;
+         }
+         else return obj;
+      },
+      hasNextPage: function() {
+         return ((typeof this.next !== 'undefined') && this.next);
+      },
+      nextPage: function(success, error) {
+         if (!this.hasNextPage())
+            return false;
+
+         return this.fetch({
+            url: this.next,
+            remove: false,
+            success: success,
+            error: error
+         });
+      },
+      hasPreviousPage: function() {
+         return ((typeof this.previous !== 'undefined') && this.previous);
+      },
+      previousPage: function(success, error) {
+         if (!this.hasPreviousPage())
+            return false;
+
+         return this.fetch({
+            url: this.previous,
+            remove: false,
+            success: success,
+            error: error
+         });
+      },
+      fullReset: function() {
+         // Delete previous pagination
+         delete this.next;
+         delete this.previous;
+         return Backbone.Collection.prototype.reset.apply(this, arguments);
       }
    });
 

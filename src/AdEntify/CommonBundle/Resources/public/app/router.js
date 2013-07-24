@@ -96,7 +96,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          });
 
          // Dom events
-         app.on('domchange:title', this.onDomChangeTitle, this);
+         this.listenTo(app, 'domchange:title', this.onDomChangeTitle);
       },
 
       routes: function() {
@@ -571,37 +571,37 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
 
       reset: function() {
          if (this.photos.length) {
-            this.photos.reset();
+            this.photos.fullReset();
          }
          if (this.tickerPhotos.length) {
-            this.tickerPhotos.reset();
+            this.tickerPhotos.fullReset();
          }
          if (this.fbAlbums.length) {
-            this.fbAlbums.reset();
+            this.fbAlbums.fullReset();
          }
          if (this.fbPhotos.length) {
-            this.fbPhotos.reset();
+            this.fbPhotos.fullReset();
          }
          if (this.istgPhotos.length) {
-            this.istgPhotos.reset();
+            this.istgPhotos.fullReset();
          }
          if (this.flrSets.length) {
-            this.flrSets.reset();
+            this.flrSets.fullReset();
          }
          if (this.flrPhotos.length) {
-            this.flrPhotos.reset();
+            this.flrPhotos.fullReset();
          }
          if (this.myPhotos.length) {
-            this.myPhotos.reset();
+            this.myPhotos.fullReset();
          }
          if (this.myTickerPhotos.length) {
-            this.myTickerPhotos.reset();
+            this.myTickerPhotos.fullReset();
          }
          if (this.brands.length) {
-            this.brands.reset();
+            this.brands.fullReset();
          }
          if (this.categories.length) {
-            this.categories.reset();
+            this.categories.fullReset();
          }
          // Add search form if not already set
          if (!searchSetup) {

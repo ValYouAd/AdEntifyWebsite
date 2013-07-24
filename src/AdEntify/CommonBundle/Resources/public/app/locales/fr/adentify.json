@@ -10,7 +10,9 @@
       "pageTitleUntagged": "Photos non taguées - AdEntify",
       "loading": "Chargement des photos en cours...",
       "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
-      "noPhotos": "Aucune photo à afficher."
+      "noPhotos": "Aucune photo à afficher.",
+      "loadMore": "Charger plus de photos",
+      "loadingMore": "Chargement des photos en cours..."
    },
    "myPhotos": {
       "pageTitleTagged": "Mes photos taguées - AdEntify",
@@ -176,6 +178,10 @@
       "inProgress": "Récupération des notifications en cours...",
       "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer.",
       "noNotifications": "Aucune notification pour le moment"
+   },
+   "pagination": {
+      "loadMore": "Charger plus d'éléments",
+      "loadingMore": "Chargement en cours..."
    },
    "common": {
       "viewPhoto": "voir la photo",
