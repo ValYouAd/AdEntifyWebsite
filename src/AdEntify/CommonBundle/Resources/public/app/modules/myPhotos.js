@@ -8,11 +8,12 @@
 define([
    "app",
    "modules/tag",
+   "modules/pagination",
    "isotope",
    "jquery-ui",
    "modernizer",
    "infinitescroll"
-], function(app, Tag) {
+], function(app, Tag, Pagination) {
 
    var MyPhotos = app.module();
    var openedContainer = null;
@@ -90,6 +91,7 @@ define([
          $(this.el).find('img').load(function() {
             $(this).animate({'opacity': '1.0'});
          });
+         $(this.el).i18n();
       },
 
       showTags: function() {
@@ -120,6 +122,28 @@ define([
 
    MyPhotos.Views.Content = Backbone.View.extend({
       template: "myPhotos/content",
+
+      initialize: function() {
+         this.defaultLayout();
+         openedContainer = null;
+
+         var that = this;
+         this.options.photos.once("sync", this.render, this);
+         app.on('global:closeMenuTools', function() {
+            that.clickOnPhoto(openedImage);
+         });
+         app.on('myPhotos:submitPhotoDetails', this.submitPhotoDetails);
+         app.on('pagination:loadNextPage', this.loadMorePhotos, this);
+
+         if (this.options.tagged) {
+            app.trigger('domchange:title', $.t('myPhotos.pageTitleTagged'));
+         } else {
+            app.trigger('domchange:title', $.t('myPhotos.pageTitleUntagged'));
+         }
+         if (typeof this.options.title !== 'undefined') {
+            this.title = this.options.title;
+         }
+      },
 
       serialize: function() {
          return { collection: this.options.photos };
@@ -158,6 +182,32 @@ define([
             lastImage = $(this).siblings('img[data-type="medium"]');
             that.clickOnPhoto(lastImage);
          });
+
+         // Pagination
+         app.useLayout().insertView("#photos", new Pagination.Views.NextPage({
+            collection: this.options.photos,
+            model: new Pagination.Model({
+               buttonText: 'photos.loadMore',
+               loadingText: 'photos.loadingMore'
+            })
+         })).render();
+      },
+
+      newRender: true,
+      renderNew: function(photo) {
+         view = new MyPhotos.Views.Item({
+            model: photo
+         });
+         if (this.newRender) {
+            this.newRender = false;
+            view.on('afterRender', function() {
+               // Wait images loaded
+               container.imagesLoaded( function() {
+                  container.isotope('appended', $('.isotope-li:not(.isotope-item)'));
+               });
+            });
+         }
+         app.useLayout().insertView("#photos-grid", view).render();
       },
 
       clickOnPhoto: function(imageClicked) {
@@ -284,26 +334,13 @@ define([
          }
       },
 
-      initialize: function() {
-         this.defaultLayout();
-         openedContainer = null;
-
-         var that = this;
-         this.listenTo(this.options.photos, {
-            "sync": this.render
+      loadMorePhotos: function() {
+         this.newRender = true;
+         this.stopListening(this.options.photos, 'add');
+         this.listenTo(this.options.photos, 'add', this.renderNew);
+         this.options.photos.nextPage(function() {
+            app.trigger('pagination:nextPageLoaded');
          });
-         app.on('global:closeMenuTools', function() {
-            that.clickOnPhoto(openedImage);
-         });
-         app.on('myPhotos:submitPhotoDetails', this.submitPhotoDetails);
-         if (this.options.tagged) {
-            app.trigger('domchange:title', $.t('myPhotos.pageTitleTagged'));
-         } else {
-            app.trigger('domchange:title', $.t('myPhotos.pageTitleUntagged'));
-         }
-         if (typeof this.options.title !== 'undefined') {
-            this.title = this.options.title;
-         }
       }
    });
 

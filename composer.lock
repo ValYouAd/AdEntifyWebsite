@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "ea7aa71a0baaccbd30065a69e3a69190bda4096e"
+                "reference": "f410d8cc69099a9bc5eba756131faf76b9dcb28a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/ea7aa71a0baaccbd30065a69e3a69190bda4096e",
-                "reference": "ea7aa71a0baaccbd30065a69e3a69190bda4096e",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/f410d8cc69099a9bc5eba756131faf76b9dcb28a",
+                "reference": "f410d8cc69099a9bc5eba756131faf76b9dcb28a",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-23 15:29:51"
+            "time": "2013-07-24 15:01:55"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -786,16 +786,16 @@
         },
         {
             "name": "friendsofsymfony/oauth2-php",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/oauth2-php.git",
-                "reference": "1.0.7"
+                "reference": "1.0.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/oauth2-php/zipball/1.0.7",
-                "reference": "1.0.7",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/oauth2-php/zipball/1.0.8",
+                "reference": "1.0.8",
                 "shasum": ""
             },
             "require": {
@@ -833,7 +833,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2013-07-08 07:51:48"
+            "time": "2013-07-24 06:48:28"
         },
         {
             "name": "friendsofsymfony/rest",
