@@ -10,10 +10,11 @@ require([
    // App State
    "modules/appState",
    "modules/tagStats",
-   "modules/photoActions"
+   "modules/photoActions",
+   "modules/common"
 ],
 
-function(app, Router, i18n, AppState, TagStats, PhotoActions) {
+function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
 
    // Extend App
    _.extend(app, {
@@ -193,6 +194,11 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions) {
              // calls this anyways.  The fragment is sliced from the root.
              Backbone.history.navigate(href.attr.replace(root, ''), { trigger: true });
           });
+       } else {
+          app.useLayout().setView('#content', new Common.Views.Modal({
+             title: 'common.titleSamePage',
+             content: 'common.contentSamePage'
+          }), true).render();
        }
     }
   });

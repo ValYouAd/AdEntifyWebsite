@@ -581,7 +581,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
       notFound: function() {
          app.useLayout().setView('#content', new Common.Views.Modal({
             title: 'common.titlePageNotFound',
-            content: 'common.contentPageNotFound'
+            content: 'common.contentPageNotFound',
+            redirect: true
          }), true).render();
       },
 
