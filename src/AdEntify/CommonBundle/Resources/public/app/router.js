@@ -396,7 +396,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                tickerPhotos: this.myTickerPhotos,
                tagged: false
             })
-         }).render();
+         });
 
          photo.fetch();
          this.myTickerPhotos.fetch({
