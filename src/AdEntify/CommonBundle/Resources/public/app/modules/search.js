@@ -83,6 +83,10 @@ define([
          this.listenTo(app, 'search:close', function() {
             $('.search-results-container').stop().fadeOut();
          });
+         this.listenTo(app, 'search:show', function() {
+            if (that.options.searchResults.length > 0)
+               $('.search-results-container').stop().fadeIn();
+         });
       }
    });
 
@@ -92,7 +96,8 @@ define([
       events : {
          'keyup .search-query': 'search',
          'click .search-button': 'search',
-         'blur .search-query': 'closeSearchResults'
+         'blur .search-query': 'closeSearchResults',
+         'focus .search-query': 'showSearchResults'
       },
 
       search: function(e) {
@@ -122,6 +127,10 @@ define([
 
       closeSearchResults: function() {
          app.trigger('search:close');
+      },
+
+      showSearchResults: function() {
+         app.trigger('search:show');
       },
 
       afterRender: function() {
