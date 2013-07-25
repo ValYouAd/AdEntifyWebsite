@@ -162,7 +162,8 @@
    "search": {
       "placeHolderKeywords": "Tapez votre mot clé",
       "inProgress": "Recherche en cours...",
-      "noResults": "Aucun résultat pour votre recherche"
+      "noResults": "Aucun résultat pour votre recherche",
+      "error": "Impossible de récupérer les résultats"
    },
    "comment": {
       "noComments": "Aucun commentaire",
