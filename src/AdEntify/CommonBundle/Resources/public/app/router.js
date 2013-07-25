@@ -119,7 +119,9 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "profil/:id/": "profile",
                "categorie/:slug/": "category",
                "mon/adentify/": "myAdentify",
-               "mes/photos/favorites/": "favoritesPhotos"
+               "mes/photos/favorites/": "favoritesPhotos",
+
+               '*notFound': 'notFound'
             },
             "en" : {
                "": "homepage",
@@ -139,7 +141,9 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "profile/:id/": "profile",
                "category/:slug/": "category",
                "my/adentify/": "myAdentify",
-               "my/photos/favorites/": "favoritesPhotos"
+               "my/photos/favorites/": "favoritesPhotos",
+
+               '*notFound': 'notFound'
             }
          };
          switch (app.appState().getLocale()) {
@@ -567,6 +571,13 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                that.errorCallback('myPhotos.errorPhotosLoading');
             }
          });
+      },
+
+      notFound: function() {
+         app.useLayout().setView('#content', new Common.Views.Modal({
+            title: 'common.titlePageNotFound',
+            content: 'common.contentPageNotFound'
+         }), true).render();
       },
 
       reset: function() {
