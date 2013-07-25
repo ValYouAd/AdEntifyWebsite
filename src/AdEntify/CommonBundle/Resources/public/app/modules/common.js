@@ -63,5 +63,34 @@ define([
       }
    });
 
+   Common.ModalModel = Backbone.Model.extend({});
+
+   Common.Views.Modal = Backbone.View.extend({
+      template: "common/modal",
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.model = new Common.ModalModel({
+            title: this.options.title,
+            content: this.options.content
+         });
+         this.listenTo(this.model, "change", this.render);
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         this.$('.commonModal').modal({
+            backdrop: true,
+            show: true
+         });
+         this.$('.commonModal').on('hidden', function() {
+            Backbone.history.navigate('', true);
+         });
+      }
+   });
+
    return Common;
 });
