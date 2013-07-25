@@ -1,6 +1,7 @@
 define([
-   "app"
-], function(app) {
+   "app",
+   "modules/common"
+], function(app, Common) {
 
    var Search = app.module();
 
@@ -56,18 +57,28 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+
       },
 
       initialize: function() {
+         var that = this;
          this.listenTo(this.options.searchResults, {
             "sync": this.render
          });
          this.listenTo(app, 'search:starting', function() {
             $('.search-results-container').fadeIn();
             $('.search-loading').fadeIn();
+            $('.alert-search-results').html();
          });
          this.listenTo(app, 'search:completed', function() {
             $('.search-loading').stop().fadeOut();
+            if (that.options.searchResults.length == 0) {
+               app.useLayout().setView('.alert-search-results', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('search.noResults'),
+                  showClose: true
+               })).render();
+            }
          });
       }
    });
