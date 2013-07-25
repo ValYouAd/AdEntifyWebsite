@@ -482,6 +482,23 @@ div.photo-overlay {
 ----------------------- */
 
 
+/* MODULE : Category
+----------------------- */
+
+.categories-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+    .categories-list li {
+        float: left;
+        margin-right: 5px;
+    }
+
+/*
+----------------------- */
+
+
 /* Common Templates
 ----------------------- */
 

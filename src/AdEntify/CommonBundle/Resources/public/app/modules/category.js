@@ -12,7 +12,18 @@ define([
    var Category = app.module();
 
    Category.Model = Backbone.Model.extend({
-      urlRoot: Routing.generate('api_v1_get_category')
+      urlRoot: Routing.generate('api_v1_get_category'),
+
+      initialize: function() {
+         this.listenTo(this, {
+            'change': this.setup,
+            'add': this.setup
+         });
+      },
+
+      setup: function() {
+         this.set('categoryLink', app.beginUrl + app.root + $.t('routing.category/slug/', { slug: this.get('slug') }));
+      }
    });
 
    Category.Collection = Backbone.Collection.extend({
@@ -30,6 +41,39 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.categories, "sync", this.render);
+      }
+   });
+
+   Category.Views.Item = Backbone.View.extend({
+      template: "category/item",
+      tagName: "li",
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+      }
+   });
+
+   Category.Views.List = Backbone.View.extend({
+      template: "category/list",
+
+      initialize: function() {
+         this.photoId = this.options.photoId;
+         this.listenTo(this.options.categories, {
+            "sync": this.render
+         });
+         this.categories = this.options.categories;
+      },
+
+      beforeRender: function() {
+         this.options.categories.each(function(category) {
+            this.insertView(".categories-list", new Category.Views.Item({
+               model: category
+            }));
+         }, this);
       }
    });
 
