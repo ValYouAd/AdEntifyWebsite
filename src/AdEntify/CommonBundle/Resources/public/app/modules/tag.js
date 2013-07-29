@@ -191,7 +191,7 @@ define([
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
          $(this.el).find('.popover').show();
-         if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
+         if (this.model.has('venue') && !$('#map' + this.model.get('id')).hasClass('loaded')) {
             var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
             var mapOptions = {
                zoom:  14,

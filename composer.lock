@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "735092c9d843d8d8333c1b311887d2d00da94b68"
+                "reference": "d55ef2fa1d291375e6fe65fa24ad8f603e67c120"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/735092c9d843d8d8333c1b311887d2d00da94b68",
-                "reference": "735092c9d843d8d8333c1b311887d2d00da94b68",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/d55ef2fa1d291375e6fe65fa24ad8f603e67c120",
+                "reference": "d55ef2fa1d291375e6fe65fa24ad8f603e67c120",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-25 14:17:55"
+            "time": "2013-07-29 10:22:30"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -893,19 +893,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "b5ba32718c036ba42a32354d854b8397c70773b0"
+                "reference": "076a1293a3f7ed86bca67b7aba6d8c5641a1804c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/b5ba32718c036ba42a32354d854b8397c70773b0",
-                "reference": "b5ba32718c036ba42a32354d854b8397c70773b0",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/076a1293a3f7ed86bca67b7aba6d8c5641a1804c",
+                "reference": "076a1293a3f7ed86bca67b7aba6d8c5641a1804c",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "1.0.*",
                 "friendsofsymfony/rest": ">=0.7.0,<0.9.0-dev",
                 "php": ">=5.3.2",
-                "symfony/framework-bundle": "~2.1"
+                "symfony/framework-bundle": "~2.1",
+                "willdurand/negotiation": "1.0.*"
             },
             "conflict": {
                 "jms/serializer": "<0.12",
@@ -958,7 +959,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-07-18 08:40:32"
+            "time": "2013-07-28 14:30:54"
         },
         {
             "name": "friendsofsymfony/twitter-bundle",
@@ -2033,26 +2034,26 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1.5.0"
+                "reference": "1.6.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1.5.0",
-                "reference": "1.5.0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1.6.0",
+                "reference": "1.6.0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "psr/log": ">=1.0,<2.0"
+                "psr/log": "~1.0"
             },
             "require-dev": {
                 "doctrine/couchdb": "dev-master",
                 "mlehner/gelf-php": "1.0.*",
-                "raven/raven": "0.3.*"
+                "raven/raven": "0.5.*"
             },
             "suggest": {
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
@@ -2064,7 +2065,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -2091,7 +2092,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2013-04-23 10:09:48"
+            "time": "2013-07-28 22:38:30"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -2909,6 +2910,56 @@
                 "templating"
             ],
             "time": "2013-06-06 06:06:01"
+        },
+        {
+            "name": "willdurand/negotiation",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/Negotiation.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/1.0.0",
+                "reference": "1.0.0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Negotiation": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com",
+                    "homepage": "http://www.willdurand.fr"
+                }
+            ],
+            "description": "Content Negotiation tools for PHP provided as a standalone library.",
+            "homepage": "http://williamdurand.fr/Negotiation/",
+            "keywords": [
+                "accept",
+                "content",
+                "format",
+                "header",
+                "negotiation"
+            ],
+            "time": "2013-07-27 11:33:42"
         }
     ],
     "packages-dev": [
