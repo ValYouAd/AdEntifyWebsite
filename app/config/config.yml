@@ -62,7 +62,7 @@ swiftmailer:
 # FosRestBundle
 fos_rest:
     view:
-        view_response_listener: force
+        view_response_listener: true
         formats:
             rss:  false
             xml:  false
@@ -83,21 +83,21 @@ fos_rest:
     allowed_methods_listener: true
     access_denied_listener:
         json: true
-    format_listener:
-        default_priorities:
-            - html
-            - json
-            - xml
-            - rss
-            - "*/*"
-            # never reached due to "*/*"
-            - ding
-        # the subsequent line overrides the following line, so the default is NULL
-        fallback_format: json
-        fallback_format: ~
-        prefer_extension: true
-    routing_loader:
-        default_format: json
+    #format_listener:
+    #    default_priorities:
+    #        - html
+    #        - json
+    #        - xml
+    #        - rss
+    #        - "*/*"
+    #        # never reached due to "*/*"
+    #        - ding
+    #    # the subsequent line overrides the following line, so the default is NULL
+    #    fallback_format: json
+    #    fallback_format: ~
+    #    prefer_extension: true
+    #routing_loader:
+    #    default_format: json
     exception:
         codes:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404

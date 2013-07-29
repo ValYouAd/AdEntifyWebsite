@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "1816035b10db5cdc9022accc2bd3e1b9",
+    "hash": "9e7caebd543c2fffcf8740d5af5775a5",
     "packages": [
         {
             "name": "adentify/core-bundle",
@@ -163,7 +163,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1160,12 +1160,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "30343623c29d3334c5ea6531f39fc1480ac4b819"
+                "reference": "5f0899f5f55b9bdcbd0ca58ad770290e4cd636eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/30343623c29d3334c5ea6531f39fc1480ac4b819",
-                "reference": "30343623c29d3334c5ea6531f39fc1480ac4b819",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/5f0899f5f55b9bdcbd0ca58ad770290e4cd636eb",
+                "reference": "5f0899f5f55b9bdcbd0ca58ad770290e4cd636eb",
                 "shasum": ""
             },
             "require": {
@@ -1249,19 +1249,19 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-07-24 17:40:22"
+            "time": "2013-07-29 17:31:01"
         },
         {
             "name": "imagine/imagine",
             "version": "v0.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/avalanche123/Imagine",
+                "url": "https://github.com/avalanche123/Imagine.git",
                 "reference": "v0.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/avalanche123/Imagine/zipball/v0.3.0",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/v0.3.0",
                 "reference": "v0.3.0",
                 "shasum": ""
             },
@@ -1296,7 +1296,7 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2012-07-28 17:35:18"
+            "time": "2012-07-29 00:35:18"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2130,7 +2130,7 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -2180,7 +2180,7 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -2281,17 +2281,17 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v2.3.2",
+            "version": "v2.2.4",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "v2.3.2"
+                "reference": "v2.2.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.2.4",
+                "reference": "v2.2.4",
                 "shasum": ""
             },
             "require": {
@@ -2301,7 +2301,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3.x-dev"
+                    "dev-master": "2.2.x-dev"
                 }
             },
             "autoload": {
@@ -2324,7 +2324,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2013-07-09 09:29:53"
+            "time": "2013-07-09 08:03:19"
         },
         {
             "name": "sensio/generator-bundle",

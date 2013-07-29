@@ -2,10 +2,8 @@
 
 namespace AdEntify\CommonBundle\Controller;
 
-use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\Tests\Common\Annotations\False;
-use FOS\OAuthServerBundle\Event\OAuthEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -27,7 +25,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("{_locale}/", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
-     * @Template()
+     * @Template
      */
     public function indexAction()
     {
