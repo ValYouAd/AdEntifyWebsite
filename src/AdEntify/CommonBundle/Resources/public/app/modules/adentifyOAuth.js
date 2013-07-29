@@ -23,7 +23,6 @@ define([
                options.success();
          } else {
             $.ajax({
-               type: 'POST',
                url: Routing.generate('get_user_access_token'),
                success: function(data) {
                   if (typeof data !== 'undefined' && typeof data.access_token !== 'undefined'
