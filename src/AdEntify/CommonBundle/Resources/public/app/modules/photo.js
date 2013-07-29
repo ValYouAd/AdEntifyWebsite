@@ -101,7 +101,9 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags') && this.model.get('tags').length > 0 && $(this.el).find('.tags').children().length == 0) {
+         if (this.model.has('tags')
+            && this.model.get('tags').length > 0
+            && $(this.el).find('.tags').children().length == 0) {
             var that = this;
             _.each(this.model.get('tags'), function(tag) {
                if (tag.type == 'place') {
