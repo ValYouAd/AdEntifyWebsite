@@ -111,7 +111,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/getUserAccessToken", name="get_user_access_token", methods="POST")
+     * @Route("/getUserAccessToken", name="get_user_access_token")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function getUserAccessTokenAction()
