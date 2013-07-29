@@ -171,6 +171,9 @@ class DefaultController extends Controller
             }
         }
 
+        if (is_array($accessToken))
+            $accessToken['user_id'] = $user->getId();
+
         $response = new Response(json_encode($accessToken));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

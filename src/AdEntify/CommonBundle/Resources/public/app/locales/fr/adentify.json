@@ -162,7 +162,8 @@
    "search": {
       "placeHolderKeywords": "Tapez votre mot clé",
       "inProgress": "Recherche en cours...",
-      "noResults": "Aucun résultat pour votre recherche"
+      "noResults": "Aucun résultat pour votre recherche",
+      "error": "Impossible de récupérer les résultats"
    },
    "comment": {
       "noComments": "Aucun commentaire",
@@ -192,7 +193,9 @@
       "formatDate": "__day__/__month__/__year__ à __hours__h__minutes__",
       "close": "Fermer",
       "titlePageNotFound": "Page introuvable",
-      "contentPageNotFound": "La page que vous avez demandé ne peut être trouvée."
+      "contentPageNotFound": "La page que vous avez demandé ne peut être trouvée.",
+      "titleSamePage": "Oups",
+      "contentSamePage": "Oups, vous êtes déjà sur la page que vous avez demandée."
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",

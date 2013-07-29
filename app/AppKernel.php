@@ -39,6 +39,7 @@ class AppKernel extends Kernel
             new AdEntify\CommonBundle\AdEntifyCommonBundle(),
             new AdEntify\InstagramBundle\AdEntifyInstagramBundle(),
             new AdEntify\FlickrBundle\AdEntifyFlickrBundle(),
+            new AdEntify\EmbedJsBundle\AdEntifyEmbedJsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

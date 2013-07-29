@@ -364,7 +364,7 @@ footer p {
 .photo-container:hover .adentify-pastille {
     opacity: 1;
 }
-div.photo-overlay {
+.photo-overlay {
     position: absolute;
     left: 0px;
     top: 0px;
@@ -478,6 +478,23 @@ div.photo-overlay {
         padding: 5px;
         border-bottom: 1px solid #eeeeee;
     }
+/*
+----------------------- */
+
+
+/* MODULE : Category
+----------------------- */
+
+.categories-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+    .categories-list li {
+        float: left;
+        margin-right: 5px;
+    }
+
 /*
 ----------------------- */
 

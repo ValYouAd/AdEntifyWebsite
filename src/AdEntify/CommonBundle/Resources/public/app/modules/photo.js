@@ -10,8 +10,9 @@ define([
    "modules/tag",
    "modules/common",
    "modules/comment",
+   "modules/category",
    "pinterest"
-], function(app, Tag, Common, Comment) {
+], function(app, Tag, Common, Comment, Category) {
 
    var Photo = app.module();
    var loaded = false;
@@ -57,7 +58,6 @@ define([
 
       initialize: function() {
          this.model = this.options.photo;
-
          this.listenTo(this.options.photo, {
             "error": function() {
                app.useLayout().setView('#content', new Common.Views.Alert({
@@ -83,6 +83,12 @@ define([
          // Comments
          app.useLayout().setView('.comments', new Comment.Views.List({
             comments: this.options.comments,
+            photoId: this.options.photoId
+         }));
+
+         // Categories
+         app.useLayout().setView('.categories', new Category.Views.List({
+            categories: this.options.categories,
             photoId: this.options.photoId
          }));
       },
@@ -126,6 +132,7 @@ define([
          });
          FB.XFBML.parse();
          app.useLayout().getView('.comments').render();
+         app.useLayout().getView('.categories').render();
       },
 
       like: function() {

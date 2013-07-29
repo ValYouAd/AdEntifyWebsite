@@ -86,9 +86,11 @@ define([
             backdrop: true,
             show: true
          });
-         this.$('.commonModal').on('hidden', function() {
-            Backbone.history.navigate('', true);
-         });
+         if (this.options.redirect) {
+            this.$('.commonModal').on('hidden', function() {
+               Backbone.history.navigate('', true);
+            });
+         }
       }
    });
 

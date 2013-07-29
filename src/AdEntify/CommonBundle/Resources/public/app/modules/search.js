@@ -80,6 +80,13 @@ define([
                })).render();
             }
          });
+         this.listenTo(app, 'search:close', function() {
+            $('.search-results-container').stop().fadeOut();
+         });
+         this.listenTo(app, 'search:show', function() {
+            if (that.options.searchResults.length > 0)
+               $('.search-results-container').stop().fadeIn();
+         });
       }
    });
 
@@ -88,34 +95,42 @@ define([
 
       events : {
          'keyup .search-query': 'search',
-         'click .search-button': 'search'
+         'click .search-button': 'search',
+         'blur .search-query': 'closeSearchResults',
+         'focus .search-query': 'showSearchResults'
       },
 
       search: function(e) {
          e.preventDefault();
-         if (typeof e.keyCode == "undefined" || e.keyCode == 13) {
-            this.startSearch();
-         }
+         this.startSearch();
       },
 
       startSearch: function() {
          $searchInput = $(this.el).find('.search-query');
          if ($searchInput.val()) {
             app.trigger('search:starting');
-            var that = this;
             this.searchResults.fetch({
                data: { 'query': $searchInput.val() },
                complete: function() {
                   app.trigger('search:completed');
                },
-               success: function() {
-
-               },
                error: function() {
-
+                  app.useLayout().setView('.alert-search-results', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('search.error'),
+                     showClose: true
+                  })).render();
                }
             })
          }
+      },
+
+      closeSearchResults: function() {
+         app.trigger('search:close');
+      },
+
+      showSearchResults: function() {
+         app.trigger('search:show');
       },
 
       afterRender: function() {

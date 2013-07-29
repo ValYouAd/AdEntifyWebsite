@@ -77,6 +77,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             flrPhotos: new FlickrPhotos.Collection(),
             brands: new Brand.Collection(),
             categories: new Category.Collection(),
+            photoCategories: new Category.Collection(),
             searchResults: new Search.Collection(),
             comments: new Comment.Collection(),
             notifications: new Notifications.Collection()
@@ -390,13 +391,14 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
             "#content": new Photo.Views.Item({
                photo: photo,
                comments: this.comments,
-               photoId: id
+               photoId: id,
+               categories: this.photoCategories
             }),
             "#menu-right": new MyPhotos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos,
                tagged: false
             })
-         }).render();
+         });
 
          photo.fetch();
          this.myTickerPhotos.fetch({
@@ -404,6 +406,9 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          });
          this.comments.fetch({
             url: Routing.generate('api_v1_get_photo_comments', { id: id })
+         });
+         this.photoCategories.fetch({
+            url: Routing.generate('api_v1_get_photo_categories', { id: id })
          });
       },
 
@@ -576,7 +581,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
       notFound: function() {
          app.useLayout().setView('#content', new Common.Views.Modal({
             title: 'common.titlePageNotFound',
-            content: 'common.contentPageNotFound'
+            content: 'common.contentPageNotFound',
+            redirect: true
          }), true).render();
       },
 

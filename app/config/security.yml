@@ -51,11 +51,13 @@ security:
                 check_path:          /facebook/login-check
                 default_target_path: /app/
                 provider:            my_fos_facebook_provider
+                remember_me: true
             fos_twitter:
                 login_path: /
                 check_path: /twitter/login-check
                 default_target_path: /app/
                 provider: my_fos_twitter_provider
+                remember_me: true
             #oauth:
             #    resource_owners:
             #        instagram:           "/login/check-instagram"
@@ -67,6 +69,9 @@ security:
             anonymous:               true
             remember_me:
                 key:                 %secret%
+                lifetime: 31536000 # 365 jours en secondes
+                path:     /
+                domain:   ~
             logout:          #true            # On autorise la déconnexion manuelle (désactivé par défaut)
                 handlers: ["adentify_fos_facebook.logout_handler"]
 
