@@ -364,7 +364,7 @@ footer p {
 .photo-container:hover .adentify-pastille {
     opacity: 1;
 }
-div.photo-overlay {
+.photo-overlay {
     position: absolute;
     left: 0px;
     top: 0px;

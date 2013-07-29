@@ -1,3 +1,8 @@
+ad_entify_embed_js:
+    resource: "@AdEntifyEmbedJsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 #hwi_oauth_login:
 #    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
 #    prefix:   /login
@@ -129,6 +134,13 @@ category:
 notification:
     type:     rest
     resource: AdEntify\CoreBundle\Controller\NotificationsController
+    options:
+        expose: true
+
+# Public Tags REST
+public_tag:
+    type:     rest
+    resource: AdEntify\EmbedJsBundle\Controller\PublicTagsController
     options:
         expose: true
 

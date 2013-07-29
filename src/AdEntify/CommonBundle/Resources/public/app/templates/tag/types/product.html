@@ -1,14 +1,15 @@
 <div class="tag <%= model.get("cssClass") %>" style="left: <%= model.get("x_position") * 100 %>%; top: <%= model.get("y_position") * 100 %>%">
-<div class="popover popover-product">
-    <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.get("product")["brand"]) { %> - <%= model.get("product")["brand"]["name"] %><% } %></a></span>
-    <img class="pull-left" src="<%= model.get("product")["small_url"] %>">
-    <% if (model.get("description")) { %>
-    <p><%= model.get("description") %></p>
-    <% } %>
-    <% if (model.has("product") && model.get("product")["brand"]) { %>
-    <div class="brand pull-right">
-        <img src="<%= model.get("product")["brand"]["small_logo_url"] %>" alt="<%= model.get("product")["brand"]["name"] %>" class="brand-logo" />
+    <div class="popover popover-product">
+        <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.get("product")["brand"]) { %> - <%= model.get("product")["brand"]["name"] %><% } %></a></span>
+        <img class="pull-left" src="<%= model.get("product")["small_url"] %>">
+        <% if (model.get("description")) { %>
+        <p><%= model.get("description") %></p>
+        <% } %>
+        <% if (model.has("product") && model.get("product")["brand"]) { %>
+        <div class="brand pull-right">
+            <img src="<%= model.get("product")["brand"]["small_logo_url"] %>" alt="<%= model.get("product")["brand"]["name"] %>" class="brand-logo" />
+        </div>
+        <% } %>
+        <a href="<%= model.get("product")["purchase_url"] %>" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a>
     </div>
-    <% } %>
-    <a href="<%= model.get("product")["purchase_url"] %>" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a>
 </div>

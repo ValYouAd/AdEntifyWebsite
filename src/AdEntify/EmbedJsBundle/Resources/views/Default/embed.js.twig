@@ -1,0 +1,11 @@
+if (!document.getElementById('adentify-loaded')) {
+    window._adentify = window._adentify || [];
+    (function() {
+        var adentify = document.createElement('script'); adentify.type = 'text/javascript'; adentify.async = true;
+        adentify.src = 'bundles/adentifyembedjs/js/adentify.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(adentify, s);
+    })();
+}
+
+_adentify.push(['selector', '[data-adentify-photo-id="{{ photo.id }}"]']);
+_adentify.push(['load']);
