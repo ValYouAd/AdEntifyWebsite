@@ -13,6 +13,18 @@ define([
 
    Brand.Model = Backbone.Model.extend({
 
+      initialize: function() {
+         this.listenTo(this, {
+            'change': this.setup,
+            'add': this.setup
+         });
+      },
+
+      setup: function() {
+         this.set('brandLink', app.beginUrl + app.root + $.t('routing.brand/slug/', { slug: this.get('slug') }));
+      },
+
+      urlRoot: Routing.generate('api_v1_get_brands')
    });
 
    Brand.Collection = Backbone.Collection.extend({
@@ -27,6 +39,10 @@ define([
 
       serialize: function() {
          return { model: this.model };
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
       },
 
       initialize: function() {
@@ -62,6 +78,22 @@ define([
             "sync": this.render
          });
          app.trigger('domchange:title', $.t('brand.pageTitle'));
+      }
+   });
+
+   Brand.Views.Ticker = Backbone.View.extend({
+      template: "brand/ticker",
+
+      serialize: function() {
+         return { model : this.options.brand }
+      },
+
+      initialize: function() {
+         this.listenTo(this.options.brand, "sync", this.render);
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
       }
    });
 

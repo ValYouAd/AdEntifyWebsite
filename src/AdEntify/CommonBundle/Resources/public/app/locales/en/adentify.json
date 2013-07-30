@@ -3,7 +3,12 @@
       "pageTitle": "List of brands in AdEntify",
       "pageSubTitle": "__count__ brand",
       "pageSubTitle_plural": "__count__ brands",
-      "tagged": "Tagged __count__ times"
+      "tagged": "Tagged __count__ times",
+      "titleViewBrand": "Photos de la marque",
+      "errorPhotosLoading": "Erreur lors de la récupération des photos de la marque.",
+      "noPhotos": "Aucune photo pour cette marque.",
+      "pageTitleViewBrand": "Photos de la marque __name__ - AdEntify",
+      "viewPhotos": "Voir les photos"
    },
    "photos": {
       "pageTitleTagged": "Tagged photos - AdEntify",
@@ -168,7 +173,12 @@
       "read": "lu",
       "unread": "non lu",
       "inProgress": "Récupération des notifications en cours...",
-      "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer."
+      "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer.",
+      "noNotifications": "Aucune notification pour le moment"
+   },
+   "pagination": {
+      "loadMore": "Charger plus d'éléments",
+      "loadingMore": "Chargement en cours..."
    },
    "common": {
       "viewPhoto": "view photo",
@@ -189,6 +199,7 @@
       "flickr/sets/id/photos/": "flickr/sets/__id__/photos/",
       "photo/id/": "photo/__id__/",
       "brands/": "brands/",
+      "brand/slug/": "brand/__slug__/",
       "my/profile/": "my/profile/",
       "my/adentify/": "my/adentify/",
       "profile/id/": "profile/__id__/",

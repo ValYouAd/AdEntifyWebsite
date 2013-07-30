@@ -108,7 +108,7 @@ define([
                comment.save(null, {
                   success: function(comment) {
                      btn.button('reset');
-                     that.comments.add(comment, { at: 0 });
+                     that.comments.add(comment);
                      that.render();
                      $('.comment-body').val('');
                   },
