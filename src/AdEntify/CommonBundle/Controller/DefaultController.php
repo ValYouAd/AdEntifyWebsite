@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="root_url")
      */
     public function indexNoLocaleAction()
     {
