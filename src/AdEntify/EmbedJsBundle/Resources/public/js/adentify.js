@@ -26,11 +26,13 @@
 
    AdEntify = {
       hoverTimeout: null,
+      rootUrl: "http://localhost/AdEntifyFacebookApp/web/",
 
       init: function() {
          if (jQuery('meta[property="adentitfy-loaded"]').length == 0) {
-            jQuery('head').append('<style type="text/css">' +
-               '.adentify-pastille {opacity: 0;background: url("./img/pastille.png") no-repeat;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;width: 25px;height: 25px;position: absolute;top: 10px;right: 10px;z-index: 2;cursor: pointer;}' +
+            $head = jQuery('head');
+            $head.append('<style type="text/css">' +
+               '.adentify-pastille {opacity: 0;background: url("'+ AdEntify.rootUrl +'img/pastille.png") no-repeat;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;width: 25px;height: 25px;position: absolute;top: 10px;right: 10px;z-index: 2;cursor: pointer;}' +
                '.adentify-photo-container:hover .adentify-pastille { opacity: 1; }' +
                '.tags { display: none;  }' +
                '.tags li {margin: 0;padding: 0;}' +
@@ -54,12 +56,12 @@
                '.popover.bottom .arrow{left:50%;margin-left:-11px;border-top-width:0;border-bottom-color:#999;border-bottom-color:rgba(0, 0, 0, 0.25);top:-11px;}.popover.bottom .arrow:after{top:1px;margin-left:-10px;border-top-width:0;border-bottom-color:#ffffff;}' +
                '.popover.left .arrow{top:50%;right:-11px;margin-top:-11px;border-right-width:0;border-left-color:#999;border-left-color:rgba(0, 0, 0, 0.25);}.popover.left .arrow:after{right:1px;border-right-width:0;border-left-color:#ffffff;bottom:-10px;}' +
                '</style>');
-            jQuery('head').append('<meta property="adentify-loaded" content="true">');
+            $head.append('<meta property="adentify-loaded" content="true">');
          }
          jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="position: relative;display: inline-block;" />');
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
-         $pastille = jQuery('<div class="adentify-pastille" />').insertBefore(this.getValue('selector'));
          $tags = jQuery('<ul class="tags" data-state="hidden" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
+         $pastille = jQuery('<div class="adentify-pastille" />').insertBefore(this.getValue('selector'));
          $pastille.on('click', function() {
             if ($tags.length > 0) {
                if ($tags.data('state') == 'hidden') {
@@ -72,7 +74,7 @@
             }
          });
          jQuery.ajax({
-            url: './public-api/v1/tags/' + jQuery(this.getValue('selector')).data('adentify-photo-id'),
+            url: AdEntify.rootUrl + 'public-api/v1/tags/' + jQuery(this.getValue('selector')).data('adentify-photo-id'),
             success: function(tags) {
                if (typeof tags !== 'undefined' && tags.length > 0) {
                   var i = 0;
@@ -98,11 +100,11 @@
                }
             }
          });
-
-         jQuery('.tags').on('mouseenter', '.tag', function() {
+         $tags = jQuery('.tags');
+         $tags.on('mouseenter', '.tag', function() {
             jQuery(this).find('.popover').show();
             jQuery.ajax({
-               url: './public-api/v1/tag/stat',
+               url: AdEntify.rootUrl + 'public-api/v1/tag/stat',
                type: 'POST',
                data: {
                   tagId: jQuery(this).data('tag-id'),
@@ -110,12 +112,12 @@
                }
             });
          });
-         jQuery('.tags').on('mouseleave', '.tag', function() {
+         $tags.on('mouseleave', '.tag', function() {
             jQuery(this).find('.popover').hide();
          });
-         jQuery('.tags').on('click', 'a[href]', function() {
+         $tags.on('click', 'a[href]', function() {
             jQuery.ajax({
-               url: './public-api/v1/tag/stat',
+               url: AdEntify.rootUrl + 'public-api/v1/tag/stat',
                type: 'POST',
                data: {
                   tagId: jQuery(this).parents('.tag').data('tag-id'),

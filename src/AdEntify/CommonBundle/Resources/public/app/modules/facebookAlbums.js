@@ -9,12 +9,12 @@ define([
    "app",
    "modules/externalServicePhotos",
    "modules/facebookPhotos",
+   "modules/common",
    "facebook",
    "select2"
-], function(app, ExternalServicePhotos, FacebookPhotos) {
+], function(app, ExternalServicePhotos, FacebookPhotos, Common) {
 
    var FacebookAlbums = app.module();
-   var error = '';
 
    FacebookAlbums.Model = Backbone.Model.extend({
       picture: null,
@@ -24,6 +24,13 @@ define([
       },
 
       initialize: function() {
+         this.listenTo(this, {
+            'change': this.setup,
+            'add': this.setup
+         });
+      },
+
+      setup: function() {
          var that = this;
          if (this.has('cover_photo')) {
             FB.api(this.get('cover_photo'), function(response) {
@@ -84,13 +91,26 @@ define([
          var that = this;
          FB.api('/me/albums', function(response) {
             if (!response || response.error) {
-               error = response.error;
+               app.useLayout().setView('#content', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('facebook.errorLoadingAlbums'),
+                  showClose: true
+               }), true).render();
             } else {
-               var albums = [];
-               for (var i=0, l=response.data.length; i<l; i++) {
-                  albums[i] = response.data[i];
+               if (response.data.length > 0) {
+                  var albums = [];
+                  for (var i=0, l=response.data.length; i<l; i++) {
+                     albums[i] = response.data[i];
+                  }
+                  that.options.albums.add(albums);
+               } else {
+                  app.useLayout().setView('#content', new Common.Views.Alert({
+                     cssClass: Common.alertInfo,
+                     message: $.t('facebook.noAlbums'),
+                     showClose: true
+                  }), true).render();
+                  $('#loading-albums').hide();
                }
-               that.options.albums.add(albums);
             }
          });
       },

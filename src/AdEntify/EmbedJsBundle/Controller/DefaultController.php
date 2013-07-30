@@ -30,7 +30,8 @@ class DefaultController extends Controller
         if ($photo) {
             $response = new Response();
             $response->setContent($this->renderView('AdEntifyEmbedJsBundle:Default:embed.js.twig', array(
-                'photo' => $photo
+                'photo' => $photo,
+                'rootUrl' => $this->generateUrl('root_url', array(), true)
             )));
             $response->setStatusCode(200);
             $response->headers->set('Content-Type', 'text/javascript; charset=utf-8');

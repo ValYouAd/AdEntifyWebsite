@@ -52,7 +52,10 @@
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",
-      "photosPageTitle": "My Facebook photos - AdEntify"
+      "photosPageTitle": "My Facebook photos - AdEntify",
+      "loadingAlbums": "Loading Facebook albums...",
+      "errorLoadingAlbums": "Erreur lors du chargement des albums, veuillez réessayer",
+      "noAlbums": "Aucun album"
    },
    "instagram": {
       "pageTitle": "My Instagram photos - AdEntify"
