@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "d55ef2fa1d291375e6fe65fa24ad8f603e67c120"
+                "reference": "801a5758829604533bc843a72c6e9004d89ac60d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/d55ef2fa1d291375e6fe65fa24ad8f603e67c120",
-                "reference": "d55ef2fa1d291375e6fe65fa24ad8f603e67c120",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/801a5758829604533bc843a72c6e9004d89ac60d",
+                "reference": "801a5758829604533bc843a72c6e9004d89ac60d",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-29 10:22:30"
+            "time": "2013-07-30 14:04:38"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -893,12 +893,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "076a1293a3f7ed86bca67b7aba6d8c5641a1804c"
+                "reference": "7548356058efd68c1b4d9dd29636c784727b0519"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/076a1293a3f7ed86bca67b7aba6d8c5641a1804c",
-                "reference": "076a1293a3f7ed86bca67b7aba6d8c5641a1804c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/7548356058efd68c1b4d9dd29636c784727b0519",
+                "reference": "7548356058efd68c1b4d9dd29636c784727b0519",
                 "shasum": ""
             },
             "require": {
@@ -959,7 +959,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-07-28 14:30:54"
+            "time": "2013-07-29 19:32:37"
         },
         {
             "name": "friendsofsymfony/twitter-bundle",
@@ -1160,12 +1160,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "5f0899f5f55b9bdcbd0ca58ad770290e4cd636eb"
+                "reference": "0.3.0-alpha2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/5f0899f5f55b9bdcbd0ca58ad770290e4cd636eb",
-                "reference": "5f0899f5f55b9bdcbd0ca58ad770290e4cd636eb",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/0.3.0-alpha2",
+                "reference": "0.3.0-alpha2",
                 "shasum": ""
             },
             "require": {
@@ -1249,7 +1249,7 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-07-29 17:31:01"
+            "time": "2013-07-29 19:55:49"
         },
         {
             "name": "imagine/imagine",

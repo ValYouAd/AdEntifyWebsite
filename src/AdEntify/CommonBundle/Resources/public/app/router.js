@@ -116,6 +116,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "flickr/sets/:id/photos/": "flickrPhotos",
                "photo/:id/": "photoDetail",
                "marques/": "viewBrands",
+               "marque/:slug/": "viewBrand",
                "mon/profil/": "myProfile",
                "profil/:id/": "profile",
                "categorie/:slug/": "category",
@@ -138,6 +139,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "flickr/sets/:id/photos/": "flickrPhotos",
                "photo/:id/": "photoDetail",
                "brands/": "viewBrands",
+               "brand/:slug/": "viewBrand",
                "my/profile/": "myProfile",
                "profile/:id/": "profile",
                "category/:slug/": "category",
@@ -422,6 +424,44 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          }).render();
 
          this.brands.fetch();
+      },
+
+      viewBrand: function(slug) {
+         this.reset();
+
+         // Get brand info
+         var brand = new Brand.Model({
+            id: slug
+         });
+
+         app.useLayout().setViews({
+            "#content": new Photos.Views.Content({
+               photos: this.photos,
+               title: $.t('brand.titleViewBrand')
+            }),
+            "#menu-right": new Brand.Views.Ticker({
+               brand: brand
+            })
+         }).render();
+
+         var that = this;
+
+         // Get brand photos
+         this.photos.fetch({
+            url: Routing.generate('api_v1_get_brand_photos', { slug: slug }),
+            success: function(collection) {
+               that.successCallback(collection, 'brand.noPhotos');
+            },
+            error: function() {
+               that.errorCallback('brand.errorPhotosLoading');
+            }
+         });
+
+         brand.fetch({
+            success: function() {
+               app.trigger('domchange:title', $.t('brand.pageTitleViewBrand', { name: brand.get('name') }));
+            }
+         })
       },
 
       mySettings: function() {

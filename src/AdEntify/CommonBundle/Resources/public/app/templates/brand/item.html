@@ -2,4 +2,5 @@
 <div class="caption">
     <h2><%= model.get("name") %></h2>
     <span data-i18n="brand.tagged" data-i18n-options='{"count": <%= model.get("tags_count") %>}'></span>
+    <a class="btn" data-i18n="brand.viewPhotos" href="<%= model.get("brandLink") %>"></a>
 </div>

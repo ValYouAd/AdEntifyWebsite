@@ -3,7 +3,12 @@
       "pageTitle": "Les marques référencées sur AdEntify",
       "pageSubTitle": "__count__ marque",
       "pageSubTitle_plural": "__count__ marques",
-      "tagged": "Taguée __count__ fois"
+      "tagged": "Taguée __count__ fois",
+      "titleViewBrand": "Photos de la marque",
+      "errorPhotosLoading": "Erreur lors de la récupération des photos de la marque.",
+      "noPhotos": "Aucune photo pour cette marque.",
+      "pageTitleViewBrand": "Photos de la marque __name__ - AdEntify",
+      "viewPhotos": "Voir les photos"
    },
    "photos": {
       "pageTitleTagged": "Photos taguées - AdEntify",
@@ -209,6 +214,7 @@
       "flickr/sets/id/photos/": "flickr/albums/__id__/photos/",
       "photo/id/": "photo/__id__/",
       "brands/": "marques/",
+      "brand/slug/": "marque/__slug__/",
       "my/profile/": "mon/profil/",
       "my/adentify/": "mon/adentify/",
       "profile/id/": "profil/__id__/",

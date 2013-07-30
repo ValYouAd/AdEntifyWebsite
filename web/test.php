@@ -1,2 +1,2 @@
-<img width="612" height="612" src="http://localhost/AdEntifyFacebookApp/web/uploads/photos/users/1/large/51d1850b1aa99.jpg" alt="Pour finir 2012 en beauté !" data-adentify-photo-id="16" />
-<script type="text/javascript" async src="http://localhost/AdEntifyFacebookApp/web/embed/16.js"></script>
+<img width="612" height="612" src="http://localhost/AdEntifyFacebookApp/web/uploads/photos/users/1/large/51f76c4d32caf.jpg" alt="Pour finir 2012 en beauté !" data-adentify-photo-id="98" />
+<script type="text/javascript" async src="http://localhost/AdEntifyFacebookApp/web/embed/98.js"></script>

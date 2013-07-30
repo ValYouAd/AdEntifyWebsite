@@ -96,8 +96,8 @@ fos_rest:
     #    fallback_format: json
     #    fallback_format: ~
     #    prefer_extension: true
-    #routing_loader:
-    #    default_format: json
+    routing_loader:
+        default_format: json
     exception:
         codes:
             'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
