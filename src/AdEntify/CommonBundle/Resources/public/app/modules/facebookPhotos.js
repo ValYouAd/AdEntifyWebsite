@@ -143,6 +143,9 @@ define([
                if (photoModel.has('place')) {
                   fbImage.place = photoModel.get('place');
                }
+               if (photoModel.has('tags') && typeof photoModel.get('tags').data != 'undefined') {
+                  fbImage.tags = photoModel.get('tags').data;
+               }
                fbImages[index] = fbImage;
             });
 

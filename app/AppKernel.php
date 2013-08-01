@@ -34,6 +34,8 @@ class AppKernel extends Kernel
 
             //new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
 
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
+
             new AdEntify\UserBundle\AdEntifyUserBundle(),
             new AdEntify\CoreBundle\AdEntifyCoreBundle(),
             new AdEntify\CommonBundle\AdEntifyCommonBundle(),

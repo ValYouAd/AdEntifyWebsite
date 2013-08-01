@@ -146,6 +146,9 @@ define([
                      if (model.has('place')) {
                         fbImage.place = model.get('place');
                      }
+                     if (model.has('tags') && typeof model.get('tags').data != 'undefined') {
+                        fbImage.tags = model.get('tags').data;
+                     }
                      fbImages.push(fbImage);
                   });
                }

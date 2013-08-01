@@ -75,6 +75,7 @@
          });
          jQuery.ajax({
             url: AdEntify.rootUrl + 'public-api/v1/tags/' + jQuery(this.getValue('selector')).data('adentify-photo-id'),
+            dataType: "jsonp",
             success: function(tags) {
                if (typeof tags !== 'undefined' && tags.length > 0) {
                   var i = 0;
@@ -98,32 +99,68 @@
                      }
                   }
                }
+            },
+            error: function(e) {
+               console.log(e);
             }
          });
          $tags = jQuery('.tags');
+         var that = this;
          $tags.on('mouseenter', '.tag', function() {
             jQuery(this).find('.popover').show();
-            jQuery.ajax({
+
+            var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
+            if (xhr) {
+               xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+               xhr.setRequestHeader('X-Custom-Header', 'value');
+               xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=hover');
+            }
+
+            /*jQuery.ajax({
                url: AdEntify.rootUrl + 'public-api/v1/tag/stat',
+               xhrFields: {
+                  // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+                  // This can be used to set the 'withCredentials' property.
+                  // Set the value to 'true' if you'd like to pass cookies to the server.
+                  // If this is enabled, your server must respond with the header
+                  // 'Access-Control-Allow-Credentials: true'.
+                  withCredentials: true
+               },
                type: 'POST',
                data: {
                   tagId: jQuery(this).data('tag-id'),
                   statType: 'hover'
-               }
-            });
+               },
+               crossDomain: true
+            });*/
          });
          $tags.on('mouseleave', '.tag', function() {
             jQuery(this).find('.popover').hide();
          });
          $tags.on('click', 'a[href]', function() {
-            jQuery.ajax({
+            var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
+            if (xhr) {
+               xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+               xhr.setRequestHeader('X-Custom-Header', 'value');
+               xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=click');
+            }
+            /*jQuery.ajax({
                url: AdEntify.rootUrl + 'public-api/v1/tag/stat',
+               contentType: 'text/plain',
+               xhrFields: {
+                  // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+                  // This can be used to set the 'withCredentials' property.
+                  // Set the value to 'true' if you'd like to pass cookies to the server.
+                  // If this is enabled, your server must respond with the header
+                  // 'Access-Control-Allow-Credentials: true'.
+                  withCredentials: true
+               },
                type: 'POST',
                data: {
                   tagId: jQuery(this).parents('.tag').data('tag-id'),
                   statType: 'click'
                }
-            });
+            });*/
          });
       },
 
@@ -134,6 +171,22 @@
                return _adentify[i][1];
          }
          return false;
+      },
+
+      createCORSRequest: function(method, url) {
+         var xhr = new XMLHttpRequest();
+         if ("withCredentials" in xhr) {
+            // XHR for Chrome/Firefox/Opera/Safari.
+            xhr.open(method, url, true);
+         } else if (typeof XDomainRequest != "undefined") {
+            // XDomainRequest for IE.
+            xhr = new XDomainRequest();
+            xhr.open(method, url);
+         } else {
+            // CORS not supported.
+            xhr = null;
+         }
+         return xhr;
       }
    };
 
