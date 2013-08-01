@@ -23,6 +23,7 @@ use FOS\RestBundle\Controller\Annotations\Prefix,
 use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
+use AdEntify\CoreBundle\Util\JsonResponse;
 use AdEntify\CoreBundle\Entity\Tag;
 
 /**
@@ -37,19 +38,25 @@ class PublicTagsController extends FOSRestController
     /**
      * GET all tags by photo ID
      *
-     * @View()
      * @param $id
      * @return ArrayCollection|null
      */
     public function cgetAction($id)
     {
-        return $this->getDoctrine()->getManager()->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
+        $response = new JsonResponse();
+        $serializer = $this->container->get('serializer');
+        $tags = $this->getDoctrine()->getManager()->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
                 LEFT JOIN tag.photo photo WHERE photo.id = :id AND tag.visible = TRUE AND tag.deleted_at IS NULL
                   AND tag.censored = FALSE AND tag.waitingValidation = FALSE')
             ->setParameters(array(
                 ':id' => $id
             ))
             ->getResult();
+        $response->setJsonData($serializer->serialize($tags, 'json'));
+        if ($this->getRequest()->getRequestFormat() && $this->getRequest()->query->get("callback")) {
+            $response->setCallback($this->getRequest()->query->get("callback"));
+        }
+        return $response;
     }
 
     /**

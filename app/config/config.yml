@@ -78,6 +78,7 @@ fos_rest:
             rss: 'application/rss+xml'
             jpg: 'image/jpeg'
             png: 'image/png'
+        mime_types: {'jsonp': ['application/javascript', 'application/javascript+jsonp']}
     body_listener: true
     param_fetcher_listener: force
     allowed_methods_listener: true
@@ -245,3 +246,13 @@ jms_serializer:
 #        properties:
 #            flickr:     flickrId
 #            instagram:  instagramId
+
+nelmio_cors:
+    paths:
+      '^/public-api/':
+          allow_credentials: true
+          allow_origin: ['*']
+          allow_headers: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
+          allow_methods: ['POST','GET','DELETE','PUT']
+          expose_headers: []
+          max_age: 3600

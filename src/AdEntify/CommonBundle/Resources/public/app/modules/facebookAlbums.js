@@ -89,7 +89,7 @@ define([
 
       loadAlbums: function() {
          var that = this;
-         FB.api('/me/albums', function(response) {
+         FB.api('/me/albums?fields=from,name,cover_photo,link,privacy', function(response) {
             if (!response || response.error) {
                app.useLayout().setView('#content', new Common.Views.Alert({
                   cssClass: Common.alertError,
@@ -145,6 +145,9 @@ define([
                      };
                      if (model.has('place')) {
                         fbImage.place = model.get('place');
+                     }
+                     if (model.has('tags') && typeof model.get('tags').data != 'undefined') {
+                        fbImage.tags = model.get('tags').data;
                      }
                      fbImages.push(fbImage);
                   });

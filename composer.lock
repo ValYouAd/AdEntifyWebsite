@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "9e7caebd543c2fffcf8740d5af5775a5",
+    "hash": "2cbc20facae4beeaeb0901978864d073",
     "packages": [
         {
             "name": "adentify/core-bundle",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "f38fb39aeddfc445c998dc722f38bab69fc27fa5"
+                "reference": "8b66ab3e900af4fd50d23ac3edf3ab63cf901ebe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/f38fb39aeddfc445c998dc722f38bab69fc27fa5",
-                "reference": "f38fb39aeddfc445c998dc722f38bab69fc27fa5",
+                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/8b66ab3e900af4fd50d23ac3edf3ab63cf901ebe",
+                "reference": "8b66ab3e900af4fd50d23ac3edf3ab63cf901ebe",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-07-30 15:44:23"
+            "time": "2013-08-01 14:49:59"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -1160,12 +1160,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "0.3.0-alpha2"
+                "reference": "a398047450c98dc2d6bc2c0ceebc3a90a96c1de8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/0.3.0-alpha2",
-                "reference": "0.3.0-alpha2",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/a398047450c98dc2d6bc2c0ceebc3a90a96c1de8",
+                "reference": "a398047450c98dc2d6bc2c0ceebc3a90a96c1de8",
                 "shasum": ""
             },
             "require": {
@@ -1225,6 +1225,10 @@
                 "Authentication",
                 "amazon",
                 "bitbucket",
+                "bitly",
+                "box",
+                "dailymotion",
+                "deviantart",
                 "disqus",
                 "dropbox",
                 "facebook",
@@ -1243,13 +1247,15 @@
                 "security",
                 "sensio connect",
                 "stack exchange",
+                "stereomood",
                 "twitter",
                 "vkontakte",
                 "windows live",
+                "wordpress",
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-07-29 19:55:49"
+            "time": "2013-07-31 18:30:06"
         },
         {
             "name": "imagine/imagine",
@@ -2097,6 +2103,52 @@
             "time": "2013-07-28 22:38:30"
         },
         {
+            "name": "nelmio/cors-bundle",
+            "version": "1.1.0",
+            "target-dir": "Nelmio/CorsBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nelmio/NelmioCorsBundle.git",
+                "reference": "1.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/1.1.0",
+                "reference": "1.1.0",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "~2.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Nelmio\\CorsBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nelmio",
+                    "homepage": "http://nelm.io"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/nelmio/NelmioCorsBundle/contributors"
+                }
+            ],
+            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Symfony2 application",
+            "keywords": [
+                "api",
+                "cors",
+                "crossdomain"
+            ],
+            "time": "2013-07-29 13:31:22"
+        },
+        {
             "name": "phpcollection/phpcollection",
             "version": "0.2.0",
             "source": {
@@ -2915,16 +2967,16 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "1.0.0"
+                "reference": "1.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/1.0.0",
-                "reference": "1.0.0",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/1.0.1",
+                "reference": "1.0.1",
                 "shasum": ""
             },
             "require": {
@@ -2961,7 +3013,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2013-07-27 11:33:42"
+            "time": "2013-08-01 14:42:09"
         }
     ],
     "packages-dev": [

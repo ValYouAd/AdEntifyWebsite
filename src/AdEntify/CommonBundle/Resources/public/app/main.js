@@ -14,7 +14,7 @@ require([
    "modules/common"
 ],
 
-function(app, Router, i18n, AppState, TagStats, PhotoActions) {
+function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
 
    // Extend App
    _.extend(app, {
