@@ -44,7 +44,13 @@
       "newPassword": "Nouveau mot de passe",
       "confirmPassword": "Confirmer le mot de passe",
       "saveChanges": "Sauvegarder mes changements",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "connectedServices": "Services connectés",
+      "noConnectedServices": "Votre compte n'est connecté à aucun service",
+      "errorConnectedServices": "Impossible de récupérer vos services",
+      "deleteLink": "Supprimer la connexion",
+      "cantDeleteServiceLink": "Impossible de supprimer le lien avec ce service",
+      "serviceCannotBeDeleted": "Impossible de supprimer la liaison avec votre compte Facebook"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",

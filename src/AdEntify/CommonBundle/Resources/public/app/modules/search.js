@@ -185,7 +185,7 @@ define([
 
       beforeRender: function() {
          this.options.searchResults.each(function(result) {
-            this.insertView(".search-results-list", new Search.Views.Item({
+            this.insertView(".search-results-list", new Search.Views.FullItem({
                model: result
             }));
          }, this);

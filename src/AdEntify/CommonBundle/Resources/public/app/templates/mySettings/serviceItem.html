@@ -1,0 +1,5 @@
+<%= model.get('service_name') %> <% if (model.has('cant_delete') && model.get('cant_delete')) { %>
+    <span class="text-error" data-i18n="mySettings.serviceCannotBeDeleted"></span>
+<% } else { %>
+<button class="btn btn-danger deletelink" data-i18n="mySettings.deleteLink"></button>
+<% } %>
