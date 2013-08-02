@@ -211,6 +211,7 @@
       "my/profile/": "my/profile/",
       "my/adentify/": "my/adentify/",
       "profile/id/": "profile/__id__/",
-      "category/slug/": "category/__slug__/"
+      "category/slug/": "category/__slug__/",
+      "search/": "search/"
    }
 }

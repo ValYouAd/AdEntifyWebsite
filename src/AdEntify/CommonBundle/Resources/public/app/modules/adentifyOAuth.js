@@ -24,6 +24,7 @@ define([
          } else {
             $.ajax({
                url: Routing.generate('get_user_access_token'),
+               type: 'POST',
                success: function(data) {
                   if (typeof data !== 'undefined' && typeof data.access_token !== 'undefined'
                      && typeof data.user_id !== 'undefined' && typeof data.expires_at !== 'undefined') {
