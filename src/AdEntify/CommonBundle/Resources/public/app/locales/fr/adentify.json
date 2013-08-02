@@ -170,7 +170,8 @@
       "placeHolderKeywords": "Tapez votre mot clé",
       "inProgress": "Recherche en cours...",
       "noResults": "Aucun résultat pour votre recherche",
-      "error": "Impossible de récupérer les résultats"
+      "error": "Impossible de récupérer les résultats",
+      "viewMore": "Voir plus de résultats"
    },
    "comment": {
       "noComments": "Aucun commentaire",
