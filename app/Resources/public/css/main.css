@@ -608,6 +608,9 @@ footer p {
 .mh35 {
     max-height: 35px;
 }
+.mh150 {
+    max-height: 150px;
+}
 /* Paddings */
 .p5 {
     padding: 5px;

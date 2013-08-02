@@ -137,6 +137,12 @@ notification:
     options:
         expose: true
 
+setting:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\SettingsController
+    options:
+        expose: true
+
 # Public Tags REST
 public_tag:
     type:     rest
