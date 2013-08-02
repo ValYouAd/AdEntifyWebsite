@@ -4,6 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="fosubuserprovider.properties" type="collection">
+            <parameter key="twitter">twitterId</parameter>
+            <parameter key="flickr">flickrId</parameter>
+        </parameter>
+    </parameters>
+
     <services>
         <!-- EmailProvider -->
         <service id="adentify_user.emailLoginProvider" class="AdEntify\UserBundle\Security\User\Provider\EmailLoginProvider" public="false">
@@ -13,6 +20,11 @@
         <service id="adentify_fos_facebook.logout_handler" class="AdEntify\UserBundle\Security\Logout\FacebookHandler" public="false">
             <argument type="service" id="fos_facebook.api" />
             <argument type="service" id="security.context" />
+        </service>
+
+        <service id="adentify_user.fos_ub_user_provider" class="AdEntify\UserBundle\Security\User\Provider\FOSUBUserProvider" public="false">
+            <argument type="service" id="fos_user.user_manager" />
+            <argument>%fosubuserprovider.properties%</argument>
         </service>
     </services>
 

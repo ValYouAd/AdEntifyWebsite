@@ -32,7 +32,7 @@ class AppKernel extends Kernel
 
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
 
-            //new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
 
             new Nelmio\CorsBundle\NelmioCorsBundle(),
 

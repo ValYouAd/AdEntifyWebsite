@@ -1,16 +1,20 @@
-#hwi_oauth_login:
-#    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
-#    prefix:   /login
-#
-#hwi_oauth_redirect:
-#    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
-#    prefix:   /connect
-#
-#instagram_login:
-#    pattern: /login/check-instagram
-#
-#flickr_login:
-#    pattern: /login/check-flickr
+hwi_oauth_security:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /login
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix: /login
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /login
+
+twitter_login:
+    pattern: /login/check-twitter
+
+flickr_login:
+    pattern: /login/check-flickr
 
 ad_entify_flickr:
     resource: "@AdEntifyFlickrBundle/Controller/"
