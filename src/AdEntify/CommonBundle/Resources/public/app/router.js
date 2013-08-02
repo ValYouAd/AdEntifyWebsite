@@ -122,6 +122,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "categorie/:slug/": "category",
                "mon/adentify/": "myAdentify",
                "mes/photos/favorites/": "favoritesPhotos",
+               "recherche/": "search",
 
                '*notFound': 'notFound'
             },
@@ -145,6 +146,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                "category/:slug/": "category",
                "my/adentify/": "myAdentify",
                "my/photos/favorites/": "favoritesPhotos",
+               "search/": "search",
 
                '*notFound': 'notFound'
             }
@@ -616,6 +618,16 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                that.errorCallback('myPhotos.errorPhotosLoading');
             }
          });
+      },
+
+      search: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Search.Views.FullList({
+               searchResults: this.searchResults
+            })
+         }).render();
       },
 
       notFound: function() {

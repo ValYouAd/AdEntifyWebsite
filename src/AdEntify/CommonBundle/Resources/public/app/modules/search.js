@@ -47,6 +47,12 @@ define([
    Search.Views.List = Backbone.View.extend({
       template: "search/list",
 
+      serialize: function() {
+         return {
+            searchUrl : app.beginUrl + app.root + $.t('routing.search/')
+         }
+      },
+
       beforeRender: function() {
          this.options.searchResults.each(function(result) {
             this.insertView(".search-results-list", new Search.Views.Item({
@@ -57,7 +63,6 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-
       },
 
       initialize: function() {
@@ -66,21 +71,25 @@ define([
             "sync": this.render
          });
          this.listenTo(app, 'search:starting', function() {
-            $('.search-results-container').fadeIn();
-            $('.search-loading').fadeIn();
-            $('.alert-search-results').html();
+            if (!this.isFullscreenSearch()) {
+               $('.search-results-container').fadeIn();
+               $('.search-loading').fadeIn();
+               $('.alert-search-results').html();
+            }
          });
          this.listenTo(app, 'search:completed', function() {
-            $('.search-loading').stop().fadeOut();
-            if (that.options.searchResults.length == 0) {
-               app.useLayout().setView('.alert-search-results', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('search.noResults'),
-                  showClose: true
-               })).render();
-               $('.view-more-results').stop().fadeOut();
-            } else {
-               $('.view-more-results').stop().fadeIn();
+            if (!this.isFullscreenSearch()) {
+               $('.search-loading').stop().fadeOut();
+               if (that.options.searchResults.length == 0) {
+                  app.useLayout().setView('.alert-search-results', new Common.Views.Alert({
+                     cssClass: Common.alertInfo,
+                     message: $.t('search.noResults'),
+                     showClose: true
+                  })).render();
+                  $('.view-more-results').stop().fadeOut();
+               } else {
+                  $('.view-more-results').stop().fadeIn();
+               }
             }
          });
          this.listenTo(app, 'search:close', function() {
@@ -90,11 +99,22 @@ define([
             if (that.options.searchResults.length > 0)
                $('.search-results-container').stop().fadeIn();
          });
+      },
+
+      isFullscreenSearch: function() {
+         return Backbone.history.fragment == $.t('routing.search/') ? true : false;
       }
    });
 
    Search.Views.Form = Backbone.View.extend({
       template: "search/searchBar",
+
+      initialize: function() {
+         this.searchResults = this.options.searchResults;
+         app.useLayout().setView('.search-results-container', new Search.Views.List({
+            searchResults: this.searchResults
+         })).render();
+      },
 
       events : {
          'keyup .search-query': 'search',
@@ -111,7 +131,7 @@ define([
       startSearch: function() {
          $searchInput = $(this.el).find('.search-query');
          if ($searchInput.val()) {
-            app.trigger('search:starting');
+            app.trigger('search:starting', $searchInput.val());
             this.searchResults.fetch({
                data: { 'query': $searchInput.val() },
                complete: function() {
@@ -138,13 +158,80 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+      }
+   });
+
+   Search.Views.FullItem =  Backbone.View.extend({
+      template: "search/fullitem",
+      tagName: "li",
+
+      serialize: function() {
+         return { model: this.model };
       },
 
       initialize: function() {
-         this.searchResults = this.options.searchResults;
-         app.useLayout().setView('.search-results-container', new Search.Views.List({
-            searchResults: this.searchResults
-         })).render();
+         this.listenTo(this.model, "change", this.render);
+      }
+   });
+
+   Search.Views.FullList =  Backbone.View.extend({
+      template: "search/fulllist",
+
+      serialize: function() {
+         return {
+            terms : this.terms
+         }
+      },
+
+      beforeRender: function() {
+         this.options.searchResults.each(function(result) {
+            this.insertView(".search-results-list", new Search.Views.Item({
+               model: result
+            }));
+         }, this);
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         if (this.options.searchResults.length == 0) {
+            app.useLayout().setView('.alert-search-results', new Common.Views.Alert({
+               cssClass: Common.alertInfo,
+               message: $.t('search.noResults'),
+               showClose: true
+            })).render();
+         }
+      },
+
+      initialize: function() {
+         var that = this;
+         this.listenTo(this.options.searchResults, {
+            "sync": this.render
+         });
+         this.listenTo(app, 'search:starting', function(terms) {
+            $('.search-loading').fadeIn();
+            $('.alert-search-results').html();
+            this.terms = terms;
+         });
+         this.listenTo(app, 'search:completed', function() {
+            $('.search-loading').stop().fadeOut();
+            if (that.options.searchResults.length == 0) {
+               app.useLayout().setView('.alert-search-results', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('search.noResults'),
+                  showClose: true
+               })).render();
+            } else {
+            }
+         });
+         this.terms = $('.search-query').val();
+      }
+   });
+
+   Search.Views.FullSearch = Backbone.View.extend({
+      template: "search/fullsearch",
+
+      initialize: function() {
+
       }
    });
 

@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class DefaultController extends Controller
 {
@@ -110,6 +111,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/getUserAccessToken", name="get_user_access_token")
+     * @Method({"POST"})
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function getUserAccessTokenAction()
