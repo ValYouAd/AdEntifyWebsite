@@ -52,12 +52,14 @@ security:
                 default_target_path: /app/
                 provider:            my_fos_facebook_provider
                 remember_me: true
-            fos_twitter:
-                login_path: /
-                check_path: /twitter/login-check
-                default_target_path: /app/
-                provider: my_fos_twitter_provider
-                remember_me: true
+            oauth:
+                resource_owners:
+                    twitter:         "/login/check-twitter"
+                    flickr:        "/login/check-flickr"
+                login_path:          /login
+                failure_path:        /login
+                oauth_user_provider:
+                    service: adentify_user.fos_ub_user_provider
             #oauth:
             #    resource_owners:
             #        instagram:           "/login/check-instagram"
