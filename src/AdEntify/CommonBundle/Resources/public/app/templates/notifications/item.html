@@ -10,6 +10,10 @@
 </div>
 <% if (model.get("type") == "upload") { %>
 <div class="message"><a data-i18n="[href]routing.my/photos/untagged/"><span data-i18n="<%= model.get("message") %>"></span></a></div>
+<% } else if (model.get("type") == "like-photo" || model.get("type") == "fav-photo") { %>
+<div class="message">
+    <span data-i18n="[html]<%= model.get("message") %>" data-i18n-options='{"authorLink": "<%= model.get('authorLink') %>", "author": "<%= model.get('authorFullname') %>", "photoLink": "<%= model.get('photoLink') %>" }'></span>
+</div>
 <% } else { %>
 <div class="message"><span data-i18n="<%= model.get("message") %>"></span></div>
 <% } %>

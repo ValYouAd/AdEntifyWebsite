@@ -14,11 +14,30 @@ define([
 
    Notifications.Model = Backbone.Model.extend({
 
+      initialize: function() {
+         this.listenTo(this, {
+            'change': this.setup,
+            'add': this.setup
+         });
+      },
+
       toJSON: function() {
          return { notification: {
             '_token': this.get('_token'),
             'status': this.get('status')
          }}
+      },
+
+      setup: function() {
+         if (this.has('author') && this.get('author')['id']) {
+            this.set('authorLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('author')['id']}));
+         }
+         if (this.has('message_options') && this.get('message_options')) {
+            this.set('authorFullname', $.parseJSON(this.get('message_options')).author);
+         }
+         if (this.get('type') == 'like-photo' || this.get('type') == 'fav-photo') {
+            this.set('photoLink', app.beginUrl + app.root + $.t('routing.photo/id/', {id: this.get('object_id') }));
+         }
       }
    });
 
