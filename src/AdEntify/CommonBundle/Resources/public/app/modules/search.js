@@ -78,6 +78,9 @@ define([
                   message: $.t('search.noResults'),
                   showClose: true
                })).render();
+               $('.view-more-results').stop().fadeOut();
+            } else {
+               $('.view-more-results').stop().fadeIn();
             }
          });
          this.listenTo(app, 'search:close', function() {
