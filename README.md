@@ -1,4 +1,4 @@
-AdEntifyFacebookApp
+AdEntifyWebApp
 ===================
 
-Application Facebook
+Application Web
