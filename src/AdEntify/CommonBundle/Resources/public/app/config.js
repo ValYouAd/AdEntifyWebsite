@@ -56,6 +56,8 @@ require.config({
            "jquery"
         ]
      }
-  }
+  },
+
+   urlArgs: "bust=" + Number(new Date())
 
 });
