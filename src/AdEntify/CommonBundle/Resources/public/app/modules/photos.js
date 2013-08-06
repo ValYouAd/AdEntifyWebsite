@@ -9,11 +9,12 @@ define([
    "app",
    "modules/tag",
    "modules/pagination",
+   "modules/photo",
    "isotope",
    "jquery-ui",
    "modernizer",
    "infinitescroll"
-], function(app, Tag, Pagination) {
+], function(app, Tag, Pagination, Photo) {
 
    var Photos = app.module();
    var openedContainer = null;
@@ -21,31 +22,13 @@ define([
    var lastImageContainer = null;
    var container = null;
 
-   Photos.Model = Backbone.Model.extend({
-      defaults: {
-         fullSmallUrl: '',
-         fullMediumUrl : '',
-         fullLargeUrl : ''
-      },
-
-      initialize: function() {
-         this.set('fullMediumUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/medium/' + this.get('medium_url'));
-         this.set('fullLargeUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/large/' + this.get('large_url'));
-         this.set('fullSmallUrl', app.rootUrl + 'uploads/photos/users/' + this.get('owner')['id'] + '/small/' + this.get('small_url'));
-         this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
-         if (this.has('owner'))
-            this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
-      }
-   });
-
    Photos.Collection = Backbone.Collection.extend({
-      model: Photos.Model,
+      model: Photo.Model,
       cache: true
    });
 
    Photos.Views.Item = Backbone.View.extend({
       template: "photos/item",
-
       tagName: "li class='isotope-li'",
 
       serialize: function() {
@@ -57,27 +40,26 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags') && this.model.get('tags').length > 0) {
-            var that = this;
-            _.each(this.model.get('tags'), function(tag) {
-               if (tag.type == 'place') {
-                  that.insertView(".tags", new Tag.Views.VenueItem({
-                     model: new Tag.Model(tag)
+         if (this.model.has('tags') && this.model.get('tags').length > 0 && $(this.el).find('.tags').children().length == 0) {
+            this.model.get('tags').each(function(tag) {
+               if (tag.get('type') == 'place') {
+                  this.insertView(".tags", new Tag.Views.VenueItem({
+                     model: tag
                   }));
-               } else if (tag.type == 'person') {
-                  that.insertView(".tags", new Tag.Views.PersonItem({
-                     model: new Tag.Model(tag)
+               } else if (tag.get('type')  == 'person') {
+                  this.insertView(".tags", new Tag.Views.PersonItem({
+                     model: tag
                   }));
-               } else if (tag.type == 'product') {
-                  that.insertView(".tags", new Tag.Views.ProductItem({
-                     model: new Tag.Model(tag)
+               } else if (tag.get('type')  == 'product') {
+                  this.insertView(".tags", new Tag.Views.ProductItem({
+                     model: tag
                   }));
                } else {
-                  that.insertView(".tags", new Tag.Views.Item({
-                     model: new Tag.Model(tag)
+                  this.insertView(".tags", new Tag.Views.Item({
+                     model: tag
                   }));
                }
-            });
+            }, this);
          }
       },
 
@@ -110,12 +92,15 @@ define([
       template: "photos/content",
 
       initialize: function() {
+         this.defaultLayout();
+         openedContainer = null;
+
          var that = this;
          this.options.photos.once("sync", this.render, this);
-
          this.listenTo(app, 'global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
          });
+         this.listenTo(app, 'photos:submitPhotoDetails', this.submitPhotoDetails);
          this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
 
          if (this.options.tagged) {
@@ -151,6 +136,39 @@ define([
                model: photo
             }));
          }, this);
+
+         this.insertView("#menu-tools", new Photos.Views.MenuTools());
+      },
+
+      afterRender: function() {
+         var that = this;
+         $(this.el).i18n();
+         $(this.el).find('.photos-title').html(this.title);
+         container = this.$('#photos-grid');
+
+         // Wait images loaded
+         container.imagesLoaded( function(){
+            container.isotope({
+               itemSelector : 'li.isotope-li',
+               animationEngine: 'best-available'
+            });
+            $('#loading-photos').fadeOut('fast');
+         });
+
+         // Click on photo overlay
+         container.delegate('.photo-overlay', 'click', function() {
+            lastImage = $(this).siblings('img[data-type="medium"]');
+            that.clickOnPhoto(lastImage);
+         });
+
+         // Pagination
+         app.useLayout().insertView("#photos", new Pagination.Views.NextPage({
+            collection: this.options.photos,
+            model: new Pagination.Model({
+               buttonText: 'photos.loadMore',
+               loadingText: 'photos.loadingMore'
+            })
+         })).render();
       },
 
       newRender: true,
@@ -170,42 +188,10 @@ define([
          app.useLayout().insertView("#photos-grid", view).render();
       },
 
-      afterRender: function() {
-         if (typeof this.title !== "undefined")
-            $(this.el).find('.photos-title').html(this.title);
-
-         $(this.el).i18n();
-
-         container = this.$('#photos-grid');
-         // Wait images loaded
-         container.imagesLoaded( function(){
-            container.isotope({
-               itemSelector : 'li.isotope-li',
-               animationEngine: 'best-available'
-            });
-            $('#loading-photos').fadeOut('fast');
-         });
-
-         // Click on photo overlay
-         /*container.delegate('.photo-overlay', 'click', function() {
-            lastImage = $(this).siblings('img[data-type="medium"]');
-            that.clickOnPhoto(lastImage);
-         });*/
-
-         // Pagination
-         app.useLayout().insertView("#photos", new Pagination.Views.NextPage({
-            collection: this.options.photos,
-            model: new Pagination.Model({
-               buttonText: 'photos.loadMore',
-               loadingText: 'photos.loadingMore'
-            })
-         })).render();
-      },
-
       clickOnPhoto: function(imageClicked) {
-         var photoDiv = imageClicked.parents('.photo')
          // Already in edit mode
-         if (photoDiv.hasClass('large')) {
+         if (imageClicked.data('type') == 'large') {
+            this.defaultLayout();
             // Resize to medium size
             this.resizeToMediumSize(imageClicked, true);
             openedContainer = null;
@@ -215,6 +201,14 @@ define([
                this.resizeToMediumSize(openedContainer.children("img[data-type='large']"));
             }
             if (!openedContainer) {
+               $("#dashboard").removeClass('view-mode').addClass('edit-mode');
+               $('aside').switchClass("span3", "span1");
+               $('#content').switchClass('span9', 'span11');
+               $('#photos').switchClass('span12', 'span9');
+               if (!Modernizr.csstransitions) {
+                  $('#menu-tools').animate({left: "63%"});
+                  $('#photos').animate({left: "28%"});
+               }
                // Resize to large size
                this.resizeToLargeSize(imageClicked);
             } else {
@@ -237,7 +231,6 @@ define([
          if (relayout) {
             container.isotope('reLayout', this.relayoutEnded);
          }
-         openedContainer = null;
       },
 
       resizeToLargeSize: function(image) {
@@ -247,11 +240,13 @@ define([
          var containerDiv = image.parents('.photo-container');
          var mediumUrl = image.attr('src');
 
+         this.updateMenuTools(image.data("id"));
+
          if (parentDiv) {
             openedContainer = containerDiv;
             lastImageContainer = containerDiv;
 
-            var largeImage = containerDiv.children('img[data-type="large"]');
+            var largeImage = parentDiv.children("img[data-type='large']");
             // Check if large image is already loaded
             if (largeImage.length > 0) {
                openedImage = largeImage;
@@ -261,6 +256,8 @@ define([
                largeImage.show();
                container.isotope("reLayout", this.relayoutEnded);
             } else {
+               // Save medium width
+               image.data("medium-width", image.width());
                // Increase medium image size before loading the large one
                image.width(largeWidth);
                image.height('auto');
@@ -290,6 +287,31 @@ define([
          }, 300);
       },
 
+      defaultLayout: function() {
+         $("#dashboard").removeClass('edit-mode').addClass('view-mode');
+         $('#content').switchClass('span11', 'span9');
+         $("aside").switchClass("span1", "span3");
+         $('#photos').switchClass('span9', 'span12');
+      },
+
+      updateMenuTools: function(photoId) {
+         app.appState().set('currentPhotoModel', this.options.photos.get(photoId));
+         $('#menu-tools #photo-caption').val(app.appState().getCurrentPhotoModel().get('caption'));
+      },
+
+      submitPhotoDetails: function() {
+         if (app.appState().getCurrentPhotoModel()) {
+
+            app.appState().getCurrentPhotoModel().set('caption', $('#menu-tools #photo-caption').val());
+            app.appState().getCurrentPhotoModel().getToken('photo_item', function() {
+               app.appState().getCurrentPhotoModel().url = Routing.generate('api_v1_get_photo', { id: app.appState().getCurrentPhotoModel().get('id')});
+               app.appState().getCurrentPhotoModel().save();
+               var btn = $('#form-details button[type="submit"]');
+               btn.button('reset');
+            });
+         }
+      },
+
       loadMorePhotos: function() {
          this.newRender = true;
          this.stopListening(this.options.photos, 'add');
@@ -297,6 +319,61 @@ define([
          this.options.photos.nextPage(function() {
             app.trigger('pagination:nextPageLoaded');
          });
+      }
+   });
+
+   // Menu Tools
+   Photos.Views.MenuTools = Backbone.View.extend({
+      template: "photos/menuTools",
+
+      initialize: function() {
+         this.listenTo(app, 'tagMenuTools:cancel', this.showTools);
+         this.listenTo(app, 'tagMenuTools:tagAdded', this.showTools);
+      },
+
+      close: function() {
+         app.trigger('global:closeMenuTools');
+      },
+
+      addTag: function() {
+         app.useLayout().setView("#tool-details", new Tag.Views.MenuTools({
+            tags: new Tag.Collection()
+         })).render();
+         app.trigger('tagMenuTools:addTag');
+         this.hideTools();
+      },
+
+      hideTools: function() {
+         $('#tools').fadeOut('fast', function() {
+            $('#tool-details').fadeIn('fast');
+         });
+      },
+
+      showTools: function() {
+         $('#tool-details').fadeOut('fast', function() {
+            $('#tools').fadeIn('fast');
+         });
+      },
+
+      // Detail Form Submit
+      submitPhotoDetails: function(e) {
+         e.preventDefault();
+         // Validate
+         if ($('#photo-caption').val()) {
+            var btn = $('#form-details button[type="submit"]');
+            btn.button('loading');
+            app.trigger('photos:submitPhotoDetails');
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      events: {
+         "click .close": "close",
+         "click #add-tag": "addTag",
+         "click #form-details button[type='submit']": "submitPhotoDetails"
       }
    });
 

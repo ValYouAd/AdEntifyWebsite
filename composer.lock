@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2cbc20facae4beeaeb0901978864d073",
+    "hash": "af525d98228c7a965b3e489c0d711889",
     "packages": [
         {
             "name": "adentify/core-bundle",
@@ -11,13 +11,13 @@
             "target-dir": "AdEntify/CoreBundle",
             "source": {
                 "type": "git",
-                "url": "git@github.com:matthieudordolo/AdEntifyCoreBundle.git",
-                "reference": "f4812a6c2c2f8e640ecbccb064ed1e507672cd91"
+                "url": "git@github.com:VegetablesAdvertising/AdEntifyCoreBundle.git",
+                "reference": "847e28a31d2a79fa344f4d2a028c0ab1f69624dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthieudordolo/AdEntifyCoreBundle/zipball/f4812a6c2c2f8e640ecbccb064ed1e507672cd91",
-                "reference": "f4812a6c2c2f8e640ecbccb064ed1e507672cd91",
+                "url": "https://api.github.com/repos/VegetablesAdvertising/AdEntifyCoreBundle/zipball/847e28a31d2a79fa344f4d2a028c0ab1f69624dc",
+                "reference": "847e28a31d2a79fa344f4d2a028c0ab1f69624dc",
                 "shasum": ""
             },
             "require": {
@@ -53,10 +53,10 @@
                 "adentify"
             ],
             "support": {
-                "source": "https://github.com/matthieudordolo/AdEntifyCoreBundle/tree/master",
-                "issues": "https://github.com/matthieudordolo/AdEntifyCoreBundle/issues"
+                "source": "https://github.com/VegetablesAdvertising/AdEntifyCoreBundle/tree/master",
+                "issues": "https://github.com/VegetablesAdvertising/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-08-02 16:44:01"
+            "time": "2013-08-06 10:28:01"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -1160,12 +1160,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "a398047450c98dc2d6bc2c0ceebc3a90a96c1de8"
+                "reference": "71b44c6a95443b6a9a13defa2e63ccc7a05d5f99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/a398047450c98dc2d6bc2c0ceebc3a90a96c1de8",
-                "reference": "a398047450c98dc2d6bc2c0ceebc3a90a96c1de8",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/71b44c6a95443b6a9a13defa2e63ccc7a05d5f99",
+                "reference": "71b44c6a95443b6a9a13defa2e63ccc7a05d5f99",
                 "shasum": ""
             },
             "require": {
@@ -1255,7 +1255,7 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-07-31 18:30:06"
+            "time": "2013-08-06 08:16:39"
         },
         {
             "name": "imagine/imagine",
@@ -1496,12 +1496,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSDebuggingBundle.git",
-                "reference": "fe3f24654208582766d565560f97e702fb46b943"
+                "reference": "5566021922720429ab0daf9f2bbc32c0aa778af0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSDebuggingBundle/zipball/fe3f24654208582766d565560f97e702fb46b943",
-                "reference": "fe3f24654208582766d565560f97e702fb46b943",
+                "url": "https://api.github.com/repos/schmittjoh/JMSDebuggingBundle/zipball/5566021922720429ab0daf9f2bbc32c0aa778af0",
+                "reference": "5566021922720429ab0daf9f2bbc32c0aa778af0",
                 "shasum": ""
             },
             "require": {
@@ -1531,7 +1531,7 @@
             "keywords": [
                 "debugging"
             ],
-            "time": "2013-07-09 08:59:11"
+            "time": "2013-08-04 10:47:51"
         },
         {
             "name": "jms/di-extra-bundle",
@@ -1540,12 +1540,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSDiExtraBundle.git",
-                "reference": "609c33115438873ab5ae10aeee8e22ec43c76be5"
+                "reference": "81954bf90728cb2a0501eae6ead77fcd1ef8c146"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/609c33115438873ab5ae10aeee8e22ec43c76be5",
-                "reference": "609c33115438873ab5ae10aeee8e22ec43c76be5",
+                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/81954bf90728cb2a0501eae6ead77fcd1ef8c146",
+                "reference": "81954bf90728cb2a0501eae6ead77fcd1ef8c146",
                 "shasum": ""
             },
             "require": {
@@ -1598,7 +1598,7 @@
                 "annotations",
                 "dependency injection"
             ],
-            "time": "2013-06-15 07:08:09"
+            "time": "2013-08-06 07:00:52"
         },
         {
             "name": "jms/metadata",
@@ -1606,12 +1606,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/metadata.git",
-                "reference": "0979c7d9eb7f0031a3c5ffed1d6e1fa4eb846e4e"
+                "reference": "b63f380d36a70586fd2abe518e35899d044745df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/metadata/zipball/0979c7d9eb7f0031a3c5ffed1d6e1fa4eb846e4e",
-                "reference": "0979c7d9eb7f0031a3c5ffed1d6e1fa4eb846e4e",
+                "url": "https://api.github.com/repos/schmittjoh/metadata/zipball/b63f380d36a70586fd2abe518e35899d044745df",
+                "reference": "b63f380d36a70586fd2abe518e35899d044745df",
                 "shasum": ""
             },
             "require": {
@@ -1650,7 +1650,7 @@
                 "xml",
                 "yaml"
             ],
-            "time": "2013-03-28 16:32:37"
+            "time": "2013-08-04 12:47:51"
         },
         {
             "name": "jms/parser-lib",
@@ -1694,12 +1694,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle.git",
-                "reference": "5152f529004ba94a805f101a65c06c0d4de8a33e"
+                "reference": "aefac81c3814bf77e6b2d8027dc2f0039e185dea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/5152f529004ba94a805f101a65c06c0d4de8a33e",
-                "reference": "5152f529004ba94a805f101a65c06c0d4de8a33e",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/aefac81c3814bf77e6b2d8027dc2f0039e185dea",
+                "reference": "aefac81c3814bf77e6b2d8027dc2f0039e185dea",
                 "shasum": ""
             },
             "require": {
@@ -1756,7 +1756,7 @@
                 "secure",
                 "security"
             ],
-            "time": "2013-06-09 13:11:23"
+            "time": "2013-08-06 07:00:17"
         },
         {
             "name": "jms/serializer",
@@ -1832,12 +1832,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSerializerBundle.git",
-                "reference": "c7f57e622ec4ad531f59ac79b2536b0cb5681559"
+                "reference": "5531198a73c4adee669a8a2d1452999349822771"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/c7f57e622ec4ad531f59ac79b2536b0cb5681559",
-                "reference": "c7f57e622ec4ad531f59ac79b2536b0cb5681559",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/5531198a73c4adee669a8a2d1452999349822771",
+                "reference": "5531198a73c4adee669a8a2d1452999349822771",
                 "shasum": ""
             },
             "require": {
@@ -1893,7 +1893,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-07-29 12:32:39"
+            "time": "2013-07-29 12:36:36"
         },
         {
             "name": "kertz/twitteroauth",
@@ -2918,16 +2918,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.13.1",
+            "version": "v1.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "v1.13.1"
+                "reference": "v1.13.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.1",
-                "reference": "v1.13.1",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.2",
+                "reference": "v1.13.2",
                 "shasum": ""
             },
             "require": {
@@ -2946,7 +2946,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -2963,7 +2963,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-06-06 06:06:01"
+            "time": "2013-08-03 15:35:31"
         },
         {
             "name": "willdurand/negotiation",
