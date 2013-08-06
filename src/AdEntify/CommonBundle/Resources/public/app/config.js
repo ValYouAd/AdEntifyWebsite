@@ -58,4 +58,6 @@ require.config({
      }
   }
 
+   //,urlArgs: "bust=" + Number(new Date())
+
 });

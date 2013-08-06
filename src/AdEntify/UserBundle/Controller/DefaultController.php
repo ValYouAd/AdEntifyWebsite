@@ -24,28 +24,4 @@ class DefaultController extends Controller
     {
 
     }
-
-    /**
-     * @Route("/twitter/login-check", name="_security_check_twitter")
-     */
-    public function twitterLoginCheckAction()
-    {
-        echo 'lal';
-        die;
-    }
-
-    /**
-     * @Route("/twitter/login", name="_security_login_twitter")
-     */
-    public function twitterLoginAction()
-    {
-        $request = $this->get('request');
-        $twitter = $this->get('fos_twitter.service');
-
-        $authURL = $twitter->getLoginUrl($request);
-
-        $response = new RedirectResponse($authURL);
-
-        return $response;
-    }
 }

@@ -390,6 +390,9 @@ footer p {
     height: 25px;
     border-radius: 12.5px;
 }
+.unvalidateTag {
+    background: rgba(255,0,0, 0.9)
+}
 .popover {
     position: absolute;
     top: 30px;
@@ -607,6 +610,9 @@ footer p {
 }
 .mh35 {
     max-height: 35px;
+}
+.mh150 {
+    max-height: 150px;
 }
 /* Paddings */
 .p5 {
