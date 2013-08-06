@@ -6,7 +6,6 @@ define([
    "modules/facebook",
    "modules/homepage",
    "modules/photos",
-   "modules/myPhotos",
    "modules/upload",
    "modules/facebookAlbums",
    "modules/facebookPhotos",
@@ -26,7 +25,7 @@ define([
    "modules/notifications"
 ],
 
-function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
+function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile,
          Common, Category, Search, Comment, Notifications) {
 
@@ -68,8 +67,8 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          var collections = {
             photos: new Photos.Collection(),
             tickerPhotos: new Photos.Collection(),
-            myPhotos: new MyPhotos.Collection(),
-            myTickerPhotos: new MyPhotos.Collection(),
+            myPhotos: new Photos.Collection(),
+            myTickerPhotos: new Photos.Collection(),
             fbAlbums: new FacebookAlbums.Collection(),
             fbPhotos: new FacebookPhotos.Collection(),
             istgPhotos : new InstagramPhotos.Collection(),
@@ -234,12 +233,12 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new MyPhotos.Views.Content({
+            "#content": new Photos.Views.Content({
                photos: this.myPhotos,
                tagged: true,
                title: $.t('myPhotos.titleTagged')
             }),
-            "#menu-right": new MyPhotos.Views.Ticker({
+            "#menu-right": new Photos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
             })
          }).render();
@@ -269,12 +268,12 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new MyPhotos.Views.Content({
+            "#content": new Photos.Views.Content({
                photos: this.myPhotos,
                tagged: false,
                title: $.t('myPhotos.titleUntagged')
             }),
-            "#menu-right": new MyPhotos.Views.Ticker({
+            "#menu-right": new Photos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
             })
          }).render();
@@ -398,7 +397,7 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
                photoId: id,
                categories: this.photoCategories
             }),
-            "#menu-right": new MyPhotos.Views.Ticker({
+            "#menu-right": new Photos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos,
                tagged: false
             })
@@ -598,12 +597,12 @@ function(app, Facebook, HomePage, Photos, MyPhotos, Upload, FacebookAlbums, Face
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new MyPhotos.Views.Content({
+            "#content": new Photos.Views.Content({
                photos: this.myPhotos,
                tagged: true,
                title: $.t('myPhotos.titleFavorites')
             }),
-            "#menu-right": new MyPhotos.Views.Ticker({
+            "#menu-right": new Photos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
             })
          }).render();

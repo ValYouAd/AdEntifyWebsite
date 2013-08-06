@@ -49,6 +49,14 @@ define([
          this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
          if (this.has('owner'))
             this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
+         if (this.has('tags') && !this.has('tagsConverted') && this.get('tags').length > 0) {
+            this.set('tagsConverted', '');
+            var tags = new Tag.Collection();
+            _.each(this.get('tags'), function(tag) {
+               tags.add(new Tag.Model(tag));
+            });
+            this.set('tags', tags);
+         }
       }
    });
 
@@ -57,6 +65,7 @@ define([
       tagName: "div",
 
       initialize: function() {
+         var that = this;
          this.model = this.options.photo;
          this.listenTo(this.options.photo, {
             "error": function() {
@@ -75,9 +84,33 @@ define([
                   }), true).render();
                } else {
                   app.trigger('domchange:title', this.options.photo.get('caption'));
+                  app.oauth.loadAccessToken({
+                     success: function() {
+                        $.ajax({
+                           url: Routing.generate('api_v1_get_photo_waiting_tags', { id: that.model.get('id') }),
+                           headers : {
+                              "Authorization": app.oauth.getAuthorizationHeader()
+                           },
+                           success: function(data) {
+                              if (data && data.length > 0) {
+                                 that.unvalidateTags = [];
+                                 for (var i = 0, len = data.length; i<len; i++) {
+                                    that.options.photo.get('tags').push(data[i]);
+                                 }
+                                 that.render();
+                              }
+                           }
+                        });
+                     }
+                  });
                }
                this.render();
             }
+         });
+
+         this.listenTo(app, 'tag:removeTag', function(tag) {
+            this.model.get('tags').remove(tag);
+            this.render();
          });
 
          // Comments
@@ -104,26 +137,25 @@ define([
          if (this.model.has('tags')
             && this.model.get('tags').length > 0
             && $(this.el).find('.tags').children().length == 0) {
-            var that = this;
-            _.each(this.model.get('tags'), function(tag) {
-               if (tag.type == 'place') {
-                  that.insertView(".tags", new Tag.Views.VenueItem({
-                     model: new Tag.Model(tag)
+            this.model.get('tags').each(function(tag) {
+               if (tag.get('type') == 'place') {
+                  this.insertView(".tags", new Tag.Views.VenueItem({
+                     model: tag
                   }));
-               } else if (tag.type == 'person') {
-                  that.insertView(".tags", new Tag.Views.PersonItem({
-                     model: new Tag.Model(tag)
+               } else if (tag.get('type')  == 'person') {
+                  this.insertView(".tags", new Tag.Views.PersonItem({
+                     model: tag
                   }));
-               } else if (tag.type == 'product') {
-                  that.insertView(".tags", new Tag.Views.ProductItem({
-                     model: new Tag.Model(tag)
+               } else if (tag.get('type')  == 'product') {
+                  this.insertView(".tags", new Tag.Views.ProductItem({
+                     model: tag
                   }));
                } else {
-                  that.insertView(".tags", new Tag.Views.Item({
-                     model: new Tag.Model(tag)
+                  this.insertView(".tags", new Tag.Views.Item({
+                     model: tag
                   }));
                }
-            });
+            }, this);
          }
       },
 

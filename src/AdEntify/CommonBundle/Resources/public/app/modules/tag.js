@@ -29,6 +29,18 @@ define([
    var venuesSearchTimeout = null;
 
    Tag.Model = Backbone.Model.extend({
+
+      initialize: function() {
+         if (this.has('waiting_validation') && this.get('waiting_validation')) {
+            if (this.has('validation_status') && this.get('validation_status') == 'waiting')
+               this.set('cssClass', 'unvalidateTag');
+            else
+               this.set('cssClass', '');
+         }
+
+         this.listenTo(this, "change", this.render);
+      },
+
       urlRoot: function() {
          return Routing.generate('api_v1_get_tag');
       },
@@ -37,6 +49,33 @@ define([
          var jsonAttributes = this.attributes;
          delete jsonAttributes.cssClass;
          return { tag: jsonAttributes }
+      },
+
+      changeValidationStatus: function(status) {
+         var that = this;
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_post_tag_validation_status', {id: that.get('id') }),
+                  headers : {
+                     "Authorization": app.oauth.getAuthorizationHeader()
+                  },
+                  type: 'POST',
+                  data: {
+                     'waiting_validation' : status
+                  },
+                  success: function(data) {
+                     if (data == 'granted') {
+                        that.set('cssClass', '');
+                        that.set('waiting_validation', false);
+                        that.set('validation_status', 'granted');
+                     } else {
+                        app.trigger('tag:removeTag', that);
+                     }
+                  }
+               });
+            }
+         });
       }
    });
 
@@ -75,10 +114,20 @@ define([
          app.tagStats().click(this.model);
       },
 
+      validateTag: function() {
+         this.model.changeValidationStatus('granted');
+      },
+
+      refuseTag: function() {
+         this.model.changeValidationStatus('denied');
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
-         "click a[href]": "clickTag"
+         "click a[href]": "clickTag",
+         "click .validateTagButton": "validateTag",
+         "click .refuseTagButton": "refuseTag"
       }
    });
 
@@ -112,10 +161,20 @@ define([
          app.tagStats().click(this.model);
       },
 
+      validateTag: function() {
+         this.model.changeValidationStatus('granted');
+      },
+
+      refuseTag: function() {
+         this.model.changeValidationStatus('denied');
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
-         "click a[href]": "clickTag"
+         "click a[href]": "clickTag",
+         "click .validateTagButton": "validateTag",
+         "click .refuseTagButton": "refuseTag"
       }
    });
 
@@ -168,10 +227,20 @@ define([
          app.tagStats().click(this.model);
       },
 
+      validateTag: function() {
+         this.model.changeValidationStatus('granted');
+      },
+
+      refuseTag: function() {
+         this.model.changeValidationStatus('denied');
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
-         "click a[href]": "clickTag"
+         "click a[href]": "clickTag",
+         "click .validateTagButton": "validateTag",
+         "click .refuseTagButton": "refuseTag"
       }
    });
 
@@ -224,10 +293,20 @@ define([
          app.tagStats().click(this.model);
       },
 
+      validateTag: function() {
+         this.model.changeValidationStatus('granted');
+      },
+
+      refuseTag: function() {
+         this.model.changeValidationStatus('denied');
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
-         "click a[href]": "clickTag"
+         "click a[href]": "clickTag",
+         "click .validateTagButton": "validateTag",
+         "click .refuseTagButton": "refuseTag"
       }
    });
 
@@ -685,13 +764,21 @@ define([
                               });
                            });
                         },
-                        error: function() {
+                        error: function(e, r) {
                            $submit.button('reset');
-                           app.useLayout().setView('.alert-venue', new Common.Views.Alert({
-                              cssClass: Common.alertError,
-                              message: $.t('tag.errorVenuePost'),
-                              showClose: true
-                           })).render();
+                           if (r.status === 403) {
+                              app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.forbiddenTagPost'),
+                                 showClose: true
+                              })).render();
+                           } else {
+                              app.useLayout().setView('.alert-venue', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.errorVenuePost'),
+                                 showClose: true
+                              })).render();
+                           }
                         }
                      });
                   });
@@ -729,9 +816,21 @@ define([
                                     app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
                                     app.trigger('tagMenuTools:tagAdded');
                                  },
-                                 error: function() {
+                                 error: function(e, r) {
+                                    if (r.status === 403) {
+                                       app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                                          cssClass: Common.alertError,
+                                          message: $.t('tag.forbiddenTagPost'),
+                                          showClose: true
+                                       })).render();
+                                    } else {
+                                       app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                                          cssClass: Common.alertError,
+                                          message: $.t('tag.errorTagPost'),
+                                          showClose: true
+                                       })).render();
+                                    }
                                     $submit.button('reset');
-                                    // TODO: show alert
                                  }
                               });
                            });
@@ -764,12 +863,20 @@ define([
                   app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
                   app.trigger('tagMenuTools:tagAdded');
                },
-               error: function() {
-                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
-                     cssClass: Common.alertError,
-                     message: $.t('tag.errorTagPost'),
-                     showClose: true
-                  })).render();
+               error: function(e, r) {
+                  if (r.status === 403) {
+                     app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.forbiddenTagPost'),
+                        showClose: true
+                     })).render();
+                  } else {
+                     app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.errorTagPost'),
+                        showClose: true
+                     })).render();
+                  }
                }
             });
          });

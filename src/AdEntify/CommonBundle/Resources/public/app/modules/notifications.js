@@ -33,9 +33,12 @@ define([
             this.set('authorLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('author')['id']}));
          }
          if (this.has('message_options') && this.get('message_options')) {
-            this.set('authorFullname', $.parseJSON(this.get('message_options')).author);
+            var json = $.parseJSON(this.get('message_options'));
+            if (json.author) {
+               this.set('authorFullname', $.parseJSON(this.get('message_options')).author);
+            }
          }
-         if (this.get('type') == 'like-photo' || this.get('type') == 'fav-photo') {
+         if (this.get('object_type') === "AdEntify\\CoreBundle\\Entity\\Photo") {
             this.set('photoLink', app.beginUrl + app.root + $.t('routing.photo/id/', {id: this.get('object_id') }));
          }
       }

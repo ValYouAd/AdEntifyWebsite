@@ -7,5 +7,11 @@
         <% if (model.get("description")) { %>
         <p><%= model.get("description") %></p>
         <% } %>
+        <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation")) { %>
+        <div class="button-group">
+            <button class="btn btn-success btn-small validateTagButton" data-i18n="tag.validateTag"></button>
+            <button class="btn btn-danger btn-small refuseTagButton" data-i18n="tag.refuseTag"></button>
+        </div>
+        <% } %>
     </div>
 </div>

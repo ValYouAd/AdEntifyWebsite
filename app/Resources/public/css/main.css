@@ -390,6 +390,9 @@ footer p {
     height: 25px;
     border-radius: 12.5px;
 }
+.unvalidateTag {
+    background: rgba(255,0,0, 0.9)
+}
 .popover {
     position: absolute;
     top: 30px;

@@ -68,7 +68,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/matthieudordolo/AdEntifyCoreBundle"
+            "url": "https://github.com/VegetablesAdvertising/AdEntifyCoreBundle"
         }
     ]
 }

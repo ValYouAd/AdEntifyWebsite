@@ -109,7 +109,10 @@
       "noProductSelected": "Vous devez sélectionner un produit",
       "errorTagPost": "Une erreur est survenue lors de l'ajout du tag",
       "errorVenuePost": "Une erreur est survenue lors de l'ajout du lieu",
-      "noVenueSelected": "Vous devez sélectionner un lieu avant de valider"
+      "noVenueSelected": "Vous devez sélectionner un lieu avant de valider",
+      "forbiddenTagPost": "Vous n'êtes pas autorisé à taguer cette photo",
+      "validateTag": "Autoriser ce tag",
+      "refuseTag": "Refuser ce tag"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -196,7 +199,8 @@
       "noNotifications": "Aucune notification pour le moment",
       "photoFav": "<a href='__authorLink__'>__author__</a> a mis en favoris <a href='__photoLink__'>votre photo</a>",
       "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> a aimé <a href='__photoLink__'>votre photo</a>",
-      "anonymousLikedPhoto": "Une personne a aimé <a href='__photoLink__'>votre photo</a>"
+      "anonymousLikedPhoto": "Une personne a aimé <a href='__photoLink__'>votre photo</a>",
+      "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__'>votre photo</a>"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",
