@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:VegetablesAdvertising/AdEntifyCoreBundle.git",
-                "reference": "f2e39e3f0818dc1dc5bdbc8e147cad9096ebaaff"
+                "reference": "b94f364b48ca14778349b6c38389842f59f7c308"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/VegetablesAdvertising/AdEntifyCoreBundle/zipball/f2e39e3f0818dc1dc5bdbc8e147cad9096ebaaff",
-                "reference": "f2e39e3f0818dc1dc5bdbc8e147cad9096ebaaff",
+                "url": "https://api.github.com/repos/VegetablesAdvertising/AdEntifyCoreBundle/zipball/b94f364b48ca14778349b6c38389842f59f7c308",
+                "reference": "b94f364b48ca14778349b6c38389842f59f7c308",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
                 "source": "https://github.com/VegetablesAdvertising/AdEntifyCoreBundle/tree/master",
                 "issues": "https://github.com/VegetablesAdvertising/AdEntifyCoreBundle/issues"
             },
-            "time": "2013-08-06 10:40:42"
+            "time": "2013-08-07 07:25:51"
         },
         {
             "name": "avalanche123/imagine-bundle",

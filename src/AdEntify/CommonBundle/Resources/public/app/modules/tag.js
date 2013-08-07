@@ -700,9 +700,10 @@ define([
                      venue.getToken('venue_item', function() {
                         venue.save(null, {
                            success: function() {
-                              that.postProduct();
+                              that.postProduct($submit);
                            },
                            error: function() {
+                              $submit.button('reset');
                               app.useLayout().setView('.alert-product', new Common.Views.Alert({
                                  cssClass: Common.alertError,
                                  message: $.t('tag.errorVenuePost'),
@@ -712,7 +713,7 @@ define([
                         });
                      });
                   } else {
-                     this.postProduct();
+                     this.postProduct($submit);
                   }
                } else {
                   $submit.button('reset');
@@ -846,7 +847,7 @@ define([
          }
       },
 
-      postProduct: function() {
+      postProduct: function($submit) {
          // Link tag to photo
          currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
          // Set tag info
@@ -864,6 +865,7 @@ define([
                   app.trigger('tagMenuTools:tagAdded');
                },
                error: function(e, r) {
+                  $submit.button('reset');
                   if (r.status === 403) {
                      app.useLayout().setView('.alert-product', new Common.Views.Alert({
                         cssClass: Common.alertError,
