@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>brand.name.notblank</source>
+                <target>Le nom de la marque doit être rempli.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>brand.originalLogoUrl.notblank</source>
+                <target>L'url du logo doit être rempli.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>comment.body.notblank</source>
+                <target>Veuillez taper un commentaire.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>person.firstname.notblank</source>
+                <target>Veuillez spécifier un prénom.</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>person.lastname.notblank</source>
+                <target>Veuillez spécifier un nom.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>tag.title.notblank</source>
+                <target>Veuillez spécifier un titre.</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>tag.description.notblank</source>
+                <target>Veuillez spécifier une description.</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>photo.caption.notblank</source>
+                <target>Veuillez spécifier un texte.</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>venue.name.notblank</source>
+                <target>Veuillez spécifier un nom</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
