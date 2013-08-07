@@ -50,7 +50,12 @@
       "errorConnectedServices": "Impossible de récupérer vos services",
       "deleteLink": "Supprimer la connexion",
       "cantDeleteServiceLink": "Impossible de supprimer le lien avec ce service",
-      "serviceCannotBeDeleted": "Impossible de supprimer la liaison avec votre compte Facebook"
+      "serviceCannotBeDeleted": "Impossible de supprimer la liaison avec votre compte Facebook",
+      "submitChangePassword": "Changer mon mot de passe",
+      "emptyFieldsChangePassword": "Vous devez remplir tous les champs",
+      "notSamePassword": "Les mots de passe ne correspondent pas",
+      "currentPasswordError": "Le mot de passe actuel ne corresponds pas",
+      "passwordChanged": "Votre mot de passe a bien été changé"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",

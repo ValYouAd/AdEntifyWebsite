@@ -84,16 +84,16 @@ fos_rest:
     allowed_methods_listener: true
     access_denied_listener:
         json: true
-    #format_listener:
-    #    default_priorities:
-    #        - html
-    #        - json
-    #        - xml
-    #        - rss
-    #        - "*/*"
-    #        # never reached due to "*/*"
-    #        - ding
-    #    # the subsequent line overrides the following line, so the default is NULL
+    format_listener:
+        default_priorities:
+            - html
+            - json
+            - xml
+            - rss
+            - "*/*"
+            # never reached due to "*/*"
+            - ding
+        # the subsequent line overrides the following line, so the default is NULL
     #    fallback_format: json
     #    fallback_format: ~
     #    prefer_extension: true

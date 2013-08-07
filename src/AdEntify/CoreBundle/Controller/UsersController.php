@@ -13,6 +13,8 @@ use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\VenueType;
+use FOS\UserBundle\Form\Model\ChangePassword;
+use FOS\UserBundle\Form\Type\ChangePasswordFormType;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -27,6 +29,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 use AdEntify\CoreBundle\Entity\User;
 use AdEntify\CoreBundle\Util\PaginationTools;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class UsersController
@@ -274,6 +277,30 @@ class UsersController extends FosRestController
                 'owner' => $user->getId()
             ));
         } else
-            throw new ForbiddenHttpException();
+            throw new HttpException(403, 'Forbidden');
+    }
+
+    /**
+     * @View()
+     *
+     * @param $id
+     */
+    public function postChangePasswordAction($id, Request $request)
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if ($user->getId() == $id) {
+            $model = new ChangePassword();
+            $form = $this->createForm(new ChangePasswordFormType(), $model);
+            $form->setData($model);
+            $form->bind($request);
+            if ($form->isValid()) {
+                $user->setPlainPassword($request->request->get('fos_user_change_password')['new']);
+                $this->container->get('fos_user.user_manager')->updateUser($user);
+                return $user;
+            } else {
+                return $form->getErrorsAsString();
+            }
+        } else
+            throw new HttpException(403, 'Forbidden');
     }
 }

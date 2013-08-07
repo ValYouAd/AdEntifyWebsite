@@ -79,7 +79,7 @@ class TagsController extends FosRestController
 
         $count = $em->createQuery('SELECT COUNT(tag.id) FROM AdEntify\CoreBundle\Entity\Tag tag
                 LEFT JOIN tag.venue venue LEFT JOIN tag.person person LEFT JOIN tag.product product LEFT JOIN product.brand brand
-            WHERE tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
+            WHERE tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
             LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
             OR LOWER(brand.name) LIKE LOWER(:query)')
@@ -95,7 +95,7 @@ class TagsController extends FosRestController
         if ($count > 0) {
             $results = $em->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
             LEFT JOIN tag.venue venue LEFT JOIN tag.person person LEFT JOIN tag.product product LEFT JOIN product.brand brand
-            WHERE tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
+            WHERE tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
             LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
             OR LOWER(brand.name) LIKE LOWER(:query)')

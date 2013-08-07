@@ -76,7 +76,7 @@ class User extends BaseUser
     private $facebookUsername;
 
     /**
-     * @Serializer\Exclude
+     *
      * @var string
      *
      * @ORM\Column(name="twitter_id", type="string", length=255, nullable=true)

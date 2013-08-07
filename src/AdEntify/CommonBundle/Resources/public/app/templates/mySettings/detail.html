@@ -1,4 +1,4 @@
-<form class="form-horizontal">
+<form class="form-horizontal langForm">
     <fieldset>
         <legend data-i18n="mySettings.generalSettings"></legend>
 
@@ -11,35 +11,41 @@
                 </select>
             </div>
         </div>
+    </fieldset>
+</form>
 
+<form class="form-horizontal changePasswordForm fadeOut">
+    <fieldset>
         <legend data-i18n="mySettings.changePasswordLegend"></legend>
+        <div class="alert-changePassword"></div>
         <div class="control-group">
             <label class="control-label" data-i18n="mySettings.actualPassword"></label>
             <div class="controls">
-                <input type="password">
+                <input type="password" name="current_password" class="currentPassword">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" data-i18n="mySettings.newPassword"></label>
             <div class="controls">
-                <input type="password">
+                <input type="password" name="new[first]" class="newPasswordFirst">
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" data-i18n="mySettings.confirmPassword"></label>
             <div class="controls">
-                <input type="password">
+                <input type="password" name="new[second]" class="newPasswordSecond">
             </div>
         </div>
-
         <div class="form-actions">
-            <button type="submit" class="btn btn-success" data-i18n="mySettings.saveChanges"></button>
-            <button type="button" class="btn btn-danger" data-i18n="mySettings.cancel"></button>
+            <button type="submit" class="btn btn-success changePasswordButton" data-i18n="mySettings.submitChangePassword"></button>
         </div>
+</fieldset>
+</form>
 
+<form class="form-horizontal">
+    <fieldset>
         <legend data-i18n="mySettings.connectedServices"></legend>
         <div class="alert-connected-services"></div>
         <ul class="connected-services-list"></ul>
-
-    </fieldset>
+</fieldset>
 </form>
