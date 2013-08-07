@@ -193,6 +193,14 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
              // trigger the correct events. The Router's internal `navigate` method
              // calls this anyways.  The fragment is sliced from the root.
              Backbone.history.navigate(href.attr.replace(root, ''), { trigger: true });
+
+             var $currentLink = $('.nav a[href="' + window.location.href + '"]');
+             if ($currentLink.length > 0) {
+                $currentLink.parent().siblings('.active').removeClass('active');
+                $currentLink.parent().addClass('active');
+             } else {
+                $('.nav .active').removeClass('active');
+             }
           });
        } else {
           app.useLayout().setView('#content', new Common.Views.Modal({

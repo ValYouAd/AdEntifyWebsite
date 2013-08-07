@@ -89,6 +89,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if ($currentLink.length > 0) {
             $currentLink.parent().siblings('.active').removeClass('active');
             $currentLink.parent().addClass('active');
+         } else {
+            $('.nav .active').removeClass('active');
          }
          $('.nav a').click(function() {
             $(this).parent().siblings('.active').removeClass('active');

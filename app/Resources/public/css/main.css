@@ -22,6 +22,9 @@ nav .pull-right {
 nav #user-information {
     margin-top: 6px;
 }
+nav #user-information img {
+    max-height: 15px;
+}
 nav .loading-gif-container-nomargin {
     margin-top: 4px;
 }
