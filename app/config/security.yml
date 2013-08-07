@@ -44,20 +44,20 @@ security:
                 remember_me: true            # On active la possibilité du "Se souvenir de moi" (désactivé par défaut)
                 default_target_path: /app/
                 login_path:  /
-            fos_facebook:
-                app_url:             "http://apps.facebook.com/appName/"
-                server_url:          "http://localhost/AdEntifyFacebookApp/web/"
-                login_path:          /
-                check_path:          /facebook/login-check
-                default_target_path: /app/
-                provider:            my_fos_facebook_provider
-                remember_me: true
+            #fos_facebook:
+            #    app_url:             "http://apps.facebook.com/appName/"
+            #    server_url:          "http://localhost/AdEntifyFacebookApp/web/"
+            #    login_path:          /
+            #    check_path:          /facebook/login-check
+            #    default_target_path: /app/
+            #    provider:            my_fos_facebook_provider
+            #    remember_me: true
             oauth:
                 resource_owners:
                     twitter:         "/login/check-twitter"
                     flickr:        "/login/check-flickr"
-                login_path:          /login
-                failure_path:        /login
+                login_path:          /
+                failure_path:        /
                 oauth_user_provider:
                     service: adentify_user.fos_ub_user_provider
             #oauth:
