@@ -51,6 +51,11 @@ fos_user_security:
     options:
         expose: true
 
+fos_user_security_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    options:
+        expose: true
+
 ad_entify_embed_js:
     resource: "@AdEntifyEmbedJsBundle/Controller/"
     type:     annotation

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "af525d98228c7a965b3e489c0d711889",
+    "hash": "3e0747c7542c3041f7bfcddfc094b3ca",
     "packages": [
         {
             "name": "adentify/core-bundle",
@@ -3029,7 +3029,6 @@
         "friendsofsymfony/rest-bundle": 20,
         "jms/metadata": 20,
         "jms/serializer-bundle": 20,
-        "adentify/core-bundle": 20,
         "friendsofsymfony/facebook-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
         "jms/debugging-bundle": 20,

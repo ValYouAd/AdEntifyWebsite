@@ -12,8 +12,12 @@ define([
 
    var MySettings = app.module();
 
-   MySettings.Model = Backbone.Model.extend({
+   MySettings.ChangePasswordModel = Backbone.Model.extend({
+      url: Routing.generate('api_v1_post_user_change_password', { id: currentUserId }),
 
+      toJSON: function() {
+         return { fos_user_change_password: this.attributes }
+      }
    });
 
    MySettings.ServicesCollection = Backbone.Collection.extend({
@@ -87,18 +91,26 @@ define([
       },
 
       initialize: function() {
+         var that = this;
+         // Get current user
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_get_user', { id: currentUserId }),
+                  headers: {
+                     "Authorization": app.oauth.getAuthorizationHeader()
+                  },
+                  success: function(user) {
+                       if (user && typeof user.facebook_id === 'undefined' && typeof user.twitter_id === 'undefined') {
+                          $('.changePasswordForm').fadeIn('fast');
+                       }
+                  }
+               });
+            }
+         });
          app.trigger('domchange:title', $.t('mySettings.pageTitle'));
          this.services = new MySettings.ServicesCollection();
          this.services.fetch({
-            success: function(collection) {
-               if (collection.length == 0) {
-                  app.useLayout().setView('.alert-connected-services', new Common.Views.Alert({
-                     cssClass: Common.alertInfo,
-                     message: $.t('mySettings.noConnectedServices'),
-                     showClose: true
-                  })).render();
-               }
-            },
             error: function() {
                app.useLayout().setView('.alert-connected-services', new Common.Views.Alert({
                   cssClass: Common.alertError,
@@ -107,7 +119,17 @@ define([
                })).render();
             }
          });
-         this.listenTo(this.services, "sync", this.render);
+         this.listenTo(this.services, "sync", function(collection) {
+            if (collection.length == 0) {
+               app.useLayout().setView('.alert-connected-services', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('mySettings.noConnectedServices'),
+                  showClose: true
+               })).render();
+            } else {
+               this.render();
+            }
+         });
          this.listenTo(this.services, "remove", this.render);
          this.listenTo(app, 'mysettings:serviceDeleted', function(service) {
             this.services.remove(service);
@@ -121,13 +143,57 @@ define([
          })
       },
 
-      submit: function(e) {
+      submitLang: function(e) {
          e.preventDefault();
          window.location.href = Routing.generate('change_lang', {'locale': $('#lang').val()});
       },
 
+      submitChangePassword: function(e) {
+         e.preventDefault();
+
+         if ($('.currentPassword').val() && $('.newPasswordFirst').val() && $('.newPasswordSecond').val()) {
+            if ($('.newPasswordFirst').val() == $('.newPasswordSecond').val()) {
+               var changePassword = new MySettings.ChangePasswordModel();
+               changePassword.set('current_password', $('.currentPassword').val());
+               changePassword.set('new', $('.newPasswordFirst').val());
+               changePassword.getToken('change_password', function() {
+                  changePassword.save(null, {
+                     success: function() {
+                        app.useLayout().setView('.alert-changePassword', new Common.Views.Alert({
+                           cssClass: Common.alertSuccess,
+                           message: $.t('mySettings.passwordChanged'),
+                           showClose: true
+                        })).render();
+                        $('input[type="password"]').val('');
+                     },
+                     error: function(e, r) {
+                        app.useLayout().setView('.alert-changePassword', new Common.Views.Alert({
+                           cssClass: Common.alertSuccess,
+                           message: $.t('mySettings.currentPasswordError'),
+                           showClose: true
+                        })).render();
+                     }
+                  })
+               });
+            } else {
+               app.useLayout().setView('.alert-changePassword', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('mySettings.notSamePassword'),
+                  showClose: true
+               })).render();
+            }
+         } else {
+            app.useLayout().setView('.alert-changePassword', new Common.Views.Alert({
+               cssClass: Common.alertError,
+                  message: $.t('mySettings.emptyFieldsChangePassword'),
+               showClose: true
+            })).render();
+         }
+      },
+
       events: {
-         "submit form": "submit"
+         "submit .langForm": "submitLang",
+         "submit .changePasswordForm": "submitChangePassword"
       }
    });
 
