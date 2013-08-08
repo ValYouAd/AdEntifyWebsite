@@ -51,11 +51,14 @@
         <div class="pinterest"><a target="_blank" href="//pinterest.com/pin/create/button/?url=<%= encodeURIComponent(pageUrl) %>&media=<%= encodeURIComponent(model.get("fullLargeUrl")) %>&description=<%= encodeURIComponent(model.get("caption")) %>" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div>
 
         <p class="mt2"><i class="icon-share-alt"></i> <span data-i18n="photo.link"></span></p>
-        <pre><small><%= pageUrl %></small></pre>
+        <input type="text" value="<%= pageUrl %>" class="input-block-level selectOnFocus">
 
         <h2 data-i18n="photo.embed"></h2>
-        <pre class="pre-scrollable"><small>&lt;img width="<%= model.get("large_width") %>" height="<%= model.get("large_height") %>" src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" data-adentify-photo-id="<%= model.get("id") %>" data-adentify-tags="hidden" /&gt;
-&lt;script type="text/javascript" async src="https://adentify.com/embed/<%= model.get("id") %>.js"&gt;&lt;/script&gt;</small></pre>
+        <label class="checkbox">
+            <input type="checkbox" class="showTagsCheckbox"> <span data-i18n="embed.showTags"></span>
+        </label>
+        <textarea class="embedCode input-block-level selectOnFocus" rows="3">&lt;img width="<%= model.get("large_width") %>" height="<%= model.get("large_height") %>" src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" data-adentify-photo-id="<%= model.get("id") %>" data-adentify-tags="hidden" /&gt;
+        &lt;script type="text/javascript" async src="https://adentify.com/embed/<%= model.get("id") %>.js"&gt;&lt;/script&gt;</textarea>
 
     </div>
 </div>

@@ -211,6 +211,9 @@
       "loadMore": "Charger plus d'éléments",
       "loadingMore": "Chargement en cours..."
    },
+   "embed": {
+      "showTags": "Afficher les tags par défaut"
+   },
    "common": {
       "viewPhoto": "voir la photo",
       "submit": "Valider",
