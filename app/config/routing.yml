@@ -159,6 +159,12 @@ public_tag:
     options:
         expose: true
 
+public_photo:
+    type:     rest
+    resource: AdEntify\EmbedJsBundle\Controller\PublicPhotosController
+    options:
+        expose: true
+
 # OAuth
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"

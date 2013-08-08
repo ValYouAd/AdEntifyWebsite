@@ -28,15 +28,22 @@
       hoverTimeout: null,
       rootUrl: "http://localhost/AdEntifyFacebookApp/web/",
       showTags: false,
+      showLikes: false,
 
       init: function() {
-         AdEntify.showTags = jQuery(this.getValue('selector')).data('adentify-tags') == 'hidden' ? false : true;
+         var that = this;
+
+         // Load options
+         AdEntify.showTags = typeof jQuery(this.getValue('selector')).attr('data-adentify-tags') !== 'undefined' ? true : false;
+         AdEntify.showLikes = typeof jQuery(this.getValue('selector')).attr('data-adentify-likes') !== 'undefined' ? true : false;
+
+         // Load CSS
          if (jQuery('meta[property="adentitfy-loaded"]').length == 0) {
             $head = jQuery('head');
             $head.append('<style type="text/css">' +
                '.adentify-pastille {opacity: 0;background: url("'+ AdEntify.rootUrl +'img/pastille.png") no-repeat;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;width: 25px;height: 25px;position: absolute;top: 10px;right: 10px;z-index: 2;cursor: pointer;}' +
                '.adentify-photo-container:hover .adentify-pastille { opacity: 1; }' +
-               (AdEntify.showTags ? '.tags {display: block;}' : '.tags {display: none;}') +
+               (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
                '.tags li {margin: 0;padding: 0;}' +
                '.tag {position: absolute;background: rgba(0,0,0,0.9);width: 25px;height: 25px;border-radius: 12.5px;}' +
                '.popover {position: absolute;top: 30px;left: -50%;z-index: 2000;padding: 4px 6px;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;}' +
@@ -57,9 +64,14 @@
                '.popover.right .arrow {top:50%;left:-11px;margin-top:-11px;border-left-width:0;border-right-color:#999;border-right-color:rgba(0, 0, 0, 0.25);}.popover.right .arrow:after{left:1px;bottom:-10px;border-left-width:0;border-right-color:#ffffff;}' +
                '.popover.bottom .arrow {left:50%;margin-left:-11px;border-top-width:0;border-bottom-color:#999;border-bottom-color:rgba(0, 0, 0, 0.25);top:-11px;}.popover.bottom .arrow:after{top:1px;margin-left:-10px;border-top-width:0;border-bottom-color:#ffffff;}' +
                '.popover.left .arrow {top:50%;right:-11px;margin-top:-11px;border-right-width:0;border-left-color:#999;border-left-color:rgba(0, 0, 0, 0.25);}.popover.left .arrow:after{right:1px;border-right-width:0;border-left-color:#ffffff;bottom:-10px;}' +
+               '[class^="icon-"],[class*=" icon-"]{display:inline-block;width:14px;height:14px;*margin-right:.3em;line-height:14px;vertical-align:text-top;background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings.png");background-position:14px 14px;background-repeat:no-repeat;margin-top:1px;}' +
+               '.icon-white,.nav-pills>.active>a>[class^="icon-"],.nav-pills>.active>a>[class*=" icon-"],.nav-list>.active>a>[class^="icon-"],.nav-list>.active>a>[class*=" icon-"],.navbar-inverse .nav>.active>a>[class^="icon-"],.navbar-inverse .nav>.active>a>[class*=" icon-"],.dropdown-menu>li>a:hover>[class^="icon-"],.dropdown-menu>li>a:focus>[class^="icon-"],.dropdown-menu>li>a:hover>[class*=" icon-"],.dropdown-menu>li>a:focus>[class*=" icon-"],.dropdown-menu>.active>a>[class^="icon-"],.dropdown-menu>.active>a>[class*=" icon-"],.dropdown-submenu:hover>a>[class^="icon-"],.dropdown-submenu:focus>a>[class^="icon-"],.dropdown-submenu:hover>a>[class*=" icon-"],.dropdown-submenu:focus>a>[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings-white.png");}' +
+               '.icon-heart {background-position: -96px 0;}' +
+               '.adentify-photo-likes {position: absolute; bottom: 5px; right: 5px; color: white;text-shadow: 0 0 3px rgba(0,0,0,0.8); text-rendering: optimizelegibility;}' +
                '</style>');
             $head.append('<meta property="adentify-loaded" content="true">');
          }
+
          jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="position: relative;display: inline-block;" />');
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
          $tags = jQuery('<ul class="tags" data-state="hidden" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
@@ -76,28 +88,34 @@
             }
          });
          jQuery.ajax({
-            url: AdEntify.rootUrl + 'public-api/v1/tags/' + jQuery(this.getValue('selector')).data('adentify-photo-id'),
+            url: AdEntify.rootUrl + 'public-api/v1/photos/' + jQuery(this.getValue('selector')).data('adentify-photo-id'),
             dataType: "jsonp",
-            success: function(tags) {
-               if (typeof tags !== 'undefined' && tags.length > 0) {
-                  var i = 0;
-                  for (i; i <tags.length; i++) {
-                     var tag = tags[i];
-                     if (tag.type == 'place') {
-                        jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
-                           + (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                           '<div id="map' + tag.id + '" class="map"></div></div></div>');
-                     } else if (tag.type == 'person') {
-                        jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
-                           (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                           '</div></div>');
-                     } else if (tag.type == 'product') {
-                        jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover popover-product"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
-                           (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                           (tag.product && tag.product.brand ? '<div class="brand pull-right"><img src="' + tag.product.brand.small_logo_url + '" alt="' + tag.product.brand.name + '" class="brand-logo" /></div>' : '') +
-                           '<a href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div></div>');
-                     } else {
-                        jQuery($tags).append('');
+            success: function(photo) {
+               if (typeof photo !== 'undefined' && typeof photo.tags !== 'undefined') {
+                  if (AdEntify.showLikes === true) {
+                     jQuery('<div class="adentify-photo-likes">' + photo.likes_count + ' <i class="icon-heart icon-white"></i></div>').insertBefore(that.getValue('selector'));
+                  }
+                  var tags = photo.tags;
+                  if (typeof tags !== 'undefined' && tags.length > 0) {
+                     var i = 0;
+                     for (i; i <tags.length; i++) {
+                        var tag = tags[i];
+                        if (tag.type == 'place') {
+                           jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
+                              + (tag.description ? '<p>' + tag.description + '</p>' : '') +
+                              '<div id="map' + tag.id + '" class="map"></div></div></div>');
+                        } else if (tag.type == 'person') {
+                           jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
+                              (tag.description ? '<p>' + tag.description + '</p>' : '') +
+                              '</div></div>');
+                        } else if (tag.type == 'product') {
+                           jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover popover-product"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
+                              (tag.description ? '<p>' + tag.description + '</p>' : '') +
+                              (tag.product && tag.product.brand ? '<div class="brand pull-right"><img src="' + tag.product.brand.small_logo_url + '" alt="' + tag.product.brand.name + '" class="brand-logo" /></div>' : '') +
+                              '<a href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div></div>');
+                        } else {
+                           jQuery($tags).append('');
+                        }
                      }
                   }
                }

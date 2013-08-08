@@ -33,7 +33,9 @@ define([
          fullSmallUrl: '',
          fullMediumUrl : '',
          fullLargeUrl : '',
-         showTags: 'hidden'
+         caption: '',
+         showTags: false,
+         showLikes: false
       },
 
       initialize: function() {
@@ -63,7 +65,7 @@ define([
       getEmbed: function() {
          return '&lt;img width="<%= this.get("large_width") %>" height="' + this.get("large_height") + '" src="'
             + this.get("fullLargeUrl") + '" alt="' + this.get("caption") + '" data-adentify-photo-id="' + this.get("id")
-            + '" data-adentify-tags="' + this.get("showTags") + '" /&gt;&lt;script type="text/javascript" async src="https://adentify.com/embed/'
+            + (this.get("showTags") ? ' data-adentify-tags="" ' : '') + (this.get("showLikes") ? ' data-adentify-likes="" ' : '') + ' /&gt;&lt;script type="text/javascript" async src="https://adentify.com/embed/'
             + this.get("id") + '.js"&gt;&lt;/script&gt;';
       }
    });
@@ -201,7 +203,12 @@ define([
       },
 
       checkboxShowTags: function(e) {
-         this.model.set('showTags', e.currentTarget.checked ? 'visible' : 'hidden');
+         this.model.set('showTags', e.currentTarget.checked);
+         this.updateEmbedCode();
+      },
+
+      checkboxShowLikes: function(e) {
+         this.model.set('showLikes', e.currentTarget.checked);
          this.updateEmbedCode();
       },
 
@@ -219,6 +226,7 @@ define([
          "click .adentify-pastille": "showTags",
          "click .favorite-button": "favorite",
          "click .showTagsCheckbox": "checkboxShowTags",
+         "click .showLikesCheckbox": "checkboxShowLikes",
          "mouseup .selectOnFocus": "selectTextOnFocus"
       }
    });

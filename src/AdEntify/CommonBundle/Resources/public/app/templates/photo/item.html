@@ -57,7 +57,10 @@
         <label class="checkbox">
             <input type="checkbox" class="showTagsCheckbox"> <span data-i18n="embed.showTags"></span>
         </label>
-        <textarea class="embedCode input-block-level selectOnFocus" rows="3">&lt;img width="<%= model.get("large_width") %>" height="<%= model.get("large_height") %>" src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" data-adentify-photo-id="<%= model.get("id") %>" data-adentify-tags="hidden" /&gt;
+        <label class="checkbox">
+            <input type="checkbox" class="showLikesCheckbox"> <span data-i18n="embed.showLikes"></span>
+        </label>
+        <textarea class="embedCode input-block-level selectOnFocus" rows="3">&lt;img width="<%= model.get("large_width") %>" height="<%= model.get("large_height") %>" src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" data-adentify-photo-id="<%= model.get("id") %>" /&gt;
         &lt;script type="text/javascript" async src="https://adentify.com/embed/<%= model.get("id") %>.js"&gt;&lt;/script&gt;</textarea>
 
     </div>
