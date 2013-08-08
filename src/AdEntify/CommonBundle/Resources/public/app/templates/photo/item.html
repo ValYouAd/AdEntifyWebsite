@@ -54,7 +54,7 @@
         <pre><small><%= pageUrl %></small></pre>
 
         <h2 data-i18n="photo.embed"></h2>
-        <pre class="pre-scrollable"><small>&lt;img width="<%= model.get("large_width") %>" height="<%= model.get("large_height") %>" src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" data-adentify-photo-id="<%= model.get("id") %>" /&gt;
+        <pre class="pre-scrollable"><small>&lt;img width="<%= model.get("large_width") %>" height="<%= model.get("large_height") %>" src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" data-adentify-photo-id="<%= model.get("id") %>" data-adentify-tags="hidden" /&gt;
 &lt;script type="text/javascript" async src="https://adentify.com/embed/<%= model.get("id") %>.js"&gt;&lt;/script&gt;</small></pre>
 
     </div>

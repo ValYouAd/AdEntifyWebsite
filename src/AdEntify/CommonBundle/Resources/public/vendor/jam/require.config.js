@@ -55,11 +55,6 @@ var jam = {
             ],
             "exports": "Backbone"
         },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
-        },
         "isotope": {
             "deps": [
                 "jquery"
@@ -125,11 +120,6 @@ if (typeof require !== "undefined" && require.config) {
             ],
             "exports": "Backbone"
         },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
-        },
         "isotope": {
             "deps": [
                 "jquery"
@@ -194,11 +184,6 @@ else {
                 "jquery"
             ],
             "exports": "Backbone"
-        },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
         },
         "isotope": {
             "deps": [
