@@ -1,2 +1,2 @@
-<img width="960" height="600" src="http://localhost/AdEntifyFacebookApp/web/uploads/photos/users/2/large/51ffc0cc45528.jpg" alt="" data-adentify-photo-id="242" data-adentify-tags="visible" />
+<img width="960" height="600" src="http://localhost/AdEntifyFacebookApp/web/uploads/photos/users/2/large/51ffc0cc45528.jpg" alt="" data-adentify-photo-id="242" data-adentify-tags="" data-adentify-likes="" />
 <script type="text/javascript" async src="http://localhost/AdEntifyFacebookApp/web/embed/242.js"></script>

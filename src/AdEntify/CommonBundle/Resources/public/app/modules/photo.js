@@ -32,7 +32,10 @@ define([
       defaults: {
          fullSmallUrl: '',
          fullMediumUrl : '',
-         fullLargeUrl : ''
+         fullLargeUrl : '',
+         caption: '',
+         showTags: false,
+         showLikes: false
       },
 
       initialize: function() {
@@ -57,6 +60,13 @@ define([
             });
             this.set('tags', tags);
          }
+      },
+
+      getEmbed: function() {
+         return '&lt;img width="<%= this.get("large_width") %>" height="' + this.get("large_height") + '" src="'
+            + this.get("fullLargeUrl") + '" alt="' + this.get("caption") + '" data-adentify-photo-id="' + this.get("id")
+            + (this.get("showTags") ? ' data-adentify-tags="" ' : '') + (this.get("showLikes") ? ' data-adentify-likes="" ' : '') + ' /&gt;&lt;script type="text/javascript" async src="https://adentify.com/embed/'
+            + this.get("id") + '.js"&gt;&lt;/script&gt;';
       }
    });
 
@@ -192,10 +202,32 @@ define([
          app.photoActions().favorite(this.model);
       },
 
+      checkboxShowTags: function(e) {
+         this.model.set('showTags', e.currentTarget.checked);
+         this.updateEmbedCode();
+      },
+
+      checkboxShowLikes: function(e) {
+         this.model.set('showLikes', e.currentTarget.checked);
+         this.updateEmbedCode();
+      },
+
+      updateEmbedCode: function() {
+         $('.embedCode').html(this.model.getEmbed());
+      },
+
+      selectTextOnFocus: function(e) {
+         e.preventDefault();
+         $(e.currentTarget).select();
+      },
+
       events: {
          "click .like-button": "like",
          "click .adentify-pastille": "showTags",
-         "click .favorite-button": "favorite"
+         "click .favorite-button": "favorite",
+         "click .showTagsCheckbox": "checkboxShowTags",
+         "click .showLikesCheckbox": "checkboxShowLikes",
+         "mouseup .selectOnFocus": "selectTextOnFocus"
       }
    });
 
