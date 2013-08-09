@@ -90,7 +90,7 @@ class Venue
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @var float
@@ -151,7 +151,7 @@ class Venue
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="venue")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $tags;
 
@@ -165,7 +165,7 @@ class Venue
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", mappedBy="venue")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $photos;
 
@@ -179,7 +179,7 @@ class Venue
     /**
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Product", inversedBy="purchaseVenues")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $products;
 
@@ -366,11 +366,11 @@ class Venue
     }
 
     /**
-     * @param \AdEntify\CoreBundle\Entity\datetime $created_at
+     * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
      */
-    public function setCreatedAt($created_at)
+    public function setCreatedAt($createdAt)
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -379,7 +379,7 @@ class Venue
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**

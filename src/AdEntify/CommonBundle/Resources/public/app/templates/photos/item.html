@@ -13,7 +13,7 @@
                     <%= model.get("likes_count") %> <i class="icon-heart icon-white"></i> <%= model.get("tags_count") %> <i class="icon-tag icon-white"></i>
                 </div>
                 <div class="user-information text-right">
-                    <% if (model.get("owner")["facebook_id"]) { %><img src="https://graph.facebook.com/<%= model.get("owner")["facebook_id"] %>/picture?width=20&height=20" alt="<%= model.get("fullname") %>" /><% } %> <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a>
+                    <% if (model.get("owner")["facebook_id"]) { %><img class="facebookProfile" src="https://graph.facebook.com/<%= model.get("owner")["facebook_id"] %>/picture?width=20&height=20" alt="<%= model.get("fullname") %>" /><% } %> <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a>
                 </div>
             </div>
 

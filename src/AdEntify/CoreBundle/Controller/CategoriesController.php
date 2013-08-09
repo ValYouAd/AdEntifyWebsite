@@ -76,7 +76,7 @@ class CategoriesController extends FosRestController
                 LEFT JOIN photo.tags tag LEFT JOIN photo.categories category WHERE photo.status = :status
                 AND photo.visibilityScope = :visibilityScope AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
                 AND tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0').
-        ' AND category.slug = :slug ORDER BY photo.created_at DESC')
+        ' AND category.slug = :slug ORDER BY photo.createdAt DESC')
             ->setParameters(array(
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,

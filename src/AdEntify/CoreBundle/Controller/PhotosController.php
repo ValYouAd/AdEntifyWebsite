@@ -88,7 +88,7 @@ class PhotosController extends FosRestController
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
                 AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true AND tag.deleted_at IS NULL
                 AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' : 'photo.tagsCount = 0').
-            ' ORDER BY photo.created_at DESC')
+            ' ORDER BY photo.createdAt DESC')
                 ->setParameters($parameters)
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit)
@@ -125,7 +125,7 @@ class PhotosController extends FosRestController
                 AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                ORDER BY photo.created_at DESC')
+                ORDER BY photo.createdAt DESC')
             ->setParameters(array(
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
@@ -289,7 +289,7 @@ class PhotosController extends FosRestController
                 LEFT JOIN photo.tags tag
                 WHERE photo.owner = :userId AND photo.status = :status AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
                 AND tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0').
-            ' ORDER BY photo.created_at DESC')
+            ' ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':userId' => $user->getId(),
                     ':status' => Photo::STATUS_READY

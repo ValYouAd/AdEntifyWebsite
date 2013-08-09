@@ -93,7 +93,7 @@ class UsersController extends FosRestController
                 WHERE photo.owner = :userId AND photo.status = :status
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                ORDER BY photo.created_at DESC')
+                ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':userId' => $id,
                     ':status' => Photo::STATUS_READY,
@@ -181,7 +181,7 @@ class UsersController extends FosRestController
                 AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                ORDER BY photo.created_at DESC')
+                ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':userId' => $user->getId(),
                     ':status' => Photo::STATUS_READY,

@@ -58,7 +58,7 @@ class Person
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @var integer
@@ -83,7 +83,7 @@ class Person
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="person")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $tags;
 
@@ -97,7 +97,7 @@ class Person
     /**
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Product", inversedBy="owners")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $products;
 
@@ -168,11 +168,11 @@ class Person
     }
 
     /**
-     * @param \AdEntify\CoreBundle\Entity\datetime $created_at
+     * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
      */
-    public function setCreatedAt($created_at)
+    public function setCreatedAt($createdAt)
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
     }
 
     /**
@@ -180,7 +180,7 @@ class Person
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
