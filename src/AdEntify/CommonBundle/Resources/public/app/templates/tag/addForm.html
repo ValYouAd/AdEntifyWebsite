@@ -15,6 +15,14 @@
                 <div id="brand-logo" class="text-center"></div>
                 <label><span data-i18n="tag.labelProductName"></span> <i class="icon-refresh fadeOut rotate" id="loading-product"></i></label>
                 <input id="product-name" name="product-text" type="text" data-i18n="[placeholder]tag.placeholderProductName">
+                <p class="createProductButtonContainer">
+                    <small data-i18n="tag.productNotExistLabel"></small><br>
+                    <button class="btn btn-info createProductButton"><i class="icon-white icon-plus"></i> <span data-i18n="tag.productNotExist"></span></button>
+                </p>
+                <div class="createProductContainer fadeOut">
+                    <label data-i18n="tag.productImageUploadLabel"></label>
+                    <input type="file" name="productImage" class="productImageUpload">
+                </div>
                 <div id="product-image" class="text-center"></div>
                 <label data-i18n="tag.labelProductPurchaseUrl"></label>
                 <input id="product-purchase-url" name="product-purchase-url" type="text" data-i18n="[placeholder]tag.placeholderProductPurchaseUrl">

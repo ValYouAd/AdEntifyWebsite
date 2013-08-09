@@ -884,10 +884,19 @@ define([
          });
       },
 
+      createProduct: function(e) {
+         e.preventDefault();
+         var that = this;
+         $(this.el).find('.createProductButtonContainer').fadeOut('fast', function() {
+            $(that.el).find('.createProductContainer').fadeIn('fast');
+         });
+      },
+
       events: {
          "click .cancel-add-tag": "cancel",
          "click .btn-geolocation": "geolocation",
-         "submit": "submit"
+         "submit": "submit",
+         "click .createProductButton": "createProduct"
       }
    });
 

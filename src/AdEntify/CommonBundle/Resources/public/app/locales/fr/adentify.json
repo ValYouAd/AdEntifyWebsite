@@ -117,7 +117,10 @@
       "noVenueSelected": "Vous devez sélectionner un lieu avant de valider",
       "forbiddenTagPost": "Vous n'êtes pas autorisé à taguer cette photo",
       "validateTag": "Autoriser ce tag",
-      "refuseTag": "Refuser ce tag"
+      "refuseTag": "Refuser ce tag",
+      "productNotExistLabel": "Vous ne trouvez pas votre produit ? Vous pouvez l'ajouter à AdEntify :",
+      "productNotExist": "Créer un nouveau produit",
+      "productImageUploadLabel": "Photo du produit"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
