@@ -18,19 +18,11 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', 'text')
-            ->add('description', 'text')
-            ->add('facebookId', 'text')
-            ->add('purchase_url', 'text',array(
-                'required' => false
-            ))
-            ->add('tag', 'entity', array(
-                'class' => 'AdEntifyCoreBundle:Tag',
-                'property' => 'title',
-                'required' => false
-            ))
-            ->add('owner', 'entity', array(
-                'class' => 'AdEntifyCoreBundle:User',
-                'property' => 'username',
+            ->add('original_url', 'text')
+            ->add('medium_url', 'text')
+            ->add('small_url', 'text')
+            ->add('description', 'textarea')
+            ->add('purchase_url', 'text',  array(
                 'required' => false
             ))
             ->add('brand', 'entity', array(

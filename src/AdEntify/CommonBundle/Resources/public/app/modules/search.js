@@ -102,7 +102,7 @@ define([
       },
 
       isFullscreenSearch: function() {
-         return Backbone.history.fragment == $.t('routing.search/') ? true : false;
+         return Backbone.history.fragment == $.t('routing.search/');
       }
    });
 

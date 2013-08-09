@@ -120,7 +120,11 @@
       "refuseTag": "Refuser ce tag",
       "productNotExistLabel": "Vous ne trouvez pas votre produit ? Vous pouvez l'ajouter à AdEntify :",
       "productNotExist": "Créer un nouveau produit",
-      "productImageUploadLabel": "Photo du produit"
+      "productImageUploadLabel": "Photo du produit",
+      "errorProductImageUpload": "Impossible d'envoyer la photo du produit, veuillez réessayer",
+      "errorProductPost": "Erreur lors de l'ajout du produit",
+      "errorSelectBrand": "Veuillez sélectionner une marque avant d'ajouter un produit",
+      "errorProductEmptyFields": "Vous devez remplir les champs nom et description"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",

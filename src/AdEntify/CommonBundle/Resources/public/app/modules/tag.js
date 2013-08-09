@@ -10,10 +10,13 @@ define([
    "modules/venue",
    "modules/person",
    "modules/common",
+   "modules/product",
    "select2",
    "bootstrap",
-   "modernizer"
-], function(app, Venue, Person, Common) {
+   "modernizer",
+   "jquery.iframe-transport",
+   "jquery.fileupload"
+], function(app, Venue, Person, Common, Product) {
 
    var Tag = app.module();
    var currentPhotoOverlay = null;
@@ -23,6 +26,7 @@ define([
    var currentBrand = null;
    var currentProducts = {};
    var currentProduct = null;
+   var newProduct = null;
    var currentVenues = {};
    var currentVenue = null;
    var currentPerson = null;
@@ -254,6 +258,8 @@ define([
       },
 
       initialize: function() {
+         if (this.model.has('product') && typeof this.model.get('product').attributes === 'undefined')
+            this.model.set('product', new Product.Model(this.model.get('product')));
          this.listenTo(this.model, "change", this.render);
       },
 
@@ -516,6 +522,27 @@ define([
             }
          });
 
+         $('#fileupload').attr("data-url", Routing.generate('upload_product_photo'));
+         $('#fileupload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+               if (data.result) {
+                  $('#product-image').html('<img src="' + app.rootUrl + 'uploads/products/small/' + data.result.small.filename + '" style="margin: 10px 0px;" class="product-image" />');
+                  if (!newProduct)
+                     newProduct = new Product.Model();
+                  newProduct.set('small_url', data.result.small.filename);
+                  newProduct.set('medium_url', data.result.medium.filename);
+                  newProduct.set('original_url', data.result.original);
+               } else {
+                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorProductImageUpload'),
+                     showClose: true
+                  })).render();
+               }
+            }
+         });
+
          // Venue
          if (!Modernizr.geolocation) {
             $('.support-geolocation').fadeOut('fast', function() {
@@ -687,33 +714,99 @@ define([
          switch ($activePane.attr('id')) {
             case 'product':
                $submit = $('#submit-product');
-               if (currentProduct && currentTag) {
-                  $submit.button('loading');
+               if (currentTag) {
                   var that = this;
-                  // Check if there is a venue for the current product
-                  if (currentVenue) {
-                     // POST currentVenue
-                     venue = new Venue.Model();
-                     venue.entityToModel(currentVenue);
-                     venue.set('products', [ currentProduct.id ]);
-                     venue.url = Routing.generate('api_v1_post_venue');
-                     venue.getToken('venue_item', function() {
-                        venue.save(null, {
+                  if (newProduct) {
+                     $submit.button('loading');
+                     if (!currentBrand) {
+                        $submit.button('reset');
+                        app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorSelectBrand'),
+                           showClose: true
+                        })).render();
+                        return;
+                     }
+                     if (!$('#product-description').val() || !$('#product-name').val()) {
+                        $submit.button('reset');
+                        app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorProductEmptyFields'),
+                           showClose: true
+                        })).render();
+                        return;
+                     }
+                     newProduct.url = Routing.generate('api_v1_post_product');
+                     newProduct.set('description', $('#product-description').val());
+                     newProduct.set('purchase_url', $('#product-purchase-url').val());
+                     newProduct.set('name', $('#product-name').val());
+                     newProduct.set('brand', currentBrand.id);
+                     newProduct.getToken('product_item', function() {
+                        newProduct.save(null, {
                            success: function() {
-                              that.postProduct($submit);
+                              if (currentVenue) {
+                                 // POST currentVenue
+                                 venue = new Venue.Model();
+                                 venue.entityToModel(currentVenue);
+                                 venue.set('products', [ newProduct.get('id') ]);
+                                 venue.url = Routing.generate('api_v1_post_venue');
+                                 venue.getToken('venue_item', function() {
+                                    venue.save(null, {
+                                       success: function() {
+                                          that.postProduct($submit, newProduct);
+                                       },
+                                       error: function() {
+                                          $submit.button('reset');
+                                          app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                                             cssClass: Common.alertError,
+                                             message: $.t('tag.errorVenuePost'),
+                                             showClose: true
+                                          })).render();
+                                       }
+                                    });
+                                 });
+                              } else {
+                                 that.postProduct($submit, newProduct);
+                              }
                            },
                            error: function() {
                               $submit.button('reset');
                               app.useLayout().setView('.alert-product', new Common.Views.Alert({
                                  cssClass: Common.alertError,
-                                 message: $.t('tag.errorVenuePost'),
+                                 message: $.t('tag.errorProductPost'),
                                  showClose: true
                               })).render();
                            }
                         });
                      });
-                  } else {
-                     this.postProduct($submit);
+
+
+                  } else if (currentProduct) {
+                     // Check if there is a venue for the current product
+                     if (currentVenue) {
+                        // POST currentVenue
+                        venue = new Venue.Model();
+                        venue.entityToModel(currentVenue);
+                        venue.set('products', [ currentProduct.id ]);
+                        venue.url = Routing.generate('api_v1_post_venue');
+                        venue.getToken('venue_item', function() {
+                           venue.save(null, {
+                              success: function() {
+                                 that.postProduct($submit);
+                              },
+                              error: function() {
+                                 $submit.button('reset');
+                                 app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                                    cssClass: Common.alertError,
+                                    message: $.t('tag.errorVenuePost'),
+                                    showClose: true
+                                 })).render();
+                              }
+                           });
+                        });
+                     } else {
+                        this.postProduct($submit);
+                     }
                   }
                } else {
                   $submit.button('reset');
@@ -847,15 +940,15 @@ define([
          }
       },
 
-      postProduct: function($submit) {
+      postProduct: function($submit, newProduct) {
          // Link tag to photo
          currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
          // Set tag info
          currentTag.set('type', 'product');
-         currentTag.set('product', currentProduct.id);
-         currentTag.set('title', currentProduct.name);
-         currentTag.set('description', currentProduct.description);
-         currentTag.set('link', currentProduct.purchase_url);
+         currentTag.set('product', typeof newProduct !== 'undefined' ? newProduct.get('id') : currentProduct.id);
+         currentTag.set('title', typeof newProduct !== 'undefined' ? newProduct.get('name') : currentProduct.name);
+         currentTag.set('description', typeof newProduct !== 'undefined' ? newProduct.get('description') : currentProduct.description);
+         currentTag.set('link', typeof newProduct !== 'undefined' ? newProduct.get('purchase_url') : currentProduct.purchase_url);
          currentTag.url = Routing.generate('api_v1_post_tag');
          currentTag.getToken('tag_item', function() {
             currentTag.save(null, {
@@ -890,12 +983,13 @@ define([
          $(this.el).find('.createProductButtonContainer').fadeOut('fast', function() {
             $(that.el).find('.createProductContainer').fadeIn('fast');
          });
+         newProduct = new Product.Model();
       },
 
       events: {
          "click .cancel-add-tag": "cancel",
          "click .btn-geolocation": "geolocation",
-         "submit": "submit",
+         "click .submitTagButton": "submit",
          "click .createProductButton": "createProduct"
       }
    });

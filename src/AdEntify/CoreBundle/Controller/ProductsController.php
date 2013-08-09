@@ -2,6 +2,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Form\ProductType;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -57,5 +58,43 @@ class ProductsController extends FosRestController
             ->setParameter(':query', '%'.$query.'%')
             ->setMaxResults($limit)
             ->getResult();
+    }
+
+    /**
+     * @View()
+     */
+    public function postAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = new Product();
+        $form = $this->getForm($product);
+        $form->bind($request);
+        if ($form->isValid()) {
+            // Add venue products
+            if ($product->getPurchaseUrl()) {
+                $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
+                if ($shortUrl)
+                    $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
+                        'id' => $shortUrl->getBase62Id()
+                    )));
+            }
+            $em->persist($product);
+            $em->flush();
+
+            return $product;
+        } else {
+            return $form;
+        }
+    }
+
+    /**
+     * Get form for Venue
+     *
+     * @param null $venue
+     * @return mixed
+     */
+    protected function getForm($product = null)
+    {
+        return $this->createForm(new ProductType(), $product);
     }
 }

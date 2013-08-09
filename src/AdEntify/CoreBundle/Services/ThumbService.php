@@ -31,7 +31,7 @@ class ThumbService
      * @param User $user
      * @return array thumb generated
      */
-    public function generateThumb(Thumb $thumb, User $user, $filename = '')
+    public function generateUserPhotoThumb(Thumb $thumb, User $user, $filename = '')
     {
         $generatedThumbs = array();
         // Generate unique filename if empty
@@ -42,15 +42,7 @@ class ThumbService
             $path = FileTools::getUserPhotosPath($user, $size);
 
             // Generate thumb
-            $this->filterManager->get($size)
-                ->apply($this->imagine->open($thumb->getOriginalPath()))
-                ->save($path.$filename, array(
-                    'quality' => $this->filterManager->getOption($size, "quality", 100),
-                    'format'  => $this->filterManager->getOption($size, "format", null)
-                ));
-
-            // Get size of thumb
-            $imageSize = getimagesize($path.$filename);
+            $imageSize = $this->resize($thumb, $size, $path, $filename);
 
             $generatedThumbs[$size] = array(
                 'filename' => $filename,
@@ -60,5 +52,37 @@ class ThumbService
         }
 
         return $generatedThumbs;
+    }
+
+    public function generateProductThumb(Thumb $thumb, $filename)
+    {
+        $generatedThumbs = array();
+        foreach($thumb->getDesiredThumbSizes() as $size) {
+            $path = FileTools::getProductPhotoPath($size);
+
+            // Generate thumb
+            $imageSize = $this->resize($thumb, $size, $path, $filename);
+
+            $generatedThumbs[$size] = array(
+                'filename' => $filename,
+                'width' => $imageSize[0],
+                'height' => $imageSize[1],
+            );
+        }
+
+        return $generatedThumbs;
+    }
+
+    private function resize($thumb, $size, $path, $filename)
+    {
+        $this->filterManager->get($size)
+            ->apply($this->imagine->open($thumb->getOriginalPath()))
+            ->save($path.$filename, array(
+                'quality' => $this->filterManager->getOption($size, "quality", 100),
+                'format'  => $this->filterManager->getOption($size, "format", null)
+            ));
+
+        // Get size of thumb
+        return getimagesize($path.$filename);
     }
 }
