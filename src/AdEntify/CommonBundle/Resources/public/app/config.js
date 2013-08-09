@@ -13,7 +13,10 @@ require.config({
      "hmacsha1": "../vendor/js/hmac-sha1",
      "pinterest": "//assets.pinterest.com/js/pinit",
      "select2": "../vendor/js/select2/select2",
-     "select2fr": "../vendor/js/select2/select2_locale_fr"
+     "select2fr": "../vendor/js/select2/select2_locale_fr",
+     "jquery.fileupload": "../vendor/js/jquery.fileupload",
+     "jquery.iframe-transport": "../vendor/js/jquery.iframe-transport",
+     "jquery.ui.widget": "../vendor/js/jquery.ui.widget"
   },
 
    map: {

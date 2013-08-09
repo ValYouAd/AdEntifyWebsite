@@ -83,7 +83,7 @@ class Brand
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Product", mappedBy="brand")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $products;
 
@@ -97,7 +97,7 @@ class Brand
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="brand")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $tags;
 

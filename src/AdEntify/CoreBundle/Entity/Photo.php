@@ -53,7 +53,7 @@ class Photo
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @var string
@@ -175,7 +175,7 @@ class Photo
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Comment", mappedBy="photo")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $comments;
 
@@ -189,7 +189,7 @@ class Photo
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Like", mappedBy="photo")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $likes;
 
@@ -202,7 +202,7 @@ class Photo
 
     /**
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="photo")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $tags;
 
@@ -273,12 +273,12 @@ class Photo
     }
 
     /**
-     * @param \AdEntify\CoreBundle\Entity\datetime $created_at
+     * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
      * @return Photo
      */
-    public function setCreatedAt($created_at)
+    public function setCreatedAt($createdAt)
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -287,7 +287,7 @@ class Photo
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**

@@ -57,7 +57,7 @@ class Product
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="products")
@@ -68,7 +68,7 @@ class Product
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="product")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $tags;
 
@@ -223,11 +223,11 @@ class Product
 
 
     /**
-     * @param \AdEntify\CoreBundle\Entity\datetime $created_at
+     * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
      */
-    public function setCreatedAt($created_at)
+    public function setCreatedAt($createdAt)
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -236,7 +236,7 @@ class Product
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     public function addOwner(Person $person)

@@ -130,7 +130,7 @@ class BrandsController extends FosRestController
                 AND tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                ORDER BY photo.created_at DESC')
+                ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':status' => Photo::STATUS_READY,
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,

@@ -4,7 +4,7 @@
 
   "jam": {
     "packageDir": "./vendor/jam",
-    "baseUrl": "./app",
+    "baseUrl": "./",
 
     "dependencies": {
       "backbone": "*",

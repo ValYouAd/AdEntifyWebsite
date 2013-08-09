@@ -255,7 +255,7 @@ class UploadService
 
                     // Thumb generation
                     if ($thumb->IsThumbGenerationNeeded()) {
-                        $generatedThumbs = $this->thumbService->generateThumb($thumb, $user, $filename);
+                        $generatedThumbs = $this->thumbService->generateUserPhotoThumb($thumb, $user, $filename);
                         foreach($generatedThumbs as $key => $value) {
                             switch ($key) {
                                 case FileTools::PHOTO_TYPE_LARGE:

@@ -50,7 +50,7 @@ class TagStats
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @var string
@@ -96,11 +96,11 @@ class TagStats
     }
 
     /**
-     * @param \AdEntify\CoreBundle\Entity\datetime $created_at
+     * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
      */
-    public function setCreatedAt($created_at)
+    public function setCreatedAt($createdAt)
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -109,7 +109,7 @@ class TagStats
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**

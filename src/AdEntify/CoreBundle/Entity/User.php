@@ -59,7 +59,7 @@ class User extends BaseUser
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @var integer
@@ -97,7 +97,7 @@ class User extends BaseUser
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", mappedBy="owner")
-     * @ORM\OrderBy({"created_at" = "DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $photos;
 
@@ -111,14 +111,14 @@ class User extends BaseUser
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Like", mappedBy="liker")
-     * @ORM\OrderBy({"created_at" = "DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $likes;
 
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Comment", mappedBy="author")
-     * @ORM\OrderBy({"created_at" = "DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
 
@@ -139,8 +139,8 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagStats", mappedBy="tag")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagStats", mappedBy="user")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $stats;
 
@@ -183,30 +183,30 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="author")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="favoritesUsers")
      * @ORM\JoinTable(name="user_favorites_photos")
-     * @ORM\OrderBy({"created_at" = "DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $favoritesPhotos;
 
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Notification", mappedBy="owner")
-     * @ORM\OrderBy({"created_at" = "DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $notifications;
 
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="user")
-     * @ORM\OrderBy({"created_at" = "ASC"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $brandTags;
 
     /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="owner")
-     * @ORM\OrderBy({"created_at" = "DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $tags;
 
@@ -229,11 +229,11 @@ class User extends BaseUser
     }
 
     /**
-     * @param \AdEntify\CoreBundle\Entity\datetime $created_at
+     * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
      */
-    public function setCreatedAt($created_at)
+    public function setCreatedAt($createdAt)
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -242,7 +242,7 @@ class User extends BaseUser
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**

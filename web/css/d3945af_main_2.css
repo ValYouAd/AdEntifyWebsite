@@ -23,7 +23,7 @@ nav #user-information {
     margin-top: 6px;
 }
 nav #user-information img {
-    max-height: 15px;
+    max-height: 25px;
 }
 nav .loading-gif-container-nomargin {
     margin-top: 4px;
@@ -196,6 +196,9 @@ footer p {
         -ms-animation: smallerCircle 0.5s ease;
         -o-animation: smallerCircle 0.5s ease;
         animation: smallerCircle 0.5s ease;
+    }
+    .user-information .facebookProfile {
+        max-height: 20px;
     }
     @-webkit-keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
        @-moz-keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
