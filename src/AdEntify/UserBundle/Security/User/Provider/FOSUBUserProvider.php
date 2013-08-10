@@ -62,14 +62,15 @@ class FOSUBUserProvider extends BaseClass
             $user->$setter_token($response->getAccessToken());
             //I have set all requested data with the user's username
             //modify here with relevant data
-            if (array_key_exists('first_name', $response->getResponse()))
-                $user->setFirstname($response->getResponse()['first_name']);
-            if (array_key_exists('last_name', $response->getResponse()))
-                $user->setLastname($response->getResponse()['last_name']);
-            if (array_key_exists('gender', $response->getResponse()))
-                $user->setGender($response->getResponse()['gender']);
-            if (array_key_exists('email', $response->getResponse()))
-                $user->setEmail($response->getResponse()['email']);
+            $resp = $response->getResponse();
+            if (array_key_exists('first_name', $resp))
+                $user->setFirstname($resp['first_name']);
+            if (array_key_exists('last_name', $resp))
+                $user->setLastname($resp['last_name']);
+            if (array_key_exists('gender', $resp))
+                $user->setGender($resp['gender']);
+            if (array_key_exists('email', $resp))
+                $user->setEmail($resp['email']);
             else
                 $user->setEmail($username);
             $user->setUsername($username);

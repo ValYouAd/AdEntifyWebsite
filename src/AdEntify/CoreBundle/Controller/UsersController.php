@@ -294,7 +294,8 @@ class UsersController extends FosRestController
             $form->setData($model);
             $form->bind($request);
             if ($form->isValid()) {
-                $user->setPlainPassword($request->request->get('fos_user_change_password')['new']);
+                $changePasswordService = $request->request->get('fos_user_change_password');
+                $user->setPlainPassword($changePasswordService['new']);
                 $this->container->get('fos_user.user_manager')->updateUser($user);
                 return $user;
             } else {
