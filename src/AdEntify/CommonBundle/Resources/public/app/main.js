@@ -99,7 +99,7 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
       },
       parse: function(obj) {
          // Check if there is pagination
-         if (typeof obj !== 'undefined' && typeof obj.data !== 'undefined') {
+         if (typeof obj !== 'undefined' && obj && typeof obj.data !== 'undefined') {
             if (typeof obj.paging !== 'undefined') {
                if (typeof obj.paging.next !== 'undefined')
                   this.next = obj.paging.next

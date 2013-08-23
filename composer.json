@@ -32,7 +32,7 @@
         "avalanche123/imagine-bundle": "v2.1",
         "hwi/oauth-bundle": "0.3.*@dev",
         "incenteev/composer-parameter-handler": "~2.0",
-        "nelmio/cors-bundle": "~1.0"
+        "nelmio/cors-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

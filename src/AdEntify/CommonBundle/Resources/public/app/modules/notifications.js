@@ -45,7 +45,16 @@ define([
    });
 
    Notifications.Collection = Backbone.Collection.extend({
-      model: Notifications.Model
+      model: Notifications.Model,
+
+      unreadCount: function() {
+         var unreadNotifications = 0;
+         this.each(function(notification) {
+            if (notification.get('status') == 'unread')
+               unreadNotifications++;
+         });
+         return unreadNotifications;
+      }
    });
 
    Notifications.Views.Item = Backbone.View.extend({
@@ -71,7 +80,7 @@ define([
          this.model.getToken('notification_item', function() {
             that.model.save(null, {
                success: function() {
-                  app.trigger('notifications:delete', that.model);
+                  //app.trigger('notifications:delete', that.model);
                }
             });
          });
@@ -125,7 +134,7 @@ define([
             success: function(collection) {
                if (collection.length == 0) {
                   app.useLayout().setView('.alert-notifications', new Common.Views.Alert({
-                     cssClass: Common.alertError,
+                     cssClass: Common.alertInfo,
                      message: $.t('notification.noNotifications'),
                      showClose: true
                   })).render();
@@ -152,8 +161,7 @@ define([
          if ($(e.currentTarget).hasClass('active')) {
             $(this.el).find('.popover').stop().fadeOut();
          } else {
-            if (this.notifications.length > 0)
-               $(this.el).find('.popover').stop().fadeIn();
+            $(this.el).find('.popover').stop().fadeIn();
          }
       },
 
