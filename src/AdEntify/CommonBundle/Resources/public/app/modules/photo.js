@@ -83,15 +83,15 @@ define([
                   cssClass: Common.alertError,
                   message: $.t('photo.errorLoading'),
                   showClose: true
-               }), true).render();
+               })).render();
             },
             "sync": function(model, resp) {
                if (resp == null) {
                   app.useLayout().setView('#content', new Common.Views.Alert({
-                     cssClass: Common.alertInfo,
+                     cssClass: Common.alertError,
                      message: $.t('photo.noPhoto'),
                      showClose: true
-                  }), true).render();
+                  })).render();
                } else {
                   app.trigger('domchange:title', this.options.photo.get('caption'));
                   app.oauth.loadAccessToken({

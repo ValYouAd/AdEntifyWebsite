@@ -41,6 +41,21 @@ define([
          if (this.get('object_type') === "AdEntify\\CoreBundle\\Entity\\Photo") {
             this.set('photoLink', app.beginUrl + app.root + $.t('routing.photo/id/', {id: this.get('object_id') }));
          }
+      },
+
+      read: function() {
+         if (this.get('status') != 'read') {
+            this.set('status', 'read');
+            this.url = Routing.generate('api_v1_put_notification', { id: this.get('id') });
+            var that = this;
+            this.getToken('notification_item', function() {
+               that.save(null, {
+                  success: function() {
+                     app.trigger('notifications:read', that);
+                  }
+               });
+            });
+         }
       }
    });
 
@@ -74,16 +89,7 @@ define([
       },
 
       notificationRead: function() {
-         this.model.set('status', 'read');
-         this.model.url = Routing.generate('api_v1_put_notification', { id: this.model.get('id') });
-         var that = this;
-         this.model.getToken('notification_item', function() {
-            that.model.save(null, {
-               success: function() {
-                  //app.trigger('notifications:delete', that.model);
-               }
-            });
-         });
+         this.model.read();
       },
 
       events: {
@@ -121,9 +127,13 @@ define([
          });
          // Start polling
          this.pollNotifications(this.options.notifications);
-         this.listenTo(app, 'notifications:delete', function(model) {
-            if (model)
-               that.notifications.remove(model);
+         this.listenTo(app, 'notifications:read', function() {
+            var count = that.notifications.unreadCount();
+            if (count == 0) {
+               $('.notifications-count').hide();
+            } else {
+               $('.notifications-count').html(count);
+            }
          });
       },
 
@@ -158,10 +168,17 @@ define([
       },
 
       toggleNotifications: function(e) {
+         // Hide
          if ($(e.currentTarget).hasClass('active')) {
             $(this.el).find('.popover').stop().fadeOut();
-         } else {
+         }
+         // Show
+         else {
             $(this.el).find('.popover').stop().fadeIn();
+            this.notifications.each(function(notification) {
+               notification.read();
+            });
+
          }
       },
 
