@@ -126,16 +126,40 @@ class UsersController extends FosRestController
      * @param $query
      * @param int $limit
      *
-     * @QueryParam(name="limit", default="10")
+     * @QueryParam(name="query")
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View()
      */
-    public function getSearchAction($query, $limit)
+    public function getSearchAction($query, $page = 1, $limit = 10)
     {
-        return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+        $em = $this->getDoctrine()->getManager();
+
+        $count = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
             WHERE user.firstname LIKE :query OR user.lastname LIKE :query')
-            ->setParameter(':query', '%'.$query.'%')
-            ->setMaxResults($limit)
-            ->getResult();
+            ->setParameters(array(
+                ':query' => '%'.$query.'%'
+            ))
+            ->getSingleScalarResult();
+
+        $results = null;
+        $pagination = null;
+        if ($count > 0) {
+            $results = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+            WHERE user.firstname LIKE :query OR user.lastname LIKE :query')
+                ->setParameters(array(
+                    ':query' => '%'.$query.'%'
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit)
+                ->getResult();
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_search', array(
+                'query' => $query
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($results, $pagination);
     }
 
     /**

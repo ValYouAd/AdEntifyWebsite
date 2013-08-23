@@ -25,7 +25,7 @@ define([
    });
 
    MySettings.Views.ServiceItem = Backbone.View.extend({
-      template: "mysettings/serviceItem",
+      template: "mySettings/serviceItem",
       tagName: "li",
 
       serialize: function() {
