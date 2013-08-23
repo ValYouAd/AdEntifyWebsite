@@ -120,9 +120,9 @@ class PhotosController extends FosRestController
 
         $photo = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag
-                WHERE photo.id = :id AND photo.status = :status AND tag.visible = true
+                WHERE photo.id = :id AND photo.status = :status AND (tag IS NULL OR tag.visible = true
                 AND tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
-                AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
+                AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
                 ORDER BY photo.createdAt DESC')
