@@ -52,7 +52,7 @@ class UploadService
                 $photo = new Photo();
                 $photo->setOwner($user)->setPhotoSourceId($image->id);
                 // Set visibility scope
-                if (isset($image->confidentiality) && $image->confidentiality == 'private')
+                if (isset($image->confidentiality) && $image->conffidentiality == 'private')
                     $photo->setVisibilityScope(Photo::SCOPE_PRIVATE);
                 else
                     $photo->setVisibilityScope(Photo::SCOPE_PUBLIC);

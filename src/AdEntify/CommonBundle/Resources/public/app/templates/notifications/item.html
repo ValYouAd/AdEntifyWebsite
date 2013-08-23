@@ -1,13 +1,3 @@
-<div class="status pull-left">
-    <% if (model.get('status') == 'read') { %>
-    <span class="label label-success"><i class="icon-ok icon-white"></i></span>
-    <% } %>
-</div>
-<div class="pull-right">
-    <% if (model.get('status') == 'unread') { %>
-    <button class="btn btn-success btn-mini button-read"><i class="icon-white icon-ok"></i> <span data-i18n="notification.read"></span></button>
-    <% } %>
-</div>
 <% if (model.get("type") == "upload") { %>
 <div class="message"><a data-i18n="[href]routing.my/photos/untagged/"><span data-i18n="<%= model.get("message") %>"></span></a></div>
 <% } else if (model.get("type") == "like-photo" || model.get("type") == "fav-photo" || model.get("type") == "tag-photo") { %>

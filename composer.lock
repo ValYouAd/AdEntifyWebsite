@@ -3,61 +3,8 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3e0747c7542c3041f7bfcddfc094b3ca",
+    "hash": "adf78da06c0e733d0aa96b15ecc75145",
     "packages": [
-        {
-            "name": "adentify/core-bundle",
-            "version": "dev-master",
-            "target-dir": "AdEntify/CoreBundle",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:VegetablesAdvertising/AdEntifyCoreBundle.git",
-                "reference": "b94f364b48ca14778349b6c38389842f59f7c308"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/VegetablesAdvertising/AdEntifyCoreBundle/zipball/b94f364b48ca14778349b6c38389842f59f7c308",
-                "reference": "b94f364b48ca14778349b6c38389842f59f7c308",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/inflector": "1.0.*",
-                "php": ">=5.3.2",
-                "symfony/framework-bundle": ">=2.1,<2.4-dev"
-            },
-            "require-dev": {
-                "sensio/framework-extra-bundle": ">=2.1,<2.4-dev",
-                "symfony/form": ">=2.1,<2.4-dev",
-                "symfony/security": ">=2.1,<2.4-dev",
-                "symfony/yaml": ">=2.1,<2.4-dev"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-0": {
-                    "AdEntify\\CoreBundle": ""
-                }
-            },
-            "authors": [
-                {
-                    "name": "Matthieu Dordolo",
-                    "email": "matthieu@adentify.com"
-                },
-                {
-                    "name": "Pierrick Martos",
-                    "email": "pierrick@adentify.com"
-                }
-            ],
-            "description": "Core Bundle of AdEntify",
-            "homepage": "http://www.adentify.com",
-            "keywords": [
-                "adentify"
-            ],
-            "support": {
-                "source": "https://github.com/VegetablesAdvertising/AdEntifyCoreBundle/tree/master",
-                "issues": "https://github.com/VegetablesAdvertising/AdEntifyCoreBundle/issues"
-            },
-            "time": "2013-08-07 07:25:51"
-        },
         {
             "name": "avalanche123/imagine-bundle",
             "version": "v2.1",
@@ -893,12 +840,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "7548356058efd68c1b4d9dd29636c784727b0519"
+                "reference": "0.13.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/7548356058efd68c1b4d9dd29636c784727b0519",
-                "reference": "7548356058efd68c1b4d9dd29636c784727b0519",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/0.13.1",
+                "reference": "0.13.1",
                 "shasum": ""
             },
             "require": {
@@ -927,7 +874,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.13.x-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
@@ -959,7 +906,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-07-29 19:32:37"
+            "time": "2013-08-15 13:30:47"
         },
         {
             "name": "friendsofsymfony/twitter-bundle",
@@ -1075,16 +1022,16 @@
         },
         {
             "name": "gedmo/doctrine-extensions",
-            "version": "v2.3.6",
+            "version": "v2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "v2.3.6"
+                "reference": "v2.3.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/v2.3.6",
-                "reference": "v2.3.6",
+                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/v2.3.7",
+                "reference": "v2.3.7",
                 "shasum": ""
             },
             "require": {
@@ -1092,12 +1039,12 @@
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "doctrine/common": ">=2.4.0-BETA2",
-                "doctrine/dbal": ">=2.4.0-BETA2",
-                "doctrine/mongodb": ">=1.0.2",
-                "doctrine/mongodb-odm": ">=1.0.0-BETA8",
-                "doctrine/orm": ">=2.4.0-BETA2",
-                "symfony/yaml": "2.*"
+                "doctrine/common": ">=2.4.0-RC3",
+                "doctrine/dbal": ">=2.4.0-RC1",
+                "doctrine/mongodb": ">=1.0.3",
+                "doctrine/mongodb-odm": ">=1.0.0-BETA9",
+                "doctrine/orm": ">=2.4.0-RC1",
+                "symfony/yaml": "2.3.1"
             },
             "suggest": {
                 "doctrine/dbal": ">=2.3.2",
@@ -1113,7 +1060,7 @@
             },
             "autoload": {
                 "psr-0": {
-                    "Gedmo": "lib/"
+                    "Gedmo\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1151,7 +1098,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2013-05-21 12:09:55"
+            "time": "2013-08-18 07:18:44"
         },
         {
             "name": "hwi/oauth-bundle",
@@ -1160,12 +1107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "71b44c6a95443b6a9a13defa2e63ccc7a05d5f99"
+                "reference": "156372aa3451d51bacdd0e9b1f380577b8075ad8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/71b44c6a95443b6a9a13defa2e63ccc7a05d5f99",
-                "reference": "71b44c6a95443b6a9a13defa2e63ccc7a05d5f99",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/156372aa3451d51bacdd0e9b1f380577b8075ad8",
+                "reference": "156372aa3451d51bacdd0e9b1f380577b8075ad8",
                 "shasum": ""
             },
             "require": {
@@ -1244,8 +1191,10 @@
                 "oauth1",
                 "oauth2",
                 "odnoklassniki",
+                "qq",
                 "security",
                 "sensio connect",
+                "sina weibo",
                 "stack exchange",
                 "stereomood",
                 "twitter",
@@ -1255,7 +1204,7 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-08-06 08:16:39"
+            "time": "2013-08-10 07:38:51"
         },
         {
             "name": "imagine/imagine",
@@ -1760,21 +1709,21 @@
         },
         {
             "name": "jms/serializer",
-            "version": "0.12.0",
+            "version": "0.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "0.12.0"
+                "reference": "0.13.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/0.12.0",
-                "reference": "0.12.0",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/0.13.0",
+                "reference": "0.13.0",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "1.*",
-                "jms/metadata": ">=1.1,<2.0",
+                "jms/metadata": "~1.1",
                 "jms/parser-lib": "1.*",
                 "php": ">=5.3.2",
                 "phpcollection/phpcollection": ">=0.1,<0.3-dev"
@@ -1794,7 +1743,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-master": "0.13-dev"
                 }
             },
             "autoload": {
@@ -1823,7 +1772,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-03-28 16:41:24"
+            "time": "2013-07-29 13:39:49"
         },
         {
             "name": "jms/serializer-bundle",
@@ -1832,12 +1781,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSerializerBundle.git",
-                "reference": "5531198a73c4adee669a8a2d1452999349822771"
+                "reference": "f2fd06c6906cc0f98037f2e6250def2e9e593144"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/5531198a73c4adee669a8a2d1452999349822771",
-                "reference": "5531198a73c4adee669a8a2d1452999349822771",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/f2fd06c6906cc0f98037f2e6250def2e9e593144",
+                "reference": "f2fd06c6906cc0f98037f2e6250def2e9e593144",
                 "shasum": ""
             },
             "require": {
@@ -1864,7 +1813,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-master": "0.13-dev"
                 }
             },
             "autoload": {
@@ -1893,7 +1842,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-07-29 12:36:36"
+            "time": "2013-08-21 06:47:26"
         },
         {
             "name": "kertz/twitteroauth",
@@ -2104,23 +2053,31 @@
         },
         {
             "name": "nelmio/cors-bundle",
-            "version": "1.1.0",
+            "version": "dev-master",
             "target-dir": "Nelmio/CorsBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioCorsBundle.git",
-                "reference": "1.1.0"
+                "reference": "1.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/1.1.0",
-                "reference": "1.1.0",
+                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/1.1.1",
+                "reference": "1.1.1",
                 "shasum": ""
             },
             "require": {
                 "symfony/framework-bundle": "~2.0"
             },
+            "require-dev": {
+                "mockery/mockery": "dev-master"
+            },
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Nelmio\\CorsBundle": ""
@@ -2146,7 +2103,7 @@
                 "cors",
                 "crossdomain"
             ],
-            "time": "2013-07-29 13:31:22"
+            "time": "2013-08-14 09:46:02"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -2287,17 +2244,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -2329,21 +2286,21 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2013-07-17 06:24:17"
+            "time": "2013-07-24 08:45:20"
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v2.2.4",
+            "version": "v2.2.5",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "v2.2.4"
+                "reference": "v2.2.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.2.4",
-                "reference": "v2.2.4",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.2.5",
+                "reference": "v2.2.5",
                 "shasum": ""
             },
             "require": {
@@ -2376,21 +2333,21 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2013-07-09 08:03:19"
+            "time": "2013-07-20 06:48:52"
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -2424,7 +2381,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2013-07-04 12:20:59"
+            "time": "2013-07-24 09:19:19"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -2708,17 +2665,17 @@
         },
         {
             "name": "symfony/swiftmailer-bundle",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "target-dir": "Symfony/Bundle/SwiftmailerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/SwiftmailerBundle.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -2759,20 +2716,20 @@
             ],
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
-            "time": "2013-05-15 08:38:58"
+            "time": "2013-08-05 08:18:16"
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "v2.3.2"
+                "reference": "v2.3.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/v2.3.3",
+                "reference": "v2.3.3",
                 "shasum": ""
             },
             "require": {
@@ -2867,7 +2824,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-07-17 06:22:21"
+            "time": "2013-08-07 17:11:16"
         },
         {
             "name": "twig/extensions",
@@ -3034,7 +2991,8 @@
         "jms/debugging-bundle": 20,
         "kertz/twitteroauth": 20,
         "friendsofsymfony/twitter-bundle": 20,
-        "hwi/oauth-bundle": 20
+        "hwi/oauth-bundle": 20,
+        "nelmio/cors-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"
