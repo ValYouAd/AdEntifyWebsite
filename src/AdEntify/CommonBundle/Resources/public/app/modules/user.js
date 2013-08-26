@@ -11,16 +11,30 @@ define([
    "modules/common"
 ], function(app, Photos, Common) {
 
-   var Profile = app.module();
+   var User = app.module();
 
-   Profile.Model = Backbone.Model.extend({
+   User.Model = Backbone.Model.extend({
+      initialize: function() {
+         this.listenTo(this, 'sync', this.setup);
+         this.setup();
+      },
+
+      setup: function() {
+         this.set('fullname', this.get('firstname') + ' ' + this.get('lastname'));
+         this.set('link', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('id') }));
+      },
+
       defaults: {
          photos_count: 0
       }
    });
 
-   Profile.Views.MenuRight = Backbone.View.extend({
-      template: "profile/menuRight",
+   User.Collection = Backbone.Collection.extend({
+      model: User.Model
+   });
+
+   User.Views.MenuRight = Backbone.View.extend({
+      template: "user/menuRight",
 
       serialize: function() {
          return { model: this.model };
@@ -100,5 +114,5 @@ define([
       }
    });
 
-   return Profile;
+   return User;
 });
