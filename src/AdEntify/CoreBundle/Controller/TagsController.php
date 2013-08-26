@@ -63,10 +63,10 @@ class TagsController extends FosRestController
      *
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="20")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View()
      */
-    public function getSearchAction($query, $page = 1, $limit = 20, Request $request)
+    public function getSearchAction($query, $page = 1, $limit = 10, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->container->get('security.context')->getToken()->getUser();

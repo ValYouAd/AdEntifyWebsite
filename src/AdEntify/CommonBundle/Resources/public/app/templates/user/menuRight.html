@@ -6,7 +6,7 @@
     <div class="ph1 pull-left">
         <img class="img-polaroid m1" src="https://graph.facebook.com/<%= model.get("facebook_id") %>/picture?type=normal" alt="<%= model.get("firstname") %> <%= model.get("lastname") %>" />
     </div>
-    <p class="lead"><%= model.get("firstname") %> <%= model.get("lastname") %></p>
+    <p class="lead"><%= model.get("fullname") %></p>
     <p data-i18n="[html]profile.photosCount" data-i18n-options='{"count": <%= model.get("photos_count") %>}'></p>
     <p class="mt1"><button id="follow" data-toggle="button" type="button" class="btn btn-info"><i class="icon-plus icon-white"></i> <span data-i18n="profile.follow"></span></button></p>
     <p class="mt1"><% if (model.get("facebook_id")) { %><a href="https://www.facebook.com/<%= model.get("facebook_id") %>" class="btn btn-primary btn-small">Facebook</a><% } %> <% if (model.get("twitter_username")) { %><a href="https://www.twitter.com/<%= model.get("twitter_username") %>" class="btn btn-primary btn-small">Twitter</a><% } %></p>

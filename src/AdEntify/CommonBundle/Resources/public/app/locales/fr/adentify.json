@@ -174,7 +174,8 @@
       "memberPhotos": "Photos de l'utilisateur",
       "lastLikedPhotos": "Dernières photos aimés",
       "noLikedPhotos": "L'utilisateur n'a aimé aucune photo pour le moment.",
-      "errorLikedPhotos": "Impossible de récupérer les photos aimés."
+      "errorLikedPhotos": "Impossible de récupérer les photos aimés.",
+      "viewProfile": "<a href='__link__'>Voir son profil</a>"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
@@ -192,7 +193,9 @@
       "inProgress": "Recherche en cours...",
       "noResults": "Aucun résultat pour votre recherche",
       "error": "Impossible de récupérer les résultats",
-      "viewMore": "Voir plus de résultats"
+      "viewMore": "Voir plus de résultats",
+      "tagsBlockTitle": "Tags",
+      "usersBlockTitle": "Utilisateurs"
    },
    "comment": {
       "noComments": "Aucun commentaire",

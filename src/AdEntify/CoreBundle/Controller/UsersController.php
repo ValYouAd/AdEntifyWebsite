@@ -135,8 +135,8 @@ class UsersController extends FosRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $count = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-            WHERE user.firstname LIKE :query OR user.lastname LIKE :query')
+        $count = $em->createQuery('SELECT count(u.id) FROM AdEntify\CoreBundle\Entity\User u
+            WHERE u.firstname LIKE :query OR u.lastname LIKE :query')
             ->setParameters(array(
                 ':query' => '%'.$query.'%'
             ))
@@ -145,8 +145,8 @@ class UsersController extends FosRestController
         $results = null;
         $pagination = null;
         if ($count > 0) {
-            $results = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-            WHERE user.firstname LIKE :query OR user.lastname LIKE :query')
+            $results = $em->createQuery('SELECT u FROM AdEntify\CoreBundle\Entity\User u
+            WHERE u.firstname LIKE :query OR u.lastname LIKE :query')
                 ->setParameters(array(
                     ':query' => '%'.$query.'%'
                 ))

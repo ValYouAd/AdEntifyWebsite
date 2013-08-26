@@ -17,7 +17,7 @@ define([
    "modules/photo",
    "modules/brand",
    "modules/mySettings",
-   "modules/profile",
+   "modules/user",
    "modules/common",
    "modules/category",
    "modules/search",
@@ -26,7 +26,7 @@ define([
 ],
 
 function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
-         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, Profile,
+         AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, User,
          Common, Category, Search, Comment, Notifications) {
 
    var searchSetup = false;
@@ -79,7 +79,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             photoCategories: new Category.Collection(),
             searchResults: new Search.Collection(),
             comments: new Comment.Collection(),
-            notifications: new Notifications.Collection()
+            notifications: new Notifications.Collection(),
+            users: new User.Collection()
          };
          _.extend(this, collections);
 
@@ -486,8 +487,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                tagged: true,
                title: $.t('profile.memberPhotos')
             }),
-            "#menu-right": new Profile.Views.MenuRight({
-               user: new Profile.Model({
+            "#menu-right": new User.Views.MenuRight({
+               user: new User.Model({
                   id: id
                }),
                likesPhotos: this.tickerPhotos
@@ -626,7 +627,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          app.useLayout().setViews({
             "#content": new Search.Views.FullList({
-               searchResults: this.searchResults
+               searchResults: this.searchResults,
+               users: this.users
             })
          }).render();
       },
@@ -673,11 +675,15 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.categories.length) {
             this.categories.fullReset();
          }
+         if (this.users.length) {
+            this.users.fullReset();
+         }
          // Add search form if not already set
          if (!searchSetup) {
             searchSetup = true;
             app.useLayout().setView('#search-bar', new Search.Views.Form({
-               searchResults: this.searchResults
+               searchResults: this.searchResults,
+               users: this.users
             })).render();
          }
          if (!notificationsSetup) {

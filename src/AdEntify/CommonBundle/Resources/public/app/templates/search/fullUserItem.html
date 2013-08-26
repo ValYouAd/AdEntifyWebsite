@@ -1,0 +1,10 @@
+<% if (model.has('facebook_id')) { %>
+<a href="<%= model.get("link") %>"><img src="https://graph.facebook.com/<%= model.get('facebook_id') %>/picture?type=square" class="mh35 p5 pull-left" /></a> <a href="<%= model.get('link') %>"><%= model.get('fullname') %></a>
+<% } %>
+<div>
+    <div class="pull-right">
+        <span data-i18n="[html]profile.photosCount" data-i18n-options='{"count": <%= model.get("photos_count") %>}'></span>
+    </div>
+    <small data-i18n="[html]profile.viewProfile" data-i18n-options='{"link": "<%= model.get("link") %>", "fullname": "<%= model.get("fullname") %>"}'></small>
+</div>
+<div class="clearfix"></div>
