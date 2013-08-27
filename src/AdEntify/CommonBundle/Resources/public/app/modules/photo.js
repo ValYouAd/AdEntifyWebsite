@@ -67,6 +67,13 @@ define([
             + this.get("fullLargeUrl") + '" alt="' + this.get("caption") + '" data-adentify-photo-id="' + this.get("id")
             + (this.get("showTags") ? ' data-adentify-tags="" ' : '') + (this.get("showLikes") ? ' data-adentify-likes="" ' : '') + ' /&gt;&lt;script type="text/javascript" async src="https://adentify.com/embed/'
             + this.get("id") + '.js"&gt;&lt;/script&gt;';
+      },
+
+      changeTagsCount: function(value) {
+         if (this.has('tags_count')) {
+            var count = this.get('tags_count') + value;
+            this.set('tags_count', count < 0 ? 0 : count);
+         }
       }
    });
 

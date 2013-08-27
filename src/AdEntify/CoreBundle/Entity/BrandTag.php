@@ -47,7 +47,7 @@ class BrandTag
     private $photo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag")
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tag;

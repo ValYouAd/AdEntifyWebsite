@@ -68,7 +68,7 @@ class VenuesController extends FosRestController
             ));
 
             // Update venue products
-            if ($venue && array_key_exists('products', $venueRequest) && count($venueRequest['products']) > 0) {
+            if ($venue && is_array($venueRequest) && array_key_exists('products', $venueRequest) && count($venueRequest['products']) > 0) {
                 $this->addProductsToVenue($venue, $venueRequest, $em);
                 $em->merge($venue);
                 $em->flush();

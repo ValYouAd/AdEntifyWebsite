@@ -158,7 +158,8 @@ class Tag
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagStats", mappedBy="tag")
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagStats", mappedBy="tag", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $stats;
@@ -169,6 +170,12 @@ class Tag
      * @ORM\Column(name="revenue_assigned", type="boolean")
      */
     private $revenueAssigned = false;
+
+    /**
+     * @Serializer\Exclude
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="tag", cascade={"persist", "remove"})
+     */
+    private $brandTag;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tags")
@@ -418,6 +425,7 @@ class Tag
     public function setValidationStatus($validationStatus)
     {
         $this->validationStatus = $validationStatus;
+        return $this;
     }
 
     /**
@@ -434,6 +442,7 @@ class Tag
     public function setWaitingValidation($waitingValidation)
     {
         $this->waitingValidation = $waitingValidation;
+        return $this;
     }
 
     /**
@@ -511,5 +520,22 @@ class Tag
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * @param mixed $brandTag
+     */
+    public function setBrandTag($brandTag)
+    {
+        $this->brandTag = $brandTag;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrandTag()
+    {
+        return $this->brandTag;
     }
 }
