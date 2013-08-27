@@ -58,6 +58,24 @@ class TagsController extends FosRestController
     }
 
     /**
+     * @View()
+     *
+     * @param $id
+     */
+    public function deleteAction($id)
+    {
+        $tag = $this->getAction($id);
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        if ($user->getId() == $tag->getOwner()->getId()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($tag);
+            $em->flush();
+        } else {
+            throw new HttpException(403, 'You are not authorized to delete this tag');
+        }
+    }
+
+    /**
      * @param $query
      * @param int $limit
      *
@@ -138,8 +156,7 @@ class TagsController extends FosRestController
             if ($photo->getOwner()->getId() !== $user->getId()) {
                 // Check if owner is a friend
                 if ($photo->getOwner()->getFacebookId() && in_array($photo->getOwner()->getFacebookId(), $facebookFriendsIds)) {
-                    $tag->setWaitingValidation(true);
-                    $tag->setValidationStatus(Tag::VALIDATION_WAITING);
+                    $tag->setWaitingValidation(true)->setValidationStatus(Tag::VALIDATION_WAITING);
 
                     // Create a new notification
                     $notification = new Notification();
@@ -167,6 +184,8 @@ class TagsController extends FosRestController
             $em->flush();
 
             $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
+
+            return $tag;
         } else {
             return $form;
         }

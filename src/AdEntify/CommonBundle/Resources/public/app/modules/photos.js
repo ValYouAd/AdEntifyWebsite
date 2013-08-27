@@ -40,26 +40,23 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags') && this.model.get('tags').length > 0 && $(this.el).find('.tags').children().length == 0) {
-            this.model.get('tags').each(function(tag) {
-               if (tag.get('type') == 'place') {
-                  this.insertView(".tags", new Tag.Views.VenueItem({
-                     model: tag
-                  }));
-               } else if (tag.get('type')  == 'person') {
-                  this.insertView(".tags", new Tag.Views.PersonItem({
-                     model: tag
-                  }));
-               } else if (tag.get('type')  == 'product') {
-                  this.insertView(".tags", new Tag.Views.ProductItem({
-                     model: tag
-                  }));
-               } else {
-                  this.insertView(".tags", new Tag.Views.Item({
-                     model: tag
-                  }));
-               }
-            }, this);
+         if (this.model.has('tags') && this.model.get('tags').length > 0) {
+            this.tagsView = this.getView('.tags-container');
+            if (!this.tagsView) {
+               this.tagsView = new Tag.Views.List({
+                  tags: this.model.get('tags'),
+                  photo: this.model
+               });
+               this.listenTo(this.tagsView, 'tag:remove', function() {
+                  // Update tags count
+                  this.model.changeTagsCount(-1);
+                  container.isotope('reLayout', this.relayoutEnded);
+               });
+               this.listenTo(this.tagsView, 'relayout', function() {
+                  container.isotope("reLayout", this.relayoutEnded);
+               });
+               this.setView('.tags-container', this.tagsView).render();
+            }
          }
       },
 
@@ -74,10 +71,10 @@ define([
          $tags = $(this.el).find('.tags');
          if ($tags.length > 0) {
             if ($tags.data('state') == 'hidden') {
-               $tags.fadeIn('fast');
+               $tags.stop().fadeIn('fast');
                $tags.data('state', 'visible');
             } else {
-               $tags.fadeOut('fast');
+               $tags.stop().fadeOut('fast');
                $tags.data('state', 'hidden');
             }
          }

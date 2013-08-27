@@ -13,11 +13,16 @@
         </div>
         <% } %>
         <a href="<%= model.get("product").get("purchase_url") %>" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a>
-        <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation")) { %>
-        <div class="button-group">
-            <button class="btn btn-success btn-small validateTagButton" data-i18n="tag.validateTag"></button>
-            <button class="btn btn-danger btn-small refuseTagButton" data-i18n="tag.refuseTag"></button>
+        <div class="text-center">
+            <div class="btn-group">
+                <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation")) { %>
+                <button class="btn btn-success btn-small validateTagButton" data-i18n="tag.validateTag"></button>
+                <button class="btn btn-danger btn-small refuseTagButton" data-i18n="tag.refuseTag"></button>
+                <% } %>
+                <% if (model.isOwner()) { %>
+                <button class="btn btn-danger btn-small deleteTagButton" data-i18n="tag.deleteTag"></button>
+                <% } %>
+            </div>
         </div>
-        <% } %>
     </div>
 </div>

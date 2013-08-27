@@ -67,10 +67,13 @@ class LikesController extends FosRestController
                     if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
                         $user = $this->container->get('security.context')->getToken()->getUser();
                         $like->setLiker($user);
-                        $notification->setAuthor($user)->setMessage('notification.memberLikedPhoto');
-                        $messageOptions = json_encode(array(
-                            'author' => $user->getFullname()
-                        ));
+                        // Send notification liker only if liker isn't photo owner
+                        if ($user->getId() != $photo->getOwner()->getId()) {
+                            $notification->setAuthor($user)->setMessage('notification.memberLikedPhoto');
+                            $messageOptions = json_encode(array(
+                                'author' => $user->getFullname()
+                            ));
+                        }
                     } else {
                         $notification->setMessage('notification.anonymousLikedPhoto');
                     }

@@ -270,7 +270,7 @@ class UsersController extends FosRestController
             $likes = $em->getRepository('AdEntifyCoreBundle:Like')->findBy(array(
                 'liker' => $id
             ), array(
-                'created_at' => 'DESC'
+                'createdAt' => 'DESC'
             ), $limit, ($page - 1) * $limit);
             $photos = array();
             foreach ($likes as $like) {

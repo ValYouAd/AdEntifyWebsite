@@ -4,9 +4,7 @@
         <div class="adentify-pastille"></div>
         <% } %>
         <div class="photo-overlay">
-            <% if (model.get("tags_count") > 0) { %>
-            <ul class="tags fadeOut" data-state="hidden"></ul>
-            <% } %>
+            <div class="tags-container"></div>
             <a href="photo/<%= model.get("id") %>/" class="btn btn-info view-photo"><i class="icon-picture icon-white"></i> <span data-i18n="common.viewPhoto"></span></a>
             <div class="bottom-right">
                 <div class="counters text-right">

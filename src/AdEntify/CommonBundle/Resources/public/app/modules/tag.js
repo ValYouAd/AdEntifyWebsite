@@ -42,7 +42,7 @@ define([
                this.set('cssClass', '');
          }
 
-         this.listenTo(this, "change", this.render);
+         this.listenTo(this, 'change', this.render);
       },
 
       urlRoot: function() {
@@ -52,6 +52,7 @@ define([
       toJSON: function() {
          var jsonAttributes = this.attributes;
          delete jsonAttributes.cssClass;
+         delete jsonAttributes.tempTag;
          return { tag: jsonAttributes }
       },
 
@@ -80,6 +81,26 @@ define([
                });
             }
          });
+      },
+
+      isOwner: function() {
+          return this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
+      },
+
+      delete: function() {
+         // Check if currentUser is the owner
+         if (this.isOwner()) {
+            var that = this;
+            this.destroy({
+               url: Routing.generate('api_v1_delete_tag', { id : this.get('id') } ),
+               success: function() {
+                  that.trigger('delete:success');
+               },
+               error: function() {
+                  that.trigger('delete:error');
+               }
+            });
+         }
       }
    });
 
@@ -126,12 +147,17 @@ define([
          this.model.changeValidationStatus('denied');
       },
 
+      deleteTag: function() {
+         this.model.delete();
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
          "click a[href]": "clickTag",
          "click .validateTagButton": "validateTag",
-         "click .refuseTagButton": "refuseTag"
+         "click .refuseTagButton": "refuseTag",
+         "click .deleteTagButton": "deleteTag"
       }
    });
 
@@ -173,12 +199,17 @@ define([
          this.model.changeValidationStatus('denied');
       },
 
+      deleteTag: function() {
+         this.model.delete();
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
          "click a[href]": "clickTag",
          "click .validateTagButton": "validateTag",
-         "click .refuseTagButton": "refuseTag"
+         "click .refuseTagButton": "refuseTag",
+         "click .deleteTagButton": "deleteTag"
       }
    });
 
@@ -239,12 +270,17 @@ define([
          this.model.changeValidationStatus('denied');
       },
 
+      deleteTag: function() {
+         this.model.delete();
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
          "click a[href]": "clickTag",
          "click .validateTagButton": "validateTag",
-         "click .refuseTagButton": "refuseTag"
+         "click .refuseTagButton": "refuseTag",
+         "click .deleteTagButton": "deleteTag"
       }
    });
 
@@ -307,39 +343,101 @@ define([
          this.model.changeValidationStatus('denied');
       },
 
+      deleteTag: function() {
+         this.model.delete();
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
          "click a[href]": "clickTag",
          "click .validateTagButton": "validateTag",
-         "click .refuseTagButton": "refuseTag"
+         "click .refuseTagButton": "refuseTag",
+         "click .deleteTagButton": "deleteTag"
       }
    });
 
    Tag.Views.List = Backbone.View.extend({
       template: "tag/list",
 
+      serialize: function() {
+         return {
+            visible: this.visible
+         };
+      },
+
+      initialize: function() {
+         var that = this;
+         this.visible = typeof this.options.visible === 'undefined' ? false : this.options.visible;
+         this.tags = typeof this.options.tags === 'undefined' ? new Tag.Collection() : this.options.tags;
+         this.photo = this.options.photo;
+         this.listenTo(this.tags, {
+            'add': this.render,
+            'remove': function(tag) {
+               // If it's a persisted tag, re-render the view and fire an event
+               if (!tag.has('tempTag')) {
+                  this.trigger('tag:remove');
+                  this.render();
+               }
+            }
+         });
+         this.listenTo(app, 'tagMenuTools:tagAdded', function(photo) {
+            if (typeof photo !== 'undefined' && typeof that.photo !== 'undefined' && that.photo.get('id') == photo.get('id')) {
+               that.photo.changeTagsCount(1);
+               that.tags.trigger('relayout');
+            }
+         });
+      },
+
       beforeRender: function() {
-         tags.each(function(tag) {
-            this.insertView(".tags", new Tag.Views.Item({
-               model: tag
-            }));
+         this.tags.each(function(tag) {
+            if (tag.get('type') == 'place') {
+               this.insertView(".tags", new Tag.Views.VenueItem({
+                  model: tag
+               }));
+            } else if (tag.get('type')  == 'person') {
+               this.insertView(".tags", new Tag.Views.PersonItem({
+                  model: tag
+               }));
+            } else if (tag.get('type')  == 'product') {
+               this.insertView(".tags", new Tag.Views.ProductItem({
+                  model: tag
+               }));
+            } else {
+               this.insertView(".tags", new Tag.Views.Item({
+                  model: tag
+               }));
+            }
          }, this);
       },
 
       afterRender: function() {
-         setTimeout(function() {
-            tags.each(function(tag) {
-               tag.set('cssClass', '');
-            });
-         }, 500);
+         $(this.el).i18n();
       },
 
-      initialize: function() {
-         this.listenTo(tags, {
-            "add": this.render,
-            "remove": this.render
-         });
+      showTags: function(show) {
+         $tags = $(this.el).find('.tags');
+         if ($tags.length > 0) {
+            if (typeof show === 'undefined') {
+               if ($tags.data('state') == 'hidden') {
+                  this.changeTagsVisibility(true, $tags);
+               } else {
+                  this.changeTagsVisibility(false, $tags);
+               }
+            } else {
+               this.changeTagsVisibility(show, $tags);
+            }
+         }
+      },
+
+      changeTagsVisibility: function(show, tags) {
+         if (show) {
+            tags.stop().fadeIn('fast');
+            tags.data('state', 'visible')
+         } else {
+            tags.stop().fadeOut('fast');
+            tags.data('state', 'hidden');
+         }
       }
    });
 
@@ -348,6 +446,13 @@ define([
 
       initialize: function() {
          var that = this;
+         var photo = app.appState().getCurrentPhotoModel();
+         // Get current photo tags
+         if (photo && app.appState().getCurrentPhotoModel().has('tags')) {
+             tags = app.appState().getCurrentPhotoModel().get('tags');
+         } else {
+            tags = new Tag.Collection();
+         }
          this.listenTo(app, 'tagMenuTools:addTag', function() {
             that.addTag();
          });
@@ -356,8 +461,9 @@ define([
          });
          this.listenTo(app, 'tagMenuTools:tagAdded', function() {
             that.unloadTagging();
+            if (this.tagsView)
+               this.tagsView.render();
          });
-         tags = new Tag.Collection();
       },
 
       cancel: function() {
@@ -375,25 +481,38 @@ define([
 
       setupTagging: function() {
          currentPhotoOverlay.css({ cursor: 'crosshair'});
-         currentPhotoOverlay.bind('click', this.tagOverlayHandler);
-         app.useLayout().insertView(currentPhotoOverlay.selector, new Tag.Views.List()).render();
+         currentPhotoOverlay.bind('click', this.photoOverlayClick);
+         // Get the tags view
+         this.tagsView = app.useLayout().getView(currentPhotoOverlay.find('.tags-container').selector);
+         // Create if not exist
+         if (typeof this.tagsView === 'undefined' || !this.tagsView) {
+            this.tagsView = app.useLayout().setView(currentPhotoOverlay.find('.tags-container').selector, new Tag.Views.List({
+               tags: tags,
+               visible: true
+            })).render();
+         }
+         // Just show tags
+         else {
+            this.tagsView.visible = true;
+            this.tagsView.showTags(true);
+         }
       },
 
       unloadTagging: function() {
          if (currentPhotoOverlay) {
             currentPhotoOverlay.css({ cursor: 'pointer'});
-            currentPhotoOverlay.unbind('click', this.tagOverlayHandler);
+            currentPhotoOverlay.unbind('click', this.photoOverlayClick);
          }
       },
 
-      tagOverlayHandler: function(e) {
+      photoOverlayClick: function(e) {
          var tagRadius = 12.5;
          var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
          var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
 
          // Remove tags arent persisted
          tags.each(function(tag) {
-            if (!tag.has('persisted')) {
+            if (tag.has('tempTag')) {
                tags.remove(tag);
             }
          });
@@ -402,10 +521,13 @@ define([
          tag.set('x_position', xPosition);
          tag.set('y_position', yPosition);
          tag.set('cssClass', 'new-tag');
+         tag.set('tempTag', true);
          tags.add(tag);
          currentTag = tag;
 
-         app.useLayout().setView("#menu-tools .tag-form", new Tag.Views.AddTagForm()).render();
+         app.useLayout().setView("#menu-tools .tag-form", new Tag.Views.AddTagForm({
+            photo: this.photo
+         })).render();
          $('.tag-text').fadeOut('fast', function() {
             $('.tag-form').fadeIn();
          });
@@ -427,6 +549,10 @@ define([
 
    Tag.Views.AddTagForm = Backbone.View.extend({
       template: "tag/addForm",
+
+      initialize: function() {
+         this.photo = this.options.photo;
+      },
 
       afterRender: function() {
          $(this.el).i18n();
@@ -711,11 +837,12 @@ define([
          e.preventDefault();
          $activePane = $('.tab-content .active');
 
+         var that = this;
+
          switch ($activePane.attr('id')) {
             case 'product':
                $submit = $('#submit-product');
                if (currentTag) {
-                  var that = this;
                   if (newProduct) {
                      $submit.button('loading');
                      if (!currentBrand) {
@@ -779,8 +906,6 @@ define([
                            }
                         });
                      });
-
-
                   } else if (currentProduct) {
                      // Check if there is a venue for the current product
                      if (currentVenue) {
@@ -845,7 +970,7 @@ define([
                                  success: function() {
                                     currentTag.set('persisted', '');
                                     app.fb.createVenueStory(venue, app.appState().getCurrentPhotoModel());
-                                    app.trigger('tagMenuTools:tagAdded');
+                                    app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                                  },
                                  error: function() {
                                     $submit.button('reset');
@@ -908,7 +1033,7 @@ define([
                                  success: function() {
                                     currentTag.set('persisted', '');
                                     app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
-                                    app.trigger('tagMenuTools:tagAdded');
+                                    app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                                  },
                                  error: function(e, r) {
                                     if (r.status === 403) {
@@ -955,7 +1080,7 @@ define([
                success: function() {
                   currentTag.set('persisted', '');
                   app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
-                  app.trigger('tagMenuTools:tagAdded');
+                  app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                },
                error: function(e, r) {
                   $submit.button('reset');

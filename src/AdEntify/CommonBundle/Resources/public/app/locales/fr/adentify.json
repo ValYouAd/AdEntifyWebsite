@@ -124,7 +124,8 @@
       "errorProductImageUpload": "Impossible d'envoyer la photo du produit, veuillez réessayer",
       "errorProductPost": "Erreur lors de l'ajout du produit",
       "errorSelectBrand": "Veuillez sélectionner une marque avant d'ajouter un produit",
-      "errorProductEmptyFields": "Vous devez remplir les champs nom et description"
+      "errorProductEmptyFields": "Vous devez remplir les champs nom et description",
+      "deleteTag": "Supprimer ce tag"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
