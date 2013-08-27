@@ -55,7 +55,8 @@
       "emptyFieldsChangePassword": "Vous devez remplir tous les champs",
       "notSamePassword": "Les mots de passe ne correspondent pas",
       "currentPasswordError": "Le mot de passe actuel ne corresponds pas",
-      "passwordChanged": "Votre mot de passe a bien été changé"
+      "passwordChanged": "Votre mot de passe a bien été changé",
+      "submitChangeLang": "Valider"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",
