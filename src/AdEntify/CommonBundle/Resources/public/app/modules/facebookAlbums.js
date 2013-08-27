@@ -96,6 +96,7 @@ define([
                   message: $.t('facebook.errorLoadingAlbums'),
                   showClose: true
                }), true).render();
+               $('#loading-albums').hide();
             } else {
                if (response.data.length > 0) {
                   var albums = [];

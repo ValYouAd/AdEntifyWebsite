@@ -20,7 +20,7 @@ define([
          this.set('status', response.status);
       },
 
-      notLoggedIn: function() {
+      /*notLoggedIn: function() {
          var that = this;
          $('#loading-authent').hide();
          $('#fb-logout').hide();
@@ -29,7 +29,7 @@ define([
          $('#fb-login').click(function() {
             that.login();
          });
-      },
+      },*/
 
       login: function() {
          var that = this;
@@ -47,20 +47,20 @@ define([
       },
 
       connected: function(response) {
-         setTimeout(function() {
+         /*setTimeout(function() {
             // Check facebook connect to the server
             $.ajax({ url: Routing.generate('_security_check_facebook') } );
          }, 500);
-         var that = this;
+         var that = this;*/
          this.setFacebookResponse(response);
          app.trigger('global:facebook:connected');
-         $('#loading-authent').hide();
+         /*$('#loading-authent').hide();
          $('#fb-login').hide();
          $('#twitter-authent').hide();
          $('#fb-logout').show();
          $('#fb-logout').click(function() {
             that.logout();
-         });
+         });*/
          $("#user-information").html('<img src="https://graph.facebook.com/' + app.fb.get('userId') + '/picture?width=20&height=20" />');
       },
 
