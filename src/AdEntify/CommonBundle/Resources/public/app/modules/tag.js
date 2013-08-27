@@ -494,7 +494,6 @@ define([
          // Just show tags
          else {
             this.tagsView.visible = true;
-            this.tagsView.showTags(true);
          }
       },
 
