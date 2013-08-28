@@ -1034,7 +1034,7 @@ footer p {
     #photos-grid .photo-overlay {
         cursor: pointer;
     }
-    #photos-grid .photo-overlay .view-photo {
+    #photos-grid .photo-overlay .photo-buttons {
         position: absolute;
         bottom: 5px;
         left: 5px;
@@ -1044,7 +1044,7 @@ footer p {
         -o-transition: opacity 0.2s ease-out;
         transition: opacity 0.2s ease-out;
     }
-    #photos-grid .photo-overlay:hover .view-photo {
+    #photos-grid .photo-overlay:hover .photo-buttons {
         opacity: 1;
     }
     #photos-grid .photo-overlay .bottom-right {

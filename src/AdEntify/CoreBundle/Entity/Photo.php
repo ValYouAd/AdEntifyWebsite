@@ -174,7 +174,7 @@ class Photo
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Comment", mappedBy="photo")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Comment", mappedBy="photo", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $comments;
@@ -188,7 +188,7 @@ class Photo
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Like", mappedBy="photo")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Like", mappedBy="photo", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $likes;

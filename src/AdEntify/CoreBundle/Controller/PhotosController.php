@@ -165,6 +165,27 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * Delete a photo
+     *
+     * @View()
+     *
+     * @param $id
+     */
+    public function deleteAction($id)
+    {
+        $photo = $this->getAction($id);
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        // Check if current user is the owner oh the photo and that no tags are link to the photo
+        if ($user->getId() == $photo->getOwner()->getId() && count($photo->getTags()) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($photo);
+            $em->flush();
+        } else {
+            throw new HttpException(403, 'You are not authorized to delete this tag');
+        }
+    }
+
+    /**
      * GET all tags by photo ID
      *
      * @View()
