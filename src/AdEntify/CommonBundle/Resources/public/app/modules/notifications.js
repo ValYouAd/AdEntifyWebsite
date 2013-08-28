@@ -180,7 +180,7 @@ define([
                   that.notifications.each(function(notification) {
                      notification.read();
                   });
-               }, 2000);
+               }, 1000);
             });
          }
       },
