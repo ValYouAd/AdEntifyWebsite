@@ -204,6 +204,75 @@ define([
                   callback(photos);
             }
          });
+      },
+
+      loadAlbums: function(callback) {
+         var albums = [];
+         var error = null;
+         var deferreds = [];
+
+         // Get "photos of you" albums
+         deferreds.push(new $.Deferred());
+         this.loadUserPhotos(function(response) {
+            if (!response.error && response.length > 0) {
+               albums.unshift({
+                  'name': $.t('facebook.photosOfYou'),
+                  'picture': response[0].picture,
+                  'url': app.beginUrl + app.root + 'facebook/albums/photos-of-you/photos/',
+                  'customAlbum': true
+               });
+            } else {
+               error = response.error;
+            }
+            deferreds.pop().resolve();
+         });
+
+         // Get user albums
+         deferreds.push(new $.Deferred());
+         FB.api('/me/albums?fields=from,name,cover_photo,link,privacy,count', function(response) {
+            if (!response || response.error) {
+               error = response.error;
+            } else {
+               for (var i=0, l=response.data.length; i<l; i++) {
+                  if (response.data[i].count > 0) {
+                     albums.push(response.data[i]);
+                  }
+               }
+            }
+            deferreds.pop().resolve();
+         });
+
+         $.when.apply(null, deferreds).done(function() {
+            if (!error) {
+               callback(albums);
+            } else {
+               callback({
+                  error: error
+               });
+            }
+         });
+      },
+
+      loadUserPhotos: function(callback) {
+         var that = this;
+         FB.api('/me/photos?limit=200', function(response) {
+            if (!response || response.error) {
+               callback({
+                  error: response.error
+               });
+            } else {
+               if (typeof that.userPhotos === 'undefined') {
+                  var photos = [];
+                  for (var i=0, l=response.data.length; i<l; i++) {
+                     photos[i] = response.data[i];
+                  }
+                  that.userPhotos = photos;
+               }
+
+               if (typeof callback !== 'undefined')
+                  callback(that.userPhotos);
+            }
+         });
       }
    });
 

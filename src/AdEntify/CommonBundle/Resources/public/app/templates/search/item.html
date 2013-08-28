@@ -1,10 +1,4 @@
-<% if (model.get('type') == 'product') { %>
 <a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh35 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
-<% } else if (model.get('type') == 'person') { %>
-<a href="photo/<%= model.get('photo')['id'] %>/"><img src="https://graph.facebook.com/<%= model.get('person')['facebook_id'] %>/picture?type=square" class="mh35 p5 pull-left" /></a> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
-<% } else { %>
-<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh35 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
-<% } %>
 <div>
     <div class="pull-right">
         <i class="icon-heart"></i> <%= model.get("photo")["likes_count"] %> <i class="icon-tag"></i> <%= model.get("photo")["tags_count"] %>

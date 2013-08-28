@@ -174,11 +174,14 @@ define([
          }
          // Show
          else {
-            $(this.el).find('.popover').stop().fadeIn();
-            this.notifications.each(function(notification) {
-               notification.read();
+            var that = this;
+            $(this.el).find('.popover').stop().fadeIn(function() {
+               setTimeout(function() {
+                  that.notifications.each(function(notification) {
+                     notification.read();
+                  });
+               }, 2000);
             });
-
          }
       },
 
