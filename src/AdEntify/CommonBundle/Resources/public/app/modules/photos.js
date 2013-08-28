@@ -80,8 +80,14 @@ define([
          }
       },
 
+      deletePhoto: function(e) {
+         e.preventDefault();
+         this.model.delete();
+      },
+
       events: {
-         "click .adentify-pastille": "showTags"
+         "click .adentify-pastille": 'showTags',
+         "click .deletePhotoButton": 'deletePhoto'
       }
    });
 
@@ -93,7 +99,8 @@ define([
          openedContainer = null;
 
          var that = this;
-         this.options.photos.once("sync", this.render, this);
+         this.options.photos.once('sync', this.render, this);
+         this.listenTo(this.options.photos, 'remove', this.render);
          this.listenTo(app, 'global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
          });
@@ -376,7 +383,7 @@ define([
 
    // Ticker (List of photos)
    Photos.Views.Ticker = Backbone.View.extend({
-      template: "common/tickerPhotoList",
+      template: 'common/tickerPhotoList',
 
       serialize: function() {
          return { collection: this.options.tickerPhotos };
@@ -384,7 +391,7 @@ define([
 
       beforeRender: function() {
          this.options.tickerPhotos.each(function(photo) {
-            this.insertView(".ticker-photos", new Photos.Views.TickerItem({
+            this.insertView('.ticker-photos', new Photos.Views.TickerItem({
                model: photo
             }));
          }, this);
@@ -392,7 +399,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.tickerPhotos, {
-            "sync": this.render
+            'sync': this.render
          });
       }
    });

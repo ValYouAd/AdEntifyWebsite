@@ -74,6 +74,26 @@ define([
             var count = this.get('tags_count') + value;
             this.set('tags_count', count < 0 ? 0 : count);
          }
+      },
+
+      isOwner: function() {
+         return this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
+      },
+
+      delete: function() {
+         // Check if currentUser is the owner
+         if (this.isOwner()) {
+            var that = this;
+            this.destroy({
+               url: Routing.generate('api_v1_delete_photo', { id : this.get('id') } ),
+               success: function() {
+                  that.trigger('delete:success');
+               },
+               error: function() {
+                  that.trigger('delete:error');
+               }
+            });
+         }
       }
    });
 
