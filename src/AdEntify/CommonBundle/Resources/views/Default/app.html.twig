@@ -55,13 +55,14 @@
                                 <a href="{{ path ('_security_login_twitter')}}" id="twitter-login" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') %} hide{% endif %}">{{ 'Log in with Twitter'|trans }}</a>
                                 <a href="{{ path ('fos_user_security_logout') }}" class="btn btn-info btn-small{% if is_granted('ROLE_TWITTER') == false %} hide{% endif %}">{{ 'Log off'|trans }}</a>
                             </div>#}
-                            <div id="facebook-authent" class="pull-right">
+                            {#<div id="facebook-authent" class="pull-right">
                                 <button id="fb-login" class="btn btn-primary btn-small hide">{{ 'Log in with Facebook'|trans }}</button>
                                 <button id="fb-logout" class="btn btn-primary btn-small hide">{{ 'Log off'|trans }}</button>
                             </div>
                             <div id="loading-authent" class="loading-gif-container-nomargin pull-right">
                                 <div class="loading-gif"></div>
-                            </div>
+                            </div>#}
+                            <a href="{{ url('fos_user_security_logout') }}" class="btn btn-small">{{ 'Log off'|trans }}</a>
                         </div>
                         <div id="user-information" class="pull-right"></div>
                     </div>

@@ -69,7 +69,8 @@
       "photosPageTitle": "Mes photos Facebook - AdEntify",
       "loadingAlbums": "Chargement des albums en cours...",
       "errorLoadingAlbums": "Erreur lors du chargement des albums, veuillez réessayer",
-      "noAlbums": "Vous n'avez aucun album photo sur Facebook"
+      "noAlbums": "Vous n'avez aucun album photo sur Facebook",
+      "photosOfYou": "Mes photos"
    },
    "instagram": {
       "pageTitle": "Mes photos Instagram - AdEntify"

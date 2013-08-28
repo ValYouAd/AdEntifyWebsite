@@ -39,7 +39,8 @@ define([
                }
             });
          }
-         this.set('url', 'facebook/albums/' + this.get("id") + '/photos/');
+         if (!this.has('url'))
+            this.set('url', app.beginUrl + app.root + 'facebook/albums/' + this.get("id") + '/photos/');
       }
    });
 
@@ -89,20 +90,11 @@ define([
 
       loadAlbums: function() {
          var that = this;
-         FB.api('/me/albums?fields=from,name,cover_photo,link,privacy', function(response) {
-            if (!response || response.error) {
-               app.useLayout().setView('#content', new Common.Views.Alert({
-                  cssClass: Common.alertError,
-                  message: $.t('facebook.errorLoadingAlbums'),
-                  showClose: true
-               }), true).render();
-            } else {
-               if (response.data.length > 0) {
-                  var albums = [];
-                  for (var i=0, l=response.data.length; i<l; i++) {
-                     albums[i] = response.data[i];
-                  }
-                  that.options.albums.add(albums);
+         app.fb.loadAlbums(function(response) {
+            if (!response.error) {
+               if (response.length > 0) {
+                  that.options.albums.add(response);
+                  that.render();
                } else {
                   app.useLayout().setView('#content', new Common.Views.Alert({
                      cssClass: Common.alertInfo,
@@ -111,6 +103,13 @@ define([
                   }), true).render();
                   $('#loading-albums').hide();
                }
+            } else {
+               app.useLayout().setView('#content', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('facebook.errorLoadingAlbums'),
+                  showClose: true
+               }), true).render();
+               $('#loading-albums').hide();
             }
          });
       },

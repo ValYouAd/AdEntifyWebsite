@@ -71,7 +71,7 @@ define([
       },
 
       initialize: function() {
-         //this.listenTo(this.model, "change", this.render);
+         this.listenTo(this.model, 'change', this.render);
          this.categories = this.options.categories;
       },
 

@@ -57,9 +57,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             if (response.status === 'connected') {
                app.fb.connected(response);
             } else if (response.status === 'not_authorized') {
-               app.fb.notLoggedIn();
+               //app.fb.notLoggedIn();
+               window.location.href = Routing.generate('root_url');
             } else {
-               app.fb.notLoggedIn();
+               //app.fb.notLoggedIn();
+               window.location.href = Routing.generate('root_url');
             }
          });
 

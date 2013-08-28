@@ -75,10 +75,7 @@ define([
 
          this.listenTo(app, 'externalServicePhoto:submitPhotos', this.submitPhotos);
          app.trigger('domchange:title', $.t('facebook.photosPageTitle'));
-
-         this.listenTo(this.options.photos, {
-            "add": this.render
-         });
+         this.listenTo(this.options.photos, 'sync', this.render);
          this.photos = this.options.photos;
       },
 
@@ -99,14 +96,25 @@ define([
 
       loadPhotos: function() {
          var that = this;
-         app.fb.loadPhotos(this.options.albumId, function(response) {
-            if (response.error){
-               error = response.error;
-            } else {
-               that.options.photos.add(response);
-            }
-            $('#loading-photos').fadeOut('fast');
-         });
+         if (this.options.albumId == 'photos-of-you') {
+            app.fb.loadUserPhotos(function(response) {
+               that.loadPhotosCompleted(response, that.options.photos);
+            });
+         } else {
+            app.fb.loadPhotos(this.options.albumId, function(response) {
+               that.loadPhotosCompleted(response, that.options.photos);
+            });
+         }
+      },
+
+      loadPhotosCompleted: function(response, photos) {
+         if (response.error){
+            error = response.error;
+         } else {
+            photos.add(response);
+         }
+         $('#loading-photos').fadeOut('fast');
+         photos.trigger('sync');
       },
 
       submitPhotos: function(options) {
