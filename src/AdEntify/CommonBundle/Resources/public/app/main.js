@@ -211,10 +211,17 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
              }
           });
        } else {
-          app.useLayout().setView('#content', new Common.Views.Modal({
-             title: 'common.titleSamePage',
-             content: 'common.contentSamePage'
-          }), true).render();
+          app.startLoading(function() {
+             Backbone.history.loadUrl(Backbone.history.fragment);
+
+             var $currentLink = $('.nav a[href="' + window.location.href + '"]');
+             if ($currentLink.length > 0) {
+                $currentLink.parent().siblings('.active').removeClass('active');
+                $currentLink.parent().addClass('active');
+             } else {
+                $('.nav .active').removeClass('active');
+             }
+          });
        }
     }
   });
