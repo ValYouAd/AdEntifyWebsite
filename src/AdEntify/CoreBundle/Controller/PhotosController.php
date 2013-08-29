@@ -44,9 +44,9 @@ class PhotosController extends FosRestController
      * @View()
      * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="20")
+     * @QueryParam(name="limit", requirements="\d+", default="30")
      */
-    public function cgetAction($tagged, $page = 1, $limit = 20)
+    public function cgetAction($tagged, $page, $limit)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->container->get('security.context')->getToken()->getUser();
@@ -82,7 +82,7 @@ class PhotosController extends FosRestController
         $photos = null;
         $pagination = null;
         if ($count > 0) {
-            $photos = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+            $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner
                 WHERE photo.status = :status AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
