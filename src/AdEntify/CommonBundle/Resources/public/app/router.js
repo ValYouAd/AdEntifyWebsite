@@ -110,6 +110,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "": "homepage",
                "photos/non-taguees/": "untagged",
                "upload/": "upload",
+               "upload/local/": "uploadLocal",
                "mes/photos/taguees/": "myTagged",
                "mes/photos/non-taguees/": "myUntagged",
                "mes/parametres/": "mySettings",
@@ -134,6 +135,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "": "homepage",
                "photos/untagged/": "untagged",
                "upload/": "upload",
+               "upload/local/": "uploadLocal",
                "my/photos/tagged/": "myTagged",
                "my/photos/untagged/": "myUntagged",
                "my/settings/": "mySettings",
@@ -310,6 +312,19 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setViews({
             "#content": new Upload.Views.Content()
          }).render();
+      },
+
+      uploadLocal: function() {
+         this.reset();
+
+         app.useLayout().setViews({
+            "#content": new Upload.Views.LocalUpload(),
+            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos({
+               categories: this.categories
+            })
+         }).render();
+
+         this.categories.fetch();
       },
 
       facebookAlbums: function() {

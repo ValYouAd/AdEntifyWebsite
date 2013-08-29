@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\LocalUpload;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Task;
 use AdEntify\CoreBundle\Entity\User;
@@ -77,6 +78,64 @@ class UploadController extends Controller
 
                 $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $filename);
                 $thumbs['original'] = $filename;
+                $response = new JsonResponse();
+                $response->setData($thumbs);
+                return $response;
+            } else {
+                throw new HttpException(500);
+            }
+        } else {
+            throw new NotFoundHttpException('No images to upload.');
+        }
+    }
+
+    /**
+     * @Route("/upload/local-photo", methods="POST", name="upload_local_photo")
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function uploadLocalPhoto()
+    {
+        if (isset($_FILES['files'])) {
+            $uploadedFile = $_FILES['files'];
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $path = FileTools::getUserPhotosPath($user);
+            $filename = uniqid().$uploadedFile['name'][0];
+            $file = move_uploaded_file($uploadedFile['tmp_name'][0], $path.$filename);
+            if ($file) {
+                $em = $this->getDoctrine()->getManager();
+                $userLocalUpload = $em->getRepository('AdEntifyCoreBundle:LocalUpload')->findOneBy(array(
+                    'owner' => $user->getId()
+                ));
+
+                if (!$userLocalUpload) {
+                    $userLocalUpload = new LocalUpload();
+                    $userLocalUpload->setOwner($user)->setUploadedPhotos(json_encode(array(
+                        $filename
+                    )));
+                    $em->persist($userLocalUpload);
+                } else {
+                    $uploadedPhotos = json_decode($userLocalUpload->getUploadedPhotos());
+                    $uploadedPhotos[] = $filename;
+                    $userLocalUpload->setUploadedPhotos(json_encode($uploadedPhotos));
+                    $em->merge($userLocalUpload);
+                }
+                $em->flush();
+
+                $thumb = new Thumb();
+                $thumb->setOriginalPath($path.$filename);
+                $thumb->addThumbSize(FileTools::PHOTO_TYPE_LARGE);
+                $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
+                $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
+                $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
+
+                // Add original
+                $originalImageSize = getimagesize($path.$filename);
+                $thumbs['original'] = array(
+                    'filename' => $filename,
+                    'width' => $originalImageSize[0],
+                    'height' => $originalImageSize[1],
+                );
+
                 $response = new JsonResponse();
                 $response->setData($thumbs);
                 return $response;

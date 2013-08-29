@@ -12,7 +12,7 @@ define([
    var Pagination = app.module();
 
    Pagination.Model = Backbone.Model.extend({
-      default: {
+      defaults: {
          buttonText: 'pagination.loadMore',
          loadingText: 'pagination.loadingMore'
       }
@@ -39,9 +39,7 @@ define([
             }, 1000);
          });
 
-         this.listenTo(this.options.collection, {
-            "sync": this.checkButtonVisibility
-         });
+         this.listenTo(this.options.collection, 'sync', this.checkButtonVisibility);
       },
 
       afterRender: function() {
@@ -53,6 +51,8 @@ define([
       checkButtonVisibility: function() {
          if (this.collection.hasNextPage()) {
             this.loadMoreButton.fadeIn('fast');
+         } else {
+            this.loadMoreButton.hide();
          }
       },
 

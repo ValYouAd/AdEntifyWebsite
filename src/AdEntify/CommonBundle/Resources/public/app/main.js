@@ -101,10 +101,18 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
          // Check if there is pagination
          if (typeof obj !== 'undefined' && obj && typeof obj.data !== 'undefined') {
             if (typeof obj.paging !== 'undefined') {
-               if (typeof obj.paging.next !== 'undefined')
-                  this.next = obj.paging.next
-               if (typeof obj.paging.previous !== 'undefined')
+               if (typeof obj.paging.next !== 'undefined') {
+                  this.next = obj.paging.next;
+               }
+               else {
+                  delete this.next;
+               }
+               if (typeof obj.paging.previous !== 'undefined') {
                   this.previous = obj.paging.previous
+               }
+               else {
+                  delete this.previous;
+               }
             }
             return obj.data;
          }
