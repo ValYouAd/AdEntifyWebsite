@@ -62,7 +62,10 @@
       "pageTitle": "Envoyer mes photos - AdEntify",
       "send": "Envoyer",
       "sendPhotos": "Ajoutez vos photos sur AdEntify",
-      "textWhichService": "A partir de quel service souhaitez-vous envoyer vos photos ?"
+      "textWhichService": "A partir de quel service souhaitez-vous envoyer vos photos ?",
+      "textUploadFromComputer": "Vous pouvez également envoyer des photos présentes sur votre ordinateur",
+      "uploadFromComputer": "Envoyer des photos depuis mon ordinateur",
+      "browseLocalPhotos": "Parcourir mes photos"
    },
    "facebook": {
       "albumsPageTitle": "Mes albums Facebook - AdEntify",
@@ -244,6 +247,7 @@
    "routing": {
       "photos/untagged/": "photos/non-taguees/",
       "upload/": "upload/",
+      "upload/local/": "upload/local/",
       "my/photos/tagged/": "mes/photos/taguees/",
       "my/photos/untagged/": "mes/photos/non-taguees/",
       "facebook/albums/": "facebook/albums/",

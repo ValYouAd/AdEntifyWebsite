@@ -177,7 +177,11 @@
       "unread": "non lu",
       "inProgress": "Récupération des notifications en cours...",
       "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer.",
-      "noNotifications": "Aucune notification pour le moment"
+      "noNotifications": "Aucune notification pour le moment",
+      "photoFav": "<a href='__authorLink__'>__author__</a> a mis en favoris <a href='__photoLink__'>votre photo</a>",
+      "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> a aimé <a href='__photoLink__'>votre photo</a>",
+      "anonymousLikedPhoto": "Une personne a aimé <a href='__photoLink__'>votre photo</a>",
+      "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__'>votre photo</a>"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",
@@ -198,6 +202,7 @@
    "routing": {
       "photos/untagged/": "photos/untagged/",
       "upload/": "upload/",
+      "upload/local/": "upload/local/",
       "my/photos/tagged/": "my/photos/tagged/",
       "my/photos/untagged/": "my/photos/untagged/",
       "facebook/albums/": "facebook/albums/",

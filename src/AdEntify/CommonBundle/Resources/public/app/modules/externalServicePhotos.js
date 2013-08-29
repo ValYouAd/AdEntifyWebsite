@@ -13,29 +13,41 @@ define([
 
    var ExternalServicePhotos = app.module();
 
+   ExternalServicePhotos.Model = Backbone.Model.extend({ });
+
+   ExternalServicePhotos.Collection = Backbone.Collection.extend({
+      model: ExternalServicePhotos.Model
+   });
+
    ExternalServicePhotos.Views.Item = Backbone.View.extend({
       template: "externalServicePhotos/item",
-
       tagName: "li span2",
-
-      serialize: function() {
-         return { model: this.model };
-      },
+      enableCheck: true,
 
       initialize: function() {
-         this.listenTo(this.model, "change", this.render);
+         this.enableCheck = typeof this.options.enableCheck === 'undefined' ? this.enableCheck : this.options.enableCheck;
+      },
+
+      serialize: function() {
+         return {
+            model: this.model,
+            enableCheck: this.enableCheck
+         };
       },
 
       events: {
-         "click .check-image" : "toggleCheckedImage"
+         'click .check-image' : 'toggleCheckedImage'
       },
 
       toggleCheckedImage: function(e) {
-         var container = $(e.currentTarget).find('.check-image-container');
-         if (container.length > 0) {
-            container.toggleClass('checked');
+         if (this.enableCheck) {
+            var container = $(e.currentTarget).find('.check-image-container');
+            if (container.length > 0) {
+               container.toggleClass('checked');
+            }
+            this.model.set('checked', this.model.has('checked') ? !this.model.get('checked') : true);
+            app.trigger('externalServicePhoto:imageChecked', this.model.get('checked') ? 1 : -1);
          }
-         app.trigger('externalServicePhoto:imageChecked', $('.check-image .checked').length);
       },
 
       afterRender: function() {
@@ -107,6 +119,7 @@ define([
 
    ExternalServicePhotos.Views.MenuRightPhotos = Backbone.View.extend({
       template: "externalServicePhotos/menuRightPhotos",
+      checkedImagesCount: 0,
 
       serialize: function() {
          return {
@@ -129,8 +142,9 @@ define([
 
       initialize: function() {
          var that = this;
-         this.listenTo(app, 'externalServicePhoto:imageChecked', function(count) {
-            that.imageChecked(count);
+         this.listenTo(app, 'externalServicePhoto:imageChecked', function(value) {
+            that.checkedImagesCount = that.checkedImagesCount + value;
+            that.imageChecked(that.checkedImagesCount);
          });
          this.listenTo(app, 'externalPhotos:uploadingError', function() {
             btn = $('.submit-photos');

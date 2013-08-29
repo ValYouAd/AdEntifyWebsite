@@ -7,7 +7,7 @@
             <div class="tags-container"></div>
             <div class="photo-buttons">
                 <a href="photo/<%= model.get("id") %>/" class="btn btn-info btn-mini view-photo"><i class="icon-picture icon-white"></i> <span data-i18n="common.viewPhoto"></span></a>
-                <% if (model.isOwner()) { %>
+                <% if (model.isOwner() && model.get('tags_count') == 0) { %>
                 <button class="btn btn-danger btn-mini deletePhotoButton"><i class="icon-remove icon-white"></i> <span data-i18n="photo.deletePhoto"></span></button>
                 <% } %>
             </div>

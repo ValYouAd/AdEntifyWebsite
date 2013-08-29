@@ -1,5 +1,5 @@
 <% if (model.has('facebook_id')) { %>
-<a href="<%= model.get("link") %>"><img src="https://graph.facebook.com/<%= model.get('facebook_id') %>/picture?type=square" class="mh35 p5 pull-left" /></a> <a href="<%= model.get('link') %>"><%= model.get('fullname') %></a>
+<a href="<%= model.get("link") %>"><img src="https://graph.facebook.com/<%= model.get('facebook_id') %>/picture?width=80&height=80" class="p5 pull-left" /></a> <a href="<%= model.get('link') %>"><%= model.get('fullname') %></a>
 <% } %>
 <div>
     <div class="pull-right">
