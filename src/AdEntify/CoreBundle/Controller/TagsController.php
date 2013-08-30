@@ -10,6 +10,7 @@
 namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Notification;
+use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Util\PaginationTools;
@@ -97,7 +98,7 @@ class TagsController extends FosRestController
 
         $count = $em->createQuery('SELECT COUNT(tag.id) FROM AdEntify\CoreBundle\Entity\Tag tag
                 LEFT JOIN tag.venue venue LEFT JOIN tag.person person LEFT JOIN tag.product product LEFT JOIN product.brand brand
-            WHERE tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
+            WHERE tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
             LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
             OR LOWER(brand.name) LIKE LOWER(:query)')
@@ -113,7 +114,7 @@ class TagsController extends FosRestController
         if ($count > 0) {
             $results = $em->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
             LEFT JOIN tag.venue venue LEFT JOIN tag.person person LEFT JOIN tag.product product LEFT JOIN product.brand brand
-            WHERE tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
+            WHERE tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
             LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
             OR LOWER(brand.name) LIKE LOWER(:query)')
@@ -154,8 +155,8 @@ class TagsController extends FosRestController
             // Check if user is the owner of the photo
             $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($tag->getPhoto()->getId());
             if ($photo->getOwner()->getId() !== $user->getId()) {
-                // Check if owner is a friend
-                if ($photo->getOwner()->getFacebookId() && in_array($photo->getOwner()->getFacebookId(), $facebookFriendsIds)) {
+                // Check if owner is a friend or photo is public
+                if ($photo->getVisibilityScope() == Photo::SCOPE_PUBLIC || $photo->getOwner()->getFacebookId() && in_array($photo->getOwner()->getFacebookId(), $facebookFriendsIds)) {
                     $tag->setWaitingValidation(true)->setValidationStatus(Tag::VALIDATION_WAITING);
 
                     // Create a new notification

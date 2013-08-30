@@ -13,6 +13,7 @@ use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\VenueType;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use FOS\UserBundle\Form\Model\ChangePassword;
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,7 +59,7 @@ class UsersController extends FosRestController
      * @View()
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="20")
+     * @QueryParam(name="limit", requirements="\d+", default="30")
      */
     public function getPhotosAction($id, $page = 1, $limit = 20)
     {
@@ -72,10 +73,12 @@ class UsersController extends FosRestController
         // Get followings ids
         $followings = $user->getFollowingsIds();
 
-        $count = $em->createQuery('SELECT count(photo.id) FROM AdEntify\CoreBundle\Entity\Photo photo
+        $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.owner owner
-                WHERE photo.owner = :userId AND photo.status = :status AND (photo.visibilityScope = :visibilityScope
-                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))')
+                WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL
+                AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
+                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+                ORDER BY photo.createdAt DESC')
             ->setParameters(array(
                 ':userId' => $id,
                 ':status' => Photo::STATUS_READY,
@@ -83,27 +86,19 @@ class UsersController extends FosRestController
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings
             ))
-            ->getSingleScalarResult();
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
 
         $photos = null;
         $pagination = null;
         if ($count > 0) {
-            $photos = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner
-                WHERE photo.owner = :userId AND photo.status = :status
-                AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
-                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                ORDER BY photo.createdAt DESC')
-                ->setParameters(array(
-                    ':userId' => $id,
-                    ':status' => Photo::STATUS_READY,
-                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                    ':facebookFriendsIds' => $facebookFriendsIds,
-                    ':followings' => $followings
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit)
-                ->getResult();
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_photos', array(
                 'id' => $id
@@ -135,24 +130,24 @@ class UsersController extends FosRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $count = $em->createQuery('SELECT count(u.id) FROM AdEntify\CoreBundle\Entity\User u
+        $query = $em->createQuery('SELECT u FROM AdEntify\CoreBundle\Entity\User u
             WHERE u.firstname LIKE :query OR u.lastname LIKE :query')
             ->setParameters(array(
                 ':query' => '%'.$query.'%'
             ))
-            ->getSingleScalarResult();
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = false);
+        $count = count($paginator);
 
         $results = null;
         $pagination = null;
         if ($count > 0) {
-            $results = $em->createQuery('SELECT u FROM AdEntify\CoreBundle\Entity\User u
-            WHERE u.firstname LIKE :query OR u.lastname LIKE :query')
-                ->setParameters(array(
-                    ':query' => '%'.$query.'%'
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit)
-                ->getResult();
+            $results = array();
+            foreach($paginator as $item) {
+                $results[] = $item;
+            }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_search', array(
                 'query' => $query
@@ -181,43 +176,36 @@ class UsersController extends FosRestController
         // Get followings ids
         $followings = $user->getFollowingsIds();
 
-        $count = $em->createQuery('SELECT count(photo.id) FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner
-                WHERE photo.owner != :userId AND photo.status = :status AND photo.tagsCount > 0
+        $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner
+                WHERE photo.owner != :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.tagsCount > 0 AND tag.visible = true
+                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
+                AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
-                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))')
+                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+                ORDER BY photo.createdAt DESC')
             ->setParameters(array(
                 ':userId' => $user->getId(),
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
-                ':followings' => $followings
+                ':followings' => $followings,
+                ':none' => Tag::VALIDATION_NONE,
+                ':granted' => Tag::VALIDATION_GRANTED
             ))
-            ->getSingleScalarResult();
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
 
         $photos = null;
         $pagination = null;
         if ($count > 0) {
-            $photos = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner
-                WHERE photo.owner != :userId AND photo.status = :status AND photo.tagsCount > 0 AND tag.visible = true
-                AND tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
-                AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
-                AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
-                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                ORDER BY photo.createdAt DESC')
-                ->setParameters(array(
-                    ':userId' => $user->getId(),
-                    ':status' => Photo::STATUS_READY,
-                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                    ':facebookFriendsIds' => $facebookFriendsIds,
-                    ':followings' => $followings,
-                    ':none' => Tag::VALIDATION_NONE,
-                    ':granted' => Tag::VALIDATION_GRANTED
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit)
-                ->getResult();
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_feed');
         }

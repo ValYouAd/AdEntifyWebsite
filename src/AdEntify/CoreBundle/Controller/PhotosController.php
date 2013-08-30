@@ -13,6 +13,7 @@ use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\PhotoType;
 use AdEntify\CoreBundle\Util\PaginationTools;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -56,43 +57,57 @@ class PhotosController extends FosRestController
         // Get followings ids
         $followings = $user->getFollowingsIds();
 
-        $parameters = $tagged == 'true' ? array(
-            ':status' => Photo::STATUS_READY,
-            ':visibilityScope' => Photo::SCOPE_PUBLIC,
-            ':facebookFriendsIds' => $facebookFriendsIds,
-            ':followings' => $followings,
-            ':none' => Tag::VALIDATION_NONE,
-            ':granted' => Tag::VALIDATION_GRANTED
-        ) : array(
-            ':status' => Photo::STATUS_READY,
-            ':visibilityScope' => Photo::SCOPE_PUBLIC,
-            ':facebookFriendsIds' => $facebookFriendsIds,
-            ':followings' => $followings
-        );
-
-        $count = $em->createQuery('SELECT COUNT(photo.id) FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner
-                WHERE photo.status = :status AND (photo.visibilityScope = :visibilityScope
+        $parameters = null;
+        $countQuery = null;
+        $dataQuery = null;
+        if ($tagged == 'true') {
+            $parameters = array(
+                ':status' => Photo::STATUS_READY,
+                ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                ':facebookFriendsIds' => $facebookFriendsIds,
+                ':followings' => $followings,
+                ':none' => Tag::VALIDATION_NONE,
+                ':granted' => Tag::VALIDATION_GRANTED
+            );
+            $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+                INNER JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
+                  AND tag.censored = false AND tag.waitingValidation = false
+                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
+                INNER JOIN photo.owner owner
+                WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true AND tag.deleted_at IS NULL
-                AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' : 'photo.tagsCount = 0'))
+                AND photo.tagsCount > 0 ORDER BY photo.createdAt DESC';
+
+        } else {
+            $parameters = array(
+                ':status' => Photo::STATUS_READY,
+                ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                ':facebookFriendsIds' => $facebookFriendsIds,
+                ':followings' => $followings
+            );
+            $sql = 'SELECT DISTINCT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.owner owner
+                WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
+                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+                AND photo.tagsCount = 0 ORDER BY photo.createdAt DESC';
+        }
+
+        $query = $em->createQuery($sql)
             ->setParameters($parameters)
-            ->getSingleScalarResult();
+            ->setFirstResult(0)
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
 
         $photos = null;
         $pagination = null;
         if ($count > 0) {
-            $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner
-                WHERE photo.status = :status AND (photo.visibilityScope = :visibilityScope
-                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true AND tag.deleted_at IS NULL
-                AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' : 'photo.tagsCount = 0').
-            ' ORDER BY photo.createdAt DESC')
-                ->setParameters($parameters)
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit)
-                ->getResult();
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_photos', array(
                 'tagged' => $tagged
@@ -120,8 +135,8 @@ class PhotosController extends FosRestController
 
         $photo = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag
-                WHERE photo.id = :id AND photo.status = :status AND (tag IS NULL OR tag.visible = true
-                AND tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
+                WHERE photo.id = :id AND photo.deletedAt IS NULL AND photo.status = :status AND (tag IS NULL OR tag.visible = true
+                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
                 AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
@@ -178,7 +193,8 @@ class PhotosController extends FosRestController
         // Check if current user is the owner oh the photo and that no tags are link to the photo
         if ($user->getId() == $photo->getOwner()->getId() && count($photo->getTags()) == 0) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($photo);
+            $photo->setDeletedAt(new \DateTime());
+            $em->merge($photo);
             $em->flush();
         } else {
             throw new HttpException(403, 'You are not authorized to delete this tag');
@@ -195,7 +211,7 @@ class PhotosController extends FosRestController
     public function getTagsAction($id)
     {
         return $this->getDoctrine()->getManager()->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
-                LEFT JOIN tag.photo photo WHERE photo.id = :id AND tag.visible = TRUE AND tag.deleted_at IS NULL
+                LEFT JOIN tag.photo photo WHERE photo.id = :id AND tag.visible = TRUE AND tag.deletedAt IS NULL
                   AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)')
             ->setParameters(array(
                 ':id' => $id,
@@ -217,7 +233,7 @@ class PhotosController extends FosRestController
 
         return $em->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
                 LEFT JOIN tag.photo photo LEFT JOIN photo.owner as owner
-                WHERE photo.id = :id and owner.id = :userId AND tag.visible = TRUE AND tag.deleted_at IS NULL
+                WHERE photo.id = :id and owner.id = :userId AND tag.visible = TRUE AND tag.deletedAt IS NULL
                 AND tag.censored = FALSE AND tag.waitingValidation = TRUE and tag.validationStatus = :validationStatus')
             ->setParameters(array(
                 ':id' => $id,
@@ -295,8 +311,8 @@ class PhotosController extends FosRestController
 
         $count = $em->createQuery('SELECT COUNT(photo.id) FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.tags tag
-                WHERE photo.owner = :userId AND photo.status = :status AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
-                AND tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0'))
+                WHERE photo.owner = :userId AND photo.deletedAt IS NULL AND photo.status = :status AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
+                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0'))
             ->setParameters(array(
                 ':userId' => $user->getId(),
                 ':status' => Photo::STATUS_READY
@@ -308,8 +324,8 @@ class PhotosController extends FosRestController
         if ($count > 0) {
             $photos = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.tags tag
-                WHERE photo.owner = :userId AND photo.status = :status AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
-                AND tag.deleted_at IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0').
+                WHERE photo.owner = :userId AND photo.deletedAt IS NULL AND photo.status = :status AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
+                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0').
             ' ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':userId' => $user->getId(),
