@@ -99,7 +99,7 @@ define([
 
    Photo.Views.Item = Backbone.View.extend({
       template: "photo/item",
-      tagName: "div",
+      tagName: 'div class="photo-item-container fadeOut"',
 
       initialize: function() {
          var that = this;
@@ -120,6 +120,7 @@ define([
                      showClose: true
                   })).render();
                } else {
+                  this.('.photo-item-container').fadeIn();
                   app.trigger('domchange:title', this.options.photo.get('caption'));
                   app.oauth.loadAccessToken({
                      success: function() {
@@ -141,7 +142,6 @@ define([
                      }
                   });
                }
-               this.render();
             }
          });
 

@@ -76,7 +76,7 @@ class UsersController extends FosRestController
         $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.owner owner
                 WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL
-                AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
+                AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
                 ORDER BY photo.createdAt DESC')
             ->setParameters(array(
@@ -84,7 +84,8 @@ class UsersController extends FosRestController
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
-                ':followings' => $followings
+                ':followings' => $followings,
+                ':currentUserId' => $user->getId()
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
