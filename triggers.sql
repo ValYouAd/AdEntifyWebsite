@@ -22,13 +22,15 @@ CREATE TRIGGER tags_count AFTER INSERT ON `tags`
 DELIMITER ;
 DROP TRIGGER IF EXISTS  `tags_count_delete`;
 DELIMITER $$
-CREATE TRIGGER tags_count_delete AFTER DELETE ON `tags`
+CREATE TRIGGER tags_count_delete AFTER UPDATE ON `tags`
  FOR EACH ROW BEGIN
-    UPDATE photos SET tags_count = tags_count-1 WHERE id = OLD.photo_id;
-    UPDATE venues SET tags_count = tags_count-1 WHERE id = OLD.venue_id;
-    UPDATE products SET tags_count = tags_count-1 WHERE id = OLD.product_id;
-    UPDATE people SET tags_count = tags_count-1 WHERE id = OLD.person_id;
-    UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count-1 WHERE p.id = OLD.product_id;
+    IF (NEW.deleted_at IS NOT NULL) THEN
+      UPDATE photos SET tags_count = tags_count-1 WHERE id = NEW.photo_id;
+      UPDATE venues SET tags_count = tags_count-1 WHERE id = NEW.venue_id;
+      UPDATE products SET tags_count = tags_count-1 WHERE id = NEW.product_id;
+      UPDATE people SET tags_count = tags_count-1 WHERE id = NEW.person_id;
+      UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count-1 WHERE p.id = NEW.product_id;
+    END IF;
  END$$
 DELIMITER ;
 

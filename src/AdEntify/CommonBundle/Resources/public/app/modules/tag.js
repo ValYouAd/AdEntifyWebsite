@@ -105,8 +105,7 @@ define([
    });
 
    Tag.Collection = Backbone.Collection.extend({
-      model: Tag.Model,
-      cache: true
+      model: Tag.Model
    });
 
    Tag.Views.Item = Backbone.View.extend({
