@@ -144,7 +144,7 @@ class UploadService
                                 $t = new Tag();
                                 $t->setType(Tag::TYPE_PERSON)->setLink('https://www.facebook.com/'.$tag->id)
                                     ->setPerson($person)->setPhoto($photo)->setTitle($tag->name)
-                                    ->setXPosition($tag->x / 100)->setYPosition($tag->y / 100);
+                                    ->setXPosition($tag->x / 100)->setYPosition($tag->y / 100)->setOwner($user);
                                 $photo->addTag($t);
                                 $this->em->persist($t);
                             }

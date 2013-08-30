@@ -105,14 +105,14 @@ define([
          var that = this;
          this.model = this.options.photo;
          this.listenTo(this.options.photo, {
-            "error": function() {
+            'error': function() {
                app.useLayout().setView('#content', new Common.Views.Alert({
                   cssClass: Common.alertError,
                   message: $.t('photo.errorLoading'),
                   showClose: true
                })).render();
             },
-            "sync": function(model, resp) {
+            'sync': function(model, resp) {
                if (resp == null) {
                   app.useLayout().setView('#content', new Common.Views.Alert({
                      cssClass: Common.alertError,
@@ -171,28 +171,19 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags')
-            && this.model.get('tags').length > 0
-            && $(this.el).find('.tags').children().length == 0) {
-            this.model.get('tags').each(function(tag) {
-               if (tag.get('type') == 'place') {
-                  this.insertView(".tags", new Tag.Views.VenueItem({
-                     model: tag
-                  }));
-               } else if (tag.get('type')  == 'person') {
-                  this.insertView(".tags", new Tag.Views.PersonItem({
-                     model: tag
-                  }));
-               } else if (tag.get('type')  == 'product') {
-                  this.insertView(".tags", new Tag.Views.ProductItem({
-                     model: tag
-                  }));
-               } else {
-                  this.insertView(".tags", new Tag.Views.Item({
-                     model: tag
-                  }));
-               }
-            }, this);
+         if (this.model.has('tags') && this.model.get('tags').length > 0) {
+            this.tagsView = this.getView('.tags-container');
+            if (!this.tagsView) {
+               this.tagsView = new Tag.Views.List({
+                  tags: this.model.get('tags'),
+                  photo: this.model
+               });
+               this.listenTo(this.tagsView, 'tag:remove', function() {
+                  // Update tags count
+                  this.model.changeTagsCount(-1);
+               });
+               this.setView('.tags-container', this.tagsView).render();
+            }
          }
       },
 
@@ -217,10 +208,10 @@ define([
          if ($tags.length > 0) {
             if ($tags.data('state') == 'hidden') {
                $tags.fadeIn('fast');
-               $tags.data('state', 'visible');
+               $tags.attr('data-state', 'visible');
             } else {
                $tags.fadeOut('fast');
-               $tags.data('state', 'hidden');
+               $tags.attr('data-state', 'hidden');
             }
          }
       },

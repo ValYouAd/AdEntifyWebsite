@@ -36,7 +36,7 @@ define([
       },
 
       initialize: function() {
-         this.listenTo(this.model, "change", this.render);
+         /*this.listenTo(this.model, 'change', this.render);*/
       },
 
       beforeRender: function() {
@@ -71,11 +71,11 @@ define([
          $tags = $(this.el).find('.tags');
          if ($tags.length > 0) {
             if ($tags.data('state') == 'hidden') {
-               $tags.stop().fadeIn('fast');
-               $tags.data('state', 'visible');
+               $tags.fadeIn('fast');
+               $tags.attr('data-state', 'visible');
             } else {
-               $tags.stop().fadeOut('fast');
-               $tags.data('state', 'hidden');
+               $tags.fadeOut('fast');
+               $tags.attr('data-state', 'hidden');
             }
          }
       },

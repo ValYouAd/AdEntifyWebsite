@@ -10,9 +10,7 @@
         <div class="adentify-pastille"></div>
         <% } %>
         <div class="photo-overlay">
-            <% if (model.get("tags_count") > 0) { %>
-            <ul class="tags fadeOut" data-state="hidden"></ul>
-            <% } %>
+            <div class="tags-container"></div>
         </div>
         <img src="<%= model.get("fullLargeUrl") %>" alt="<%= model.get("caption") %>" />
     </div>

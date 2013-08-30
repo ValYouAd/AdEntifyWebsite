@@ -61,7 +61,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      */
-    public function getPhotosAction($id, $page = 1, $limit = 20)
+    public function getPhotosAction($id, $page, $limit)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->container->get('security.context')->getToken()->getUser();
