@@ -56,6 +56,13 @@ class Photo
     private $createdAt;
 
     /**
+     * @var datetime
+     *
+     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     */
+    private $deletedAt;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=50)
@@ -751,5 +758,22 @@ class Photo
     public function getFavoritesUsers()
     {
         return $this->favoritesUsers;
+    }
+
+    /**
+     * @param \AdEntify\CoreBundle\Entity\datetime $deletedAt
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+        return $this;
+    }
+
+    /**
+     * @return \AdEntify\CoreBundle\Entity\datetime
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
     }
 }

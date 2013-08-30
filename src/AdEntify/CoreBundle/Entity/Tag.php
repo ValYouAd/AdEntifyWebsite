@@ -91,7 +91,8 @@ class Tag
      *
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
-    private $deleted_at;
+    private $deletedAt;
+
 
     /**
      * @var boolean
@@ -165,6 +166,8 @@ class Tag
     private $stats;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var bool
      *
      * @ORM\Column(name="revenue_assigned", type="boolean")
@@ -173,7 +176,8 @@ class Tag
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="tag", cascade={"persist", "remove"})
+     *
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      */
     private $brandTag;
 
@@ -284,11 +288,11 @@ class Tag
     }
 
     /**
-     * @param \AdEntify\CoreBundle\Entity\datetime $deleted_at
+     * @param \AdEntify\CoreBundle\Entity\datetime $deletedAt
      */
-    public function setDeletedAt($deleted_at)
+    public function setDeletedAt($deletedAt)
     {
-        $this->deleted_at = $deleted_at;
+        $this->deletedAt = $deletedAt;
         return $this;
     }
 
@@ -297,7 +301,7 @@ class Tag
      */
     public function getDeletedAt()
     {
-        return $this->deleted_at;
+        return $this->deletedAt;
     }
 
     /**
