@@ -23,8 +23,7 @@ define([
    var container = null;
 
    Photos.Collection = Backbone.Collection.extend({
-      model: Photo.Model,
-      cache: true
+      model: Photo.Model
    });
 
    Photos.Views.Item = Backbone.View.extend({

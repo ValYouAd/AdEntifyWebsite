@@ -26,7 +26,7 @@
 
    AdEntify = {
       hoverTimeout: null,
-      rootUrl: "http://localhost/AdEntifyFacebookApp/web/",
+      rootUrl: "http://dev.adentify.com/",
       showTags: false,
       showLikes: false,
 

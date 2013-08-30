@@ -138,7 +138,7 @@ class PhotosController extends FosRestController
                 WHERE photo.id = :id AND photo.deletedAt IS NULL AND photo.status = :status AND (tag IS NULL OR tag.visible = true
                 AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
                 AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
-                AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
+                AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
                 ORDER BY photo.createdAt DESC')
             ->setParameters(array(
@@ -147,6 +147,7 @@ class PhotosController extends FosRestController
                 ':id' => $id,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
+                ':currentUserId' => $user->getId(),
                 ':none' => Tag::VALIDATION_NONE,
                 ':granted' => Tag::VALIDATION_GRANTED
             ))

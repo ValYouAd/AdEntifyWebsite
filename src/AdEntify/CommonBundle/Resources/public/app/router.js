@@ -421,7 +421,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                tickerPhotos: this.myTickerPhotos,
                tagged: false
             })
-         });
+         }).render();
 
          photo.fetch();
          this.myTickerPhotos.fetch({

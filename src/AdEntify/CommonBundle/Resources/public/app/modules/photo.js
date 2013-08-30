@@ -99,7 +99,7 @@ define([
 
    Photo.Views.Item = Backbone.View.extend({
       template: "photo/item",
-      tagName: "div",
+      tagName: 'div class="photo-item-container fadeOut"',
 
       initialize: function() {
          var that = this;
@@ -140,8 +140,9 @@ define([
                         });
                      }
                   });
+                  this.render();
+                  this.$el.fadeIn();
                }
-               this.render();
             }
          });
 
