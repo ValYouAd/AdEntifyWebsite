@@ -52,12 +52,14 @@ define([
          this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
          if (this.has('owner'))
             this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
-         if (this.has('tags') && !this.has('tagsConverted') && this.get('tags').length > 0) {
+         if (!this.has('tagsConverted')) {
             this.set('tagsConverted', '');
             var tags = new Tag.Collection();
-            _.each(this.get('tags'), function(tag) {
-               tags.add(new Tag.Model(tag));
-            });
+            if (this.has('tags') && this.get('tags').length > 0) {
+               _.each(this.get('tags'), function(tag) {
+                  tags.add(new Tag.Model(tag));
+               });
+            }
             this.set('tags', tags);
          }
       },
