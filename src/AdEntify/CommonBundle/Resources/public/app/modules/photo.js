@@ -120,7 +120,6 @@ define([
                      showClose: true
                   })).render();
                } else {
-                  this.('.photo-item-container').fadeIn();
                   app.trigger('domchange:title', this.options.photo.get('caption'));
                   app.oauth.loadAccessToken({
                      success: function() {
@@ -141,6 +140,8 @@ define([
                         });
                      }
                   });
+                  this.render();
+                  this.$el.fadeIn();
                }
             }
          });
