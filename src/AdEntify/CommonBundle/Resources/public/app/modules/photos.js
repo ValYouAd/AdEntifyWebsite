@@ -34,10 +34,6 @@ define([
          return { model: this.model };
       },
 
-      initialize: function() {
-         /*this.listenTo(this.model, 'change', this.render);*/
-      },
-
       beforeRender: function() {
          if (this.model.has('tags') && this.model.get('tags').length > 0) {
             this.tagsView = this.getView('.tags-container');
