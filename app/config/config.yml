@@ -154,6 +154,13 @@ services:
             userManager: "@fos_user.user_manager"
             validator: "@validator"
             session: "@session"
+    oauth_event_listener:
+        class:  AdEntify\CoreBundle\EventListener\OAuthEventListener
+        arguments:
+            userManager: "@fos_user.user_manager"
+        tags:
+            - { name: kernel.event_listener, event: fos_oauth_server.pre_authorization_process, method: onPreAuthorizationProcess }
+            - { name: kernel.event_listener, event: fos_oauth_server.post_authorization_process, method: onPostAuthorizationProcess }
 
 # General parameters
 parameters:

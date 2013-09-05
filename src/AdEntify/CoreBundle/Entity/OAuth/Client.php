@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Entity\OAuth;
 
+use AdEntify\CoreBundle\Entity\User;
 use FOS\OAuthServerBundle\Entity\Client as BaseClient;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,10 +35,16 @@ class Client extends BaseClient
      */
     protected $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="clients")
+     */
+    protected $users;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -55,5 +62,27 @@ class Client extends BaseClient
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param mixed $users
+     */
+    public function addUser(User $user)
+    {
+        $this->users[] = $user;
+        return $this;
+    }
+
+    public function removeUser(User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }
