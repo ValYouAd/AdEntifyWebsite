@@ -22,16 +22,6 @@ security:
         login:
             pattern:   ^/(login$|register|resetting)  # Les adresses de ces pages sont login, register et resetting
             anonymous: true                           # On autorise bien évidemment les anonymes sur ces pages !
-        oauth_token:
-            pattern:    ^/oauth/v2/token
-            security:   false
-        oauth_authorize:
-            pattern:    ^/oauth/v2/auth
-            form_login:
-                provider: fos_userbundle
-                check_path: /oauth/v2/auth_login_check
-                login_path: /oauth/v2/auth_login
-            anonymous: true
         api:
             pattern:    ^/api
             fos_oauth:  true
@@ -55,19 +45,11 @@ security:
             oauth:
                 resource_owners:
                     twitter:         "/login/check-twitter"
-                    flickr:        "/login/check-flickr"
+                    flickr:          "/login/check-flickr"
                 login_path:          /
                 failure_path:        /
                 oauth_user_provider:
                     service: adentify_user.fos_ub_user_provider
-            #oauth:
-            #    resource_owners:
-            #        instagram:           "/login/check-instagram"
-            #        flickr:             "/login/check-flickr"
-            #    login_path:        /
-            #    failure_path:      /
-            #    oauth_user_provider:
-            #        service: hwi_oauth.user.provider.fosub_bridge
             anonymous:               true
             remember_me:
                 key:                 %secret%

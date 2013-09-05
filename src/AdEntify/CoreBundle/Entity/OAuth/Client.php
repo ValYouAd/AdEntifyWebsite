@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Client
  *
- * @ORM\Table(name="clients")
+ * @ORM\Table(name="clients", indexes={@ORM\Index(name="search_idx", columns={"name"})})
  * @ORM\Entity
  */
 class Client extends BaseClient
@@ -27,9 +27,33 @@ class Client extends BaseClient
      */
     protected $id;
 
+    /**
+     * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @var
+     */
+    protected $name;
+
     public function __construct()
     {
         parent::__construct();
         // your own logic
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
