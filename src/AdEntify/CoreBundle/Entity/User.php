@@ -77,6 +77,12 @@ class User extends BaseUser
     private $facebookUsername;
 
     /**
+     * @Serializer\Exclude
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
+     */
+    protected $facebookAccessToken;
+
+    /**
      *
      * @var string
      *
@@ -786,5 +792,22 @@ class User extends BaseUser
         }
 
         return $found;
+    }
+
+    /**
+     * @param mixed $facebookAccessToken
+     */
+    public function setFacebookAccessToken($facebookAccessToken)
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebookAccessToken;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace AdEntify\UserBundle\Controller;
 
+use AdEntify\CoreBundle\Util\CommonTools;
 use OAuth2\OAuth2ServerException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -47,9 +49,10 @@ class DefaultController extends Controller
                     if (null === $user) {
                         $user = $userManager->createUser();
                         $user->setEnabled(true);
-                        $user->setPlainPassword($this->randomPassword()); // set random password to avoid login with just email
+                        $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
                     }
 
+                    $user->setFacebookAccessToken($fb->getAccessToken());
                     $user->setFBData($fbdata);
                     $userManager->updateUser($user);
 
@@ -76,6 +79,40 @@ class DefaultController extends Controller
     public function facebookLogoutAction()
     {
 
+    }
+
+    /**
+     * @Route("/facebook/access-token")
+     */
+    public function facebookAccessTokenAction()
+    {
+        if (!$this->getRequest()->query->has('access_token')) {
+            throw new HttpException(403);
+        }
+
+        // Get OAuth client
+        $oAuthClient = $this->getOAuthClient();
+
+        // Get OAuth token with facebook grant type
+        $url = $this->generateUrl('fos_oauth_server_token', array(), true);
+        $params = array(
+            "client_id" => $oAuthClient->getPublicId(),
+            "client_secret" => $oAuthClient->getSecret(),
+            "grant_type" => $this->container->getParameter('facebook_grant_extension_uri'),
+            "facebook_access_token" => $this->getRequest()->query->get('access_token')
+        );
+        $result = $this->postUrl($url, $params);
+        $tokens = !empty($result) ? json_decode($result) : null;
+
+        // If no error, return the tokens
+        // Else, throw an error
+        if (null !== $tokens && !isset($tokens->error)) {
+            $response = new Response($result);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        } else {
+            throw new HttpException(403);
+        }
     }
 
     /**
@@ -120,10 +157,7 @@ class DefaultController extends Controller
                 ))->execute();
 
             // Get client
-            $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
-            $client = $clientManager->findClientBy(array(
-                'id' => 1
-            ));
+            $client = $this->getOAuthClient();
 
             if (true === $this->container->get('session')->get('_fos_oauth_server.ensure_logout')) {
                 $this->container->get('security.context')->setToken(null);
@@ -148,6 +182,13 @@ class DefaultController extends Controller
         return $response;
     }
 
+    private function getOAuthClient()
+    {
+        return $this->container->get('fos_oauth_server.client_manager.default')->findClientBy(array(
+            'name' => $this->container->getParameter('adentify_oauth_client_name')
+        ));
+    }
+
     private function postUrl($url, $params) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -156,21 +197,5 @@ class DefaultController extends Controller
         $ret = curl_exec($ch);
         curl_close($ch);
         return $ret;
-    }
-
-    /**
-     * @return string
-     *
-     * Generate a random password of 12 caracters
-     */
-    private function randomPassword() {
-        $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789@!#&-_()?!";
-        $pass = array(); //remember to declare $pass as an array
-        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-        for ($i = 0; $i < 15; $i++) {
-            $n = rand(0, $alphaLength);
-            $pass[] = $alphabet[$n];
-        }
-        return implode($pass); //turn the array into a string
     }
 }

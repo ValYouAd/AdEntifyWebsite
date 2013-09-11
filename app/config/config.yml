@@ -161,23 +161,32 @@ services:
         tags:
             - { name: kernel.event_listener, event: fos_oauth_server.pre_authorization_process, method: onPreAuthorizationProcess }
             - { name: kernel.event_listener, event: fos_oauth_server.post_authorization_process, method: onPostAuthorizationProcess }
+    adEntify.oauth.facebook_extension:
+        class: AdEntify\CoreBundle\Oauth\FacebookGrantExtension
+        arguments:
+            userManager: "@fos_user.user_manager"
+            facebookSdk: "@fos_facebook.api"
+        tags:
+            - { name: fos_oauth_server.grant_extension, uri: %facebook_grant_extension_uri% }
 
 # General parameters
 parameters:
-    contact_email:            contact@adentify.com
-    from_email:               no-reply@adentify.com
-    instagram_client_id:      db51217592cf490aab08224763fc6cea
-    instagram_client_secret:  48017f2c3cf441d6996ca7813e1abeb9
-    flickr_client_id:         370e2e2f28c0ca81fd6a5a336a6e2c89
-    flickr_client_secret:     6084b60c02b4c8fc
-    foursquare_client_id:     FTCUYTRQ5C4TMDYBAYB4PVVQEKMSG2HCDYNXKD2MHHURLPEZ
-    foursquare_client_secret: 1I2D3YVPIN2RFPCMTLER5TROVTTZVBT4KT1ML3PTUBLMFYR1
-    twitter_consumer_key:     mzKZ8anZeGddPOgVWnQ
-    twitter_consumer_secret:  d27XZ9UpNyowFiLpugC1EhC8xwdQlwcwtrkTHIXE
-    facebook_app_id:          159587157398776
-    facebook_secret:          6465372f50a4b1e570cfe4ce7fd62cca
-    facebook_permissions:     email,user_birthday,user_photos,friends_photos,read_friendlists,publish_actions
-    root_url:                 "http://localhost/AdEntifyFacebookApp/web/"
+    contact_email:                contact@adentify.com
+    from_email:                   no-reply@adentify.com
+    instagram_client_id:          db51217592cf490aab08224763fc6cea
+    instagram_client_secret:      48017f2c3cf441d6996ca7813e1abeb9
+    flickr_client_id:             370e2e2f28c0ca81fd6a5a336a6e2c89
+    flickr_client_secret:         6084b60c02b4c8fc
+    foursquare_client_id:         FTCUYTRQ5C4TMDYBAYB4PVVQEKMSG2HCDYNXKD2MHHURLPEZ
+    foursquare_client_secret:     1I2D3YVPIN2RFPCMTLER5TROVTTZVBT4KT1ML3PTUBLMFYR1
+    twitter_consumer_key:         mzKZ8anZeGddPOgVWnQ
+    twitter_consumer_secret:      d27XZ9UpNyowFiLpugC1EhC8xwdQlwcwtrkTHIXE
+    facebook_app_id:              159587157398776
+    facebook_secret:              6465372f50a4b1e570cfe4ce7fd62cca
+    facebook_permissions:         email,user_birthday,user_photos,friends_photos,read_friendlists,publish_actions
+    root_url:                     "http://localhost/AdEntifyFacebookApp/web/"
+    facebook_grant_extension_uri: "http://grants.api.adentify.com/facebook_access_token"
+    adentify_oauth_client_name:   "AdEntify"
 
 # Twig globals
 twig:

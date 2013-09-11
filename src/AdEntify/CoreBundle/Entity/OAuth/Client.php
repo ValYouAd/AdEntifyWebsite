@@ -29,7 +29,7 @@ class Client extends BaseClient
     protected $id;
 
     /**
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      *
      * @var
      */
