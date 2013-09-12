@@ -86,11 +86,11 @@ class DefaultController extends Controller
      */
     public function facebookAccessTokenAction()
     {
-        if (!$this->getRequest()->query->has('access_token')) {
+        if (!$this->getRequest()->request->has('access_token')) {
             throw new HttpException(403);
         }
 
-        // Get OAuth client
+        // Get AdEntify OAuth client
         $oAuthClient = $this->getOAuthClient();
 
         // Get OAuth token with facebook grant type
@@ -99,7 +99,7 @@ class DefaultController extends Controller
             "client_id" => $oAuthClient->getPublicId(),
             "client_secret" => $oAuthClient->getSecret(),
             "grant_type" => $this->container->getParameter('facebook_grant_extension_uri'),
-            "facebook_access_token" => $this->getRequest()->query->get('access_token')
+            "facebook_access_token" => $this->getRequest()->request->get('access_token')
         );
         $result = $this->postUrl($url, $params);
         $tokens = !empty($result) ? json_decode($result) : null;
@@ -116,7 +116,42 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/getUserAccessToken", name="get_user_access_token")
+     * @Route("/grant/password")
+     */
+    public function grantAccessTokenPassswordTypeAction()
+    {
+        if (!$this->getRequest()->request->has('username') || !$this->getRequest()->request->has('password')) {
+            throw new HttpException(403);
+        }
+
+        // Get AdEntify OAuth client
+        $oAuthClient = $this->getOAuthClient();
+
+        // Get OAuth token with facebook grant type
+        $url = $this->generateUrl('fos_oauth_server_token', array(), true);
+        $params = array(
+            "client_id" => $oAuthClient->getPublicId(),
+            "client_secret" => $oAuthClient->getSecret(),
+            "grant_type" => 'password',
+            "username" => $this->getRequest()->request->get('username'),
+            "password" => $this->getRequest()->request->get('password'),
+        );
+        $result = $this->postUrl($url, $params);
+        $tokens = !empty($result) ? json_decode($result) : null;
+
+        // If no error, return the tokens
+        // Else, throw an error
+        if (null !== $tokens && !isset($tokens->error)) {
+            $response = new Response($result);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        } else {
+            throw new HttpException(403);
+        }
+    }
+
+    /**
+     * @Route("/grant/user-logged-access-token", name="get_user_access_token")
      * @Method({"POST"})
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
