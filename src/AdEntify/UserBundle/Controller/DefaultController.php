@@ -82,7 +82,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/facebook/access-token")
+     * @Route("/token/facebook")
      */
     public function facebookAccessTokenAction()
     {
@@ -116,9 +116,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/grant/password")
+     * @Route("/token/password")
      */
-    public function grantAccessTokenPassswordTypeAction()
+    public function passswordAccessTokenAction()
     {
         if (!$this->getRequest()->request->has('username') || !$this->getRequest()->request->has('password')) {
             throw new HttpException(403);
@@ -127,7 +127,7 @@ class DefaultController extends Controller
         // Get AdEntify OAuth client
         $oAuthClient = $this->getOAuthClient();
 
-        // Get OAuth token with facebook grant type
+        // Get OAuth token with password grant type
         $url = $this->generateUrl('fos_oauth_server_token', array(), true);
         $params = array(
             "client_id" => $oAuthClient->getPublicId(),
