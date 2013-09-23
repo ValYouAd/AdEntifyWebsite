@@ -12,6 +12,7 @@ namespace AdEntify\CoreBundle\Controller;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use Symfony\Component\HttpFoundation\Request;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
     FOS\RestBundle\Controller\Annotations\NamePrefix,
@@ -37,6 +38,17 @@ use AdEntify\CoreBundle\Entity\Brand;
 class BrandsController extends FosRestController
 {
     /**
+     * Get a collection of all brands
+     *
+     * @return ArrayCollection
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get all brands",
+     *  output="AdEntify\CoreBundle\Entity\Brand",
+     *  section="Brand"
+     * )
+     *
      * @View()
      */
     public function cgetAction()
@@ -45,7 +57,15 @@ class BrandsController extends FosRestController
     }
 
     /**
+     * Get brand by slug
+     *
      * @View()
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  output="AdEntify\CoreBundle\Entity\Brand",
+     *  section="Brand"
+     * )
      *
      * @return Brand
      */
@@ -58,23 +78,40 @@ class BrandsController extends FosRestController
 
     /**
      * @param $query
+     * @param int $page
      * @param int $limit
      *
-     * @QueryParam(name="limit", default="10")
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search a brand with a query (keyword)",
+     *  output="AdEntify\CoreBundle\Entity\Brand",
+     *  section="Brand"
+     * )
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View()
      */
-    public function getSearchAction($query, $limit)
+    public function getSearchAction($query, $page, $limit)
     {
         return $this->getDoctrine()->getManager()->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand
             WHERE brand.name LIKE :query')
             ->setParameter(':query', '%'.$query.'%')
             ->setMaxResults($limit)
+            ->setFirstResult(($page - 1) * $limit)
             ->getResult();
     }
 
     /**
      * @param $slug
      * @return ArrayCollection|null
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of products for the brand",
+     *  output="AdEntify\CoreBundle\Entity\Product",
+     *  section="Brand"
+     * )
      *
      * @View()
      */

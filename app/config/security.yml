@@ -23,7 +23,7 @@ security:
             pattern:   ^/(login$|register|resetting)  # Les adresses de ces pages sont login, register et resetting
             anonymous: true                           # On autorise bien évidemment les anonymes sur ces pages !
         api:
-            pattern:    ^/api
+            pattern:    ^/api/
             fos_oauth:  true
             stateless:  true
         main:

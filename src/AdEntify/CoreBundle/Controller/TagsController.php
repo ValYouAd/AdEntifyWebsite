@@ -15,6 +15,7 @@ use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use Symfony\Component\HttpFoundation\Request;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
     FOS\RestBundle\Controller\Annotations\NamePrefix,
@@ -41,7 +42,16 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class TagsController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of tags",
+     *  output="AdEntify\CoreBundle\Entity\Tag",
+     *  section="Tag"
+     * )
+     *
      * @View()
+     *
+     * @return mixed
      */
     public function cgetAction()
     {
@@ -49,6 +59,13 @@ class TagsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a tag",
+     *  output="AdEntify\CoreBundle\Entity\Tag",
+     *  section="Tag"
+     * )
+     *
      * @View()
      *
      * @return Tag
@@ -59,6 +76,16 @@ class TagsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Delete a tag",
+     *  statusCodes={
+     *      204="Returned if the tag is deleted",
+     *      403="Returned if the user is not authorized to delete the tag"
+     *  },
+     *  section="Tag"
+     * )
+     *
      * @View()
      *
      * @param $id
@@ -80,6 +107,13 @@ class TagsController extends FosRestController
     /**
      * @param $query
      * @param int $limit
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search a tag with a query (keyword)",
+     *  output="AdEntify\CoreBundle\Entity\Tag",
+     *  section="Tag"
+     * )
      *
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
@@ -137,6 +171,19 @@ class TagsController extends FosRestController
     }
 
     /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a tag",
+     *  input="AdEntify\CoreBundle\Form\TagType",
+     *  output="AdEntify\CoreBundle\Entity\Tag",
+     *  statusCodes={
+     *      200="Returned if the tag is created",
+     *      403="Returned if the user is not authorized to add a tag to the photo"
+     *  },
+     *  section="Tag"
+     * )
+     *
      * @View()
      */
     public function postAction(Request $request)

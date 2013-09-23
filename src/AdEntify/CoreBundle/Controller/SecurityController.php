@@ -21,6 +21,7 @@ use FOS\RestBundle\Controller\Annotations\Prefix,
 
 use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class SecurityController
@@ -32,6 +33,15 @@ use Doctrine\Common\Collections\ArrayCollection,
 class SecurityController  extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a CSRF token",
+     *  section="Security"
+     * )
+     *
+     * @param string $intention Intention (string key) to match form
+     * @return string $token CSRF Token
+     *
      * @View()
      */
     public function getCsrftokenAction($intention)

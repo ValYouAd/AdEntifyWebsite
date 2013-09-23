@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
 use AdEntify\CoreBundle\Entity\Product;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class ProductsController
@@ -29,6 +30,13 @@ use AdEntify\CoreBundle\Entity\Product;
 class ProductsController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of all products",
+     *  output="AdEntify\CoreBundle\Entity\Product",
+     *  section="Product"
+     * )
+     *
      * @View()
      */
     public function cgetAction()
@@ -37,6 +45,13 @@ class ProductsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a Product",
+     *  output="AdEntify\CoreBundle\Entity\Product",
+     *  section="Product"
+     * )
+     *
      * @View()
      */
     public function getAction($id)
@@ -46,21 +61,39 @@ class ProductsController extends FosRestController
 
     /**
      * @param $query
+     * @param int $page
      * @param int $limit
      *
-     * @QueryParam(name="limit", default="10")
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search a product with a query (keyword)",
+     *  output="AdEntify\CoreBundle\Entity\Product",
+     *  section="Product"
+     * )
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View()
      */
-    public function getSearchAction($query, $limit)
+    public function getSearchAction($query, $page, $limit)
     {
         return $this->getDoctrine()->getManager()->createQuery('SELECT product FROM AdEntify\CoreBundle\Entity\Product product
             WHERE product.name LIKE :query')
             ->setParameter(':query', '%'.$query.'%')
             ->setMaxResults($limit)
+            ->setFirstResult(($page - 1) * $limit)
             ->getResult();
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a Product",
+     *  input="AdEntify\CoreBundle\Form\ProductType",
+     *  output="AdEntify\CoreBundle\Entity\Product",
+     *  section="Product"
+     * )
+     *
      * @View()
      */
     public function postAction(Request $request)

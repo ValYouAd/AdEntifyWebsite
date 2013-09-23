@@ -23,6 +23,7 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
 use AdEntify\CoreBundle\Entity\Venue;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class VenuesController
@@ -36,6 +37,13 @@ use AdEntify\CoreBundle\Entity\Venue;
 class VenuesController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of all venues",
+     *  output="AdEntify\CoreBundle\Entity\Venue",
+     *  section="Venue"
+     * )
+     *
      * @View()
      */
     public function cgetAction()
@@ -44,6 +52,13 @@ class VenuesController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a Venue",
+     *  output="AdEntify\CoreBundle\Entity\Venue",
+     *  section="Venue"
+     * )
+     *
      * @View()
      *
      * @return Venue
@@ -54,6 +69,14 @@ class VenuesController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a Venue",
+     *  input="AdEntify\CoreBundle\Form\VenueType",
+     *  output="AdEntify\CoreBundle\Entity\Venue",
+     *  section="Venue"
+     * )
+     *
      * @View()
      */
     public function postAction(Request $request)
@@ -106,9 +129,16 @@ class VenuesController extends FosRestController
      * @param null $ll latitude & longitude of current position
      * @param int $radius (in meters)
      *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search a venue with a query (keyword)",
+     *  output="AdEntify\CoreBundle\Entity\Venue",
+     *  section="Venue"
+     * )
+     *
      * @QueryParam(name="limit", default="10")
-     * @QueryParam(name="ll", default="")
-     * @QueryParam(name="radius", default="800")
+     * @QueryParam(name="ll", default="", description="Latitude and longitude of the user's location. Example : 44.3,37.2. If it's not specified, globally search.")
+     * @QueryParam(name="radius", default="800", description="Limit results to venues within this many meters of the specified location. Maximum 100,000 meters")
      * @View()
      */
     public function getSearchAction($query, $limit, $ll, $radius)
