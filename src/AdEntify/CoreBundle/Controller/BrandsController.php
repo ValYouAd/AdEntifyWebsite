@@ -44,7 +44,7 @@ class BrandsController extends FosRestController
      *
      * @ApiDoc(
      *  resource=true,
-     *  description="Get all brands",
+     *  description="Get a collection of brands",
      *  output="AdEntify\CoreBundle\Entity\Brand",
      *  section="Brand"
      * )

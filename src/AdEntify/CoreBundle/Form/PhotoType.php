@@ -17,7 +17,60 @@ class PhotoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('caption', 'text');
+        $builder->add('caption', 'text', array(
+                'required' => false,
+                'description' => 'Title or description of the photo'
+            ))
+            ->add('source', 'text', array(
+                'required' => false,
+                'description' => 'Source of the photo : facebook|flickr|instagram|googleplus|local|wordpress'
+            ))
+            ->add('photo_source_id', 'text', array(
+                'required' => false,
+                'description' => 'Photo ID of the source'
+            ))
+            ->add('original_url', 'text')
+            ->add('original_width', 'text', array(
+                    'required' => false
+                ))
+            ->add('original_height', 'text', array(
+                    'required' => false
+                ))
+            ->add('large_url', 'text', array(
+                'required' => false
+            ))
+            ->add('large_width', 'text', array(
+                'required' => false
+            ))
+            ->add('large_height', 'text', array(
+                'required' => false
+            ))
+            ->add('medium_url', 'text', array(
+                'required' => false
+            ))
+            ->add('medium_width', 'text', array(
+                'required' => false
+            ))
+            ->add('medium_height', 'text', array(
+                'required' => false
+            ))
+            ->add('small_url', 'text', array(
+                'required' => false
+            ))
+            ->add('small_width', 'text', array(
+                'required' => false
+            ))
+            ->add('small_height', 'text', array(
+                'required' => false
+            ))
+            ->add('latitude', 'number', array(
+                'precision' => 6,
+                'required' => false
+            ))
+            ->add('longitude', 'number', array(
+                'precision' => 6,
+                'required' => false
+            ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

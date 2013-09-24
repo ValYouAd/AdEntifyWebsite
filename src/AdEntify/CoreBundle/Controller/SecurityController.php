@@ -33,13 +33,16 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class SecurityController  extends FosRestController
 {
     /**
+     * Photo intention : photo_item, Person intention : person_item, Product intention : product_item,
+     * Tag intention : tag_item, Venue intention : venue_item
+     *
      * @ApiDoc(
      *  resource=true,
      *  description="Get a CSRF token",
      *  section="Security"
      * )
      *
-     * @param string $intention Intention (string key) to match form
+     * @param string $intention Intention (string key) to match form.
      * @return string $token CSRF Token
      *
      * @View()

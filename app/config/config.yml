@@ -86,8 +86,8 @@ fos_rest:
         json: true
     format_listener:
         default_priorities:
-            - html
             - json
+            - html
             - xml
             - rss
             - "*/*"

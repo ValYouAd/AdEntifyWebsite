@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 use AdEntify\CoreBundle\Entity\Category;
 use AdEntify\CoreBundle\Entity\Photo;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class CategoriesController
@@ -37,6 +38,13 @@ use AdEntify\CoreBundle\Entity\Photo;
 class CategoriesController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of categories",
+     *  output="AdEntify\CoreBundle\Entity\Category",
+     *  section="Category"
+     * )
+     *
      * @View()
      * @QueryParam(name="locale", default="fr")
      * @return Category
@@ -53,6 +61,13 @@ class CategoriesController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a category",
+     *  output="AdEntify\CoreBundle\Entity\Category",
+     *  section="Category"
+     * )
+     *
      * @View()
      * @QueryParam(name="locale", default="fr")
      */
