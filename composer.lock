@@ -54,22 +54,27 @@
         },
         {
             "name": "dflydev/markdown",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-markdown.git",
-                "reference": "2a1b3516bd5af6e722b40ae9e1fccd03e1772060"
+                "reference": "6baed9b50f29c980795b6656d43722aadb126f7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-markdown/zipball/2a1b3516bd5af6e722b40ae9e1fccd03e1772060",
-                "reference": "2a1b3516bd5af6e722b40ae9e1fccd03e1772060",
+                "url": "https://api.github.com/repos/dflydev/dflydev-markdown/zipball/6baed9b50f29c980795b6656d43722aadb126f7e",
+                "reference": "6baed9b50f29c980795b6656d43722aadb126f7e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "dflydev\\markdown": "src"
@@ -77,7 +82,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "New BSD License"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -104,7 +109,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2012-01-16 03:36:37"
+            "time": "2013-09-23 12:00:18"
         },
         {
             "name": "doctrine/annotations",
@@ -1149,30 +1154,30 @@
         },
         {
             "name": "friendsofsymfony/user-bundle",
-            "version": "v1.3.2",
+            "version": "v1.3.3",
             "target-dir": "FOS/UserBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "v1.3.2"
+                "reference": "0fc044447ca41acc73d424a6a90d1b9f7fa25d7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/v1.3.2",
-                "reference": "v1.3.2",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/0fc044447ca41acc73d424a6a90d1b9f7fa25d7b",
+                "reference": "0fc044447ca41acc73d424a6a90d1b9f7fa25d7b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/framework-bundle": ">=2.1,<3.0",
-                "symfony/security-bundle": ">=2.1,<3.0"
+                "symfony/framework-bundle": "~2.1",
+                "symfony/security-bundle": "~2.1"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "*",
-                "swiftmailer/swiftmailer": ">=4.3,<5.0",
-                "symfony/validator": ">=2.1,<3.0",
-                "symfony/yaml": ">=2.1,<3.0",
-                "twig/twig": ">=1.5,<2.0",
+                "swiftmailer/swiftmailer": "~4.3",
+                "symfony/validator": "~2.1",
+                "symfony/yaml": "~2.1",
+                "twig/twig": "~1.5",
                 "willdurand/propel-typehintable-behavior": "dev-master"
             },
             "suggest": {
@@ -1213,7 +1218,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-05-25 12:08:24"
+            "time": "2013-09-23 08:24:12"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1302,12 +1307,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "3441f8c4e7387a8fdc6ed9400d8eee68eba88302"
+                "reference": "6fd693212ed1557fe0af75d3b85155234e42b0a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/3441f8c4e7387a8fdc6ed9400d8eee68eba88302",
-                "reference": "3441f8c4e7387a8fdc6ed9400d8eee68eba88302",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/6fd693212ed1557fe0af75d3b85155234e42b0a5",
+                "reference": "6fd693212ed1557fe0af75d3b85155234e42b0a5",
                 "shasum": ""
             },
             "require": {
@@ -1403,7 +1408,7 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2013-09-20 13:59:28"
+            "time": "2013-09-24 12:03:40"
         },
         {
             "name": "imagine/imagine",
