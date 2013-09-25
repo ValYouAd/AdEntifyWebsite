@@ -25,10 +25,12 @@ class UploadService
 
     protected $em;
     protected $thumbService;
+    protected $rootUrl;
 
-    public function __construct($em, ThumbService $thumbService) {
+    public function __construct($em, ThumbService $thumbService, $rootUrl) {
         $this->em = $em;
         $this->thumbService = $thumbService;
+        $this->rootUrl = $rootUrl;
     }
 
     public function uploadPhotos($user, $data)
@@ -194,7 +196,7 @@ class UploadService
                     }
                     // Set url to the downloaded image or the source url if not download
                     if ($originalStatus !== false) {
-                        $photo->setOriginalUrl($filename);
+                        $photo->setOriginalUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/original/' . $filename);
                         $thumb->setOriginalPath($originalPath.$filename);
                         $uploadedPhotos++;
 
@@ -204,7 +206,7 @@ class UploadService
                             $status = $this->downloadImage($image->smallSource, $smallPath, $filename);
 
                             if ($status !== false) {
-                                $photo->setSmallUrl($filename);
+                                $photo->setSmallUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/small/' . $filename);
                                 // Set image size
                                 if (empty($image->smallWidth) || empty($image->smallHeight)) {
                                     $size = getimagesize($smallPath.$filename);
@@ -233,7 +235,7 @@ class UploadService
                             $status = $this->downloadImage($image->mediumSource, $mediumPath, $filename);
 
                             if ($status !== false) {
-                                $photo->setMediumUrl($filename);
+                                $photo->setMediumUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/medium/' . $filename);
                                 // Set image size
                                 if (empty($image->mediumWidth) || empty($image->mediumHeight)) {
                                     $size = getimagesize($mediumPath.$filename);
@@ -261,7 +263,7 @@ class UploadService
                             $status = $this->downloadImage($image->largeSource, $largePath, $filename);
 
                             if ($status !== false) {
-                                $photo->setLargeUrl($filename);
+                                $photo->setLargeUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/large/' . $filename);
                                 // Set image size
                                 if (empty($image->largeWidth) || empty($image->largeHeight)) {
                                     $size = getimagesize($largePath.$filename);
@@ -284,17 +286,17 @@ class UploadService
                             foreach($generatedThumbs as $key => $value) {
                                 switch ($key) {
                                     case FileTools::PHOTO_TYPE_LARGE:
-                                        $photo->setLargeUrl($value['filename']);
+                                        $photo->setLargeUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/large/' . $value['filename']);
                                         $photo->setLargeWidth($value['width']);
                                         $photo->setLargeHeight($value['height']);
                                         break;
                                     case FileTools::PHOTO_TYPE_MEDIUM:
-                                        $photo->setMediumUrl($value['filename']);
+                                        $photo->setMediumUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/medium/' . $value['filename']);
                                         $photo->setMediumWidth($value['width']);
                                         $photo->setMediumHeight($value['height']);
                                         break;
                                     case FileTools::PHOTO_TYPE_SMALLL:
-                                        $photo->setSmallUrl($value['filename']);
+                                        $photo->setSmallUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/small/' . $value['filename']);
                                         $photo->setSmallWidth($value['width']);
                                         $photo->setSmallHeight($value['height']);
                                         break;

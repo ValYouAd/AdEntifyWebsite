@@ -131,7 +131,7 @@ class UploadController extends Controller
                 // Add original
                 $originalImageSize = getimagesize($path.$filename);
                 $thumbs['original'] = array(
-                    'filename' => $filename,
+                    'filename' => $this->container->getParameter('root_url') . 'uploads/photos/users/' . $user->getId().'/original/' . $filename,
                     'width' => $originalImageSize[0],
                     'height' => $originalImageSize[1],
                 );

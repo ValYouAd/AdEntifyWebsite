@@ -17,13 +17,15 @@ class ThumbService
 {
     protected $filterManager;
     protected $imagine;
+    protected $rootUrl;
 
     /**
      * @param $avalancheService
      */
-    public function __construct($filterManager, $imagine) {
+    public function __construct($filterManager, $imagine, $rootUrl) {
         $this->filterManager = $filterManager;
         $this->imagine = $imagine;
+        $this->rootUrl = $rootUrl;
     }
 
     /**
@@ -45,7 +47,7 @@ class ThumbService
             $imageSize = $this->resize($thumb, $size, $path, $filename);
 
             $generatedThumbs[$size] = array(
-                'filename' => $filename,
+                'filename' => $this->rootUrl . 'uploads/photos/users/' . $user->getId().'/' . $size . '/' . $filename,
                 'width' => $imageSize[0],
                 'height' => $imageSize[1],
             );

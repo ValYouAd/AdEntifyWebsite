@@ -74,7 +74,7 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
                });
             },
             error: function () {
-               window.location.href = Routing.generate('home_logoff', { '_locale': app.appState().getLocale() });
+               window.location.href = Routing.generate('fos_user_security_logout', { '_locale': app.appState().getLocale() });
             }
          });
       }
