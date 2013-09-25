@@ -184,7 +184,7 @@ parameters:
     facebook_app_id:              159587157398776
     facebook_secret:              6465372f50a4b1e570cfe4ce7fd62cca
     facebook_permissions:         email,user_birthday,user_photos,friends_photos,read_friendlists,publish_actions
-    root_url:                     "http://localhost/AdEntifyFacebookApp/web/"
+    root_url:                     "https://local.adentify.com/"
     facebook_grant_extension_uri: "http://grants.api.adentify.com/facebook_access_token"
     adentify_oauth_client_name:   "AdEntify"
 

@@ -137,7 +137,7 @@ class DefaultController extends Controller
     /**
      * @Route("/test")
      */
-    /*public function testAction()
+    public function testAction()
     {
         $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
         $client = $clientManager->findClientBy(array(
@@ -148,7 +148,7 @@ class DefaultController extends Controller
             'redirect_uri'  => 'http://localhost/AdEntifyFacebookApp/web/toto',
             'response_type' => 'code'
         )));
-    }*/
+    }
 
     /**
      * Get current locale from user if logged and set, instead, get from request

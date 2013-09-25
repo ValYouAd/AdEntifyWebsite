@@ -11,8 +11,8 @@ define([
       // creation.
       var app = {
          // The root path to run the application.
-         root: "/AdEntifyFacebookApp/web/" + currentLocale + "/app/",
-         rootUrl: "http://localhost/AdEntifyFacebookApp/web/",
+         root: "/" + currentLocale + "/app/",
+         rootUrl: location.protocol + "//local.adentify.com/",
          beginUrl: location.protocol + "//" + location.host,
          secondsBetweenPoll: 15
       };
