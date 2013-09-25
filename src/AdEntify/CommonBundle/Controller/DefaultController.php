@@ -135,6 +135,29 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/test")
+     */
+    public function testAction()
+    {
+        $clientManager = $this->container->get('fos_oauth_server.client_manager.default');
+        $client = $clientManager->findClientBy(array(
+            'id' => 1
+        ));
+        return $this->redirect($this->generateUrl('fos_oauth_server_authorize', array(
+            'client_id'     => $client->getPublicId(),
+            'redirect_uri'  => 'http://localhost/AdEntifyFacebookApp/web/toto',
+            'response_type' => 'code'
+        )));
+    }
+
+    /**
+     * @Route("/toto")
+     */
+    public function totoAction() {
+        return new Response('test');
+    }
+
+    /**
      * Get current locale from user if logged and set, instead, get from request
      *
      * @return string
@@ -142,7 +165,7 @@ class DefaultController extends Controller
     private function getCurrentLocale() {
         $locale = $this->getRequest()->getLocale();
         $securityContext = $this->container->get('security.context');
-        if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
             if ($user->getLocale()) {
                 $locale = $user->getLocale();
@@ -159,7 +182,7 @@ class DefaultController extends Controller
      */
     private function setUserLocale($locale) {
         $securityContext = $this->container->get('security.context');
-        if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
             $user->setLocale($locale);
             $this->getDoctrine()->getManager()->merge($user);

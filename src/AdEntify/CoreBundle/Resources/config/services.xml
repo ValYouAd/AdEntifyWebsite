@@ -16,6 +16,7 @@
         <service id="ad_entify_core.thumb" class="%ad_entify_core.thumbService%">
             <argument type="service" id="imagine.filter.manager" />
             <argument type="service" id="imagine" />
+            <argument>%root_url%</argument>
         </service>
         <service id="ad_entify_core.email" class="%ad_entify_core.emailService%">
             <argument type="service" id="templating" />
@@ -26,6 +27,7 @@
         <service id="ad_entify_core.upload" class="%ad_entify_core.uploadService%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="ad_entify_core.thumb" />
+            <argument>%root_url%</argument>
         </service>
         <service id="ad_entify_core.tagRevenue" class="%ad_entify_core.tagRevenueService%">
             <argument type="service" id="doctrine.orm.entity_manager" />

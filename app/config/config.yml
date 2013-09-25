@@ -213,6 +213,9 @@ fos_oauth_server:
     auth_code_class:     AdEntify\CoreBundle\Entity\OAuth\AuthCode
     service:
         user_provider: fos_user.user_manager
+        options:
+            access_token_lifetime: 5184000
+            refresh_token_lifetime: 6048000
 
 # Flickr
 ad_entify_flickr:
