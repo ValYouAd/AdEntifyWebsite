@@ -23,28 +23,37 @@ class TagType extends AbstractType
                 'required' => false
             ))
             ->add('link', 'text', array(
-                'required' => false
+                'required' => false,
+                'description' => 'Link to the object'
             ))
-            ->add('x_position', 'text')
-            ->add('y_position', 'text')
+            ->add('x_position', 'text', array(
+                'description' => 'Position of the tag on the photo. Should be a number between 0 to 1.0, inclusive. 0 is the left edge of the photo, 1.0 is the right.'
+            ))
+            ->add('y_position', 'text', array(
+                'description' => 'Position of the tag on the photo. Should be a number between 0 to 1.0, inclusive. 0 is the top edge of the photo, 1.0 is the bottom.'
+            ))
             ->add('photo', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Photo',
                 'property' => 'caption',
+                'description' => 'Photo ID. Get the right id with the GET operations of photos endpoint'
             ))
             ->add('venue', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Venue',
                 'property' => 'name',
-                'required' => false
+                'required' => false,
+                'description' => 'Venue ID. Get the right id with the GET operations of venues endpoint'
             ))
             ->add('product', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Product',
                 'property' => 'name',
-                'required' => false
+                'required' => false,
+                'description' => 'Product ID. Get the right id with the GET operations of products endpoint'
             ))
             ->add('person', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Person',
                 'property' => 'fullname',
-                'required' => false
+                'required' => false,
+                'description' => 'Person ID. Get the right id with the GET operations of persons endpoint'
             ));
     }
 

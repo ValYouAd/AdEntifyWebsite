@@ -132,7 +132,6 @@
             var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
             if (xhr) {
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-               xhr.setRequestHeader('X-Custom-Header', 'value');
                xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=hover');
             }
 
@@ -161,7 +160,6 @@
             var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
             if (xhr) {
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-               xhr.setRequestHeader('X-Custom-Header', 'value');
                xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=click');
             }
             /*jQuery.ajax({
@@ -206,6 +204,7 @@
             // CORS not supported.
             xhr = null;
          }
+         xhr.setRequestHeader('X-Custom-Auth', 'value');
          return xhr;
       }
    };

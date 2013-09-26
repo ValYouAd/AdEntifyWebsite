@@ -176,6 +176,13 @@ fos_oauth_server_authorize:
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
+fos_facebook_channel:
+    resource: "@FOSFacebookBundle/Resources/config/routing.xml"
+
+#NelmioApiDocBundle:
+#    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+#    prefix:   /api-doc/
+
 # Upload
 upload:
     resource: AdEntify\CoreBundle\Controller\UploadController

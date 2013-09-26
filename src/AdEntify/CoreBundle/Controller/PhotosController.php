@@ -27,6 +27,8 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
 use AdEntify\CoreBundle\Entity\Photo;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class PhotosController
@@ -118,10 +120,16 @@ class PhotosController extends FosRestController
     }
 
     /**
-     * GET Photo by ID
      *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a photo",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="Photo"
+     * )
+     *
+     * @param integer $id photo id
      * @View()
-     *
      * @return Photo
      */
     public function getAction($id)
@@ -157,6 +165,50 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a Photo",
+     *  input="AdEntify\CoreBundle\Form\PhotoType",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  statusCodes={
+     *      200="Returned if the photo is created"
+     *  },
+     *  section="Photo"
+     * )
+     *
+     * @View()
+     */
+    public function postAction(Request $request)
+    {
+        $photo = new Photo();
+        $form = $this->getForm($photo);
+        $form->bind($request);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            // Get current user
+            $user = $this->container->get('security.context')->getToken()->getUser();
+
+            $photo->setOwner($user)->setStatus(Photo::STATUS_READY)->setVisibilityScope(Photo::SCOPE_PUBLIC);
+
+            $em->persist($photo);
+            $em->flush();
+
+            return $photo;
+        } else {
+            return $form;
+        }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Edit a Photo",
+     *  input="AdEntify\CoreBundle\Form\PhotoType",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="Photo"
+     * )
+     *
      * @View()
      */
     public function putAction($id, Request $request)
@@ -175,9 +227,9 @@ class PhotosController extends FosRestController
                     $form->getErrorsAsString();
                 }
             } else
-                throw new ForbiddenHttpException();
+                throw new HttpException(403, 'You are not authorized to edit this photo');
         } else
-            throw new HttpNotFoundException();
+            throw $this->createNotFoundException('Photo not found');
     }
 
     /**

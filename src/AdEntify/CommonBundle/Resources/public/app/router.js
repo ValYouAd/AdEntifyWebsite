@@ -734,8 +734,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             $("aside").switchClass("span1", "span3");
          }
          app.stopLoading();
+         // Analytics
          var url = Backbone.history.root + Backbone.history.getFragment();
          ga('send', 'pageview', url);
+         // Scroll to top
+         $("html, body").animate({ scrollTop: 0 }, 'fast');
       },
 
       successCallback: function(collection, translationKey, target) {

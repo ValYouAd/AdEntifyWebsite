@@ -34,6 +34,8 @@ class Photo
     const SOURCE_FLICKR = "flickr";
     const SOURCE_INSTAGRAM = "instagram";
     const SOURCE_GOOGLEPLUS = "googleplus";
+    const SOURCE_LOCAL = "local";
+    const SOURCE_WORDPRESS = "wordpress";
 
     const SCOPE_PUBLIC = 'public';
     const SCOPE_PRIVATE = 'private';
@@ -94,6 +96,7 @@ class Photo
      * @var string
      *
      * @ORM\Column(name="original_url", type="text")
+     * @Assert\NotBlank()
      */
     private $originalUrl;
 
@@ -228,7 +231,7 @@ class Photo
     private $categories;
 
     /**
-     * @var integer
+     * @var string
      *
      * @ORM\Column(name="visibility_scope", length=100, type="string")
      */

@@ -46,7 +46,7 @@ class PublicTagsController extends FOSRestController
         $response = new JsonResponse();
         $serializer = $this->container->get('serializer');
         $tags = $this->getDoctrine()->getManager()->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
-                LEFT JOIN tag.photo photo WHERE photo.id = :id AND tag.visible = TRUE AND tag.deleted_at IS NULL
+                LEFT JOIN tag.photo photo WHERE photo.id = :id AND tag.visible = TRUE AND tag.deletedAt IS NULL
                   AND tag.censored = FALSE AND tag.waitingValidation = FALSE')
             ->setParameters(array(
                 ':id' => $id

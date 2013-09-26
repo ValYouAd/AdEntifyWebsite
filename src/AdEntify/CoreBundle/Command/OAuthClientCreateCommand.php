@@ -22,6 +22,7 @@ class OAuthClientCreateCommand extends ContainerAwareCommand
         $this
             ->setName('adentify:oauth:client:create')
             ->setDescription('Creates a new client')
+            ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Set the name of the client')
             ->addOption('redirect-uri', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Sets the redirect uri. Use multiple times to set multiple uris.', null)
             ->addOption('grant-type', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Set allowed grant type. Use multiple times to set multiple grant types', null)
         ;
@@ -31,6 +32,7 @@ class OAuthClientCreateCommand extends ContainerAwareCommand
     {
         $clientManager = $this->getContainer()->get('fos_oauth_server.client_manager.default');
         $client = $clientManager->createClient();
+        $client->setName($input->getOption('name'));
         $client->setRedirectUris($input->getOption('redirect-uri'));
         $client->setAllowedGrantTypes($input->getOption('grant-type'));
         $clientManager->updateClient($client);

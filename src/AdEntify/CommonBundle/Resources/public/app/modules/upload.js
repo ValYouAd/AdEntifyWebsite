@@ -71,7 +71,7 @@ define([
                $('#loading-photos').stop().fadeOut();
                if (data.result) {
                   var photo = new ExternalServicePhotos.Model();
-                  photo.set('thumbUrl', app.rootUrl + 'uploads/photos/users/' + currentUserId + '/small/' + data.result['small']['filename']);
+                  photo.set('thumbUrl', data.result['small']['filename']);
                   photo.set('smallSource', data.result['small']['filename']);
                   photo.set('smallWidth', data.result['small']['width']);
                   photo.set('smallHeight', data.result['small']['height']);

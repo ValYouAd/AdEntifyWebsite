@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Entity;
 
+use AdEntify\CoreBundle\Entity\OAuth\Client;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -74,6 +75,12 @@ class User extends BaseUser
      * @ORM\Column(name="facebook_username", type="text", nullable=true)
      */
     private $facebookUsername;
+
+    /**
+     * @Serializer\Exclude
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
+     */
+    protected $facebookAccessToken;
 
     /**
      *
@@ -210,6 +217,12 @@ class User extends BaseUser
      */
     private $tags;
 
+    /**
+     * @Serializer\Exclude
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\OAuth\Client", inversedBy="users")
+     */
+    private $clients;
+
     public function __construct()
     {
         parent::__construct();
@@ -226,6 +239,7 @@ class User extends BaseUser
         $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
         $this->brandTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -731,5 +745,69 @@ class User extends BaseUser
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * @param Client $client
+     * @return $this
+     */
+    public function addClient(\AdEntify\CoreBundle\Entity\OAuth\Client $client)
+    {
+        $this->clients[] = $client;
+        $client->addUser($this);
+        return $this;
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function removeClient(\AdEntify\CoreBundle\Entity\OAuth\Client $client)
+    {
+        $this->clients->removeElement($client);
+        $client->removeUser($this);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getClients()
+    {
+        return $this->clients;
+    }
+
+    /**
+     * Check if client is in user client list
+     *
+     * @param Client $client
+     * @return bool
+     */
+    public function isAuthorizedClient(Client $client)
+    {
+        $found = false;
+        foreach($this->getClients() as $c) {
+            if ($c->getId() == $client->getId()) {
+                $found = true;
+                break;
+            }
+        }
+
+        return $found;
+    }
+
+    /**
+     * @param mixed $facebookAccessToken
+     */
+    public function setFacebookAccessToken($facebookAccessToken)
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebookAccessToken;
     }
 }
