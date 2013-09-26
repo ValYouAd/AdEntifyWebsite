@@ -11,6 +11,7 @@ namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Util\PaginationTools;
+use AdEntify\CoreBundle\Util\UserCacheManager;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -139,10 +140,18 @@ class BrandsController extends FosRestController
         $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Get friends list (id) array
-        $facebookFriendsIds = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+        if (!$facebookFriendsIds) {
+            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+        }
 
         // Get followings ids
-        $followings = $user->getFollowingsIds();
+        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+        if (!$followings) {
+            $followings = $user->getFollowingsIds();
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+        }
 
         $count = $em->createQuery('SELECT count(photo.id) FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner LEFT JOIN tag.product product LEFT JOIN product.brand brand
