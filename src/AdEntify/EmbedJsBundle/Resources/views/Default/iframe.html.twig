@@ -1,0 +1,5 @@
+{% extends "@AdEntifyEmbedJs/iframe/layout.html.twig" %}
+{% block body %}
+    <img width="{{ photo.largeWidth }}" height="{{ photo.largeHeight }}" src="{{ photo.largeUrl }}" alt="{{ photo.caption }}" data-adentify-photo-id="{{ photo.id }}"{% if showTags %} data-adentify-tags="" {% endif %}{% if showLikes %} data-adentify-likes="" {% endif %} />
+    <script type="text/javascript" async src="{{ root_url|raw }}embed/{{ photo.id }}.js"></script>
+{% endblock %}

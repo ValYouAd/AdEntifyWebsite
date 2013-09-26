@@ -65,10 +65,15 @@ define([
       },
 
       getEmbed: function() {
-         return '&lt;img width="<%= this.get("large_width") %>" height="' + this.get("large_height") + '" src="'
-            + this.get("fullLargeUrl") + '" alt="' + this.get("caption") + '" data-adentify-photo-id="' + this.get("id")
-            + (this.get("showTags") ? ' data-adentify-tags="" ' : '') + (this.get("showLikes") ? ' data-adentify-likes="" ' : '') + ' /&gt;&lt;script type="text/javascript" async src="https://adentify.com/embed/'
-            + this.get("id") + '.js"&gt;&lt;/script&gt;';
+         var query = [];
+         if (this.get('showLikes'))
+            query.push('show-likes=true');
+         if (this.get('showTags'))
+            query.push('show-tags=true');
+         if (query.length > 0)
+            query = '?' + query.join('&');
+
+         return '&lt;iframe src="https://local.adentify.com/iframe/photo-' + this.get('id') + '.html' + query + '" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:' + this.get("large_width") + 'px; height:' + this.get("large_height") + 'px;" allowTransparency="true"&gt;&lt;/iframe&gt;';
       },
 
       changeTagsCount: function(value) {
