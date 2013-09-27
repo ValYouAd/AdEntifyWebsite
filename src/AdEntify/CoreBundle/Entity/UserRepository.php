@@ -61,6 +61,9 @@ class UserRepository  extends EntityRepository
                             // Check if isnt already a friend
                             if (in_array($friend['id'], $actualFacebookFriendsIds))
                                 continue;
+                            // Check if fb id isnt current user fb id
+                            if ($friend['id'] == $user->getFacebookId())
+                                continue;
 
                             $foundPerson = null;
                             foreach ($persons as $person) {
