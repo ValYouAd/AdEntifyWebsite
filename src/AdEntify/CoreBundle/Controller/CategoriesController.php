@@ -78,6 +78,7 @@ class CategoriesController extends FosRestController
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->useResultCache(true, 86400, 'categories'.$locale)
             ->getResult();
     }
 

@@ -28,7 +28,7 @@ class UserRepository  extends EntityRepository
                 $hours = $interval->h + ($interval->d*24);
             }
 
-            if (!$user->getLastFriendsListUpdate() || $hours >= 48) {
+            if (!$user->getLastFriendsListUpdate() || $hours >= 40) {
                 try {
                     // Proceed knowing you have a logged in user who's authenticated.
                     $friends = $fbApi->api('/me/friends?fields=name,first_name,last_name,gender');

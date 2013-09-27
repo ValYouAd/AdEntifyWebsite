@@ -14,6 +14,7 @@ use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Util\PaginationTools;
+use AdEntify\CoreBundle\Util\UserCacheManager;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -198,7 +199,11 @@ class TagsController extends FosRestController
             $user = $this->container->get('security.context')->getToken()->getUser();
 
             // Get friends list (id) array
-            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
 
             // Check if user is the owner of the photo
             $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($tag->getPhoto()->getId());

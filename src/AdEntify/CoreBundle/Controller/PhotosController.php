@@ -13,6 +13,7 @@ use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\PhotoType;
 use AdEntify\CoreBundle\Util\PaginationTools;
+use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -55,9 +56,18 @@ class PhotosController extends FosRestController
         $user = $this->container->get('security.context')->getToken()->getUser();
 
         // Get friends list (id) array
-        $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+        if (!$facebookFriendsIds) {
+            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+        }
+
         // Get followings ids
-        $followings = $user->getFollowingsIds();
+        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+        if (!$followings) {
+            $followings = $user->getFollowingsIds();
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+        }
 
         $parameters = null;
         $countQuery = null;
@@ -136,10 +146,20 @@ class PhotosController extends FosRestController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->container->get('security.context')->getToken()->getUser();
+
         // Get friends list (id) array
-        $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+        if (!$facebookFriendsIds) {
+            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+        }
+
         // Get followings ids
-        $followings = $user->getFollowingsIds();
+        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+        if (!$followings) {
+            $followings = $user->getFollowingsIds();
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+        }
 
         $photo = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag
