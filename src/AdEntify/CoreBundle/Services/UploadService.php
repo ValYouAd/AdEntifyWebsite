@@ -286,17 +286,17 @@ class UploadService
                             foreach($generatedThumbs as $key => $value) {
                                 switch ($key) {
                                     case FileTools::PHOTO_TYPE_LARGE:
-                                        $photo->setLargeUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/large/' . $value['filename']);
+                                        $photo->setLargeUrl($value['filename']);
                                         $photo->setLargeWidth($value['width']);
                                         $photo->setLargeHeight($value['height']);
                                         break;
                                     case FileTools::PHOTO_TYPE_MEDIUM:
-                                        $photo->setMediumUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/medium/' . $value['filename']);
+                                        $photo->setMediumUrl($value['filename']);
                                         $photo->setMediumWidth($value['width']);
                                         $photo->setMediumHeight($value['height']);
                                         break;
                                     case FileTools::PHOTO_TYPE_SMALLL:
-                                        $photo->setSmallUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/small/' . $value['filename']);
+                                        $photo->setSmallUrl($value['filename']);
                                         $photo->setSmallWidth($value['width']);
                                         $photo->setSmallHeight($value['height']);
                                         break;

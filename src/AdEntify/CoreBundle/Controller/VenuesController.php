@@ -168,10 +168,11 @@ class VenuesController extends FosRestController
                     $venue = new Venue();
                     $venue->setName($val->name)
                         ->setFoursquareId($val->id)
-                        ->setFoursquareShortLink($val->canonicalUrl)
                         ->setLink(isset($val->url) ? $val->url : '')
                         ->setLat($val->location->lat)
                         ->setLng($val->location->lng);
+                    if (isset($val->canonicalUrl))
+                        $venue->setFoursquareShortLink($val->canonicalUrl);
                     if (isset($val->location->address))
                         $venue->setAddress($val->location->address);
                     if (isset($val->location->city))
@@ -205,18 +206,20 @@ class VenuesController extends FosRestController
     }
 
     protected function addProductsToVenue($venue, $venueRequest, $em) {
-        foreach ($venueRequest['products'] as $productId) {
-            $found = count($venue->getProducts()) > 0;
-            foreach ($venue->getProducts() as $product) {
-                if ($product->getId() == $productId) {
-                    $found = true;
-                    break;
+        if ($venue && is_array($venueRequest) && array_key_exists('products', $venueRequest) && count($venueRequest['products']) > 0) {
+            foreach ($venueRequest['products'] as $productId) {
+                $found = count($venue->getProducts()) > 0;
+                foreach ($venue->getProducts() as $product) {
+                    if ($product->getId() == $productId) {
+                        $found = true;
+                        break;
+                    }
                 }
-            }
-            if (!$found) {
-                $product = $em->getRepository('AdEntifyCoreBundle:Product')->find($productId);
-                if ($product)
-                    $venue->addProduct($product);
+                if (!$found) {
+                    $product = $em->getRepository('AdEntifyCoreBundle:Product')->find($productId);
+                    if ($product)
+                        $venue->addProduct($product);
+                }
             }
         }
     }
