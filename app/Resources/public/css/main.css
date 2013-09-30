@@ -525,6 +525,9 @@ footer p {
         position: relative;
         color: white;
     }
+    .ticker-item-container .fb-profile {
+        max-height: 20px;
+    }
     .ticker-item-container .counters {
         position: absolute;
         top: 2px;

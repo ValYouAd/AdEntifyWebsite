@@ -135,6 +135,7 @@
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
       "like": "J'aime",
+      "dislike": "Je n'aime plus",
       "likes": "J'aime",
       "comments": "Commentaires",
       "share": "Partager la photo",
@@ -143,6 +144,7 @@
       "errorLoading": "Impossible de récupérer la photo. Veuillez réessayer.",
       "noPhoto": "La photo n'existe pas ou vous n'êtes pas autorisé à la voir.",
       "favorites": "Ajouter à mes favoris",
+      "unFavorites": "Supprimer de mes favoris",
       "deletePhoto": "Supprimer"
    },
    "externalServicePhotos": {
