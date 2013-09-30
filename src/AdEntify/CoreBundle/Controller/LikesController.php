@@ -37,21 +37,16 @@ class LikesController extends FosRestController
 {
     /**
      * @View()
-     *
-     * @QueryParam(name="dislike", default="false")
      */
-    public function postAction($dislike, Request $request)
+    public function postAction(Request $request)
     {
         if ($request->request->has('photoId') && is_numeric($request->request->get('photoId'))) {
             $em = $this->getDoctrine()->getManager();
-            $securityContext = $this->container->get('security.context');
-            $user = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $this->container->get('security.context')->getToken()->getUser() : 0;
             $like = $em->createQuery('SELECT l FROM AdEntify\CoreBundle\Entity\Like l
-              LEFT JOIN l.photo p WHERE (l.ipAddress = :ipAddress OR l.liker = :userId) AND p.id = :photoId')
+              LEFT JOIN l.photo p LEFT JOIN l.liker u WHERE l.ipAddress = :ipAddress AND p.id = :photoId')
                 ->setParameters(array(
                     ':ipAddress' => $request->getClientIp(),
                     ':photoId' => $request->request->get('photoId'),
-                    ':userId' => $user ? $user->getId() : $user
                 ))
                 ->SetMaxResults(1)
                 ->getOneOrNullResult();
@@ -68,7 +63,9 @@ class LikesController extends FosRestController
                     $messageOptions = null;
 
                     // Set user if loggedin
-                    if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                    $securityContext = $this->container->get('security.context');
+                    if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+                        $user = $this->container->get('security.context')->getToken()->getUser();
                         $like->setLiker($user);
                         // Send notification liker only if liker isn't photo owner
                         if ($user->getId() != $photo->getOwner()->getId()) {
@@ -76,20 +73,16 @@ class LikesController extends FosRestController
                             $messageOptions = json_encode(array(
                                 'author' => $user->getFullname()
                             ));
-                        } else {
-                            $notification = null;
                         }
                     } else {
                         $notification->setMessage('notification.anonymousLikedPhoto');
                     }
 
-                    if ($notification) {
-                        // Notification
-                        $notification->setType(Notification::TYPE_LIKE_PHOTO)->setObjectId($photo->getId())
-                            ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
-                            ->setMessageOptions($messageOptions);
-                        $em->persist($notification);
-                    }
+                    // Notification
+                    $notification->setType(Notification::TYPE_LIKE_PHOTO)->setObjectId($photo->getId())
+                        ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
+                        ->setMessageOptions($messageOptions);
+                    $em->persist($notification);
 
                     $em->persist($like);
                     $em->flush();
@@ -97,10 +90,7 @@ class LikesController extends FosRestController
                     return $like;
                 }
             } else {
-                if ($user && $like) {
-                    $em->remove($like);
-                    $em->flush();
-                }
+                return $like;
             }
         }
     }

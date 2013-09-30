@@ -7,9 +7,6 @@ CREATE TRIGGER comments_count AFTER INSERT ON comments
 DROP TRIGGER IF EXISTS  `likes_count`;
 CREATE TRIGGER likes_count AFTER INSERT ON `likes`
  FOR EACH ROW UPDATE photos SET likes_count = likes_count+1 WHERE id = NEW.photo_id;
-DROP TRIGGER IF EXISTS  `likes_count_delete`;
-CREATE TRIGGER likes_count_delete AFTER DELETE ON `likes`
- FOR EACH ROW UPDATE photos SET likes_count = likes_count-1 WHERE id = OLD.photo_id;
 
 # Mise à jour compteurs de tags
 DROP TRIGGER IF EXISTS  `tags_count`;
@@ -23,9 +20,9 @@ CREATE TRIGGER tags_count AFTER INSERT ON `tags`
     UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count+1 WHERE p.id = NEW.product_id;
  END$$
 DELIMITER ;
-DROP TRIGGER IF EXISTS  `tags_count_update`;
+DROP TRIGGER IF EXISTS  `tags_count_delete`;
 DELIMITER $$
-CREATE TRIGGER tags_count_update AFTER UPDATE ON `tags`
+CREATE TRIGGER tags_count_delete AFTER UPDATE ON `tags`
  FOR EACH ROW BEGIN
     IF (NEW.deleted_at IS NOT NULL) THEN
       UPDATE photos SET tags_count = tags_count-1 WHERE id = NEW.photo_id;

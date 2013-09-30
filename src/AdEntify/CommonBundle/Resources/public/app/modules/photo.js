@@ -157,6 +157,18 @@ define([
             this.model.get('tags').remove(tag);
             this.render();
          });
+
+         // Comments
+         app.useLayout().setView('.comments', new Comment.Views.List({
+            comments: this.options.comments,
+            photoId: this.options.photoId
+         }));
+
+         // Categories
+         app.useLayout().setView('.categories', new Category.Views.List({
+            categories: this.options.categories,
+            photoId: this.options.photoId
+         }));
       },
 
       serialize: function() {
@@ -181,33 +193,6 @@ define([
                this.setView('.tags-container', this.tagsView).render();
             }
          }
-
-         // Comments
-         this.setView('.comments', new Comment.Views.List({
-            comments: this.options.comments,
-            photoId: this.options.photoId
-         }));
-
-         // Categories
-         this.setView('.categories', new Category.Views.List({
-            categories: this.options.categories,
-            photoId: this.options.photoId
-         }));
-
-         // Like Button
-         var likeButtonView = new Photo.Views.LikeButton({
-            photo: this.model
-         });
-         var that = this;
-         likeButtonView.on('like', function(liked) {
-            $likeCount = $(that.el).find('#like-count');
-            if (liked) {
-               $likeCount.html(that.model.get('likes_count') + 1);
-            } else {
-               $likeCount.html(that.model.get('likes_count'));
-            }
-         });
-         this.setView('.like-button', likeButtonView);
       },
 
       afterRender: function() {
@@ -216,6 +201,14 @@ define([
             $('#photo').fadeIn();
          });
          FB.XFBML.parse();
+         app.useLayout().getView('.comments').render();
+         app.useLayout().getView('.categories').render();
+      },
+
+      like: function() {
+         app.photoActions().like(this.model);
+         $likeCount = $(this.el).find('#like-count');
+         $likeCount.html(this.model.get('likes_count') + 1);
       },
 
       showTags: function() {
@@ -255,125 +248,12 @@ define([
       },
 
       events: {
+         "click .like-button": "like",
          "click .adentify-pastille": "showTags",
          "click .favorite-button": "favorite",
          "click .showTagsCheckbox": "checkboxShowTags",
          "click .showLikesCheckbox": "checkboxShowLikes",
          "mouseup .selectOnFocus": "selectTextOnFocus"
-      }
-   });
-
-   Photo.Views.LikeButton = Backbone.View.extend({
-      template: 'photo/likeButton',
-      liked: false,
-
-      serialize: function() {
-         return {
-            liked: this.liked
-         }
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      initialize: function() {
-         if (this.options.photo) {
-            this.photo = this.options.photo;
-            var that = this;
-            app.oauth.loadAccessToken({
-               success: function() {
-                  $.ajax({
-                     url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
-                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                     success: function(response) {
-                        that.liked = response;
-                        that.render();
-                     }
-                  });
-               }
-            });
-         }
-      },
-
-      events: {
-         'click .like-button': 'likeButtonClick'
-      },
-
-      likeButtonClick: function() {
-         // Like photo
-         var that = this;
-         app.oauth.loadAccessToken({
-            success: function() {
-               $.ajax({
-                  url: Routing.generate('api_v1_post_like'),
-                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  type: 'POST',
-                  data: { photoId: that.photo.get('id') }
-               });
-            }
-         });
-         this.liked = !this.liked;
-
-         this.render();
-         this.trigger('like', this.liked);
-      }
-   });
-
-   Photo.Views.FavoriteButton = Backbone.View.extend({
-      template: 'photo/favoriteButton',
-      added: false,
-
-      serialize: function() {
-         return {
-            added: this.added
-         }
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      initialize: function() {
-         if (this.options.photo) {
-            this.photo = this.options.photo;
-            var that = this;
-            app.oauth.loadAccessToken({
-               success: function() {
-                  $.ajax({
-                     url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
-                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                     success: function(response) {
-                        that.liked = response;
-                        that.render();
-                     }
-                  });
-               }
-            });
-         }
-      },
-
-      events: {
-         'click .like-button': 'likeButtonClick'
-      },
-
-      likeButtonClick: function() {
-         // Like photo
-         var that = this;
-         app.oauth.loadAccessToken({
-            success: function() {
-               $.ajax({
-                  url: Routing.generate('api_v1_post_like'),
-                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  type: 'POST',
-                  data: { photoId: that.photo.get('id') }
-               });
-            }
-         });
-         this.liked = !this.liked;
-
-         this.render();
-         this.trigger('like', this.liked);
       }
    });
 

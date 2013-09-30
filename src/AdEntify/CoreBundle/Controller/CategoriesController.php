@@ -57,8 +57,6 @@ class CategoriesController extends FosRestController
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
-            ->useQueryCache(false)
-            ->useResultCache(false)
             ->getOneOrNullResult();
     }
 
@@ -77,8 +75,6 @@ class CategoriesController extends FosRestController
     {
         return $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
-            ->useQueryCache(false)
-            ->useResultCache(true, null, 'categories'.$locale)
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)

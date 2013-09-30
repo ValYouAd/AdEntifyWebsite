@@ -370,27 +370,6 @@ class PhotosController extends FosRestController
 
     /**
      * @View()
-     *
-     * @param $id
-     * @return bool
-     */
-    public function getIsLikedAction($id)
-    {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(l.id) FROM AdEntify\CoreBundle\Entity\Like l
-              WHERE l.photo = :photoId AND l.liker = :userId')
-            ->setParameters(array(
-                    'photoId' => $id,
-                    'userId' => $user->getId()
-                ))
-            ->getSingleScalarResult();
-
-        return $count > 0 ? true : false;
-    }
-
-    /**
-     * @View()
      * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
