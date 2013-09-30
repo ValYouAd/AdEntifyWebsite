@@ -7,9 +7,11 @@ parameters:
     database_password: H8Ff8tTpCcneTeG9
 
     mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_host:       smtp.office365.com
+    mailer_port:       587
+    mailer_user:       pierrick@adentify.com
+    mailer_password:   P8m9ADcomBR@
+    mailer_encryption: tls
 
     locale:            fr
     secret:            AdEntify@SecretKey!2013--@D
