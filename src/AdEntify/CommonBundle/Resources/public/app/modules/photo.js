@@ -195,19 +195,28 @@ define([
          }));
 
          // Like Button
-         var likeButtonView = new Photo.Views.LikeButton({
-            photo: this.model
-         });
-         var that = this;
-         likeButtonView.on('like', function(liked) {
-            $likeCount = $(that.el).find('#like-count');
-            if (liked) {
-               $likeCount.html(that.model.get('likes_count') + 1);
-            } else {
-               $likeCount.html(that.model.get('likes_count'));
-            }
-         });
-         this.setView('.like-button', likeButtonView);
+         if (!this.getView('.like-button')) {
+            var likeButtonView = new Photo.Views.LikeButton({
+               photo: this.model
+            });
+            var that = this;
+            likeButtonView.on('like', function(liked) {
+               $likeCount = $(that.el).find('#like-count');
+               if (liked) {
+                  $likeCount.html(that.model.get('likes_count') + 1);
+               } else {
+                  $likeCount.html(that.model.get('likes_count'));
+               }
+            });
+            this.setView('.like-button', likeButtonView);
+         }
+
+         // Favorite Button
+         if (!this.getView('.favorite-button')) {
+            this.setView('.favorite-button', new Photo.Views.FavoriteButton({
+               photo: this.model
+            }));
+         }
       },
 
       afterRender: function() {
@@ -341,10 +350,10 @@ define([
             app.oauth.loadAccessToken({
                success: function() {
                   $.ajax({
-                     url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
+                     url: Routing.generate('api_v1_get_photo_is_favorites', { 'id': that.options.photo.get('id') }),
                      headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                      success: function(response) {
-                        that.liked = response;
+                        that.added = response;
                         that.render();
                      }
                   });
@@ -354,26 +363,26 @@ define([
       },
 
       events: {
-         'click .like-button': 'likeButtonClick'
+         'click .favorite-button': 'favoriteButtonClick'
       },
 
-      likeButtonClick: function() {
-         // Like photo
+      favoriteButtonClick: function() {
+         // Favorite photo
          var that = this;
          app.oauth.loadAccessToken({
             success: function() {
                $.ajax({
-                  url: Routing.generate('api_v1_post_like'),
+                  url: Routing.generate('api_v1_post_photo_favorite'),
                   headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                   type: 'POST',
                   data: { photoId: that.photo.get('id') }
                });
             }
          });
-         this.liked = !this.liked;
+         this.added = !this.added;
 
          this.render();
-         this.trigger('like', this.liked);
+         this.trigger('favorite', this.added);
       }
    });
 
