@@ -551,7 +551,7 @@ class User extends BaseUser
 
     public function removeFollower(\AdEntify\CoreBundle\Entity\User $follower)
     {
-        $follower->removePhoto($this);
+        $follower->removeFollowing($this);
         $this->followers->removeElement($follower);
     }
 

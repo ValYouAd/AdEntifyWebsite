@@ -370,6 +370,49 @@ class PhotosController extends FosRestController
 
     /**
      * @View()
+     *
+     * @param $id
+     * @return bool
+     */
+    public function getIsLikedAction($id)
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(l.id) FROM AdEntify\CoreBundle\Entity\Like l
+              WHERE l.photo = :photoId AND l.liker = :userId')
+            ->setParameters(array(
+                    'photoId' => $id,
+                    'userId' => $user->getId()
+                ))
+            ->getSingleScalarResult();
+
+        return $count > 0 ? true : false;
+    }
+
+    /**
+     * @View()
+     *
+     * @param $id
+     * @return bool
+     */
+    public function getIsFavoritesAction($id)
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(p.id) FROM AdEntify\CoreBundle\Entity\User u
+              LEFT JOIN u.favoritesPhotos p
+              WHERE p.id = :photoId AND u.id = :userId')
+            ->setParameters(array(
+                'photoId' => $id,
+                'userId' => $user->getId()
+            ))
+            ->getSingleScalarResult();
+
+        return $count > 0 ? true : false;
+    }
+
+    /**
+     * @View()
      * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
@@ -437,13 +480,14 @@ class PhotosController extends FosRestController
             if ($photo) {
                 $user = $this->container->get('security.context')->getToken()->getUser();
                 $found = false;
+                $em = $this->getDoctrine()->getManager();
+
                 foreach($user->getFavoritePhotos() as $favoritePhoto) {
                     if ($favoritePhoto->getId() == $photo->getId())
                         $found = true; break;
                 }
-                if (!$found) {
-                    $em = $this->getDoctrine()->getManager();
 
+                if (!$found) {
                     // Add favorite
                     $user->addFavoritePhoto($photo);
 
@@ -455,10 +499,12 @@ class PhotosController extends FosRestController
                             'author' => $user->getFullname()
                         )));
                     $em->persist($notification);
-
-                    $em->merge($user);
-                    $em->flush();
+                } else {
+                    $user->removeFavoritePhoto($photo);
                 }
+
+                $em->merge($user);
+                $em->flush();
             }
         }
     }

@@ -239,17 +239,44 @@ class UsersController extends FosRestController
     public function postFollowerAction($id)
     {
         $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $em = $this->getDoctrine()->getManager();
+
             $follower = $this->container->get('security.context')->getToken()->getUser();
             $following = $this->getAction($id);
-            if ($following && $follower->getId() != $following->getId()) {
+            if ($following && $follower->getId() != $following->getId() && !$this->getIsFollowingAction($id)) {
                 $follower->addFollower($following);
-                $this->getDoctrine()->getManager()->merge($follower);
-                $this->getDoctrine()->getManager()->flush();
-
+                $em->merge($follower);
+                $em->flush();
                 return $follower;
+            } else {
+                $follower->removeFollower($following);
+                $em->merge($follower);
+                $em->flush();
             }
         }
+    }
+
+    /**
+     * @View()
+     *
+     * @param $id
+     */
+    public function getIsFollowingAction($id)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $follower = $this->container->get('security.context')->getToken()->getUser();
+
+            return $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
+                LEFT JOIN u.followers following WHERE u.id = :userId AND following.id = :followingId')
+                ->setParameters(array(
+                    'userId' => $follower->getId(),
+                    'followingId' => $id
+                ))
+                ->getSingleScalarResult() > 0 ? true : false;
+        }
+        throw new HttpException(403);
     }
 
     /**

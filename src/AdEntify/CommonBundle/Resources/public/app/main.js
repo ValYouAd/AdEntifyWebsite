@@ -1,20 +1,18 @@
 require([
-  // Application.
-  "app",
+   // Application.
+   "app",
 
-  // Main Router.
-  "router",
+   // Main Router.
+   "router",
 
    "i18next2",
 
    // App State
    "modules/appState",
-   "modules/tagStats",
-   "modules/photoActions",
-   "modules/common"
+   "modules/tagStats"
 ],
 
-function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
+function(app, Router, i18n, AppState, TagStats) {
 
    // Extend App
    _.extend(app, {
@@ -27,11 +25,6 @@ function(app, Router, i18n, AppState, TagStats, PhotoActions, Common) {
          if (typeof this.tagstats === 'undefined')
             this.tagstats = new TagStats.Model();
          return this.tagstats;
-      },
-      photoActions: function() {
-         if (typeof this.photoActionsObj === 'undefined')
-            this.photoActionsObj = new PhotoActions.Model();
-         return this.photoActionsObj;
       },
       formatDate: function(stringDate) {
          var date = new Date(stringDate);

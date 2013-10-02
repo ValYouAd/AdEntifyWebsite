@@ -46,6 +46,12 @@ define([
                model: photo
             }));
          }, this);
+
+         if (!this.getView('.follow-button')) {
+            this.setView('.follow-button', new User.Views.FollowButton({
+               user: this.model
+            }));
+         }
       },
 
       afterRender: function() {
@@ -55,26 +61,6 @@ define([
                $('#profile').fadeIn();
             });
          }
-      },
-
-      follow: function(e) {
-         e.preventDefault();
-         var that = this;
-         app.oauth.loadAccessToken({
-            success: function() {
-               $.ajax({
-                  url: Routing.generate('api_v1_post_user_follower', { id: that.model.get('id') }),
-                  type: 'POST',
-                  headers : {
-                     "Authorization": app.oauth.getAuthorizationHeader()
-                  }
-               });
-            }
-         });
-      },
-
-      events: {
-         "click #follow": "follow"
       },
 
       initialize: function() {
@@ -111,6 +97,63 @@ define([
                });
             }
          });
+      }
+   });
+
+   User.Views.FollowButton = Backbone.View.extend({
+      template: 'user/followButton',
+      added: false,
+
+      serialize: function() {
+         return {
+            follow: this.follow
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      initialize: function() {
+         if (this.options.user) {
+            this.user = this.options.user;
+            var that = this;
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_user_is_following', { 'id': that.options.user.get('id') }),
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     success: function(response) {
+                        that.follow = response;
+                        that.render();
+                     }
+                  });
+               }
+            });
+         }
+      },
+
+      events: {
+         'click .follow-button': 'followButtonClick'
+      },
+
+      followButtonClick: function() {
+         // Favorite photo
+         var that = this;
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_post_user_follower', { id: that.user.get('id') }),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  type: 'POST',
+                  data: { userId: that.user.get('id') }
+               });
+            }
+         });
+         this.follow = !this.follow;
+
+         this.render();
+         this.trigger('follow', this.follow);
       }
    });
 

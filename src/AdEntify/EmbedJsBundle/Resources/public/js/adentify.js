@@ -26,7 +26,7 @@
 
    AdEntify = {
       hoverTimeout: null,
-      rootUrl: "http://dev.adentify.com/",
+      rootUrl: "//local.adentify.com/",
       showTags: false,
       showLikes: false,
 
@@ -41,7 +41,7 @@
          if (jQuery('meta[property="adentitfy-loaded"]').length == 0) {
             $head = jQuery('head');
             $head.append('<style type="text/css">' +
-               '.adentify-pastille {opacity: 0;background: url("'+ AdEntify.rootUrl +'img/pastille.png") no-repeat;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;width: 25px;height: 25px;position: absolute;top: 10px;right: 10px;z-index: 2;cursor: pointer;}' +
+               '.adentify-pastille {opacity: 1;background: url("'+ AdEntify.rootUrl +'img/pastille.png") no-repeat;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;width: 25px;height: 25px;position: absolute;top: 10px;right: 10px;z-index: 2;cursor: pointer;}' +
                '.adentify-photo-container:hover .adentify-pastille { opacity: 1; }' +
                (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
                '.tags li {margin: 0;padding: 0;}' +
@@ -74,17 +74,25 @@
 
          jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="position: relative;display: inline-block;" />');
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
-         $tags = jQuery('<ul class="tags" data-state="hidden" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
+         $tags = jQuery('<ul class="tags" data-state="hidden" data-always-visible="no" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
          $pastille = jQuery('<div class="adentify-pastille" />').insertBefore(this.getValue('selector'));
          $pastille.on('click', function() {
-            if ($tags.length > 0) {
-               if ($tags.data('state') == 'hidden') {
-                  $tags.fadeIn('fast');
-                  $tags.data('state', 'visible');
-               } else {
-                  $tags.fadeOut('fast');
-                  $tags.data('state', 'hidden');
-               }
+            if ($tags.data('always-visible') == 'no') {
+               $tags.data('always-visible', 'yes');
+            } else {
+               $tags.data('always-visible', 'no');
+               $tags.stop().fadeOut('fast');
+               $tags.data('state', 'hidden');
+            }
+         });
+         $pastille.on('mouseenter', function() {
+            $tags.stop().fadeIn('fast');
+            $tags.data('state', 'visible');
+         });
+         $pastille.on('mouseleave', function() {
+            if ($tags.data('always-visible') == 'no') {
+               $tags.stop().fadeOut('fast');
+               $tags.data('state', 'hidden');
             }
          });
          jQuery.ajax({
@@ -120,12 +128,10 @@
                   }
                }
             },
-            error: function(e) {
-               console.log(e);
+            error: function() {
             }
          });
          $tags = jQuery('.tags');
-         var that = this;
          $tags.on('mouseenter', '.tag', function() {
             jQuery(this).find('.popover').show();
 
@@ -134,24 +140,6 @@
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=hover');
             }
-
-            /*jQuery.ajax({
-               url: AdEntify.rootUrl + 'public-api/v1/tag/stat',
-               xhrFields: {
-                  // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-                  // This can be used to set the 'withCredentials' property.
-                  // Set the value to 'true' if you'd like to pass cookies to the server.
-                  // If this is enabled, your server must respond with the header
-                  // 'Access-Control-Allow-Credentials: true'.
-                  withCredentials: true
-               },
-               type: 'POST',
-               data: {
-                  tagId: jQuery(this).data('tag-id'),
-                  statType: 'hover'
-               },
-               crossDomain: true
-            });*/
          });
          $tags.on('mouseleave', '.tag', function() {
             jQuery(this).find('.popover').hide();
@@ -162,23 +150,6 @@
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=click');
             }
-            /*jQuery.ajax({
-               url: AdEntify.rootUrl + 'public-api/v1/tag/stat',
-               contentType: 'text/plain',
-               xhrFields: {
-                  // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-                  // This can be used to set the 'withCredentials' property.
-                  // Set the value to 'true' if you'd like to pass cookies to the server.
-                  // If this is enabled, your server must respond with the header
-                  // 'Access-Control-Allow-Credentials: true'.
-                  withCredentials: true
-               },
-               type: 'POST',
-               data: {
-                  tagId: jQuery(this).parents('.tag').data('tag-id'),
-                  statType: 'click'
-               }
-            });*/
          });
       },
 
