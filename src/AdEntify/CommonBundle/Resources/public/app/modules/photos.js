@@ -155,7 +155,7 @@ define([
          });
 
          // Click on photo overlay
-         container.delegate('.photo-overlay', 'click', function() {
+         container.delegate('.photo-overlay', 'click', function(evt) {
             lastImage = $(this).siblings('img[data-type="medium"]');
             that.clickOnPhoto(lastImage);
          });

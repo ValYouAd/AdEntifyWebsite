@@ -1,2 +1,1 @@
-<?php phpinfo() ?>
-<iframe src="https://local.adentify.com/iframe/photo-246.html?show-likes=true&show-tags=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:719px; height:539px;" allowTransparency="true"></iframe>
+<iframe src="https://local.adentify.com/iframe/photo-246.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:719px; height:539px;" allowTransparency="true"></iframe>

@@ -163,6 +163,7 @@ footer p {
         bottom: 5px;
         left: 5px;
         opacity: 0;
+        z-index: 99;
         -webkit-transition: opacity 0.2s ease-out;
         -moz-transition: opacity 0.2s ease-out;
         -o-transition: opacity 0.2s ease-out;
@@ -524,6 +525,9 @@ footer p {
     .ticker-photos .ticker-item-container {
         position: relative;
         color: white;
+    }
+    .ticker-item-container .fb-profile {
+        max-height: 20px;
     }
     .ticker-item-container .counters {
         position: absolute;
