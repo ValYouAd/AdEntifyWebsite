@@ -486,7 +486,7 @@ class PhotosController extends FosRestController
                     if ($favoritePhoto->getId() == $photo->getId())
                         $found = true; break;
                 }
-                
+
                 if (!$found) {
                     // Add favorite
                     $user->addFavoritePhoto($photo);

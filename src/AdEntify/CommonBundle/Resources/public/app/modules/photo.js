@@ -240,10 +240,6 @@ define([
          }
       },
 
-      favorite: function() {
-         app.photoActions().favorite(this.model);
-      },
-
       checkboxShowTags: function(e) {
          this.model.set('showTags', e.currentTarget.checked);
          this.updateEmbedCode();
@@ -265,7 +261,6 @@ define([
 
       events: {
          "click .adentify-pastille": "showTags",
-         "click .favorite-button": "favorite",
          "click .showTagsCheckbox": "checkboxShowTags",
          "click .showLikesCheckbox": "checkboxShowLikes",
          "mouseup .selectOnFocus": "selectTextOnFocus"
