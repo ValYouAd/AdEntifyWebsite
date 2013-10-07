@@ -46,12 +46,12 @@
                (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
                '.tags li {margin: 0;padding: 0;}' +
                '.tag {position: absolute;background: rgba(0,0,0,0.9);width: 25px;height: 25px;border-radius: 12.5px;}' +
-               '.popover {position: absolute;top: 30px;left: -50%;z-index: 2000;padding: 4px 6px;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;}' +
+               '.popover {position: absolute;opacity: 0;padding: 4px 6px;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;}' +
                '.popover-product {min-width: 250px;}' +
                '.popover-product .product-image {max-width: 250px;}' +
                '.popover-product .brand-logo {max-height: 50px;}' +
                '.tag .map {width: 270px;height: 260px;}' +
-               '.popover {position:absolute;top:0;left:0;z-index:1010;display:none;max-width:276px;padding:1px;text-align:left;background-color:#ffffff;-webkit-background-clip:padding-box;-moz-background-clip:padding;background-clip:padding-box;border:1px solid #ccc;border:1px solid rgba(0, 0, 0, 0.2);-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);-moz-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);white-space:normal;}.popover.top{margin-top:-10px;}' +
+               '.popover {position:absolute;top:0;left:0;z-index:1010;max-width:276px;padding:1px;text-align:left;background-color:#ffffff;-webkit-background-clip:padding-box;-moz-background-clip:padding;background-clip:padding-box;border:1px solid #ccc;border:1px solid rgba(0, 0, 0, 0.2);-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;-webkit-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);-moz-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);white-space:normal;}.popover.top{margin-top:-10px;}' +
                '.popover.right {margin-left:10px;}' +
                '.popover.bottom {margin-top:10px;}' +
                '.popover.left {margin-left:-10px;}' +
@@ -109,15 +109,15 @@
                      for (i; i <tags.length; i++) {
                         var tag = tags[i];
                         if (tag.type == 'place') {
-                           jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
+                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
                               + (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                              '<div id="map' + tag.id + '" class="map"></div></div></div>');
+                              '<div id="map' + tag.id + '" class="map" data-lng="' + tag.venue.lng + '" data-lat="' + tag.venue.lat + '"></div></div></div>');
                         } else if (tag.type == 'person') {
-                           jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
+                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
                               (tag.description ? '<p>' + tag.description + '</p>' : '') +
                               '</div></div>');
                         } else if (tag.type == 'product') {
-                           jQuery($tags).append('<div class="tag" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover popover-product"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
+                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover popover-product"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
                               (tag.description ? '<p>' + tag.description + '</p>' : '') +
                               (tag.product && tag.product.brand ? '<div class="brand pull-right"><img src="' + tag.product.brand.small_logo_url + '" alt="' + tag.product.brand.name + '" class="brand-logo" /></div>' : '') +
                               '<a href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div></div>');
@@ -133,7 +133,41 @@
          });
          $tags = jQuery('.tags');
          $tags.on('mouseenter', '.tag', function() {
-            jQuery(this).find('.popover').show();
+            var popover = jQuery(this).find('.popover');
+            if (jQuery(this).data('y') > 0.5) {
+               popover.css({top: '-'+popover.height()+'px'});
+            } else {
+               popover.css({top: '30px'});
+            }
+            if (jQuery(this).data('x') > 0.5) {
+               popover.css({left: '-'+popover.width()+'px'});
+            } else {
+               popover.css({left: '30px'});
+            }
+
+            // Load map if found
+            var map = jQuery(this).find('.map');
+            if (map.length > 0 && map.data('loaded') != '1') {
+               map.data('loaded', 1);
+               var latLng = new google.maps.LatLng(map.data('lat'), map.data('lng'));
+               var mapOptions = {
+                  zoom:  14,
+                  center: latLng,
+                  scrollwheel: false,
+                  navigationControl: false,
+                  mapTypeControl: false,
+                  scaleControl: false,
+                  draggable: false,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+               };
+               var gMap = new google.maps.Map(document.getElementById('map'+jQuery(this).data('tag-id')), mapOptions);
+               new google.maps.Marker({
+                  position: latLng,
+                  map: gMap
+               });
+            }
+
+            popover.css({opacity: 1});
 
             var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
             if (xhr) {
@@ -142,7 +176,7 @@
             }
          });
          $tags.on('mouseleave', '.tag', function() {
-            jQuery(this).find('.popover').hide();
+            jQuery(this).find('.popover').css({opacity: 0});
          });
          $tags.on('click', 'a[href]', function() {
             var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
