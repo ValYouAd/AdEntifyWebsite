@@ -46,7 +46,7 @@
                (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
                '.tags li {margin: 0;padding: 0;}' +
                '.tag {position: absolute;background: rgba(0,0,0,0.9);width: 25px;height: 25px;border-radius: 12.5px;}' +
-               '.popover {position: absolute;opacity: 0;padding: 4px 6px;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;}' +
+               '.popover {position: absolute;display: none;padding: 4px 6px;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;}' +
                '.popover-product {min-width: 250px;}' +
                '.popover-product .product-image {max-width: 250px;}' +
                '.popover-product .brand-logo {max-height: 50px;}' +
@@ -159,7 +159,7 @@
                });
             }
 
-            popover.css({opacity: 1});
+            popover.fadeIn();
 
             var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
             if (xhr) {
@@ -168,7 +168,7 @@
             }
          });
          $tags.on('mouseleave', '.tag', function() {
-            jQuery(this).find('.popover').css({opacity: 0});
+            jQuery(this).find('.popover').fadeOut();
          });
          $tags.on('click', 'a[href]', function() {
             var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
