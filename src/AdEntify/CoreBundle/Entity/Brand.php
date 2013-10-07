@@ -9,6 +9,8 @@
 
 namespace AdEntify\CoreBundle\Entity;
 
+use AdEntify\CoreBundle\Model\Thumb;
+use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,6 +24,7 @@ use JMS\Serializer\Annotation as Serializer;
  *
  * @ORM\Table(name="brands", indexes={@ORM\Index(name="search_idx", columns={"name"})})
  * @ORM\Entity
+ * @Gedmo\Uploadable(path="uploads/brands/logo-original", filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true, allowedTypes="image/png,image/jpg,image/jpeg,image/gif", maxSize=2097152)
  */
 class Brand
 {
@@ -45,8 +48,50 @@ class Brand
     /**
      * @var string
      *
-     * @ORM\Column(name="original_logo_url", type="text")
-     * @Assert\NotBlank(message="brand.originalLogoUrl.notblank")
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="website_url", type="string", length=255, nullable=true)
+     */
+    private $websiteUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_url", type="string", length=255, nullable=true)
+     */
+    private $facebookUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="twitter_url", type="string", length=255, nullable=true)
+     */
+    private $twitterUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pinterest_url", type="string", length=255, nullable=true)
+     */
+    private $pinterestUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="instagram_url", type="string", length=255, nullable=true)
+     */
+    private $instagramUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="original_logo_url", type="string", length=255)
+     * @Gedmo\UploadableFilePath
      */
     private $originalLogoUrl;
 
@@ -365,5 +410,107 @@ class Brand
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $facebookUrl
+     */
+    public function setFacebookUrl($facebookUrl)
+    {
+        $this->facebookUrl = $facebookUrl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookUrl()
+    {
+        return $this->facebookUrl;
+    }
+
+    /**
+     * @param string $instagramUrl
+     */
+    public function setInstagramUrl($instagramUrl)
+    {
+        $this->instagramUrl = $instagramUrl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstagramUrl()
+    {
+        return $this->instagramUrl;
+    }
+
+    /**
+     * @param string $pinterestUrl
+     */
+    public function setPinterestUrl($pinterestUrl)
+    {
+        $this->pinterestUrl = $pinterestUrl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPinterestUrl()
+    {
+        return $this->pinterestUrl;
+    }
+
+    /**
+     * @param string $twitterUrl
+     */
+    public function setTwitterUrl($twitterUrl)
+    {
+        $this->twitterUrl = $twitterUrl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTwitterUrl()
+    {
+        return $this->twitterUrl;
+    }
+
+    /**
+     * @param string $websiteUrl
+     */
+    public function setWebsiteUrl($websiteUrl)
+    {
+        $this->websiteUrl = $websiteUrl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebsiteUrl()
+    {
+        return $this->websiteUrl;
     }
 }

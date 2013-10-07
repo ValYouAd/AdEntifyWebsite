@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}AdEntify.com{% endblock %}</title>
+
+    {% stylesheets
+        '../app/Resources/public/css/bootstrap.min.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-static-top">
+        <div class="navbar-inner">
+            <div class="container">
+
+                <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <!-- Be sure to leave the brand out there if you want it shown -->
+                <a class="brand" href="#">AdEntify</a>
+
+                <!-- Everything you want hidden at 940px or less, place within here -->
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="active"><a href="{{ path('brands') }}">{{ 'Brands'|trans }}</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

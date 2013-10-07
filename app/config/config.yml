@@ -30,8 +30,6 @@ assetic:
     debug:          %kernel.debug%
     use_controller: false
     bundles:        [ 'AdEntifyCommonBundle' ]
-    filters:
-        cssrewrite: ~
 
 # Doctrine Configuration
 doctrine:
@@ -142,6 +140,14 @@ stof_doctrine_extensions:
             timestampable: true
             sluggable:     true
             translatable:  true
+            uploadable:    true
+    uploadable:
+        # Default file path: This is one of the three ways you can configure the path for the Uploadable extension
+        default_file_path:       %kernel.root_dir%/../web/uploads
+        # Mime type guesser class: Optional. By default, we provide an adapter for the one present in the HttpFoundation component of Symfony
+        mime_type_guesser_class: Stof\DoctrineExtensionsBundle\Uploadable\MimeTypeGuesserAdapter
+        # Default file info class implementing FileInfoInterface: Optional. By default we provide a class which is prepared to receive an UploadedFile instance.
+        default_file_info_class: Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo
 
 # Services
 services:
@@ -238,6 +244,15 @@ avalanche_imagine:
         large:
             type:    thumbnail
             options: { size: [1024, 9999], mode: inset, quality: 100 }
+        logo-small:
+            type:    thumbnail
+            options: { size: [100, 9999], mode: inset, quality: 90 }
+        logo-medium:
+           type:    thumbnail
+           options: { size: [250, 9999], mode: inset, quality: 100 }
+        logo-large:
+           type:    thumbnail
+           options: { size: [500, 9999], mode: inset, quality: 100 }
 
 # AdEntify Core
 ad_entify_core:
