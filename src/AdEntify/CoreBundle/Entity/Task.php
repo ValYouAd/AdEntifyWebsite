@@ -26,6 +26,7 @@ class Task
 {
     // TYPES
     const TYPE_UPLOAD = 'upload';
+    const TYPE_UPLOAD_BRAND = 'upload-brand';
     // STATUS
     const STATUS_WAITING = 'waiting';
     const STATUS_INPROGRESS = 'inprogress';

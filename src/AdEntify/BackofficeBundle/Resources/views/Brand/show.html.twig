@@ -1,0 +1,68 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    <h1>{{ 'Brand'|trans }}</h1>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>{{ 'Name'|trans }}</th>
+                <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Logo'|trans }}</th>
+                <td><img src="{{ asset(entity.smallLogoUrl) }}" /></td>
+            </tr>
+            <tr>
+                <th>{{ 'Products count'|trans }}</th>
+                <td>{{ entity.productsCount }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Tags count'|trans }}</th>
+                <td>{{ entity.tagsCount }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Venues count'|trans }}</th>
+                <td>{{ entity.venuesCount }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'CPT'|trans }}</th>
+                <td>{{ entity.costPerTag }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Description'|trans }}</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Website URL'|trans }}</th>
+                <td>{{ entity.websiteUrl }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Facebook URL'|trans }}</th>
+                <td>{{ entity.facebookUrl }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Twitter URL'|trans }}</th>
+                <td>{{ entity.twitterUrl }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Instagram URL'|trans }}</th>
+                <td>{{ entity.instagramUrl }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Pinterest URL'|trans }}</th>
+                <td>{{ entity.pinterestUrl }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <a class="btn" href="{{ path('brands') }}">
+            {{ 'Back to the list'|trans }}
+        </a>
+        <a class="btn btn-primary" href="{{ path('brands_edit', { 'id': entity.id }) }}">
+            {{ 'Edit'|trans }}
+        </a>
+        {{ form(delete_form) }}
+    </div>
+{% endblock %}

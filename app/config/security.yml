@@ -7,8 +7,9 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_TEAM:        ROLE_USER
+        ROLE_ADMIN:       [ROLE_USER, ROLE_TEAM]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_TEAM, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
         fos_userbundle:
@@ -34,14 +35,6 @@ security:
                 remember_me: true            # On active la possibilité du "Se souvenir de moi" (désactivé par défaut)
                 default_target_path: /app/
                 login_path:  /
-            #fos_facebook:
-            #    app_url:             "http://apps.facebook.com/appName/"
-            #    server_url:          "http://localhost/AdEntifyFacebookApp/web/"
-            #    login_path:          /
-            #    check_path:          /facebook/login-check
-            #    default_target_path: /app/
-            #    provider:            my_fos_facebook_provider
-            #    remember_me: true
             oauth:
                 resource_owners:
                     twitter:         "/login/check-twitter"
@@ -63,5 +56,5 @@ security:
         #- { path: ^/app, roles: [ IS_AUTHENTICATED_FULLY ], requires_channel: https }
         #- { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ], requires_channel: https }
         #- { path: ^/public-api, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ], requires_channel: https }
+        - { path: ^/bo-admin, roles: [ ROLE_TEAM ] }
         - { path: ^/.*, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ], requires_channel: https }
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

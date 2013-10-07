@@ -75,6 +75,25 @@ class ThumbService
         return $generatedThumbs;
     }
 
+    public function generateBrandLogoThumb(Thumb $thumb, $filename)
+    {
+        $generatedThumbs = array();
+        foreach($thumb->getDesiredThumbSizes() as $size) {
+            $path = FileTools::getBrandLogoPath($size);
+
+            // Generate thumb
+            $imageSize = $this->resize($thumb, $size, $path, $filename);
+
+            $generatedThumbs[$size] = array(
+                'filename' => $filename,
+                'width' => $imageSize[0],
+                'height' => $imageSize[1],
+            );
+        }
+
+        return $generatedThumbs;
+    }
+
     private function resize($thumb, $size, $path, $filename)
     {
         $this->filterManager->get($size)

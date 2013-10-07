@@ -16,6 +16,11 @@ class FileTools
     const PHOTO_TYPE_MEDIUM = 'medium';
     const PHOTO_TYPE_SMALLL = 'small';
 
+    const LOGO_TYPE_ORIGINAL = 'logo-original';
+    const LOGO_TYPE_LARGE = 'logo-large';
+    const LOGO_TYPE_MEDIUM = 'logo-medium';
+    const LOGO_TYPE_SMALLL = 'logo-small';
+
     /**
      * @param $url
      * @return string
@@ -45,6 +50,13 @@ class FileTools
     public static function getProductPhotoPath($type = self::PHOTO_TYPE_ORIGINAL)
     {
         $path = __DIR__.'/../../../../web/uploads/photos/products/'.$type.'/';
+        FileTools::createDirIfNotExist($path);
+        return $path;
+    }
+
+    public static function getBrandLogoPath($type = self::LOGO_TYPE_ORIGINAL, $absolute = true)
+    {
+        $path = ($absolute ? __DIR__.'/../../../../web/' : '').'uploads/brands/'.$type.'/';
         FileTools::createDirIfNotExist($path);
         return $path;
     }
