@@ -176,16 +176,8 @@ define([
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
          var popover = jQuery(this.el).find('.popover');
-         if (this.model.get('y_position') > 0.5) {
-            popover.css({top: '-'+popover.height()+'px'});
-         } else {
-            popover.css({top: '30px'});
-         }
-         if (this.model.get('x_position') > 0.5) {
-            popover.css({left: '-'+popover.width()+'px'});
-         } else {
-            popover.css({left: '30px'});
-         }
+         popover.css({top: this.model.get('y_position') > 0.5 ? '-'+popover.height()+'px' : '30px'});
+         popover.css({left: this.model.get('x_position') > 0.5 ? '-'+popover.width()+'px' : '30px'});
          popover.show();
          app.tagStats().hover(this.model);
       },
@@ -239,16 +231,8 @@ define([
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
          var popover = jQuery(this.el).find('.popover');
-         if (this.model.get('y_position') > 0.5) {
-            popover.css({top: '-'+popover.height()+'px'});
-         } else {
-            popover.css({top: '30px'});
-         }
-         if (this.model.get('x_position') > 0.5) {
-            popover.css({left: '-'+popover.width()+'px'});
-         } else {
-            popover.css({left: '30px'});
-         }
+         popover.css({top: this.model.get('y_position') > 0.5 ? '-'+popover.height()+'px' : '30px'});
+         popover.css({left: this.model.get('x_position') > 0.5 ? '-'+popover.width()+'px' : '30px'});
          popover.show();
          if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
             var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
@@ -323,16 +307,8 @@ define([
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
          var popover = jQuery(this.el).find('.popover');
-         if (this.model.get('y_position') > 0.5) {
-            popover.css({top: '-'+popover.height()+'px'});
-         } else {
-            popover.css({top: '30px'});
-         }
-         if (this.model.get('x_position') > 0.5) {
-            popover.css({left: '-'+popover.width()+'px'});
-         } else {
-            popover.css({left: '30px'});
-         }
+         popover.css({top: this.model.get('y_position') > 0.5 ? '-'+popover.height()+'px' : '30px'});
+         popover.css({left: this.model.get('x_position') > 0.5 ? '-'+popover.width()+'px' : '30px'});
          popover.show();
          if (this.model.has('venue') && !$('#map' + this.model.get('id')).hasClass('loaded')) {
             var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);

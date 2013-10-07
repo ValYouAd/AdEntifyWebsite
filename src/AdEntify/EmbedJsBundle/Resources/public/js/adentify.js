@@ -134,16 +134,8 @@
          $tags = jQuery('.tags');
          $tags.on('mouseenter', '.tag', function() {
             var popover = jQuery(this).find('.popover');
-            if (jQuery(this).data('y') > 0.5) {
-               popover.css({top: '-'+popover.height()+'px'});
-            } else {
-               popover.css({top: '30px'});
-            }
-            if (jQuery(this).data('x') > 0.5) {
-               popover.css({left: '-'+popover.width()+'px'});
-            } else {
-               popover.css({left: '30px'});
-            }
+            popover.css({top: jQuery(this).data('y') > 0.5 ? '-'+popover.height()+'px' : '30px'});
+            popover.css({left: jQuery(this).data('x') > 0.5 ? '-'+popover.width()+'px' : '30px'});
 
             // Load map if found
             var map = jQuery(this).find('.map');
