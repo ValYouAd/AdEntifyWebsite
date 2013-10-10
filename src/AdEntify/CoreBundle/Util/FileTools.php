@@ -54,11 +54,48 @@ class FileTools
         return $path;
     }
 
+    /**
+     * Get brand logo save path
+     *
+     * @param string $type
+     * @param bool $absolute
+     * @return string
+     */
     public static function getBrandLogoPath($type = self::LOGO_TYPE_ORIGINAL, $absolute = true)
     {
         $path = ($absolute ? __DIR__.'/../../../../web/' : '').'uploads/brands/'.$type.'/';
         FileTools::createDirIfNotExist($path);
         return $path;
+    }
+
+    /**
+     * Download image from URL
+     *
+     * @param $sourceUrl
+     * @param $targetPath
+     * @param null $targetFilename
+     * @param int $timeout
+     * @return mixed
+     */
+    public static function downloadImage($sourceUrl, $targetPath, $targetFilename = null, $timeout = 10)
+    {
+        if (!$targetFilename)
+            $targetFilename = uniqid().FileTools::getExtensionFromUrl($sourceUrl);
+
+        $ch = curl_init($sourceUrl);
+        $fp = fopen($targetPath.$targetFilename, 'wb');
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $status = curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+
+        return array(
+            'status' => $status,
+            'filename' => $targetFilename,
+            'path' => $targetPath
+        );
     }
 
     /**

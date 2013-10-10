@@ -186,12 +186,30 @@ class Brand
      */
     private $costPerTag;
 
+    private $logoUrl;
+
     public function __construct()
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
         $this->venues = new \Doctrine\Common\Collections\ArrayCollection();
         $this->itemTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * @param mixed $logoUrl
+     */
+    public function setLogoUrl($logoUrl)
+    {
+        $this->logoUrl = $logoUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogoUrl()
+    {
+        return $this->logoUrl;
     }
 
     /**

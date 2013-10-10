@@ -64,10 +64,22 @@ class BrandController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
 
-            $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-            $uploadableListener = $uploadableManager->getUploadableListener();
-            $uploadableListener->setDefaultPath('uploads/brands/logo-original');
-            $uploadableManager->markEntityToUpload($entity, $entity->getOriginalLogoUrl());
+            if ($entity->getOriginalLogoUrl()) {
+                $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+                $uploadableListener = $uploadableManager->getUploadableListener();
+                $uploadableListener->setDefaultPath('uploads/brands/logo-original');
+                $uploadableManager->markEntityToUpload($entity, $entity->getOriginalLogoUrl());
+            } elseif ($entity->getLogoUrl()) {
+                $logo = FileTools::downloadImage($entity->getLogoUrl(), FileTools::getBrandLogoPath());
+                if ($logo['status'] !== false) {
+                    $entity->setOriginalLogoUrl($logo['path'].$logo['filename']);
+                } else {
+                    return array(
+                        'entity' => $entity,
+                        'form'   => $form->createView(),
+                    );
+                }
+            }
 
             $em->flush();
 

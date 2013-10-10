@@ -218,11 +218,11 @@ class UploadService
                 // Online photos, download them
                 else {
                     // ORIGINAL IMAGE
-                    $originalStatus = $this->downloadImage($image->originalSource, $originalPath, $filename, 30);
+                    $originalStatus = FileTools::downloadImage($image->originalSource, $originalPath, $filename, 30);
                     // Get image size
                     if (empty($image->originalWidth) || empty($image->originalHeight)) {
                         // If image downloaded well, get imagesize
-                        if (end($originalStatus) !== false) {
+                        if ($originalStatus['status'] !== false) {
                             $size = getimagesize($originalPath.$filename);
                             $photo->setOriginalWidth($size[0]);
                             $photo->setOriginalHeight($size[1]);
@@ -232,7 +232,7 @@ class UploadService
                         $photo->setOriginalHeight($image->originalHeight);
                     }
                     // Set url to the downloaded image or the source url if not download
-                    if ($originalStatus !== false) {
+                    if ($originalStatus['status'] !== false) {
                         $photo->setOriginalUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/original/' . $filename);
                         $thumb->setOriginalPath($originalPath.$filename);
                         $uploadedPhotos++;
@@ -240,9 +240,9 @@ class UploadService
                         // GET SMALL IMAGE
                         if (array_key_exists('smallSource', $image)) {
                             $smallPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_SMALLL);
-                            $status = $this->downloadImage($image->smallSource, $smallPath, $filename);
+                            $status = FileTools::downloadImage($image->smallSource, $smallPath, $filename);
 
-                            if ($status !== false) {
+                            if ($status['status'] !== false) {
                                 $photo->setSmallUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/small/' . $filename);
                                 // Set image size
                                 if (empty($image->smallWidth) || empty($image->smallHeight)) {
@@ -269,9 +269,9 @@ class UploadService
                         // MEDIUM IMAGE
                         if (array_key_exists('mediumSource', $image)) {
                             $mediumPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_MEDIUM);
-                            $status = $this->downloadImage($image->mediumSource, $mediumPath, $filename);
+                            $status = FileTools::downloadImage($image->mediumSource, $mediumPath, $filename);
 
-                            if ($status !== false) {
+                            if ($status['status'] !== false) {
                                 $photo->setMediumUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/medium/' . $filename);
                                 // Set image size
                                 if (empty($image->mediumWidth) || empty($image->mediumHeight)) {
@@ -297,9 +297,9 @@ class UploadService
                         // LARGE IMAGE
                         if (array_key_exists('largeSource', $image)) {
                             $largePath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_LARGE);
-                            $status = $this->downloadImage($image->largeSource, $largePath, $filename);
+                            $status = FileTools::downloadImage($image->largeSource, $largePath, $filename);
 
-                            if ($status !== false) {
+                            if ($status['status'] !== false) {
                                 $photo->setLargeUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/large/' . $filename);
                                 // Set image size
                                 if (empty($image->largeWidth) || empty($image->largeHeight)) {
@@ -392,19 +392,5 @@ class UploadService
             // Unable to load image so add we generate it
             $thumb->addThumbSize($photoType);
         }
-    }
-
-    private function downloadImage($url, $originalPath, $filename, $timeout = 10)
-    {
-        $ch = curl_init($url);
-        $fp = fopen($originalPath.$filename, 'wb');
-        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $status = curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
-
-        return $status;
     }
 }
