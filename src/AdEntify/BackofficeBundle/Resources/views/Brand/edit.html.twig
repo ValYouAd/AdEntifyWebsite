@@ -1,11 +1,13 @@
 {% extends '::base.admin.html.twig' %}
 
+{% form_theme edit_form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
+
 {% block body -%}
     <h1>{{ 'Brand edit'|trans }}</h1>
 
-    {{ form(edit_form) }}
+    {{ form(edit_form, {'attr': {'class' : 'form-horizontal'} }) }}
 
-    <a class="btn" href="{{ path('brands') }}">
+    <a class="btn btn-default" href="{{ path('brands') }}">
         {{ 'Back to the list'|trans }}
     </a>
     {{ form(delete_form) }}

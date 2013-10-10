@@ -1,10 +1,8 @@
 {% if count > pageLimit %}
-    <div class="pagination">
-        <ul>
-            {% set pages = count%pageLimit %}
-            {% for i in 1..pages+1 %}
-                <li><a href="{{ path('brands', { 'page': i }) }}">{{ i }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+    <ul class="pagination">
+        {% set pages = count%pageLimit %}
+        {% for i in 1..pages-1 %}
+            <li><a href="{{ path('brands', { 'page': i }) }}">{{ i }}</a></li>
+        {% endfor %}
+    </ul>
 {% endif %}

@@ -1,11 +1,13 @@
 {% extends '::base.admin.html.twig' %}
 
+{% form_theme form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
+
 {% block body -%}
     <h1>{{ 'Brand creation'|trans }}</h1>
 
-    {{ form(form) }}
+    {{ form(form, {'attr': {'class' : 'form-horizontal'} }) }}
 
-    <a class="btn" href="{{ path('brands') }}">
+    <a class="btn btn-default" href="{{ path('brands') }}">
         {{ 'Back to the list'|trans }}
     </a>
 
