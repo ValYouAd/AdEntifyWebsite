@@ -141,6 +141,19 @@ define([
                if (photoModel.has('location')) {
                   instagramImage.location = photoModel.get('location');
                }
+               if (photoModel.has('users_in_photo') && photoModel.get('users_in_photo').length > 0) {
+                  instagramImage.tags = [];
+                  _.each(photoModel.get('users_in_photo'), function(tag) {
+                     instagramImage.tags.push({
+                        'x': tag.position.x * 100,
+                        'y': tag.position.y * 100,
+                        'username': tag.user.username,
+                        'name': tag.user.full_name,
+                        'id': tag.user.id,
+                        'profilePicture': tag.user.profile_picture
+                     });
+                  });
+               }
                images[index] = instagramImage;
             });
 

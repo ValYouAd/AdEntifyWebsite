@@ -190,14 +190,14 @@ class Product
     public function addTag(\AdEntify\CoreBundle\Entity\Tag $tag)
     {
         $this->tags[] = $tag;
-        $tag->setPhoto($this);
+        $tag->setProduct($this);
         return $this;
     }
 
     public function removeTag(\AdEntify\CoreBundle\Entity\Tag $tag)
     {
         $this->tags->removeElement($tag);
-        $tag->setPhoto(null);
+        $tag->setProduct(null);
     }
 
     public function getTags()

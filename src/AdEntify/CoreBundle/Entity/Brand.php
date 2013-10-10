@@ -23,7 +23,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("none")
  *
  * @ORM\Table(name="brands", indexes={@ORM\Index(name="search_idx", columns={"name"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AdEntify\CoreBundle\Entity\BrandRepository")
  * @Gedmo\Uploadable(path="uploads/brands/logo-original", filenameGenerator="SHA1", allowOverwrite=true, appendNumber=true, allowedTypes="image/png,image/jpg,image/jpeg,image/gif", maxSize=2097152)
  */
 class Brand
@@ -144,7 +144,7 @@ class Brand
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="brand")
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
-    private $tags;
+    private $itemTags;
 
     /**
      * @var integer
@@ -152,6 +152,13 @@ class Brand
      * @ORM\Column(name="tags_count", type="integer")
      */
     private $tagsCount = 0;
+
+    /**
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="brand")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $tags;
 
     /**
      * @Gedmo\Slug(fields={"name"})
@@ -183,6 +190,7 @@ class Brand
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
         $this->venues = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->itemTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -212,6 +220,15 @@ class Brand
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param int $tagsCount
+     */
+    public function setTagsCount($tagsCount)
+    {
+        $this->tagsCount = $tagsCount;
+        return $this;
     }
 
     /**
@@ -394,22 +411,22 @@ class Brand
         return $this->costPerTag;
     }
 
-    public function addTag(\AdEntify\CoreBundle\Entity\BrandTag $tag)
+    public function addItemTag(\AdEntify\CoreBundle\Entity\BrandTag $tag)
     {
-        $this->tags[] = $tag;
+        $this->itemTags[] = $tag;
         $tag->setBrand($this);
         return $this;
     }
 
-    public function removeTag(\AdEntify\CoreBundle\Entity\BrandTag $tag)
+    public function removeItemTag(\AdEntify\CoreBundle\Entity\BrandTag $tag)
     {
-        $this->tags->removeElement($tag);
+        $this->itemTags->removeElement($tag);
         $tag->setBrand(null);
     }
 
-    public function getTags()
+    public function getItemTags()
     {
-        return $this->tags;
+        return $this->itemTags;
     }
 
     /**
@@ -512,5 +529,23 @@ class Brand
     public function getWebsiteUrl()
     {
         return $this->websiteUrl;
+    }
+
+    public function addTag(\AdEntify\CoreBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+        $tag->setBrand($this);
+        return $this;
+    }
+
+    public function removeTag(\AdEntify\CoreBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+        $tag->setBrand(null);
+    }
+
+    public function getTags()
+    {
+        return $this->tags;
     }
 }

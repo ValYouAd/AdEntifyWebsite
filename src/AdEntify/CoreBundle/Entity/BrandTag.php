@@ -35,7 +35,7 @@ class BrandTag
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="tags")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="productTags")
      * @ORM\JoinColumn(nullable=false)
      */
     private $brand;
@@ -53,7 +53,7 @@ class BrandTag
     private $tag;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="brandTags")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="itemTags")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

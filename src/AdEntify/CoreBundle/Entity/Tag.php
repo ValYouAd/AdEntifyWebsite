@@ -28,6 +28,7 @@ class Tag
     const TYPE_PLACE =   "place";
     const TYPE_PRODUCT = "product";
     const TYPE_PERSON =  "person";
+    const TYPE_BRAND =  "brand";
 
     const VALIDATION_NONE =    "none";
     const VALIDATION_WAITING = "waiting";
@@ -93,7 +94,6 @@ class Tag
      */
     private $deletedAt;
 
-
     /**
      * @var boolean
      *
@@ -156,6 +156,11 @@ class Tag
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="tags")
      */
     private $person;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="tags")
+     */
+    private $brand;
 
     /**
      * @Serializer\Exclude
@@ -421,6 +426,23 @@ class Tag
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @param mixed $brand
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrand()
+    {
+        return $this->brand;
     }
 
     /**
