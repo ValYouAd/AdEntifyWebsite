@@ -37,18 +37,30 @@ class Person
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=255)
-     * @Assert\NotBlank(message="person.firstname.notblank")
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      */
     private $firstname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=255)
-     * @Assert\NotBlank(message="person.lastname.notblank")
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      */
     private $lastname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profile_picture_url", type="string", length=255, nullable=true)
+     */
+    private $profilePictureUrl;
 
     /**
      * @var datetime $created_on
@@ -63,14 +75,21 @@ class Person
     /**
      * @var integer
      *
-     * @ORM\Column(name="facebook_id", type="bigint")
+     * @ORM\Column(name="facebook_id", type="bigint", nullable=true)
      */
     private $facebookId;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="instagram_id", type="bigint", nullable=true)
+     */
+    private $instagramId;
+
+    /**
      * @ORM\Column(name="gender", type="string", length=20, nullable=false)
      */
-    private $gender = User::GENDER_FEMALE;
+    private $gender = User::GENDER_UNKNOWN;
 
     /**
      * @var User
@@ -294,5 +313,56 @@ class Person
     public function getFriends()
     {
         return $this->friends;
+    }
+
+    /**
+     * @param int $instagramId
+     */
+    public function setInstagramId($instagramId)
+    {
+        $this->instagramId = $instagramId;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInstagramId()
+    {
+        return $this->instagramId;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $profilePictureUrl
+     */
+    public function setProfilePictureUrl($profilePictureUrl)
+    {
+        $this->profilePictureUrl = $profilePictureUrl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProfilePictureUrl()
+    {
+        return $this->profilePictureUrl;
     }
 }

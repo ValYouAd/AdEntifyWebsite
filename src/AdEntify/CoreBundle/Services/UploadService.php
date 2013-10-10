@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Services;
 
+use AdEntify\CoreBundle\Entity\Person;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Entity\User;
@@ -26,11 +27,13 @@ class UploadService
     protected $em;
     protected $thumbService;
     protected $rootUrl;
+    protected $fbApi;
 
-    public function __construct($em, ThumbService $thumbService, $rootUrl) {
+    public function __construct($em, ThumbService $thumbService, $rootUrl, \BaseFacebook $fbApi) {
         $this->em = $em;
         $this->thumbService = $thumbService;
         $this->rootUrl = $rootUrl;
+        $this->fbApi = $fbApi;
     }
 
     public function uploadPhotos($user, $data)
@@ -56,7 +59,7 @@ class UploadService
                 if (isset($image->id))
                     $photo->setPhotoSourceId($image->id);
                 // Set visibility scope
-                if (isset($image->confidentiality) && $image->conffidentiality == 'private')
+                if (isset($image->confidentiality) && $image->confidentiality == 'private')
                     $photo->setVisibilityScope(Photo::SCOPE_PRIVATE);
                 else
                     $photo->setVisibilityScope(Photo::SCOPE_PUBLIC);
@@ -136,20 +139,54 @@ class UploadService
                 if (isset($image->tags) && is_array($image->tags) && count($image->tags) > 0) {
                     $personRepository = $this->em->getRepository('AdEntifyCoreBundle:Person');
                     foreach($image->tags as $tag) {
-                        if (isset($tag->id) && isset($tag->y) && isset($tag->x)) {
-                            // Search the person
-                            $person = $personRepository->findOneBy(array(
-                                'facebookId' => $tag->id
-                            ));
-                            // If found, add a new tag to the photo
+                        if (isset($tag->id) && isset($tag->y) && isset($tag->x) && isset($tag->name)) {
+                            $person = null;
+                            $brand = null;
+                            $fieldName = null;
+                            $link = null;
+                            switch ($source) {
+                                case 'facebook':
+                                    $fieldName = 'facebookId';
+                                    $link = 'https://www.facebook.com/'.$tag->id;
+                                    if (!$person)
+                                        $brand = $this->em->getRepository('AdEntifyCoreBundle:Brand')->createOrUpdateBrandFromFacebookId($tag->id, $this->fbApi);
+                                    break;
+                                case 'instagram':
+                                    $fieldName = 'instagramId';
+                                    $link = 'https://instagram.com/'.$tag->username;
+                                    break;
+                            }
+
+                            if ($fieldName) {
+                                $person = $personRepository->findOneBy(array(
+                                    $fieldName => $tag->id
+                                ));
+                            }
+
+                            // If not found, check if its a brand
+                            if (!$person && !$brand) {
+                                $profilePicture = isset($tag->profilePicture) ? $tag->profilePicture : null;
+                                $person = $personRepository->createAndLinkToExistingUser(null, null, $tag->name, $profilePicture, $tag->id, $source);
+                            } else if ($person && !$brand) {
+                                $profilePicture = $person->getProfilePictureUrl();
+                                if (isset($tag->profilePicture) && empty($profilePicture)) {
+                                    $person->setProfilePictureUrl($tag->profilePicture);
+                                    $this->em->merge($person);
+                                }
+                            }
+
+                            $t = new Tag();
                             if ($person) {
-                                $t = new Tag();
-                                $t->setType(Tag::TYPE_PERSON)->setLink('https://www.facebook.com/'.$tag->id)
+                                $t->setType(Tag::TYPE_PERSON)->setLink($link)
                                     ->setPerson($person)->setPhoto($photo)->setTitle($tag->name)
                                     ->setXPosition($tag->x / 100)->setYPosition($tag->y / 100)->setOwner($user);
-                                $photo->addTag($t);
-                                $this->em->persist($t);
+                            } else if ($brand) {
+                                $t->setType(Tag::TYPE_BRAND)->setLink($link)
+                                    ->setBrand($brand)->setPhoto($photo)->setTitle($tag->name)
+                                    ->setXPosition($tag->x / 100)->setYPosition($tag->y / 100)->setOwner($user);
                             }
+                            $photo->addTag($t);
+                            $this->em->persist($t);
                         }
                     }
                 }
@@ -181,11 +218,11 @@ class UploadService
                 // Online photos, download them
                 else {
                     // ORIGINAL IMAGE
-                    $originalStatus = $this->downloadImage($image->originalSource, $originalPath, $filename, 30);
+                    $originalStatus = FileTools::downloadImage($image->originalSource, $originalPath, $filename, 30);
                     // Get image size
                     if (empty($image->originalWidth) || empty($image->originalHeight)) {
                         // If image downloaded well, get imagesize
-                        if (end($originalStatus) !== false) {
+                        if ($originalStatus['status'] !== false) {
                             $size = getimagesize($originalPath.$filename);
                             $photo->setOriginalWidth($size[0]);
                             $photo->setOriginalHeight($size[1]);
@@ -195,7 +232,7 @@ class UploadService
                         $photo->setOriginalHeight($image->originalHeight);
                     }
                     // Set url to the downloaded image or the source url if not download
-                    if ($originalStatus !== false) {
+                    if ($originalStatus['status'] !== false) {
                         $photo->setOriginalUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/original/' . $filename);
                         $thumb->setOriginalPath($originalPath.$filename);
                         $uploadedPhotos++;
@@ -203,9 +240,9 @@ class UploadService
                         // GET SMALL IMAGE
                         if (array_key_exists('smallSource', $image)) {
                             $smallPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_SMALLL);
-                            $status = $this->downloadImage($image->smallSource, $smallPath, $filename);
+                            $status = FileTools::downloadImage($image->smallSource, $smallPath, $filename);
 
-                            if ($status !== false) {
+                            if ($status['status'] !== false) {
                                 $photo->setSmallUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/small/' . $filename);
                                 // Set image size
                                 if (empty($image->smallWidth) || empty($image->smallHeight)) {
@@ -232,9 +269,9 @@ class UploadService
                         // MEDIUM IMAGE
                         if (array_key_exists('mediumSource', $image)) {
                             $mediumPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_MEDIUM);
-                            $status = $this->downloadImage($image->mediumSource, $mediumPath, $filename);
+                            $status = FileTools::downloadImage($image->mediumSource, $mediumPath, $filename);
 
-                            if ($status !== false) {
+                            if ($status['status'] !== false) {
                                 $photo->setMediumUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/medium/' . $filename);
                                 // Set image size
                                 if (empty($image->mediumWidth) || empty($image->mediumHeight)) {
@@ -244,25 +281,25 @@ class UploadService
                                 } else {
                                     // Check if width is right
                                     if ($image->mediumWidth != self::MEDIUM_SIZE) {
-                                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user);
+                                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user, $filename);
                                     } else {
                                         $photo->setMediumWidth($image->mediumWidth);
                                         $photo->setMediumHeight($image->mediumHeight);
                                     }
                                 }
                             } else {
-                                $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user);
+                                $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user, $filename);
                             }
                         } else {
-                            $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user);
+                            $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user, $filename);
                         }
 
                         // LARGE IMAGE
                         if (array_key_exists('largeSource', $image)) {
                             $largePath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_LARGE);
-                            $status = $this->downloadImage($image->largeSource, $largePath, $filename);
+                            $status = FileTools::downloadImage($image->largeSource, $largePath, $filename);
 
-                            if ($status !== false) {
+                            if ($status['status'] !== false) {
                                 $photo->setLargeUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/large/' . $filename);
                                 // Set image size
                                 if (empty($image->largeWidth) || empty($image->largeHeight)) {
@@ -274,10 +311,10 @@ class UploadService
                                     $photo->setLargeHeight($image->largeHeight);
                                 }
                             } else {
-                                $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo, $user);
+                                $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo, $user, $filename);
                             }
                         } else {
-                            $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo, $user);
+                            $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo, $user, $filename);
                         }
 
                         // Thumb generation
@@ -334,12 +371,12 @@ class UploadService
         }
     }
 
-    private function generateThumbIfOriginalLarger(Thumb $thumb, $size, $photoType, Photo $photo, User $user)
+    private function generateThumbIfOriginalLarger(Thumb $thumb, $size, $photoType, Photo $photo, User $user, $filename)
     {
         // if original size is smaller, copy original image and set url, width and height
         if ($photo->getOriginalWidth() < $size) {
-            $sourceImage = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_ORIGINAL) . $photo->getOriginalUrl();
-            $destinationImage = FileTools::getUserPhotosPath($user, $photoType) . $photo->getOriginalUrl();
+            $sourceImage = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_ORIGINAL) . $filename;
+            $destinationImage = FileTools::getUserPhotosPath($user, $photoType) . $filename;
             copy($sourceImage, $destinationImage);
 
             if ($size == self::MEDIUM_SIZE) {
@@ -355,19 +392,5 @@ class UploadService
             // Unable to load image so add we generate it
             $thumb->addThumbSize($photoType);
         }
-    }
-
-    private function downloadImage($url, $originalPath, $filename, $timeout = 10)
-    {
-        $ch = curl_init($url);
-        $fp = fopen($originalPath.$filename, 'wb');
-        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $status = curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
-
-        return $status;
     }
 }

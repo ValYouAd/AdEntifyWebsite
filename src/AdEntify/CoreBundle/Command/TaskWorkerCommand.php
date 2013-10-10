@@ -68,6 +68,7 @@ class TaskWorkerCommand extends ContainerAwareCommand
                 switch ($task->getType()) {
                     case Task::TYPE_UPLOAD:
                         $error = false;
+                        $response = array();
                         try {
                             $response = $this->uploadService->uploadPhotos($task->getUser(), json_decode($task->getMessage()));
                         } catch (\Exception $ex) {

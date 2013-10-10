@@ -28,6 +28,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="ad_entify_core.thumb" />
             <argument>%root_url%</argument>
+            <argument type="service" id="fos_facebook.api"></argument>
         </service>
         <service id="ad_entify_core.tagRevenue" class="%ad_entify_core.tagRevenueService%">
             <argument type="service" id="doctrine.orm.entity_manager" />

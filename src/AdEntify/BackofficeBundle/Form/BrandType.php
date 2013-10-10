@@ -39,6 +39,9 @@ class BrandType extends AbstractType
                 'data_class' => null,
                 'required' => false
             ))
+            ->add('logoUrl', 'url', array(
+                'required' => false
+            ))
             ->add('productsCount', 'integer')
             ->add('tagsCount', 'integer')
             ->add('venuesCount', 'integer')
