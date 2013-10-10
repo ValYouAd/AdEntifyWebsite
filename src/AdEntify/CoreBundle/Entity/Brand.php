@@ -184,7 +184,7 @@ class Brand
      *
      * @ORM\Column(name="cost_per_tag", type="decimal", scale=4, precision=15)
      */
-    private $costPerTag;
+    private $costPerTag = 0;
 
     private $logoUrl;
 

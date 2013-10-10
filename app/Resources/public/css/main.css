@@ -1,3 +1,15 @@
+/* pacificoregular */
+@font-face {
+    font-family: '../fonts/pacificoregular';
+    src: url('../fonts/pacifico-webfont.eot');
+    src: url('../fonts/pacifico-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/pacifico-webfont.woff') format('woff'),
+    url('../fonts/pacifico-webfont.ttf') format('truetype'),
+    url('../fonts/pacifico-webfont.svg#pacificoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Fix navbar bug (content under navbar) */
 body {
     padding-top: 50px;
