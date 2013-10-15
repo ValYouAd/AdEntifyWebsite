@@ -29,14 +29,28 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        /*
+        // Automatic redirect
         $securityContext = $this->container->get('security.context');
         if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
             return $this->redirect($this->generateUrl('loggedInHome', array(
                 '_locale' => $this->getCurrentLocale()
             )));
-        }
+        }*/
 
-        return array();
+        $em = $this->getDoctrine()->getManager();
+
+        $tagsCount = $em->createQuery('SELECT COUNT(tag.id) FROM AdEntify\CoreBundle\Entity\Tag tag')->getSingleScalarResult();
+        $users = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user ORDER BY user.followersCount DESC')
+            ->setMaxResults(7)->getResult();
+        $brands = $em->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand ORDER BY brand.tagsCount DESC')
+            ->setMaxResults(12)->getResult();
+
+        return array(
+            'tagsCount' => str_split($tagsCount),
+            'users' => $users,
+            'brands' => $brands
+        );
     }
 
     /**

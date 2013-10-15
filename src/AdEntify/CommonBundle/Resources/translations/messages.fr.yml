@@ -14,12 +14,20 @@ Categories: Catégories
 All categories: Toutes les catégories
 My AdEntify: Mon AdEntify
 My favorites photos: Mes photos favorites
+Press: Presse
+Credits: Crédits
+FAQ: FAQ
+About Us: Qui sommes-nous ?
+Search a user, place, brand...: Rechercher un utilisateur, un lieu, une marque...
+A la une: A la une
+Start: Démarrer
 
 #Routing
 photos/untagged/: photos/non-taguees/
 my/photos/tagged/: mes/photos/taguees/
 my/photos/untagged/: mes/photos/non-taguees/
 brands/: marques/
+'brand/%slug%/': marque/%slug%
 my/settings/: mes/parametres/
 category/: categorie/
 my/adentify/: mon/adentify/

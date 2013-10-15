@@ -246,12 +246,18 @@ class UsersController extends FosRestController
             $following = $this->getAction($id);
             if ($following && $follower->getId() != $following->getId() && !$this->getIsFollowingAction($id)) {
                 $follower->addFollower($following);
+                $follower->setFollowersCount($follower->getFollowersCount() + 1);
+                $following->setFollowingsCount($following->getFollowingsCount() + 1);
                 $em->merge($follower);
+                $em->merge($following);
                 $em->flush();
                 return $follower;
             } else {
                 $follower->removeFollower($following);
+                $follower->setFollowersCount($follower->getFollowersCount() - 1);
+                $following->setFollowingsCount($following->getFollowingsCount() - 1);
                 $em->merge($follower);
+                $em->merge($following);
                 $em->flush();
             }
         }

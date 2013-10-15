@@ -1,6 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
+    <link href='//fonts.googleapis.com/css?family=Asap:400italic' rel='stylesheet' type='text/css'>
     {% stylesheets
     '../app/Resources/public/css/select2.css'
     '../app/Resources/public/css/jquery.fileupload-ui.css'
@@ -15,18 +16,20 @@
 
     <main role="main" id="main">
 
-        <nav class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="nav-collapse collapse">
-                    <div class="pull-left">
-                        <a href="{{ full_root_url }}" id="logo-small"></a>
-                    </div>
-                    <ul class="nav">
+        <nav class="navbar navbar-adentify navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="{{ full_root_url }}" class="logo-nav sprites"></a>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    {#<ul class="nav navbar-nav">
                         <li>
                             <a class="dropdown" data-toggle="dropdown" data-bypass="">{{ 'Categories'|trans }} <b class="caret"></b></a>
                             <ul class="dropdown-menu" role="menu" aria-labelleby="drop1">
@@ -47,38 +50,48 @@
                         </li>
                         <li><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'Brands'|trans }}</a></li>
                         <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}">{{ 'My settings'|trans }}</a></li>
-                    </ul>
-                    <div id="notifications" class="pull-right"></div>
-                    <div class="pull-right" id="user-account">
-                        <div class="pull-right">
-                            <a href="{{ url('fos_user_security_logout') }}" class="btn btn-small">{{ 'Log off'|trans }}</a>
+                    </ul>#}
+
+                    <div class="navbar-right">
+                        <div class="sprites tag-button pull-right"></div>
+                        <div id="notifications" class="pull-right"></div>
+                        <div class="pull-right" id="user-account">
+                            <div class="pull-right">
+                                <a href="{{ url('fos_user_security_logout') }}" class="btn btn-default btn-xs">{{ 'Log off'|trans }}</a>
+                            </div>
+                            <div id="user-information" class="pull-right"></div>
                         </div>
-                        <div id="user-information" class="pull-right"></div>
+                        <div class="pull-right">
+                            <a href="upload/" class="btn btn-primary btn-small">{{ 'Upload photos'|trans }}</a>
+                        </div>
+                        <div class="pull-right" id="search-bar"></div>
                     </div>
-                    <div class="pull-right">
-                        <a href="upload/" class="btn btn-primary btn-small">{{ 'Upload photos'|trans }}</a>
-                    </div>
-                    <div class="pull-right" id="search-bar"></div>
                 </div>
             </div>
+
         </nav>
 
-        <div id="dashboard" class="row-fluid view-mode">
+        <div class="container">
+            <div id="dashboard" class="row view-mode">
 
-            <section id="content" class="span9">
-                <div class="loading-gif-container">
-                    <div class="loading-gif"></div>
-                </div>
-            </section>
+                <section id="content" class="col-sm-8 col-md-8">
+                    <div class="loading-gif-container">
+                        <div class="loading-gif"></div>
+                    </div>
+                </section>
 
-            <aside id="menu-right" class="span3">
-                <div class="loading-gif-container">
-                    <div class="loading-gif"></div>
-                </div>
-            </aside>
-
+                <aside id="menu-right" class="col-sm-4 col-md-4">
+                    <div class="loading-gif-container">
+                        <div class="loading-gif"></div>
+                    </div>
+                    <div class="links">
+                        <a href="">{{ 'Qui sommes-nous ?'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Presse'|trans }}</a> · <a href="">{{ 'Crédits'|trans }}</a>
+                    </div>
+                    <div class="copyright">© {{ date|date('Y') }} Adentify</div>
+                </aside>
+            </div>
+            <div class=""></div>
         </div>
-
     </main>
 {% endblock %}
 
@@ -94,7 +107,7 @@
         var currentLocale = '{{ app.request.locale }}';
         var currentUserId = {{ app.user.id }};
     </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&sensor=false"></script>
+    <script type="text/javascript" async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&sensor=false"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>

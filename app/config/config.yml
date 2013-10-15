@@ -30,6 +30,8 @@ assetic:
     debug:          %kernel.debug%
     use_controller: false
     bundles:        [ 'AdEntifyCommonBundle' ]
+    filters:
+        cssrewrite: ~
 
 # Doctrine Configuration
 doctrine:

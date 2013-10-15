@@ -6,6 +6,10 @@
                 <source>Please wait...</source>
                 <target>Veuillez patienter, vous allez être rediriger dans quelques secondes...</target>
             </trans-unit>
+            <trans-unit id="2">
+                <source>Cancel</source>
+                <target>Annuler</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

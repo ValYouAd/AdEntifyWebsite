@@ -47,21 +47,9 @@ define([
       },
 
       connected: function(response) {
-         /*setTimeout(function() {
-            // Check facebook connect to the server
-            $.ajax({ url: Routing.generate('_security_check_facebook') } );
-         }, 500);
-         var that = this;*/
          this.setFacebookResponse(response);
          app.trigger('global:facebook:connected');
-         /*$('#loading-authent').hide();
-         $('#fb-login').hide();
-         $('#twitter-authent').hide();
-         $('#fb-logout').show();
-         $('#fb-logout').click(function() {
-            that.logout();
-         });*/
-         $("#user-information").html('<img src="https://graph.facebook.com/' + app.fb.get('userId') + '/picture?width=20&height=20" />');
+         $("#user-information").html('<img src="https://graph.facebook.com/' + app.fb.get('userId') + '/picture?width=40&height=40" class="profile-picture" />');
       },
 
       isConnected: function() {

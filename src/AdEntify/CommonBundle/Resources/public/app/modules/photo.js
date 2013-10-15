@@ -10,8 +10,8 @@ define([
    "modules/tag",
    "modules/common",
    "modules/comment",
-   "modules/category",
-   "pinterest"
+   "modules/category"
+   //"pinterest"
 ], function(app, Tag, Common, Comment, Category) {
 
    var Photo = app.module();

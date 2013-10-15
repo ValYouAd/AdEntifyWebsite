@@ -161,10 +161,24 @@ class User extends BaseUser
     private $followings;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="followings_count", type="integer")
+     */
+    private $followingsCount = 0;
+
+    /**
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="followings")
      */
     private $followers;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="followers_count", type="integer")
+     */
+    private $followersCount = 0;
 
     /**
      * @Serializer\Exclude
@@ -809,5 +823,39 @@ class User extends BaseUser
     public function getFacebookAccessToken()
     {
         return $this->facebookAccessToken;
+    }
+
+    /**
+     * @param int $followersCount
+     */
+    public function setFollowersCount($followersCount)
+    {
+        $this->followersCount = $followersCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFollowersCount()
+    {
+        return $this->followersCount;
+    }
+
+    /**
+     * @param int $followingsCount
+     */
+    public function setFollowingsCount($followingsCount)
+    {
+        $this->followingsCount = $followingsCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFollowingsCount()
+    {
+        return $this->followingsCount;
     }
 }

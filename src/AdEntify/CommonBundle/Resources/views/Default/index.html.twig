@@ -1,59 +1,11 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
-{% stylesheets
-    '@AdEntifyCommonBundle/Resources/public/css/index.css'
+{% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/index.css'
 %}
 <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
 {% endstylesheets %}
-{% endblock %}
-
-{% block body %}
-    {{ facebook_initialize({'xfbml': true }) }}
-    <div class="wrapper">
-        <div class="container">
-
-            <div id="logo" class="text-center">
-                <img src="{{ asset('img/logo.png') }}" alt="AdEntify" />
-            </div>
-
-            <hr class="soften" />
-
-            <div id="authent-container" class="row-fluid">
-                <div class="span6">
-                    <h2 class="text-center">Me connecter</h2>
-                    <div class="text-center">
-                        <p>
-                            <a href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code" class="btn btn-primary btn-large">Facebook</a>
-                            <a href="../login/twitter" class="btn btn-info btn-large">Twitter</a>
-                        </p>
-                    </div>
-                    {% render controller('FOSUserBundle:Security:login') %}
-                </div>
-                <div class="border span6 text-center">
-                    <h2>M'inscrire</h2>
-                    {% render controller('FOSUserBundle:Registration:register') %}
-                </div>
-            </div>
-        </div>
-        <div class="push"></div>
-    </div>
-
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="span4">
-                    <p></p><a href="#">Contact</a> · <a href="#">Press</a> · <a href="#">Jobs</a></p>
-                </div>
-                <div class="span4">
-
-                </div>
-                <div class="span4">
-                    <p>AdEntify © 2013</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 {% endblock %}
 
 {% block javascripts %}
@@ -63,8 +15,145 @@
     </script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script src="{{ asset('bundles/adentifycommon/vendor/jam/jquery/dist/jquery.js') }}"></script>
-    {% javascripts '@AdEntifyCommonBundle/Resources/public/js/facebookConnect.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% javascripts
+    '@AdEntifyCommonBundle/Resources/public/vendor/jam/jquery/dist/jquery.js'
+    '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+    {{ facebook_initialize({'xfbml': true }) }}
+
+    <header>
+        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}" class="start-button">
+            {{ 'Start'|trans }}
+        </a>
+        <div class="carousel"></div>
+
+        <h1 class="pastille-adentify">AdEntify</h1>
+
+        <div class="account-buttons">
+            <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> <span class="text">Se connecter</span></button>
+            <button data-toggle="modal" data-target="#signupModal" type="button" class="btn signup"><i class="icon signup-icon"></i> <span class="text">S'inscrire</span></button>
+        </div>
+
+    </header>
+
+
+    <div class="graphik-bg">
+        <div class="container">
+            <form action="{{ path('loggedInHome', {'_locale': app.request.locale}) }}" role="search" class="search-form">
+                <input type="text" class="search-input" placeholder="{{ 'Search a user, place, brand...'|trans }}">
+                <button type="submit" class="search-button"></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="light-grey-bg">
+        <div class="container">
+
+            <div class="a-la-une content-block">
+                <h2 class="text-center pacifico-heading">{{ 'A la une'|trans }}</h2>
+
+                <div class="text-center"><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> Plus de photos</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tags-count-bg">
+        <div class="container text-center">
+            <div class="tags-count-icon"><img src="{{ asset('bundles/adentifycommon/images/photo_count_icon.png') }}" /></div>
+            <div class="counter-text">Déjà</div>
+            <div class="counter">
+                {% for digit in tagsCount %}
+                    <span class="counter-number">{{ digit }}</span>
+                {% endfor %}
+            </div>
+            <div class="counter-text">tags</div>
+        </div>
+    </div>
+
+    <div class="white-bg">
+        <div class="container">
+            <div class="content-block">
+                <h2 class="text-center asap-heading">Personnes à suivre</h2>
+
+                {% for user in users %}
+                {{ user.firstname }}
+                {% endfor %}
+
+                <div class="text-center"><a href="" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> Plus de membres</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="graphik-bg">
+        <div class="container">
+            <div class="content-block">
+                <div class="text-center"><img src="{{ asset('bundles/adentifycommon/images/trend_topic_icon.png') }}" /></div>
+                <h2 class="text-center pacifico-heading">Trends topics</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="white-bg">
+        <div class="container">
+            <div class="content-block">
+                <h2 class="text-center asap-heading">Marques les plus taguées</h2>
+
+                <div class="row mt4 mb4">
+                    {% for brand in brands %}
+                    <div class="col-xs-3 col-sm-2 col-md-1">
+                        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brand/%slug%/'|trans({'%slug%': brand.slug}) }}" class="thumbnail"><img src="{{ asset(brand.smallLogoUrl) }}" alt="{{ brand.name }}" /></a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="text-center"><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brands/'|trans }}" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> Plus de marques</a></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <a href="">Annonceurs</a> • <a href="">Presse</a> • <a href="">A propos</a> • <a href="">Contact</a> • <a href="">Mentions légales</a>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="signinModalLabel"><div class="signin-badge pull-left modal-badge"></div> Connexion</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="grey-transparent-background social-buttons">
+                        <div class="text-center">
+                            <a class="btn btn-facebook" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> Facebook</a>
+                            <a class="btn btn-twitter" href="../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
+                        </div>
+                    </div>
+                    {% render controller('FOSUserBundle:Security:login') %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> Inscription</h4>
+                </div>
+                <div class="modal-body">
+                    {% render controller('FOSUserBundle:Registration:register') %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 {% endblock %}

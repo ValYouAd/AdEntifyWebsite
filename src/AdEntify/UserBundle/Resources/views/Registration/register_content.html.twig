@@ -1,10 +1,33 @@
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
     {{ form_errors(form) }}
     <fieldset>
-        {{ form_row(form.email) }}
-        {{ form_row(form.plainPassword) }}
-        {{ form_row(form.plainPassword) }}
-        {{ form_row(form._token) }}
-        <input type="submit" class="btn" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+        <div class="modal-body-wrapper">
+            <div class="form-group">
+                <div class="col-md-6">
+
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.plainPassword) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.plainPassword) }}
+            </div>
+            {{ form_row(form._token) }}
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-8 col-md-offset-4">
+                <button type="button" class="btn btn-link" data-dismiss="modal">{{ 'Cancel'|trans }}</button>
+                <input type="submit" class="btn btn-red-grey-border" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+            </div>
+        </div>
     </fieldset>
 </form>

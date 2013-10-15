@@ -14,12 +14,20 @@ Categories: Categories
 All categories: All categories
 My AdEntify: My AdEntify
 My favorites photos: My favorites photos
+Press: Press
+Credits: Credits
+FAQ: FAQ
+About Us: About Us
+Search a user, place, brand...: Search a user, place, brand...
+A la une: A la une
+Start: Start
 
 #Routing
 photos/untagged/: photos/untagged/
 my/photos/tagged/: my/photos/tagged/
 my/photos/untagged/: my/photos/untagged/
 brands/: brands/
+'brand/%slug%/': brand/%slug%
 my/settings/: my/settings/
 category/: category/
 my/adentify/: my/adentify/
