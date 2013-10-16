@@ -5,23 +5,18 @@
         <% } %>
         <div class="photo-overlay">
             <div class="tags-container"></div>
+            <div class="caption"><%= model.get('caption') %></div>
+            <div class="counters">
+                <i class="icon white-heart-icon"></i> <%= model.get("likes_count") %> <i class="icon white-comment-icon"></i> <%= model.get("comments_count") %>
+            </div>
             <div class="photo-buttons">
-                <a href="photo/<%= model.get("id") %>/" class="btn btn-info btn-mini view-photo"><i class="icon-picture icon-white"></i> <span data-i18n="common.viewPhoto"></span></a>
                 <% if (model.isOwner() && model.get('tags_count') == 0) { %>
-                <button class="btn btn-danger btn-mini deletePhotoButton"><i class="icon-remove icon-white"></i> <span data-i18n="photo.deletePhoto"></span></button>
+                <button class="btn btn-danger btn-xs deletePhotoButton"><i class="glyphicon glyphicon-remove"></i> <span data-i18n="photo.deletePhoto"></span></button>
                 <% } %>
             </div>
-            <div class="bottom-right">
-                <div class="counters text-right">
-                    <%= model.get("likes_count") %> <i class="icon-heart icon-white"></i> <%= model.get("tags_count") %> <i class="icon-tag icon-white"></i>
-                </div>
-                <div class="user-information text-right">
-                    <% if (model.get("owner")["facebook_id"]) { %><img class="facebookProfile" src="https://graph.facebook.com/<%= model.get("owner")["facebook_id"] %>/picture?width=20&height=20" alt="<%= model.get("fullname") %>" /><% } %> <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a>
-                </div>
-            </div>
-
+            <a href="<%= model.get('link') %>" class="show-photo-icon view-photo"></a>
         </div>
-        <img class="opacity0" src="<%= model.get("fullMediumUrl") %>" data-id="<%= model.get("id") %>" data-type="medium"
+        <img src="<%= model.get("fullMediumUrl") %>" data-id="<%= model.get("id") %>" data-type="medium"
             data-medium-width="<%= model.get("medium_width") %>" data-large-width="<%= model.get("large_width") %>"
             data-large-url="<%= model.get("fullLargeUrl") %>" />
     </div>

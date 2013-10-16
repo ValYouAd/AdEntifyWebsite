@@ -337,7 +337,7 @@ class UsersController extends FosRestController
             return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Notification')->findBy(array(
                 'owner' => $user->getId()
             ), array(
-                'status' => 'DESC'
+                'createdAt' => 'DESC'
             ), 10);
         } else
             throw new HttpException(403, 'Forbidden');

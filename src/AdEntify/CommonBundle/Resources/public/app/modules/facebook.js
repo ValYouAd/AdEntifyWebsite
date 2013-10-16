@@ -49,7 +49,7 @@ define([
       connected: function(response) {
          this.setFacebookResponse(response);
          app.trigger('global:facebook:connected');
-         $("#user-information").html('<img src="https://graph.facebook.com/' + app.fb.get('userId') + '/picture?width=40&height=40" class="profile-picture" />');
+         //$("#user-information").html('<img src="https://graph.facebook.com/' + app.fb.get('userId') + '/picture?width=40&height=40" class="profile-picture" />');
       },
 
       isConnected: function() {

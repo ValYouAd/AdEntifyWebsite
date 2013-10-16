@@ -214,11 +214,9 @@ class TagsController extends FosRestController
 
                     // Create a new notification
                     $notification = new Notification();
-                    $notification->setType(Notification::TYPE_TAG_PHOTO)->setObjectId($photo->getId())
+                    $notification->setType(Notification::TYPE_TAG_PHOTO)->setObjectId($photo->getId())->addPhoto($photo)
                         ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
-                        ->setMessageOptions(json_encode(array(
-                            'author' => $user->getFullname()
-                        )))->setMessage('notification.friendTagPhoto');
+                        ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                     $em->persist($notification);
                 } else {
                     throw new HttpException(403, 'You can\t add a tag to this photo');

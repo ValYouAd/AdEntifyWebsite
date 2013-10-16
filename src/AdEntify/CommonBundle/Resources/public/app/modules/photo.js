@@ -50,6 +50,7 @@ define([
          this.set('fullLargeUrl', this.get('large_url'));
          this.set('fullSmallUrl', this.get('small_url'));
          this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
+         this.set('link', app.beginUrl + app.root + $.t('routing.photo/id/', { id: this.get('id') }));
          if (this.has('owner'))
             this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
          if (!this.has('tagsConverted')) {

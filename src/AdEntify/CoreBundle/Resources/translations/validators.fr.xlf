@@ -38,6 +38,14 @@
                 <source>venue.name.notblank</source>
                 <target>Veuillez spécifier un nom</target>
             </trans-unit>
+            <trans-unit id="10">
+                <source>Please enter your firstname.</source>
+                <target>Veuillez spécifier un prénom</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Please enter your lastname.</source>
+                <target>Veuillez spécifier un nom</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

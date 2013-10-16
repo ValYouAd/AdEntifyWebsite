@@ -57,7 +57,7 @@ define([
 
       afterRender: function() {
          $(this.el).find('img').load(function() {
-            $(this).animate({'opacity': '1.0'});
+            $(this).animate({'ohoto-acity': '1.0'});
          });
          $(this.el).i18n();
       },

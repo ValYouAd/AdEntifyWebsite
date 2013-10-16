@@ -42,6 +42,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Please enter your firstname.", groups={"Registration", "Profile"})
      */
     private $firstname;
 
@@ -49,6 +50,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Please enter your lastname.", groups={"Registration", "Profile"})
      */
     private $lastname;
 
@@ -275,7 +277,7 @@ class User extends BaseUser
 
     /**
      * @param string $facebookId
-     * @return void
+     * @return User
      */
     public function setFacebookId($facebookId)
     {

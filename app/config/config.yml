@@ -134,6 +134,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AdEntify\CoreBundle\Entity\User
+    registration:
+        form:
+            type: adentify_user_registration
 
 stof_doctrine_extensions:
     default_locale: fr_FR

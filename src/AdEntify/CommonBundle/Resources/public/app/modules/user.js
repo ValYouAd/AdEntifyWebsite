@@ -22,6 +22,12 @@ define([
       setup: function() {
          this.set('fullname', this.get('firstname') + ' ' + this.get('lastname'));
          this.set('link', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('id') }));
+         if (this.get('facebook_id')) {
+            this.set('profilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=50&height=50');
+         }
+         else {
+            this.set('profilePicture', '');
+         }
       },
 
       defaults: {
@@ -155,6 +161,18 @@ define([
          this.render();
          this.trigger('follow', this.follow);
       }
+   });
+
+   User.Views.AccountInformationBar = Backbone.View.extend({
+      template: "user/accountInformationBar",
+
+      serialize: function() {
+         return {
+            model: this.model
+         };
+      }
+
+
    });
 
    return User;

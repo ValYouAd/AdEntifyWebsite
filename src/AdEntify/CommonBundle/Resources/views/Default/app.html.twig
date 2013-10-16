@@ -19,16 +19,51 @@
         <nav class="navbar navbar-adentify navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="{{ full_root_url }}" class="logo-nav sprites"></a>
                 </div>
 
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <div class="collapse navbar-collapse navbar-collapse">
+
+                    <div class="row">
+                        <div class="col-sm-8 col-md-8">
+                            <a href="{{ full_root_url }}" class="logo-nav pull-left"></a>
+                            <div class="pull-right" id="search-bar"></div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="pull-left user-bar">
+                                {#<a href="{{ url('fos_user_security_logout') }}" class="btn btn-default btn-xs">{{ 'Log off'|trans }}</a>#}
+                                <div class="user-information" class="pull-right">
+                                    {% if app.user %}
+                                        <div class="profile-picture-wrapper pull-left">
+                                            <div id="notifications" class="pull-right"></div>
+                                            {% if app.user.facebookId %}
+                                                <img class="profile-picture" src="https://graph.facebook.com/{{ app.user.facebookId }}/picture?width=40&height=40" />
+                                            {% endif %}
+                                        </div>
+                                        <div class="profile-infos pull-left">
+                                            <div class="user-names">
+                                                {% if app.user.firstname or app.user.lastname %}
+                                                    {% if app.user.firstname %}{{ app.user.firstname }}{% endif %} {% if app.user.lastname %}{{ app.user.lastname }}{% endif %}
+                                                {% else %}
+                                                    {{ app.user.email }}
+                                                {% endif %}
+                                            </div>
+                                            <div class="user-points">
+                                                0 <sup>Pts</sup>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="sprites tag-button pull-right"></div>
+                        </div>
+                    </div>
+
                     {#<ul class="nav navbar-nav">
                         <li>
                             <a class="dropdown" data-toggle="dropdown" data-bypass="">{{ 'Categories'|trans }} <b class="caret"></b></a>
@@ -52,20 +87,10 @@
                         <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}">{{ 'My settings'|trans }}</a></li>
                     </ul>#}
 
-                    <div class="navbar-right">
-                        <div class="sprites tag-button pull-right"></div>
-                        <div id="notifications" class="pull-right"></div>
-                        <div class="pull-right" id="user-account">
-                            <div class="pull-right">
-                                <a href="{{ url('fos_user_security_logout') }}" class="btn btn-default btn-xs">{{ 'Log off'|trans }}</a>
-                            </div>
-                            <div id="user-information" class="pull-right"></div>
-                        </div>
-                        <div class="pull-right">
-                            <a href="upload/" class="btn btn-primary btn-small">{{ 'Upload photos'|trans }}</a>
-                        </div>
-                        <div class="pull-right" id="search-bar"></div>
-                    </div>
+                    {#<div class="navbar-right">
+
+
+                    </div>#}
                 </div>
             </div>
 

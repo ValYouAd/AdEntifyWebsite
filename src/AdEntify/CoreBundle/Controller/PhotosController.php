@@ -493,11 +493,9 @@ class PhotosController extends FosRestController
 
                     // Notification
                     $notification = new Notification();
-                    $notification->setType(Notification::TYPE_FAV_PHOTO)->setObjectId($photo->getId())
+                    $notification->setType(Notification::TYPE_FAV_PHOTO)->setObjectId($photo->getId())->addPhoto($photo)
                         ->setObjectType(get_class($photo))->setOwner($photo->getOwner())->setMessage('notification.photoFav')
-                        ->setAuthor($user)->setMessageOptions(json_encode(array(
-                            'author' => $user->getFullname()
-                        )));
+                        ->setAuthor($user);
                     $em->persist($notification);
                 } else {
                     $user->removeFavoritePhoto($photo);
