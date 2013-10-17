@@ -137,8 +137,8 @@
       "like": "J'aime",
       "dislike": "Je n'aime plus",
       "likes": "J'aime",
-      "comments": "Commentaires",
-      "share": "Partager la photo",
+      "comments": "Commentez",
+      "share": "Partager / Intégrer",
       "link": "Lien vers la photo",
       "embed": "Intégrer la photo",
       "errorLoading": "Impossible de récupérer la photo. Veuillez réessayer.",
@@ -208,10 +208,10 @@
       "usersBlockTitle": "Utilisateurs"
    },
    "comment": {
-      "noComments": "Aucun commentaire",
+      "noComments": "Aucun commentaire pour le moment, soyez le premier à réagir !",
       "addTitle": "Ecrire un commentaire",
-      "labelBody": "Tapez votre message",
-      "addButton": "Valider",
+      "placeholderBody": "Votre commentaire",
+      "addButton": "Poster",
       "noBody": "Veuillez tapez un message avant de valider votre message",
       "addButtonLoading": "Ajout en cours...",
       "errorCommentPost": "Une erreur est survenue lors de l'ajout de votre commentaire. Veuillez réessayer"

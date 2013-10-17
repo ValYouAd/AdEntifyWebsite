@@ -6,9 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app",
-   "modules/common"
-], function(app, Common) {
+   'app',
+   'modules/common',
+   'modules/user',
+   'moment'
+], function(app, Common, User, moment) {
 
    var Comment = app.module();
 
@@ -23,18 +25,17 @@ define([
 
       initialize: function() {
          this.listenTo(this, {
-            'change': this.setup,
+            //'change': this.setup,
             'add': this.setup
          });
       },
 
       setup: function() {
          if (this.has('author')) {
-            this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('author')['id'] }));
-            this.set("fullname", this.get("author")["firstname"] + ' ' + this.get("author")["lastname"]);
+            this.set('authorModel', new User.Model(this.get('author')));
          }
          if (this.has('created_at')) {
-            this.set('date', app.formatDate(this.get('created_at')));
+            this.set('date', moment(this.get('created_at')).fromNow());
          }
       }
    });
@@ -47,7 +48,7 @@ define([
 
    Comment.Views.Item = Backbone.View.extend({
       template: "comment/item",
-      tagName: "li class='media'",
+      tagName: "li class='media comment'",
 
       serialize: function() {
          return { model: this.model };
@@ -62,6 +63,16 @@ define([
       template: "comment/list",
 
       beforeRender: function() {
+         if (this.options.comments.length == 0) {
+            this.setView('.alert-comments', new Common.Views.Alert({
+               cssClass: Common.alertInfo,
+               message: $.t('comment.noComments'),
+               showClose: true
+            }));
+         } else {
+            this.removeView('.alert-comments');
+         }
+
          this.options.comments.each(function(comment) {
             this.insertView(".comments-list", new Comment.Views.Item({
                model: comment
@@ -71,22 +82,13 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-         if (this.loaded) {
-            if (this.options.comments.length == 0) {
-               app.useLayout().setView('.alert-comments', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('comment.noComments'),
-                  showClose: true
-               })).render();
-            }
-         }
       },
 
       initialize: function() {
+         moment.lang(app.appState().getLocale());
          this.photoId = this.options.photoId;
          this.listenTo(this.options.comments, {
-            "sync": function() {
-               this.loaded = true;
+            'sync': function() {
                this.render();
             }
          });

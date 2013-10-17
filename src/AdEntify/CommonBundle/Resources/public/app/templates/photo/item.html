@@ -1,6 +1,7 @@
 <div class="pull-right">
-    <div class="like-button"></div>
-    <div class="favorite-button"></div>
+    <div class="favorite-button pull-right"></div>
+    <div class="like-button pull-right"></div>
+    <span class="pull-right"><i class="icon red-heart-icon"></i> <span id="like-count" class="red-count"><%= model.get("likes_count") %></span></span>
 </div>
 <h1 class="lead"><%= model.get("caption") %></h1>
 <div class="clearfix"></div>
@@ -20,19 +21,21 @@
         <a href="<%= model.get("profileLink") %>" class="btn btn-info">Voir le profil de <%= model.get('fullname') %></a>
         <small class="muted">Source : <%= model.get("source") %></small>
     </div>
-    <span id="like-count" class="badge badge-info"><%= model.get("likes_count") %></span> <span data-i18n="photo.likes"></span>
     <div class="categories mt1"></div>
 </div>
 
 <hr>
 
-<div class="row-fluid">
-    <div class="span6">
-        <h2 data-i18n="photo.comments"></h2>
+<ul class="nav nav-tabs" id="photo-tabs">
+    <li class="active"><a href="#comments" data-bypass=""><i class="icon grey-comment-icon"></i> <span data-i18n="photo.comments"></span></a></li>
+    <li><a href="#share" data-bypass=""><i class="icon grey-share-icon"></i> <span data-i18n="photo.share"></span></a></li>
+</ul>
+
+<div class="tab-content photo-tab-content">
+    <div class="tab-pane active" id="comments">
         <div class="comments"></div>
     </div>
-    <div class="span6">
-        <h2 data-i18n="photo.share"></h2>
+    <div class="tab-pane" id="share">
         <iframe allowtransparency="true" frameborder="0" scrolling="no"
                 src="https://platform.twitter.com/widgets/tweet_button.html?text=Découvrez mon image intéractive sur <%= encodeURIComponent("#") %>AdEntify : <%= pageUrl %>&via=AdEntify&lang=fr" style="width:130px; height:20px;"></iframe>
         <div class="g-plusone" data-size="medium" data-href="<%= pageUrl %>"></div>
@@ -49,7 +52,7 @@
         <div class="pinterest"><a target="_blank" href="//pinterest.com/pin/create/button/?url=<%= encodeURIComponent(pageUrl) %>&media=<%= encodeURIComponent(model.get("fullLargeUrl")) %>&description=<%= encodeURIComponent(model.get("caption")) %>" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div>
 
         <p class="mt2"><i class="icon-share-alt"></i> <span data-i18n="photo.link"></span></p>
-        <input type="text" value="<%= pageUrl %>" class="input-block-level selectOnFocus">
+        <input class="form-control" type="text" value="<%= pageUrl %>" class="input-block-level selectOnFocus">
 
         <h2 data-i18n="photo.embed"></h2>
         <label class="checkbox">
@@ -58,7 +61,6 @@
         <label class="checkbox">
             <input type="checkbox" class="showLikesCheckbox"> <span data-i18n="embed.showLikes"></span>
         </label>
-        <textarea class="embedCode input-block-level selectOnFocus" rows="3">&lt;iframe src="https://local.adentify.com/iframe/photo-<%= model.get('id') %>.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:<%= model.get("large_width") %>px; height:<%= model.get("large_height") %>px;" allowTransparency="true"&gt;&lt;/iframe&gt;</textarea>
-
+        <textarea class="embedCode form-control input-block-level selectOnFocus" rows="3">&lt;iframe src="https://local.adentify.com/iframe/photo-<%= model.get('id') %>.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:<%= model.get("large_width") %>px; height:<%= model.get("large_height") %>px;" allowTransparency="true"&gt;&lt;/iframe&gt;</textarea>
     </div>
 </div>

@@ -10,8 +10,8 @@ define([
    "modules/tag",
    "modules/common",
    "modules/comment",
-   "modules/category"
-   //"pinterest"
+   "modules/category",
+   "pinterest"
 ], function(app, Tag, Common, Comment, Category) {
 
    var Photo = app.module();
@@ -225,7 +225,11 @@ define([
          $('.full-photo img').load(function() {
             $('#photo').fadeIn();
          });
-         FB.XFBML.parse();
+      },
+
+      changeTab: function(e) {
+         e.preventDefault();
+         $(e.currentTarget).tab('show');
       },
 
       showTags: function() {
@@ -264,7 +268,8 @@ define([
          "click .adentify-pastille": "showTags",
          "click .showTagsCheckbox": "checkboxShowTags",
          "click .showLikesCheckbox": "checkboxShowLikes",
-         "mouseup .selectOnFocus": "selectTextOnFocus"
+         "mouseup .selectOnFocus": "selectTextOnFocus",
+         "click #photo-tabs a": "changeTab"
       }
    });
 

@@ -21,6 +21,11 @@ var jam = {
             "main": "jquery.isotope.js"
         },
         {
+            "name": "jamjs-moment",
+            "location": "../vendor/jam/jamjs-moment",
+            "main": "moment.min.js"
+        },
+        {
             "name": "jquery",
             "location": "../vendor/jam/jquery",
             "main": "dist/jquery.js"
@@ -55,6 +60,11 @@ var jam = {
             ],
             "exports": "Backbone"
         },
+        "i18next2": {
+            "deps": [
+                "jquery"
+            ]
+        },
         "isotope": {
             "deps": [
                 "jquery"
@@ -85,6 +95,11 @@ if (typeof require !== "undefined" && require.config) {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
+        },
+        {
+            "name": "jamjs-moment",
+            "location": "../vendor/jam/jamjs-moment",
+            "main": "moment.min.js"
         },
         {
             "name": "jquery",
@@ -119,6 +134,11 @@ if (typeof require !== "undefined" && require.config) {
                 "jquery"
             ],
             "exports": "Backbone"
+        },
+        "i18next2": {
+            "deps": [
+                "jquery"
+            ]
         },
         "isotope": {
             "deps": [
@@ -152,6 +172,11 @@ else {
             "main": "jquery.isotope.js"
         },
         {
+            "name": "jamjs-moment",
+            "location": "../vendor/jam/jamjs-moment",
+            "main": "moment.min.js"
+        },
+        {
             "name": "jquery",
             "location": "../vendor/jam/jquery",
             "main": "dist/jquery.js"
@@ -184,6 +209,11 @@ else {
                 "jquery"
             ],
             "exports": "Backbone"
+        },
+        "i18next2": {
+            "deps": [
+                "jquery"
+            ]
         },
         "isotope": {
             "deps": [
