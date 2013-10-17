@@ -36,7 +36,6 @@
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <div class="pull-left user-bar">
-                                {#<a href="{{ url('fos_user_security_logout') }}" class="btn btn-default btn-xs">{{ 'Log off'|trans }}</a>#}
                                 <div class="user-information" class="pull-right">
                                     {% if app.user %}
                                         <div class="profile-picture-wrapper pull-left">
@@ -46,6 +45,16 @@
                                             {% endif %}
                                         </div>
                                         <div class="profile-infos pull-left">
+                                            <div class="dropdown-menu">
+                                                <div class="white-arrow-top"></div>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="{{ full_root_url }}{{ 'profile/%id%/'|trans({ '%id%': app.user.id }) }}"><i class="icon dashboard-icon"></i> {{ 'My profile'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/photos/tagged/'|trans }}"><i class="icon my-pictures"></i> {{ 'My photos'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}"><i class="icon parameters-icon"></i> {{ 'My settings'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"><i class="icon favorites-icon"></i> {{ 'My favorites'|trans }}</a></li>
+                                                    <li class="grey-background-item"><a href="{{ url('fos_user_security_logout') }}"><i class="icon cross-icon"></i> {{ 'Log out'|trans }}</a></li>
+                                                </ul>
+                                            </div>
                                             <div class="user-names">
                                                 {% if app.user.firstname or app.user.lastname %}
                                                     {% if app.user.firstname %}{{ app.user.firstname }}{% endif %} {% if app.user.lastname %}{{ app.user.lastname }}{% endif %}
@@ -54,7 +63,7 @@
                                                 {% endif %}
                                             </div>
                                             <div class="user-points">
-                                                0 <sup>Pts</sup>
+                                                <span class="user-points-value">0</span> <sup>Pts</sup>
                                             </div>
                                         </div>
                                     {% endif %}
@@ -80,11 +89,11 @@
                             <ul class="dropdown-menu" role="menu" aria-labelleby="drop2">
                                 <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/tagged/'|trans }}">{{ 'My tagged photos'|trans }}</a></li>
                                 <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/untagged/'|trans }}">{{ 'My untagged photos'|trans }}</a></li>
-                                <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}">{{ 'My favorites photos'|trans }}</a></li>
+                                <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"></a></li>
                             </ul>
                         </li>
                         <li><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'Brands'|trans }}</a></li>
-                        <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}">{{ 'My settings'|trans }}</a></li>
+                        <li><a href="">{{ 'My settings'|trans }}</a></li>
                     </ul>#}
 
                     {#<div class="navbar-right">

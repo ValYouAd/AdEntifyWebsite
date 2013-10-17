@@ -13,7 +13,10 @@ My settings: Mes paramètres
 Categories: Catégories
 All categories: Toutes les catégories
 My AdEntify: Mon AdEntify
-My favorites photos: Mes photos favorites
+My favorites: Mes favoris
+My settings: Mes paramètres
+My profile: Mon profil
+Log out: Déconnexion
 Press: Presse
 Credits: Crédits
 FAQ: FAQ
@@ -32,3 +35,4 @@ my/settings/: mes/parametres/
 category/: categorie/
 my/adentify/: mon/adentify/
 my/photos/favorites/: mes/photos/favorites/
+profile/%id%/: profil/%id%/

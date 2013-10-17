@@ -553,11 +553,15 @@ footer p {
         cursor: pointer;
         outline: none;
     }
-    .search-results-container {
+    .search-bar .dropdown-menu {
         position: absolute;
-        top: 35px;
-        left: auto;
-        right: 0px;
+        top: 50px;
+        left: 15px;
+        width: 401px;
+        font-family: 'robotobold';
+    }
+    .search-bar .white-arrow-top {
+        left: 20px;
     }
     .search-results-list {
         list-style-type: none;
@@ -567,6 +571,39 @@ footer p {
         margin: 4px 0px;
         border-bottom: 1px solid #eeeeee;
     }
+    .search-bar .view-more-results {
+        font-family: 'asapregular', sans-serif;
+        padding: 16px 20px;
+        margin-bottom: 16px;
+    }
+    .search-bar .search-title {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        padding-left: 6px;
+        font-size: 1.4em;
+    }
+    .search-bar .profile-picture {
+        border: 0px;
+        margin: 6px 10px;
+        max-height: 40px;
+        vertical-align: middle;
+    }
+    .search-bar .dropdown-menu a,
+    .search-bar .dropdown-menu a:hover {
+        color: #5b5756;
+        font-family: 'robotobold' sans-serif;
+        text-decoration: none;
+    }
+    .search-bar .user-fullname {
+        font-size: 12px;
+    }
+    .search-bar .photo {
+        max-height: 50px;
+        margin-right: 8px;
+    }
+    .search-bar .photo-details {
+        padding-top: 4px;
+    }
 /*
 ----------------------- */
 
@@ -575,7 +612,6 @@ footer p {
 #notifications,
 #notifications a,
 #notifications a:hover {
-    color: #5b5756;
     font-size: 12px;
 }
 #notifications {
@@ -756,6 +792,7 @@ footer p {
     border-right: 1px solid #dfe2e6;
     border-radius: 0px;
     font-size: 12px;
+    font-family: 'asapregular', sans-serif;
 }
     .dropdown-menu .white-arrow-top {
         position: absolute;
@@ -773,137 +810,176 @@ footer p {
         padding: 0px;
         border-bottom: 1px solid #dfe2e6;
     }
+    .dropdown-menu a,
+    .dropdown-menu a:hover {
+        color: #5b5756;
+        text-decoration: none;
+        font-family: 'asapregular', sans-serif;
+    }
+    .dropdown-menu .grey-background-item {
+        background-color: #f7f8f9;
+    }
 /* End : Dropdown Menu
 ----------------------- */
 
 /* S P R I T E S
 ----------------------- */
-
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon {
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
 }
 
-.brands-icon {
-    background-position: -110px -51px;
+.brands-icon{
+    background-position: -110px -51px ;
     width: 17px;
     height: 23px;
 }
 
-.clock-icon {
-    background-position: -88px -54px;
+.clock-icon{
+    background-position: -88px -54px ;
     width: 19px;
     height: 19px;
 }
 
-.heart-icon {
-    background-position: -68px -57px;
+.heart-icon{
+    background-position: -68px -57px ;
     width: 17px;
     height: 15px;
 }
 
-.icon_more_red {
-    background-position: -151px -3px;
+.icon_more_red{
+    background-position: -151px -3px ;
     width: 37px;
     height: 37px;
 }
 
-.logo-nav {
-    background-position: -193px -6px;
+.logo-nav{
+    background-position: -193px -6px ;
     width: 116px;
     height: 42px;
 }
 
-.people-icon {
-    background-position: -26px -55px;
+.people-icon{
+    background-position: -26px -55px ;
     width: 18px;
     height: 18px;
 }
 
-.search-icon {
-    background-position: -49px -57px;
+.search-icon{
+    background-position: -49px -57px ;
     width: 14px;
     height: 16px;
 }
 
-.signin-badge {
+.signin-badge{
     background-position: -106px 0;
     width: 41px;
     height: 41px;
 }
 
-.signup_badge {
+.signup_badge{
     background-position: -59px 0;
     width: 41px;
     height: 41px;
 }
 
-.tag-button {
+.tag-button{
     background-position: -1px 0;
     width: 53px;
     height: 53px;
 }
 
-.ticker_separator {
-    background-position: -5px -81px;
+.ticker_separator{
+    background-position: -5px -81px ;
     width: 270px;
     height: 2px;
 }
 
-.venues-icon {
-    background-position: -6px -54px;
+.venues-icon{
+    background-position: -6px -54px ;
     width: 14px;
     height: 20px;
 }
 
-.facebook-icon {
-    background-position: -158px -57px;
+.facebook-icon{
+    background-position: -158px -57px ;
     width: 9px;
     height: 18px;
 }
 
-.twitter-icon {
-    background-position: -134px -57px;
+.twitter-icon{
+    background-position: -134px -57px ;
     width: 16px;
     height: 15px;
 }
 
-.my-pictures {
-    background-position: -216px -59px;
+.my-pictures{
+    background-position: -216px -59px ;
     width: 20px;
     height: 15px;
 }
 
-.my-social-networks {
-    background-position: -191px -56px;
+.my-social-networks{
+    background-position: -191px -56px ;
     width: 21px;
     height: 20px;
 }
 
-.white-arrow-top {
-    background-position: -174px -63px;
+.white-arrow-top{
+    background-position: -174px -63px ;
     width: 14px;
     height: 6px;
 }
 
-.show-photo-icon {
-    background-position: -280px -54px;
+.show-photo-icon{
+    background-position: -280px -54px ;
     width: 40px;
     height: 40px;
 }
 
-.white-comment-icon {
-    background-position: -260px -61px;
+.white-comment-icon{
+    background-position: -260px -61px ;
     width: 14px;
     height: 13px;
 }
 
-.white-heart-icon {
-    background-position: -241px -61px;
+.white-heart-icon{
+    background-position: -241px -61px ;
     width: 14px;
     height: 12px;
 }
+
+.cross-icon{
+    background-position: -68px -88px ;
+    width: 14px;
+    height: 14px;
+}
+
+.favorites-icon{
+    background-position: -49px -87px ;
+    width: 16px;
+    height: 15px;
+}
+
+.parameters-icon{
+    background-position: -27px -86px ;
+    width: 18px;
+    height: 18px;
+}
+
+.dashboard-icon{
+    background-position: -6px -86px ;
+    width: 17px;
+    height: 19px;
+}
+
+.red-cross-right{
+    background-position: -85px -89px ;
+    width: 6px;
+    height: 11px;
+}
+
 
 /*
 ----------------------- */
@@ -1016,14 +1092,16 @@ label,
 .user-information {
     margin-top: 8px;
 }
-.profile-infos {
-    margin-top: 6px;
-}
 .profile-picture-wrapper {
     position: relative;
 }
 .profile-picture-wrapper > img {
     margin-right: 10px;
+}
+.profile-infos {
+    margin-top: 6px;
+    cursor: pointer;
+    position: relative;
 }
 .profile-infos .user-names {
     color: #FFFFFF;
@@ -1032,6 +1110,26 @@ label,
 .profile-infos .user-points {
     color: #898989;
     font-family: 'robotobold';
+    font-size: 18px;
+}
+.profile-infos .dropdown-menu {
+    top: 49px;
+    left: 0px;
+    font-size: 14px;
+    width: 240px;
+}
+.profile-infos .white-arrow-top {
+    top: -6px;
+    left: 20px;
+}
+.profile-infos .icon {
+    margin-right: 18px;
+}
+.profile-infos .dropdown-menu li {
+    padding: 15px 20px;
+}
+.user-points sup {
+    font-size: 8px;
 }
 .profile-picture {
     -webkit-border-radius: 99em;

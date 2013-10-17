@@ -203,7 +203,7 @@
       "inProgress": "Recherche en cours...",
       "noResults": "Aucun résultat pour votre recherche",
       "error": "Impossible de récupérer les résultats",
-      "viewMore": "Voir plus de résultats",
+      "viewMore": "Voir tous les résultats",
       "tagsBlockTitle": "Tags",
       "usersBlockTitle": "Utilisateurs"
    },
@@ -261,7 +261,6 @@
       "photo/id/": "photo/__id__/",
       "brands/": "marques/",
       "brand/slug/": "marque/__slug__/",
-      "my/profile/": "mon/profil/",
       "my/adentify/": "mon/adentify/",
       "profile/id/": "profil/__id__/",
       "category/slug/": "categorie/__slug__/",

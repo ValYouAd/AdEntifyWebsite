@@ -178,7 +178,7 @@ define([
          // Show
          else {
             var that = this;
-            $(this.el).find('.dropdown-menu').stop().fadeIn(function() {
+            $(this.el).find('.dropdown-menu').stop().fadeIn(100, function() {
                setTimeout(function() {
                   that.notifications.each(function(notification) {
                      notification.read();

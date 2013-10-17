@@ -31,6 +31,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
    var searchSetup = false;
    var notificationsSetup = false;
+   var dropdownMenusSetup = false;
 
    var Router = Backbone.Router.extend({
       initialize: function() {
@@ -86,19 +87,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          };
          _.extend(this, collections);
 
-         // Nav current
-         currentPage = window.location.pathname.replace(app.root, '');
-         $currentLink = $('.nav a[href="' + currentPage + '"]');
-         if ($currentLink.length > 0) {
-            $currentLink.parent().siblings('.active').removeClass('active');
-            $currentLink.parent().addClass('active');
-         } else {
-            $('.nav .active').removeClass('active');
-         }
-         $('.nav a').click(function() {
-            $(this).parent().siblings('.active').removeClass('active');
-            $(this).parent().addClass('active');
-         });
+         // Setup Search, notifications, dropdown menus...
+         this.setupEnvironment();
 
          // Dom events
          this.listenTo(app, 'domchange:title', this.onDomChangeTitle);
@@ -163,7 +153,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             case 'en':
                return i18nRoutes.en;
             default:
-               return i18nRoutes.fr;
+               return i18nRoutes.en;
          }
       },
 
@@ -695,6 +685,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.users.length) {
             this.users.fullReset();
          }
+      },
+
+      setupEnvironment: function() {
          // Add search form if not already set
          if (!searchSetup) {
             searchSetup = true;
@@ -708,6 +701,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             app.useLayout().setView('#notifications', new Notifications.Views.List({
                notifications: this.notifications
             })).render();
+         }
+         if (!dropdownMenusSetup) {
+            dropdownMenusSetup = true;
+            User.ProfileInfosDropdown.listenClick();
          }
       },
 

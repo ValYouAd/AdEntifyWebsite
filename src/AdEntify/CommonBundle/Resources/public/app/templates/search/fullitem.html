@@ -1,9 +1,9 @@
 <% if (model.get('type') == 'product') { %>
-<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh150 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a class="lead" href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get("photo")["small_url"] %>" class="mh150 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a class="lead" href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
 <% } else if (model.get('type') == 'person') { %>
-<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh150 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a class="lead" href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get("photo")["small_url"] %>" class="mh150 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a class="lead" href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
 <% } else { %>
-<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh150 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a class="lead" href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
+<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get("photo")["small_url"] %>" class="mh150 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a class="lead" href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
 <% } %>
 <div>
     <div class="pull-right">

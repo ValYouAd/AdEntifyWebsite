@@ -163,17 +163,17 @@ define([
       }
    });
 
-   User.Views.AccountInformationBar = Backbone.View.extend({
-      template: "user/accountInformationBar",
-
-      serialize: function() {
-         return {
-            model: this.model
-         };
-      }
-
-
-   });
+   User.ProfileInfosDropdown = {
+       listenClick: function() {
+          $('.profile-infos').click(function() {
+             if ($('.profile-infos .dropdown-menu:visible').length > 0) {
+                $('.profile-infos .dropdown-menu').fadeOut();
+             } else {
+                $('.profile-infos .dropdown-menu').fadeIn(100);
+             }
+          });
+       }
+   };
 
    return User;
 });
