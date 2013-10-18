@@ -109,58 +109,26 @@ define([
    });
 
    Tag.Views.Item = Backbone.View.extend({
-      template: "tag/types/item",
-      tagName: "li",
-      hoverTimeout: null,
-
-      serialize: function() {
-         return { model: this.model };
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
-      },
-
-      hoverIn: function() {
-         clearTimeout(this.hoverTimeout);
-         $(this.el).find('.popover').show();
-         app.tagStats().hover(this.model);
-      },
-
-      hoverOut: function() {
-         var that = this;
-         this.hoverTimeout = setTimeout(function() {
-            $(that.el).find('.popover').hide();
-         }, 200);
-      },
-
-      clickTag: function() {
-         app.tagStats().click(this.model);
-      },
-
-      validateTag: function() {
-         this.model.changeValidationStatus('granted');
-      },
-
-      refuseTag: function() {
-         this.model.changeValidationStatus('denied');
-      },
-
-      deleteTag: function() {
-         this.model.delete();
-      },
-
-      events: {
-         "mouseenter .tag": "hoverIn",
-         "mouseleave .tag": "hoverOut",
-         "click a[href]": "clickTag",
-         "click .validateTagButton": "validateTag",
-         "click .refuseTagButton": "refuseTag",
-         "click .deleteTagButton": "deleteTag"
+      setupPopover: function(popover, popoverArrow) {
+         if (this.model.get('y_position') > 0.5) {
+            popoverArrow.addClass('tag-popover-arrow-bottom');
+            popoverArrow.css({bottom: '-10px'});
+         } else {
+            popoverArrow.css({top: '-10px'});
+            popoverArrow.addClass('tag-popover-arrow-top');
+         }
+         if (this.model.get('x_position') > 0.5) {
+            popoverArrow.css({right: '20px'});
+         } else {
+            popoverArrow.css({left: '20px'});
+         }
+         popover.css({top: this.model.get('y_position') > 0.5 ? '-'+(popover.height() + 18)+'px' : '46px'});
+         popover.css({left: this.model.get('x_position') > 0.5 ? '-'+(popover.width() - 31)+'px' : '-8px'});
+         popover.fadeIn(100);
       }
    });
 
-   Tag.Views.PersonItem = Backbone.View.extend({
+   Tag.Views.PersonItem = Tag.Views.Item.extend({
       template: "tag/types/person",
       tagName: "li",
       hoverTimeout: null,
@@ -169,16 +137,16 @@ define([
          return { model: this.model };
       },
 
-      initialize: function() {
+      initialize: function(options) {
+         this.constructor.__super__.initialize.apply(this, [options]);
          this.listenTo(this.model, "change", this.render);
       },
 
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
-         var popover = jQuery(this.el).find('.popover');
-         popover.css({top: this.model.get('y_position') > 0.5 ? '-'+popover.height()+'px' : '30px'});
-         popover.css({left: this.model.get('x_position') > 0.5 ? '-'+popover.width()+'px' : '30px'});
-         popover.show();
+         var popover = $(this.el).find('.popover');
+         var popoverArrow = $(this.el).find('.tag-popover-arrow');
+         this.setupPopover(popover, popoverArrow);
          app.tagStats().hover(this.model);
       },
 
@@ -215,7 +183,7 @@ define([
       }
    });
 
-   Tag.Views.VenueItem = Backbone.View.extend({
+   Tag.Views.VenueItem = Tag.Views.Item.extend({
       template: "tag/types/venue",
       tagName: "li",
       hoverTimeout: null,
@@ -224,16 +192,16 @@ define([
          return { model: this.model };
       },
 
-      initialize: function() {
+      initialize: function(options) {
+         this.constructor.__super__.initialize.apply(this, [options]);
          this.listenTo(this.model, "change", this.render);
       },
 
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
-         var popover = jQuery(this.el).find('.popover');
-         popover.css({top: this.model.get('y_position') > 0.5 ? '-'+popover.height()+'px' : '30px'});
-         popover.css({left: this.model.get('x_position') > 0.5 ? '-'+popover.width()+'px' : '30px'});
-         popover.show();
+         var popover = $(this.el).find('.popover');
+         var popoverArrow = $(this.el).find('.tag-popover-arrow');
+         this.setupPopover(popover, popoverArrow);
          if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
             var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
             var mapOptions = {
@@ -289,7 +257,7 @@ define([
       }
    });
 
-   Tag.Views.ProductItem = Backbone.View.extend({
+   Tag.Views.ProductItem = Tag.Views.Item.extend({
       template: "tag/types/product",
       tagName: "li",
       hoverTimeout: null,
@@ -298,7 +266,8 @@ define([
          return { model: this.model };
       },
 
-      initialize: function() {
+      initialize: function(options) {
+         this.constructor.__super__.initialize.apply(this, [options]);
          if (this.model.has('product') && typeof this.model.get('product').attributes === 'undefined')
             this.model.set('product', new Product.Model(this.model.get('product')));
          this.listenTo(this.model, "change", this.render);
@@ -306,10 +275,9 @@ define([
 
       hoverIn: function() {
          clearTimeout(this.hoverTimeout);
-         var popover = jQuery(this.el).find('.popover');
-         popover.css({top: this.model.get('y_position') > 0.5 ? '-'+popover.height()+'px' : '30px'});
-         popover.css({left: this.model.get('x_position') > 0.5 ? '-'+popover.width()+'px' : '30px'});
-         popover.show();
+         var popover = $(this.el).find('.popover');
+         var popoverArrow = $(this.el).find('.tag-popover-arrow');
+         this.setupPopover(popover, popoverArrow);
          if (this.model.has('venue') && !$('#map' + this.model.get('id')).hasClass('loaded')) {
             var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
             var mapOptions = {
@@ -409,10 +377,6 @@ define([
                }));
             } else if (tag.get('type')  == 'product') {
                this.insertView(".tags", new Tag.Views.ProductItem({
-                  model: tag
-               }));
-            } else {
-               this.insertView(".tags", new Tag.Views.Item({
                   model: tag
                }));
             }

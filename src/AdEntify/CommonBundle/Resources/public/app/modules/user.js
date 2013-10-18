@@ -6,10 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app",
-   "modules/photos",
-   "modules/common"
-], function(app, Photos, Common) {
+   'app',
+   'modules/common'
+], function(app, Common) {
 
    var User = app.module();
 
@@ -20,7 +19,10 @@ define([
       },
 
       setup: function() {
-         this.set('fullname', this.get('firstname') + ' ' + this.get('lastname'));
+         if (!this.get('firstname'))
+            this.set('fullname', this.get('username'));
+         else
+            this.set('fullname', this.get('firstname') + ' ' + this.get('lastname'));
          this.set('link', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('id') }));
          if (this.get('facebook_id')) {
             this.set('profilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=50&height=50');
@@ -47,6 +49,7 @@ define([
       },
 
       beforeRender: function() {
+         var Photos = require('modules/photos');
          this.options.likesPhotos.each(function(photo) {
             this.insertView(".ticker-photos", new Photos.Views.TickerItem({
                model: photo

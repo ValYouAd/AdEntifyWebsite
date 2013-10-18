@@ -225,6 +225,7 @@ define([
          $('.full-photo img').load(function() {
             $('#photo').fadeIn();
          });
+         FB.XFBML.parse();
       },
 
       changeTab: function(e) {

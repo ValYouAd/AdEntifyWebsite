@@ -1,5 +1,5 @@
 <% if (model.has('authorModel')) { %>
-<a class="pull-left" href="<%= model.get('authorModel').get("profileLink") %>">
+<a class="pull-left" href="<%= model.get('authorModel').get("link") %>">
     <img class="media-object profile-picture" src="<%= model.get("authorModel").get('profilePicture') %>" alt="<%= model.get('authorModel').get('fullname') %>">
 </a>
 <% } %>

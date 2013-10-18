@@ -74,12 +74,9 @@ class TwitterProvider implements UserProviderInterface
             if (empty($email))
                 $user->setEmail('');
             $user->setTwitterId($info->id);
-            $user->setTwitterUsername($info->screen_name);
-            $user->setFirstname($info->name);
-            $user->setLastname($info->name);
-            $lastname = $user->getLastname();
-            if (empty($lastname))
-                $user->setLastname($info->name);
+            $user->setUsername($info->name);
+            $user->setTwitterUsername($info->name);
+            $user->setFirstname($info->screen_name);
             $user->addRole('ROLE_TWITTER');
             if (count($this->validator->validate($user))) {
                 throw new UsernameNotFoundException('The twitter user could not be stored');

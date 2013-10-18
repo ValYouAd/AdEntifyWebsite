@@ -436,6 +436,12 @@ footer p {
 .photo-container {
     position: relative;
 }
+.photo-counters {
+    border-right: 1px solid #e0dfdf;
+    margin-right: 4px;
+    padding-right: 8px;
+    margin-top: 8px;
+}
 .adentify-pastille {
     opacity: 0;
     -webkit-transition: opacity 0.3s ease-out;
@@ -459,9 +465,26 @@ footer p {
     width: 100%;
     height: 100%;
 }
+.photo-full {
+    max-width: 100%;
+}
 .full-photo div.photo-overlay {
     cursor: auto;
 }
+.source {
+    font-family: 'asapitalic';
+    color: #a5a6a8;
+    font-size: 14px;
+}
+.source-name {
+    font-family: 'asapbold';
+    font-size: 14px;
+}
+/*
+----------------------- */
+
+/* MODULE : Tag
+----------------------- */
 .tags {
     list-style-type: none;
     margin: 0;
@@ -473,20 +496,50 @@ footer p {
 }
 .tag {
     position: absolute;
-    background: rgba(0,0,0,0.9);
-    width: 25px;
-    height: 25px;
-    border-radius: 12.5px;
+    background-image: url('../img/sprites.png');
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: -102px -109px;
+    width: 35px;
+    height: 36px;
+}
+.tag .tag-popover-arrow {
+    position: absolute;
+}
+.tag .tag-icon {
+    position: absolute;
+}
+.tag .tag-brand-icon{
+    top: 9px;
+    left: 11px;
+}
+.tag .tag-place-icon{
+    left: 12px;
+    top: 10px;
+}
+.tag .tag-text-icon{
+    left: 12px;
+    top: 10px;
+}
+.tag .tag-user-icon{
+    left: 11px;
+    top: 10px;
+}
+.tag .tag-video-icon{
+    left: 10px;
+    top: 11px;
 }
 .unvalidateTag {
     background: rgba(255,0,0, 0.9)
 }
-.popover {
+.tag .popover {
     position: absolute;
     top: 30px;
     left: -50%;
     z-index: 2000;
     padding: 4px 6px;
+    border: 0px;
+    border-radius: 0px;
 
     -webkit-transition: opacity 0.3s ease-out;
     -moz-transition: opacity 0.3s ease-out;
@@ -494,24 +547,23 @@ footer p {
     -o-transition: opacity 0.3s ease-out;
     transition: opacity 0.3s ease-out;
 }
-    .popover-product {
-        min-width: 250px;
-    }
-        .popover-product .brand-logo {
-            max-height: 50px;
-        }
+.popover-product {
+    min-width: 250px;
+}
+.popover-product .brand-logo {
+    max-height: 50px;
+}
 .tag .map {
     width: 270px;
     height: 260px;
 }
-/*
------------------------ */
-
-/* MODULE : Tag
------------------------ */
 .brand-logo,
 .product-image {
     max-height: 100px;
+}
+.tag .tag-buttons {
+    float: right;
+    margin-bottom: 8px;
 }
 /*
 ----------------------- */
@@ -821,7 +873,8 @@ footer p {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .adentify-pastille, .red-heart-icon, .white-pencil-icon{
+
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
@@ -990,15 +1043,9 @@ footer p {
 }
 
 .linked-photos-icon{
-    background-position: -61px -114px ;
+    background-position: -57px -114px ;
     width: 41px;
     height: 41px;
-}
-
-.adentify-pastille{
-    background-position: -3px -109px ;
-    width: 53px;
-    height: 52px;
 }
 
 .red-heart-icon{
@@ -1013,6 +1060,71 @@ footer p {
     height: 16px;
 }
 
+.tag-background{
+    background-position: -102px -109px ;
+    width: 35px;
+    height: 36px;
+}
+
+.adentify-pastille{
+    background-position: 0 -108px ;
+    width: 53px;
+    height: 52px;
+}
+
+.tag-brand-icon{
+    background-position: -181px -109px ;
+    width: 12px;
+    height: 17px;
+}
+
+.tag-place-icon{
+    background-position: -163px -127px ;
+    width: 11px;
+    height: 14px;
+}
+
+.tag-text-icon{
+    background-position: -162px -108px ;
+    width: 11px;
+    height: 15px;
+}
+
+.tag-user-icon{
+    background-position: -142px -126px ;
+    width: 13px;
+    height: 13px;
+}
+
+.tag-video-icon{
+    background-position: -141px -109px ;
+    width: 16px;
+    height: 13px;
+}
+
+.tag-popover-arrow-bottom{
+    background-position: -196px -131px ;
+    width: 10px;
+    height: 10px;
+}
+
+.tag-popover-arrow-left{
+    background-position: -191px -93px ;
+    width: 10px;
+    height: 10px;
+}
+
+.tag-popover-arrow-right{
+    background-position: -179px -131px ;
+    width: 10px;
+    height: 10px;
+}
+
+.tag-popover-arrow-top{
+    background-position: -207px -93px ;
+    width: 10px;
+    height: 10px;
+}
 
 /* DONT CHANGE IT */
 .grey-share-icon {
@@ -1313,7 +1425,7 @@ label,
 ----------------------- */
 .lead {
     font-family: 'robotolight', "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 30px;
+    line-height: 1em;
 }
 .red-count {
     font-family: 'asapbold', sans-serif;
@@ -1383,6 +1495,9 @@ label,
 }
 .mb2 {
     margin-bottom: 20px;
+}
+.mb3 {
+    margin-bottom: 30px;
 }
 /* Max Height */
 .mh25 {

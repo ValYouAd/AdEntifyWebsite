@@ -93,6 +93,13 @@ class User extends BaseUser
     protected $twitterId;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="twitter_username", type="text", nullable=true)
+     */
+    private $twitterUsername;
+
+    /**
      * @Serializer\Exclude
      * @ORM\Column(name="twitter_access_token", type="string", length=255, nullable=true)
      */
