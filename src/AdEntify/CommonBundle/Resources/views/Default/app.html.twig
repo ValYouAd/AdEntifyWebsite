@@ -30,11 +30,11 @@
                 <div class="collapse navbar-collapse navbar-collapse">
 
                     <div class="row">
-                        <div class="col-sm-8 col-md-8">
+                        <div class="col-sm-8 col-md-9">
                             <a href="{{ full_root_url }}" class="logo-nav pull-left"></a>
                             <div class="pull-right" id="search-bar"></div>
                         </div>
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-4 col-md-3">
                             <div class="pull-left user-bar">
                                 <div class="user-information" class="pull-right">
                                     {% if app.user %}
@@ -107,24 +107,35 @@
 
         <div class="container">
             <div id="dashboard" class="row view-mode">
-
-                <section id="content" class="col-sm-8 col-md-8">
+                <section id="content" class="col-sm-8 col-md-9">
                     <div class="loading-gif-container">
-                        <div class="loading-gif"></div>
+                        <div class="loader rotate"></div>
                     </div>
                 </section>
 
-                <aside id="menu-right" class="col-sm-4 col-md-4">
-                    <div class="loading-gif-container">
-                        <div class="loading-gif"></div>
-                    </div>
-                    <div class="links">
-                        <a href="">{{ 'Qui sommes-nous ?'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Presse'|trans }}</a> · <a href="">{{ 'Crédits'|trans }}</a>
-                    </div>
-                    <div class="copyright">© {{ date|date('Y') }} Adentify</div>
+                <aside id="menu-right" class="col-sm-4 col-md-3">
+                    <section id="menu-right-content">
+                        <div class="loading-gif-container">
+                            <div class="loader rotate"></div>
+                        </div>
+                    </section>
+                    <div class="clearfix"></div>
+                    <footer>
+                        <div class="links">
+                            <a href="">{{ 'Qui sommes-nous ?'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Presse'|trans }}</a> · <a href="">{{ 'Crédits'|trans }}</a>
+                        </div>
+                        <div class="copyright">© {{ date|date('Y') }} Adentify</div>
+                    </footer>
                 </aside>
             </div>
-            <div class=""></div>
+
+            <div id="dashboard-left-menu" class="row">
+                <aside id="menu-left" class="col-sm-4 col-md-3">
+                    <section id="menu-left-content"></section>
+                    <div class="clearfix"></div>
+                </aside>
+                <section id="content-right" class="col-sm-8 col-md-9"></section>
+            </div>
         </div>
     </main>
 {% endblock %}

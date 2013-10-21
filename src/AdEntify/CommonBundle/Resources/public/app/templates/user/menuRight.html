@@ -2,14 +2,47 @@
     <div class="loading-gif"></div>
     <p><em class="small muted" data-i18n="profile.loadingProfile"></em></p>
 </div>
+
+<div class="block-white-background">
+    <section class="profile-details text-center">
+
+        <div class="profile-picture-wrapper">
+            <img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" />
+        </div>
+        <h1><%= model.get('fullname') %></h1>
+        <div class="follow-button"></div>
+
+        <div class="indicators-container text-center">
+            <div class="indicator">
+                <div class="indicator-value"><%= model.get("photos_count") %></div>
+                <div class="indicator-label"><%= $.t('profile.photosIndicator') %></div>
+            </div>
+            <div class="sm-separator separator"></div>
+            <div class="indicator">
+                <div class="indicator-value"><%= model.get("photos_count") %></div>
+                <div class="indicator-label"><%= $.t('profile.tagsIndicator') %></div>
+            </div>
+            <div class="lg-separator separator"></div>
+            <div class="indicator">
+                <div class="indicator-value"><%= model.get("photos_count") %></div>
+                <div class="indicator-label"><%= $.t('profile.followingIndicator') %></div>
+            </div>
+            <div class="sm-separator separator"></div>
+            <div class="indicator">
+                <div class="indicator-value"><%= model.get("photos_count") %></div>
+                <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>
+            </div>
+        </div>
+
+    </section>
+</div>
+<div class="block-white-bottom"></div>
+
+<section>
+
+</section>
+
 <div id="profile" class="mt3 fadeOut">
-    <div class="ph1 pull-left">
-        <img class="img-polaroid m1" src="https://graph.facebook.com/<%= model.get("facebook_id") %>/picture?type=normal" alt="<%= model.get("firstname") %> <%= model.get("lastname") %>" />
-    </div>
-    <p class="lead"><%= model.get("fullname") %></p>
-    <p data-i18n="[html]profile.photosCount" data-i18n-options='{"count": <%= model.get("photos_count") %>}'></p>
-    <p class="mt1 follow-button"></p>
-    <p class="mt1"><% if (model.get("facebook_id")) { %><a href="https://www.facebook.com/<%= model.get("facebook_id") %>" class="btn btn-primary btn-small">Facebook</a><% } %> <% if (model.get("twitter_username")) { %><a href="https://www.twitter.com/<%= model.get("twitter_username") %>" class="btn btn-primary btn-small">Twitter</a><% } %></p>
     <h2 class="mt2 lead" data-i18n="profile.lastLikedPhotos"></h2>
     <div class="alert-ticker-photos"></div>
     <ul class="ticker-photos"></ul>

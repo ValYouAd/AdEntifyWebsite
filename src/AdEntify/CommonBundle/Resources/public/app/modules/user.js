@@ -26,9 +26,11 @@ define([
          this.set('link', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('id') }));
          if (this.get('facebook_id')) {
             this.set('profilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=50&height=50');
+            this.set('largeProfilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=120&height=120');
          }
          else {
             this.set('profilePicture', '');
+            this.set('largeProfilePicture', '');
          }
       },
 

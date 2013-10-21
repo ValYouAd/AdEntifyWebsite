@@ -1,10 +1,9 @@
-<div class="pull-right">
+<div class="top-photo-buttons pull-right">
     <div class="favorite-button pull-right"></div>
     <div class="like-button pull-right"></div>
     <div class="pull-right photo-counters"><i class="icon red-heart-icon"></i> <span id="like-count" class="red-count"><%= model.get("likes_count") %></span></div>
 </div>
 <h1 class="lead"><%= model.get("caption") %></h1>
-<div class="clearfix"></div>
 <div class="full-photo text-center">
     <div class="photo-container">
         <% if (model.get("tags_count") > 0) { %>

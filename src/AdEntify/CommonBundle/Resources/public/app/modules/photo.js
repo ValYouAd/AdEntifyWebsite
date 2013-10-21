@@ -40,12 +40,13 @@ define([
 
       initialize: function() {
          this.listenTo(this, {
-            'change': this.updateUrl,
-            'add': this.updateUrl
+            /*'change': this.setup,*/
+            'sync': this.setup,
+            'add': this.setup
          });
       },
 
-      updateUrl: function() {
+      setup: function() {
          this.set('fullMediumUrl', this.get('medium_url'));
          this.set('fullLargeUrl', this.get('large_url'));
          this.set('fullSmallUrl', this.get('small_url'));
@@ -62,6 +63,10 @@ define([
                });
             }
             this.set('tags', tags);
+         }
+         if (this.has('owner')) {
+            var User = require('modules/user');
+            this.set('ownerModel', new User.Model(this.get('owner')));
          }
       },
 
@@ -271,6 +276,33 @@ define([
          "click .showLikesCheckbox": "checkboxShowLikes",
          "mouseup .selectOnFocus": "selectTextOnFocus",
          "click #photo-tabs a": "changeTab"
+      }
+   });
+
+   Photo.Views.RightMenu = Backbone.View.extend({
+      template: 'photo/rightMenu',
+
+      serialize: function() {
+         return {
+            model: this.model
+         }
+      },
+
+      beforeRender: function() {
+         // Favorite Button
+         if (!this.getView('.follow-button') && this.model.has('ownerModel')) {
+            var User = require('modules/user');
+            this.setView('.follow-button', new User.Views.FollowButton({
+               user: this.model.get('ownerModel')
+            }));
+         }
+      },
+
+      initialize: function() {
+         this.model = this.options.photo;
+         this.listenTo(this.options.photo, {
+            'sync': this.render
+         });
       }
    });
 

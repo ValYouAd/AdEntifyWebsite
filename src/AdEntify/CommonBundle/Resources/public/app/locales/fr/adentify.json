@@ -145,7 +145,8 @@
       "noPhoto": "La photo n'existe pas ou vous n'êtes pas autorisé à la voir.",
       "favorites": "Ajouter à mes favoris",
       "unFavorites": "Supprimer de mes favoris",
-      "deletePhoto": "Supprimer"
+      "deletePhoto": "Supprimer",
+      "linkedPhotos": "Photos liées"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
@@ -175,17 +176,19 @@
       "modalUploadText": "Vos photos sont en cours de récupération. Vous recevrez une notification en haut à droite de votre écran dès que ces dernières seront prêtes. Vous pourrez alors taguer vos photos."
    },
    "profile": {
-      "photosCount": "<label class='badge badge-success'>__count__</label> photos",
-      "photosCount_plural": "<label class='badge badge-success'>__count__</label> photos",
       "follow": "Suivre",
       "unfollow": "Ne plus suivre",
       "pageTitle": "__name__ - Profil AdEntify",
       "loadingProfile": "Chargement du profil en cours...",
-      "memberPhotos": "Photos de l'utilisateur",
       "lastLikedPhotos": "Dernières photos aimés",
       "noLikedPhotos": "L'utilisateur n'a aimé aucune photo pour le moment.",
       "errorLikedPhotos": "Impossible de récupérer les photos aimés.",
-      "viewProfile": "<a href='__link__'>Voir son profil</a>"
+      "viewProfile": "<a href='__link__'>Voir son profil</a>",
+      "pageHeading": "Activités",
+      "photosIndicator": "Photos",
+      "tagsIndicator": "Tags",
+      "followingIndicator": "Abonnements",
+      "followersIndicator": "Abonnés"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
