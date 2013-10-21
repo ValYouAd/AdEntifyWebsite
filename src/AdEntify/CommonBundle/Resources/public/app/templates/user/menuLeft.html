@@ -1,16 +1,21 @@
 <div id="loading-profile" class="loading-gif-container">
-    <div class="loading-gif"></div>
-    <p><em class="small muted" data-i18n="profile.loadingProfile"></em></p>
+    <div class="loader rotate"></div>
 </div>
 
 <div class="block-white-background">
     <section class="profile-details text-center">
+        <% if (lastPhoto) { %>
+        <div class="last-photo" style="background-image: url('<%= lastPhoto.get('fullMediumUrl') %>');"></div>
+        <div class="last-photo-spacer"></div>
+        <% } %>
 
         <div class="profile-picture-wrapper">
             <img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" />
         </div>
         <h1><%= model.get('fullname') %></h1>
+        <% if (currentUserId != model.get('id')) { %>
         <div class="follow-button"></div>
+        <% } %>
 
         <div class="indicators-container text-center">
             <div class="indicator">
@@ -19,17 +24,17 @@
             </div>
             <div class="sm-separator separator"></div>
             <div class="indicator">
-                <div class="indicator-value"><%= model.get("photos_count") %></div>
+                <div class="indicator-value"></div>
                 <div class="indicator-label"><%= $.t('profile.tagsIndicator') %></div>
             </div>
             <div class="lg-separator separator"></div>
             <div class="indicator">
-                <div class="indicator-value"><%= model.get("photos_count") %></div>
+                <div class="indicator-value"><%= model.get("followings_count") %></div>
                 <div class="indicator-label"><%= $.t('profile.followingIndicator') %></div>
             </div>
             <div class="sm-separator separator"></div>
             <div class="indicator">
-                <div class="indicator-value"><%= model.get("photos_count") %></div>
+                <div class="indicator-value"><%= model.get("followers_count") %></div>
                 <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>
             </div>
         </div>
@@ -41,9 +46,3 @@
 <section>
 
 </section>
-
-<div id="profile" class="mt3 fadeOut">
-    <h2 class="mt2 lead" data-i18n="profile.lastLikedPhotos"></h2>
-    <div class="alert-ticker-photos"></div>
-    <ul class="ticker-photos"></ul>
-</div>

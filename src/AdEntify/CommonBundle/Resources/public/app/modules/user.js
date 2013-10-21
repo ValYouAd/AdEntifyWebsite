@@ -43,21 +43,17 @@ define([
       model: User.Model
    });
 
-   User.Views.MenuRight = Backbone.View.extend({
-      template: "user/menuRight",
+   User.Views.MenuLeft = Backbone.View.extend({
+      template: "user/menuLeft",
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            lastPhoto: this.lastPhoto
+         };
       },
 
       beforeRender: function() {
-         var Photos = require('modules/photos');
-         this.options.likesPhotos.each(function(photo) {
-            this.insertView(".ticker-photos", new Photos.Views.TickerItem({
-               model: photo
-            }));
-         }, this);
-
          if (!this.getView('.follow-button')) {
             this.setView('.follow-button', new User.Views.FollowButton({
                user: this.model
@@ -75,28 +71,16 @@ define([
       },
 
       initialize: function() {
+         this.lastPhoto = null;
          this.listenTo(this.options.user, {
             "sync": this.render
          });
-         this.listenTo(this.options.likesPhotos, {
-            "sync": function(collection) {
-               if (collection.length == 0) {
-                  app.useLayout().setView('.alert-ticker-photos', new Common.Views.Alert({
-                     cssClass: Common.alertInfo,
-                     message: $.t('profile.noLikedPhotos'),
-                     showClose: true
-                  })).render();
-               }
+         this.options.photos.once('sync', function(collection) {
+            if (collection.length > 0) {
+               this.lastPhoto = collection.first();
                this.render();
-            },
-            "error": function() {
-               app.useLayout().setView('.alert-ticker-photos', new Common.Views.Alert({
-                  cssClass: Common.alertError,
-                  message: $.t('profile.errorLikedPhotos'),
-                  showClose: true
-               })).render();
             }
-         });
+         }, this);
          var that = this;
          this.model = this.options.user;
          this.options.user.fetch({

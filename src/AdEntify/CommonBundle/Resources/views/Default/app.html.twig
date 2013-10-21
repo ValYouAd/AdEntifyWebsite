@@ -105,36 +105,33 @@
 
         </nav>
 
-        <div class="container">
+        <div class="container dashboard-container">
             <div id="dashboard" class="row view-mode">
-                <section id="content" class="col-sm-8 col-md-9">
-                    <div class="loading-gif-container">
-                        <div class="loader rotate"></div>
-                    </div>
-                </section>
 
-                <aside id="menu-right" class="col-sm-4 col-md-3">
-                    <section id="menu-right-content">
+                <section id="left-pane" class="col-sm-4 col-md-3 hide"></section>
+
+                <section id="center-pane" class="col-sm-8 col-md-9">
+                    <section id="center-pane-content">
                         <div class="loading-gif-container">
                             <div class="loader rotate"></div>
                         </div>
                     </section>
-                    <div class="clearfix"></div>
+                    <div class="push"></div>
+                </section>
+
+                <section id="right-pane" class="col-sm-4 col-md-3">
+                    <section id="right-pane-content">
+                        <div class="loading-gif-container">
+                            <div class="loader rotate"></div>
+                        </div>
+                    </section>
                     <footer>
                         <div class="links">
                             <a href="">{{ 'Qui sommes-nous ?'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Presse'|trans }}</a> · <a href="">{{ 'Crédits'|trans }}</a>
                         </div>
                         <div class="copyright">© {{ date|date('Y') }} Adentify</div>
                     </footer>
-                </aside>
-            </div>
-
-            <div id="dashboard-left-menu" class="row">
-                <aside id="menu-left" class="col-sm-4 col-md-3">
-                    <section id="menu-left-content"></section>
-                    <div class="clearfix"></div>
-                </aside>
-                <section id="content-right" class="col-sm-8 col-md-9"></section>
+                </section>
             </div>
         </div>
     </main>
