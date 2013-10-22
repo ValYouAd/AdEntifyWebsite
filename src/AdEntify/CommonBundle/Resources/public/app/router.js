@@ -501,12 +501,16 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                user: new User.Model({
                   id: id
                }),
+               followings: this.users,
                photos: this.photos
             })
          }).render();
 
          this.photos.fetch({
             url: Routing.generate('api_v1_get_user_photos', { id: id })
+         });
+         this.users.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: id })
          });
       },
 

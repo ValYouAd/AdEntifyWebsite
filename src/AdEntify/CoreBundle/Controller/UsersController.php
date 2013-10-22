@@ -32,6 +32,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 use AdEntify\CoreBundle\Entity\User;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class UsersController
@@ -245,17 +246,17 @@ class UsersController extends FosRestController
             $follower = $this->container->get('security.context')->getToken()->getUser();
             $following = $this->getAction($id);
             if ($following && $follower->getId() != $following->getId() && !$this->getIsFollowingAction($id)) {
-                $follower->addFollower($following);
-                $follower->setFollowersCount($follower->getFollowersCount() + 1);
-                $following->setFollowingsCount($following->getFollowingsCount() + 1);
+                $follower->addFollowing($following);
+                $follower->setFollowingsCount($follower->getFollowingsCount() + 1);
+                $following->setFollowersCount($following->getFollowersCount() + 1);
                 $em->merge($follower);
                 $em->merge($following);
                 $em->flush();
                 return $follower;
             } else {
-                $follower->removeFollower($following);
-                $follower->setFollowersCount($follower->getFollowersCount() - 1);
-                $following->setFollowingsCount($following->getFollowingsCount() - 1);
+                $follower->removeFollowing($following);
+                $follower->setFollowingsCount($follower->getFollowingsCount() - 1);
+                $following->setFollowersCount($following->getFollowersCount() - 1);
                 $em->merge($follower);
                 $em->merge($following);
                 $em->flush();
@@ -275,7 +276,7 @@ class UsersController extends FosRestController
             $follower = $this->container->get('security.context')->getToken()->getUser();
 
             return $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
-                LEFT JOIN u.followers following WHERE u.id = :userId AND following.id = :followingId')
+                LEFT JOIN u.followings following WHERE u.id = :userId AND following.id = :followingId')
                 ->setParameters(array(
                     'userId' => $follower->getId(),
                     'followingId' => $id
@@ -366,5 +367,25 @@ class UsersController extends FosRestController
             }
         } else
             throw new HttpException(403, 'Forbidden');
+    }
+
+    /**
+     * @View()
+     */
+    public function getFollowingsAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+        if ($user) {
+            return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+            LEFT JOIN user.followers follower WHERE follower.id = :userId')
+                ->setParameters(array(
+                    'userId' => $user->getId()
+                ))
+                ->setMaxResults(10)
+                ->getResult();
+        } else {
+            throw new NotFoundHttpException('User not found');
+        }
     }
 }

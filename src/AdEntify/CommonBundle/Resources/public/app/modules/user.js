@@ -54,6 +54,11 @@ define([
       },
 
       beforeRender: function() {
+         if (!this.getView('.followings')) {
+            this.setView('.followings', new User.Views.List({
+               users: this.followings
+            }));
+         }
          if (!this.getView('.follow-button')) {
             this.setView('.follow-button', new User.Views.FollowButton({
                user: this.model
@@ -72,9 +77,8 @@ define([
 
       initialize: function() {
          this.lastPhoto = null;
-         this.listenTo(this.options.user, {
-            "sync": this.render
-         });
+         this.followings = this.options.followings;
+         this.listenTo(this.options.user, 'sync', this.render);
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {
                this.lastPhoto = collection.first();
@@ -92,6 +96,42 @@ define([
                });
             }
          });
+      }
+   });
+
+   User.Views.List = Backbone.View.extend({
+      template: "user/list",
+
+      serialize: function() {
+         return {
+            visible: this.visible
+         };
+      },
+
+      initialize: function() {
+         var that = this;
+         this.listenTo(this.options.users, { 'sync': this.render });
+      },
+
+      beforeRender: function() {
+         this.options.users.each(function(user) {
+            this.insertView('.users', new User.Views.Item({
+               model: user
+            }));
+         }, this);
+      }
+   });
+
+   User.Views.Item = Backbone.View.extend({
+      template: 'user/item',
+      tagName: 'li class="user-item"',
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, 'change', this.render);
       }
    });
 

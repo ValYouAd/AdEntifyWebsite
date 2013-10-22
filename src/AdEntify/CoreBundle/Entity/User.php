@@ -164,8 +164,8 @@ class User extends BaseUser
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="followers")
      * @ORM\JoinTable(name="users_followings",
-     *      joinColumns={@ORM\JoinColumn(name="following_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="follower_id", referencedColumnName="id", unique=true)})
+     *      joinColumns={@ORM\JoinColumn(name="follower_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="following_id", referencedColumnName="id", unique=true)})
      */
     private $followings;
 
