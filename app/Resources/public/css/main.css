@@ -53,6 +53,16 @@
 
 }
 @font-face {
+    font-family: 'asapbold_italic';
+    src: url('../../../fonts/asap-bolditalic-webfont.eot');
+    src: url('../../../fonts/asap-bolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../../../fonts/asap-bolditalic-webfont.woff') format('woff'),
+    url('../../../fonts/asap-bolditalic-webfont.ttf') format('truetype'),
+    url('../../../fonts/asap-bolditalic-webfont.svg#asapbold_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
     font-family: 'robotolight';
     src: url('../fonts/Roboto-Light-webfont.eot');
     src: url('../fonts/Roboto-Light-webfont.eot?#iefix') format('embedded-opentype'),
@@ -483,7 +493,8 @@ html,body {
     padding-right: 8px;
     margin-top: 8px;
 }
-.adentify-pastille {
+.adentify-pastille,
+.adentify-pastille-small {
     /*opacity: 0;
     -webkit-transition: opacity 0.3s ease-out;
     -moz-transition: opacity 0.3s ease-out;
@@ -814,6 +825,71 @@ html,body {
 /*
 ----------------------- */
 
+/* Brand
+----------------------- */
+.brand-heading {
+    margin: 35px 0px;
+}
+.brand-heading h1 {
+    font-family: 'pacificoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 36px;
+    font-weight: normal;
+    color: #2c2c2e;
+    padding: 35px 0px;
+}
+#brands .brand-logo {
+    max-height: 100px;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+#brands .brand-logo:hover {
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+}
+#brands {
+   border-top: 1px solid #e0dfdf;
+}
+#brands li {
+    margin: 0px;
+    padding: 30px;
+    border-style: solid;
+    border-color: #e0dfdf;
+    border-width: 0px 1px 1px 0px;
+}
+#brands .thumbnail {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+}
+#brands .tagged-count {
+    font-family: 'asapbold_italic', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    color: #ff3434;
+    position: absolute;
+    bottom: -30px;
+    opacity: 0;
+    -webkit-transition: opacity 0.4s ease-out;
+    -moz-transition: opacity 0.4s ease-out;
+    -ms-transition: opacity 0.4s ease-out;
+    -o-transition: opacity 0.4s ease-out;
+    transition: opacity 0.4s ease-out;
+    text-decoration: none;
+    width: 100%;
+}
+#brands .tagged-count .bold {
+    font-family: 'asapbold', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+}
+#brands li:hover .tagged-count {
+    opacity: 1;
+    text-decoration: none;
+}
+/* End Brand
+----------------------- */
+
 
 /* Common Templates
 ----------------------- */
@@ -943,7 +1019,7 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-pastille-small{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
@@ -1201,6 +1277,12 @@ html,body {
     height: 40px;
 }
 
+.adentify-pastille-small{
+    background-position: -261px -100px ;
+    width: 35px;
+    height: 34px;
+}
+
 
 /* DONT CHANGE IT */
 .grey-share-icon {
@@ -1363,8 +1445,8 @@ label,
         color: #606366;
         font-weight: normal;
     }
-.user-hr {
-    background: url('../img/horizontal-user-separator.png') repeat-x;
+.menu-left-hr {
+    background: url('../img/horizontal-menu-left-separator.png') repeat-x;
     height: 2px;
     width: 100%;
 }
@@ -1509,14 +1591,18 @@ label,
 .link-grey-whith-red-arrow:hover {
     color: #b7babe;
 }
+.followers .user-item,
 .followings .user-item {
     padding: 4px 10px;
 }
+.followers .user-item .profile-picture,
 .followings .user-item .profile-picture {
     max-height: 40px;
     vertical-align: middle;
     margin-right: 10px;
 }
+.followers .user-item a,
+.followers .user-item a:hover,
 .followings .user-item a,
 .followings .user-item a:hover {
     font-family: 'robotobold', sans-serif;

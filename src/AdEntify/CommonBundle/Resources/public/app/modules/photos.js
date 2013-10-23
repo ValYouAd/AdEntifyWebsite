@@ -90,7 +90,7 @@ define([
       },
 
       events: {
-         'click .adentify-pastille': 'clickPastille',
+         'click .adentify-pastille-small': 'clickPastille',
          'click .deletePhotoButton': 'deletePhoto',
          'mouseenter .photo-container': 'showTags',
          'mouseleave .photo-container': 'hideTags'

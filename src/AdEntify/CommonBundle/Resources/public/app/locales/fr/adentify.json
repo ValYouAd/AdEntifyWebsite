@@ -1,9 +1,10 @@
 {
    "brand": {
-      "pageTitle": "Les marques référencées sur AdEntify",
+      "pageTitle": "Marques",
       "pageSubTitle": "__count__ marque",
       "pageSubTitle_plural": "__count__ marques",
-      "tagged": "Taguée __count__ fois",
+      "tagged": "__count__ <span class='bold'>fois taguée</span>",
+      "tagged_plural": "__count__ <span class='bold'>fois taguées</span>",
       "titleViewBrand": "Derniers tags de la marque",
       "errorPhotosLoading": "Erreur lors de la récupération des photos de la marque.",
       "noPhotos": "Aucune photo pour cette marque.",

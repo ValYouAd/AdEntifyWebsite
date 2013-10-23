@@ -426,7 +426,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       viewBrands: function() {
-         this.reset();
+         this.reset(false, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new Brand.Views.List({
@@ -738,15 +739,37 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }
 
          if (leftActive && !rightActive) {
-            if (!$('#right-pane').hasClass('hide'))
-               $('#right-pane').addClass('hide');
+            this.changeVisiblityRightPane(false);
+            this.changeVisiblityLeftPane(true);
+         } else if (rightActive && !leftActive) {
+            this.changeVisiblityLeftPane(false);
+            this.changeVisiblityRightPane(true);
+         } else if (leftActive && rightActive) {
+            this.changeVisiblityLeftPane(true);
+            this.changeVisiblityRightPane(true);
+         } else {
+            this.changeVisiblityLeftPane(false);
+            this.changeVisiblityRightPane(false);
+         }
+      },
+
+      changeVisiblityLeftPane: function(show) {
+         if (show) {
             if ($('#left-pane').hasClass('hide'))
                $('#left-pane').removeClass('hide');
-         } else if (rightActive && !leftActive) {
+         } else {
             if (!$('#left-pane').hasClass('hide'))
                $('#left-pane').addClass('hide');
+         }
+      },
+
+      changeVisiblityRightPane: function(show) {
+         if (show) {
             if ($('#right-pane').hasClass('hide'))
                $('#right-pane').removeClass('hide');
+         } else {
+            if (!$('#right-pane').hasClass('hide'))
+               $('#right-pane').addClass('hide');
          }
       },
 

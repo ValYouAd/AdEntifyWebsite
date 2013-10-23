@@ -9,16 +9,6 @@
     font-style: normal;
 
 }
-@font-face {
-    font-family: 'asapbold_italic';
-    src: url('../../fonts/asap-bolditalic-webfont.eot');
-    src: url('../../fonts/asap-bolditalic-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../../fonts/asap-bolditalic-webfont.woff') format('woff'),
-    url('../../fonts/asap-bolditalic-webfont.ttf') format('truetype'),
-    url('../../fonts/asap-bolditalic-webfont.svg#asapbold_italic') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
 
 html, body {
     background: #FFFFFF;

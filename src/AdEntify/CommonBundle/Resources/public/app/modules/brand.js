@@ -36,7 +36,7 @@ define([
 
    Brand.Views.Item = Backbone.View.extend({
       template: "brand/item",
-      tagName: "li class='thumbnail span3'",
+      tagName: "li class='col-xs-6 col-sm-4 col-md-2'",
 
       serialize: function() {
          return { model: this.model };
