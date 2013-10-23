@@ -109,6 +109,11 @@ define([
    });
 
    Tag.Views.Item = Backbone.View.extend({
+
+      initialize: function() {
+         this.popoverDesactivated = this.options.desactivatePopover;
+      },
+
       setupPopover: function(popover, popoverArrow) {
          if (this.model.get('y_position') > 0.5) {
             popoverArrow.addClass('tag-popover-arrow-bottom');
@@ -143,18 +148,22 @@ define([
       },
 
       hoverIn: function() {
-         clearTimeout(this.hoverTimeout);
-         var popover = $(this.el).find('.popover');
-         var popoverArrow = $(this.el).find('.tag-popover-arrow');
-         this.setupPopover(popover, popoverArrow);
-         app.tagStats().hover(this.model);
+         if (!this.popoverDesactivated) {
+            clearTimeout(this.hoverTimeout);
+            var popover = $(this.el).find('.popover');
+            var popoverArrow = $(this.el).find('.tag-popover-arrow');
+            this.setupPopover(popover, popoverArrow);
+            app.tagStats().hover(this.model);
+         }
       },
 
       hoverOut: function() {
-         var that = this;
-         this.hoverTimeout = setTimeout(function() {
-            $(that.el).find('.popover').hide();
-         }, 200);
+         if (!this.popoverDesactivated) {
+            var that = this;
+            this.hoverTimeout = setTimeout(function() {
+               $(that.el).find('.popover').hide();
+            }, 200);
+         }
       },
 
       clickTag: function() {
@@ -198,37 +207,41 @@ define([
       },
 
       hoverIn: function() {
-         clearTimeout(this.hoverTimeout);
-         var popover = $(this.el).find('.popover');
-         var popoverArrow = $(this.el).find('.tag-popover-arrow');
-         this.setupPopover(popover, popoverArrow);
-         if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
-            var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
-            var mapOptions = {
-               zoom:  14,
-               center: latLng,
-               scrollwheel: false,
-               navigationControl: false,
-               mapTypeControl: false,
-               scaleControl: false,
-               draggable: false,
-               mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
-            new google.maps.Marker({
-               position: latLng,
-               map: gMap
-            });
-            $('#map' + this.model.get('id')).addClass('loaded');
+         if (!this.popoverDesactivated) {
+            clearTimeout(this.hoverTimeout);
+            var popover = $(this.el).find('.popover');
+            var popoverArrow = $(this.el).find('.tag-popover-arrow');
+            this.setupPopover(popover, popoverArrow);
+            if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
+               var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
+               var mapOptions = {
+                  zoom:  14,
+                  center: latLng,
+                  scrollwheel: false,
+                  navigationControl: false,
+                  mapTypeControl: false,
+                  scaleControl: false,
+                  draggable: false,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+               };
+               var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
+               new google.maps.Marker({
+                  position: latLng,
+                  map: gMap
+               });
+               $('#map' + this.model.get('id')).addClass('loaded');
+            }
+            app.tagStats().hover(this.model);
          }
-         app.tagStats().hover(this.model);
       },
 
       hoverOut: function() {
-         var that = this;
-         this.hoverTimeout = setTimeout(function() {
-            $(that.el).find('.popover').hide();
-         }, 200);
+         if (!this.popoverDesactivated) {
+            var that = this;
+            this.hoverTimeout = setTimeout(function() {
+               $(that.el).find('.popover').hide();
+            }, 200);
+         }
       },
 
       clickTag: function() {
@@ -274,37 +287,41 @@ define([
       },
 
       hoverIn: function() {
-         clearTimeout(this.hoverTimeout);
-         var popover = $(this.el).find('.popover');
-         var popoverArrow = $(this.el).find('.tag-popover-arrow');
-         this.setupPopover(popover, popoverArrow);
-         if (this.model.has('venue') && !$('#map' + this.model.get('id')).hasClass('loaded')) {
-            var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
-            var mapOptions = {
-               zoom:  14,
-               center: latLng,
-               scrollwheel: false,
-               navigationControl: false,
-               mapTypeControl: false,
-               scaleControl: false,
-               draggable: false,
-               mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
-            new google.maps.Marker({
-               position: latLng,
-               map: gMap
-            });
-            $('#map' + this.model.get('id')).addClass('loaded');
+         if (!this.popoverDesactivated) {
+            clearTimeout(this.hoverTimeout);
+            var popover = $(this.el).find('.popover');
+            var popoverArrow = $(this.el).find('.tag-popover-arrow');
+            this.setupPopover(popover, popoverArrow);
+            if (this.model.has('venue') && !$('#map' + this.model.get('id')).hasClass('loaded')) {
+               var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
+               var mapOptions = {
+                  zoom:  14,
+                  center: latLng,
+                  scrollwheel: false,
+                  navigationControl: false,
+                  mapTypeControl: false,
+                  scaleControl: false,
+                  draggable: false,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+               };
+               var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
+               new google.maps.Marker({
+                  position: latLng,
+                  map: gMap
+               });
+               $('#map' + this.model.get('id')).addClass('loaded');
+            }
+            app.tagStats().hover(this.model);
          }
-         app.tagStats().hover(this.model);
       },
 
       hoverOut: function() {
-         var that = this;
-         this.hoverTimeout = setTimeout(function() {
-            $(that.el).find('.popover').hide();
-         }, 200);
+         if (!this.popoverDesactivated) {
+            var that = this;
+            this.hoverTimeout = setTimeout(function() {
+               $(that.el).find('.popover').hide();
+            }, 200);
+         }
       },
 
       clickTag: function() {
@@ -346,6 +363,7 @@ define([
          var that = this;
          this.visible = typeof this.options.visible === 'undefined' ? false : this.options.visible;
          this.tags = typeof this.options.tags === 'undefined' ? new Tag.Collection() : this.options.tags;
+         this.desactivatePopover = typeof this.options.desactivatePopover === 'undefined' ? false : true;
          this.photo = this.options.photo;
          this.listenTo(this.tags, {
             'add': this.render,
@@ -369,15 +387,18 @@ define([
          this.tags.each(function(tag) {
             if (tag.get('type') == 'place') {
                this.insertView(".tags", new Tag.Views.VenueItem({
-                  model: tag
+                  model: tag,
+                  desactivatePopover: this.desactivatePopover
                }));
             } else if (tag.get('type')  == 'person') {
                this.insertView(".tags", new Tag.Views.PersonItem({
-                  model: tag
+                  model: tag,
+                  desactivatePopover: this.desactivatePopover
                }));
             } else if (tag.get('type')  == 'product') {
                this.insertView(".tags", new Tag.Views.ProductItem({
-                  model: tag
+                  model: tag,
+                  desactivatePopover: this.desactivatePopover
                }));
             }
          }, this);

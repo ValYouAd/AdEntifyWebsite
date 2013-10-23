@@ -1,21 +1,21 @@
 <div class="photo medium">
     <div class="photo-container">
-        <!--<% if (model.get("tags_count") > 0) { %>
+        <% if (model.get("tags_count") > 0) { %>
         <div class="adentify-pastille"></div>
-        <% } %>-->
-        <div class="photo-overlay">
-            <!--<div class="tags-container"></div>-->
-            <div class="caption"><%= model.get('caption') %></div>
+        <% } %>
+        <a href="<%= model.get('link') %>" class="photo-overlay">
+            <div class="tags-container"></div>
+            <!--<div class="caption"><%= model.get('caption') %></div>
             <div class="counters">
                 <i class="icon white-heart-icon"></i> <%= model.get("likes_count") %> <i class="icon white-comment-icon"></i> <%= model.get("comments_count") %>
-            </div>
+            </div>-->
             <div class="photo-buttons">
                 <% if (model.isOwner() && model.get('tags_count') == 0) { %>
                 <button data-bypass="" class="btn btn-danger btn-xs deletePhotoButton"><i class="glyphicon glyphicon-remove"></i> <span data-i18n="photo.deletePhoto"></span></button>
                 <% } %>
             </div>
-            <a href="<%= model.get('link') %>" class="show-photo-icon view-photo"></a>
-        </div>
+            <!--<a href="<%= model.get('link') %>" class="show-photo-icon view-photo"></a>-->
+        </a>
         <img src="<%= model.get("fullMediumUrl") %>" data-id="<%= model.get("id") %>" data-type="medium"
             data-medium-width="<%= model.get("medium_width") %>" data-large-width="<%= model.get("large_width") %>"
             data-large-url="<%= model.get("fullLargeUrl") %>" />

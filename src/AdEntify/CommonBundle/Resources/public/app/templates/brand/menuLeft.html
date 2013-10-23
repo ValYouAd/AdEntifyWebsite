@@ -1,7 +1,3 @@
-<div id="loading-profile" class="loading-gif-container">
-    <div class="loader rotate"></div>
-</div>
-
 <aside class="user-aside">
     <div class="block-white-background">
         <div class="profile-details text-center">
@@ -28,11 +24,6 @@
                 </div>
                 <div class="lg-separator separator"></div>
                 <div class="indicator">
-                    <div class="indicator-value"><%= model.get("followings_count") %></div>
-                    <div class="indicator-label"><%= $.t('profile.followingIndicator') %></div>
-                </div>
-                <div class="sm-separator separator"></div>
-                <div class="indicator">
                     <div class="indicator-value"><%= model.get("followers_count") %></div>
                     <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>
                 </div>
@@ -44,9 +35,9 @@
 
     <hr class="user-hr">
 
-    <h2>Ses abonnés</h2>
+    <h2><%= $.t('brand.followersTitle') %></h2>
     <div class="block-white-background">
-        <div class="followings"></div>
-        <!--<a href="#" class="link-grey-whith-red-arrow">Voir tous ses abonnements</a>-->
+        <div class="followers"></div>
+        <a href="#" class="link-grey-whith-red-arrow"><%= $.t('brand.moreFollowers') %></a>
     </div>
 </aside>

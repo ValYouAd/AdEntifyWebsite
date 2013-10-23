@@ -9,8 +9,6 @@
 
 namespace AdEntify\CoreBundle\Entity;
 
-use AdEntify\CoreBundle\Model\Thumb;
-use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -186,6 +184,24 @@ class Brand
      */
     private $costPerTag = 0;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Category", inversedBy="brands")
+     */
+    private $categories;
+
+    /**
+     * @Serializer\Exclude
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="followedBrands")
+     */
+    private $followers;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="followers_count", type="integer")
+     */
+    private $followersCount = 0;
+
     private $logoUrl;
 
     public function __construct()
@@ -194,6 +210,8 @@ class Brand
         $this->venues = new \Doctrine\Common\Collections\ArrayCollection();
         $this->itemTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->followers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -549,14 +567,14 @@ class Brand
         return $this->websiteUrl;
     }
 
-    public function addTag(\AdEntify\CoreBundle\Entity\Tag $tag)
+    public function addTag(Tag $tag)
     {
         $this->tags[] = $tag;
         $tag->setBrand($this);
         return $this;
     }
 
-    public function removeTag(\AdEntify\CoreBundle\Entity\Tag $tag)
+    public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
         $tag->setBrand(null);
@@ -565,5 +583,77 @@ class Brand
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * @param Category $category
+     * @return $this
+     */
+    public function addCategory(Category $category)
+    {
+        $category->addBrand($this);
+        $this->categories[] = $category;
+        return $this;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function removeCategory(Category $category)
+    {
+        $category->removeBrand($this);
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addFollower(User $user)
+    {
+        $user->addFollowedBrand($this);
+        $this->followers[] = $user;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function removeFollower(User $user)
+    {
+        $user->removeFollowedBrand($this);
+        $this->followers->removeElement($user);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getFollowers()
+    {
+        return $this->followers;
+    }
+
+    /**
+     * @param int $followersCount
+     */
+    public function setFollowersCount($followersCount)
+    {
+        $this->followersCount = $followersCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFollowersCount()
+    {
+        return $this->followersCount;
     }
 }

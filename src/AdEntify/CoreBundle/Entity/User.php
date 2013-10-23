@@ -253,6 +253,19 @@ class User extends BaseUser
      */
     private $clients;
 
+    /**
+     * @Serializer\Exclude
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Brand", mappedBy="followers")
+     */
+    private $followedBrands;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="followed_brands_count", type="integer")
+     */
+    private $followedBrandsCount = 0;
+
     public function __construct()
     {
         parent::__construct();
@@ -270,6 +283,7 @@ class User extends BaseUser
         $this->brandTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->followedBrands = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -890,5 +904,37 @@ class User extends BaseUser
     public function getTagsCount()
     {
         return $this->tagsCount;
+    }
+
+    /**
+     * @param int $followedBrandsCount
+     */
+    public function setFollowedBrandsCount($followedBrandsCount)
+    {
+        $this->followedBrandsCount = $followedBrandsCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFollowedBrandsCount()
+    {
+        return $this->followedBrandsCount;
+    }
+
+    public function addFollowedBrand(Brand $brand)
+    {
+        $this->followedBrands[] = $brand;
+        return $this;
+    }
+
+    public function removeFollowedBrand(Brand $brand)
+    {
+        $this->followedBrands->removeElement($brand);
+    }
+
+    public function getFollowedBrands()
+    {
+        return $this->followedBrands;
     }
 }

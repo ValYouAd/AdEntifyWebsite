@@ -177,7 +177,8 @@ define([
             if (!this.tagsView) {
                this.tagsView = new Tag.Views.List({
                   tags: this.model.get('tags'),
-                  photo: this.model
+                  photo: this.model,
+                  visible: true
                });
                this.listenTo(this.tagsView, 'tag:remove', function() {
                   // Update tags count
@@ -237,17 +238,25 @@ define([
          $(e.currentTarget).tab('show');
       },
 
-      showTags: function() {
+      clickPastille: function() {
          $tags = $(this.el).find('.tags');
-         if ($tags.length > 0) {
-            if ($tags.data('state') == 'hidden') {
-               $tags.fadeIn('fast');
-               $tags.attr('data-state', 'visible');
-            } else {
-               $tags.fadeOut('fast');
-               $tags.attr('data-state', 'hidden');
-            }
+         if ($tags.data('always-visible') == 'no') {
+            $tags.data('always-visible', 'yes');
+            this.showTags();
+         } else {
+            $tags.data('always-visible', 'no');
+            this.hideTags();
          }
+      },
+
+      showTags: function() {
+         $(this.el).find('.tags').stop().fadeIn(100);
+      },
+
+      hideTags: function() {
+         $tags = $(this.el).find('.tags');
+         if ($tags.data('always-visible') == 'no')
+            $(this.el).find('.tags').stop().fadeOut('fast');
       },
 
       checkboxShowTags: function(e) {
@@ -270,7 +279,9 @@ define([
       },
 
       events: {
-         "click .adentify-pastille": "showTags",
+         'click .adentify-pastille': 'clickPastille',
+         'mouseenter .photo-container': 'showTags',
+         'mouseleave .photo-container': 'hideTags',
          "click .showTagsCheckbox": "checkboxShowTags",
          "click .showLikesCheckbox": "checkboxShowLikes",
          "mouseup .selectOnFocus": "selectTextOnFocus",

@@ -74,7 +74,6 @@ define([
       },
 
       initialize: function() {
-         var that = this;
          this.listenTo(this.options.brands, {
             "sync": this.render
          });
@@ -93,16 +92,16 @@ define([
       },
 
       beforeRender: function() {
-         if (!this.getView('.followings')) {
-            this.setView('.followings', new User.Views.List({
-               users: this.followings
+         if (!this.getView('.followers')) {
+            this.setView('.followers', new User.Views.List({
+               users: this.followers
             }));
          }
-         /*if (!this.getView('.follow-button')) {
+         if (!this.getView('.follow-button')) {
             this.setView('.follow-button', new Brand.Views.FollowButton({
-               user: this.model
+               brand: this.model
             }));
-         }*/
+         }
       },
 
       afterRender: function() {
@@ -111,7 +110,7 @@ define([
 
       initialize: function() {
          this.lastPhoto = null;
-         this.followings = this.options.followings;
+         this.followers = this.options.followers;
          this.listenTo(this.model, 'sync', this.render);
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {
@@ -119,6 +118,63 @@ define([
                this.render();
             }
          }, this);
+      }
+   });
+
+   Brand.Views.FollowButton = Backbone.View.extend({
+      template: 'brand/followButton',
+      added: false,
+
+      serialize: function() {
+         return {
+            follow: this.follow
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      initialize: function() {
+         if (this.options.brand) {
+            this.brand = this.options.brand;
+            var that = this;
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_brand_is_following', { 'id': that.options.brand.get('id') }),
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     success: function(response) {
+                        that.follow = response;
+                        that.render();
+                     }
+                  });
+               }
+            });
+         }
+      },
+
+      events: {
+         'click .follow-button': 'followButtonClick'
+      },
+
+      followButtonClick: function() {
+         // Favorite photo
+         var that = this;
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_post_brand_follower', { id: that.brand.get('id') }),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  type: 'POST',
+                  data: { brandId: that.brand.get('id') }
+               });
+            }
+         });
+         this.follow = !this.follow;
+
+         this.render();
+         this.trigger('follow', this.follow);
       }
    });
 

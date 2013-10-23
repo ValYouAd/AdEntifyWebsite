@@ -71,9 +71,17 @@ class Category
      */
     private $photos;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Brand", mappedBy="categories", cascade={"persist"})
+     *
+     * @Serializer\Exclude
+     */
+    private $brands;
+
     public function __construct()
     {
         $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->brands = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -166,5 +174,21 @@ class Category
     public function getPhotos()
     {
         return $this->photos;
+    }
+
+    public function addBrand(Brand $brand)
+    {
+        $this->brands[] = $brand;
+        return $this;
+    }
+
+    public function removeBrand(Brand $brand)
+    {
+        $this->brands->removeElement($brand);
+    }
+
+    public function getBrands()
+    {
+        return $this->brands;
     }
 }

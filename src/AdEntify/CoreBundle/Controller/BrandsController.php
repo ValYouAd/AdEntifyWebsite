@@ -26,6 +26,8 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
 use AdEntify\CoreBundle\Entity\Brand;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Class BrandsController
@@ -104,6 +106,45 @@ class BrandsController extends FosRestController
     }
 
     /**
+     * @View()
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     *
+     * @param $slug
+     * @param $page
+     * @param $limit
+     * @return mixed
+     */
+    public function getFollowersAction($slug, $page = 1, $limit = 10)
+    {
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+            JOIN user.followedBrands brand WHERE brand.slug = :slug ORDER BY user.followersCount DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->setParameters(array(
+                'slug' => $slug
+            ));
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $pagination = null;
+        $users = null;
+        $count = count($paginator);
+        if ($count > 0) {
+            $users = array();
+            foreach($paginator as $user) {
+                $users[] = $user;
+            }
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_brand_followers', array(
+                'slug' => $slug
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($users, $pagination);
+    }
+
+    /**
      * @param $slug
      * @return ArrayCollection|null
      *
@@ -122,7 +163,7 @@ class BrandsController extends FosRestController
         if ($brand) {
             return $brand->getProducts();
         } else {
-            return null;
+            throw new NotFoundHttpException('Brand not found');
         }
     }
 
@@ -132,6 +173,9 @@ class BrandsController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
      *
+     * @param $slug
+     * @param $page
+     * @param $limit
      * @return ArrayCollection|null
      */
     public function getPhotosAction($slug, $page = 1, $limit = 20)

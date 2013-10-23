@@ -163,8 +163,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
-               tagged: true,
-               title: $.t('category.titleAll')
+               tagged: true
             }),
             "#right-pane-content": new Photos.Views.Ticker({
                tickerPhotos: this.tickerPhotos
@@ -440,6 +439,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
       viewBrand: function(slug) {
          this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          // Get brand info
          var brand = new Brand.Model({
@@ -453,7 +453,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }),
             "#left-pane": new Brand.Views.MenuLeft({
                model: brand,
-               followings: this.users,
+               followers: this.users,
                photos: this.photos
             })
          }).render();
@@ -475,7 +475,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             success: function() {
                app.trigger('domchange:title', $.t('brand.pageTitleViewBrand', { name: brand.get('name') }));
             }
-         })
+         });
+         this.users.fetch({
+            url: Routing.generate('api_v1_get_brand_followers', { slug: slug })
+         });
       },
 
       mySettings: function() {
@@ -489,7 +492,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
       profile: function(id) {
          this.reset(true, false);
-
          $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({

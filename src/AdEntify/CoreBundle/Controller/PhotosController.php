@@ -106,7 +106,6 @@ class PhotosController extends FosRestController
 
         $query = $em->createQuery($sql)
             ->setParameters($parameters)
-            ->setFirstResult(0)
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 

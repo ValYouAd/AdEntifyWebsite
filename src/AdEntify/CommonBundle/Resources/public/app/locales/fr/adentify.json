@@ -4,11 +4,13 @@
       "pageSubTitle": "__count__ marque",
       "pageSubTitle_plural": "__count__ marques",
       "tagged": "Taguée __count__ fois",
-      "titleViewBrand": "Photos de la marque",
+      "titleViewBrand": "Derniers tags de la marque",
       "errorPhotosLoading": "Erreur lors de la récupération des photos de la marque.",
       "noPhotos": "Aucune photo pour cette marque.",
-      "pageTitleViewBrand": "Photos de la marque __name__ - AdEntify",
-      "viewPhotos": "Voir les photos"
+      "pageTitleViewBrand": "Photos __name__ - AdEntify",
+      "viewPhotos": "Voir les photos",
+      "followersTitle": "Ses abonnés",
+      "moreFollowers": "Voir tous les fans"
    },
    "photos": {
       "pageTitleTagged": "Photos taguées - AdEntify",
@@ -188,7 +190,11 @@
       "photosIndicator": "Photos",
       "tagsIndicator": "Tags",
       "followingIndicator": "Abonnements",
-      "followersIndicator": "Abonnés"
+      "followersIndicator": "Abonnés",
+      "followersTitle": "Ses abonnés",
+      "moreFollowers": "Voir tous ses abonnés",
+      "followingsTitle": "Ses abonnements",
+      "moreFollowings": "Voir tous ses abonnements"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
