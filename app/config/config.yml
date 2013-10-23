@@ -183,6 +183,10 @@ services:
             facebookSdk: "@fos_facebook.api"
         tags:
             - { name: fos_oauth_server.grant_extension, uri: %facebook_grant_extension_uri% }
+    adEntify.twig.adentify_extension:
+        class: AdEntify\BackofficeBundle\Twig\AdEntifyExtension
+        tags:
+            - { name: twig.extension }
 
 # General parameters
 parameters:

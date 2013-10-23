@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app"
-], function(app) {
+   'app',
+   'modules/user'
+], function(app, User) {
 
    var Brand = app.module();
 
@@ -81,19 +82,43 @@ define([
       }
    });
 
-   Brand.Views.Ticker = Backbone.View.extend({
-      template: "brand/ticker",
+   Brand.Views.MenuLeft = Backbone.View.extend({
+      template: 'brand/menuLeft',
 
       serialize: function() {
-         return { model : this.options.brand }
+         return {
+            model: this.model,
+            lastPhoto: this.lastPhoto
+         };
       },
 
-      initialize: function() {
-         this.listenTo(this.options.brand, "sync", this.render);
+      beforeRender: function() {
+         if (!this.getView('.followings')) {
+            this.setView('.followings', new User.Views.List({
+               users: this.followings
+            }));
+         }
+         /*if (!this.getView('.follow-button')) {
+            this.setView('.follow-button', new Brand.Views.FollowButton({
+               user: this.model
+            }));
+         }*/
       },
 
       afterRender: function() {
          $(this.el).i18n();
+      },
+
+      initialize: function() {
+         this.lastPhoto = null;
+         this.followings = this.options.followings;
+         this.listenTo(this.model, 'sync', this.render);
+         this.options.photos.once('sync', function(collection) {
+            if (collection.length > 0) {
+               this.lastPhoto = collection.first();
+               this.render();
+            }
+         }, this);
       }
    });
 

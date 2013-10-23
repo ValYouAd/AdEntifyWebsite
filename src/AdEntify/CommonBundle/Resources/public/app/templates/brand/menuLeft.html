@@ -1,0 +1,52 @@
+<div id="loading-profile" class="loading-gif-container">
+    <div class="loader rotate"></div>
+</div>
+
+<aside class="user-aside">
+    <div class="block-white-background">
+        <div class="profile-details text-center">
+            <% if (lastPhoto) { %>
+            <div class="last-photo" style="background-image: url('<%= lastPhoto.get('fullMediumUrl') %>');"></div>
+            <div class="last-photo-spacer"></div>
+            <% } %>
+
+            <div class="profile-picture-wrapper">
+                <img src="<%= model.get('small_logo_url') %>" alt="<%= model.get('name') %>" class="profile-picture" />
+            </div>
+            <h1><%= model.get('name') %></h1>
+            <div class="follow-button"></div>
+
+            <div class="indicators-container text-center">
+                <div class="indicator">
+                    <div class="indicator-value"><%= model.get("photos_count") %></div>
+                    <div class="indicator-label"><%= $.t('profile.photosIndicator') %></div>
+                </div>
+                <div class="sm-separator separator"></div>
+                <div class="indicator">
+                    <div class="indicator-value"><%= model.get("tags_count") %></div>
+                    <div class="indicator-label"><%= $.t('profile.tagsIndicator') %></div>
+                </div>
+                <div class="lg-separator separator"></div>
+                <div class="indicator">
+                    <div class="indicator-value"><%= model.get("followings_count") %></div>
+                    <div class="indicator-label"><%= $.t('profile.followingIndicator') %></div>
+                </div>
+                <div class="sm-separator separator"></div>
+                <div class="indicator">
+                    <div class="indicator-value"><%= model.get("followers_count") %></div>
+                    <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="block-white-bottom"></div>
+
+    <hr class="user-hr">
+
+    <h2>Ses abonnés</h2>
+    <div class="block-white-background">
+        <div class="followings"></div>
+        <!--<a href="#" class="link-grey-whith-red-arrow">Voir tous ses abonnements</a>-->
+    </div>
+</aside>

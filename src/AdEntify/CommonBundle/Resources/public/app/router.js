@@ -439,7 +439,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       viewBrand: function(slug) {
-         this.reset();
+         this.reset(true, false);
 
          // Get brand info
          var brand = new Brand.Model({
@@ -451,8 +451,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                photos: this.photos,
                title: $.t('brand.titleViewBrand')
             }),
-            "#right-pane-content": new Brand.Views.Ticker({
-               brand: brand
+            "#left-pane": new Brand.Views.MenuLeft({
+               model: brand,
+               followings: this.users,
+               photos: this.photos
             })
          }).render();
 
