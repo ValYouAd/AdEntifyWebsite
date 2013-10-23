@@ -40,7 +40,6 @@ define([
 
       initialize: function() {
          this.listenTo(this, {
-            /*'change': this.setup,*/
             'sync': this.setup,
             'add': this.setup
          });

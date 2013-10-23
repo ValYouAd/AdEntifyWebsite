@@ -35,7 +35,7 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags') && this.model.get('tags').length > 0) {
+         /*if (this.model.has('tags') && this.model.get('tags').length > 0) {
             this.tagsView = this.getView('.tags-container');
             if (!this.tagsView) {
                this.tagsView = new Tag.Views.List({
@@ -52,7 +52,7 @@ define([
                });
                this.setView('.tags-container', this.tagsView).render();
             }
-         }
+         }*/
       },
 
       afterRender: function() {
@@ -155,10 +155,10 @@ define([
          });
 
          // Click on photo overlay
-         container.delegate('.photo-overlay', 'click', function(evt) {
+         /*container.delegate('.photo-overlay', 'click', function(evt) {
             lastImage = $(this).siblings('img[data-type="medium"]');
             that.clickOnPhoto(lastImage);
-         });
+         });*/
 
          // Pagination
          app.useLayout().insertView("#photos", new Pagination.Views.NextPage({

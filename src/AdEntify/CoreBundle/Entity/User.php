@@ -241,6 +241,13 @@ class User extends BaseUser
     private $tags;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="tags_count", type="integer")
+     */
+    private $tagsCount = 0;
+
+    /**
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\OAuth\Client", inversedBy="users")
      */
@@ -866,5 +873,22 @@ class User extends BaseUser
     public function getFollowingsCount()
     {
         return $this->followingsCount;
+    }
+
+    /**
+     * @param int $tagsCount
+     */
+    public function setTagsCount($tagsCount)
+    {
+        $this->tagsCount = $tagsCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsCount()
+    {
+        return $this->tagsCount;
     }
 }

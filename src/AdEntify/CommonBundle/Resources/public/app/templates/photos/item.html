@@ -1,17 +1,17 @@
 <div class="photo medium">
     <div class="photo-container">
-        <% if (model.get("tags_count") > 0) { %>
+        <!--<% if (model.get("tags_count") > 0) { %>
         <div class="adentify-pastille"></div>
-        <% } %>
+        <% } %>-->
         <div class="photo-overlay">
-            <div class="tags-container"></div>
+            <!--<div class="tags-container"></div>-->
             <div class="caption"><%= model.get('caption') %></div>
             <div class="counters">
                 <i class="icon white-heart-icon"></i> <%= model.get("likes_count") %> <i class="icon white-comment-icon"></i> <%= model.get("comments_count") %>
             </div>
             <div class="photo-buttons">
                 <% if (model.isOwner() && model.get('tags_count') == 0) { %>
-                <button class="btn btn-danger btn-xs deletePhotoButton"><i class="glyphicon glyphicon-remove"></i> <span data-i18n="photo.deletePhoto"></span></button>
+                <button data-bypass="" class="btn btn-danger btn-xs deletePhotoButton"><i class="glyphicon glyphicon-remove"></i> <span data-i18n="photo.deletePhoto"></span></button>
                 <% } %>
             </div>
             <a href="<%= model.get('link') %>" class="show-photo-icon view-photo"></a>
