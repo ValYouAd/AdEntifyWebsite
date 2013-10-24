@@ -185,6 +185,7 @@ class Brand
     private $costPerTag = 0;
 
     /**
+     * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Category", inversedBy="brands")
      */
     private $categories;

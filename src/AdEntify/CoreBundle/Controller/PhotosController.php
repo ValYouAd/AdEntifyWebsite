@@ -336,17 +336,18 @@ class PhotosController extends FosRestController
      * GET all categories by photo ID
      *
      * @View()
-     * @QueryParam(name="locale", default="fr")
+     * @QueryParam(name="locale", default="en")
      *
      * @param $id
      * @return ArrayCollection|null
      */
-    public function getCategoriesAction($id, $locale = 'fr')
+    public function getCategoriesAction($id, $locale = 'en')
     {
         return $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category
                 LEFT JOIN category.photos photo WHERE photo.id = :id AND category.visible = 1")
             ->setParameter('id', $id)
+            ->useQueryCache(false)
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)

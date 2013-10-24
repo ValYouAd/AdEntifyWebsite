@@ -456,11 +456,23 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                model: brand,
                slug: slug,
                followers: this.users,
-               photos: this.photos
+               photos: this.photos,
+               categories: this.categories
             })
          }).render();
 
          var that = this;
+
+         brand.fetch({
+            url: Routing.generate('api_v1_get_brand', { slug: slug }),
+            success: function() {
+               app.trigger('domchange:title', $.t('brand.pageTitleViewBrand', { name: brand.get('name') }));
+            }
+         });
+
+         this.categories.fetch({
+            url: Routing.generate('api_v1_get_brand_categories', { slug: slug, locale: app.appState().getLocale() })
+         });
 
          // Get brand photos
          this.photos.fetch({
@@ -473,11 +485,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }
          });
 
-         brand.fetch({
-            success: function() {
-               app.trigger('domchange:title', $.t('brand.pageTitleViewBrand', { name: brand.get('name') }));
-            }
-         });
          this.users.fetch({
             url: Routing.generate('api_v1_get_brand_followers', { slug: slug })
          });

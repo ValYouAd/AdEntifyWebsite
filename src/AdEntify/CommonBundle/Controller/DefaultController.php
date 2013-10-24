@@ -24,7 +24,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("{_locale}/", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
+     * @Route("{_locale}/", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
      * @Template
      */
     public function indexAction()
@@ -53,7 +53,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{_locale}/app/{slug}", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr","slug" = "(.+)"})
+     * @Route("/{_locale}/app/{slug}", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr","slug" = "(.+)"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
@@ -68,13 +68,18 @@ class DefaultController extends Controller
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
             ->getResult();
 
+       /* foreach($categories as $category) {
+            echo $category->getName().'<br>';
+        }
+        die;*/
+
         return array(
             'categories' => $categories
         );
     }
 
     /**
-     * @Route("/{_locale}/app/", name="loggedInHome", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"})
+     * @Route("/{_locale}/app/", name="loggedInHome", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */

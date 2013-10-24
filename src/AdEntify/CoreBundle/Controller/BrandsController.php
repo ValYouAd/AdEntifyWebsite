@@ -80,6 +80,28 @@ class BrandsController extends FosRestController
     }
 
     /**
+     * GET all categories by brand slug
+     *
+     * @View()
+     * @QueryParam(name="locale", default="en")
+     *
+     * @param $id
+     * @return ArrayCollection|null
+     */
+    public function getCategoriesAction($slug, $locale = 'en')
+    {
+        return $this->getDoctrine()->getManager()
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category
+                LEFT JOIN category.brands brand WHERE brand.slug = :slug AND category.visible = 1")
+            ->setParameter('slug', $slug)
+            ->useQueryCache(false)
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+    }
+
+    /**
      * @param $query
      * @param int $page
      * @param int $limit

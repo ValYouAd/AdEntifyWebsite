@@ -88,7 +88,8 @@ define([
          return {
             model: this.model,
             lastPhoto: this.lastPhoto,
-            photosCount: this.photosCount
+            photosCount: this.photosCount,
+            categories: this.categories
          };
       },
 
@@ -113,6 +114,7 @@ define([
       initialize: function() {
          this.lastPhoto = null;
          this.followers = this.options.followers;
+         this.categories = this.options.categories;
          this.slug = this.options.slug;
          this.listenTo(this.model, 'sync', this.render);
          this.options.photos.once('sync', function(collection) {

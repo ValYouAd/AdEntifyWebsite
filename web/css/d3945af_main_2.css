@@ -1433,15 +1433,21 @@ label,
 
 /* Users
 ----------------------- */
-.user-aside {
+.profile-aside {
     font-family: 'asapregular', sans-serif;
 }
-    .user-aside h2 {
+    .profile-aside h2 {
         font-family: 'pacificoregular', sans-serif;
         font-size: 20px;
         color: #606366;
         font-weight: normal;
     }
+.profile-aside .brand-categories {
+    font-family: 'robotolight', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    color: #9da0a4;
+    margin: 10px 0px;
+}
 .menu-left-hr {
     background: url('../img/horizontal-menu-left-separator.png') repeat-x;
     height: 2px;
