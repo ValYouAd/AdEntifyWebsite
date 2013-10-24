@@ -827,9 +827,6 @@ html,body {
 
 /* Brand
 ----------------------- */
-.brand-heading {
-    margin: 35px 0px;
-}
 .brand-heading h1 {
     font-family: 'pacificoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 36px;
@@ -877,6 +874,7 @@ html,body {
     -o-transition: opacity 0.4s ease-out;
     transition: opacity 0.4s ease-out;
     text-decoration: none;
+    width: 100%;
 }
 #brands .tagged-count .bold {
     font-family: 'asapbold', "Helvetica Neue", Helvetica, Arial, sans-serif;

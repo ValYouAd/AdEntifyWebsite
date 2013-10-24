@@ -14,7 +14,9 @@ class PaginationTools
     public static function getNextPrevPagination($count, $page, $limit, $controller, $url, $params = array()) {
         $pagination = null;
         if ($count > 0 && $page >= 1) {
-            $pagination = array();
+            $pagination = array(
+                'total' => $count
+            );
             if ($page > 1) {
                 $pagination['previous'] = $controller->generateUrl($url, array_merge($params, array(
                     'page' => $page - 1,

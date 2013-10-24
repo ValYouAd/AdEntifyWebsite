@@ -190,51 +190,97 @@ class BrandsController extends FosRestController
             UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
         }
 
-        // Get followings ids
+        // Get brands ids
         $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
         if (!$followings) {
             $followings = $user->getFollowingsIds();
             UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
         }
 
-        $count = $em->createQuery('SELECT count(photo.id) FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner LEFT JOIN tag.product product LEFT JOIN product.brand brand
-                WHERE brand.slug = :slug AND photo.status = :status AND photo.tagsCount > 0
+        $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner LEFT JOIN tag.brand tagBrand LEFT JOIN tag.product product LEFT JOIN product.brand brand
+                WHERE (brand.slug = :slug OR tagBrand.slug = :slug) AND photo.status = :status AND photo.tagsCount > 0
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
-                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))')
+                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC')
             ->setParameters(array(
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
                 ':slug' => $slug
-            ))
-            ->getSingleScalarResult();
+            ));
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
 
         $photos = null;
         $pagination = null;
         if ($count > 0) {
-            $photos = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner LEFT JOIN tag.product product LEFT JOIN product.brand brand
-                WHERE brand.slug = :slug AND photo.status = :status AND photo.tagsCount > 0 AND tag.visible = true
-                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
-                AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
-                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                ORDER BY photo.createdAt DESC')
-                ->setParameters(array(
-                    ':status' => Photo::STATUS_READY,
-                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                    ':facebookFriendsIds' => $facebookFriendsIds,
-                    ':followings' => $followings,
-                    ':slug' => $slug
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit)
-                ->getResult();
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_brand_photos');
         }
 
         return PaginationTools::getPaginationArray($photos, $pagination);
+    }
+
+    /**
+     * @View()
+     *
+     * @param $id
+     */
+    public function getIsFollowingAction($slug)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $follower = $this->container->get('security.context')->getToken()->getUser();
+            return $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
+                LEFT JOIN u.followedBrands brand WHERE u.id = :userId AND brand.slug = :slug')
+                ->setParameters(array(
+                    'userId' => $follower->getId(),
+                    'slug' => $slug
+                ))
+                ->getSingleScalarResult() > 0 ? true : false;
+        } else {
+            throw new HttpException(403);
+        }
+    }
+
+    /**
+     * @param $slug brand slug
+     * @return mixed
+     *
+     * @View()
+     */
+    public function postFollowerAction($slug)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $em = $this->getDoctrine()->getManager();
+
+            $follower = $this->container->get('security.context')->getToken()->getUser();
+            $brand = $this->getAction($slug);
+            if ($brand && !$this->getIsFollowingAction($slug)) {
+                $brand->addFollower($follower);
+                $brand->setFollowersCount($brand->getFollowersCount() + 1);
+                $follower->setFollowedBrandsCount($follower->getFollowedBrandsCount() + 1);
+                $em->merge($follower);
+                $em->merge($brand);
+                $em->flush();
+                return $follower;
+            } else {
+                $brand->removeFollower($follower);
+                $brand->setFollowersCount($brand->getFollowersCount() - 1);
+                $follower->setFollowedBrandsCount($follower->getFollowedBrandsCount() - 1);
+                $em->merge($follower);
+                $em->merge($brand);
+                $em->flush();
+            }
+        } else {
+            throw new HttpException(403);
+        }
     }
 }

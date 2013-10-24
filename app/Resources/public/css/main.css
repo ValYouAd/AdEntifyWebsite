@@ -827,9 +827,6 @@ html,body {
 
 /* Brand
 ----------------------- */
-.brand-heading {
-    margin: 35px 0px;
-}
 .brand-heading h1 {
     font-family: 'pacificoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 36px;

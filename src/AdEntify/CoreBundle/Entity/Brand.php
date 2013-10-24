@@ -202,6 +202,8 @@ class Brand
      */
     private $followersCount = 0;
 
+    private $photosCount = 0;
+
     private $logoUrl;
 
     public function __construct()

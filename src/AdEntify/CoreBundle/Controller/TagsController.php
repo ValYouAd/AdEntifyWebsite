@@ -232,6 +232,7 @@ class TagsController extends FosRestController
                         'id' => $shortUrl->getBase62Id()
                     )));
             }
+
             $em->persist($tag);
             $em->flush();
 

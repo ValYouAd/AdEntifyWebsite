@@ -12,7 +12,7 @@ CREATE TRIGGER likes_count_delete AFTER DELETE ON `likes`
  FOR EACH ROW UPDATE photos SET likes_count = likes_count-1 WHERE id = OLD.photo_id;
 
 # Mise à jour compteurs de tags
-DROP TRIGGER IF EXISTS  `tags_count`;
+DROP TRIGGER IF EXISTS `tags_count`;
 DELIMITER $$
 CREATE TRIGGER tags_count AFTER INSERT ON `tags`
  FOR EACH ROW BEGIN
@@ -20,10 +20,11 @@ CREATE TRIGGER tags_count AFTER INSERT ON `tags`
     UPDATE venues SET tags_count = tags_count+1 WHERE id = NEW.venue_id;
     UPDATE products SET tags_count = tags_count+1 WHERE id = NEW.product_id;
     UPDATE people SET tags_count = tags_count+1 WHERE id = NEW.person_id;
+    UPDATE brand SET tags_count = tags_count+1 WHERE id = NEW.brand_id;
     UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count+1 WHERE p.id = NEW.product_id;
  END$$
 DELIMITER ;
-DROP TRIGGER IF EXISTS  `tags_count_update`;
+DROP TRIGGER IF EXISTS `tags_count_update`;
 DELIMITER $$
 CREATE TRIGGER tags_count_update AFTER UPDATE ON `tags`
  FOR EACH ROW BEGIN
@@ -32,6 +33,7 @@ CREATE TRIGGER tags_count_update AFTER UPDATE ON `tags`
       UPDATE venues SET tags_count = tags_count-1 WHERE id = NEW.venue_id;
       UPDATE products SET tags_count = tags_count-1 WHERE id = NEW.product_id;
       UPDATE people SET tags_count = tags_count-1 WHERE id = NEW.person_id;
+      UPDATE brand SET tags_count = tags_count-1 WHERE id = NEW.brand_id;
       UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count-1 WHERE p.id = NEW.product_id;
     END IF;
  END$$
@@ -54,6 +56,16 @@ CREATE TRIGGER photos_count AFTER INSERT ON `photos`
  FOR EACH ROW BEGIN
     UPDATE users u SET photos_count = photos_count+1 WHERE u.id = NEW.owner_id;
     UPDATE venues v SET photos_count = photos_count+1 WHERE v.id = NEW.venue_id;
+ END$$
+DELIMITER ;
+DROP TRIGGER IF EXISTS  `photos_count_update`;
+DELIMITER $$
+CREATE TRIGGER photos_count_update AFTER UPDATE ON `photos`
+ FOR EACH ROW BEGIN
+    IF (NEW.deleted_at IS NOT NULL) THEN
+      UPDATE users u SET photos_count = photos_count-1 WHERE u.id = NEW.owner_id;
+      UPDATE venues v SET photos_count = photos_count-1 WHERE v.id = NEW.venue_id;
+    END IF;
  END$$
 DELIMITER ;
 

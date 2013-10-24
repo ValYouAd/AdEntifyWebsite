@@ -87,7 +87,8 @@ define([
       serialize: function() {
          return {
             model: this.model,
-            lastPhoto: this.lastPhoto
+            lastPhoto: this.lastPhoto,
+            photosCount: this.photosCount
          };
       },
 
@@ -99,7 +100,8 @@ define([
          }
          if (!this.getView('.follow-button')) {
             this.setView('.follow-button', new Brand.Views.FollowButton({
-               brand: this.model
+               brand: this.model,
+               slug: this.slug
             }));
          }
       },
@@ -111,10 +113,12 @@ define([
       initialize: function() {
          this.lastPhoto = null;
          this.followers = this.options.followers;
+         this.slug = this.options.slug;
          this.listenTo(this.model, 'sync', this.render);
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {
                this.lastPhoto = collection.first();
+               this.photosCount = this.options.photos.total;
                this.render();
             }
          }, this);
@@ -136,13 +140,14 @@ define([
       },
 
       initialize: function() {
-         if (this.options.brand) {
+         if (this.options.slug && this.options.brand) {
+            this.slug = this.options.slug;
             this.brand = this.options.brand;
             var that = this;
             app.oauth.loadAccessToken({
                success: function() {
                   $.ajax({
-                     url: Routing.generate('api_v1_get_brand_is_following', { 'id': that.options.brand.get('id') }),
+                     url: Routing.generate('api_v1_get_brand_is_following', { 'slug': that.slug }),
                      headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                      success: function(response) {
                         that.follow = response;
@@ -164,10 +169,9 @@ define([
          app.oauth.loadAccessToken({
             success: function() {
                $.ajax({
-                  url: Routing.generate('api_v1_post_brand_follower', { id: that.brand.get('id') }),
+                  url: Routing.generate('api_v1_post_brand_follower', { slug: that.slug }),
                   headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  type: 'POST',
-                  data: { brandId: that.brand.get('id') }
+                  type: 'POST'
                });
             }
          });

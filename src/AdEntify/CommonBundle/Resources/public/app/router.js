@@ -454,6 +454,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }),
             "#left-pane": new Brand.Views.MenuLeft({
                model: brand,
+               slug: slug,
                followers: this.users,
                photos: this.photos
             })

@@ -106,6 +106,12 @@ function(app, Router, i18n, AppState, TagStats) {
                else {
                   delete this.previous;
                }
+               if (typeof obj.paging.total !== 'undefined') {
+                  this.total = obj.paging.total
+               }
+               else {
+                  delete this.total;
+               }
             }
             return obj.data;
          }
