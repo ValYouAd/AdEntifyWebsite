@@ -1,13 +1,23 @@
-<% if (model.get("status") == "unread") { %>
-<div class="pull-left">
-    <button class="button-read btn btn-mini btn-success"><i class="icon-ok icon-white"></i></button>
+<% if (model.has("authorModel")) { %>
+<div class="author pull-left">
+   <a href="<%= model.get('authorModel').get('link') %>"><img src="<%= model.get('authorModel').get('profilePicture') %>" alt="<%= model.get('authorModel').get('fullname') %>" class="profile-picture" /></a>
+</div>
+<% } %>
+<% if (model.has('photosCollection') && model.get('photosCollection').length > 0) { %>
+<div class="notification-photos pull-right">
+    <% model.get('photosCollection').each(function(photo) { %>
+    <a href="<%= photo.get('link') %>"><img src="<%= photo.get('small_url') %>" class="notification-photo" alt="photo.get('caption')" /></a>
+    <% }); %>
 </div>
 <% } %>
 <% if (model.get("type") == "upload") { %>
 <div class="message"><a data-i18n="[href]routing.my/photos/untagged/"><span data-i18n="<%= model.get("message") %>"></span></a></div>
-<% } else if (model.get("type") == "like-photo" || model.get("type") == "fav-photo" || model.get("type") == "tag-photo") { %>
+<% } else if (model.get("type") == "like-photo" || model.get("type") == "fav-photo" || model.get("type") == "tag-photo"
+                || model.get("type") == "comment-photo") { %>
 <div class="message">
-    <span data-i18n="[html]<%= model.get("message") %>" data-i18n-options='{"authorLink": "<%= model.get('authorLink') %>", "author": "<%= model.get('authorFullname') %>", "photoLink": "<%= model.get('photoLink') %>" }'></span>
+    <% if (model.has("authorModel")) { %>
+    <span data-i18n="[html]<%= model.get("message") %>" data-i18n-options='{"authorLink": "<%= model.get('authorModel').get('link') %>", "author": "<%= model.get('authorModel').get('fullname') %>", "photoLink": "<%= model.get('photoLink') %>" }'></span>
+    <% } %>
 </div>
 <% } else { %>
 <div class="message"><span data-i18n="<%= model.get("message") %>"></span></div>

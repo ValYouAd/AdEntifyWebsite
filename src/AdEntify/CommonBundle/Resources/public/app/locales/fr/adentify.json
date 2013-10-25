@@ -1,14 +1,17 @@
 {
    "brand": {
-      "pageTitle": "Les marques référencées sur AdEntify",
+      "pageTitle": "Marques",
       "pageSubTitle": "__count__ marque",
       "pageSubTitle_plural": "__count__ marques",
-      "tagged": "Taguée __count__ fois",
-      "titleViewBrand": "Photos de la marque",
+      "tagged": "__count__ <span class='bold'>fois taguée</span>",
+      "tagged_plural": "__count__ <span class='bold'>fois taguées</span>",
+      "titleViewBrand": "Derniers tags de la marque",
       "errorPhotosLoading": "Erreur lors de la récupération des photos de la marque.",
       "noPhotos": "Aucune photo pour cette marque.",
-      "pageTitleViewBrand": "Photos de la marque __name__ - AdEntify",
-      "viewPhotos": "Voir les photos"
+      "pageTitleViewBrand": "Photos __name__ - AdEntify",
+      "viewPhotos": "Voir les photos",
+      "followersTitle": "Ses abonnés",
+      "moreFollowers": "Voir tous les fans"
    },
    "photos": {
       "pageTitleTagged": "Photos taguées - AdEntify",
@@ -137,15 +140,16 @@
       "like": "J'aime",
       "dislike": "Je n'aime plus",
       "likes": "J'aime",
-      "comments": "Commentaires",
-      "share": "Partager la photo",
+      "comments": "Commentez",
+      "share": "Partager / Intégrer",
       "link": "Lien vers la photo",
       "embed": "Intégrer la photo",
       "errorLoading": "Impossible de récupérer la photo. Veuillez réessayer.",
       "noPhoto": "La photo n'existe pas ou vous n'êtes pas autorisé à la voir.",
       "favorites": "Ajouter à mes favoris",
       "unFavorites": "Supprimer de mes favoris",
-      "deletePhoto": "Supprimer"
+      "deletePhoto": "Supprimer",
+      "linkedPhotos": "Photos liées"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
@@ -175,17 +179,23 @@
       "modalUploadText": "Vos photos sont en cours de récupération. Vous recevrez une notification en haut à droite de votre écran dès que ces dernières seront prêtes. Vous pourrez alors taguer vos photos."
    },
    "profile": {
-      "photosCount": "<label class='badge badge-success'>__count__</label> photos",
-      "photosCount_plural": "<label class='badge badge-success'>__count__</label> photos",
       "follow": "Suivre",
       "unfollow": "Ne plus suivre",
       "pageTitle": "__name__ - Profil AdEntify",
       "loadingProfile": "Chargement du profil en cours...",
-      "memberPhotos": "Photos de l'utilisateur",
       "lastLikedPhotos": "Dernières photos aimés",
       "noLikedPhotos": "L'utilisateur n'a aimé aucune photo pour le moment.",
       "errorLikedPhotos": "Impossible de récupérer les photos aimés.",
-      "viewProfile": "<a href='__link__'>Voir son profil</a>"
+      "viewProfile": "<a href='__link__'>Voir son profil</a>",
+      "pageHeading": "Activités",
+      "photosIndicator": "Photos",
+      "tagsIndicator": "Tags",
+      "followingIndicator": "Abonnements",
+      "followersIndicator": "Abonnés",
+      "followersTitle": "Ses abonnés",
+      "moreFollowers": "Voir tous ses abonnés",
+      "followingsTitle": "Ses abonnements",
+      "moreFollowings": "Voir tous ses abonnements"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
@@ -199,19 +209,19 @@
       "title": "Mon flux photos"
    },
    "search": {
-      "placeHolderKeywords": "Tapez votre mot clé",
+      "placeHolderKeywords": "Rechercher un utilisateur, un lieu, une marque...",
       "inProgress": "Recherche en cours...",
       "noResults": "Aucun résultat pour votre recherche",
       "error": "Impossible de récupérer les résultats",
-      "viewMore": "Voir plus de résultats",
+      "viewMore": "Voir tous les résultats",
       "tagsBlockTitle": "Tags",
       "usersBlockTitle": "Utilisateurs"
    },
    "comment": {
-      "noComments": "Aucun commentaire",
+      "noComments": "Aucun commentaire pour le moment, soyez le premier à réagir !",
       "addTitle": "Ecrire un commentaire",
-      "labelBody": "Tapez votre message",
-      "addButton": "Valider",
+      "placeholderBody": "Votre commentaire",
+      "addButton": "Poster",
       "noBody": "Veuillez tapez un message avant de valider votre message",
       "addButtonLoading": "Ajout en cours...",
       "errorCommentPost": "Une erreur est survenue lors de l'ajout de votre commentaire. Veuillez réessayer"
@@ -224,6 +234,7 @@
       "noNotifications": "Aucune notification pour le moment",
       "photoFav": "<a href='__authorLink__'>__author__</a> a mis en favoris <a href='__photoLink__'>votre photo</a>",
       "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> a aimé <a href='__photoLink__'>votre photo</a>",
+      "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> a commenté <a href='__photoLink__'>votre photo</a>",
       "anonymousLikedPhoto": "Une personne a aimé <a href='__photoLink__'>votre photo</a>",
       "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__'>votre photo</a>"
    },
@@ -261,7 +272,6 @@
       "photo/id/": "photo/__id__/",
       "brands/": "marques/",
       "brand/slug/": "marque/__slug__/",
-      "my/profile/": "mon/profil/",
       "my/adentify/": "mon/adentify/",
       "profile/id/": "profil/__id__/",
       "category/slug/": "categorie/__slug__/",

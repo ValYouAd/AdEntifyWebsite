@@ -2022,6 +2022,11 @@ var jam = {
             "main": "jquery.isotope.js"
         },
         {
+            "name": "jamjs-moment",
+            "location": "../vendor/jam/jamjs-moment",
+            "main": "moment.min.js"
+        },
+        {
             "name": "jquery",
             "location": "../vendor/jam/jquery",
             "main": "dist/jquery.js"
@@ -2093,6 +2098,11 @@ if (typeof require !== "undefined" && require.config) {
             "main": "jquery.isotope.js"
         },
         {
+            "name": "jamjs-moment",
+            "location": "../vendor/jam/jamjs-moment",
+            "main": "moment.min.js"
+        },
+        {
             "name": "jquery",
             "location": "../vendor/jam/jquery",
             "main": "dist/jquery.js"
@@ -2161,6 +2171,11 @@ else {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
+        },
+        {
+            "name": "jamjs-moment",
+            "location": "../vendor/jam/jamjs-moment",
+            "main": "moment.min.js"
         },
         {
             "name": "jquery",

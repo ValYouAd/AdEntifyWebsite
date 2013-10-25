@@ -46,10 +46,10 @@ class CategoriesController extends FosRestController
      * )
      *
      * @View()
-     * @QueryParam(name="locale", default="fr")
+     * @QueryParam(name="locale", default="en")
      * @return Category
      */
-    public function getAction($slug, $locale = 'fr')
+    public function getAction($slug, $locale = 'en')
     {
         return $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category WHERE category.slug = :slug")
@@ -71,9 +71,9 @@ class CategoriesController extends FosRestController
      * )
      *
      * @View()
-     * @QueryParam(name="locale", default="fr")
+     * @QueryParam(name="locale", default="en")
      */
-    public function cgetAction($locale = 'fr')
+    public function cgetAction($locale = 'en')
     {
         return $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")

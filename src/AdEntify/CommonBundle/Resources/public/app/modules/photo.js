@@ -10,9 +10,8 @@ define([
    "modules/tag",
    "modules/common",
    "modules/comment",
-   "modules/category",
    "pinterest"
-], function(app, Tag, Common, Comment, Category) {
+], function(app, Tag, Common, Comment) {
 
    var Photo = app.module();
    var loaded = false;
@@ -40,16 +39,17 @@ define([
 
       initialize: function() {
          this.listenTo(this, {
-            'change': this.updateUrl,
-            'add': this.updateUrl
+            'sync': this.setup,
+            'add': this.setup
          });
       },
 
-      updateUrl: function() {
+      setup: function() {
          this.set('fullMediumUrl', this.get('medium_url'));
          this.set('fullLargeUrl', this.get('large_url'));
          this.set('fullSmallUrl', this.get('small_url'));
          this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
+         this.set('link', app.beginUrl + app.root + $.t('routing.photo/id/', { id: this.get('id') }));
          if (this.has('owner'))
             this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
          if (!this.has('tagsConverted')) {
@@ -61,6 +61,10 @@ define([
                });
             }
             this.set('tags', tags);
+         }
+         if (this.has('owner')) {
+            var User = require('modules/user');
+            this.set('ownerModel', new User.Model(this.get('owner')));
          }
       },
 
@@ -104,6 +108,38 @@ define([
       }
    });
 
+   Photo.Views.Modal = Backbone.View.extend({
+      template: 'photo/modal',
+
+      beforeRender: function() {
+         this.setViews({
+            "#center-modal-content": new Photo.Views.Item({
+               photo: this.options.photo,
+               comments: this.comments,
+               photoId: this.options.photo.get('id'),
+               modal: true
+            }),
+            "#right-modal-content": new Photo.Views.RightMenu({
+               photo: this.options.photo,
+               tickerPhotos: this.linkedPhotos,
+               tagged: false
+            })
+         });
+      },
+
+      initialize: function() {
+         this.comments = new Comment.Collection();
+         var Photos = require('modules/photos');
+         this.linkedPhotos = new Photos.Collection();
+         this.linkedPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_linked_photos', { id: this.options.photo.get('id') })
+         });
+         this.comments.fetch({
+            url: Routing.generate('api_v1_get_photo_comments', { id: this.options.photo.get('id') })
+         });
+      }
+   });
+
    Photo.Views.Item = Backbone.View.extend({
       template: "photo/item",
       tagName: 'div class="photo-item-container fadeOut"',
@@ -111,6 +147,7 @@ define([
       initialize: function() {
          var that = this;
          this.model = this.options.photo;
+         this.modal = typeof this.options.modal !== 'undefined' ? this.options.modal : false;
          this.listenTo(this.options.photo, {
             'error': function() {
                app.useLayout().setView('#content', new Common.Views.Alert({
@@ -153,6 +190,29 @@ define([
             }
          });
 
+         if (this.modal) {
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_photo_waiting_tags', { id: that.model.get('id') }),
+                     headers : {
+                        "Authorization": app.oauth.getAuthorizationHeader()
+                     },
+                     success: function(data) {
+                        if (data && data.length > 0) {
+                           that.unvalidateTags = [];
+                           for (var i = 0, len = data.length; i<len; i++) {
+                              that.options.photo.get('tags').push(data[i]);
+                           }
+                           that.render();
+                        }
+                     }
+                  });
+               }
+            });
+            this.$el.fadeIn();
+         }
+
          this.listenTo(app, 'tag:removeTag', function(tag) {
             this.model.get('tags').remove(tag);
             this.render();
@@ -172,7 +232,8 @@ define([
             if (!this.tagsView) {
                this.tagsView = new Tag.Views.List({
                   tags: this.model.get('tags'),
-                  photo: this.model
+                  photo: this.model,
+                  visible: true
                });
                this.listenTo(this.tagsView, 'tag:remove', function() {
                   // Update tags count
@@ -185,12 +246,6 @@ define([
          // Comments
          this.setView('.comments', new Comment.Views.List({
             comments: this.options.comments,
-            photoId: this.options.photoId
-         }));
-
-         // Categories
-         this.setView('.categories', new Category.Views.List({
-            categories: this.options.categories,
             photoId: this.options.photoId
          }));
 
@@ -227,17 +282,30 @@ define([
          FB.XFBML.parse();
       },
 
-      showTags: function() {
+      changeTab: function(e) {
+         e.preventDefault();
+         $(e.currentTarget).tab('show');
+      },
+
+      clickPastille: function() {
          $tags = $(this.el).find('.tags');
-         if ($tags.length > 0) {
-            if ($tags.data('state') == 'hidden') {
-               $tags.fadeIn('fast');
-               $tags.attr('data-state', 'visible');
-            } else {
-               $tags.fadeOut('fast');
-               $tags.attr('data-state', 'hidden');
-            }
+         if ($tags.data('always-visible') == 'no') {
+            $tags.data('always-visible', 'yes');
+            this.showTags();
+         } else {
+            $tags.data('always-visible', 'no');
+            this.hideTags();
          }
+      },
+
+      showTags: function() {
+         $(this.el).find('.tags').stop().fadeIn(100);
+      },
+
+      hideTags: function() {
+         $tags = $(this.el).find('.tags');
+         if ($tags.data('always-visible') == 'no')
+            $(this.el).find('.tags').stop().fadeOut('fast');
       },
 
       checkboxShowTags: function(e) {
@@ -260,10 +328,47 @@ define([
       },
 
       events: {
-         "click .adentify-pastille": "showTags",
+         'click .adentify-pastille': 'clickPastille',
+         'mouseenter .photo-container': 'showTags',
+         'mouseleave .photo-container': 'hideTags',
          "click .showTagsCheckbox": "checkboxShowTags",
          "click .showLikesCheckbox": "checkboxShowLikes",
-         "mouseup .selectOnFocus": "selectTextOnFocus"
+         "mouseup .selectOnFocus": "selectTextOnFocus",
+         "click #photo-tabs a": "changeTab"
+      }
+   });
+
+   Photo.Views.RightMenu = Backbone.View.extend({
+      template: 'photo/rightMenu',
+
+      serialize: function() {
+         return {
+            model: this.model
+         }
+      },
+
+      beforeRender: function() {
+         // Favorite Button
+         if (!this.getView('.follow-button') && this.model.has('ownerModel')) {
+            var User = require('modules/user');
+            this.setView('.follow-button', new User.Views.FollowButton({
+               user: this.model.get('ownerModel')
+            }));
+         }
+         var Photos = require('modules/photos');
+         this.options.tickerPhotos.each(function(photo) {
+            this.insertView('.linked-photos-list', new Photos.Views.TickerItem({
+               model: photo
+            }));
+         }, this);
+      },
+
+      initialize: function() {
+         this.model = this.options.photo;
+         this.listenTo(this.options.photo, {
+            'sync': this.render
+         });
+         this.listenTo(this.options.tickerPhotos, 'sync', this.render);
       }
    });
 

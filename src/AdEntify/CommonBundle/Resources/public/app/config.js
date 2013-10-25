@@ -16,7 +16,8 @@ require.config({
      "select2fr": "../vendor/js/select2/select2_locale_fr",
      "jquery.fileupload": "../vendor/js/jquery.fileupload",
      "jquery.iframe-transport": "../vendor/js/jquery.iframe-transport",
-     "jquery.ui.widget": "../vendor/js/jquery.ui.widget"
+     "jquery.ui.widget": "../vendor/js/jquery.ui.widget",
+     "moment": "../vendor/js/moment.min"
   },
 
    map: {

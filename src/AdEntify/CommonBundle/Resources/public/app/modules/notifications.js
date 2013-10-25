@@ -6,9 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app",
-   "modules/common"
-], function(app, Common) {
+   'app',
+   'modules/common',
+   'modules/user',
+   'modules/photos',
+   'modules/photo'
+], function(app, Common, User, Photos, Photo) {
 
    var Notifications = app.module();
 
@@ -16,7 +19,6 @@ define([
 
       initialize: function() {
          this.listenTo(this, {
-            'change': this.setup,
             'add': this.setup
          });
       },
@@ -29,17 +31,18 @@ define([
       },
 
       setup: function() {
-         if (this.has('author') && this.get('author')['id']) {
-            this.set('authorLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('author')['id']}));
-         }
-         if (this.has('message_options') && this.get('message_options')) {
-            var json = $.parseJSON(this.get('message_options'));
-            if (json.author) {
-               this.set('authorFullname', $.parseJSON(this.get('message_options')).author);
-            }
+         if (this.has('author') ) {
+            this.set('authorModel', new User.Model(this.get('author')));
          }
          if (this.get('object_type') === "AdEntify\\CoreBundle\\Entity\\Photo") {
             this.set('photoLink', app.beginUrl + app.root + $.t('routing.photo/id/', {id: this.get('object_id') }));
+         }
+         if (this.has('photos') && this.get('photos').length > 0) {
+            var photos = new Photos.Collection();
+            _.each(this.get('photos'), function(photo) {
+               photos.add(new Photo.Model(photo));
+            });
+            this.set('photosCollection', photos);
          }
       },
 
@@ -167,15 +170,15 @@ define([
          clearTimeout(this.pollTimeout);
       },
 
-      toggleNotifications: function(e) {
+      toggleNotifications: function() {
          // Hide
-         if ($(e.currentTarget).hasClass('active')) {
-            $(this.el).find('.popover').stop().fadeOut();
+         if ($(this.el).find('.dropdown-menu:visible').length > 0) {
+            $(this.el).find('.dropdown-menu').stop().fadeOut();
          }
          // Show
          else {
             var that = this;
-            $(this.el).find('.popover').stop().fadeIn(function() {
+            $(this.el).find('.dropdown-menu').stop().fadeIn(100, function() {
                setTimeout(function() {
                   that.notifications.each(function(notification) {
                      notification.read();

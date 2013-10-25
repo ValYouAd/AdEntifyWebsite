@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Form\CommentType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -66,6 +67,18 @@ class CommentsController extends FosRestController
         $form->bind($request);
         if ($form->isValid()) {
             $comment->setAuthor($user);
+
+            // Check that comment owner isn't photo owner
+            if ($user->getId() != $comment->getPhoto()->getOwner()->getId()) {
+                // Create a new notification
+                $notification = new Notification();
+                $notification->setAuthor($user)->setMessage('notification.memberCommentPhoto')
+                    ->setType(Notification::TYPE_LIKE_PHOTO)->setObjectId($comment->getPhoto()->getId())
+                    ->setObjectType(get_class($comment->getPhoto()))->setOwner($comment->getPhoto()->getOwner())
+                    ->addPhoto($comment->getPhoto());
+                $em->persist($notification);
+            }
+
             $em->persist($comment);
             $em->flush();
 

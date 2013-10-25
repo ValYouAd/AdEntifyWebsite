@@ -3,8 +3,24 @@
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
-                <source>Symfony2 is great</source>
-                <target>J'aime Symfony2</target>
+                <source>Firstname</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Lastname</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Password</source>
+                <target>Mot de passe</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Confirm password</source>
+                <target>Confirmation du mot de passe</target>
             </trans-unit>
         </body>
     </file>

@@ -26,6 +26,7 @@ use JMS\Serializer\Annotation as Serializer;
 class Notification
 {
     const TYPE_UPLOAD = 'upload';
+    const TYPE_COMMENT_PHOTO = 'comment-photo';
     const TYPE_LIKE_PHOTO = 'like-photo';
     const TYPE_FAV_PHOTO = 'fav-photo';
     const TYPE_TAG_PHOTO = 'tag-photo';
@@ -85,6 +86,11 @@ class Notification
     private $author;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo")
+     */
+    private $photos;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="object_id", type="bigint", nullable=true)
@@ -104,6 +110,11 @@ class Notification
      * @ORM\Column(name="notification_type", type="string", length=100, nullable=true)
      */
     private $type;
+
+    public function __construct()
+    {
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
@@ -264,5 +275,25 @@ class Notification
     public function getMessageOptions()
     {
         return $this->messageOptions;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo)
+    {
+        $this->photos->add($photo);
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo)
+    {
+        $this->photos->removeElement($photo);
+        return $this;
     }
 }

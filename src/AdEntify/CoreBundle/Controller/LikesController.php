@@ -65,7 +65,6 @@ class LikesController extends FosRestController
 
                     // Create a new notification
                     $notification = new Notification();
-                    $messageOptions = null;
 
                     // Set user if loggedin
                     if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -73,9 +72,6 @@ class LikesController extends FosRestController
                         // Send notification liker only if liker isn't photo owner
                         if ($user->getId() != $photo->getOwner()->getId()) {
                             $notification->setAuthor($user)->setMessage('notification.memberLikedPhoto');
-                            $messageOptions = json_encode(array(
-                                'author' => $user->getFullname()
-                            ));
                         } else {
                             $notification = null;
                         }
@@ -86,8 +82,7 @@ class LikesController extends FosRestController
                     if ($notification) {
                         // Notification
                         $notification->setType(Notification::TYPE_LIKE_PHOTO)->setObjectId($photo->getId())
-                            ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
-                            ->setMessageOptions($messageOptions);
+                            ->setObjectType(get_class($photo))->setOwner($photo->getOwner())->addPhoto($photo);
                         $em->persist($notification);
                     }
 

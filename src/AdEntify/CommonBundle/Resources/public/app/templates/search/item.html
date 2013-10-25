@@ -1,8 +1,10 @@
-<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh35 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
-<div>
-    <div class="pull-right">
-        <i class="icon-heart"></i> <%= model.get("photo")["likes_count"] %> <i class="icon-tag"></i> <%= model.get("photo")["tags_count"] %>
-    </div>
+<a href="photo/<%= model.get('photo')['id'] %>/">
+    <img src="<%= model.get("photo")["small_url"] %>" class="photo pull-left" alt="<%= model.get("photo")["caption"] %>" />
+</a>
+
+<div class="photo-details">
+    <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a><br>
     <small>Par <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a></small>
 </div>
+
 <div class="clearfix"></div>

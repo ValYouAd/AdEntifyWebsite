@@ -14,7 +14,7 @@ define([
       },
 
       updateUrl: function() {
-         this.set('photoSmallUrl', app.rootUrl + 'uploads/photos/users/' + this.get('photo')['owner']['id'] + '/small/' + this.get('photo')['small_url']);
+         //this.set('photoSmallUrl', app.rootUrl + 'uploads/photos/users/' + this.get('photo')['owner']['id'] + '/small/' + this.get('photo')['small_url']);
          this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('photo')['owner']['id'] }));
          this.set('fullname', this.get('photo')['owner']['firstname'] + ' ' + this.get('photo')['owner']['lastname']);
       }
@@ -89,7 +89,7 @@ define([
          this.listenTo(this.options.users, 'sync', this.render);
          this.listenTo(app, 'search:starting', function() {
             if (!this.isFullscreenSearch()) {
-               $('.search-results-container').fadeIn();
+               $('.search-bar .dropdown-menu').fadeIn();
                $('.search-loading').fadeIn();
                $('.alert-search-tags-results').html();
                $('.alert-search-users-results').html();
@@ -120,11 +120,11 @@ define([
             }
          });
          this.listenTo(app, 'search:close', function() {
-            $('.search-results-container').stop().fadeOut();
+            $('.search-bar .dropdown-menu').stop().fadeOut();
          });
          this.listenTo(app, 'search:show', function() {
             if (that.options.searchResults.length > 0)
-               $('.search-results-container').stop().fadeIn();
+               $('.search-bar .dropdown-menu').stop().fadeIn();
          });
       },
 

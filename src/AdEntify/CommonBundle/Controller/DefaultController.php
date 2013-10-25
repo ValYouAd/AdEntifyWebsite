@@ -24,11 +24,12 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("{_locale}/", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
+     * @Route("{_locale}/", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
      * @Template
      */
     public function indexAction()
     {
+        // Automatic redirect
         $securityContext = $this->container->get('security.context');
         if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
             return $this->redirect($this->generateUrl('loggedInHome', array(
@@ -36,17 +37,29 @@ class DefaultController extends Controller
             )));
         }
 
-        return array();
+        $em = $this->getDoctrine()->getManager();
+
+        $tagsCount = $em->createQuery('SELECT COUNT(tag.id) FROM AdEntify\CoreBundle\Entity\Tag tag')->getSingleScalarResult();
+        $users = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user ORDER BY user.followersCount DESC')
+            ->setMaxResults(7)->getResult();
+        $brands = $em->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand ORDER BY brand.tagsCount DESC')
+            ->setMaxResults(12)->getResult();
+
+        return array(
+            'tagsCount' => str_split($tagsCount),
+            'users' => $users,
+            'brands' => $brands
+        );
     }
 
     /**
-     * @Route("/{_locale}/app/{slug}", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr","slug" = "(.+)"})
+     * @Route("/{_locale}/app/{slug}", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr","slug" = "(.+)"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function appAllAction($slug)
     {
-        $categories = $this->getDoctrine()->getManager()
+        /*$categories = $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
             ->useQueryCache(false)
             ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
@@ -57,17 +70,18 @@ class DefaultController extends Controller
 
         return array(
             'categories' => $categories
-        );
+        );*/
+        return array();
     }
 
     /**
-     * @Route("/{_locale}/app/", name="loggedInHome", defaults={"_locale" = "fr"}, requirements={"_locale" = "en|fr"})
+     * @Route("/{_locale}/app/", name="loggedInHome", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function appIndexAction()
     {
-        $categories = $this->getDoctrine()->getManager()
+        /*$categories = $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
             ->useQueryCache(false)
             ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
@@ -78,7 +92,8 @@ class DefaultController extends Controller
 
         return array(
             'categories' => $categories
-        );
+        );*/
+        return array();
     }
 
     /**

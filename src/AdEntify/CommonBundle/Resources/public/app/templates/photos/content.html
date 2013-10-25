@@ -1,13 +1,16 @@
-<div id="menu-tools" class="span3"></div>
-<div id="photos" class="span12">
-    <div id="loading-photos" class="loading-gif-container">
-        <div class="loading-gif"></div>
-        <p><em class="small muted" data-i18n="photos.loading"></em></p>
+<div id="menu-tools"></div>
+<div id="photos">
+    <div class="photos-title-container text-center">
+        <% if (category) { %>
+            <h1 class="photos-title" data-i18n="category.title" data-i18n-options='{"name": "<%= category.get("name") %>"}'></h1>
+        </div>
+        <% } else { %>
+        <h1 class="photos-title"></h1>
+        <% } %>
     </div>
-    <% if (category) { %>
-    <h1 class="lead photos-title" data-i18n="category.title" data-i18n-options='{"name": "<%= category.get("name") %>"}'></h1>
-    <% } else { %>
-    <h1 class="lead photos-title"></h1>
-    <% } %>
+    <div id="loading-photos" class="loading-gif-container">
+        <div class="loader rotate"></div>
+    </div>
     <ul id="photos-grid" class="transitions-enabled clearfix"></ul>
+    <div class="clearfix"></div>
 </div>
