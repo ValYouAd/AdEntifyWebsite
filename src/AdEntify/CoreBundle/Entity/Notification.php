@@ -26,6 +26,7 @@ use JMS\Serializer\Annotation as Serializer;
 class Notification
 {
     const TYPE_UPLOAD = 'upload';
+    const TYPE_COMMENT_PHOTO = 'comment-photo';
     const TYPE_LIKE_PHOTO = 'like-photo';
     const TYPE_FAV_PHOTO = 'fav-photo';
     const TYPE_TAG_PHOTO = 'tag-photo';

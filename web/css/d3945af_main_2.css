@@ -1783,12 +1783,12 @@ label,
     margin-right: 12px;
 }
 .comment .date {
-    font-family: 'asapitalic';
+    font-family: 'asapitalic', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 10px;
     color: #a5a6a8;
 }
 .comment .media-body {
-    font-family: 'asapregular';
+    font-family: 'asapregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
     color: #5b5756;
 }

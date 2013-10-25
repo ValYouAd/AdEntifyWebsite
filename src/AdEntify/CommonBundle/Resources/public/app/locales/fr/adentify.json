@@ -234,6 +234,7 @@
       "noNotifications": "Aucune notification pour le moment",
       "photoFav": "<a href='__authorLink__'>__author__</a> a mis en favoris <a href='__photoLink__'>votre photo</a>",
       "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> a aimé <a href='__photoLink__'>votre photo</a>",
+      "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> a commenté <a href='__photoLink__'>votre photo</a>",
       "anonymousLikedPhoto": "Une personne a aimé <a href='__photoLink__'>votre photo</a>",
       "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__'>votre photo</a>"
    },
