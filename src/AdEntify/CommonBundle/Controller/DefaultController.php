@@ -59,7 +59,7 @@ class DefaultController extends Controller
      */
     public function appAllAction($slug)
     {
-        $categories = $this->getDoctrine()->getManager()
+        /*$categories = $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
             ->useQueryCache(false)
             ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
@@ -68,14 +68,10 @@ class DefaultController extends Controller
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
             ->getResult();
 
-       /* foreach($categories as $category) {
-            echo $category->getName().'<br>';
-        }
-        die;*/
-
         return array(
             'categories' => $categories
-        );
+        );*/
+        return array();
     }
 
     /**
@@ -85,7 +81,7 @@ class DefaultController extends Controller
      */
     public function appIndexAction()
     {
-        $categories = $this->getDoctrine()->getManager()
+        /*$categories = $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
             ->useQueryCache(false)
             ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
@@ -96,7 +92,8 @@ class DefaultController extends Controller
 
         return array(
             'categories' => $categories
-        );
+        );*/
+        return array();
     }
 
     /**

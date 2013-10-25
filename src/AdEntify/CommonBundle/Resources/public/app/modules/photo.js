@@ -10,9 +10,8 @@ define([
    "modules/tag",
    "modules/common",
    "modules/comment",
-   "modules/category",
    "pinterest"
-], function(app, Tag, Common, Comment, Category) {
+], function(app, Tag, Common, Comment) {
 
    var Photo = app.module();
    var loaded = false;
@@ -109,6 +108,38 @@ define([
       }
    });
 
+   Photo.Views.Modal = Backbone.View.extend({
+      template: 'photo/modal',
+
+      beforeRender: function() {
+         this.setViews({
+            "#center-modal-content": new Photo.Views.Item({
+               photo: this.options.photo,
+               comments: this.comments,
+               photoId: this.options.photo.get('id'),
+               modal: true
+            }),
+            "#right-modal-content": new Photo.Views.RightMenu({
+               photo: this.options.photo,
+               tickerPhotos: this.linkedPhotos,
+               tagged: false
+            })
+         });
+      },
+
+      initialize: function() {
+         this.comments = new Comment.Collection();
+         var Photos = require('modules/photos');
+         this.linkedPhotos = new Photos.Collection();
+         this.linkedPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_linked_photos', { id: this.options.photo.get('id') })
+         });
+         this.comments.fetch({
+            url: Routing.generate('api_v1_get_photo_comments', { id: this.options.photo.get('id') })
+         });
+      }
+   });
+
    Photo.Views.Item = Backbone.View.extend({
       template: "photo/item",
       tagName: 'div class="photo-item-container fadeOut"',
@@ -116,6 +147,7 @@ define([
       initialize: function() {
          var that = this;
          this.model = this.options.photo;
+         this.modal = typeof this.options.modal !== 'undefined' ? this.options.modal : false;
          this.listenTo(this.options.photo, {
             'error': function() {
                app.useLayout().setView('#content', new Common.Views.Alert({
@@ -158,6 +190,29 @@ define([
             }
          });
 
+         if (this.modal) {
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_photo_waiting_tags', { id: that.model.get('id') }),
+                     headers : {
+                        "Authorization": app.oauth.getAuthorizationHeader()
+                     },
+                     success: function(data) {
+                        if (data && data.length > 0) {
+                           that.unvalidateTags = [];
+                           for (var i = 0, len = data.length; i<len; i++) {
+                              that.options.photo.get('tags').push(data[i]);
+                           }
+                           that.render();
+                        }
+                     }
+                  });
+               }
+            });
+            this.$el.fadeIn();
+         }
+
          this.listenTo(app, 'tag:removeTag', function(tag) {
             this.model.get('tags').remove(tag);
             this.render();
@@ -191,12 +246,6 @@ define([
          // Comments
          this.setView('.comments', new Comment.Views.List({
             comments: this.options.comments,
-            photoId: this.options.photoId
-         }));
-
-         // Categories
-         this.setView('.categories', new Category.Views.List({
-            categories: this.options.categories,
             photoId: this.options.photoId
          }));
 
@@ -306,6 +355,12 @@ define([
                user: this.model.get('ownerModel')
             }));
          }
+         var Photos = require('modules/photos');
+         this.options.tickerPhotos.each(function(photo) {
+            this.insertView('.linked-photos-list', new Photos.Views.TickerItem({
+               model: photo
+            }));
+         }, this);
       },
 
       initialize: function() {
@@ -313,6 +368,7 @@ define([
          this.listenTo(this.options.photo, {
             'sync': this.render
          });
+         this.listenTo(this.options.tickerPhotos, 'sync', this.render);
       }
    });
 

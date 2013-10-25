@@ -6,9 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   'app',
-   'modules/common'
-], function(app, Common) {
+   'app'
+], function(app) {
 
    var User = app.module();
 

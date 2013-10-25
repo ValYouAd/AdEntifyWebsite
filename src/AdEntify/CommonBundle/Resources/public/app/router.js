@@ -39,6 +39,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             'route': this.routeTriggered
          });
 
+         // Handle scroll event
+         this.handleScrollEvent();
+
          // Initialize Fb
          app.fb = new Facebook.Model();
          // Get AdEntify accesstoken for AdEntify API
@@ -102,7 +105,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "mes/photos/non-taguees/": "myUntagged",
                "mes/photos/favorites/": "favoritesPhotos",
                "photos/non-taguees/": "untagged",
-               "photo/:id/": "photoDetail",
+               "photo/:id/": "viewPhoto",
                "upload/": "upload",
                "upload/local/": "uploadLocal",
                "mes/parametres/": "mySettings",
@@ -134,7 +137,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "instagram/photos/": "instagramPhotos",
                "flickr/sets/": "flickrSets",
                "flickr/sets/:id/photos/": "flickrPhotos",
-               "photo/:id/": "photoDetail",
+               "photo/:id/": "viewPhoto",
                "brands/": "viewBrands",
                "brand/:slug/": "viewBrand",
                "my/profile/": "myProfile",
@@ -395,7 +398,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.categories.fetch();
       },
 
-      photoDetail: function(id) {
+      viewPhoto: function(id) {
          this.reset();
 
          var photo = new Photo.Model({ 'id': id });
@@ -403,25 +406,21 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#center-pane-content": new Photo.Views.Item({
                photo: photo,
                comments: this.comments,
-               photoId: id,
-               categories: this.photoCategories
+               photoId: id
             }),
             "#right-pane-content": new Photo.Views.RightMenu({
                photo: photo,
-               tickerPhotos: this.myTickerPhotos,
+               tickerPhotos: this.tickerPhotos,
                tagged: false
             })
          }).render();
 
          photo.fetch();
-         this.myTickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
+         this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
          });
          this.comments.fetch({
             url: Routing.generate('api_v1_get_photo_comments', { id: id })
-         });
-         this.photoCategories.fetch({
-            url: Routing.generate('api_v1_get_photo_categories', { id: id })
          });
       },
 
@@ -647,7 +646,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       search: function() {
-         this.reset();
+         this.reset(false, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new Search.Views.FullList({
@@ -824,6 +824,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             message: $.t(translationKey),
             showClose: true
          }), true).render();
+      },
+
+      handleScrollEvent: function() {
+         /*$(window).scroll(function(e) {
+            $('#right-pane-scrollview').css({top: $(window).scrollTop() });
+         });*/
       }
    });
 

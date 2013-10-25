@@ -120,20 +120,26 @@
                 </section>
 
                 <section id="right-pane" class="col-sm-4 col-md-3">
-                    <section id="right-pane-content">
-                        <div class="loading-gif-container">
-                            <div class="loader rotate"></div>
-                        </div>
-                    </section>
-                    <footer>
-                        <div class="links">
-                            <a href="">{{ 'Qui sommes-nous ?'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Presse'|trans }}</a> · <a href="">{{ 'Crédits'|trans }}</a>
-                        </div>
-                        <div class="copyright">© {{ date|date('Y') }} Adentify</div>
-                    </footer>
+                    <div id="right-pane-scrollview">
+                        <section id="right-pane-content">
+                            <div class="loading-gif-container">
+                                <div class="loader rotate"></div>
+                            </div>
+                        </section>
+                        <footer>
+                            <div class="links">
+                                <a href="">{{ 'Qui sommes-nous ?'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Presse'|trans }}</a> · <a href="">{{ 'Crédits'|trans }}</a>
+                            </div>
+                            <div class="copyright">© {{ date|date('Y') }} Adentify</div>
+                        </footer>
+                    </div>
+                    <div class="push"></div>
                 </section>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div id="modal-container"></div>
     </main>
 {% endblock %}
 

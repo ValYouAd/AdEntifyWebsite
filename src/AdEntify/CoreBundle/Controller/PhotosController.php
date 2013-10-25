@@ -184,6 +184,86 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @View()
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     *
+     * @param $id
+     */
+    public function getLinkedPhotosAction($id, $page = 1, $limit = 10)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = null;
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        }
+
+        // Get photo categories
+        $categoriesId = $em->createQuery('SELECT category.id FROM AdEntify\CoreBundle\Entity\Category category
+            JOIN category.photos photo WHERE photo.id = :photoId')
+            ->setParameters(array(
+                'photoId' => $id
+            ))->getResult();
+        if (!$categoriesId) {
+            $categoriesId = array(0);
+        }
+
+        // Get friends list (id) array
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+        if ($user) {
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get followings ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $user->getFollowingsIds();
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
+        }
+
+        $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+            LEFT JOIN photo.categories category LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag
+            WHERE category.id IN (:categories) AND photo.id != :photoId AND photo.deletedAt IS NULL AND photo.status = :status
+                AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
+                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC')->setParameters(array(
+                'categories' => $categoriesId,
+                ':status' => Photo::STATUS_READY,
+                ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                ':currentUserId' => $user ? $user->getId() : 0,
+                ':facebookFriendsIds' => $facebookFriendsIds,
+                ':followings' => $followings,
+                ':photoId' => $id,
+            ))
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
+
+        $photos = null;
+        $pagination = null;
+        if ($count > 0) {
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_photo_linked_photos', array(
+                'id' => $id
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($photos, $pagination);
+    }
+
+    /**
      * @ApiDoc(
      *  resource=true,
      *  description="Post a Photo",

@@ -82,6 +82,11 @@ body {
         padding-top: 0px;
     }
 }
+/* Fix modal shift page */
+.modal-open, .modal-open .navbar-fixed-top {
+    margin-right: auto !important;
+}
+
 html,body {
     height: 100%;
     background: #eaedf1 url('../img/ticker_background.png') repeat-y 100% 0;
@@ -174,14 +179,23 @@ html,body {
 ----------------------- */
 #right-pane {
     background: url('../img/ticker_background.png') repeat;
+    position: relative;
     min-height: 100%;
     height: 100%;
     /*padding: 25px 4px 4px 4px;*/
     padding: 0px;
-    overflow: auto;
     word-wrap: break-word;
     color: #c5c5c4;
     font-family: robotoregular, Arial, sans-serif;
+}
+#right-pane-scrollview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
 }
 #right-pane .alert {
     margin-top: 20px;
@@ -892,6 +906,12 @@ html,body {
 ----------------------- */
 
 /* Ticker */
+.ticker-item .photo {
+    max-width: 100%;
+}
+.ticker-item {
+    margin: 10px;
+}
 .ticker-photos {
     list-style: none;
     padding: 0;
@@ -1647,8 +1667,28 @@ label,
     margin-top: 4px;
 }
 .modal-dialog {
-    padding-top: 15%;
-    max-width: 480px;
+    max-width: 1170px;
+    width: auto;
+}
+.hide-modal-header {
+    padding: 0px;
+    height: 0px;
+    position: relative;
+    border: 0px;
+    min-height: 0px;
+}
+.hide-modal-header .close {
+    position: absolute;
+    top: -30px;
+    right: 0px;
+    color: #b7babe;
+    text-shadow: none;
+}
+.photoModal {
+    background: #FFFFFF;
+}
+.modal-row {
+    margin-left: 0px;
 }
 .btn:focus{
     outline: none;
@@ -1817,11 +1857,11 @@ ul.striped > li:nth-child(even) {
          -o-animation: rotate 1.2s linear infinite;
             animation: rotate 1.2s linear infinite;
 }
-@-webkit-keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
-@-moz-keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
-@-ms-keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
-@-o-keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
-@keyframes rotate { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+@-webkit-keyframes rotate { from { -webkit-transform: rotateZ(0deg); } to { -webkit-transform: rotateZ(360deg); } }
+   @-moz-keyframes rotate { from { -webkit-transform: rotateZ(0deg); } to { -webkit-transform: rotateZ(360deg); } }
+    @-ms-keyframes rotate { from { -webkit-transform: rotateZ(0deg); } to { -webkit-transform: rotateZ(360deg); } }
+     @-o-keyframes rotate { from { -webkit-transform: rotateZ(0deg); } to { -webkit-transform: rotateZ(360deg); } }
+        @keyframes rotate { from { -webkit-transform: rotateZ(0deg); } to { -webkit-transform: rotateZ(360deg); } }
 
 #fblike {
     display: inline-block;

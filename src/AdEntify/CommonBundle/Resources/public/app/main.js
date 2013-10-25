@@ -194,35 +194,31 @@ function(app, Router, i18n, AppState, TagStats) {
        evt.preventDefault();
        app.appState().setLastClickedAhref(evt);
 
-       if (href.attr.replace(root, '') != window.location.href.replace(root, '')) {
-          app.startLoading(function() {
-             // `Backbone.history.navigate` is sufficient for all Routers and will
-             // trigger the correct events. The Router's internal `navigate` method
-             // calls this anyways.  The fragment is sliced from the root.
-             Backbone.history.navigate(href.attr.replace(root, ''), { trigger: true });
-
-             var $currentLink = $('.nav a[href="' + window.location.href + '"]');
-             if ($currentLink.length > 0) {
-                $currentLink.parent().siblings('.active').removeClass('active');
-                $currentLink.parent().addClass('active');
-             } else {
-                $('.nav .active').removeClass('active');
-             }
+       // Check if modal opened
+       var modalView = app.useLayout().getView('#modal-container');
+       if (modalView) {
+          app.once('modal:removed', function() {
+             loadPage(href, root);
           });
+          modalView.close();
        } else {
-          app.startLoading(function() {
-             Backbone.history.loadUrl(Backbone.history.fragment);
-
-             var $currentLink = $('.nav a[href="' + window.location.href + '"]');
-             if ($currentLink.length > 0) {
-                $currentLink.parent().siblings('.active').removeClass('active');
-                $currentLink.parent().addClass('active');
-             } else {
-                $('.nav .active').removeClass('active');
-             }
-          });
+          loadPage(href, root);
        }
     }
   });
 
+   function loadPage(href, root) {
+      if (href.attr.replace(root, '') != window.location.href.replace(root, '')) {
+         app.startLoading(function() {
+            // `Backbone.history.navigate` is sufficient for all Routers and will
+            // trigger the correct events. The Router's internal `navigate` method
+            // calls this anyways.  The fragment is sliced from the root.
+            Backbone.history.navigate(href.attr.replace(root, ''), { trigger: true });
+         });
+      } else {
+         app.startLoading(function() {
+            Backbone.history.loadUrl(Backbone.history.getFragment());
+         });
+      }
+   };
 });

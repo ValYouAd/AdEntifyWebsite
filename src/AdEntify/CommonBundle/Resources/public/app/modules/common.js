@@ -67,30 +67,57 @@ define([
 
    Common.Views.Modal = Backbone.View.extend({
       template: "common/modal",
+      showFooter: true,
+      showHeader: true,
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            title: this.title,
+            content: this.content,
+            showFooter: this.showFooter,
+            showHeader: this.showHeader,
+            modalContentClasses: this.modalContentClasses
+         };
+      },
+
+      beforeRender: function() {
+         if (typeof this.options.view !== 'undefined')
+            this.setView('.modal-body', this.options.view);
       },
 
       initialize: function() {
-         this.model = new Common.ModalModel({
-            title: this.options.title,
-            content: this.options.content
-         });
-         this.listenTo(this.model, "change", this.render);
+         this.showFooter = typeof this.options.showFooter !== 'undefined' ? this.options.showFooter : this.showFooter;
+         this.showHeader = typeof this.options.showHeader !== 'undefined' ? this.options.showHeader : this.showHeader;
+         this.title = typeof this.options.title !== 'undefined' ? this.options.title : null;
+         this.modalContentClasses = typeof this.options.modalContentClasses !== 'undefined' ? this.options.modalContentClasses : null;
+         this.content = typeof this.options.content !== 'undefined' ? this.options.content : null;
+      },
+
+      close: function() {
+         this.$('#commonModal').modal('hide');
       },
 
       afterRender: function() {
          $(this.el).i18n();
-         this.$('.commonModal').modal({
+         var that = this;
+         this.$('#commonModal').on('show.bs.modal', function() {
+            that.trigger('show');
+         });
+         this.$('#commonModal').on('hide.bs.modal', function() {
+            that.trigger('hide');
+         });
+         this.$('#commonModal').on('hidden.bs.modal', function() {
+            if (that.options.redirect) {
+               Backbone.history.navigate('', true);
+            }
+            that.remove();
+            app.trigger('modal:hidden');
+            app.trigger('modal:removed');
+         });
+         this.$('#commonModal').modal({
             backdrop: true,
             show: true
          });
-         if (this.options.redirect) {
-            this.$('.commonModal').on('hidden', function() {
-               Backbone.history.navigate('', true);
-            });
-         }
       }
    });
 

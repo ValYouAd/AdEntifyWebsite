@@ -346,6 +346,10 @@ footer a {
 .mb4 {
     margin-bottom: 40px;
 }
+.modal-dialog {
+    padding-top: 15%;
+    max-width: 480px;
+}
 
 /* End
 ----------------------- */
