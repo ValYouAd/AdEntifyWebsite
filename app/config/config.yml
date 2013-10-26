@@ -246,10 +246,10 @@ avalanche_imagine:
     filters:
         small:
             type:    thumbnail
-            options: { size: [150, 9999], mode: inset, quality: 90 }
+            options: { size: [300, 9999], mode: inset, quality: 90 }
         medium:
             type:    thumbnail
-            options: { size: [320, 9999], mode: inset, quality: 100 }
+            options: { size: [500, 9999], mode: inset, quality: 100 }
         large:
             type:    thumbnail
             options: { size: [1024, 9999], mode: inset, quality: 100 }

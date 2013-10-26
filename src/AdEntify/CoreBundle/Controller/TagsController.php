@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\SearchHistory;
@@ -221,6 +222,11 @@ class TagsController extends FosRestController
                 } else {
                     throw new HttpException(403, 'You can\t add a tag to this photo');
                 }
+            } else {
+                // TAG Action
+                $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
+                    $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                    get_class($photo), false, 'tagPhoto');
             }
 
             $tag->setOwner($user);

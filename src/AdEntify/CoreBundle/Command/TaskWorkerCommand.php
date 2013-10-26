@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Command;
 
+use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -65,10 +66,10 @@ class TaskWorkerCommand extends ContainerAwareCommand
                 $output->writeln('Task status updated');
 
                 // Do job
+                $response = array();
                 switch ($task->getType()) {
                     case Task::TYPE_UPLOAD:
                         $error = false;
-                        $response = array();
                         try {
                             $response = $this->uploadService->uploadPhotos($task->getUser(), json_decode($task->getMessage()));
                         } catch (\Exception $ex) {
@@ -90,19 +91,13 @@ class TaskWorkerCommand extends ContainerAwareCommand
                         break;
                 }
 
-                // Check if notification if required
+                // Check if notification is required
                 if (!$task->getErrorMessage()) {
-                    if ($task->getNotifyCompleted()) {
-                        $notification = new Notification();
-                        $notification->setType(Notification::TYPE_UPLOAD);
-                        switch ($task->getType()) {
-                            case Task::TYPE_UPLOAD:
-                                $notification->setMessage('notification.photosUploaded');
-                                break;
-                        }
-                        if ($task->getUser())
-                            $notification->setOwner($task->getUser());
-                        $this->em->persist($notification);
+                    if ($task->getType() == Task::TYPE_UPLOAD) {
+                        // UPLOAD PHOTO Action & notification
+                        $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_UPLOAD,
+                            $task->getUser(), null, $response['photos'], Action::VISIBILITY_FRIENDS, null, null,
+                            $task->getNotifyCompleted(), 'photosUploaded');
                     }
                     // Task completed, remove it
                     $this->em->remove($task);

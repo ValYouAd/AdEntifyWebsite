@@ -349,8 +349,11 @@ html,body {
          @-o-keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
             @keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
 
-    #photos-grid li div.medium { width: 320px; text-align: center; }
-    #photos-grid li div.medium img { max-width: 100%; margin: auto; }
+    #photos-grid li div.medium { width: 422px; text-align: center; }
+    #photos-grid li div.medium img { max-width: 100%; min-width: 100%; margin: auto; }
+    @media (max-width: 1200px) {
+        #photos-grid li div.medium { width: 348px; text-align: center; }
+    }
     #photos-grid li div.large { width: 100%; text-align: center; }
     #photos-grid li div.large img { max-width: 100%; margin: auto; }
 /* Photos
@@ -579,6 +582,36 @@ html,body {
     margin-top: -6px;
 }
 /*
+----------------------- */
+
+/* MODULE : Actions
+----------------------- */
+.actions-list {
+    margin-top: 7px;
+}
+.actions-list {
+    margin: 7px 10px 0px 10px;
+    font-size: 12px;
+    font-family: 'robotoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #c5c5c4;
+}
+.actions-list .ticker_separator {
+    margin: 7px 0px;
+}
+.actions-list a,
+.actions-list a:hover {
+    font-family: 'robotobold', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #c5c5c4;
+}
+.actions-list .profile-picture {
+    margin-right: 6px;
+    max-height: 40px;
+}
+.actions-list .small-photo {
+    max-width: 60px;
+    margin: -6px 0px -6px 5px;
+}
+/* END MODULE : Actions
 ----------------------- */
 
 /* MODULE : Tag

@@ -232,11 +232,22 @@
       "inProgress": "Récupération des notifications en cours...",
       "photosUploaded": "Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer.",
       "noNotifications": "Aucune notification pour le moment",
-      "photoFav": "<a href='__authorLink__'>__author__</a> a mis en favoris <a href='__photoLink__'>votre photo</a>",
-      "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> a aimé <a href='__photoLink__'>votre photo</a>",
-      "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> a commenté <a href='__photoLink__'>votre photo</a>",
-      "anonymousLikedPhoto": "Une personne a aimé <a href='__photoLink__'>votre photo</a>",
-      "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__'>votre photo</a>"
+      "photoFav": "<a href='__authorLink__'>__author__</a> a mis en favoris <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> a aimé <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> a commenté <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "anonymousLikedPhoto": "Une personne a aimé <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné à vos photos"
+   },
+   "action": {
+      "errorLoading": "Une erreur est survenue lors de la récupération des actions.",
+      "noActions": "Aucune action à afficher.",
+      "photoFav": "<a href='__authorLink__'>__author__</a> a mis en favoris <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> a aimé <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> a commenté <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "anonymousLikedPhoto": "Une personne a aimé <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné à vos photos"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",
