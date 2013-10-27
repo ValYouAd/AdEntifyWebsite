@@ -34,6 +34,9 @@ define([
          if (this.has('author') ) {
             this.set('authorModel', new User.Model(this.get('author')));
          }
+         if (this.has('owner') ) {
+            this.set('ownerModel', new User.Model(this.get('owner')));
+         }
          if (this.get('object_type') === "AdEntify\\CoreBundle\\Entity\\Photo") {
             this.set('photoLink', app.beginUrl + app.root + $.t('routing.photo/id/', {id: this.get('object_id') }));
          }

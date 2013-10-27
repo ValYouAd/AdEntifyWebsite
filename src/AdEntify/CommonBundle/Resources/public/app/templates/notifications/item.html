@@ -10,16 +10,18 @@
     <% }); %>
 </div>
 <% } %>
-<% if (model.get("type") == "upload") { %>
+<% if (model.get("type") == "photo-upload") { %>
 <div class="message"><a data-i18n="[href]routing.my/photos/untagged/"><span data-i18n="<%= model.get("message") %>"></span></a></div>
-<% } else if (model.get("type") == "like-photo" || model.get("type") == "fav-photo" || model.get("type") == "tag-photo"
-                || model.get("type") == "comment-photo") { %>
+<% } else if (model.get("type") == "photo-like" || model.get("type") == "photo-fav" || model.get("type") == "photo-tag"
+                || model.get("type") == "photo-comment" || model.get("type") == "user-follow") { %>
 <div class="message">
-    <% if (model.has("authorModel")) { %>
+    <% if (model.has("authorModel") && model.has('ownerModel')) { %>
+    <span data-i18n="[html]<%= model.get("message") %>" data-i18n-options='{"authorLink": "<%= model.get('authorModel').get('link') %>", "author": "<%= model.get('authorModel').get('fullname') %>", "ownerLink": "<%= model.get('ownerModel').get('link') %>", "owner": "<%= model.get('ownerModel').get('fullname') %>", "photoLink": "<%= model.get('photoLink') %>" }'></span>
+    <% } else if (model.has('authorModel')) { %>
     <span data-i18n="[html]<%= model.get("message") %>" data-i18n-options='{"authorLink": "<%= model.get('authorModel').get('link') %>", "author": "<%= model.get('authorModel').get('fullname') %>", "photoLink": "<%= model.get('photoLink') %>" }'></span>
     <% } %>
 </div>
 <% } else { %>
-<div class="message"><span data-i18n="<%= model.get("message") %>"></span></div>
+<div class="message"><%= $.t(model.get("message")) %>"></div>
 <% } %>
 <div class="clearfix"></div>

@@ -1,10 +1,9 @@
-<a href="photo/<%= model.get('photo')['id'] %>/">
-    <img src="<%= model.get("photo")["small_url"] %>" class="photo pull-left" alt="<%= model.get("photo")["caption"] %>" />
+<a href="<%= model.get('link') %>" data-bypass="" data-photo-link="">
+    <img src="<%= model.get('small_url') %>" class="photo pull-left" alt="<%= model.get('caption') %>" />
 </a>
 
 <div class="photo-details">
-    <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a><br>
-    <small>Par <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a></small>
+    <a href="<%= model.get('link') %>" data-bypass="" data-photo-link=""><%= model.get('caption') %></a><br>
+    <small>Par <a href="<%= model.get('ownerModel').get('link') %>"><%= model.get('ownerModel').get('fullname') %></a></small>
 </div>
-
 <div class="clearfix"></div>

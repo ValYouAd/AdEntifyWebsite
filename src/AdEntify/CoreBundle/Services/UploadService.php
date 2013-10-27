@@ -45,7 +45,8 @@ class UploadService
         if ($data->images) {
             $images = $data->images;
             $source = $data->source ? $data->source : '';
-            $uploadedPhotos = $failedPhotos = 0;
+            $countUploadedPhotos = $failedPhotos = 0;
+            $uploadedPhotos = array();
             $venues = array();
 
             foreach($images as $image) {
@@ -213,7 +214,8 @@ class UploadService
 
                     $photo->setStatus(Photo::STATUS_READY);
 
-                    $uploadedPhotos++;
+                    $uploadedPhotos[] = $photo;
+                    $countUploadedPhotos++;
                 }
                 // Online photos, download them
                 else {
@@ -235,7 +237,8 @@ class UploadService
                     if ($originalStatus['status'] !== false) {
                         $photo->setOriginalUrl($this->rootUrl . 'uploads/photos/users/' . $user->getId(). '/original/' . $filename);
                         $thumb->setOriginalPath($originalPath.$filename);
-                        $uploadedPhotos++;
+                        $uploadedPhotos[] = $photo;
+                        $countUploadedPhotos++;
 
                         // GET SMALL IMAGE
                         if (array_key_exists('smallSource', $image)) {
@@ -361,7 +364,8 @@ class UploadService
             $this->em->flush();
 
             return array(
-                'uploaded_images' => $uploadedPhotos,
+                'uploaded_images' => $countUploadedPhotos,
+                'photos' => $uploadedPhotos,
                 'failed_images' => $failedPhotos
             );
         } else {

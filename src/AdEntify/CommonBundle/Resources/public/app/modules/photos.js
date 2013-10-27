@@ -58,7 +58,7 @@ define([
       },
 
       afterRender: function() {
-         $(this.el).find('img').load(function() {
+         $(this.el).find('.photo-img-medium').load(function() {
             $(this).animate({'ohoto-acity': '1.0'});
          });
          $(this.el).i18n();
@@ -111,7 +111,11 @@ define([
          openedContainer = null;
 
          var that = this;
-         this.options.photos.once('sync', this.render, this);
+         if (typeof this.options.listenToEnable !== 'undefined') {
+            this.listenTo(this.options.photos, 'sync', this.render);
+         } else {
+            this.options.photos.once('sync', this.render, this);
+         }
          this.listenTo(this.options.photos, 'remove', this.render);
          this.listenTo(app, 'global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
@@ -159,7 +163,10 @@ define([
       afterRender: function() {
          var that = this;
          $(this.el).i18n();
-         $(this.el).find('.photos-title').html(this.title);
+         if (this.title) {
+            $(this.el).find('.photos-title').html(this.title);
+            $(this.el).find('.photos-title').fadeIn('fast');
+         }
          container = this.$('#photos-grid');
 
          // Wait images loaded

@@ -1195,8 +1195,11 @@ html,body {
          @-o-keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
             @keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
 
-    #photos-grid li div.medium { width: 320px; text-align: center; }
-    #photos-grid li div.medium img { max-width: 100%; margin: auto; }
+    #photos-grid li div.medium { width: 422px; text-align: center; }
+    #photos-grid li div.medium img { max-width: 100%; min-width: 100%; margin: auto; }
+    @media (max-width: 1200px) {
+        #photos-grid li div.medium { width: 348px; text-align: center; }
+    }
     #photos-grid li div.large { width: 100%; text-align: center; }
     #photos-grid li div.large img { max-width: 100%; margin: auto; }
 /* Photos
@@ -1427,6 +1430,55 @@ html,body {
 /*
 ----------------------- */
 
+/* MODULE : Actions
+----------------------- */
+.actions-list img {
+    max-width: 100%;
+}
+.actions-list {
+    margin: 7px 10px 0px 10px;
+    font-size: 12px;
+    font-family: 'robotoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #c5c5c4;
+}
+.actions-list .ticker_separator {
+    margin: 7px 0px;
+}
+.actions-list a,
+.actions-list a:hover {
+    font-family: 'robotobold', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #c5c5c4;
+}
+.actions-list .profile-picture {
+    margin-right: 6px;
+    max-height: 40px;
+}
+.actions-list .small-photo {
+    max-width: 60px;
+    margin: -6px 0px -6px 5px;
+}
+.actions-list .action-photo,
+.actions-list .action-photos {
+    margin-top: 6px;
+}
+.action-photos .photo-link {
+    margin: 1%;
+}
+.action-photos .photo-0 {
+    float: left;
+    width: 63%;
+}
+.action-photos .photo-1 {
+    width: 33%;
+    float:right;
+}
+.action-photos .photo-2 {
+    width: 33%;
+    float:right;
+}
+/* END MODULE : Actions
+----------------------- */
+
 /* MODULE : Tag
 ----------------------- */
 .tags {
@@ -1597,6 +1649,12 @@ html,body {
     .search-bar .photo-details {
         padding-top: 4px;
     }
+.search-infos {
+    font-size: 36px;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #2c2c2e;
+    padding: 30px 0px;
+}
 /*
 ----------------------- */
 
@@ -1694,13 +1752,13 @@ html,body {
     color: #2c2c2e;
     padding: 35px 0px;
 }
-#brands .brand-logo {
+.brand-logo {
     max-height: 100px;
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
     filter: grayscale(100%);
 }
-#brands .brand-logo:hover {
+.brand-logo:hover {
     -webkit-filter: none;
     -moz-filter: none;
     filter: none;
@@ -2196,7 +2254,9 @@ html,body {
     -o-background-size: cover;
     background-size: cover;
 }
-.btn-facebook {
+.btn-facebook,
+.btn-facebook:hover,
+.btn-facebook:active {
     font-size: 11px;
     background: rgb(77,107,165);
     background: -moz-linear-gradient(top,  rgba(77,107,165,1) 0%, rgba(51,79,141,1) 50%);
@@ -2216,7 +2276,9 @@ html,body {
     top: 5px;
     margin-right: 6px;
 }
-.btn-twitter {
+.btn-twitter,
+.btn-twitter:hover,
+.btn-twitter:active {
     font-size: 11px;
     background: rgb(44,190,243);
     background: -moz-linear-gradient(top,  rgba(44,190,243,1) 0%, rgba(24,171,239,1) 50%);

@@ -22,12 +22,13 @@ define([
    "modules/category",
    "modules/search",
    "modules/comment",
-   "modules/notifications"
+   "modules/notifications",
+   'modules/action'
 ],
 
 function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, User,
-         Common, Category, Search, Comment, Notifications) {
+         Common, Category, Search, Comment, Notifications, Action) {
 
    var searchSetup = false;
    var notificationsSetup = false;
@@ -83,10 +84,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             brands: new Brand.Collection(),
             categories: new Category.Collection(),
             photoCategories: new Category.Collection(),
-            searchResults: new Search.Collection(),
+            searchPhotos: new Photos.Collection(),
+            searchUsers: new User.Collection(),
             comments: new Comment.Collection(),
             notifications: new Notifications.Collection(),
-            users: new User.Collection()
+            users: new User.Collection(),
+            actions: new Action.Collection()
          };
          _.extend(this, collections);
 
@@ -168,8 +171,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                photos: this.photos,
                tagged: true
             }),
-            "#right-pane-content": new Photos.Views.Ticker({
-               tickerPhotos: this.tickerPhotos
+            "#right-pane-content": new Action.Views.List({
+               actions: this.actions
             })
          }).render();
 
@@ -183,13 +186,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                that.errorCallback('photos.errorPhotosLoading');
             }
          });
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: false }),
+         this.actions.fetch({
+            url: Routing.generate('api_v1_get_actions'),
             success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos', '#right-pane-content');
+               that.successCallback(collection, 'action.noActions', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('photos.errorPhotosLoading', '#right-pane-content');
+               that.errorCallback('action.errorLoading', '#right-pane-content');
             }
          });
       },
@@ -651,8 +654,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          app.useLayout().setViews({
             "#center-pane-content": new Search.Views.FullList({
-               searchResults: this.searchResults,
-               users: this.users
+               photos: this.searchPhotos,
+               users: this.searchUsers
             })
          }).render();
       },
@@ -704,6 +707,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.users.length) {
             this.users.fullReset();
          }
+         if (this.actions.length) {
+            this.actions.fullReset();
+         }
          if ($('html, body').hasClass('body-grey-background')) {
             $('html, body').removeClass('body-grey-background');
          }
@@ -714,8 +720,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (!searchSetup) {
             searchSetup = true;
             app.useLayout().setView('#search-bar', new Search.Views.Form({
-               searchResults: this.searchResults,
-               users: this.users
+               photos: this.searchPhotos,
+               users: this.searchUsers
             })).render();
          }
          if (!notificationsSetup) {

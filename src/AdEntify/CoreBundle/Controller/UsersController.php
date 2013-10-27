@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Tag;
@@ -246,6 +247,11 @@ class UsersController extends FosRestController
             $follower = $this->container->get('security.context')->getToken()->getUser();
             $following = $this->getAction($id);
             if ($following && $follower->getId() != $following->getId() && !$this->getIsFollowingAction($id)) {
+                // FOLLOW Action & notification
+                $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_FOLLOW,
+                    $follower, $following, null, Action::VISIBILITY_FRIENDS, null,
+                    null, true, 'followUser');
+
                 $follower->addFollowing($following);
                 $follower->setFollowingsCount($follower->getFollowingsCount() + 1);
                 $following->setFollowersCount($following->getFollowersCount() + 1);

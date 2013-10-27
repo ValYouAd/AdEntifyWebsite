@@ -11,13 +11,13 @@
         </div>
 
         <div class="form-group modal-body-wrapper">
-            <input class="form-control" type="password" id="password" name="_password" required="required" placeholder="Mot de passe" />
+            <input class="form-control" type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" />
         </div>
 
         <div class="form-group grey-transparent-background">
             <div class="col-md-6">
             <label>
-                <input type="checkbox" id="remember_me" name="_remember_me" value="on" /> Se souvenir de moi
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" /> {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
             </label>
             </div>
             <div class="col-md-6">

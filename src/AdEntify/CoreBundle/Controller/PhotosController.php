@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\PhotoType;
@@ -30,6 +31,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 use AdEntify\CoreBundle\Entity\Photo;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class PhotosController
@@ -180,7 +182,10 @@ class PhotosController extends FosRestController
             ))
             ->getOneOrNullResult();
 
-        return $photo;
+        if ($photo)
+            return $photo;
+        else
+            throw new NotFoundHttpException('Photo not found');
     }
 
     /**
@@ -571,12 +576,11 @@ class PhotosController extends FosRestController
                     // Add favorite
                     $user->addFavoritePhoto($photo);
 
-                    // Notification
-                    $notification = new Notification();
-                    $notification->setType(Notification::TYPE_FAV_PHOTO)->setObjectId($photo->getId())->addPhoto($photo)
-                        ->setObjectType(get_class($photo))->setOwner($photo->getOwner())->setMessage('notification.photoFav')
-                        ->setAuthor($user);
-                    $em->persist($notification);
+                    // FAVORITE Action & notification
+                    $sendNotification = $user->getId() != $photo->getOwner()->getId();
+                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
+                        $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                        get_class($photo), $sendNotification, 'photoFav');
                 } else {
                     $user->removeFavoritePhoto($photo);
                 }
