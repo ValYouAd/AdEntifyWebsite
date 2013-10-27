@@ -803,6 +803,12 @@ html,body {
     .search-bar .photo-details {
         padding-top: 4px;
     }
+.search-infos {
+    font-size: 36px;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #2c2c2e;
+    padding: 30px 0px;
+}
 /*
 ----------------------- */
 

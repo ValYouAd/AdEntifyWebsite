@@ -15,7 +15,7 @@
         </div>
         <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.get("product").get("brand")) { %> - <%= model.get("product").get("brand")["name"] %><% } %></a></span>
         <div class="text-center">
-            <img src="<%= model.get("product").get("fullSmallUrl") %>">
+            <img src="<%= model.get("product").get("small_url") %>">
         </div>
         <% if (model.get("description")) { %>
         <p><%= model.get("description") %></p>

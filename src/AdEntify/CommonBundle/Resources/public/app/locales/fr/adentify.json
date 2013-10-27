@@ -215,7 +215,8 @@
       "error": "Impossible de récupérer les résultats",
       "viewMore": "Voir tous les résultats",
       "tagsBlockTitle": "Tags",
-      "usersBlockTitle": "Utilisateurs"
+      "usersBlockTitle": "Utilisateurs",
+      "noSearch": "Aucune recherche pour le moment"
    },
    "comment": {
       "noComments": "Aucun commentaire pour le moment, soyez le premier à réagir !",

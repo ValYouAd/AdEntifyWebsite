@@ -5,7 +5,7 @@
 <% } %>
 <% if (model.has('photo')) { %>
 <div class="pull-right">
-    <a href="<%= model.get('photo').get('link') %>" data-bypass="" class="photo-link"><img src="<%= model.get('photo').get('fullSmallUrl') %>" class="small-photo" /></a>
+    <a href="<%= model.get('photo').get('link') %>" data-bypass="" class="photo-link"><img src="<%= model.get('photo').get('small_url') %>" class="small-photo" /></a>
 </div>
 <%= model.has('message_options') ? $.t(model.get('message'), model.get('message_options')) : $.t(model.get('message'), { 'photoLink': model.get('photo').get('link'), 'authorLink' : model.get('authorModel').get('link'), 'author': model.get('authorModel').get('fullname') }) %>
 <% } %>

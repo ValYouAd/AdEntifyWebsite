@@ -1,46 +1,29 @@
 define([
-   "app",
-   "modules/common"
-], function(app, Common) {
+   'app',
+   'modules/common',
+   'modules/photos'
+], function(app, Common, Photos) {
 
    var Search = app.module();
 
-   Search.Model = Backbone.Model.extend({
-      initialize: function() {
-         this.listenTo(this, {
-            'change': this.updateUrl,
-            'add': this.updateUrl
-         });
-      },
-
-      updateUrl: function() {
-         //this.set('photoSmallUrl', app.rootUrl + 'uploads/photos/users/' + this.get('photo')['owner']['id'] + '/small/' + this.get('photo')['small_url']);
-         this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('photo')['owner']['id'] }));
-         this.set('fullname', this.get('photo')['owner']['firstname'] + ' ' + this.get('photo')['owner']['lastname']);
-      }
-   });
-
-   Search.Collection = Backbone.Collection.extend({
-      model: Search.Model,
-
-      url: function()
-      {
-         return Routing.generate("api_v1_get_tag_search");
-      },
-
-      cache: true
-   });
-
    Search.Views.Item = Backbone.View.extend({
       template: "search/item",
-      tagName: "li",
+      tagName: 'li',
 
       serialize: function() {
          return { model: this.model };
       },
 
       initialize: function() {
-         this.listenTo(this.model, "change", this.render);
+         this.listenTo(this.model, 'change', this.render);
+      },
+
+      showPhoto: function(evt) {
+         Photos.Common.showPhoto(evt, this.model);
+      },
+
+      events: {
+         'click a[data-photo-link]': 'showPhoto'
       }
    });
 
@@ -53,7 +36,7 @@ define([
       },
 
       initialize: function() {
-         this.listenTo(this.model, "change", this.render);
+         this.listenTo(this.model, 'change', this.render);
       }
    });
 
@@ -67,9 +50,10 @@ define([
       },
 
       beforeRender: function() {
-         this.options.searchResults.each(function(result) {
+         this.options.photos.each(function(photo) {
+            photo.setup();
             this.insertView(".search-tags-results", new Search.Views.Item({
-               model: result
+               model: photo
             }));
          }, this);
          this.options.users.each(function(user) {
@@ -85,7 +69,7 @@ define([
 
       initialize: function() {
          var that = this;
-         this.listenTo(this.options.searchResults, 'sync', this.render);
+         this.listenTo(this.options.photos, 'sync', this.render);
          this.listenTo(this.options.users, 'sync', this.render);
          this.listenTo(app, 'search:starting', function() {
             if (!this.isFullscreenSearch()) {
@@ -98,7 +82,7 @@ define([
          this.listenTo(app, 'search:completed', function() {
             if (!this.isFullscreenSearch()) {
                $('.search-loading').stop().fadeOut();
-               if (that.options.searchResults.length == 0) {
+               if (that.options.photos.length == 0) {
                   app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
                      cssClass: Common.alertInfo,
                      message: $.t('search.noResults'),
@@ -123,7 +107,7 @@ define([
             $('.search-bar .dropdown-menu').stop().fadeOut();
          });
          this.listenTo(app, 'search:show', function() {
-            if (that.options.searchResults.length > 0)
+            if (!that.isFullscreenSearch && that.options.photos.length > 0)
                $('.search-bar .dropdown-menu').stop().fadeIn();
          });
       },
@@ -135,12 +119,13 @@ define([
 
    Search.Views.Form = Backbone.View.extend({
       template: "search/searchBar",
+      searchTimeout: null,
 
       initialize: function() {
-         this.searchResults = this.options.searchResults;
+         this.photos = this.options.photos;
          this.users = this.options.users;
          app.useLayout().setView('.search-results-container', new Search.Views.List({
-            searchResults: this.searchResults,
+            photos: this.photos,
             users: this.users
          })).render();
       },
@@ -154,14 +139,20 @@ define([
 
       search: function(e) {
          e.preventDefault();
-         this.startSearch();
+         if (this.searchTimeout)
+            clearTimeout(this.searchTimeout);
+         var that = this;
+         this.searchTimeout = setTimeout(function() {
+            that.startSearch();
+         }, 500);
       },
 
       startSearch: function() {
          $searchInput = $(this.el).find('.search-query');
          if ($searchInput.val()) {
             app.trigger('search:starting', $searchInput.val());
-            this.searchResults.fetch({
+            this.photos.fetch({
+               url: Routing.generate('api_v1_get_tag_search'),
                data: { 'query': $searchInput.val() },
                complete: function() {
                   app.trigger('search:completed');
@@ -240,11 +231,13 @@ define([
       },
 
       beforeRender: function() {
-         this.options.searchResults.each(function(result) {
-            this.insertView(".search-tags-results", new Search.Views.FullItem({
-               model: result
+         if (!this.getView('.search-photos-results')) {
+            var Photos = require('modules/photos');
+            this.setView('.search-photos-results', new Photos.Views.Content({
+               photos: this.options.photos,
+               listenToEnable: true
             }));
-         }, this);
+         }
          this.options.users.each(function(result) {
             this.insertView(".search-users-results", new Search.Views.FullUserItem({
                model: result
@@ -254,7 +247,7 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-         if (this.options.searchResults.length == 0) {
+         if (this.options.photos.length == 0) {
             app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t('search.noResults'),
@@ -272,7 +265,7 @@ define([
 
       initialize: function() {
          var that = this;
-         this.listenTo(this.options.searchResults, {
+         this.listenTo(this.options.photos, {
             "sync": this.render
          });
          this.listenTo(app, 'search:starting', function(terms) {
@@ -283,7 +276,7 @@ define([
          });
          this.listenTo(app, 'search:completed', function() {
             $('.search-loading').stop().fadeOut();
-            if (that.options.searchResults.length == 0) {
+            if (that.options.photos.length == 0) {
                app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t('search.noResults'),

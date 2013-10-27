@@ -65,7 +65,7 @@
                     {% endfor %}
                 </div>
 
-                <div class="text-center"><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> Plus de photos</a></div>
+                <div class="text-center"><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> {{ 'More photos'|trans }}</a></div>
             </div>
         </div>
     </div>

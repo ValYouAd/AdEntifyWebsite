@@ -84,7 +84,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             brands: new Brand.Collection(),
             categories: new Category.Collection(),
             photoCategories: new Category.Collection(),
-            searchResults: new Search.Collection(),
+            searchPhotos: new Photos.Collection(),
+            searchUsers: new User.Collection(),
             comments: new Comment.Collection(),
             notifications: new Notifications.Collection(),
             users: new User.Collection(),
@@ -653,8 +654,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          app.useLayout().setViews({
             "#center-pane-content": new Search.Views.FullList({
-               searchResults: this.searchResults,
-               users: this.users
+               photos: this.searchPhotos,
+               users: this.searchUsers
             })
          }).render();
       },
@@ -706,6 +707,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.users.length) {
             this.users.fullReset();
          }
+         if (this.actions.length) {
+            this.actions.fullReset();
+         }
          if ($('html, body').hasClass('body-grey-background')) {
             $('html, body').removeClass('body-grey-background');
          }
@@ -716,8 +720,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (!searchSetup) {
             searchSetup = true;
             app.useLayout().setView('#search-bar', new Search.Views.Form({
-               searchResults: this.searchResults,
-               users: this.users
+               photos: this.searchPhotos,
+               users: this.searchUsers
             })).render();
          }
          if (!notificationsSetup) {

@@ -6,7 +6,7 @@
 <%= $.t('action.photoUploaded', { 'authorLink' : model.get('authorModel').get('link'), 'author': model.get('authorModel').get('fullname'), 'photoLink' : model.get('photo').get('link') }) %>
 <div class="clearfix"></div>
 <div class="action-photo">
-    <a href="<%= model.get('photo').get('link') %>" data-bypass='' class='photo-link'><img src="<%= model.get('photo').get('fullMediumUrl') %>" alt="<%= model.get('photo').get('caption') %>" /></a>
+    <a href="<%= model.get('photo').get('link') %>" data-bypass='' class='photo-link'><img src="<%= model.get('photo').get('medium_url') %>" alt="<%= model.get('photo').get('caption') %>" /></a>
 </div>
 <div class="clearfix"></div>
 <div class="ticker_separator"></div>
