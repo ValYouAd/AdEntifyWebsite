@@ -881,13 +881,13 @@ html,body {
     color: #2c2c2e;
     padding: 35px 0px;
 }
-#brands .brand-logo {
+.brand-logo {
     max-height: 100px;
     -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
     filter: grayscale(100%);
 }
-#brands .brand-logo:hover {
+.brand-logo:hover {
     -webkit-filter: none;
     -moz-filter: none;
     filter: none;

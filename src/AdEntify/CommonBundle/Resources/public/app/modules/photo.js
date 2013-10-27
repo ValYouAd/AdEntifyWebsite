@@ -48,10 +48,15 @@ define([
          this.set('fullMediumUrl', this.get('medium_url'));
          this.set('fullLargeUrl', this.get('large_url'));
          this.set('fullSmallUrl', this.get('small_url'));
-         this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
+         if (this.has('owner')) {
+            this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
+            this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
+            var User = require('modules/user');
+            this.set('ownerModel', new User.Model(this.get('owner')));
+         }
          this.set('link', app.beginUrl + app.root + $.t('routing.photo/id/', { id: this.get('id') }));
          if (this.has('owner'))
-            this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
+
          if (!this.has('tagsConverted')) {
             this.set('tagsConverted', '');
             var tags = new Tag.Collection();
@@ -61,10 +66,6 @@ define([
                });
             }
             this.set('tags', tags);
-         }
-         if (this.has('owner')) {
-            var User = require('modules/user');
-            this.set('ownerModel', new User.Model(this.get('owner')));
          }
       },
 

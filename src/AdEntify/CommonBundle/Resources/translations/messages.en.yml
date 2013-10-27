@@ -24,11 +24,29 @@ About Us: About Us
 Search a user, place, brand...: Search a user, place, brand...
 A la une: A la une
 Start: Start
+People to follow: People to follow
+Already: Already
+Most tagged Brands: Most tagged Brands
+Advertisers: Advertisers
+Press: Press
+Contact: Contact
+Legal notice: Legal notice
+About: About
+More brands: More brands
+More members: More members
+Login: Login
+Sign Up: Sign Up
+
+#Login
+modal:
+    login: Login
+    signup: Sign Up
 
 #Routing
 photos/untagged/: photos/untagged/
 my/photos/tagged/: my/photos/tagged/
 my/photos/untagged/: my/photos/untagged/
+photo/%id%/: photo/%id%/
 brands/: brands/
 'brand/%slug%/': brand/%slug%
 my/settings/: my/settings/

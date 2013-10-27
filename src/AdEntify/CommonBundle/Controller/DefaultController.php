@@ -2,6 +2,7 @@
 
 namespace AdEntify\CommonBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\Tests\Common\Annotations\False;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,15 +41,23 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $tagsCount = $em->createQuery('SELECT COUNT(tag.id) FROM AdEntify\CoreBundle\Entity\Tag tag')->getSingleScalarResult();
-        $users = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user ORDER BY user.followersCount DESC')
-            ->setMaxResults(7)->getResult();
+        $users = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user WHERE user.facebookId IS NOT NULL ORDER BY user.followersCount DESC')
+            ->setMaxResults(6)->getResult();
         $brands = $em->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand ORDER BY brand.tagsCount DESC')
             ->setMaxResults(12)->getResult();
+        $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+            WHERE photo.visibilityScope = :visibilityScope AND photo.deletedAt IS NULL AND photo.status = :status ORDER BY photo.createdAt DESC')
+            ->setParameters(array(
+                ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                ':status' => Photo::STATUS_READY,
+            ))
+            ->setMaxResults(9)->getResult();
 
         return array(
             'tagsCount' => str_split($tagsCount),
             'users' => $users,
-            'brands' => $brands
+            'brands' => $brands,
+            'photos' => $photos
         );
     }
 
@@ -59,18 +68,6 @@ class DefaultController extends Controller
      */
     public function appAllAction($slug)
     {
-        /*$categories = $this->getDoctrine()->getManager()
-            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
-            ->useQueryCache(false)
-            ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
-            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
-            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
-            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
-            ->getResult();
-
-        return array(
-            'categories' => $categories
-        );*/
         return array();
     }
 

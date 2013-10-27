@@ -234,8 +234,26 @@ footer a {
 
 /* A la une
 ----------------------- */
-.a-la-une {
-
+.a-la-une .photos {
+    margin: 40px 0px;
+}
+.a-la-une .photo-wrapper {
+    padding: 0px 10px;
+}
+.a-la-une .photo {
+    border: 10px solid #FFFFFF;
+    -webkit-box-shadow: 0px 2px 9px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    0px 2px 9px rgba(50, 50, 50, 0.5);
+    box-shadow:         0px 2px 9px rgba(50, 50, 50, 0.5);
+    height: 300px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 5px 0px;
+    display: block;
 }
 
 /* End A la une
@@ -279,7 +297,55 @@ footer a {
 
 /* Follows
 ----------------------- */
-
+.people-to-follow {
+    margin: 40px 0px;
+}
+.people-to-follow .username {
+    text-transform: uppercase;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 14px;
+    color: #181616;
+    margin-top: 6px;
+}
+.people-to-follow .profile-picture-wrapper {
+    position: relative;
+}
+.people-to-follow .profile-picture {
+    width: 100px;
+    height: 100px;
+}
+.people-to-follow .profile-picture-wrapper .icon_more_red {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -19px;
+    margin-top: -19px;
+}
+.people-to-follow .profile-picture-wrapper .profile-picture-hover {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+}
+.people-to-follow .profile-picture-wrapper .icon_more_red,
+.people-to-follow .profile-picture-wrapper .profile-picture-hover {
+    opacity: 0;
+    -webkit-transition: opacity 0.1s ease-in;
+    -moz-transition: opacity 0.1s ease-in;
+    -o-transition: opacity 0.1s ease-in;
+    transition: opacity 0.1s ease-in;
+    position: absolute;
+}
+.people-to-follow a:hover .icon_more_red,
+.people-to-follow a:hover .profile-picture-hover {
+    opacity: 1;
+}
+.people-to-follow a,
+.people-to-follow a:hover {
+    text-decoration: none;
+    color: #181616;
+}
 /* End follows
 ----------------------- */
 
@@ -291,6 +357,12 @@ footer a {
 
 /* Brands
 ----------------------- */
+.brand {
+    padding: 0 20px;
+}
+.brand-logo {
+    width: 100%;
+}
 
 /* End Brands
 ----------------------- */

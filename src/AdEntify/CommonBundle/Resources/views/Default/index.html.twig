@@ -35,8 +35,8 @@
         <h1 class="pastille-adentify">AdEntify</h1>
 
         <div class="account-buttons">
-            <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> <span class="text">Se connecter</span></button>
-            <button data-toggle="modal" data-target="#signupModal" type="button" class="btn signup"><i class="icon signup-icon"></i> <span class="text">S'inscrire</span></button>
+            <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> <span class="text">{{ 'Login'|trans }}</span></button>
+            <button data-toggle="modal" data-target="#signupModal" type="button" class="btn signup"><i class="icon signup-icon"></i> <span class="text">{{ 'Sign Up'|trans }}</span></button>
         </div>
 
     </header>
@@ -57,6 +57,14 @@
             <div class="a-la-une content-block">
                 <h2 class="text-center pacifico-heading">{{ 'A la une'|trans }}</h2>
 
+                <div class="row photos">
+                    {% for photo in photos %}
+                        <div class="col-xs-6 col-sm-4 col-md-4 photo-wrapper">
+                            <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="photo" style="background-image: url({{ photo.mediumUrl }})"></a>
+                        </div>
+                    {% endfor %}
+                </div>
+
                 <div class="text-center"><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> Plus de photos</a></div>
             </div>
         </div>
@@ -65,7 +73,7 @@
     <div class="tags-count-bg">
         <div class="container text-center">
             <div class="tags-count-icon"><img src="{{ asset('bundles/adentifycommon/images/photo_count_icon.png') }}" /></div>
-            <div class="counter-text">Déjà</div>
+            <div class="counter-text">{{ 'Already'|trans }}</div>
             <div class="counter">
                 {% for digit in tagsCount %}
                     <span class="counter-number">{{ digit }}</span>
@@ -78,47 +86,58 @@
     <div class="white-bg">
         <div class="container">
             <div class="content-block">
-                <h2 class="text-center asap-heading">Personnes à suivre</h2>
+                <h2 class="text-center asap-heading">{{ 'People to follow'|trans }}</h2>
 
-                {% for user in users %}
-                {{ user.firstname }}
-                {% endfor %}
+                <div class="row people-to-follow">
+                    {% for user in users %}
+                        <div class="col-xs-4 col-sm-4 col-md-2 text-center">
+                            <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({'%id%': user.id}) }}">
+                                <div class="profile-picture-wrapper">
+                                    <img src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=100&height=100" alt="{{ user.firstname }} {{ user.lastname }}" class="profile-picture" />
+                                    <div class="profile-picture-hover"></div>
+                                    <div class="icon_more_red"></div>
+                                </div>
+                                <div class="username">{{ user.firstname }} {{ user.lastname }}</div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
 
-                <div class="text-center"><a href="" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> Plus de membres</a></div>
+                {#<div class="text-center"><a href="" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> {{ 'More members'|trans }}</a></div>#}
             </div>
         </div>
     </div>
 
-    <div class="graphik-bg">
+    {#<div class="graphik-bg">
         <div class="container">
             <div class="content-block">
                 <div class="text-center"><img src="{{ asset('bundles/adentifycommon/images/trend_topic_icon.png') }}" /></div>
                 <h2 class="text-center pacifico-heading">Trends topics</h2>
             </div>
         </div>
-    </div>
+    </div>#}
 
     <div class="white-bg">
         <div class="container">
             <div class="content-block">
-                <h2 class="text-center asap-heading">Marques les plus taguées</h2>
+                <h2 class="text-center asap-heading">{{ 'Most tagged Brands'|trans }}</h2>
 
                 <div class="row mt4 mb4">
                     {% for brand in brands %}
-                    <div class="col-xs-3 col-sm-2 col-md-1">
-                        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brand/%slug%/'|trans({'%slug%': brand.slug}) }}" class="thumbnail"><img src="{{ asset(brand.smallLogoUrl) }}" alt="{{ brand.name }}" /></a>
+                    <div class="col-xs-3 col-sm-2 col-md-1 brand">
+                        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brand/%slug%/'|trans({'%slug%': brand.slug}) }}"><img src="{{ asset(brand.smallLogoUrl) }}" alt="{{ brand.name }}" class="brand-logo" /></a>
                     </div>
                     {% endfor %}
                 </div>
 
-                <div class="text-center"><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brands/'|trans }}" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> Plus de marques</a></div>
+                <div class="text-center"><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brands/'|trans }}" class="btn btn-grey"><i class="glyphicon glyphicon-plus"></i> {{ 'More brands'|trans }}</a></div>
             </div>
         </div>
     </div>
 
     <footer>
         <div class="container text-center">
-            <a href="">Annonceurs</a> • <a href="">Presse</a> • <a href="">A propos</a> • <a href="">Contact</a> • <a href="">Mentions légales</a>
+            <a href="">{{ 'Advertisers'|trans }}</a> • <a href="">{{ 'Press'|trans }}</a> • <a href="">{{ 'About'|trans }}</a> • <a href="">{{ 'Contact'|trans }}</a> • <a href="">{{ 'Legal notice'|trans }}</a>
         </div>
     </footer>
 
@@ -127,7 +146,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="signinModalLabel"><div class="signin-badge pull-left modal-badge"></div> Connexion</h4>
+                    <h4 class="modal-title" id="signinModalLabel"><div class="signin-badge pull-left modal-badge"></div> {{ 'modal.login'|trans }}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="grey-transparent-background social-buttons">
@@ -147,7 +166,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> Inscription</h4>
+                    <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
                 </div>
                 <div class="modal-body">
                     {% render controller('FOSUserBundle:Registration:register') %}

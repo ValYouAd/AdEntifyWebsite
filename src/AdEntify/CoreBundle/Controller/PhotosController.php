@@ -31,6 +31,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 use AdEntify\CoreBundle\Entity\Photo;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class PhotosController
@@ -181,7 +182,10 @@ class PhotosController extends FosRestController
             ))
             ->getOneOrNullResult();
 
-        return $photo;
+        if ($photo)
+            return $photo;
+        else
+            throw new NotFoundHttpException('Photo not found');
     }
 
     /**
