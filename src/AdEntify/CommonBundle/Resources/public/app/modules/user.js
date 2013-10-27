@@ -6,10 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app",
-   "modules/photos",
-   "modules/common"
-], function(app, Photos, Common) {
+   'app'
+], function(app) {
 
    var User = app.module();
 
@@ -20,8 +18,19 @@ define([
       },
 
       setup: function() {
-         this.set('fullname', this.get('firstname') + ' ' + this.get('lastname'));
+         if (!this.get('firstname'))
+            this.set('fullname', this.get('username'));
+         else
+            this.set('fullname', this.get('firstname') + ' ' + this.get('lastname'));
          this.set('link', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('id') }));
+         if (this.get('facebook_id')) {
+            this.set('profilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=50&height=50');
+            this.set('largeProfilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=120&height=120');
+         }
+         else {
+            this.set('profilePicture', '');
+            this.set('largeProfilePicture', '');
+         }
       },
 
       defaults: {
@@ -33,20 +42,22 @@ define([
       model: User.Model
    });
 
-   User.Views.MenuRight = Backbone.View.extend({
-      template: "user/menuRight",
+   User.Views.MenuLeft = Backbone.View.extend({
+      template: "user/menuLeft",
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            lastPhoto: this.lastPhoto
+         };
       },
 
       beforeRender: function() {
-         this.options.likesPhotos.each(function(photo) {
-            this.insertView(".ticker-photos", new Photos.Views.TickerItem({
-               model: photo
+         if (!this.getView('.followings')) {
+            this.setView('.followings', new User.Views.List({
+               users: this.followings
             }));
-         }, this);
-
+         }
          if (!this.getView('.follow-button')) {
             this.setView('.follow-button', new User.Views.FollowButton({
                user: this.model
@@ -64,28 +75,15 @@ define([
       },
 
       initialize: function() {
-         this.listenTo(this.options.user, {
-            "sync": this.render
-         });
-         this.listenTo(this.options.likesPhotos, {
-            "sync": function(collection) {
-               if (collection.length == 0) {
-                  app.useLayout().setView('.alert-ticker-photos', new Common.Views.Alert({
-                     cssClass: Common.alertInfo,
-                     message: $.t('profile.noLikedPhotos'),
-                     showClose: true
-                  })).render();
-               }
+         this.lastPhoto = null;
+         this.followings = this.options.followings;
+         this.listenTo(this.options.user, 'sync', this.render);
+         this.options.photos.once('sync', function(collection) {
+            if (collection.length > 0) {
+               this.lastPhoto = collection.first();
                this.render();
-            },
-            "error": function() {
-               app.useLayout().setView('.alert-ticker-photos', new Common.Views.Alert({
-                  cssClass: Common.alertError,
-                  message: $.t('profile.errorLikedPhotos'),
-                  showClose: true
-               })).render();
             }
-         });
+         }, this);
          var that = this;
          this.model = this.options.user;
          this.options.user.fetch({
@@ -97,6 +95,42 @@ define([
                });
             }
          });
+      }
+   });
+
+   User.Views.List = Backbone.View.extend({
+      template: "user/list",
+
+      serialize: function() {
+         return {
+            visible: this.visible
+         };
+      },
+
+      initialize: function() {
+         var that = this;
+         this.listenTo(this.options.users, { 'sync': this.render });
+      },
+
+      beforeRender: function() {
+         this.options.users.each(function(user) {
+            this.insertView('.users', new User.Views.Item({
+               model: user
+            }));
+         }, this);
+      }
+   });
+
+   User.Views.Item = Backbone.View.extend({
+      template: 'user/item',
+      tagName: 'li class="user-item"',
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, 'change', this.render);
       }
    });
 
@@ -156,6 +190,18 @@ define([
          this.trigger('follow', this.follow);
       }
    });
+
+   User.ProfileInfosDropdown = {
+       listenClick: function() {
+          $('.profile-infos').click(function() {
+             if ($('.profile-infos .dropdown-menu:visible').length > 0) {
+                $('.profile-infos .dropdown-menu').fadeOut();
+             } else {
+                $('.profile-infos .dropdown-menu').fadeIn(100);
+             }
+          });
+       }
+   };
 
    return User;
 });

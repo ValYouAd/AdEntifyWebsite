@@ -13,5 +13,5 @@ parameters:
     mailer_password:   P8m9ADcomBR@
     mailer_encryption: tls
 
-    locale:            fr
+    locale:            en
     secret:            AdEntify@SecretKey!2013--@D

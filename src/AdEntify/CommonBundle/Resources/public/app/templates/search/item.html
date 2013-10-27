@@ -1,8 +1,9 @@
-<a href="photo/<%= model.get('photo')['id'] %>/"><img src="<%= model.get('photoSmallUrl') %>" class="mh35 p5 pull-left" alt="<%= model.get("photo")["caption"] %>" /></a> <a href="photo/<%= model.get('photo')['id'] %>/"><%= model.get('title') %></a>
-<div>
-    <div class="pull-right">
-        <i class="icon-heart"></i> <%= model.get("photo")["likes_count"] %> <i class="icon-tag"></i> <%= model.get("photo")["tags_count"] %>
-    </div>
-    <small>Par <a href="<%= model.get("profileLink") %>"><%= model.get("fullname") %></a></small>
+<a href="<%= model.get('link') %>" data-bypass="" data-photo-link="">
+    <img src="<%= model.get('small_url') %>" class="photo pull-left" alt="<%= model.get('caption') %>" />
+</a>
+
+<div class="photo-details">
+    <a href="<%= model.get('link') %>" data-bypass="" data-photo-link=""><%= model.get('caption') %></a><br>
+    <small>Par <a href="<%= model.get('ownerModel').get('link') %>"><%= model.get('ownerModel').get('fullname') %></a></small>
 </div>
 <div class="clearfix"></div>

@@ -3,19 +3,27 @@
         <div class="text-center">{{ error|trans({}, 'FOSUserBundle') }}</div>
     {% endif %}
 
-    <form action="{{ path("fos_user_security_check") }}" method="post" class="text-center">
+    <form action="{{ path("fos_user_security_check") }}" method="post" role="form">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-        <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+        <div class="form-group modal-body-wrapper">
+            <input class="form-control" placeholder="{{ 'security.login.email'|trans({}, 'FOSUserBundle') }}" type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+        </div>
 
-        <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-        <input type="password" id="password" name="_password" required="required" />
+        <div class="form-group modal-body-wrapper">
+            <input class="form-control" type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" />
+        </div>
 
-        <label>
-            <input type="checkbox" id="remember_me" name="_remember_me" value="on" /> Se souvenir de moi
-        </label>
-
-        <p><input type="submit" id="_submit" class="btn" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" /></p>
+        <div class="form-group grey-transparent-background">
+            <div class="col-md-6">
+            <label>
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" /> {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+            </label>
+            </div>
+            <div class="col-md-6">
+                <input type="submit" id="_submit" class="btn btn-red-grey-border" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
     </form>
 {% endblock fos_user_content %}

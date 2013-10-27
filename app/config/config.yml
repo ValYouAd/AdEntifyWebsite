@@ -30,6 +30,8 @@ assetic:
     debug:          %kernel.debug%
     use_controller: false
     bundles:        [ 'AdEntifyCommonBundle' ]
+    filters:
+        cssrewrite: ~
 
 # Doctrine Configuration
 doctrine:
@@ -132,6 +134,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AdEntify\CoreBundle\Entity\User
+    registration:
+        form:
+            type: adentify_user_registration
 
 stof_doctrine_extensions:
     default_locale: fr_FR
@@ -178,6 +183,10 @@ services:
             facebookSdk: "@fos_facebook.api"
         tags:
             - { name: fos_oauth_server.grant_extension, uri: %facebook_grant_extension_uri% }
+    adEntify.twig.adentify_extension:
+        class: AdEntify\BackofficeBundle\Twig\AdEntifyExtension
+        tags:
+            - { name: twig.extension }
 
 # General parameters
 parameters:
@@ -237,10 +246,10 @@ avalanche_imagine:
     filters:
         small:
             type:    thumbnail
-            options: { size: [150, 9999], mode: inset, quality: 90 }
+            options: { size: [300, 9999], mode: inset, quality: 90 }
         medium:
             type:    thumbnail
-            options: { size: [320, 9999], mode: inset, quality: 100 }
+            options: { size: [500, 9999], mode: inset, quality: 100 }
         large:
             type:    thumbnail
             options: { size: [1024, 9999], mode: inset, quality: 100 }

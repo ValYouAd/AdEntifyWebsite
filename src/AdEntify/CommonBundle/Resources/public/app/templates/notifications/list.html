@@ -1,5 +1,6 @@
-    <button class="btn btn-small notifications-button" title="Notifications" data-toggle="button"><i class="icon-flag"></i><% if (notifications.unreadCount() > 0) { %> <span class="badge badge-important notifications-count"><%= notifications.unreadCount() %></span><% } %></button>
-<div class="popover fadeOut">
+<button class="notifications-button" title="Notifications" data-toggle="button"><%= notifications.unreadCount() %></button>
+<div class="dropdown-menu fadeOut">
+    <div class="white-arrow-top"></div>
     <div class="alert-notifications"></div>
-    <ul class="notifications-list"></ul>
+    <ul class="notifications-list striped"></ul>
 </div>

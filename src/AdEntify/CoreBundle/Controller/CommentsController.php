@@ -9,6 +9,8 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Action;
+use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Form\CommentType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -66,6 +68,13 @@ class CommentsController extends FosRestController
         $form->bind($request);
         if ($form->isValid()) {
             $comment->setAuthor($user);
+
+            // COMMENT Action & notification
+            $sendNotification = $user->getId() != $comment->getPhoto()->getOwner()->getId();
+            $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_COMMENT,
+                $user, $comment->getPhoto()->getOwner(), array($comment->getPhoto()), Action::VISIBILITY_FRIENDS, $comment->getPhoto()->getId(),
+                get_class($comment->getPhoto()), $sendNotification, 'memberCommentPhoto');
+
             $em->persist($comment);
             $em->flush();
 

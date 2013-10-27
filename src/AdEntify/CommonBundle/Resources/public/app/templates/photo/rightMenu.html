@@ -1,0 +1,16 @@
+<% if (model.has('ownerModel')) { %>
+<div class="photo-owner">
+    <div class="owner-picture text-center"><a href="<%= model.get('ownerModel').get('link') %>"><img src="<%= model.get('ownerModel').get('largeProfilePicture') %>" alt="<%= model.get('ownerModel').get('fullname') %>" class="profile-picture" /></a></div>
+    <div class="owner-fullname text-center"><%= model.get('ownerModel').get('fullname') %></div>
+    <div class="follow-button-container text-center">
+        <div class="follow-button"></div>
+    </div>
+</div>
+<% } %>
+<div class="linked-photos">
+    <div class="linked-photos-icon"></div>
+    <div class="text-center">
+        <h2 class="linked-photos-title"><%= $.t('photo.linkedPhotos') %></h2>
+    </div>
+    <ul class="linked-photos-list list-unstyled"></ul>
+</div>

@@ -1,12 +1,24 @@
-<div class="commonModal modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 data-i18n="<%= model.get('title') %>"></h3>
-    </div>
-    <div class="modal-body">
-        <p data-i18n="<%= model.get('content') %>"></p>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" data-i18n="common.close"></button>
-    </div>
-</div>
+<div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-labelledby="commonModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content <%= modalContentClasses ? modalContentClasses : '' %>">
+            <div class="modal-header<%= !showHeader ? ' hide-modal-header' : '' %>">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <% if (showHeader) { %>
+                    <h4 id="commonModalLabel" class="modal-title" data-i18n="<%= title %>"></h4>
+                <% } %>
+            </div>
+            <div class="modal-body">
+                <% if (content) { %>
+                <div class="modal-body-wrapper mt2">
+                    <p data-i18n="<%= content %>"></p>
+                </div>
+                <% } %>
+            </div>
+            <% if (showFooter) { %>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" data-i18n="common.close"></button>
+            </div>
+            <% } %>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

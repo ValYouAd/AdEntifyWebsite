@@ -10,11 +10,12 @@ define([
    "modules/tag",
    "modules/pagination",
    "modules/photo",
+   'modules/common',
    "isotope",
    "jquery-ui",
    "modernizer",
    "infinitescroll"
-], function(app, Tag, Pagination, Photo) {
+], function(app, Tag, Pagination, Photo, Common) {
 
    var Photos = app.module();
    var openedContainer = null;
@@ -40,7 +41,8 @@ define([
             if (!this.tagsView) {
                this.tagsView = new Tag.Views.List({
                   tags: this.model.get('tags'),
-                  photo: this.model
+                  photo: this.model,
+                  desactivatePopover: true
                });
                this.listenTo(this.tagsView, 'tag:remove', function() {
                   // Update tags count
@@ -50,29 +52,37 @@ define([
                this.listenTo(this.tagsView, 'relayout', function() {
                   container.isotope("reLayout", this.relayoutEnded);
                });
-               this.setView('.tags-container', this.tagsView).render();
+               this.setView('.tags-container', this.tagsView);
             }
          }
       },
 
       afterRender: function() {
-         $(this.el).find('img').load(function() {
-            $(this).animate({'opacity': '1.0'});
+         $(this.el).find('.photo-img-medium').load(function() {
+            $(this).animate({'ohoto-acity': '1.0'});
          });
          $(this.el).i18n();
       },
 
-      showTags: function() {
+      clickPastille: function() {
          $tags = $(this.el).find('.tags');
-         if ($tags.length > 0) {
-            if ($tags.data('state') == 'hidden') {
-               $tags.fadeIn('fast');
-               $tags.attr('data-state', 'visible');
-            } else {
-               $tags.fadeOut('fast');
-               $tags.attr('data-state', 'hidden');
-            }
+         if ($tags.data('always-visible') == 'no') {
+            $tags.data('always-visible', 'yes');
+            this.showTags();
+         } else {
+            $tags.data('always-visible', 'no');
+            this.hideTags();
          }
+      },
+
+      showTags: function() {
+         $(this.el).find('.tags').stop().fadeIn(100);
+      },
+
+      hideTags: function() {
+         $tags = $(this.el).find('.tags');
+         if ($tags.data('always-visible') == 'no')
+            $(this.el).find('.tags').stop().fadeOut('fast');
       },
 
       deletePhoto: function(e) {
@@ -80,9 +90,16 @@ define([
          this.model.delete();
       },
 
+      showPhoto: function(evt) {
+         Photos.Common.showPhoto(evt, this.model);
+      },
+
       events: {
-         "click .adentify-pastille": 'showTags',
-         "click .deletePhotoButton": 'deletePhoto'
+         'click .adentify-pastille-small': 'clickPastille',
+         'click .deletePhotoButton': 'deletePhoto',
+         'click .photo-link': 'showPhoto',
+         'mouseenter .photo-container': 'showTags',
+         'mouseleave .photo-container': 'hideTags'
       }
    });
 
@@ -94,7 +111,11 @@ define([
          openedContainer = null;
 
          var that = this;
-         this.options.photos.once('sync', this.render, this);
+         if (typeof this.options.listenToEnable !== 'undefined') {
+            this.listenTo(this.options.photos, 'sync', this.render);
+         } else {
+            this.options.photos.once('sync', this.render, this);
+         }
          this.listenTo(this.options.photos, 'remove', this.render);
          this.listenTo(app, 'global:closeMenuTools', function() {
             that.clickOnPhoto(openedImage);
@@ -142,7 +163,10 @@ define([
       afterRender: function() {
          var that = this;
          $(this.el).i18n();
-         $(this.el).find('.photos-title').html(this.title);
+         if (this.title) {
+            $(this.el).find('.photos-title').html(this.title);
+            $(this.el).find('.photos-title').fadeIn('fast');
+         }
          container = this.$('#photos-grid');
 
          // Wait images loaded
@@ -155,10 +179,10 @@ define([
          });
 
          // Click on photo overlay
-         container.delegate('.photo-overlay', 'click', function(evt) {
+         /*container.delegate('.photo-overlay', 'click', function(evt) {
             lastImage = $(this).siblings('img[data-type="medium"]');
             that.clickOnPhoto(lastImage);
-         });
+         });*/
 
          // Pagination
          app.useLayout().insertView("#photos", new Pagination.Views.NextPage({
@@ -402,8 +426,7 @@ define([
    // Ticker item (Photo)
    Photos.Views.TickerItem = Backbone.View.extend({
       template: "common/tickerPhotoItem",
-
-      tagName: "li",
+      tagName: 'li class="ticker-item"',
 
       serialize: function() {
          return { model: this.model };
@@ -415,8 +438,49 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      },
+
+      showPhoto: function(evt) {
+         Photos.Common.showPhoto(evt, this.model);
+      },
+
+      events: {
+         'click .photo-link': 'showPhoto'
       }
    });
+
+   Photos.Common = {
+      showPhoto: function(evt, photo) {
+         evt.preventDefault();
+         var photoView = new Photo.Views.Modal({
+            photo: photo
+         });
+         var modal = new Common.Views.Modal({
+            view: photoView,
+            showFooter: false,
+            showHeader: false,
+            modalContentClasses: 'photoModal'
+         });
+         modal.on('hide', function() {
+            if (Modernizr.history) {
+               window.history.back();
+            }
+         });
+         modal.on('show', function() {
+            if (Modernizr.history) {
+               history.pushState(null, photo.get('caption'), evt.currentTarget.href);
+            }
+         });
+         var oldModal = app.useLayout().getView('#modal-container');
+         if (oldModal) {
+            app.once('modal:hidden', function() {
+               app.useLayout().setView('#modal-container', modal).render();
+            });
+            oldModal.close();
+         } else
+            app.useLayout().setView('#modal-container', modal).render();
+      }
+   };
 
    return Photos;
 });

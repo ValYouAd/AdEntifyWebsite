@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\PhotoType;
@@ -30,6 +31,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 use AdEntify\CoreBundle\Entity\Photo;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class PhotosController
@@ -106,7 +108,6 @@ class PhotosController extends FosRestController
 
         $query = $em->createQuery($sql)
             ->setParameters($parameters)
-            ->setFirstResult(0)
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 
@@ -181,7 +182,90 @@ class PhotosController extends FosRestController
             ))
             ->getOneOrNullResult();
 
-        return $photo;
+        if ($photo)
+            return $photo;
+        else
+            throw new NotFoundHttpException('Photo not found');
+    }
+
+    /**
+     * @View()
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     *
+     * @param $id
+     */
+    public function getLinkedPhotosAction($id, $page = 1, $limit = 10)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = null;
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        }
+
+        // Get photo categories
+        $categoriesId = $em->createQuery('SELECT category.id FROM AdEntify\CoreBundle\Entity\Category category
+            JOIN category.photos photo WHERE photo.id = :photoId')
+            ->setParameters(array(
+                'photoId' => $id
+            ))->getResult();
+        if (!$categoriesId) {
+            $categoriesId = array(0);
+        }
+
+        // Get friends list (id) array
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+        if ($user) {
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get followings ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $user->getFollowingsIds();
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
+        }
+
+        $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+            LEFT JOIN photo.categories category LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag
+            WHERE category.id IN (:categories) AND photo.id != :photoId AND photo.deletedAt IS NULL AND photo.status = :status
+                AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
+                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC')->setParameters(array(
+                'categories' => $categoriesId,
+                ':status' => Photo::STATUS_READY,
+                ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                ':currentUserId' => $user ? $user->getId() : 0,
+                ':facebookFriendsIds' => $facebookFriendsIds,
+                ':followings' => $followings,
+                ':photoId' => $id,
+            ))
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
+
+        $photos = null;
+        $pagination = null;
+        if ($count > 0) {
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_photo_linked_photos', array(
+                'id' => $id
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($photos, $pagination);
     }
 
     /**
@@ -337,17 +421,18 @@ class PhotosController extends FosRestController
      * GET all categories by photo ID
      *
      * @View()
-     * @QueryParam(name="locale", default="fr")
+     * @QueryParam(name="locale", default="en")
      *
      * @param $id
      * @return ArrayCollection|null
      */
-    public function getCategoriesAction($id, $locale = 'fr')
+    public function getCategoriesAction($id, $locale = 'en')
     {
         return $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category
                 LEFT JOIN category.photos photo WHERE photo.id = :id AND category.visible = 1")
             ->setParameter('id', $id)
+            ->useQueryCache(false)
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
@@ -491,14 +576,11 @@ class PhotosController extends FosRestController
                     // Add favorite
                     $user->addFavoritePhoto($photo);
 
-                    // Notification
-                    $notification = new Notification();
-                    $notification->setType(Notification::TYPE_FAV_PHOTO)->setObjectId($photo->getId())
-                        ->setObjectType(get_class($photo))->setOwner($photo->getOwner())->setMessage('notification.photoFav')
-                        ->setAuthor($user)->setMessageOptions(json_encode(array(
-                            'author' => $user->getFullname()
-                        )));
-                    $em->persist($notification);
+                    // FAVORITE Action & notification
+                    $sendNotification = $user->getId() != $photo->getOwner()->getId();
+                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
+                        $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                        get_class($photo), $sendNotification, 'photoFav');
                 } else {
                     $user->removeFavoritePhoto($photo);
                 }

@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app"
-], function(app) {
+   'app',
+   'modules/user'
+], function(app, User) {
 
    var Brand = app.module();
 
@@ -35,7 +36,7 @@ define([
 
    Brand.Views.Item = Backbone.View.extend({
       template: "brand/item",
-      tagName: "li class='thumbnail span3'",
+      tagName: "li class='col-xs-6 col-sm-4 col-md-2'",
 
       serialize: function() {
          return { model: this.model };
@@ -73,7 +74,6 @@ define([
       },
 
       initialize: function() {
-         var that = this;
          this.listenTo(this.options.brands, {
             "sync": this.render
          });
@@ -81,19 +81,106 @@ define([
       }
    });
 
-   Brand.Views.Ticker = Backbone.View.extend({
-      template: "brand/ticker",
+   Brand.Views.MenuLeft = Backbone.View.extend({
+      template: 'brand/menuLeft',
 
       serialize: function() {
-         return { model : this.options.brand }
+         return {
+            model: this.model,
+            lastPhoto: this.lastPhoto,
+            photosCount: this.photosCount,
+            categories: this.categories
+         };
       },
 
-      initialize: function() {
-         this.listenTo(this.options.brand, "sync", this.render);
+      beforeRender: function() {
+         if (!this.getView('.followers')) {
+            this.setView('.followers', new User.Views.List({
+               users: this.followers
+            }));
+         }
+         if (!this.getView('.follow-button')) {
+            this.setView('.follow-button', new Brand.Views.FollowButton({
+               brand: this.model,
+               slug: this.slug
+            }));
+         }
       },
 
       afterRender: function() {
          $(this.el).i18n();
+      },
+
+      initialize: function() {
+         this.lastPhoto = null;
+         this.followers = this.options.followers;
+         this.categories = this.options.categories;
+         this.slug = this.options.slug;
+         this.listenTo(this.model, 'sync', this.render);
+         this.options.photos.once('sync', function(collection) {
+            if (collection.length > 0) {
+               this.lastPhoto = collection.first();
+               this.photosCount = this.options.photos.total;
+               this.render();
+            }
+         }, this);
+      }
+   });
+
+   Brand.Views.FollowButton = Backbone.View.extend({
+      template: 'brand/followButton',
+      added: false,
+
+      serialize: function() {
+         return {
+            follow: this.follow
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      initialize: function() {
+         if (this.options.slug && this.options.brand) {
+            this.slug = this.options.slug;
+            this.brand = this.options.brand;
+            var that = this;
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_brand_is_following', { 'slug': that.slug }),
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     success: function(response) {
+                        that.follow = response;
+                        that.render();
+                     }
+                  });
+               }
+            });
+         }
+      },
+
+      events: {
+         'click .follow-button': 'followButtonClick'
+      },
+
+      followButtonClick: function() {
+         // Favorite photo
+         var that = this;
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_post_brand_follower', { slug: that.slug }),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  type: 'POST'
+               });
+            }
+         });
+         this.follow = !this.follow;
+
+         this.render();
+         this.trigger('follow', this.follow);
       }
    });
 

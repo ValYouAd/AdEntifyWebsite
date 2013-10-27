@@ -1,10 +1,13 @@
-<div class="text-center search-loading fadeOut"><span data-i18n="search.inProgress"></span> <i class="icon-refresh rotate"></i></div>
-<span class="lead">Tags</span>
+<div class="text-center search-loading fadeOut"><span data-i18n="search.inProgress"></span> <i class="glyphicon glyphicon-refresh rotate"></i></div>
+<div class="search-title">Photos</div>
 <div class="alert-search-tags-results"></div>
-<ul class="search-tags-results unstyled"></ul>
-<span class="lead">Utilisateurs</span>
+<ul class="search-tags-results list-unstyled striped"></ul>
+<div class="search-title">Utilisateurs</div>
 <div class="alert-search-users-results"></div>
-<ul class="search-users-results unstyled"></ul>
-<div class="text-center view-more-results fadeOut">
-    <a href="<%= searchUrl %>" data-i18n="search.viewMore" class="btn"></a>
+<ul class="search-users-results list-unstyled striped"></ul>
+<div class="view-more-results fadeOut">
+    <a href="<%= searchUrl %>">
+        <span data-i18n="search.viewMore" class="pull-left"></span>
+        <div class="pull-right red-cross-right"></div>
+    </a>
 </div>

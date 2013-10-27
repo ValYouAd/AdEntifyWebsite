@@ -157,6 +157,12 @@ setting:
     options:
         expose: true
 
+action:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\ActionsController
+    options:
+        expose: true
+
 # Public Tags REST
 public_tag:
     type:     rest

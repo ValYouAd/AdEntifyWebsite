@@ -9,12 +9,14 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -132,43 +134,58 @@ class TagsController extends FosRestController
         $em->persist($searchHistory);
         $em->flush();
 
-        $count = $em->createQuery('SELECT COUNT(tag.id) FROM AdEntify\CoreBundle\Entity\Tag tag
-                LEFT JOIN tag.venue venue LEFT JOIN tag.person person LEFT JOIN tag.product product LEFT JOIN product.brand brand
-            WHERE tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
+        // Get friends list (id) array
+        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+        if (!$facebookFriendsIds) {
+            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+        }
+
+        // Get followings ids
+        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+        if (!$followings) {
+            $followings = $user->getFollowingsIds();
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+        }
+
+        $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+            LEFT JOIN photo.tags tag INNER JOIN photo.owner owner
+            LEFT JOIN tag.venue venue LEFT JOIN tag.person person LEFT JOIN tag.product product LEFT JOIN product.brand brand
+            WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
+                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+            AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
             LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
             OR LOWER(brand.name) LIKE LOWER(:query)')
             ->setParameters(array(
                 ':query' => '%'.$query.'%',
                 ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED
+                ':granted' => Tag::VALIDATION_GRANTED,
+                ':status' => Photo::STATUS_READY,
+                ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                ':facebookFriendsIds' => $facebookFriendsIds,
+                ':followings' => $followings,
             ))
-            ->getSingleScalarResult();
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
 
-        $results = null;
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
+
+        $photos = null;
         $pagination = null;
         if ($count > 0) {
-            $results = $em->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
-            LEFT JOIN tag.venue venue LEFT JOIN tag.person person LEFT JOIN tag.product product LEFT JOIN product.brand brand
-            WHERE tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
-            LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
-            LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
-            OR LOWER(brand.name) LIKE LOWER(:query)')
-                ->setParameters(array(
-                    ':query' => '%'.$query.'%',
-                    ':none' => Tag::VALIDATION_NONE,
-                    ':granted' => Tag::VALIDATION_GRANTED
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit)
-                ->getResult();
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_tag_search', array(
                 'query' => $query
             ));
         }
 
-        return PaginationTools::getPaginationArray($results, $pagination);
+        return PaginationTools::getPaginationArray($photos, $pagination);
     }
 
     /**
@@ -214,15 +231,18 @@ class TagsController extends FosRestController
 
                     // Create a new notification
                     $notification = new Notification();
-                    $notification->setType(Notification::TYPE_TAG_PHOTO)->setObjectId($photo->getId())
+                    $notification->setType(Notification::TYPE_TAG_PHOTO)->setObjectId($photo->getId())->addPhoto($photo)
                         ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
-                        ->setMessageOptions(json_encode(array(
-                            'author' => $user->getFullname()
-                        )))->setMessage('notification.friendTagPhoto');
+                        ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                     $em->persist($notification);
                 } else {
                     throw new HttpException(403, 'You can\t add a tag to this photo');
                 }
+            } else {
+                // TAG Action
+                $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
+                    $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                    get_class($photo), false, 'tagPhoto');
             }
 
             $tag->setOwner($user);
@@ -234,6 +254,7 @@ class TagsController extends FosRestController
                         'id' => $shortUrl->getBase62Id()
                     )));
             }
+
             $em->persist($tag);
             $em->flush();
 

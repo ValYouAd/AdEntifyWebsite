@@ -1,10 +1,45 @@
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
     {{ form_errors(form) }}
     <fieldset>
-        {{ form_row(form.email) }}
-        {{ form_row(form.plainPassword) }}
-        {{ form_row(form.plainPassword) }}
-        {{ form_row(form._token) }}
-        <input type="submit" class="btn" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+
+        <div class="modal-body-wrapper register-fields">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_errors(form.firstname) }}
+                    {{ form_widget(form.firstname) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_errors(form.firstname) }}
+                    {{ form_widget(form.lastname) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_errors(form.email) }}
+                    {{ form_widget(form.email) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                {{ form_errors(form.plainPassword.first) }}
+                {{ form_widget(form.plainPassword.first) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_errors(form.plainPassword.second) }}
+                    {{ form_widget(form.plainPassword.second) }}
+                </div>
+            </div>
+            {{ form_row(form._token) }}
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-8 col-md-offset-4">
+                <button type="button" class="btn btn-link" data-dismiss="modal">{{ 'Cancel'|trans }}</button>
+                <input type="submit" class="btn btn-red-grey-border" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+            </div>
+        </div>
     </fieldset>
 </form>

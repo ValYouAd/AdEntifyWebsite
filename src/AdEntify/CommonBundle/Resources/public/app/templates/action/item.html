@@ -1,0 +1,13 @@
+<% if (model.has('authorModel')) { %>
+<div class="pull-left">
+    <a href="<%= model.get('authorModel').get('link') %>"><img src="<%= model.get('authorModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('authorModel').get('fullname') %>" /></a>
+</div>
+<% } %>
+<% if (model.has('targetModel')) { %>
+<div class="pull-left">
+    <a href="<%= model.get('targetModel').get('link') %>"><img src="<%= model.get('targetModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('targetModel').get('fullname') %>" /></a>
+</div>
+<% } %>
+<%= model.has('message_options') ? $.t(model.get('message'), model.get('message_options')) : $.t(model.get('message'), { 'authorLink' : model.get('authorModel').get('link'), 'author': model.get('authorModel').get('fullname'), 'targetLink' : model.get('targetModel').get('link'), 'target': model.get('targetModel').get('fullname') }) %>
+<div class="clearfix"></div>
+<div class="ticker_separator"></div>

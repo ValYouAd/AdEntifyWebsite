@@ -22,21 +22,26 @@ define([
    "modules/category",
    "modules/search",
    "modules/comment",
-   "modules/notifications"
+   "modules/notifications",
+   'modules/action'
 ],
 
 function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, User,
-         Common, Category, Search, Comment, Notifications) {
+         Common, Category, Search, Comment, Notifications, Action) {
 
    var searchSetup = false;
    var notificationsSetup = false;
+   var dropdownMenusSetup = false;
 
    var Router = Backbone.Router.extend({
       initialize: function() {
          this.listenTo(this, {
             'route': this.routeTriggered
          });
+
+         // Handle scroll event
+         this.handleScrollEvent();
 
          // Initialize Fb
          app.fb = new Facebook.Model();
@@ -79,26 +84,17 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             brands: new Brand.Collection(),
             categories: new Category.Collection(),
             photoCategories: new Category.Collection(),
-            searchResults: new Search.Collection(),
+            searchPhotos: new Photos.Collection(),
+            searchUsers: new User.Collection(),
             comments: new Comment.Collection(),
             notifications: new Notifications.Collection(),
-            users: new User.Collection()
+            users: new User.Collection(),
+            actions: new Action.Collection()
          };
          _.extend(this, collections);
 
-         // Nav current
-         currentPage = window.location.pathname.replace(app.root, '');
-         $currentLink = $('.nav a[href="' + currentPage + '"]');
-         if ($currentLink.length > 0) {
-            $currentLink.parent().siblings('.active').removeClass('active');
-            $currentLink.parent().addClass('active');
-         } else {
-            $('.nav .active').removeClass('active');
-         }
-         $('.nav a').click(function() {
-            $(this).parent().siblings('.active').removeClass('active');
-            $(this).parent().addClass('active');
-         });
+         // Setup Search, notifications, dropdown menus...
+         this.setupEnvironment();
 
          // Dom events
          this.listenTo(app, 'domchange:title', this.onDomChangeTitle);
@@ -108,25 +104,25 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          i18nRoutes = {
             "fr": {
                "": "homepage",
-               "photos/non-taguees/": "untagged",
-               "upload/": "upload",
-               "upload/local/": "uploadLocal",
                "mes/photos/taguees/": "myTagged",
                "mes/photos/non-taguees/": "myUntagged",
+               "mes/photos/favorites/": "favoritesPhotos",
+               "photos/non-taguees/": "untagged",
+               "photo/:id/": "viewPhoto",
+               "upload/": "upload",
+               "upload/local/": "uploadLocal",
                "mes/parametres/": "mySettings",
                "facebook/albums/": "facebookAlbums",
                "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
                "instagram/photos/": "instagramPhotos",
                "flickr/sets/": "flickrSets",
                "flickr/sets/:id/photos/": "flickrPhotos",
-               "photo/:id/": "photoDetail",
                "marques/": "viewBrands",
                "marque/:slug/": "viewBrand",
                "mon/profil/": "myProfile",
                "profil/:id/": "profile",
                "categorie/:slug/": "category",
                "mon/adentify/": "myAdentify",
-               "mes/photos/favorites/": "favoritesPhotos",
                "recherche/": "search",
 
                '*notFound': 'notFound'
@@ -144,7 +140,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "instagram/photos/": "instagramPhotos",
                "flickr/sets/": "flickrSets",
                "flickr/sets/:id/photos/": "flickrPhotos",
-               "photo/:id/": "photoDetail",
+               "photo/:id/": "viewPhoto",
                "brands/": "viewBrands",
                "brand/:slug/": "viewBrand",
                "my/profile/": "myProfile",
@@ -163,7 +159,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             case 'en':
                return i18nRoutes.en;
             default:
-               return i18nRoutes.fr;
+               return i18nRoutes.en;
          }
       },
 
@@ -171,13 +167,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
-               tagged: true,
-               title: $.t('category.titleAll')
+               tagged: true
             }),
-            "#menu-right": new Photos.Views.Ticker({
-               tickerPhotos: this.tickerPhotos
+            "#right-pane-content": new Action.Views.List({
+               actions: this.actions
             })
          }).render();
 
@@ -191,13 +186,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                that.errorCallback('photos.errorPhotosLoading');
             }
          });
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: false }),
+         this.actions.fetch({
+            url: Routing.generate('api_v1_get_actions'),
             success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos', '#menu-right');
+               that.successCallback(collection, 'action.noActions', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('photos.errorPhotosLoading', '#menu-right');
+               that.errorCallback('action.errorLoading', '#right-pane-content');
             }
          });
       },
@@ -206,11 +201,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
                tagged: false
             }),
-            "#menu-right": new Photos.Views.Ticker({
+            "#right-pane-content": new Photos.Views.Ticker({
                tickerPhotos: this.tickerPhotos
             })
          }).render();
@@ -228,10 +223,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.tickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photos', { tagged: true }),
             success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos', '#menu-right');
+               that.successCallback(collection, 'photos.noPhotos', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('photos.errorPhotosLoading', '#menu-right');
+               that.errorCallback('photos.errorPhotosLoading', '#right-pane-content');
             }
          });
       },
@@ -240,12 +235,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.myPhotos,
                tagged: true,
                title: $.t('myPhotos.titleTagged')
             }),
-            "#menu-right": new Photos.Views.Ticker({
+            "#right-pane-content": new Photos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
             })
          }).render();
@@ -263,10 +258,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.myTickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false }),
             success: function(collection) {
-               that.successCallback(collection, 'myPhotos.noPhotos', '#menu-right');
+               that.successCallback(collection, 'myPhotos.noPhotos', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('myPhotos.errorPhotosLoading', '#menu-right');
+               that.errorCallback('myPhotos.errorPhotosLoading', '#right-pane-content');
             }
          });
       },
@@ -275,12 +270,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.myPhotos,
                tagged: false,
                title: $.t('myPhotos.titleUntagged')
             }),
-            "#menu-right": new Photos.Views.Ticker({
+            "#right-pane-content": new Photos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
             })
          }).render();
@@ -298,10 +293,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.myTickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true }),
             success: function(collection) {
-               that.successCallback(collection, 'myPhotos.noPhotos', '#menu-right');
+               that.successCallback(collection, 'myPhotos.noPhotos', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('myPhotos.errorPhotosLoading', '#menu-right');
+               that.errorCallback('myPhotos.errorPhotosLoading', '#right-pane-content');
             }
          });
       },
@@ -310,7 +305,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Upload.Views.Content()
+            "#center-pane-content": new Upload.Views.Content()
          }).render();
       },
 
@@ -318,8 +313,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Upload.Views.LocalUpload(),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos({
+            "#center-pane-content": new Upload.Views.LocalUpload(),
+            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightPhotos({
                categories: this.categories
             })
          }).render();
@@ -331,11 +326,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new FacebookAlbums.Views.List({
+            "#center-pane-content": new FacebookAlbums.Views.List({
                albums: this.fbAlbums,
                categories: this.categories
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRightAlbums({
+            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightAlbums({
                categories: this.categories
             })
          }).render();
@@ -347,11 +342,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new FacebookPhotos.Views.List({
+            "#center-pane-content": new FacebookPhotos.Views.List({
                albumId: id,
                photos: this.fbPhotos
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos({
+            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightPhotos({
                categories: this.categories
             })
          }).render();
@@ -363,10 +358,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new InstagramPhotos.Views.List({
+            "#center-pane-content": new InstagramPhotos.Views.List({
                photos: this.istgPhotos
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos({
+            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightPhotos({
                categories: this.categories
             })
          }).render();
@@ -378,11 +373,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new FlickrSets.Views.List({
+            "#center-pane-content": new FlickrSets.Views.List({
                sets: this.flrSets,
                categories: this.categories
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRightAlbums({
+            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightAlbums({
                categories: this.categories
             })
          }).render();
@@ -394,11 +389,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new FlickrPhotos.Views.List({
+            "#center-pane-content": new FlickrPhotos.Views.List({
                photos: this.flrPhotos,
                albumId: id
             }),
-            "#menu-right": new ExternalServicePhotos.Views.MenuRightPhotos({
+            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightPhotos({
                categories: this.categories
             })
          }).render();
@@ -406,40 +401,38 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.categories.fetch();
       },
 
-      photoDetail: function(id) {
+      viewPhoto: function(id) {
          this.reset();
 
          var photo = new Photo.Model({ 'id': id });
          app.useLayout().setViews({
-            "#content": new Photo.Views.Item({
+            "#center-pane-content": new Photo.Views.Item({
                photo: photo,
                comments: this.comments,
-               photoId: id,
-               categories: this.photoCategories
+               photoId: id
             }),
-            "#menu-right": new Photos.Views.Ticker({
-               tickerPhotos: this.myTickerPhotos,
+            "#right-pane-content": new Photo.Views.RightMenu({
+               photo: photo,
+               tickerPhotos: this.tickerPhotos,
                tagged: false
             })
          }).render();
 
          photo.fetch();
-         this.myTickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true })
+         this.tickerPhotos.fetch({
+            url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
          });
          this.comments.fetch({
             url: Routing.generate('api_v1_get_photo_comments', { id: id })
          });
-         this.photoCategories.fetch({
-            url: Routing.generate('api_v1_get_photo_categories', { id: id })
-         });
       },
 
       viewBrands: function() {
-         this.reset();
+         this.reset(false, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
-            "#content": new Brand.Views.List({
+            "#center-pane-content": new Brand.Views.List({
                brands: this.brands
             })
          }).render();
@@ -448,7 +441,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       viewBrand: function(slug) {
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          // Get brand info
          var brand = new Brand.Model({
@@ -456,16 +450,31 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
                title: $.t('brand.titleViewBrand')
             }),
-            "#menu-right": new Brand.Views.Ticker({
-               brand: brand
+            "#left-pane": new Brand.Views.MenuLeft({
+               model: brand,
+               slug: slug,
+               followers: this.users,
+               photos: this.photos,
+               categories: this.categories
             })
          }).render();
 
          var that = this;
+
+         brand.fetch({
+            url: Routing.generate('api_v1_get_brand', { slug: slug }),
+            success: function() {
+               app.trigger('domchange:title', $.t('brand.pageTitleViewBrand', { name: brand.get('name') }));
+            }
+         });
+
+         this.categories.fetch({
+            url: Routing.generate('api_v1_get_brand_categories', { slug: slug, locale: app.appState().getLocale() })
+         });
 
          // Get brand photos
          this.photos.fetch({
@@ -478,45 +487,45 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }
          });
 
-         brand.fetch({
-            success: function() {
-               app.trigger('domchange:title', $.t('brand.pageTitleViewBrand', { name: brand.get('name') }));
-            }
-         })
+         this.users.fetch({
+            url: Routing.generate('api_v1_get_brand_followers', { slug: slug })
+         });
       },
 
       mySettings: function() {
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new MySettings.Views.Detail(),
-            "#menu-right": new MySettings.Views.MenuRight()
+            "#center-pane-content": new MySettings.Views.Detail(),
+            "#right-pane-content": new MySettings.Views.MenuRight()
          }).render();
       },
 
       profile: function(id) {
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
                userId: id,
                tagged: true,
-               title: $.t('profile.memberPhotos')
+               title: $.t('profile.pageHeading')
             }),
-            "#menu-right": new User.Views.MenuRight({
+            "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({
                   id: id
                }),
-               likesPhotos: this.tickerPhotos
+               followings: this.users,
+               photos: this.photos
             })
          }).render();
 
          this.photos.fetch({
             url: Routing.generate('api_v1_get_user_photos', { id: id })
          });
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_user_liked_photos', { id: id })
+         this.users.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: id })
          });
       },
 
@@ -526,11 +535,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          var category = new Category.Model();
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
                category: category
             }),
-            "#menu-right": new Photos.Views.Ticker({
+            "#right-pane-content": new Photos.Views.Ticker({
                tickerPhotos: this.tickerPhotos
             })
          }).render();
@@ -570,10 +579,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.tickerPhotos.fetch({
             url: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: false }),
             success: function(collection) {
-               that.successCallback(collection, 'category.noPhotos', '#menu-right');
+               that.successCallback(collection, 'category.noPhotos', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('category.errorPhotosLoading', '#menu-right');
+               that.errorCallback('category.errorPhotosLoading', '#right-pane-content');
             }
          });
       },
@@ -582,12 +591,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
                pageTitle: $.t('myAdentify.pageTitle'),
                title: $.t('myAdentify.title')
             }),
-            "#menu-right": new Photos.Views.Ticker({
+            "#right-pane-content": new Photos.Views.Ticker({
                tickerPhotos: this.tickerPhotos
             })
          }).render();
@@ -605,10 +614,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.tickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photos', { tagged: false }),
             success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos', '#menu-right');
+               that.successCallback(collection, 'photos.noPhotos', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('photos.errorPhotosLoading', '#menu-right');
+               that.errorCallback('photos.errorPhotosLoading', '#right-pane-content');
             }
          });
       },
@@ -617,12 +626,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          app.useLayout().setViews({
-            "#content": new Photos.Views.Content({
+            "#center-pane-content": new Photos.Views.Content({
                photos: this.myPhotos,
                tagged: true,
                title: $.t('myPhotos.titleFavorites')
             }),
-            "#menu-right": new Photos.Views.Ticker({
+            "#right-pane-content": new Photos.Views.Ticker({
                tickerPhotos: this.myTickerPhotos
             })
          }).render();
@@ -640,25 +649,28 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       search: function() {
-         this.reset();
+         this.reset(false, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
-            "#content": new Search.Views.FullList({
-               searchResults: this.searchResults,
-               users: this.users
+            "#center-pane-content": new Search.Views.FullList({
+               photos: this.searchPhotos,
+               users: this.searchUsers
             })
          }).render();
       },
 
       notFound: function() {
-         app.useLayout().setView('#content', new Common.Views.Modal({
+         app.useLayout().setView('#center-pane-content', new Common.Views.Modal({
             title: 'common.titlePageNotFound',
             content: 'common.contentPageNotFound',
             redirect: true
          }), true).render();
       },
 
-      reset: function() {
+      reset: function(activeLeftPane, activeRightPane) {
+         this.activePane(activeLeftPane, activeRightPane);
+
          if (this.photos.length) {
             this.photos.fullReset();
          }
@@ -695,12 +707,21 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.users.length) {
             this.users.fullReset();
          }
+         if (this.actions.length) {
+            this.actions.fullReset();
+         }
+         if ($('html, body').hasClass('body-grey-background')) {
+            $('html, body').removeClass('body-grey-background');
+         }
+      },
+
+      setupEnvironment: function() {
          // Add search form if not already set
          if (!searchSetup) {
             searchSetup = true;
             app.useLayout().setView('#search-bar', new Search.Views.Form({
-               searchResults: this.searchResults,
-               users: this.users
+               photos: this.searchPhotos,
+               users: this.searchUsers
             })).render();
          }
          if (!notificationsSetup) {
@@ -709,11 +730,61 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                notifications: this.notifications
             })).render();
          }
+         if (!dropdownMenusSetup) {
+            dropdownMenusSetup = true;
+            User.ProfileInfosDropdown.listenClick();
+         }
       },
 
       // Shortcut for building a url.
       go: function() {
          return this.navigate(_.toArray(arguments).join("/"), true);
+      },
+
+      activePane: function(leftActive, rightActive) {
+         leftActive = typeof leftActive !== 'undefined' ? leftActive : false;
+         rightActive = typeof rightActive !== 'undefined' ? rightActive : true;
+         if (leftActive || rightActive) {
+            if (!$('#center-pane').hasClass('col-sm-8 col-md-9'))
+               $('#center-pane').removeClass().addClass('col-sm-8 col-md-9');
+         } else {
+            if (!$('#center-pane').hasClass('col-sm-12 col-md-12'))
+               $('#center-pane').removeClass().addClass('col-sm-12 col-md-12');
+         }
+
+         if (leftActive && !rightActive) {
+            this.changeVisiblityRightPane(false);
+            this.changeVisiblityLeftPane(true);
+         } else if (rightActive && !leftActive) {
+            this.changeVisiblityLeftPane(false);
+            this.changeVisiblityRightPane(true);
+         } else if (leftActive && rightActive) {
+            this.changeVisiblityLeftPane(true);
+            this.changeVisiblityRightPane(true);
+         } else {
+            this.changeVisiblityLeftPane(false);
+            this.changeVisiblityRightPane(false);
+         }
+      },
+
+      changeVisiblityLeftPane: function(show) {
+         if (show) {
+            if ($('#left-pane').hasClass('hide'))
+               $('#left-pane').removeClass('hide');
+         } else {
+            if (!$('#left-pane').hasClass('hide'))
+               $('#left-pane').addClass('hide');
+         }
+      },
+
+      changeVisiblityRightPane: function(show) {
+         if (show) {
+            if ($('#right-pane').hasClass('hide'))
+               $('#right-pane').removeClass('hide');
+         } else {
+            if (!$('#right-pane').hasClass('hide'))
+               $('#right-pane').addClass('hide');
+         }
       },
 
       // Change title of window
@@ -723,12 +794,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }
       },
 
-      routeTriggered: function() {
+      routeTriggered: function(e) {
          if ($('#dashboard').hasClass('edit-mode')) {
             $("#dashboard").removeClass('edit-mode').addClass('view-mode');
          }
-         if ($('#content').hasClass('span11')) {
-            $('#content').switchClass('span11', 'span9');
+         if ($('#center-pane').hasClass('span11')) {
+            $('#center-pane').switchClass('span11', 'span9');
          }
          if ($("aside").hasClass('span1')) {
             $("aside").switchClass("span1", "span3");
@@ -742,7 +813,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       successCallback: function(collection, translationKey, target) {
-         target = (typeof target === "undefined") ? "#content" : target;
+         target = (typeof target === "undefined") ? "#center-pane-content" : target;
          // Check if collection is empty
          if (collection.length == 0) {
             app.useLayout().setView(target, new Common.Views.Alert({
@@ -753,12 +824,18 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       errorCallback: function(translationKey, target) {
-         target = (typeof target === "undefined") ? "#content" : target;
+         target = (typeof target === "undefined") ? "#center-pane-content" : target;
          app.useLayout().setView(target, new Common.Views.Alert({
             cssClass: Common.alertError,
             message: $.t(translationKey),
             showClose: true
          }), true).render();
+      },
+
+      handleScrollEvent: function() {
+         /*$(window).scroll(function(e) {
+            $('#right-pane-scrollview').css({top: $(window).scrollTop() });
+         });*/
       }
    });
 

@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -63,33 +64,17 @@ class LikesController extends FosRestController
                     $like = new Like();
                     $like->setIpAddress($request->getClientIp())->setPhoto($photo);
 
-                    // Create a new notification
-                    $notification = new Notification();
-                    $messageOptions = null;
+                    $currentUser = null;
+                    if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+                        $currentUser = $securityContext->getToken()->getUser();
 
-                    // Set user if loggedin
-                    if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-                        $like->setLiker($user);
-                        // Send notification liker only if liker isn't photo owner
-                        if ($user->getId() != $photo->getOwner()->getId()) {
-                            $notification->setAuthor($user)->setMessage('notification.memberLikedPhoto');
-                            $messageOptions = json_encode(array(
-                                'author' => $user->getFullname()
-                            ));
-                        } else {
-                            $notification = null;
-                        }
-                    } else {
-                        $notification->setMessage('notification.anonymousLikedPhoto');
-                    }
+                    $sendNotification = $user->getId() != $photo->getOwner()->getId();
+                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_LIKE,
+                        $currentUser, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                        get_class($photo), $sendNotification, $currentUser ? 'memberLikedPhoto': 'anonymousLikedPhoto');
 
-                    if ($notification) {
-                        // Notification
-                        $notification->setType(Notification::TYPE_LIKE_PHOTO)->setObjectId($photo->getId())
-                            ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
-                            ->setMessageOptions($messageOptions);
-                        $em->persist($notification);
-                    }
+                    if ($currentUser)
+                        $like->setLiker($currentUser);
 
                     $em->persist($like);
                     $em->flush();

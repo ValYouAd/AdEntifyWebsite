@@ -13,14 +13,44 @@ My settings: Mes paramètres
 Categories: Catégories
 All categories: Toutes les catégories
 My AdEntify: Mon AdEntify
-My favorites photos: Mes photos favorites
+My favorites: Mes favoris
+My settings: Mes paramètres
+My profile: Mon profil
+Log out: Déconnexion
+Press: Presse
+Credits: Crédits
+FAQ: FAQ
+About Us: Qui sommes-nous ?
+Search a user, place, brand...: Rechercher un utilisateur, un lieu, une marque...
+A la une: A la une
+Start: Démarrer
+People to follow: Personnes à suivre
+Already: Déjà
+Most tagged Brands: Marques les plus taguées
+Advertisers: Annonceurs
+Press: Presse
+Contact: Contact
+Legal notice: Mentions légales
+About: A propos
+More brands: Plus de marques
+More members: Plus de membres
+Login: Se connecter
+Sign Up: S'inscrire
+More photos: Plus de photos
+
+modal:
+    login: Connexion
+    signup: Inscription
 
 #Routing
 photos/untagged/: photos/non-taguees/
 my/photos/tagged/: mes/photos/taguees/
 my/photos/untagged/: mes/photos/non-taguees/
+photo/%id%/: photo/%id%/
 brands/: marques/
+'brand/%slug%/': marque/%slug%
 my/settings/: mes/parametres/
 category/: categorie/
 my/adentify/: mon/adentify/
 my/photos/favorites/: mes/photos/favorites/
+profile/%id%/: profil/%id%/

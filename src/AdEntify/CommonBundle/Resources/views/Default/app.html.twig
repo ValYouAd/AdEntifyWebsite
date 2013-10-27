@@ -1,6 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
+    <link href='//fonts.googleapis.com/css?family=Asap:400italic' rel='stylesheet' type='text/css'>
     {% stylesheets
     '../app/Resources/public/css/select2.css'
     '../app/Resources/public/css/jquery.fileupload-ui.css'
@@ -15,18 +16,64 @@
 
     <main role="main" id="main">
 
-        <nav class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="nav-collapse collapse">
-                    <div class="pull-left">
-                        <a href="{{ full_root_url }}" id="logo-small"></a>
+        <nav class="navbar navbar-adentify navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-collapse">
+
+                    <div class="row">
+                        <div class="col-sm-8 col-md-9">
+                            <a href="{{ full_root_url }}" class="logo-nav pull-left"></a>
+                            <div class="pull-right" id="search-bar"></div>
+                        </div>
+                        <div class="col-sm-4 col-md-3">
+                            <div class="pull-left user-bar">
+                                <div class="user-information" class="pull-right">
+                                    {% if app.user %}
+                                        <div class="profile-picture-wrapper pull-left">
+                                            <div id="notifications" class="pull-right"></div>
+                                            {% if app.user.facebookId %}
+                                                <img class="profile-picture" src="https://graph.facebook.com/{{ app.user.facebookId }}/picture?width=40&height=40" />
+                                            {% endif %}
+                                        </div>
+                                        <div class="profile-infos pull-left">
+                                            <div class="dropdown-menu">
+                                                <div class="white-arrow-top"></div>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="{{ full_root_url }}{{ 'profile/%id%/'|trans({ '%id%': app.user.id }) }}"><i class="icon dashboard-icon"></i> {{ 'My profile'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/photos/tagged/'|trans }}"><i class="icon my-pictures"></i> {{ 'My photos'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}"><i class="icon parameters-icon"></i> {{ 'My settings'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"><i class="icon favorites-icon"></i> {{ 'My favorites'|trans }}</a></li>
+                                                    <li class="grey-background-item"><a href="{{ url('fos_user_security_logout') }}"><i class="icon cross-icon"></i> {{ 'Log out'|trans }}</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="user-names">
+                                                {% if app.user.firstname or app.user.lastname %}
+                                                    {% if app.user.firstname %}{{ app.user.firstname }}{% endif %} {% if app.user.lastname %}{{ app.user.lastname }}{% endif %}
+                                                {% else %}
+                                                    {{ app.user.email }}
+                                                {% endif %}
+                                            </div>
+                                            <div class="user-points">
+                                                <span class="user-points-value">0</span> <sup>Pts</sup>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="sprites tag-button pull-right"></div>
+                        </div>
                     </div>
-                    <ul class="nav">
+
+                    {#<ul class="nav navbar-nav">
                         <li>
                             <a class="dropdown" data-toggle="dropdown" data-bypass="">{{ 'Categories'|trans }} <b class="caret"></b></a>
                             <ul class="dropdown-menu" role="menu" aria-labelleby="drop1">
@@ -42,43 +89,57 @@
                             <ul class="dropdown-menu" role="menu" aria-labelleby="drop2">
                                 <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/tagged/'|trans }}">{{ 'My tagged photos'|trans }}</a></li>
                                 <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/untagged/'|trans }}">{{ 'My untagged photos'|trans }}</a></li>
-                                <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}">{{ 'My favorites photos'|trans }}</a></li>
+                                <li role="presentation"><a role="menuitem" href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"></a></li>
                             </ul>
                         </li>
                         <li><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'Brands'|trans }}</a></li>
-                        <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}">{{ 'My settings'|trans }}</a></li>
-                    </ul>
-                    <div id="notifications" class="pull-right"></div>
-                    <div class="pull-right" id="user-account">
-                        <div class="pull-right">
-                            <a href="{{ url('fos_user_security_logout') }}" class="btn btn-small">{{ 'Log off'|trans }}</a>
-                        </div>
-                        <div id="user-information" class="pull-right"></div>
-                    </div>
-                    <div class="pull-right">
-                        <a href="upload/" class="btn btn-primary btn-small">{{ 'Upload photos'|trans }}</a>
-                    </div>
-                    <div class="pull-right" id="search-bar"></div>
+                        <li><a href="">{{ 'My settings'|trans }}</a></li>
+                    </ul>#}
+
+                    {#<div class="navbar-right">
+
+
+                    </div>#}
                 </div>
             </div>
+
         </nav>
 
-        <div id="dashboard" class="row-fluid view-mode">
+        <div class="container dashboard-container">
+            <div id="dashboard" class="row view-mode">
 
-            <section id="content" class="span9">
-                <div class="loading-gif-container">
-                    <div class="loading-gif"></div>
-                </div>
-            </section>
+                <section id="left-pane" class="col-sm-4 col-md-3 hide"></section>
 
-            <aside id="menu-right" class="span3">
-                <div class="loading-gif-container">
-                    <div class="loading-gif"></div>
-                </div>
-            </aside>
+                <section id="center-pane" class="col-sm-8 col-md-9">
+                    <section id="center-pane-content">
+                        <div class="loading-gif-container">
+                            <div class="loader rotate"></div>
+                        </div>
+                    </section>
+                    <div class="push"></div>
+                </section>
 
+                <section id="right-pane" class="col-sm-4 col-md-3">
+                    <div id="right-pane-scrollview">
+                        <section id="right-pane-content">
+                            <div class="loading-gif-container">
+                                <div class="loader rotate"></div>
+                            </div>
+                        </section>
+                        <footer>
+                            <div class="links">
+                                <a href="">{{ 'Qui sommes-nous ?'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Presse'|trans }}</a> · <a href="">{{ 'Crédits'|trans }}</a>
+                            </div>
+                            <div class="copyright">© {{ date|date('Y') }} Adentify</div>
+                        </footer>
+                    </div>
+                    <div class="push"></div>
+                </section>
+            </div>
         </div>
 
+        <!-- Modal -->
+        <div id="modal-container"></div>
     </main>
 {% endblock %}
 
@@ -94,7 +155,7 @@
         var currentLocale = '{{ app.request.locale }}';
         var currentUserId = {{ app.user.id }};
     </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&sensor=false"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&v=3&sensor=false"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>

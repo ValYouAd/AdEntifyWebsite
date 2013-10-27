@@ -42,6 +42,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Please enter your firstname.", groups={"Registration", "Profile"})
      */
     private $firstname;
 
@@ -49,6 +50,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Please enter your lastname.", groups={"Registration", "Profile"})
      */
     private $lastname;
 
@@ -89,6 +91,13 @@ class User extends BaseUser
      * @ORM\Column(name="twitter_id", type="string", length=255, nullable=true)
      */
     protected $twitterId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="twitter_username", type="text", nullable=true)
+     */
+    private $twitterUsername;
 
     /**
      * @Serializer\Exclude
@@ -155,16 +164,30 @@ class User extends BaseUser
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="followers")
      * @ORM\JoinTable(name="users_followings",
-     *      joinColumns={@ORM\JoinColumn(name="following_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="follower_id", referencedColumnName="id", unique=true)})
+     *      joinColumns={@ORM\JoinColumn(name="follower_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="following_id", referencedColumnName="id", unique=true)})
      */
     private $followings;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="followings_count", type="integer")
+     */
+    private $followingsCount = 0;
 
     /**
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="followings")
      */
     private $followers;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="followers_count", type="integer")
+     */
+    private $followersCount = 0;
 
     /**
      * @Serializer\Exclude
@@ -205,6 +228,13 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Action", mappedBy="owner")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    private $actions;
+
+    /**
+     * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="user")
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
@@ -218,10 +248,30 @@ class User extends BaseUser
     private $tags;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="tags_count", type="integer")
+     */
+    private $tagsCount = 0;
+
+    /**
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\OAuth\Client", inversedBy="users")
      */
     private $clients;
+
+    /**
+     * @Serializer\Exclude
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Brand", mappedBy="followers")
+     */
+    private $followedBrands;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="followed_brands_count", type="integer")
+     */
+    private $followedBrandsCount = 0;
 
     public function __construct()
     {
@@ -240,6 +290,8 @@ class User extends BaseUser
         $this->brandTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->followedBrands = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -261,7 +313,7 @@ class User extends BaseUser
 
     /**
      * @param string $facebookId
-     * @return void
+     * @return User
      */
     public function setFacebookId($facebookId)
     {
@@ -382,14 +434,14 @@ class User extends BaseUser
         }
     }
 
-    public function addPhoto(\AdEntify\CoreBundle\Entity\Photo $photo)
+    public function addPhoto(Photo $photo)
     {
         $this->photos[] = $photo;
         $photo->setOwner($this);
         return $this;
     }
 
-    public function removePhoto(\AdEntify\CoreBundle\Entity\Photo $photo)
+    public function removePhoto(Photo $photo)
     {
         $this->photos->removeElement($photo);
         $photo->setOwner(null);
@@ -400,14 +452,14 @@ class User extends BaseUser
         return $this->photos;
     }
 
-    public function addComment(\AdEntify\CoreBundle\Entity\Comment $comment)
+    public function addComment(Comment $comment)
     {
         $this->comments[] = $comment;
         $comment->setAuthor($this);
         return $this;
     }
 
-    public function removeComment(\AdEntify\CoreBundle\Entity\Comment $comment)
+    public function removeComment(Comment $comment)
     {
         $this->comments->removeElement($comment);
         $comment->setAuthor(null);
@@ -418,14 +470,14 @@ class User extends BaseUser
         return $this->comments;
     }
 
-    public function addLike(\AdEntify\CoreBundle\Entity\Like $like)
+    public function addLike(Like $like)
     {
         $this->likes[] = $like;
         $like->setLiker($this);
         return $this;
     }
 
-    public function removeLike(\AdEntify\CoreBundle\Entity\Like $like)
+    public function removeLike(Like $like)
     {
         $this->likes->removeElement($like);
         $like->setLiker(null);
@@ -468,14 +520,14 @@ class User extends BaseUser
         return $this->facebookUsername;
     }
 
-    public function addOAuthUserInfo(\AdEntify\CoreBundle\Entity\OAuthUserInfo $oAuthUserInfo)
+    public function addOAuthUserInfo(OAuthUserInfo $oAuthUserInfo)
     {
         $this->oAuthUserInfos[] = $oAuthUserInfo;
         $oAuthUserInfo->setUser($this);
         return $this;
     }
 
-    public function removeOAuthUserInfo(\AdEntify\CoreBundle\Entity\OAuthUserInfo $oAuthUserInfo)
+    public function removeOAuthUserInfo(OAuthUserInfo $oAuthUserInfo)
     {
         $this->oAuthUserInfos->removeElement($oAuthUserInfo);
         $oAuthUserInfo->setUser(null);
@@ -524,14 +576,14 @@ class User extends BaseUser
         return $this->twitterUsername;
     }
 
-    public function addStat(\AdEntify\CoreBundle\Entity\TagStats $stat)
+    public function addStat(TagStats $stat)
     {
         $this->stats[] = $stat;
         $stat->setUser($this);
         return $this;
     }
 
-    public function removeStat(\AdEntify\CoreBundle\Entity\TagStats $stat)
+    public function removeStat(TagStats $stat)
     {
         $this->stats->removeElement($stat);
         $stat->setUser(null);
@@ -542,14 +594,14 @@ class User extends BaseUser
         return $this->stats;
     }
 
-    public function addFollower(\AdEntify\CoreBundle\Entity\User $follower)
+    public function addFollower(User $follower)
     {
         $follower->addFollowing($this);
         $this->followers[] = $follower;
         return $this;
     }
 
-    public function removeFollower(\AdEntify\CoreBundle\Entity\User $follower)
+    public function removeFollower(User $follower)
     {
         $follower->removeFollowing($this);
         $this->followers->removeElement($follower);
@@ -560,13 +612,13 @@ class User extends BaseUser
         return $this->followers;
     }
 
-    public function addFollowing(\AdEntify\CoreBundle\Entity\User $following)
+    public function addFollowing(User $following)
     {
         $this->followings[] = $following;
         return $this;
     }
 
-    public function removeFollowing(\AdEntify\CoreBundle\Entity\User $following)
+    public function removeFollowing(User $following)
     {
         $this->followings->removeElement($following);
     }
@@ -610,14 +662,14 @@ class User extends BaseUser
         return $this->lastFriendsListUpdate;
     }
 
-    public function addFriend(\AdEntify\CoreBundle\Entity\Person $friend)
+    public function addFriend(Person $friend)
     {
         $friend->addFriend($this);
         $this->friends[] = $friend;
         return $this;
     }
 
-    public function removeFriend(\AdEntify\CoreBundle\Entity\Person $friend)
+    public function removeFriend(Person $friend)
     {
         $friend->removeFriend($this);
         $this->friends->removeElement($friend);
@@ -645,14 +697,14 @@ class User extends BaseUser
         return $this->locale;
     }
 
-    public function addFavoritePhoto(\AdEntify\CoreBundle\Entity\Photo $photo)
+    public function addFavoritePhoto(Photo $photo)
     {
         $photo->addFavoriteUser($this);
         $this->favoritesPhotos[] = $photo;
         return $this;
     }
 
-    public function removeFavoritePhoto(\AdEntify\CoreBundle\Entity\Photo $photo)
+    public function removeFavoritePhoto(Photo $photo)
     {
         $photo->removeFavoriteUser($this);
         $this->favoritesPhotos->removeElement($photo);
@@ -676,14 +728,14 @@ class User extends BaseUser
         return $followings;
     }
 
-    public function addNotification(\AdEntify\CoreBundle\Entity\Notification $notification)
+    public function addNotification(Notification $notification)
     {
         $this->notifications[] = $notification;
         $notification->setOwner($this);
         return $this;
     }
 
-    public function removeNotification(\AdEntify\CoreBundle\Entity\Notification $notification)
+    public function removeNotification(Notification $notification)
     {
         $this->notifications->removeElement($notification);
         $notification->setOwner(null);
@@ -711,14 +763,14 @@ class User extends BaseUser
         return $this->twitterAccessToken;
     }
 
-    public function addBrandTag(\AdEntify\CoreBundle\Entity\BrandTag $brandTag)
+    public function addBrandTag(BrandTag $brandTag)
     {
         $this->brandTags[] = $brandTag;
         $brandTag->setUser($this);
         return $this;
     }
 
-    public function removeBrandTag(\AdEntify\CoreBundle\Entity\BrandTag $brandTag)
+    public function removeBrandTag(BrandTag $brandTag)
     {
         $this->brandTags->removeElement($brandTag);
         $brandTag->setUser(null);
@@ -729,14 +781,14 @@ class User extends BaseUser
         return $this->brandTags;
     }
 
-    public function addTag(\AdEntify\CoreBundle\Entity\Tag $tag)
+    public function addTag(Tag $tag)
     {
         $this->tags[] = $tag;
         $tag->setOwner($this);
         return $this;
     }
 
-    public function removeTag(\AdEntify\CoreBundle\Entity\Tag $tag)
+    public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
         $tag->setOwner(null);
@@ -751,7 +803,7 @@ class User extends BaseUser
      * @param Client $client
      * @return $this
      */
-    public function addClient(\AdEntify\CoreBundle\Entity\OAuth\Client $client)
+    public function addClient(Client $client)
     {
         $this->clients[] = $client;
         $client->addUser($this);
@@ -761,7 +813,7 @@ class User extends BaseUser
     /**
      * @param Client $client
      */
-    public function removeClient(\AdEntify\CoreBundle\Entity\OAuth\Client $client)
+    public function removeClient(Client $client)
     {
         $this->clients->removeElement($client);
         $client->removeUser($this);
@@ -809,5 +861,114 @@ class User extends BaseUser
     public function getFacebookAccessToken()
     {
         return $this->facebookAccessToken;
+    }
+
+    /**
+     * @param int $followersCount
+     */
+    public function setFollowersCount($followersCount)
+    {
+        $this->followersCount = $followersCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFollowersCount()
+    {
+        return $this->followersCount;
+    }
+
+    /**
+     * @param int $followingsCount
+     */
+    public function setFollowingsCount($followingsCount)
+    {
+        $this->followingsCount = $followingsCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFollowingsCount()
+    {
+        return $this->followingsCount;
+    }
+
+    /**
+     * @param int $tagsCount
+     */
+    public function setTagsCount($tagsCount)
+    {
+        $this->tagsCount = $tagsCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsCount()
+    {
+        return $this->tagsCount;
+    }
+
+    /**
+     * @param int $followedBrandsCount
+     */
+    public function setFollowedBrandsCount($followedBrandsCount)
+    {
+        $this->followedBrandsCount = $followedBrandsCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFollowedBrandsCount()
+    {
+        return $this->followedBrandsCount;
+    }
+
+    public function addFollowedBrand(Brand $brand)
+    {
+        $this->followedBrands[] = $brand;
+        return $this;
+    }
+
+    public function removeFollowedBrand(Brand $brand)
+    {
+        $this->followedBrands->removeElement($brand);
+    }
+
+    public function getFollowedBrands()
+    {
+        return $this->followedBrands;
+    }
+
+    public function getFollowedActionsCount()
+    {
+        return $this->followedActionsCount;
+    }
+
+    public function addAction(Action $action)
+    {
+        $this->actions[] = $action;
+        $action->setOwner($this);
+        return $this;
+    }
+
+    public function removeAction(Action $action)
+    {
+        $this->actions->removeElement($action);
+        $action->setOwner(null);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActions()
+    {
+        return $this->actions;
     }
 }

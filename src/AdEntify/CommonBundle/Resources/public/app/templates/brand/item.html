@@ -1,6 +1,4 @@
-<img src="<%= model.get("medium_logo_url") %>" />
-<div class="caption">
-    <h2><%= model.get("name") %></h2>
-    <span data-i18n="brand.tagged" data-i18n-options='{"count": <%= model.get("tags_count") %>}'></span>
-    <a class="btn" data-i18n="brand.viewPhotos" href="<%= model.get("brandLink") %>"></a>
-</div>
+<a href="<%= model.get('brandLink') %>" class="thumbnail">
+    <img src="<%= model.get("medium_logo_url") %>" alt="<%= model.get("name") %>" class="brand-logo" />
+    <div class="tagged-count text-center"><span data-i18n="[html]brand.tagged" data-i18n-options='{"count": <%= model.get("tags_count") %>}'></span></div>
+</a>

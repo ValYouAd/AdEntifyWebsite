@@ -67,7 +67,7 @@ class BrandController extends Controller
             if ($entity->getOriginalLogoUrl()) {
                 $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
                 $uploadableListener = $uploadableManager->getUploadableListener();
-                $uploadableListener->setDefaultPath('uploads/brands/logo-original');
+                $uploadableListener->setDefaultPath(FileTools::getBrandLogoPath(FileTools::LOGO_TYPE_ORIGINAL, false));
                 $uploadableManager->markEntityToUpload($entity, $entity->getOriginalLogoUrl());
             } elseif ($entity->getLogoUrl()) {
                 $logo = FileTools::downloadImage($entity->getLogoUrl(), FileTools::getBrandLogoPath());
@@ -238,11 +238,20 @@ class BrandController extends Controller
 
         if ($editForm->isValid()) {
             $file = $request->files->get('adentify_backofficebundle_brand');
-            if ($file && isset($file['originalLogoUrl'])) {
-                $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-                $uploadableListener = $uploadableManager->getUploadableListener();
-                $uploadableListener->setDefaultPath(FileTools::getBrandLogoPath(FileTools::LOGO_TYPE_ORIGINAL, false));
-                $uploadableManager->markEntityToUpload($entity, $entity->getOriginalLogoUrl());
+            if (($file && isset($file['originalLogoUrl'])) || $entity->getLogoUrl()) {
+                if ($file && isset($file['originalLogoUrl'])) {
+                    $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
+                    $uploadableListener = $uploadableManager->getUploadableListener();
+                    $uploadableListener->setDefaultPath(FileTools::getBrandLogoPath(FileTools::LOGO_TYPE_ORIGINAL, false));
+                    $uploadableManager->markEntityToUpload($entity, $entity->getOriginalLogoUrl());
+                } elseif ($entity->getLogoUrl()) {
+                    $logo = FileTools::downloadImage($entity->getLogoUrl(), FileTools::getBrandLogoPath());
+                    if ($logo['status'] !== false) {
+                        $entity->setOriginalLogoUrl($logo['path'].$logo['filename']);
+                    } else {
+                        return $this->redirect($this->generateUrl('brands_edit', array('id' => $id)));
+                    }
+                }
 
                 $em->flush();
 
@@ -265,7 +274,7 @@ class BrandController extends Controller
 
             $em->flush();
 
-            return $this->redirect($this->generateUrl('brands_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('brands_show', array('id' => $entity->getId())));
         }
 
         return array(

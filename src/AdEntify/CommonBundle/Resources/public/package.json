@@ -14,7 +14,8 @@
       "isotope": "*",
       "jquery-ui": "*",
       "modernizer": "*",
-      "i18next2": "1.6.3c"
+      "i18next2": "1.6.3c",
+      "jamjs-moment": "*"
     }
   }
 }

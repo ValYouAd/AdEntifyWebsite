@@ -41,6 +41,6 @@ class EmailLoginProvider implements  UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $this->userManager->supports($class);
+        return $this->userManager->supportsClass($class);
     }
 }

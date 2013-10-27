@@ -26,6 +26,11 @@
             <argument type="service" id="fos_user.user_manager" />
             <argument>%fosubuserprovider.properties%</argument>
         </service>
+
+        <service id="adentify_user.registration.form.type" class="AdEntify\UserBundle\Form\Type\RegistrationFormType">
+            <tag name="form.type" alias="adentify_user_registration" />
+            <argument>%fos_user.model.user.class%</argument>
+        </service>
     </services>
 
 </container>
