@@ -1,4 +1,12 @@
-<%= model.get('message') %>
-        large photo
+<% if (model.has('authorModel')) { %>
+<div class="pull-left">
+    <a href="<%= model.get('authorModel').get('link') %>"><img src="<%= model.get('authorModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('authorModel').get('fullname') %>" /></a>
+</div>
+<% } %>
+<%= $.t('action.photoUploaded', { 'authorLink' : model.get('authorModel').get('link'), 'author': model.get('authorModel').get('fullname'), 'photoLink' : model.get('photo').get('link') }) %>
+<div class="clearfix"></div>
+<div class="action-photo">
+    <a href="<%= model.get('photo').get('link') %>" data-bypass='' class='photo-link'><img src="<%= model.get('photo').get('fullMediumUrl') %>" alt="<%= model.get('photo').get('caption') %>" /></a>
+</div>
 <div class="clearfix"></div>
 <div class="ticker_separator"></div>

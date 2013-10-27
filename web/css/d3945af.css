@@ -1432,8 +1432,8 @@ html,body {
 
 /* MODULE : Actions
 ----------------------- */
-.actions-list {
-    margin-top: 7px;
+.actions-list img {
+    max-width: 100%;
 }
 .actions-list {
     margin: 7px 10px 0px 10px;
@@ -1456,6 +1456,25 @@ html,body {
 .actions-list .small-photo {
     max-width: 60px;
     margin: -6px 0px -6px 5px;
+}
+.actions-list .action-photo,
+.actions-list .action-photos {
+    margin-top: 6px;
+}
+.action-photos .photo-link {
+    margin: 1%;
+}
+.action-photos .photo-0 {
+    float: left;
+    width: 63%;
+}
+.action-photos .photo-1 {
+    width: 33%;
+    float:right;
+}
+.action-photos .photo-2 {
+    width: 33%;
+    float:right;
 }
 /* END MODULE : Actions
 ----------------------- */
@@ -2229,7 +2248,9 @@ html,body {
     -o-background-size: cover;
     background-size: cover;
 }
-.btn-facebook {
+.btn-facebook,
+.btn-facebook:hover,
+.btn-facebook:active {
     font-size: 11px;
     background: rgb(77,107,165);
     background: -moz-linear-gradient(top,  rgba(77,107,165,1) 0%, rgba(51,79,141,1) 50%);
@@ -2249,7 +2270,9 @@ html,body {
     top: 5px;
     margin-right: 6px;
 }
-.btn-twitter {
+.btn-twitter,
+.btn-twitter:hover,
+.btn-twitter:active {
     font-size: 11px;
     background: rgb(44,190,243);
     background: -moz-linear-gradient(top,  rgba(44,190,243,1) 0%, rgba(24,171,239,1) 50%);

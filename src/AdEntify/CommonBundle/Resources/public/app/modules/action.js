@@ -23,10 +23,14 @@ define([
          if (this.has('photos')) {
             if (this.get('photos').length > 1) {
                var photos = new Photos.Collection();
+               var i = 1;
                _.each(this.get('photos'), function(photo) {
-                  var model = new Photo.Model(photo);
-                  model.setup();
-                  photos.add(model);
+                  if (i <= 3) {
+                     var model = new Photo.Model(photo);
+                     model.setup();
+                     photos.add(model);
+                     i++;
+                  } else return false;
                });
                this.set('photosCollection', photos);
             } else if (this.get('photos').length == 1) {
@@ -52,20 +56,6 @@ define([
       url: Routing.generate('api_v1_get_actions')
    });
 
-   /*Action.Views.BaseItem = Backbone.View.extend({
-      serialize: function() {
-         return { model: this.model };
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, 'change', this.render);
-      }
-   });*/
-
    Action.Views.Item = Backbone.View.extend({
       template: "action/item",
       tagName: "li class='action-item'",
@@ -85,23 +75,23 @@ define([
       },
 
       clickPhotoLink: function(evt) {
-         Photos.Common.showPhoto(evt, this.model.get('photo'));
+         var photoId = $(evt.currentTarget).data('photo-id');
+         if (photoId) {
+            var photo = this.model.get('photosCollection').find(function(p) {
+               if (p.get('id') == photoId) {
+                  return p;
+               }
+            });
+            Photos.Common.showPhoto(evt, photo);
+         } else {
+            Photos.Common.showPhoto(evt, this.model.get('photo'));
+         }
       },
 
       events: {
          'click .photo-link': 'clickPhotoLink'
       }
    });
-
-  /* Action.Views.ItemWithLargePhoto = Action.Views.BaseItem({
-      template: 'action/itemWithLargePhoto',
-      tagName: 'li class="action-item-with-large-photo"'
-   });
-
-   Action.Views.ItemWithLargePhoto = Backbone.View.extend({
-      template: 'action/itemWithLargePhoto',
-      tagName: 'li class="action-item-with-large-photo"'
-   });*/
 
    Action.Views.List = Backbone.View.extend({
       template: "action/list",
