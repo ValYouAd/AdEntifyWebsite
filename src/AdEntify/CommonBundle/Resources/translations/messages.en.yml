@@ -12,7 +12,7 @@ My photos: My photos
 My settings: My settings
 Categories: Categories
 All categories: All categories
-My AdEntify: My AdEntify
+My AdEntify: My Adentify
 My favorites: My favorites
 My settings: My settings
 My profile: My profile
@@ -20,13 +20,13 @@ Log out: Log out
 Press: Press
 Credits: Credits
 FAQ: FAQ
-About Us: About Us
-Search a user, place, brand...: Search a user, place, brand...
-A la une: A la une
+About Us: About us
+Search a user, place, brand...: Search a member, place, brand...
+A la une: Top stories
 Start: Start
 People to follow: People to follow
 Already: Already
-Most tagged Brands: Most tagged Brands
+Most tagged Brands: Most tagged brands
 Advertisers: Advertisers
 Press: Press
 Contact: Contact
@@ -35,13 +35,13 @@ About: About
 More brands: More brands
 More members: More members
 Login: Login
-Sign Up: Sign Up
+Sign Up: Sign up
 More photos: More photos
 
 #Login
 modal:
     login: Login
-    signup: Sign Up
+    signup: Sign up
 
 #Routing
 photos/untagged/: photos/untagged/

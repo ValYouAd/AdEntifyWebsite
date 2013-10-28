@@ -30,7 +30,7 @@
       "tools": "Outils",
       "addTagButton": "Ajouter un tag",
       "legendPhotoDetails": "Détails de la photo",
-      "labelTitle": "Titre",
+      "labelCaption": "Tapez une description de votre photo",
       "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
       "noPhotos": "Aucune photo à afficher.",
       "titleFavorites": "Mes photos favorites",
@@ -133,7 +133,8 @@
       "errorProductPost": "Erreur lors de l'ajout du produit",
       "errorSelectBrand": "Veuillez sélectionner une marque avant d'ajouter un produit",
       "errorProductEmptyFields": "Vous devez remplir les champs nom et description",
-      "deleteTag": "Supprimer ce tag"
+      "deleteTag": "Supprimer ce tag",
+      "addNewTag": "Ajouter un tag"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",

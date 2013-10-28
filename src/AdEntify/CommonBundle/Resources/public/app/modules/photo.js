@@ -320,6 +320,10 @@ define([
          $(e.currentTarget).select();
       },
 
+      addNewTag: function(evt) {
+         Tag.Common.addTag(evt, this.model);
+      },
+
       events: {
          'click .adentify-pastille': 'clickPastille',
          'mouseenter .photo-container': 'showTags',
@@ -327,7 +331,8 @@ define([
          "click .showTagsCheckbox": "checkboxShowTags",
          "click .showLikesCheckbox": "checkboxShowLikes",
          "mouseup .selectOnFocus": "selectTextOnFocus",
-         "click #photo-tabs a": "changeTab"
+         "click #photo-tabs a": "changeTab",
+         'click .add-new-tag': "addNewTag"
       }
    });
 
@@ -362,6 +367,87 @@ define([
             'sync': this.render
          });
          this.listenTo(this.options.tickerPhotos, 'sync', this.render);
+      }
+   });
+
+   Photo.Views.Edit = Backbone.View.extend({
+      template: 'photo/edit',
+
+      serialize: function() {
+         return {
+            model: this.model
+         }
+      },
+
+      initialize: function() {
+         this.model = this.options.photo;
+         this.listenTo(this.model, 'change', this.render);
+         this.listenTo(app, 'tagform:changetab', function(tabName) {
+            this.tagFormFabChanged(tabName);
+         });
+      },
+
+      beforeRender: function() {
+         if (!this.model.has('tags'))
+            this.model.set('tags', new Tag.Collection());
+         this.tagsView = this.getView('.tags-container');
+         if (!this.tagsView) {
+            this.tagsView = new Tag.Views.List({
+               tags: this.model.get('tags'),
+               photo: this.model,
+               visible: true
+            });
+            this.listenTo(this.tagsView, 'tag:remove', function() {
+               // Update tags count
+               this.model.changeTagsCount(-1);
+            });
+            this.setView('.tags-container', this.tagsView).render();
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      addTag: function(e) {
+         var tagRadius = 12.5;
+         var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
+         var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
+
+         // Remove tags aren't persisted
+         var that = this;
+         this.model.get('tags').each(function(tag) {
+            if (tag.has('tempTag')) {
+               that.model.get('tags').remove(tag);
+            }
+         });
+
+         var tag = new Tag.Model();
+         tag.set('x_position', xPosition);
+         tag.set('y_position', yPosition);
+         tag.set('cssClass', 'new-tag');
+         tag.set('tagIcon', 'tag-brand-icon')
+         tag.set('tempTag', true);
+         this.model.get('tags').add(tag);
+         this.currentTag = tag;
+
+         app.trigger('photo:tagAdded');
+      },
+
+      tagFormFabChanged: function(tabName) {
+         if (this.currentTag) {
+            if (tabName == '#product') {
+               this.currentTag.set('tagIcon', 'tag-brand-icon');
+            } else if (tabName == '#venue') {
+               this.currentTag.set('tagIcon', 'tag-place-icon');
+            } else if (tabName == '#person') {
+               this.currentTag.set('tagIcon', 'tag-user-icon');
+            }
+         }
+      },
+
+      events: {
+         'click .photo-overlay': 'addTag'
       }
    });
 

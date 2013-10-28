@@ -109,6 +109,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "mes/photos/favorites/": "favoritesPhotos",
                "photos/non-taguees/": "untagged",
                "photo/:id/": "viewPhoto",
+               "edition/photo/:id/": "editPhoto",
                "upload/": "upload",
                "upload/local/": "uploadLocal",
                "mes/parametres/": "mySettings",

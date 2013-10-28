@@ -1,0 +1,18 @@
+<div class="edit-photo-wrapper">
+    <div class="photo-container">
+        <div class="photo-overlay">
+            <div class="tags-container"></div>
+        </div>
+        <img src="<%= model.get('large_url') %>" alt="<%= model.get('caption') %>" class="photo-full" />
+    </div>
+</div>
+<div class="photo-details">
+    <form id="form-details">
+        <fieldset>
+            <div class="form-group">
+                <input class="form-control" data-i18n="[placeholder]myPhotos.labelCaption" type="text" id="photo-caption" value="<%= model.get('caption') %>">
+            </div>
+            <p><button type="submit" class="btn btn-success btn-small" data-loading-text="Chargement..."><i class="glyphicon glyphicon-ok"></i> <span data-i18n="common.submit"></span></button></p>
+        </fieldset>
+    </form>
+</div>

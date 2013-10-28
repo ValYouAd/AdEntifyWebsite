@@ -36,10 +36,11 @@
         <span class="source">Source :</span> <span class="source-name"><%= model.get("source") %></span>
     </div>
     <div class="clearfix"></div>
+    <div class="pull-right">
+        <button class="btn-around-corner btn-red-grey-border add-new-tag"><i class="glyphicon glyphicon-edit"></i> <%= $.t('tag.addNewTag') %></button>
+    </div>
     <!--<div class="categories mt1"></div>-->
 </div>
-
-
 
 <ul class="nav nav-tabs" id="photo-tabs">
     <li class="active"><a href="#comments" data-bypass=""><i class="icon grey-comment-icon"></i> <span data-i18n="photo.comments"></span></a></li>

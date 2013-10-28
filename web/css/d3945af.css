@@ -1180,11 +1180,11 @@ html,body {
         color: #FFF;
     }
     .photo-overlay .new-tag {
-        -webkit-animation: smallerCircle 0.5s ease;
-        -moz-animation: smallerCircle 0.5s ease;
-        -ms-animation: smallerCircle 0.5s ease;
-        -o-animation: smallerCircle 0.5s ease;
-        animation: smallerCircle 0.5s ease;
+        -webkit-animation: opacityKeyframe 0.5s ease;
+        -moz-animation: opacityKeyframe 0.5s ease;
+        -ms-animation: opacityKeyframe 0.5s ease;
+        -o-animation: opacityKeyframe 0.5s ease;
+        animation: opacityKeyframe 0.5s ease;
     }
     .user-information .facebookProfile {
         max-height: 20px;
@@ -1194,6 +1194,12 @@ html,body {
         @-ms-keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
          @-o-keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
             @keyframes smallerCircle { from { width: 50px; height: 50px; border-radius: 25px; } to { width: 25px; height: 25px; border-radius: 12.5px; } }
+
+    @-webkit-keyframes opacityKeyframe { from { opacity: 0; } to { opacity: 1; } }
+       @-moz-keyframes opacityKeyframe { from { opacity: 0; } to { opacity: 1; } }
+        @-ms-keyframes opacityKeyframe { from { opacity: 0; } to { opacity: 1; } }
+         @-o-keyframes opacityKeyframe { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes opacityKeyframe { from { opacity: 0; } to { opacity: 1; } }
 
     #photos-grid li div.medium { width: 422px; text-align: center; }
     #photos-grid li div.medium img { max-width: 100%; min-width: 100%; margin: auto; }
@@ -1380,6 +1386,9 @@ html,body {
     width: 100%;
     height: 100%;
 }
+.modal .photo-full {
+    width: 100%;
+}
 .photo-full {
     max-width: 100%;
 }
@@ -1426,6 +1435,14 @@ html,body {
 }
 .top-photo-buttons {
     margin-top: -6px;
+}
+/* Edit photo */
+.modal .photo-details {
+    background-color: #d5d5d5;
+    padding: 6px 10px;
+}
+.edit-photo-wrapper .photo-overlay {
+    cursor: crosshair;
 }
 /*
 ----------------------- */
@@ -1560,6 +1577,11 @@ html,body {
 .tag .tag-buttons {
     float: right;
     margin-bottom: 8px;
+}
+.tag-text {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 16px;
+    padding: 10px;
 }
 /*
 ----------------------- */
@@ -1940,7 +1962,7 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-pastille-small{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-pastille-small, .adentify-flat-pastille{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
@@ -2204,6 +2226,11 @@ html,body {
     height: 34px;
 }
 
+.adentify-flat-pastille{
+    background-position: -298px -99px ;
+    width: 41px;
+    height: 41px;
+}
 
 /* DONT CHANGE IT */
 .grey-share-icon {
@@ -2561,9 +2588,9 @@ label,
 .modal-content {
     border-radius: 0px;
     border-top: 5px solid #ff3838;
-    border-left: 1px solid #dfe2e6;
-    border-right: 1px solid #dfe2e6;
-    border-bottom: 1px solid #dfe2e6;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px;
 }
 .modal-title {
     font-family: 'pacificoregular', sans-serif;
@@ -2597,6 +2624,9 @@ label,
 }
 .modal-row {
     margin-left: 0px;
+}
+.edit-modal-row {
+    margin: 0px;
 }
 .btn:focus{
     outline: none;
@@ -2656,6 +2686,9 @@ label,
     border-top: 1px solid #cecdcd;
     margin: 0px -15px;
 }
+#right-modal-content .tab-content {
+    margin: 0px!important;
+}
 /* END : Bootstrap customs
 ----------------------- */
 
@@ -2704,6 +2737,19 @@ label,
     max-height: 50px;
 }
 /* END : Commentaires
+----------------------- */
+
+/* Headings
+----------------------- */
+.pacifico-adentify {
+    font-size: 32px;
+    color: #2c2c2e;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-weight: normal;
+    padding: 10px 0px 10px 50px;
+    border: 0px;
+}
+/* END : Headings
 ----------------------- */
 
 /* Divers
@@ -2788,6 +2834,9 @@ ul.striped > li:nth-child(even) {
 }
 .select2-container input[type="text"] {
     width: 100%;
+}
+.no-padding {
+    padding: 0px;
 }
 /*
 ----------------------- */

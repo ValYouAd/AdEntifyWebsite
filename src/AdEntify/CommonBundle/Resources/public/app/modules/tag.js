@@ -15,7 +15,8 @@ define([
    "bootstrap",
    "modernizer",
    "jquery.iframe-transport",
-   "jquery.fileupload"
+   "jquery.fileupload",
+   'typeahead'
 ], function(app, Venue, Person, Common, Product) {
 
    var Tag = app.module();
@@ -53,6 +54,7 @@ define([
          var jsonAttributes = this.attributes;
          delete jsonAttributes.cssClass;
          delete jsonAttributes.tempTag;
+         delete jsonAttributes.tagIcon;
          return { tag: jsonAttributes }
       },
 
@@ -130,6 +132,19 @@ define([
          popover.css({top: this.model.get('y_position') > 0.5 ? '-'+(popover.height() + 18)+'px' : '46px'});
          popover.css({left: this.model.get('x_position') > 0.5 ? '-'+(popover.width() - 31)+'px' : '-8px'});
          popover.fadeIn(100);
+      }
+   });
+
+   Tag.Views.NewItem = Backbone.View.extend({
+      template: 'tag/types/newTag',
+      tagName: 'li',
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, 'change', this.render);
       }
    });
 
@@ -400,6 +415,10 @@ define([
                   model: tag,
                   desactivatePopover: this.desactivatePopover
                }));
+            } else if (tag.has('tempTag')) {
+               this.insertView('.tags', new Tag.Views.NewItem({
+                  model: tag
+               }));
             }
          }, this);
       },
@@ -431,6 +450,25 @@ define([
             tags.stop().fadeOut('fast');
             tags.data('state', 'hidden');
          }
+      }
+   });
+
+   Tag.Views.AddModal = Backbone.View.extend({
+      template: 'tag/addModal',
+
+      beforeRender: function() {
+         this.setViews({
+            "#center-modal-content": new this.Photo.Views.Edit({
+               photo: this.options.photo
+            }),
+            "#right-modal-content": new Tag.Views.AddTagForm({
+               photo: this.options.photo
+            })
+         });
+      },
+
+      initialize: function() {
+         this.Photo = require('modules/photo');
       }
    });
 
@@ -544,6 +582,14 @@ define([
 
       initialize: function() {
          this.photo = this.options.photo;
+         this.listenTo(app, 'photo:tagAdded', function() {
+            var that = this;
+            if ($(this.el).find('.tag-text:visible').length > 0) {
+               $(this.el).find('.tag-text').fadeOut('fast', function() {
+                  $(that.el).find('.tag-tabs').fadeIn('fast');
+               });
+            }
+         });
       },
 
       afterRender: function() {
@@ -553,6 +599,7 @@ define([
          $('.nav-tabs a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
+            app.trigger('tagform:changetab', $(this).attr('href'));
          });
 
          // Brand/Product
@@ -1110,6 +1157,29 @@ define([
          "click .createProductButton": "createProduct"
       }
    });
+
+   Tag.Common = {
+      addTag: function(evt, photo) {
+         evt.preventDefault();
+         var photoView = new Tag.Views.AddModal({
+            photo: photo
+         });
+         var modal = new Common.Views.Modal({
+            view: photoView,
+            showFooter: false,
+            showHeader: false,
+            modalContentClasses: 'photoModal'
+         });
+         var oldModal = app.useLayout().getView('#modal-container');
+         if (oldModal) {
+            app.once('modal:hidden', function() {
+               app.useLayout().setView('#modal-container', modal).render();
+            });
+            oldModal.close();
+         } else
+            app.useLayout().setView('#modal-container', modal).render();
+      }
+   };
 
    return Tag;
 });
