@@ -58,6 +58,11 @@ define([
                users: this.followings
             }));
          }
+         if (!this.getView('.followers')) {
+            this.setView('.followers', new User.Views.List({
+               users: this.followers
+            }));
+         }
          if (!this.getView('.follow-button')) {
             this.setView('.follow-button', new User.Views.FollowButton({
                user: this.model
@@ -77,6 +82,7 @@ define([
       initialize: function() {
          this.lastPhoto = null;
          this.followings = this.options.followings;
+         this.followers = this.options.followers;
          this.listenTo(this.options.user, 'sync', this.render);
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {

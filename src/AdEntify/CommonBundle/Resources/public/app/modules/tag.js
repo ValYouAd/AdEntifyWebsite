@@ -86,7 +86,7 @@ define([
       },
 
       isOwner: function() {
-          return this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
+          return this && this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
       },
 
       delete: function() {
@@ -117,21 +117,23 @@ define([
       },
 
       setupPopover: function(popover, popoverArrow) {
-         if (this.model.get('y_position') > 0.5) {
-            popoverArrow.addClass('tag-popover-arrow-bottom');
-            popoverArrow.css({bottom: '-10px'});
-         } else {
-            popoverArrow.css({top: '-10px'});
-            popoverArrow.addClass('tag-popover-arrow-top');
+         if (this.model) {
+            if (this.model.get('y_position') > 0.5) {
+               popoverArrow.addClass('tag-popover-arrow-bottom');
+               popoverArrow.css({bottom: '-10px'});
+            } else {
+               popoverArrow.css({top: '-10px'});
+               popoverArrow.addClass('tag-popover-arrow-top');
+            }
+            if (this.model.get('x_position') > 0.5) {
+               popoverArrow.css({right: '20px'});
+            } else {
+               popoverArrow.css({left: '20px'});
+            }
+            popover.css({top: this.model.get('y_position') > 0.5 ? '-'+(popover.height() + 18)+'px' : '46px'});
+            popover.css({left: this.model.get('x_position') > 0.5 ? '-'+(popover.width() - 31)+'px' : '-8px'});
+            popover.fadeIn(100);
          }
-         if (this.model.get('x_position') > 0.5) {
-            popoverArrow.css({right: '20px'});
-         } else {
-            popoverArrow.css({left: '20px'});
-         }
-         popover.css({top: this.model.get('y_position') > 0.5 ? '-'+(popover.height() + 18)+'px' : '46px'});
-         popover.css({left: this.model.get('x_position') > 0.5 ? '-'+(popover.width() - 31)+'px' : '-8px'});
-         popover.fadeIn(100);
       }
    });
 
@@ -227,7 +229,7 @@ define([
             var popover = $(this.el).find('.popover');
             var popoverArrow = $(this.el).find('.tag-popover-arrow');
             this.setupPopover(popover, popoverArrow);
-            if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
+            /*if (!$('#map' + this.model.get('id')).hasClass('loaded')) {*/
                var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
                var mapOptions = {
                   zoom:  14,
@@ -245,7 +247,7 @@ define([
                   map: gMap
                });
                $('#map' + this.model.get('id')).addClass('loaded');
-            }
+            /*}*/
             app.tagStats().hover(this.model);
          }
       },
@@ -383,11 +385,11 @@ define([
          this.listenTo(this.tags, {
             'add': this.render,
             'remove': function(tag) {
-               // If it's a persisted tag, re-render the view and fire an event
-               if (!tag.has('tempTag')) {
+               /*// If it's a persisted tag, re-render the view and fire an event
+               if (!tag.has('tempTag')) {*/
                   this.trigger('tag:remove');
                   this.render();
-               }
+               /*}*/
             }
          });
          this.listenTo(app, 'tagMenuTools:tagAdded', function(photo) {
@@ -469,10 +471,17 @@ define([
 
       initialize: function() {
          this.Photo = require('modules/photo');
+         this.photo = this.options.photo;
+         var that = this;
+         this.listenTo(app, 'tagMenuTools:tagAdded', function(photo) {
+            if (typeof photo !== 'undefined' && typeof that.photo !== 'undefined' && that.photo.get('id') == photo.get('id')) {
+               that.render();
+            }
+         });
       }
    });
 
-   Tag.Views.MenuTools = Backbone.View.extend({
+   /*Tag.Views.MenuTools = Backbone.View.extend({
       template: "tag/menuTools",
 
       initialize: function() {
@@ -575,15 +584,16 @@ define([
       events: {
          "click .cancel-add-tag": "cancel"
       }
-   });
+   });*/
 
    Tag.Views.AddTagForm = Backbone.View.extend({
       template: "tag/addForm",
 
       initialize: function() {
          this.photo = this.options.photo;
-         this.listenTo(app, 'photo:tagAdded', function() {
+         this.listenTo(app, 'photo:tagAdded', function(tag) {
             var that = this;
+            currentTag = tag;
             if ($(this.el).find('.tag-text:visible').length > 0) {
                $(this.el).find('.tag-text').fadeOut('fast', function() {
                   $(that.el).find('.tag-tabs').fadeIn('fast');
@@ -632,12 +642,12 @@ define([
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                if (currentBrand) {
-                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
+                  $('#brand-logo').html('<img src="' + app.rootUrl + '/' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                }
                return selectedItem;
             },
             highlighter: function(item) {
-               return '<div><img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
+               return '<div><img style="height: 20px;" src="' + app.rootUrl + '/' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
             }
          });
 
@@ -677,7 +687,7 @@ define([
                   if (currentProduct.brand) {
                      currentBrand = currentProduct.brand;
                      $('#brand-name').val(currentBrand.name);
-                     $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
+                     $('#brand-logo').html('<img src="' + app.rootUrl + '/' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                   }
                }
                return selectedItem;
@@ -866,15 +876,18 @@ define([
          e.preventDefault();
          // Remove current tag
          if (currentTag)
-            tags.remove(currentTag);
+            app.trigger('photo:tagRemoved', currentTag);
          app.appState().set('currentPosition', '');
          // Hide form
-         app.trigger('tagMenuTools:cancel');
+         var that = this;
+         $(this.el).find('.tag-tabs').fadeOut('fast', function() {
+            $(that.el).find('.tag-text').fadeIn('fast');
+         });
       },
 
       submit: function(e) {
          e.preventDefault();
-         $activePane = $('.tab-content .active');
+         $activePane = $(this.el).find('.tab-content .active');
 
          var that = this;
 
@@ -1113,6 +1126,8 @@ define([
          currentTag.set('title', typeof newProduct !== 'undefined' ? newProduct.get('name') : currentProduct.name);
          currentTag.set('description', typeof newProduct !== 'undefined' ? newProduct.get('description') : currentProduct.description);
          currentTag.set('link', typeof newProduct !== 'undefined' ? newProduct.get('purchase_url') : currentProduct.purchase_url);
+         if (currentBrand)
+            currentTag.set('brand', currentBrand.id);
          currentTag.url = Routing.generate('api_v1_post_tag');
          currentTag.getToken('tag_item', function() {
             currentTag.save(null, {

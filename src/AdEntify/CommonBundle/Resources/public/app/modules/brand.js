@@ -16,13 +16,15 @@ define([
 
       initialize: function() {
          this.listenTo(this, {
-            'change': this.setup,
+            'sync': this.setup,
             'add': this.setup
          });
+         this.setup();
       },
 
       setup: function() {
          this.set('brandLink', app.beginUrl + app.root + $.t('routing.brand/slug/', { slug: this.get('slug') }));
+         this.set('profilePicRootUrl', app.beginUrl + '/');
       },
 
       urlRoot: Routing.generate('api_v1_get_brands')

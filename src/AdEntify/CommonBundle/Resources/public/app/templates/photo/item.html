@@ -36,9 +36,11 @@
         <span class="source">Source :</span> <span class="source-name"><%= model.get("source") %></span>
     </div>
     <div class="clearfix"></div>
+    <% if (model.isOwner()) { %>
     <div class="pull-right">
         <button class="btn-around-corner btn-red-grey-border add-new-tag"><i class="glyphicon glyphicon-edit"></i> <%= $.t('tag.addNewTag') %></button>
     </div>
+    <% } %>
     <!--<div class="categories mt1"></div>-->
 </div>
 

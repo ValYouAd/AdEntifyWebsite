@@ -72,6 +72,17 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'asapregular';
+    src: url('../fonts/asap-regular-webfont.eot');
+    src: url('../fonts/asap-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/asap-regular-webfont.woff') format('woff'),
+    url('../fonts/asap-regular-webfont.ttf') format('truetype'),
+    url('../fonts/asap-regular-webfont.svg#asapregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 /* Fix navbar bug (content under navbar) */
 body {
@@ -737,6 +748,9 @@ html,body {
     font-size: 16px;
     padding: 10px;
 }
+.product-photo {
+    max-width: 100%;
+}
 /*
 ----------------------- */
 
@@ -948,19 +962,24 @@ html,body {
     border-style: solid;
     border-color: #e0dfdf;
     border-width: 0px 1px 1px 0px;
+    height: 150px;
+    position: relative;
+}
+#brands .brand-logo {
+    max-height: 90px;
 }
 #brands .thumbnail {
     border: 0px;
     margin: 0px;
     padding: 0px;
-    position: relative;
 }
 #brands .tagged-count {
     font-family: 'asapbold_italic', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 20px;
     color: #ff3434;
     position: absolute;
-    bottom: -30px;
+    bottom: 0px;
+    left: 0px;
     opacity: 0;
     -webkit-transition: opacity 0.4s ease-out;
     -moz-transition: opacity 0.4s ease-out;
@@ -969,6 +988,7 @@ html,body {
     transition: opacity 0.4s ease-out;
     text-decoration: none;
     width: 100%;
+    text-align: center;
 }
 #brands .tagged-count .bold {
     font-family: 'asapbold', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1611,6 +1631,7 @@ label,
     -webkit-border-radius: 99em;
     -moz-border-radius: 99em;
     border-radius: 99em;
+    background: #FFFFFF;
 }
 
 .profile-details {
@@ -1842,6 +1863,12 @@ label,
 }
 #right-modal-content .tab-content {
     margin: 0px!important;
+}
+.btn-link,
+.btn-link:hover {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    text-shadow:  none;
+    color: #9da0a4;
 }
 /* END : Bootstrap customs
 ----------------------- */

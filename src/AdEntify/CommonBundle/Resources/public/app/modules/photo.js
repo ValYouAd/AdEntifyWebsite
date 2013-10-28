@@ -39,6 +39,7 @@ define([
             'sync': this.setup,
             'add': this.setup
          });
+         this.setup();
       },
 
       setup: function() {
@@ -81,7 +82,7 @@ define([
       },
 
       isOwner: function() {
-         return this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
+         return this && this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
       },
 
       delete: function() {
@@ -381,9 +382,14 @@ define([
 
       initialize: function() {
          this.model = this.options.photo;
+         app.appState().set('currentPhotoModel', this.model);
          this.listenTo(this.model, 'change', this.render);
          this.listenTo(app, 'tagform:changetab', function(tabName) {
             this.tagFormFabChanged(tabName);
+         });
+         this.listenTo(app, 'photo:tagRemoved', function(tag) {
+            if (this.model.has('tags'))
+               this.model.get('tags').remove(tag);
          });
       },
 
@@ -431,7 +437,7 @@ define([
          this.model.get('tags').add(tag);
          this.currentTag = tag;
 
-         app.trigger('photo:tagAdded');
+         app.trigger('photo:tagAdded', tag);
       },
 
       tagFormFabChanged: function(tabName) {

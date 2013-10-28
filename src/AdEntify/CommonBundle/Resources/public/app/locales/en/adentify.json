@@ -134,7 +134,8 @@
       "errorSelectBrand": "You must select a brand before adding a product",
       "errorProductEmptyFields": "You must fill in name and description fields",
       "deleteTag": "Delete tag",
-      "addNewTag": "Add tag"
+      "addNewTag": "Add tag",
+      "submitProduct": "Confirm and add tag"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -251,7 +252,8 @@
       "friendTagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
       "followUser": "<a href='__authorLink__'>__author__</a> now follows <a href='__targetLink__'>__target__</a>",
       "photoUploaded": "<a href='__authorLink__'>__author__</a> added <a href='__photoLink__' data-bypass='' class='photo-link'>a new photo</a>",
-      "photosUploaded": "<a href='__authorLink__'>__author__</a> added __count__ new photos"
+      "photosUploaded": "<a href='__authorLink__'>__author__</a> added __count__ new photos",
+      "tagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>"
    },
    "pagination": {
       "loadMore": "Load more",

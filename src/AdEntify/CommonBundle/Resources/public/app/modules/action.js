@@ -17,6 +17,7 @@ define([
             'sync': this.setup,
             'add': this.setup
          });
+         this.setup();
       },
 
       setup: function() {
@@ -98,36 +99,38 @@ define([
 
       beforeRender: function() {
          this.options.actions.each(function(action) {
-            var template = 'action/item';
-            var tagName = 'li class="action-item"';
-            switch (action.get('type')) {
-               case 'photo-upload':
-                  if (action.get('photos').length > 3) {
-                     template = 'action/itemWithPhotos';
-                     tagName = 'action-item-with-photos';
-                  } else {
-                     template = 'action/itemWithLargePhoto';
-                     tagName = 'action-item-with-large-photo';
-                  }
-                  break;
-               case 'photo-like':
-               case 'photo-fav':
-               case 'photo-tag':
-               case 'photo-comment':
-                  template = 'action/itemWithSmallPhoto';
-                  tagName = 'action-item-with-small-photo';
-                  break;
-               case 'reward-new':
-               case 'user-follow':
-                  template = 'action/item';
-                  tagName = 'action-item';
-                  break;
+            if (action) {
+               var template = 'action/item';
+               var tagName = 'li class="action-item"';
+               switch (action.get('type')) {
+                  case 'photo-upload':
+                     if (action.get('photos').length > 3) {
+                        template = 'action/itemWithPhotos';
+                        tagName = 'action-item-with-photos';
+                     } else {
+                        template = 'action/itemWithLargePhoto';
+                        tagName = 'action-item-with-large-photo';
+                     }
+                     break;
+                  case 'photo-like':
+                  case 'photo-fav':
+                  case 'photo-tag':
+                  case 'photo-comment':
+                     template = 'action/itemWithSmallPhoto';
+                     tagName = 'action-item-with-small-photo';
+                     break;
+                  case 'reward-new':
+                  case 'user-follow':
+                     template = 'action/item';
+                     tagName = 'action-item';
+                     break;
+               }
+               this.insertView(".actions-list", new Action.Views.Item({
+                  model: action,
+                  template: template,
+                  tagName: tagName
+               }));
             }
-            this.insertView(".actions-list", new Action.Views.Item({
-               model: action,
-               template: template,
-               tagName: tagName
-            }));
          }, this);
       },
 
