@@ -1,3 +1,4 @@
+<% if (model) { %>
 <div class="photo medium">
     <div class="photo-container">
         <% if (model.get("tags_count") > 0) { %>
@@ -21,3 +22,4 @@
             data-large-url="<%= model.get("large_url") %>" class="photo-img-medium" />
     </div>
 </div>
+<% } %>

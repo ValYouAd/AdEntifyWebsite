@@ -39,6 +39,7 @@ define([
             'sync': this.setup,
             'add': this.setup
          });
+         this.setup();
       },
 
       setup: function() {
@@ -51,13 +52,9 @@ define([
          }
          if (!this.has('tagsConverted')) {
             this.set('tagsConverted', '');
-            var tags = new Tag.Collection();
             if (this.has('tags') && this.get('tags').length > 0) {
-               _.each(this.get('tags'), function(tag) {
-                  tags.add(new Tag.Model(tag));
-               });
+               this.set('tags', new Tag.Collection(this.get('tags')));
             }
-            this.set('tags', tags);
          }
       },
 
@@ -81,7 +78,7 @@ define([
       },
 
       isOwner: function() {
-         return this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
+         return this && this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
       },
 
       delete: function() {
@@ -220,11 +217,11 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags') && this.model.get('tags').length > 0) {
+         if (this.model && this.model.has('tags') && this.model.get('tags').length > 0) {
             this.tagsView = this.getView('.tags-container');
             if (!this.tagsView) {
                this.tagsView = new Tag.Views.List({
-                  tags: this.model.get('tags'),
+                  tags: this.model.get('tags') instanceof Array ? new Tag.Collection(this.model.get('tags')) : this.model.get('tags'),
                   photo: this.model,
                   visible: true
                });
@@ -320,6 +317,10 @@ define([
          $(e.currentTarget).select();
       },
 
+      addNewTag: function(evt) {
+         Tag.Common.addTag(evt, this.model);
+      },
+
       events: {
          'click .adentify-pastille': 'clickPastille',
          'mouseenter .photo-container': 'showTags',
@@ -327,7 +328,8 @@ define([
          "click .showTagsCheckbox": "checkboxShowTags",
          "click .showLikesCheckbox": "checkboxShowLikes",
          "mouseup .selectOnFocus": "selectTextOnFocus",
-         "click #photo-tabs a": "changeTab"
+         "click #photo-tabs a": "changeTab",
+         'click .add-new-tag': "addNewTag"
       }
    });
 
@@ -361,7 +363,102 @@ define([
          this.listenTo(this.options.photo, {
             'sync': this.render
          });
-         this.listenTo(this.options.tickerPhotos, 'sync', this.render);
+         this.listenTo(this.options.tickerPhotos, 'sync', function() {
+            if (this.options.tickerPhotos.length == 0) {
+               this.setView('.alert-linked-photos-list', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('photo.noLinkedPhotos'),
+                  showClose: true
+               }));
+            }
+            this.render();
+         });
+      }
+   });
+
+   Photo.Views.Edit = Backbone.View.extend({
+      template: 'photo/edit',
+
+      serialize: function() {
+         return {
+            model: this.model
+         }
+      },
+
+      initialize: function() {
+         this.model = this.options.photo;
+         app.appState().set('currentPhotoModel', this.model);
+         this.listenTo(this.model, 'change', this.render);
+         this.listenTo(app, 'tagform:changetab', function(tabName) {
+            this.tagFormFabChanged(tabName);
+         });
+         this.listenTo(app, 'photo:tagRemoved', function(tag) {
+            if (this.model.has('tags'))
+               this.model.get('tags').remove(tag);
+         });
+      },
+
+      beforeRender: function() {
+         if (!this.model.has('tags'))
+            this.model.set('tags', new Tag.Collection());
+         this.tagsView = this.getView('.tags-container');
+         if (!this.tagsView) {
+            this.tagsView = new Tag.Views.List({
+               tags: this.model.get('tags'),
+               photo: this.model,
+               visible: true
+            });
+            this.listenTo(this.tagsView, 'tag:remove', function() {
+               // Update tags count
+               this.model.changeTagsCount(-1);
+            });
+            this.setView('.tags-container', this.tagsView).render();
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      addTag: function(e) {
+         var tagRadius = 12.5;
+         var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
+         var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
+
+         // Remove tags aren't persisted
+         var that = this;
+         this.model.get('tags').each(function(tag) {
+            if (tag.has('tempTag')) {
+               that.model.get('tags').remove(tag);
+            }
+         });
+
+         var tag = new Tag.Model();
+         tag.set('x_position', xPosition);
+         tag.set('y_position', yPosition);
+         tag.set('cssClass', 'new-tag');
+         tag.set('tagIcon', 'tag-brand-icon')
+         tag.set('tempTag', true);
+         this.model.get('tags').add(tag);
+         this.currentTag = tag;
+
+         app.trigger('photo:tagAdded', tag);
+      },
+
+      tagFormFabChanged: function(tabName) {
+         if (this.currentTag) {
+            if (tabName == '#product') {
+               this.currentTag.set('tagIcon', 'tag-brand-icon');
+            } else if (tabName == '#venue') {
+               this.currentTag.set('tagIcon', 'tag-place-icon');
+            } else if (tabName == '#person') {
+               this.currentTag.set('tagIcon', 'tag-user-icon');
+            }
+         }
+      },
+
+      events: {
+         'click .photo-overlay': 'addTag'
       }
    });
 

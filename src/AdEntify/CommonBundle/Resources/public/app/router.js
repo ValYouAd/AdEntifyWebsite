@@ -109,6 +109,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "mes/photos/favorites/": "favoritesPhotos",
                "photos/non-taguees/": "untagged",
                "photo/:id/": "viewPhoto",
+               "edition/photo/:id/": "editPhoto",
                "upload/": "upload",
                "upload/local/": "uploadLocal",
                "mes/parametres/": "mySettings",
@@ -418,7 +419,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             })
          }).render();
 
-         photo.fetch();
+         photo.fetch({
+            success: function() {
+               photo.setup();
+               console.log('setup');
+            }
+         });
          this.tickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
          });
@@ -505,6 +511,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
+         var followers = new User.Collection();
+         var followings = new User.Collection();
+
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
@@ -516,7 +525,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                user: new User.Model({
                   id: id
                }),
-               followings: this.users,
+               followings: followings,
+               followers: followers,
                photos: this.photos
             })
          }).render();
@@ -524,8 +534,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.photos.fetch({
             url: Routing.generate('api_v1_get_user_photos', { id: id })
          });
-         this.users.fetch({
+         followings.fetch({
             url: Routing.generate('api_v1_get_user_followings', { id: id })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: id })
          });
       },
 

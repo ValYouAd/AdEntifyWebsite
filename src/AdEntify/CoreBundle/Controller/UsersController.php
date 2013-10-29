@@ -384,6 +384,26 @@ class UsersController extends FosRestController
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
             return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+            LEFT JOIN user.followings following WHERE following.id = :userId')
+                ->setParameters(array(
+                    'userId' => $user->getId()
+                ))
+                ->setMaxResults(10)
+                ->getResult();
+        } else {
+            throw new NotFoundHttpException('User not found');
+        }
+    }
+
+    /**
+     * @View()
+     */
+    public function getFollowersAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+        if ($user) {
+            return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
             LEFT JOIN user.followers follower WHERE follower.id = :userId')
                 ->setParameters(array(
                     'userId' => $user->getId()

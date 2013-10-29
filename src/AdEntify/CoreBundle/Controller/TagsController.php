@@ -231,7 +231,7 @@ class TagsController extends FosRestController
 
                     // Create a new notification
                     $notification = new Notification();
-                    $notification->setType(Notification::TYPE_TAG_PHOTO)->setObjectId($photo->getId())->addPhoto($photo)
+                    $notification->setType(Action::TYPE_PHOTO_TAG)->setObjectId($photo->getId())->addPhoto($photo)
                         ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
                         ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                     $em->persist($notification);

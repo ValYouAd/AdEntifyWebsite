@@ -1,17 +1,17 @@
 registration:
-    submit: Sign Up
-    confirmed: Congratulations, your account is now enabled.
+    submit: Sign up
+    confirmed: Congratulations! Your account is now enabled.
 
 security:
     login:
         username: "Username"
         email: "Email"
         password: "Password"
-        remember_me: Remember Me
+        remember_me: Remember me
         submit: Login
 
 form:
-    group_name: "Nom du groupe :"
+    group_name: "Group name :"
     username: "Username"
     email: "Email"
     current_password: "Current password"
