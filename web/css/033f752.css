@@ -1,1 +1,415 @@
-html,body{background:#fff;height:100%;margin:0;padding:0}body{padding-top:0!important}header{border-top:10px solid white;position:relative;z-index:10;width:100%}.start-button{background:url('../bundles/adentifycommon/images/start_button.png') no-repeat top center;width:111px;height:65px;display:block;margin:-10px auto 0 auto;position:relative;z-index:10;text-align:center;padding-top:8px;color:#fff;text-transform:uppercase;font-size:14px;font-family:'asapbold',sans-serif}.start-button:hover{color:#fff;text-decoration:none}.carousel{width:100%;height:638px;margin-top:-55px;position:relative;z-index:0;background:url('../bundles/adentifycommon/images/carousel-sample.jpg') no-repeat top center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover}.pastille-adentify{background:url('../bundles/adentifycommon/images/pastille-adentify.png') no-repeat;width:254px;height:251px;position:absolute;top:150px;left:50%;text-align:center;text-indent:5000px;overflow:hidden;margin:0;margin-left:-127px}.account-buttons{position:absolute;top:420px;left:50%;width:480px;margin-left:-240px}.account-buttons .btn{width:227px;height:50px;vertical-align:middle}.signin,.signin:hover,.signin:active{background:#262424;background:-moz-linear-gradient(top,#262424 0,#141212 50%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#262424),color-stop(50%,#141212));background:-webkit-linear-gradient(top,#262424 0,#141212 50%);background:-o-linear-gradient(top,#262424 0,#141212 50%);background:-ms-linear-gradient(top,#262424 0,#141212 50%);background:linear-gradient(to bottom,#262424 0,#141212 50%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#262424',endColorstr='#141212',GradientType=0);margin-right:18px}.signup,.signup:hover,.signup:active{background:#ff4747;background:-moz-linear-gradient(top,#ff4747 0,#ff2d2c 50%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ff4747),color-stop(50%,#ff2d2c));background:-webkit-linear-gradient(top,#ff4747 0,#ff2d2c 50%);background:-o-linear-gradient(top,#ff4747 0,#ff2d2c 50%);background:-ms-linear-gradient(top,#ff4747 0,#ff2d2c 50%);background:linear-gradient(to bottom,#ff4747 0,#ff2d2c 50%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4747',endColorstr='#ff2d2c',GradientType=0)}.account-buttons .icon{float:left;margin-right:10px}.account-buttons .text{float:left}.signin-icon{background:url('../bundles/adentifycommon/images/signin-icon.png');width:30px;height:22px;margin-left:10px;margin-top:-4px}.signup-icon{background:url('../bundles/adentifycommon/images/signup-icon.png');width:25px;height:27px;margin-left:25px;margin-top:-4px}footer{background:url('../bundles/adentifycommon/images/home_offline_footer.png');width:100%;height:91px;border:0;font-family:'asapbold_italic',sans-serif;font-style:italic;font-size:11px;color:#fff;text-transform:uppercase;padding-top:40px}footer a:hover,footer a{color:#fff}footer a{margin:0 12px}.btn{-webkit-border-radius:22px;-moz-border-radius:22px;border-radius:22px;color:#fff;border:0;padding:4px 30px;font-family:'asapbold',sans-serif;text-transform:uppercase;text-shadow:0 -1px 0 rgba(0,0,0,1);-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;outline:0}.btn:hover{color:#fff;text-decoration:none}.btn-link,.btn-link:hover{font-family:'asapregular',"Helvetica Neue","Arial",sans-serif;text-shadow:none;color:#9da0a4}.btn-grey{background:#6d6968;background:-moz-linear-gradient(top,#6d6968 0,#504d4c 50%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#6d6968),color-stop(50%,#504d4c));background:-webkit-linear-gradient(top,#6d6968 0,#504d4c 50%);background:-o-linear-gradient(top,#6d6968 0,#504d4c 50%);background:-ms-linear-gradient(top,#6d6968 0,#504d4c 50%);background:linear-gradient(to bottom,#6d6968 0,#504d4c 50%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6d6968',endColorstr='#504d4c',GradientType=0);opacity:.3;-webkit-transition:opacity .1s ease-in;-moz-transition:opacity .1s ease-in;-o-transition:opacity .1s ease-in;transition:opacity .1s ease-in}.btn-grey:hover{opacity:1}.search-form{position:relative;margin:25px auto;max-width:1000px}.search-input{width:100%;-webkit-border-radius:26px;-moz-border-radius:26px;border-radius:26px;border:1px solid #dcdcdc;font-size:26px;font-family:'asapitalic',sans-serif;color:#5b5756;outline:0;padding:6px 70px 6px 40px}.search-button{background:url('../bundles/adentifycommon/images/search_icon.jpg');width:28px;height:29px;position:absolute;top:10px;right:20px}.a-la-une .photos{margin:40px 0}.a-la-une .photo-wrapper{padding:0 10px}.a-la-une .photo{border:10px solid #fff;-webkit-box-shadow:0 2px 9px rgba(50,50,50,0.5);-moz-box-shadow:0 2px 9px rgba(50,50,50,0.5);box-shadow:0 2px 9px rgba(50,50,50,0.5);height:300px;background-repeat:no-repeat;background-position:center center;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;margin:5px 0;display:block}.tags-count-bg{background:url('../bundles/adentifycommon/images/tags_count_bg.jpg') no-repeat;height:482px;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover}.tags-count-icon{margin-top:80px}.counter{margin:10px 0}.counter-number{background:url('../bundles/adentifycommon/images/counter_number_background.png') no-repeat;width:48px;height:79px;margin:0 1px;padding:0;font-family:'asapbold',sans-serif;font-size:80px;color:#ff3535;display:inline-block;line-height:79px}.counter-text{font-family:'pacificoregular',sans-serif;font-size:2.5em;color:#fff}.people-to-follow{margin:40px 0}.people-to-follow .username{text-transform:uppercase;font-family:'asapregular',"Helvetica Neue","Arial",sans-serif;font-size:14px;color:#181616;margin-top:6px}.people-to-follow .profile-picture-wrapper{position:relative}.people-to-follow .profile-picture{width:100px;height:100px}.people-to-follow .profile-picture-wrapper .icon_more_red{position:absolute;left:50%;top:50%;margin-left:-19px;margin-top:-19px}.people-to-follow .profile-picture-wrapper .profile-picture-hover{top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.5)}.people-to-follow .profile-picture-wrapper .icon_more_red,.people-to-follow .profile-picture-wrapper .profile-picture-hover{opacity:0;-webkit-transition:opacity .1s ease-in;-moz-transition:opacity .1s ease-in;-o-transition:opacity .1s ease-in;transition:opacity .1s ease-in;position:absolute}.people-to-follow a:hover .icon_more_red,.people-to-follow a:hover .profile-picture-hover{opacity:1}.people-to-follow a,.people-to-follow a:hover{text-decoration:none;color:#181616}.brand{padding:0 20px}.brand-logo{width:100%}.light-grey-bg{background-color:#f3f3f3}.white-bg{background-color:#fff}.graphik-bg{border-top:1px solid #d4d3d3;border-bottom:1px solid #d4d3d3;background:url('../bundles/adentifycommon/images/trend_topic_background.png') no-repeat fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover}.wrapper{min-height:100%;height:auto!important;height:100%;margin:0 auto -56px}.push{height:56px}.pacifico-heading{font-family:'pacificoregular',sans-serif;font-size:3em}.asap-heading{font-family:'asapitalic',sans-serif;font-size:2.5em;text-transform:uppercase}.content-block{margin:75px auto}.mt4{margin-top:40px}.mb4{margin-bottom:40px}.modal-dialog{padding-top:15%;max-width:480px}
+html, body {
+    background: #FFFFFF;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+body {
+    padding-top: 0px!important;
+}
+
+/* Header
+----------------------- */
+header {
+    border-top: 10px solid white;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+    .start-button {
+        background: url('../../bundles/adentifycommon/images/start_button.png') no-repeat top center;
+        width: 111px;
+        height: 65px;
+        display: block;
+        margin: -10px auto 0 auto;
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        padding-top: 8px;
+        color: #FFFFFF;
+        text-transform: uppercase;
+        font-size: 14px;
+        font-family: 'asapbold', sans-serif;
+    }
+    .start-button:hover {
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+    .carousel {
+        width: 100%;
+        height: 638px;
+        margin-top: -55px;
+        position: relative;
+        z-index: 0;
+        background: url('../../bundles/adentifycommon/images/carousel-dublin.jpg') no-repeat top center fixed;
+        -webkit-background-size: cover;
+           -moz-background-size: cover;
+             -o-background-size: cover;
+                background-size: cover;
+    }
+    .pastille-adentify {
+        background: url('../../bundles/adentifycommon/images/pastille-adentify.png') no-repeat;
+        width: 254px;
+        height: 251px;
+        position: absolute;
+        top: 150px;
+        left: 50%;
+        text-align: center;
+        text-indent: 5000px;
+        overflow: hidden;
+        margin: 0;
+        margin-left: -127px;
+    }
+    .account-buttons {
+        position: absolute;
+        top: 420px;
+        left: 50%;
+        width: 480px;
+        margin-left: -240px;
+    }
+    .account-buttons .btn {
+        width: 227px;
+        height: 50px;
+        vertical-align: middle;
+    }
+    .signin,
+    .signin:hover,
+    .signin:active {
+        background: #262424;
+        background: -moz-linear-gradient(top,  #262424 0%, #141212 50%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#262424), color-stop(50%,#141212));
+        background: -webkit-linear-gradient(top,  #262424 0%,#141212 50%);
+        background: -o-linear-gradient(top,  #262424 0%,#141212 50%);
+        background: -ms-linear-gradient(top,  #262424 0%,#141212 50%);
+        background: linear-gradient(to bottom,  #262424 0%,#141212 50%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262424', endColorstr='#141212',GradientType=0 );
+        margin-right: 18px;
+    }
+    .signup,
+    .signup:hover,
+    .signup:active {
+        background: #ff4747;
+        background: -moz-linear-gradient(top,  #ff4747 0%, #ff2d2c 50%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff4747), color-stop(50%,#ff2d2c));
+        background: -webkit-linear-gradient(top,  #ff4747 0%,#ff2d2c 50%);
+        background: -o-linear-gradient(top,  #ff4747 0%,#ff2d2c 50%);
+        background: -ms-linear-gradient(top,  #ff4747 0%,#ff2d2c 50%);
+        background: linear-gradient(to bottom,  #ff4747 0%,#ff2d2c 50%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4747', endColorstr='#ff2d2c',GradientType=0 );
+    }
+    .account-buttons .icon {
+        float: left;
+        margin-right: 10px;
+    }
+    .account-buttons .text {
+        float: left;
+    }
+    .signin-icon {
+        background: url('../../bundles/adentifycommon/images/signin-icon.png');
+        width: 30px;
+        height: 22px;
+        margin-left: 10px;
+        margin-top: -4px;
+    }
+    .signup-icon {
+        background: url('../../bundles/adentifycommon/images/signup-icon.png');
+        width: 25px;
+        height: 27px;
+        margin-left: 25px;
+        margin-top: -4px;
+    }
+/* End Header
+----------------------- */
+
+/* Footer
+----------------------- */
+footer {
+    background: url('../../bundles/adentifycommon/images/home_offline_footer.png');
+    width: 100%;
+    height: 91px;
+    border: 0px;
+    font-family: 'asapbold_italic', sans-serif;
+    font-style: italic;
+    font-size: 11px;
+    color: #ffffff;
+    text-transform: uppercase;
+    padding-top: 40px;
+}
+footer a:hover,
+footer a {
+    color: #ffffff;
+}
+footer a {
+    margin: 0px 12px;
+}
+/* End Footer
+----------------------- */
+
+/* Buttons */
+.btn {
+    -webkit-border-radius: 22px;
+       -moz-border-radius: 22px;
+            border-radius: 22px;
+    color: #FFFFFF;
+    border: 0px;
+    padding: 4px 30px;
+    font-family: 'asapbold', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 1);
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    outline: none;
+}
+.btn:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.btn-link,
+.btn-link:hover {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    text-shadow:  none;
+    color: #9da0a4;
+}
+.btn-grey {
+    background: #6d6968;
+    background: -moz-linear-gradient(top,  #6d6968 0%, #504d4c 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6d6968), color-stop(50%,#504d4c));
+    background: -webkit-linear-gradient(top,  #6d6968 0%,#504d4c 50%);
+    background: -o-linear-gradient(top,  #6d6968 0%,#504d4c 50%);
+    background: -ms-linear-gradient(top,  #6d6968 0%,#504d4c 50%);
+    background: linear-gradient(to bottom,  #6d6968 0%,#504d4c 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6d6968', endColorstr='#504d4c',GradientType=0 );
+    opacity: 0.3;
+    -webkit-transition: opacity 0.1s ease-in;
+       -moz-transition: opacity 0.1s ease-in;
+         -o-transition: opacity 0.1s ease-in;
+          transition: opacity 0.1s ease-in;
+}
+.btn-grey:hover {
+    opacity: 1;
+}
+
+/* Recherche
+----------------------- */
+.search-form {
+    position: relative;
+    margin: 25px auto;
+    max-width: 1000px;
+}
+.search-input {
+    width: 100%;
+    -webkit-border-radius: 26px;
+       -moz-border-radius: 26px;
+            border-radius: 26px;
+    border: 1px solid #dcdcdc;
+    font-size: 26px;
+    font-family: 'asapitalic', sans-serif;
+    color: #5b5756;
+    outline: none;
+    padding: 6px 70px 6px 40px;
+}
+.search-button {
+    background: url('../../bundles/adentifycommon/images/search_icon.jpg');
+    width: 28px;
+    height: 29px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+/* End Recherche
+----------------------- */
+
+/* A la une
+----------------------- */
+.a-la-une .photos {
+    margin: 40px 0px;
+}
+.a-la-une .photo-wrapper {
+    padding: 0px 10px;
+}
+.a-la-une .photo {
+    border: 10px solid #FFFFFF;
+    -webkit-box-shadow: 0px 2px 9px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    0px 2px 9px rgba(50, 50, 50, 0.5);
+    box-shadow:         0px 2px 9px rgba(50, 50, 50, 0.5);
+    height: 300px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 5px 0px;
+    display: block;
+}
+
+/* End A la une
+----------------------- */
+
+/* Compteur tags
+----------------------- */
+.tags-count-bg {
+    background: url('../../bundles/adentifycommon/images/tags_count_bg.jpg') no-repeat;
+    height: 482px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.tags-count-icon {
+    margin-top: 80px;
+}
+.counter {
+    margin: 10px 0;
+}
+.counter-number {
+    background: url('../../bundles/adentifycommon/images/counter_number_background.png') no-repeat;
+    width: 48px;
+    height: 79px;
+    margin: 0px 1px;
+    padding: 0px;
+    font-family: 'asapbold', sans-serif;
+    font-size: 80px;
+    color: #ff3535;
+    display: inline-block;
+    line-height: 79px;
+}
+.counter-text {
+    font-family: 'pacificoregular', sans-serif;
+    font-size: 2.5em;
+    color: #FFFFFF;
+}
+/* End
+----------------------- */
+
+/* Follows
+----------------------- */
+.people-to-follow {
+    margin: 40px 0px;
+}
+.people-to-follow .username {
+    text-transform: uppercase;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 14px;
+    color: #181616;
+    margin-top: 6px;
+}
+.people-to-follow .profile-picture-wrapper {
+    position: relative;
+}
+.people-to-follow .profile-picture {
+    width: 100px;
+    height: 100px;
+}
+.people-to-follow .profile-picture-wrapper .icon_more_red {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -19px;
+    margin-top: -19px;
+}
+.people-to-follow .profile-picture-wrapper .profile-picture-hover {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+}
+.people-to-follow .profile-picture-wrapper .icon_more_red,
+.people-to-follow .profile-picture-wrapper .profile-picture-hover {
+    opacity: 0;
+    -webkit-transition: opacity 0.1s ease-in;
+    -moz-transition: opacity 0.1s ease-in;
+    -o-transition: opacity 0.1s ease-in;
+    transition: opacity 0.1s ease-in;
+    position: absolute;
+}
+.people-to-follow a:hover .icon_more_red,
+.people-to-follow a:hover .profile-picture-hover {
+    opacity: 1;
+}
+.people-to-follow a,
+.people-to-follow a:hover {
+    text-decoration: none;
+    color: #181616;
+}
+/* End follows
+----------------------- */
+
+/* Trends
+----------------------- */
+
+/* End Trends
+----------------------- */
+
+/* Brands
+----------------------- */
+.brand {
+    padding: 0 20px;
+}
+.brand-logo {
+    width: 100%;
+}
+
+/* End Brands
+----------------------- */
+
+/* Backgrounds
+----------------------- */
+.light-grey-bg {
+    background-color: #f3f3f3;
+}
+.white-bg {
+    background-color: #FFFFFF;
+}
+.graphik-bg {
+    border-top: 1px solid #d4d3d3;
+    border-bottom: 1px solid #d4d3d3;
+    background: url('../../bundles/adentifycommon/images/trend_topic_background.png') no-repeat fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.red-transparent-bg {
+
+}
+/* End Backgrounds
+----------------------- */
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -56px; /* the bottom margin is the negative value of the footer's height */
+}
+.push {height: 56px;}
+
+/* Others
+----------------------- */
+.pacifico-heading {
+    font-family: 'pacificoregular', sans-serif;
+    font-size: 3em;
+}
+.asap-heading {
+    font-family: 'asapitalic', sans-serif;
+    font-size: 2.5em;
+    text-transform: uppercase;
+}
+.content-block {
+    margin: 75px auto;
+}
+.mt4 {
+    margin-top: 40px;
+}
+.mb4 {
+    margin-bottom: 40px;
+}
+.modal-dialog {
+    padding-top: 15%;
+    max-width: 480px;
+}
+
+/* End
+----------------------- */

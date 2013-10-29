@@ -52,13 +52,9 @@ define([
          }
          if (!this.has('tagsConverted')) {
             this.set('tagsConverted', '');
-            var tags = new Tag.Collection();
             if (this.has('tags') && this.get('tags').length > 0) {
-               _.each(this.get('tags'), function(tag) {
-                  tags.add(new Tag.Model(tag));
-               });
+               this.set('tags', new Tag.Collection(this.get('tags')));
             }
-            this.set('tags', tags);
          }
       },
 
@@ -221,11 +217,11 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags') && this.model.get('tags').length > 0) {
+         if (this.model && this.model.has('tags') && this.model.get('tags').length > 0) {
             this.tagsView = this.getView('.tags-container');
             if (!this.tagsView) {
                this.tagsView = new Tag.Views.List({
-                  tags: this.model.get('tags'),
+                  tags: this.model.get('tags') instanceof Array ? new Tag.Collection(this.model.get('tags')) : this.model.get('tags'),
                   photo: this.model,
                   visible: true
                });
@@ -367,7 +363,16 @@ define([
          this.listenTo(this.options.photo, {
             'sync': this.render
          });
-         this.listenTo(this.options.tickerPhotos, 'sync', this.render);
+         this.listenTo(this.options.tickerPhotos, 'sync', function() {
+            if (this.options.tickerPhotos.length == 0) {
+               this.setView('.alert-linked-photos-list', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('photo.noLinkedPhotos'),
+                  showClose: true
+               }));
+            }
+            this.render();
+         });
       }
    });
 

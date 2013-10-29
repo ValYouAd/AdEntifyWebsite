@@ -419,7 +419,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             })
          }).render();
 
-         photo.fetch();
+         photo.fetch({
+            success: function() {
+               photo.setup();
+               console.log('setup');
+            }
+         });
          this.tickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
          });

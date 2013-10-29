@@ -151,7 +151,8 @@
       "favorites": "Ajouter à mes Favoris",
       "unFavorites": "Supprimer de mes Favoris",
       "deletePhoto": "Supprimer",
-      "linkedPhotos": "Photos liées"
+      "linkedPhotos": "Photos liées",
+      "noLinkedPhotos": "Aucune photo liée"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",

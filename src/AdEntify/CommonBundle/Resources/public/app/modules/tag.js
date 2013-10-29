@@ -220,7 +220,7 @@ define([
 
       initialize: function(options) {
          this.constructor.__super__.initialize.apply(this, [options]);
-         this.listenTo(this.model, "change", this.render);
+         this.listenTo(this.model, 'change', this.render);
       },
 
       hoverIn: function() {
@@ -379,17 +379,14 @@ define([
       initialize: function() {
          var that = this;
          this.visible = typeof this.options.visible === 'undefined' ? false : this.options.visible;
-         this.tags = typeof this.options.tags === 'undefined' ? new Tag.Collection() : this.options.tags;
+         this.tags = typeof this.options.tags === 'undefined' || !this.options.tags ? new Tag.Collection() : this.options.tags;
          this.desactivatePopover = typeof this.options.desactivatePopover === 'undefined' ? false : true;
          this.photo = this.options.photo;
          this.listenTo(this.tags, {
             'add': this.render,
             'remove': function(tag) {
-               /*// If it's a persisted tag, re-render the view and fire an event
-               if (!tag.has('tempTag')) {*/
-                  this.trigger('tag:remove');
-                  this.render();
-               /*}*/
+               this.trigger('tag:remove');
+               this.render();
             }
          });
          this.listenTo(app, 'tagMenuTools:tagAdded', function(photo) {
@@ -401,6 +398,7 @@ define([
       },
 
       beforeRender: function() {
+         console.log('tags before');
          this.tags.each(function(tag) {
             if (tag.get('type') == 'place') {
                this.insertView(".tags", new Tag.Views.VenueItem({
