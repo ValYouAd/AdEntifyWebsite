@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   'app'
-], function(app) {
+   'app',
+   'modules/hashtag'
+], function(app, Hashtag) {
 
    var User = app.module();
 
@@ -35,6 +36,15 @@ define([
 
       defaults: {
          photos_count: 0
+      },
+
+      changeFollowersCount: function(follow) {
+         if (follow) {
+            this.set('followers_count', this.get('followers_count') + 1);
+         } else {
+            if (this.get('followers_count') > 0)
+               this.set('followers_count', this.get('followers_count') - 1);
+         }
       }
    });
 
@@ -53,6 +63,7 @@ define([
       },
 
       beforeRender: function() {
+         var that = this;
          if (!this.getView('.followings')) {
             this.setView('.followings', new User.Views.List({
                users: this.followings
@@ -64,8 +75,18 @@ define([
             }));
          }
          if (!this.getView('.follow-button')) {
-            this.setView('.follow-button', new User.Views.FollowButton({
+            var followButtonView = new User.Views.FollowButton({
                user: this.model
+            });
+            this.setView('.follow-button', followButtonView);
+            followButtonView.on('follow', function(follow) {
+               that.options.user.changeFollowersCount(follow);
+               that.render();
+            });
+         }
+         if (!this.getView('.hashtags')) {
+            this.setView('.hashtags', new Hashtag.Views.List({
+               hashtags: this.options.hashtags
             }));
          }
       },

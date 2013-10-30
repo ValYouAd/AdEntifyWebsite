@@ -198,7 +198,9 @@
       "followersTitle": "Followers",
       "moreFollowers": "View all followers",
       "followingsTitle": "Following",
-      "moreFollowings": "View all following"
+      "moreFollowings": "View all following",
+      "hashtagsTitle": "Hashtags",
+      "noHashtag": "No hashtag yet"
    },
    "category": {
       "errorPhotosLoading": "Error loading photos from this category. Please try again.",

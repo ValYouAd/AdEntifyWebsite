@@ -88,6 +88,13 @@ class Brand
     /**
      * @var string
      *
+     * @ORM\Column(name="tumblr_url", type="string", length=255, nullable=true)
+     */
+    private $tumblrUrl;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="original_logo_url", type="string", length=255)
      * @Gedmo\UploadableFilePath
      */
@@ -658,5 +665,21 @@ class Brand
     public function getFollowersCount()
     {
         return $this->followersCount;
+    }
+
+    /**
+     * @param string $tumblrUrl
+     */
+    public function setTumblrUrl($tumblrUrl)
+    {
+        $this->tumblrUrl = $tumblrUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTumblrUrl()
+    {
+        return $this->tumblrUrl;
     }
 }

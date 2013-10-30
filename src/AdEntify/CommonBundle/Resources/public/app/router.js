@@ -23,12 +23,13 @@ define([
    "modules/search",
    "modules/comment",
    "modules/notifications",
-   'modules/action'
+   'modules/action',
+   'modules/hashtag'
 ],
 
 function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, User,
-         Common, Category, Search, Comment, Notifications, Action) {
+         Common, Category, Search, Comment, Notifications, Action, Hashtag) {
 
    var searchSetup = false;
    var notificationsSetup = false;
@@ -89,7 +90,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             comments: new Comment.Collection(),
             notifications: new Notifications.Collection(),
             users: new User.Collection(),
-            actions: new Action.Collection()
+            actions: new Action.Collection(),
+            hashtags: new Hashtag.Collection()
          };
          _.extend(this, collections);
 
@@ -527,7 +529,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                }),
                followings: followings,
                followers: followers,
-               photos: this.photos
+               photos: this.photos,
+               hashtags: this.hashtags
             })
          }).render();
 
@@ -540,6 +543,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          followers.fetch({
             url: Routing.generate('api_v1_get_user_followers', { id: id })
          });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: id })
+         })
       },
 
       category: function(slug) {

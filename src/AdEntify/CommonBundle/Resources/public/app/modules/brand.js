@@ -27,7 +27,16 @@ define([
          this.set('profilePicRootUrl', app.beginUrl + '/');
       },
 
-      urlRoot: Routing.generate('api_v1_get_brands')
+      urlRoot: Routing.generate('api_v1_get_brands'),
+
+      changeFollowersCount: function(follow) {
+         if (follow) {
+            this.set('followers_count', this.get('followers_count') + 1);
+         } else {
+            if (this.get('followers_count') > 0)
+               this.set('followers_count', this.get('followers_count') - 1);
+         }
+      }
    });
 
    Brand.Collection = Backbone.Collection.extend({
@@ -96,16 +105,22 @@ define([
       },
 
       beforeRender: function() {
+         var that = this;
          if (!this.getView('.followers')) {
             this.setView('.followers', new User.Views.List({
                users: this.followers
             }));
          }
          if (!this.getView('.follow-button')) {
-            this.setView('.follow-button', new Brand.Views.FollowButton({
+            var followButtonView = new Brand.Views.FollowButton({
                brand: this.model,
                slug: this.slug
-            }));
+            });
+            this.setView('.follow-button', followButtonView);
+            followButtonView.on('follow', function(follow) {
+               that.model.changeFollowersCount(follow);
+               that.render();
+            });
          }
       },
 

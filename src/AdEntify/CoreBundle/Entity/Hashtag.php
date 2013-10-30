@@ -25,12 +25,19 @@ class Hashtag
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", mappedBy="categories", cascade={"persist"})
+     * @var integer
+     *
+     * @ORM\Column(name="used_count", type="integer")
+     */
+    private $usedCount = 0;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", mappedBy="hashtags", cascade={"persist"})
      *
      * @Serializer\Exclude
      */
@@ -88,5 +95,21 @@ class Hashtag
     public function getPhotos()
     {
         return $this->photos;
+    }
+
+    /**
+     * @param int $usedCount
+     */
+    public function setUsedCount($usedCount)
+    {
+        $this->usedCount = $usedCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUsedCount()
+    {
+        return $this->usedCount;
     }
 }

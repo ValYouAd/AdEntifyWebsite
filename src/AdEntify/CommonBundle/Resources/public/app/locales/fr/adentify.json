@@ -198,7 +198,9 @@
       "followersTitle": "Ses abonnés",
       "moreFollowers": "Voir tous ses abonnés",
       "followingsTitle": "Ses abonnements",
-      "moreFollowings": "Voir tous ses abonnements"
+      "moreFollowings": "Voir tous ses abonnements",
+      "hashtagsTitle": "Hashtags",
+      "noHashtag": "Aucun hashtag pour le moment"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
