@@ -70,6 +70,8 @@ define([
                   message: $.t('profile.noHashtag'),
                   showClose: true
                }));
+            } else {
+               this.removeView('.hashtags-alert');
             }
             this.render
          });

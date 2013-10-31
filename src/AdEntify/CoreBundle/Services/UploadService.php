@@ -192,6 +192,28 @@ class UploadService
                     }
                 }
 
+                // Photo hashtags
+                if (isset($image->hashtags) && is_array($image->hashtags) && count($image->hashtags) > 0) {
+                    $hashtagRepository = $this->em->getRepository('AdEntifyCoreBundle:Hashtag');
+                    foreach($image->hashtags as $hashtagName) {
+                        $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
+                        if ($hashtag)
+                            $photo->addHashtag($hashtag);
+                    }
+                } else if (!empty($image->title)) {
+                    // Get hashtags in title
+                    $pattern = '/(?:^|\s)(\#\w+)/';
+                    preg_match_all($pattern, $image->title, $matches, PREG_OFFSET_CAPTURE);
+                    if (count($matches[0]) > 0) {
+                        $hashtagRepository = $this->em->getRepository('AdEntifyCoreBundle:Hashtag');
+                        foreach($matches[0] as $match) {
+                            $hashtag = $hashtagRepository->createIfNotExist(str_replace('#', '', $match[0]));
+                            if ($hashtag)
+                                $photo->addHashtag($hashtag);
+                        }
+                    }
+                }
+
                 // Thumb
                 $thumb = new Thumb();
 

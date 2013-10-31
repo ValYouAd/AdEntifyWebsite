@@ -6,16 +6,16 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app",
-   "modules/venue",
-   "modules/person",
-   "modules/common",
-   "modules/product",
-   "select2",
-   "bootstrap",
-   "modernizer",
-   "jquery.iframe-transport",
-   "jquery.fileupload",
+   'app',
+   'modules/venue',
+   'modules/person',
+   'modules/common',
+   'modules/product',
+   'select2',
+   'bootstrap',
+   'modernizer',
+   'jquery.iframe-transport',
+   'jquery.fileupload',
    'typeahead'
 ], function(app, Venue, Person, Common, Product) {
 
@@ -230,23 +230,7 @@ define([
             var popoverArrow = $(this.el).find('.tag-popover-arrow');
             this.setupPopover(popover, popoverArrow);
             /*if (!$('#map' + this.model.get('id')).hasClass('loaded')) {*/
-               var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
-               var mapOptions = {
-                  zoom:  14,
-                  center: latLng,
-                  scrollwheel: false,
-                  navigationControl: false,
-                  mapTypeControl: false,
-                  scaleControl: false,
-                  draggable: false,
-                  mapTypeId: google.maps.MapTypeId.ROADMAP
-               };
-               var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
-               new google.maps.Marker({
-                  position: latLng,
-                  map: gMap
-               });
-               $('#map' + this.model.get('id')).addClass('loaded');
+               Tag.Common.setupGoogleMap(this.model);
             /*}*/
             app.tagStats().hover(this.model);
          }
@@ -310,23 +294,7 @@ define([
             var popoverArrow = $(this.el).find('.tag-popover-arrow');
             this.setupPopover(popover, popoverArrow);
             if (this.model.has('venue') && !$('#map' + this.model.get('id')).hasClass('loaded')) {
-               var latLng = new google.maps.LatLng(this.model.get('venue').lat, this.model.get('venue').lng);
-               var mapOptions = {
-                  zoom:  14,
-                  center: latLng,
-                  scrollwheel: false,
-                  navigationControl: false,
-                  mapTypeControl: false,
-                  scaleControl: false,
-                  draggable: false,
-                  mapTypeId: google.maps.MapTypeId.ROADMAP
-               };
-               var gMap = new google.maps.Map(document.getElementById('map'+this.model.get('id')), mapOptions);
-               new google.maps.Marker({
-                  position: latLng,
-                  map: gMap
-               });
-               $('#map' + this.model.get('id')).addClass('loaded');
+               Tag.Common.setupGoogleMap(this.model);
             }
             app.tagStats().hover(this.model);
          }
@@ -398,7 +366,6 @@ define([
       },
 
       beforeRender: function() {
-         console.log('tags before');
          this.tags.each(function(tag) {
             if (tag.get('type') == 'place') {
                this.insertView(".tags", new Tag.Views.VenueItem({
@@ -478,111 +445,6 @@ define([
          });
       }
    });
-
-   /*Tag.Views.MenuTools = Backbone.View.extend({
-      template: "tag/menuTools",
-
-      initialize: function() {
-         var that = this;
-         var photo = app.appState().getCurrentPhotoModel();
-         // Get current photo tags
-         if (photo && app.appState().getCurrentPhotoModel().has('tags')) {
-             tags = app.appState().getCurrentPhotoModel().get('tags');
-         } else {
-            tags = new Tag.Collection();
-         }
-         this.listenTo(app, 'tagMenuTools:addTag', function() {
-            that.addTag();
-         });
-         this.listenTo(app, 'global:closeMenuTools', function() {
-            that.unloadTagging();
-         });
-         this.listenTo(app, 'tagMenuTools:tagAdded', function() {
-            that.unloadTagging();
-            if (this.tagsView)
-               this.tagsView.render();
-         });
-      },
-
-      cancel: function() {
-         this.unloadTagging();
-         app.trigger('tagMenuTools:cancel');
-      },
-
-      addTag: function() {
-         $photo = $('#photos-grid .large');
-         if ($photo.length) {
-            currentPhotoOverlay = $photo.find('.photo-overlay');
-            this.setupTagging();
-         }
-      },
-
-      setupTagging: function() {
-         currentPhotoOverlay.css({ cursor: 'crosshair'});
-         currentPhotoOverlay.bind('click', this.photoOverlayClick);
-         // Get the tags view
-         this.tagsView = app.useLayout().getView(currentPhotoOverlay.find('.tags-container').selector);
-         // Create if not exist
-         if (typeof this.tagsView === 'undefined' || !this.tagsView) {
-            this.tagsView = app.useLayout().setView(currentPhotoOverlay.find('.tags-container').selector, new Tag.Views.List({
-               tags: tags,
-               visible: true
-            })).render();
-         }
-         // Just show tags
-         else {
-            this.tagsView.visible = true;
-         }
-      },
-
-      unloadTagging: function() {
-         if (currentPhotoOverlay) {
-            currentPhotoOverlay.css({ cursor: 'pointer'});
-            currentPhotoOverlay.unbind('click', this.photoOverlayClick);
-         }
-      },
-
-      photoOverlayClick: function(e) {
-         var tagRadius = 12.5;
-         var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
-         var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
-
-         // Remove tags arent persisted
-         tags.each(function(tag) {
-            if (tag.has('tempTag')) {
-               tags.remove(tag);
-            }
-         });
-
-         var tag = new Tag.Model();
-         tag.set('x_position', xPosition);
-         tag.set('y_position', yPosition);
-         tag.set('cssClass', 'new-tag');
-         tag.set('tempTag', true);
-         tags.add(tag);
-         currentTag = tag;
-
-         app.useLayout().setView("#menu-tools .tag-form", new Tag.Views.AddTagForm({
-            photo: this.photo
-         })).render();
-         $('.tag-text').fadeOut('fast', function() {
-            $('.tag-form').fadeIn();
-         });
-      },
-
-      close: function() {
-         this.unloadTagging();
-         app.trigger('global:closeMenuTools');
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      events: {
-         "click .cancel-add-tag": "cancel"
-      }
-   });*/
 
    Tag.Views.AddTagForm = Backbone.View.extend({
       template: "tag/addForm",
@@ -1191,6 +1053,26 @@ define([
             oldModal.close();
          } else
             app.useLayout().setView('#modal-container', modal).render();
+      },
+
+      setupGoogleMap: function(model) {
+         var latLng = new google.maps.LatLng(model.get('venue').lat, model.get('venue').lng);
+         var mapOptions = {
+            zoom:  14,
+            center: latLng,
+            scrollwheel: false,
+            navigationControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            draggable: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+         };
+         var gMap = new google.maps.Map(document.getElementById('map' + model.get('id')), mapOptions);
+         new google.maps.Marker({
+            position: latLng,
+            map: gMap
+         });
+         $('#map' + model.get('id')).addClass('loaded');
       }
    };
 

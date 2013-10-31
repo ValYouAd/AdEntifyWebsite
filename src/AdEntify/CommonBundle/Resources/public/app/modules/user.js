@@ -7,8 +7,9 @@
  */
 define([
    'app',
-   'modules/hashtag'
-], function(app, Hashtag) {
+   'modules/hashtag',
+   'modules/common'
+], function(app, Hashtag, Common) {
 
    var User = app.module();
 
@@ -66,12 +67,14 @@ define([
          var that = this;
          if (!this.getView('.followings')) {
             this.setView('.followings', new User.Views.List({
-               users: this.followings
+               users: this.followings,
+               noUsersMessage: 'profile.noFollowings'
             }));
          }
          if (!this.getView('.followers')) {
             this.setView('.followers', new User.Views.List({
-               users: this.followers
+               users: this.followers,
+               noUsersMessage: 'profile.noFollowers'
             }));
          }
          if (!this.getView('.follow-button')) {
@@ -135,8 +138,18 @@ define([
       },
 
       initialize: function() {
-         var that = this;
-         this.listenTo(this.options.users, { 'sync': this.render });
+         this.listenTo(this.options.users, { 'sync': function() {
+            if (this.options.users.length == 0) {
+               this.setView('.users-alert', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t(this.options.noUsersMessage),
+                  showClose: true
+               }));
+            } else {
+               this.removeView('.users-alert');
+            }
+            this.render();
+         }});
       },
 
       beforeRender: function() {

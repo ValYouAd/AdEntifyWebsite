@@ -1,1 +1,5 @@
-<iframe src="https://local.adentify.com/iframe/photo-228.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:960px; height:600px;" allowTransparency="true"></iframe>
+<?php $pattern = '/(?:^|\s)(\#\w+)/';
+preg_match_all($pattern, 'hello you #sea #valras', $matches, PREG_OFFSET_CAPTURE);
+foreach($matches[0] as $match) {
+    echo str_replace('#', '', $match[0]);
+}

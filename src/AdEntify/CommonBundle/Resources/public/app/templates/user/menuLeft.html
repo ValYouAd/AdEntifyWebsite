@@ -16,6 +16,8 @@
             <h1><%= model.get('fullname') %></h1>
             <% if (currentUserId != model.get('id')) { %>
             <div class="follow-button"></div>
+            <% } else { %>
+            <a href="<%= $.t('routing.my/profile/') %>" class="btn btn-large btn-around-corner btn-red-grey-border"><%= $.t('profile.editMyProfile') %></a>
             <% } %>
 
             <div class="indicators-container text-center">

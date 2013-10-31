@@ -200,7 +200,10 @@
       "followingsTitle": "Ses abonnements",
       "moreFollowings": "Voir tous ses abonnements",
       "hashtagsTitle": "Hashtags",
-      "noHashtag": "Aucun hashtag pour le moment"
+      "noHashtag": "Aucun hashtag pour le moment",
+      "noFollowings": "Aucun abonnement pour le moment",
+      "noFollowers": "Aucun abonné pour le moment",
+      "editMyProfile": "Editer mon profil"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
@@ -295,6 +298,7 @@
       "my/adentify/": "mon/adentify/",
       "profile/id/": "profil/__id__/",
       "category/slug/": "categorie/__slug__/",
-      "search/": "recherche/"
+      "search/": "recherche/",
+      "my/profile/": "mon/profil/"
    }
 }

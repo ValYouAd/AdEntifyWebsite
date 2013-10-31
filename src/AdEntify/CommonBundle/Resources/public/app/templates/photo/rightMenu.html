@@ -1,7 +1,7 @@
 <% if (model.has('ownerModel')) { %>
 <div class="photo-owner">
     <div class="owner-picture text-center"><a href="<%= model.get('ownerModel').get('link') %>"><img src="<%= model.get('ownerModel').get('largeProfilePicture') %>" alt="<%= model.get('ownerModel').get('fullname') %>" class="profile-picture" /></a></div>
-    <div class="owner-fullname text-center"><%= model.get('ownerModel').get('fullname') %></div>
+    <div class="owner-fullname text-center"><a href="<%= model.get('ownerModel').get('link') %>"><%= model.get('ownerModel').get('fullname') %></a></div>
     <% if (currentUserId != model.get('ownerModel').get('id')) { %>
     <div class="follow-button-container text-center">
         <div class="follow-button"></div>

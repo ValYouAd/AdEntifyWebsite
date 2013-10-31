@@ -1424,7 +1424,8 @@ html,body {
     max-height: 100px;
     border: 4px solid #f8f7f7;
 }
-.photo-owner .owner-fullname {
+.photo-owner .owner-fullname,
+.photo-owner .owner-fullname a {
     font-family: 'robotobold', sans-serif;
     font-size: 19px;
     margin: 4px auto;
@@ -1564,12 +1565,26 @@ html,body {
     padding: 4px 6px;
     border: 0px;
     border-radius: 0px;
-
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    max-width: none;
+    
     -webkit-transition: opacity 0.3s ease-out;
     -moz-transition: opacity 0.3s ease-out;
     -ms-transition: opacity 0.3s ease-out;
     -o-transition: opacity 0.3s ease-out;
     transition: opacity 0.3s ease-out;
+}
+.tag .popover a {
+    color: #000000;
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+}
+.popover .popover-details {
+    background: #f5f5f7;
+    padding: 10px 25px;
+}
+.popover-details a.buy-link {
+    font-size: 16px;
+    color: #4e4e50;
 }
 .popover-product {
     min-width: 250px;
@@ -2371,22 +2386,6 @@ html,body {
     line-height: 40px;
     vertical-align: middle;
 }
-.btn-red-grey-border {
-    background: rgb(255,70,70);
-    background: -moz-linear-gradient(top,  rgba(255,70,70,1) 0%, rgba(255,45,45,1) 50%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,70,70,1)), color-stop(50%,rgba(255,45,45,1)));
-    background: -webkit-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
-    background: -o-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
-    background: -ms-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
-    background: linear-gradient(to bottom,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4646', endColorstr='#ff2d2d',GradientType=0 );
-    border: 4px solid #cbced2!important;
-    padding: 0px 20px!important;
-    height: 45px;
-    color: #FFFFFF;
-    font-family: 'asapbold', sans-serif;
-    text-transform: uppercase;
-}
 .btn-twitter .icon {
     top: 3px;
     margin-right: 6px;
@@ -2422,17 +2421,21 @@ label,
     border: 3px solid #eaedf1!important;
     padding: 0px 20px!important;
     height: 35px;
+    line-height: 30px;
+    vertical-align: middle;
     color: #FFFFFF;
-    font-family: 'asapbold', sans-serif;
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
     text-transform: uppercase;
     font-size: 11px;
+}
+.btn-red-grey-border:hover {
+    border: 3px solid #cbced2!important;
+    color: #FFFFFF;
+    text-decoration: none;
 }
 .btn-large {
     padding: 0px 35px!important;
     font-size: 14px;
-}
-.btn-red-grey-border:hover {
-    border: 3px solid #cbced2!important;
 }
 /* END : Buttons
 ----------------------- */

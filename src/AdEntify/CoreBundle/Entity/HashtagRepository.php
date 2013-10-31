@@ -12,4 +12,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class HashtagRepository extends EntityRepository
 {
+    /**
+     * Create hashtag if not exist and increment used count
+     *
+     * @param $name
+     * @return Hashtag|object
+     */
+    public function createIfNotExist($name)
+    {
+        $hashtag = $this->findOneBy(array(
+            'name' => $name
+        ));
+        if ($hashtag) {
+            $hashtag->setUsedCount($hashtag->getUsedCount() + 1);
+            $this->getEntityManager()->merge($hashtag);
+        } else {
+            $hashtag = new Hashtag();
+            $hashtag->setName($name)->setUsedCount(1);
+            $this->getEntityManager()->persist($hashtag);
+        }
+        return $hashtag;
+    }
 }

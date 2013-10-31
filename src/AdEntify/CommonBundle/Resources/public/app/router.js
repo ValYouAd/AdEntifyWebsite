@@ -41,8 +41,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             'route': this.routeTriggered
          });
 
-         // Handle scroll event
-         this.handleScrollEvent();
+         // Handle window event
+         this.handleWindowEvent();
 
          // Initialize Fb
          app.fb = new Facebook.Model();
@@ -421,12 +421,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             })
          }).render();
 
-         photo.fetch({
-            success: function() {
-               photo.setup();
-               console.log('setup');
-            }
-         });
+         photo.fetch();
          this.tickerPhotos.fetch({
             url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
          });
@@ -501,7 +496,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       mySettings: function() {
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new MySettings.Views.Detail(),
@@ -851,10 +847,16 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }), true).render();
       },
 
-      handleScrollEvent: function() {
+      handleWindowEvent: function() {
          /*$(window).scroll(function(e) {
             $('#right-pane-scrollview').css({top: $(window).scrollTop() });
          });*/
+         $(window).on('navigate', function(event, data) {
+            alert('toto');
+            if (data.state.direction == 'back') {
+               alert('back');
+            }
+         });
       }
    });
 
