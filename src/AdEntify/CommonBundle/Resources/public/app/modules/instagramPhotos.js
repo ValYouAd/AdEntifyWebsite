@@ -141,6 +141,7 @@ define([
                if (photoModel.has('location')) {
                   instagramImage.location = photoModel.get('location');
                }
+               // Tags
                if (photoModel.has('users_in_photo') && photoModel.get('users_in_photo').length > 0) {
                   instagramImage.tags = [];
                   _.each(photoModel.get('users_in_photo'), function(tag) {
@@ -153,6 +154,10 @@ define([
                         'profilePicture': tag.user.profile_picture
                      });
                   });
+               }
+               // Hashtags
+               if (photoModel.has('tags') && photoModel.get('tags').length > 0) {
+                  instagramImage.hashtags = photoModel.get('tags');
                }
                images[index] = instagramImage;
             });

@@ -6,8 +6,10 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   'app'
-], function(app) {
+   'app',
+   'modules/hashtag',
+   'modules/common'
+], function(app, Hashtag, Common) {
 
    var User = app.module();
 
@@ -35,6 +37,15 @@ define([
 
       defaults: {
          photos_count: 0
+      },
+
+      changeFollowersCount: function(follow) {
+         if (follow) {
+            this.set('followers_count', this.get('followers_count') + 1);
+         } else {
+            if (this.get('followers_count') > 0)
+               this.set('followers_count', this.get('followers_count') - 1);
+         }
       }
    });
 
@@ -53,14 +64,32 @@ define([
       },
 
       beforeRender: function() {
+         var that = this;
          if (!this.getView('.followings')) {
             this.setView('.followings', new User.Views.List({
-               users: this.followings
+               users: this.followings,
+               noUsersMessage: 'profile.noFollowings'
+            }));
+         }
+         if (!this.getView('.followers')) {
+            this.setView('.followers', new User.Views.List({
+               users: this.followers,
+               noUsersMessage: 'profile.noFollowers'
             }));
          }
          if (!this.getView('.follow-button')) {
-            this.setView('.follow-button', new User.Views.FollowButton({
+            var followButtonView = new User.Views.FollowButton({
                user: this.model
+            });
+            this.setView('.follow-button', followButtonView);
+            followButtonView.on('follow', function(follow) {
+               that.options.user.changeFollowersCount(follow);
+               that.render();
+            });
+         }
+         if (!this.getView('.hashtags')) {
+            this.setView('.hashtags', new Hashtag.Views.List({
+               hashtags: this.options.hashtags
             }));
          }
       },
@@ -77,6 +106,7 @@ define([
       initialize: function() {
          this.lastPhoto = null;
          this.followings = this.options.followings;
+         this.followers = this.options.followers;
          this.listenTo(this.options.user, 'sync', this.render);
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {
@@ -108,8 +138,18 @@ define([
       },
 
       initialize: function() {
-         var that = this;
-         this.listenTo(this.options.users, { 'sync': this.render });
+         this.listenTo(this.options.users, { 'sync': function() {
+            if (this.options.users.length == 0) {
+               this.setView('.users-alert', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t(this.options.noUsersMessage),
+                  showClose: true
+               }));
+            } else {
+               this.removeView('.users-alert');
+            }
+            this.render();
+         }});
       },
 
       beforeRender: function() {

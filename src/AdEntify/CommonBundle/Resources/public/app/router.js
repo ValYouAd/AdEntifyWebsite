@@ -23,12 +23,13 @@ define([
    "modules/search",
    "modules/comment",
    "modules/notifications",
-   'modules/action'
+   'modules/action',
+   'modules/hashtag'
 ],
 
 function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, User,
-         Common, Category, Search, Comment, Notifications, Action) {
+         Common, Category, Search, Comment, Notifications, Action, Hashtag) {
 
    var searchSetup = false;
    var notificationsSetup = false;
@@ -40,8 +41,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             'route': this.routeTriggered
          });
 
-         // Handle scroll event
-         this.handleScrollEvent();
+         // Handle window event
+         this.handleWindowEvent();
 
          // Initialize Fb
          app.fb = new Facebook.Model();
@@ -89,7 +90,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             comments: new Comment.Collection(),
             notifications: new Notifications.Collection(),
             users: new User.Collection(),
-            actions: new Action.Collection()
+            actions: new Action.Collection(),
+            hashtags: new Hashtag.Collection()
          };
          _.extend(this, collections);
 
@@ -109,6 +111,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "mes/photos/favorites/": "favoritesPhotos",
                "photos/non-taguees/": "untagged",
                "photo/:id/": "viewPhoto",
+               "edition/photo/:id/": "editPhoto",
                "upload/": "upload",
                "upload/local/": "uploadLocal",
                "mes/parametres/": "mySettings",
@@ -493,7 +496,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       mySettings: function() {
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new MySettings.Views.Detail(),
@@ -504,6 +508,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       profile: function(id) {
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
+
+         var followers = new User.Collection();
+         var followings = new User.Collection();
 
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
@@ -516,17 +523,25 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                user: new User.Model({
                   id: id
                }),
-               followings: this.users,
-               photos: this.photos
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags
             })
          }).render();
 
          this.photos.fetch({
             url: Routing.generate('api_v1_get_user_photos', { id: id })
          });
-         this.users.fetch({
+         followings.fetch({
             url: Routing.generate('api_v1_get_user_followings', { id: id })
          });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: id })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: id })
+         })
       },
 
       category: function(slug) {
@@ -832,10 +847,16 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }), true).render();
       },
 
-      handleScrollEvent: function() {
+      handleWindowEvent: function() {
          /*$(window).scroll(function(e) {
             $('#right-pane-scrollview').css({top: $(window).scrollTop() });
          });*/
+         $(window).on('navigate', function(event, data) {
+            alert('toto');
+            if (data.state.direction == 'back') {
+               alert('back');
+            }
+         });
       }
    });
 

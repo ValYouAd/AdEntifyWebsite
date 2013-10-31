@@ -17,7 +17,8 @@ require.config({
      "jquery.fileupload": "../vendor/js/jquery.fileupload",
      "jquery.iframe-transport": "../vendor/js/jquery.iframe-transport",
      "jquery.ui.widget": "../vendor/js/jquery.ui.widget",
-     "moment": "../vendor/js/moment.min"
+     "moment": "../vendor/js/moment.min",
+     "typeahead": "../vendor/js/bootstrap3-typeahead.min"
   },
 
    map: {

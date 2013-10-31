@@ -263,6 +263,13 @@ class Photo
      */
     private $favoritesUsers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Hashtag", inversedBy="photos")
+     *
+     * @Serializer\Exclude
+     */
+    private $hashtags;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -270,6 +277,7 @@ class Photo
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->favoritesUsers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->hashtags = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -778,5 +786,23 @@ class Photo
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    public function addHashtag(\AdEntify\CoreBundle\Entity\Hashtag $hashtag)
+    {
+        $hashtag->addPhoto($this);
+        $this->hashtags[] = $hashtag;
+        return $this;
+    }
+
+    public function removeHashtag(\AdEntify\CoreBundle\Entity\Hashtag $hashtag)
+    {
+        $hashtag->removePhoto($this);
+        $this->hashtags->removeElement($hashtag);
+    }
+
+    public function getHashtags()
+    {
+        return $this->hashtags;
     }
 }

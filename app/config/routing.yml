@@ -163,6 +163,12 @@ action:
     options:
         expose: true
 
+hashtag:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\HashtagsController
+    options:
+        expose: true
+
 # Public Tags REST
 public_tag:
     type:     rest

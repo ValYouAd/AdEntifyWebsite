@@ -1,8 +1,8 @@
-<div id="loading-profile" class="loading-gif-container">
+<!--<div id="loading-profile" class="loading-gif-container">
     <div class="loader rotate"></div>
-</div>
+</div>-->
 
-<aside class="user-aside">
+<aside class="profile-aside">
     <div class="block-white-background">
         <div class="profile-details text-center">
             <% if (lastPhoto) { %>
@@ -16,6 +16,8 @@
             <h1><%= model.get('fullname') %></h1>
             <% if (currentUserId != model.get('id')) { %>
             <div class="follow-button"></div>
+            <% } else { %>
+            <a href="<%= $.t('routing.my/profile/') %>" class="btn btn-large btn-around-corner btn-red-grey-border"><%= $.t('profile.editMyProfile') %></a>
             <% } %>
 
             <div class="indicators-container text-center">
@@ -46,6 +48,11 @@
 
     <hr class="menu-left-hr">
 
+    <h2><%= $.t('profile.hashtagsTitle') %></h2>
+    <div class="hashtags"></div>
+
+    <hr class="menu-left-hr">
+
     <h2><%= $.t('profile.followingsTitle') %></h2>
     <div class="block-white-background">
         <div class="followings"></div>
@@ -59,6 +66,9 @@
         <div class="followers"></div>
         <!--<a href="#" class="link-grey-whith-red-arrow"><%= $.t('profile.moreFollowers') %></a>-->
     </div>
+
+    <hr class="menu-left-hr">
+
 
    <!-- <hr class="user-hr">
 

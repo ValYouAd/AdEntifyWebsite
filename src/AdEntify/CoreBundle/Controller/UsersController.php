@@ -335,6 +335,43 @@ class UsersController extends FosRestController
     /**
      * @param $id
      *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     *
+     * @View()
+     */
+    public function getHashtagsAction($id, $page = 1, $limit = 10)
+    {
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
+            LEFT JOIN hashtag.photos photo LEFT JOIN photo.owner owner
+            WHERE owner.id = :userId')
+        ->setParameters(array(
+                'userId'=> $id
+            ))
+        ->setFirstResult(($page - 1) * $limit)
+        ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
+
+        $hashtags = null;
+        $pagination = null;
+        if ($count > 0) {
+            $hashtags = array();
+            foreach ($paginator as $hashtag)
+                $hashtags[] = $hashtag;
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
+                'api_v1_get_user_hashtags', array(
+                    'id' => $id
+                ));
+        }
+        return PaginationTools::getPaginationArray($hashtags, $pagination);
+    }
+
+    /**
+     * @param $id
+     *
      * @View()
      */
     public function getNotificationsAction($id)
@@ -379,6 +416,26 @@ class UsersController extends FosRestController
      * @View()
      */
     public function getFollowingsAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+        if ($user) {
+            return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+            LEFT JOIN user.followings following WHERE following.id = :userId')
+                ->setParameters(array(
+                    'userId' => $user->getId()
+                ))
+                ->setMaxResults(10)
+                ->getResult();
+        } else {
+            throw new NotFoundHttpException('User not found');
+        }
+    }
+
+    /**
+     * @View()
+     */
+    public function getFollowersAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);

@@ -77,6 +77,15 @@ class BrandType extends AbstractType
                     'class' => 'form-control'
                 )
             ))
+            ->add('tumblrUrl', 'url', array(
+                'required' => false,
+                'label_attr' => array(
+                    'class' => 'col-md-2 control-label'
+                ),
+                'attr' => array(
+                    'class' => 'form-control'
+                )
+            ))
             ->add('originalLogoUrl', 'file', array(
                 'label' => 'Logo',
                 'data_class' => null,
@@ -128,6 +137,12 @@ class BrandType extends AbstractType
                 'attr' => array(
                     'class' => 'form-control'
                 )
+            ))
+            ->add('category', 'entity', array(
+                'class' => 'AdEntifyCoreBundle:Category',
+                'property' => 'name',
+                'required' => false,
+                'multiple' => true,
             ))
         ;
     }

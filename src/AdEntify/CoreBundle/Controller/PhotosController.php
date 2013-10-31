@@ -401,6 +401,24 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * Get photo hashtags
+     *
+     * @param $id
+     *
+     * @View()
+     */
+    public function getHashtagsAction($id)
+    {
+        return $this->getDoctrine()->getManager()->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
+            LEFT JOIN hashtag.photos photo
+            WHERE photo.id = :id')
+            ->setParameters(array(
+                'id'=> $id
+            ))
+            ->getResult();
+    }
+
+    /**
      * GET all comments by photo ID
      *
      * @View()

@@ -36,7 +36,7 @@ define([
       },
 
       beforeRender: function() {
-         if (this.model.has('tags') && this.model.get('tags').length > 0) {
+         if (this.model && this.model.has('tags') && this.model.get('tags').length > 0) {
             this.tagsView = this.getView('.tags-container');
             if (!this.tagsView) {
                this.tagsView = new Tag.Views.List({
@@ -156,8 +156,6 @@ define([
                model: photo
             }));
          }, this);
-
-         this.insertView("#menu-tools", new Photos.Views.MenuTools());
       },
 
       afterRender: function() {
