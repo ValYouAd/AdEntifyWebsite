@@ -1,9 +1,17 @@
 {% extends '::base.admin.html.twig' %}
 
 {% block body -%}
-    <h1>Category list</h1>
+    <h1>{{ 'Category list'|trans }}</h1>
 
-    <table class="records_list">
+    <ul class="list-unstyled">
+        <li>
+            <a class="btn btn-success" href="{{ path('category_new') }}">
+                <i class="icon icon-plus icon-white"></i> {{ 'Create a new entry'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -23,25 +31,15 @@
                 <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.slug }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('category_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('category_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <div class="btn-group">
+                        <a class="btn btn-default" href="{{ path('category_show', { 'id': entity.id }) }}">{{ 'show'|trans }}</a>
+                        <a class="btn btn-primary" href="{{ path('category_edit', { 'id': entity.id }) }}">{{ 'edit'|trans }}</a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('category_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+    {% include 'AdEntifyBackofficeBundle:Common:pagination.html.twig' with {'count': count, 'pageLimit': pageLimit} %}
+{% endblock %}

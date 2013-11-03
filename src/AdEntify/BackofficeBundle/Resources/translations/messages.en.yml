@@ -15,3 +15,12 @@ Tags count: Tags count
 Venues count: Venues count
 CPT: CPT
 Actions: Actions
+
+#Categories
+Category list: Category list
+Category: Category
+category:
+    name: Name
+    visible: Visible
+    createdAt: Created at
+    slug:      Slug

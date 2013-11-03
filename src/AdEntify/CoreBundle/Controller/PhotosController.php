@@ -11,6 +11,7 @@ namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
+use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\PhotoType;
 use AdEntify\CoreBundle\Util\PaginationTools;
@@ -186,6 +187,87 @@ class PhotosController extends FosRestController
             return $photo;
         else
             throw new NotFoundHttpException('Photo not found');
+    }
+
+    /**
+     * @param $query
+     * @param int $limit
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search a photo with a query (keyword)",
+     *  output="AdEntify\CoreBundle\Entity\Tag",
+     *  section="Photo"
+     * )
+     *
+     * @QueryParam(name="query")
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @View()
+     */
+    public function getSearchAction($query, $page = 1, $limit = 10, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        // Historique de recherche
+        $searchHistory = new SearchHistory();
+        $searchHistory->setKeywords($query)->setUser($user)->setIpAddress($request->getClientIp());
+        $em->persist($searchHistory);
+        $em->flush();
+
+        // Get friends list (id) array
+        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+        if (!$facebookFriendsIds) {
+            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+        }
+
+        // Get followings ids
+        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+        if (!$followings) {
+            $followings = $user->getFollowingsIds();
+            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+        }
+
+        $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+            LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.venue venue LEFT JOIN tag.person person
+            LEFT JOIN tag.product product LEFT JOIN product.brand brand LEFT JOIN photo.hashtags hashtag
+            WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
+                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+            AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
+            LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
+            LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
+            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)')
+            ->setParameters(array(
+                ':query' => '%'.$query.'%',
+                ':none' => Tag::VALIDATION_NONE,
+                ':granted' => Tag::VALIDATION_GRANTED,
+                ':status' => Photo::STATUS_READY,
+                ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                ':facebookFriendsIds' => $facebookFriendsIds,
+                ':followings' => $followings,
+            ))
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
+
+        $photos = null;
+        $pagination = null;
+        if ($count > 0) {
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_photo_search', array(
+                'query' => $query
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($photos, $pagination);
     }
 
     /**

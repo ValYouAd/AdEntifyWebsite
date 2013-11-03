@@ -299,6 +299,7 @@
       "profile/id/": "profil/__id__/",
       "category/slug/": "categorie/__slug__/",
       "search/": "recherche/",
+      "search/keywords": "recherche/__keywords__",
       "my/profile/": "mon/profil/"
    }
 }

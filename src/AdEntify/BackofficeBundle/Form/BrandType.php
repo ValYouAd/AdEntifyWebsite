@@ -15,134 +15,46 @@ class BrandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array(
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
-            ))
+            ->add('name', 'text')
             ->add('description', 'textarea', array(
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
             ->add('websiteUrl', 'url', array(
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
             ->add('facebookUrl', 'url', array(
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
             ->add('twitterUrl', 'url', array(
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
             ->add('pinterestUrl', 'url', array(
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
             ->add('instagramUrl', 'url', array(
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
             ->add('tumblrUrl', 'url', array(
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
             ->add('originalLogoUrl', 'file', array(
                 'label' => 'Logo',
                 'data_class' => null,
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
             ->add('logoUrl', 'url', array(
                 'required' => false,
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
             ))
-            ->add('productsCount', 'integer', array(
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
-            ))
-            ->add('tagsCount', 'integer', array(
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
-            ))
-            ->add('venuesCount', 'integer', array(
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
-            ))
-            ->add('costPerTag', 'money', array(
-                'label_attr' => array(
-                    'class' => 'col-md-2 control-label'
-                ),
-                'attr' => array(
-                    'class' => 'form-control'
-                )
-            ))
-            ->add('category', 'entity', array(
+            ->add('productsCount', 'integer')
+            ->add('tagsCount', 'integer')
+            ->add('venuesCount', 'integer')
+            ->add('costPerTag', 'money')
+            ->add('categories', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Category',
                 'property' => 'name',
                 'required' => false,
                 'multiple' => true,
+
             ))
         ;
     }

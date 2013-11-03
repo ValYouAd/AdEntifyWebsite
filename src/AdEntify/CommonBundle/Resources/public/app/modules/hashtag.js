@@ -19,7 +19,8 @@ define([
       },
 
       setup: function() {
-         this.set('link', '');
+         if (this.has('name'))
+            this.set('link', app.beginUrl + app.root + $.t('routing.search/keywords', { keywords: this.get('name') }));
       },
 
       urlRoot: Routing.generate('api_v1_get_hashtags')
@@ -32,7 +33,7 @@ define([
 
    Hashtag.Views.Item = Backbone.View.extend({
       template: 'hashtag/item',
-      tagName: 'li',
+      tagName: 'li class="pull-left"',
 
       serialize: function() {
          return { model: this.model };

@@ -139,7 +139,7 @@ fos_user:
             type: adentify_user_registration
 
 stof_doctrine_extensions:
-    default_locale: fr_FR
+    default_locale: "%locale%"
     orm:
         default:
             timestampable: true
@@ -187,6 +187,8 @@ services:
         class: AdEntify\BackofficeBundle\Twig\AdEntifyExtension
         tags:
             - { name: twig.extension }
+        arguments:
+            container: "@service_container"
 
 # General parameters
 parameters:
@@ -246,7 +248,7 @@ avalanche_imagine:
     filters:
         small:
             type:    thumbnail
-            options: { size: [300, 9999], mode: inset, quality: 90 }
+            options: { size: [300, 9999], mode: inset, quality: 100 }
         medium:
             type:    thumbnail
             options: { size: [500, 9999], mode: inset, quality: 100 }
@@ -255,7 +257,7 @@ avalanche_imagine:
             options: { size: [1024, 9999], mode: inset, quality: 100 }
         logo-small:
             type:    thumbnail
-            options: { size: [100, 9999], mode: inset, quality: 90 }
+            options: { size: [100, 9999], mode: inset, quality: 100 }
         logo-medium:
            type:    thumbnail
            options: { size: [250, 9999], mode: inset, quality: 100 }
@@ -313,3 +315,9 @@ nelmio_cors:
 
 nelmio_api_doc:
     name: AdEntify API v1
+
+a2lix_translation_form:
+    locales: [en, fr]       # [1]
+    default_required: true      # [2]
+    manager_registry: doctrine      # [3]
+    templating: "A2lixTranslationFormBundle::default.html.twig"      # [4]

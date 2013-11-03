@@ -2,13 +2,15 @@
 
 namespace AdEntify\BackofficeBundle\Controller;
 
+use AdEntify\BackofficeBundle\Form\CategoryType;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AdEntify\CoreBundle\Entity\Category;
-use AdEntify\CoreBundle\Form\CategoryType;
+use A2lix\TranslationFormBundle\Annotation\GedmoTranslation;
 
 /**
  * Category controller.
@@ -17,21 +19,29 @@ use AdEntify\CoreBundle\Form\CategoryType;
  */
 class CategoryController extends Controller
 {
+    const PAGE_LIMIT = 10;
+
     /**
      * Lists all Category entities.
      *
-     * @Route("/", name="categories")
+     * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="categories")
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($page = 1)
     {
-        $em = $this->getDoctrine()->getManager();
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT category FROM AdEntify\CoreBundle\Entity\Category category')
+            ->setFirstResult(($page - 1) * self::PAGE_LIMIT)
+            ->setMaxResults(self::PAGE_LIMIT);
 
-        $entities = $em->getRepository('AdEntifyCoreBundle:Category')->findAll();
+        $paginator = new Paginator($query, true);
+
+        $c = count($paginator);
 
         return array(
-            'entities' => $entities,
+            'entities' => $paginator,
+            'count' => $c,
+            'pageLimit' => self::PAGE_LIMIT
         );
     }
     /**
@@ -101,7 +111,7 @@ class CategoryController extends Controller
     /**
      * Finds and displays a Category entity.
      *
-     * @Route("/{id}", name="category_show")
+     * @Route("/{id}/show", name="category_show")
      * @Method("GET")
      * @Template()
      */
@@ -129,6 +139,7 @@ class CategoryController extends Controller
      * @Route("/{id}/edit", name="category_edit")
      * @Method("GET")
      * @Template()
+     * @GedmoTranslation
      */
     public function editAction($id)
     {
@@ -240,7 +251,6 @@ class CategoryController extends Controller
             ->setAction($this->generateUrl('category_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

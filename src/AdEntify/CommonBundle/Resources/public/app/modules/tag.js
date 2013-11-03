@@ -347,7 +347,7 @@ define([
       initialize: function() {
          var that = this;
          this.visible = typeof this.options.visible === 'undefined' ? false : this.options.visible;
-         this.tags = typeof this.options.tags === 'undefined' || !this.options.tags ? new Tag.Collection() : this.options.tags;
+         this.tags = this.options.tags instanceof Array ? new Tag.Collection(this.options.tags) : this.options.tags
          this.desactivatePopover = typeof this.options.desactivatePopover === 'undefined' ? false : true;
          this.photo = this.options.photo;
          this.listenTo(this.tags, {
@@ -426,7 +426,7 @@ define([
       beforeRender: function() {
          this.setViews({
             "#center-modal-content": new this.Photo.Views.Edit({
-               photo: this.options.photo
+               model: this.options.photo
             }),
             "#right-modal-content": new Tag.Views.AddTagForm({
                photo: this.options.photo

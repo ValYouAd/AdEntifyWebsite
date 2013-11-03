@@ -21,3 +21,12 @@ Tags count: Nb tags
 Venues count: Nb lieux
 CPT: CPT
 Actions: Actions
+
+#Categories
+Category list: Liste des catégories
+Category: Categorie
+category:
+    name: Nom
+    visible: Activé
+    createdAt: Créée le
+    slug:      Slug

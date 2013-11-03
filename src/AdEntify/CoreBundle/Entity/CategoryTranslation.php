@@ -10,12 +10,19 @@
 namespace AdEntify\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
+use Gedmo\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation;
 
 /**
- * @ORM\Table(name="category_translations", indexes={
- *      @ORM\Index(name="category_translation_idx", columns={"locale", "object_class", "field", "foreign_key"})
+ * @ORM\Table(name="category_translations", uniqueConstraints={
+ *      @ORM\UniqueConstraint(name="lookup_unique_idx", columns={"locale", "object_id", "field"})
  * })
- * @ORM\Entity(repositoryClass="Gedmo\Translatable\Entity\Repository\TranslationRepository")
+ * @ORM\Entity
  */
-class CategoryTranslation extends AbstractTranslation { }
+class CategoryTranslation extends AbstractPersonalTranslation
+{
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="translations")
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $object;
+}

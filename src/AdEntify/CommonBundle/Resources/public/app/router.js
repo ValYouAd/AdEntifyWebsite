@@ -127,6 +127,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "categorie/:slug/": "category",
                "mon/adentify/": "myAdentify",
                "recherche/": "search",
+               "recherche/:keywords": "search",
 
                '*notFound': 'notFound'
             },
@@ -152,6 +153,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "my/adentify/": "myAdentify",
                "my/photos/favorites/": "favoritesPhotos",
                "search/": "search",
+               "search/:keywords": "search",
 
                '*notFound': 'notFound'
             }
@@ -663,14 +665,15 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
       },
 
-      search: function() {
+      search: function(keywords) {
          this.reset(false, false);
          $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new Search.Views.FullList({
                photos: this.searchPhotos,
-               users: this.searchUsers
+               users: this.searchUsers,
+               terms: keywords
             })
          }).render();
       },
