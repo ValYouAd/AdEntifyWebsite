@@ -1,0 +1,160 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    <h1>User</h1>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Username</th>
+                <td>{{ entity.username }}</td>
+            </tr>
+            <tr>
+                <th>Usernamecanonical</th>
+                <td>{{ entity.usernameCanonical }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ entity.email }}</td>
+            </tr>
+            <tr>
+                <th>Emailcanonical</th>
+                <td>{{ entity.emailCanonical }}</td>
+            </tr>
+            <tr>
+                <th>Enabled</th>
+                <td>{{ entity.enabled }}</td>
+            </tr>
+            <tr>
+                <th>Salt</th>
+                <td>{{ entity.salt }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ entity.password }}</td>
+            </tr>
+            <tr>
+                <th>Lastlogin</th>
+                <td>{{ entity.lastLogin|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Locked</th>
+                <td>{{ entity.locked }}</td>
+            </tr>
+            <tr>
+                <th>Expired</th>
+                <td>{{ entity.expired }}</td>
+            </tr>
+            <tr>
+                <th>Expiresat</th>
+                <td>{{ entity.expiresAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Confirmationtoken</th>
+                <td>{{ entity.confirmationToken }}</td>
+            </tr>
+            <tr>
+                <th>Passwordrequestedat</th>
+                <td>{{ entity.passwordRequestedAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ entity.roles }}</td>
+            </tr>
+            <tr>
+                <th>Credentialsexpired</th>
+                <td>{{ entity.credentialsExpired }}</td>
+            </tr>
+            <tr>
+                <th>Credentialsexpireat</th>
+                <td>{{ entity.credentialsExpireAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ entity.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ entity.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Facebookid</th>
+                <td>{{ entity.facebookId }}</td>
+            </tr>
+            <tr>
+                <th>Facebookusername</th>
+                <td>{{ entity.facebookUsername }}</td>
+            </tr>
+            <tr>
+                <th>Facebookaccesstoken</th>
+                <td>{{ entity.facebookAccessToken }}</td>
+            </tr>
+            <tr>
+                <th>Twitterid</th>
+                <td>{{ entity.twitterId }}</td>
+            </tr>
+            <tr>
+                <th>Twitterusername</th>
+                <td>{{ entity.twitterUsername }}</td>
+            </tr>
+            <tr>
+                <th>Twitteraccesstoken</th>
+                <td>{{ entity.twitterAccessToken }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ entity.gender }}</td>
+            </tr>
+            <tr>
+                <th>Photoscount</th>
+                <td>{{ entity.photosCount }}</td>
+            </tr>
+            <tr>
+                <th>Followingscount</th>
+                <td>{{ entity.followingsCount }}</td>
+            </tr>
+            <tr>
+                <th>Followerscount</th>
+                <td>{{ entity.followersCount }}</td>
+            </tr>
+            <tr>
+                <th>Lastfriendslistupdate</th>
+                <td>{{ entity.lastFriendsListUpdate|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Locale</th>
+                <td>{{ entity.locale }}</td>
+            </tr>
+            <tr>
+                <th>Tagscount</th>
+                <td>{{ entity.tagsCount }}</td>
+            </tr>
+            <tr>
+                <th>Followedbrandscount</th>
+                <td>{{ entity.followedBrandsCount }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('users') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('users_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

@@ -1,7 +1,9 @@
 {% extends '::base.admin.html.twig' %}
 
 {% block body -%}
-    <h1>Category edit</h1>
+    <div clas="page-header">
+        <h1><i class="glyphicon glyphicon-edit"></i> {{ 'Category edit'|trans }}</h1>
+    </div>
 
     {{ form(edit_form, {'attr': {'class' : 'form-horizontal'} }) }}
 

@@ -24,3 +24,14 @@ category:
     visible: Visible
     createdAt: Created at
     slug:      Slug
+
+#Users
+Users: Users
+user:
+    email: Email
+    enabled: Enabled
+    roles: Roles
+    firstname: Firstname
+    lastname: Lastname
+    createdat: Created at
+    actions: Actions

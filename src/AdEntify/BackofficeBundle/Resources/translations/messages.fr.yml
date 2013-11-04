@@ -30,3 +30,14 @@ category:
     visible: Activé
     createdAt: Créée le
     slug:      Slug
+
+#Users
+Users: Users
+user:
+    email: Email
+    enabled: Activé
+    roles: Rôles
+    firstname: Prénom
+    lastname: Nom
+    createdat: Créé le
+    actions: Actions
