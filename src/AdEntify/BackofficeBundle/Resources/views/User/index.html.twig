@@ -1,0 +1,55 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    <div class="page-header">
+        <h1><i class="glyphicon glyphicon-list"></i> {{ 'User list'|trans }} <small>{{ 'user.count'|trans({'%count%': count}) }}</small></h1>
+    </div>
+
+    {#<ul class="list-unstyled">
+        <li>
+            <a class="btn btn-success" href="{{ path('users_new') }}">
+                <i class="icon icon-plus icon-white"></i> {{ 'Create a new entry'|trans }}
+            </a>
+        </li>
+    </ul>#}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>{{ 'user.email'|trans }}</th>
+                <th>{{ 'user.enabled'|trans }}</th>
+                <th>{{ 'user.roles'|trans }}</th>
+                <th>{{ 'user.firstname'|trans }}</th>
+                <th>{{ 'user.lastname'|trans }}</th>
+                <th>{{ 'user.createdat'|trans }}</th>
+                <th>{{ 'user.actions' }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('users_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.email }}</td>
+                <td>{% if entity.enabled %}<i class="glyphicon glyphicon-ok text-success"></i>{% else %}<i class="glyphicon glyphicon-ban-circle text-danger"></i>{% endif %}</td>
+                <td><small>{{ entity.roles|join(', ') }}</small></td>
+                <td>{{ entity.firstname }}</td>
+                <td>{{ entity.lastname }}</td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-default" href="{{ path('users_show', { 'id': entity.id }) }}">{{ 'show'|trans }}</a>
+                        {% if entity.enabled %}
+                            <a class="btn btn-danger" href="{{ path('users_enable', { 'id': entity.id, 'active': 0 }) }}">{{ 'disable'|trans }}</a>
+                        {% else %}
+                            <a class="btn btn-success" href="{{ path('users_enable', { 'id': entity.id, 'active': 1 }) }}">{{ 'enable'|trans }}</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'AdEntifyBackofficeBundle:Common:pagination.html.twig' with {'count': count, 'pageLimit': pageLimit} %}
+{% endblock %}

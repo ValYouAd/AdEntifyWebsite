@@ -21,7 +21,7 @@ class HashtagRepository extends EntityRepository
     public function createIfNotExist($name)
     {
         $hashtag = $this->findOneBy(array(
-            'name' => $name
+            'name' => strtolower($name)
         ));
         if ($hashtag) {
             $hashtag->setUsedCount($hashtag->getUsedCount() + 1);

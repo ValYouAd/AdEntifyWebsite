@@ -120,6 +120,11 @@ define([
    Search.Views.Form = Backbone.View.extend({
       template: "search/searchBar",
       searchTimeout: null,
+      terms: null,
+
+      serialize: function() {
+         return { terms: this.terms };
+      },
 
       initialize: function() {
          this.photos = this.options.photos;
@@ -128,6 +133,12 @@ define([
             photos: this.photos,
             users: this.users
          })).render();
+         this.listenTo(app, 'search:start', function(terms) {
+            if (terms) {
+               this.terms = terms;
+               this.startSearch(terms);
+            }
+         });
       },
 
       events : {
@@ -143,17 +154,16 @@ define([
             clearTimeout(this.searchTimeout);
          var that = this;
          this.searchTimeout = setTimeout(function() {
-            that.startSearch();
+            that.startSearch($(that.el).find('.search-query').val());
          }, 500);
       },
 
-      startSearch: function() {
-         $searchInput = $(this.el).find('.search-query');
-         if ($searchInput.val()) {
-            app.trigger('search:starting', $searchInput.val());
+      startSearch: function(terms) {
+         if (terms) {
+            app.trigger('search:starting', terms);
             this.photos.fetch({
-               url: Routing.generate('api_v1_get_tag_search'),
-               data: { 'query': $searchInput.val() },
+               url: Routing.generate('api_v1_get_photo_search'),
+               data: { 'query': terms },
                complete: function() {
                   app.trigger('search:completed');
                },
@@ -167,7 +177,7 @@ define([
             });
             this.users.fetch({
                url: Routing.generate('api_v1_get_user_search'),
-               data: { 'query': $searchInput.val() },
+               data: { 'query': terms },
                complete: function() {
                   app.trigger('search:completed');
                },
@@ -230,6 +240,41 @@ define([
          }
       },
 
+      initialize: function() {
+         var that = this;
+         this.terms = typeof this.options.terms !== 'undefined' ? this.options.terms : null;
+         this.listenTo(this.options.photos, {
+            'sync': this.render
+         });
+         this.listenTo(app, 'search:starting', function(terms) {
+            $('.search-loading').fadeIn();
+            $('.alert-search-tags-results').html();
+            $('.alert-search-users-results').html();
+            this.terms = terms;
+         });
+         this.listenTo(app, 'search:completed', function() {
+            $('.search-loading').stop().fadeOut();
+            if (that.options.photos.length == 0) {
+               app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('search.noResults'),
+                  showClose: true
+               })).render();
+            }
+            if (that.options.users.length == 0) {
+               app.useLayout().setView('.alert-search-users-results', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('search.noResults'),
+                  showClose: true
+               })).render();
+            }
+         });
+         if (this.terms) {
+            app.trigger('search:start', this.terms);
+         } else
+            this.terms = $('.search-query').val();
+      },
+
       beforeRender: function() {
          if (!this.getView('.search-photos-results')) {
             var Photos = require('modules/photos');
@@ -261,37 +306,6 @@ define([
                showClose: true
             })).render();
          }
-      },
-
-      initialize: function() {
-         var that = this;
-         this.listenTo(this.options.photos, {
-            "sync": this.render
-         });
-         this.listenTo(app, 'search:starting', function(terms) {
-            $('.search-loading').fadeIn();
-            $('.alert-search-tags-results').html();
-            $('.alert-search-users-results').html();
-            this.terms = terms;
-         });
-         this.listenTo(app, 'search:completed', function() {
-            $('.search-loading').stop().fadeOut();
-            if (that.options.photos.length == 0) {
-               app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('search.noResults'),
-                  showClose: true
-               })).render();
-            }
-            if (that.options.users.length == 0) {
-               app.useLayout().setView('.alert-search-users-results', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('search.noResults'),
-                  showClose: true
-               })).render();
-            }
-         });
-         this.terms = $('.search-query').val();
       }
    });
 

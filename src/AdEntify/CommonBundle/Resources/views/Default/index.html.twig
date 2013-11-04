@@ -108,14 +108,15 @@
         </div>
     </div>
 
-    {#<div class="graphik-bg">
+    <div class="graphik-bg">
         <div class="container">
             <div class="content-block">
                 <div class="text-center"><img src="{{ asset('bundles/adentifycommon/images/trend_topic_icon.png') }}" /></div>
-                <h2 class="text-center pacifico-heading">Trends topics</h2>
+                <h2 class="text-center pacifico-heading">{{ 'Trends topics'|trans }}</h2>
+                <div class="mt4 mb4">{% for hashtag in hashtags %}<a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}" class="hashtag-box">#{{ hashtag.name }}</a>{% endfor %}</div>
             </div>
         </div>
-    </div>#}
+    </div>
 
     <div class="white-bg">
         <div class="container">

@@ -45,7 +45,7 @@ class ActionRepository extends EntityRepository
             $action = new Action();
             $action->setType($actionType)->setAuthor($author)->setVisibility($visibility);
             if ($notification)
-                $notification->setOwner($author);
+                $notification->setAuthor($author);
         }
         if ($photos) {
             foreach($photos as $photo) {
@@ -59,7 +59,7 @@ class ActionRepository extends EntityRepository
             if ($action)
                 $action->setTarget($target);
             if ($notification)
-                $notification->setAuthor($target);
+                $notification->setOwner($target);
         }
         if ($linkedObjectId) {
             if ($action)
@@ -89,6 +89,11 @@ class ActionRepository extends EntityRepository
         if ($action) {
             $this->getEntityManager()->persist($action);
         }
+
+        // Check if notification has owner
+        if (!$notification->getOwner())
+            $notification = null;
+
         $this->getEntityManager()->flush();
 
         return array(

@@ -22,6 +22,7 @@ CREATE TRIGGER tags_count AFTER INSERT ON `tags`
     UPDATE people SET tags_count = tags_count+1 WHERE id = NEW.person_id;
     UPDATE brands SET tags_count = tags_count+1 WHERE id = NEW.brand_id;
     UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count+1 WHERE p.id = NEW.product_id;
+    UPDATE users SET tags_count = tags_count+1 WHERE id = NEW.owner_id;
  END$$
 DELIMITER ;
 DROP TRIGGER IF EXISTS `tags_count_update`;
@@ -35,6 +36,7 @@ CREATE TRIGGER tags_count_update AFTER UPDATE ON `tags`
       UPDATE people SET tags_count = tags_count-1 WHERE id = NEW.person_id;
       UPDATE brands SET tags_count = tags_count-1 WHERE id = NEW.brand_id;
       UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count-1 WHERE p.id = NEW.product_id;
+      UPDATE users SET tags_count = tags_count-1 WHERE id = NEW.owner_id;
     END IF;
  END$$
 DELIMITER ;

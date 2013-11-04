@@ -78,10 +78,20 @@ class Category
      */
     private $brands;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="AdEntify\CoreBundle\Entity\CategoryTranslation",
+     *  mappedBy="object",
+     *  cascade={"persist", "remove"}
+     * )
+     */
+    private $translations;
+
     public function __construct()
     {
         $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->brands = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -190,5 +200,25 @@ class Category
     public function getBrands()
     {
         return $this->brands;
+    }
+
+    public function addTranslation(CategoryTranslation $t)
+    {
+        if (!$this->translations->contains($t)) {
+            $this->translations[] = $t;
+            $t->setObject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTranslation(CategoryTranslation $translations)
+    {
+        $this->translations->removeElement($translations);
+    }
+
+    public function getTranslations()
+    {
+        return $this->translations;
     }
 }

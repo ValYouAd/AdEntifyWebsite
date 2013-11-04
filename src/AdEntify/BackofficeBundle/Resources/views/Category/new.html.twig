@@ -1,15 +1,13 @@
-{% extends '::base.html.twig' %}
+{% extends '::base.admin.html.twig' %}
+
+{% form_theme form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
 
 {% block body -%}
     <h1>Category creation</h1>
 
-    {{ form(form) }}
+    {{ form(form, {'attr': {'class' : 'form-horizontal'} }) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('category') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <a class="btn btn-default" href="{{ path('categories') }}">
+        {{ 'Back to the list'|trans }}
+    </a>
 {% endblock %}

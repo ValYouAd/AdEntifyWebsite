@@ -130,7 +130,7 @@
                             <div class="links">
                                 <a href="">{{ 'About'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Press'|trans }}</a> · <a href="">{{ 'Credits'|trans }}</a>
                             </div>
-                            <div class="copyright">© {{ date|date('Y') }} Adentify</div>
+                            <div class="copyright">© {{ date|date('Y') }} AdEntify</div>
                         </footer>
                     </div>
                     <div class="push"></div>
@@ -140,6 +140,27 @@
 
         <!-- Modal -->
         <div id="modal-container"></div>
+
+        {% if app.user and app.user.isEnabed() == false %}
+            <div class="modal fade" id="accountDisabled" tabindex="-1" role="dialog" aria-labelledby="accountDisabledLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="accountDisabledLabel">{{ 'Account disabled'|trans }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-body-wrapper">
+                                <p>{{ 'Your account is currently under validation.'|trans }}</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Close'|trans }}</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endif %}
     </main>
 {% endblock %}
 
@@ -152,8 +173,9 @@
         var instagramClientId = '{{ instagram_client_id }}';
         var facebookAppId = '{{ facebook_app_id }}';
         var facebookPermissions = '{{ facebook_permissions }}';
-        var currentLocale = '{{ app.request.locale }}';
+        var currentLocale = 'en';{#{{ app.request.locale }}';#}
         var currentUserId = {{ app.user.id }};
+        var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&v=3&sensor=false"></script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>

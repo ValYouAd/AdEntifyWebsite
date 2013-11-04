@@ -35,11 +35,11 @@ define([
       },
 
       initialize: function() {
+         this.setup();
          this.listenTo(this, {
             'sync': this.setup,
             'add': this.setup
          });
-         this.setup();
       },
 
       setup: function() {
@@ -50,11 +50,11 @@ define([
             var User = require('modules/user');
             this.set('ownerModel', new User.Model(this.get('owner')));
          }
-         if (!this.has('tagsConverted')) {
+         if (this.has('tags') && this.get('tags').length > 0 && !this.has('tagsConverted')) {
             this.set('tagsConverted', '');
-            if (this.has('tags') && this.get('tags').length > 0) {
-               this.set('tags', new Tag.Collection(this.get('tags')));
-            }
+            this.set('tags', new Tag.Collection(this.get('tags')));
+         } else {
+            this.set('tags', new Tag.Collection());
          }
       },
 
@@ -221,7 +221,7 @@ define([
             this.tagsView = this.getView('.tags-container');
             if (!this.tagsView) {
                this.tagsView = new Tag.Views.List({
-                  tags: this.model.get('tags') instanceof Array ? new Tag.Collection(this.model.get('tags')) : this.model.get('tags'),
+                  tags: this.model.get('tags'),
                   photo: this.model,
                   visible: true
                });
@@ -386,7 +386,6 @@ define([
       },
 
       initialize: function() {
-         this.model = this.options.photo;
          app.appState().set('currentPhotoModel', this.model);
          this.listenTo(this.model, 'change', this.render);
          this.listenTo(app, 'tagform:changetab', function(tabName) {

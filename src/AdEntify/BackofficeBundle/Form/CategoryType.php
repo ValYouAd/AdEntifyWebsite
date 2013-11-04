@@ -15,13 +15,15 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('visible')
-            ->add('createdAt')
-            ->add('slug')
-            ->add('photos')
-            ->add('brands')
-        ;
+            ->add('translations', 'a2lix_translations_gedmo', array(
+                'translatable_class' => 'AdEntify\CoreBundle\Entity\Category',
+                'fields' => array(
+                    'name' => array(
+                        'type' => 'text'
+                    ),
+                )
+            ))
+            ->add('visible', 'checkbox');
     }
     
     /**

@@ -1,3 +1,8 @@
+{% if form is defined %}{% form_theme form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
+{% if withdraw_form is defined %}{% form_theme withdraw_form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
+{% if edit_form is defined %}{% form_theme edit_form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
+{% if delete_form is defined %}{% form_theme delete_form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
+
 <!DOCTYPE html>
 <html xmlns:fb="http://www.facebook.com/2008/fbml">
 <head>
@@ -30,8 +35,9 @@
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ path('brands') }}">{{ 'Brands'|trans }}</a></li>
-                    <li><a href="{{ path('categories') }}">{{ 'Categories'|trans }}</a></li>
+                    <li class="{{ 'brands'|current() }}"><a href="{{ path('brands') }}">{{ 'Brands'|trans }}</a></li>
+                    <li class="{{ 'categories'|current() }}"><a href="{{ path('categories') }}">{{ 'Categories'|trans }}</a></li>
+                    <li class="{{ 'users'|current() }}"><a href="{{ path('users') }}">{{ 'Users'|trans }}</a></li>
                 </ul>
             </div>
         </div>
@@ -40,6 +46,8 @@
     <div class="container">
         {% block body %}{% endblock %}
     </div>
-{% block javascripts %}{% endblock %}
+    <script src="{{ asset('bundles/adentifycommon/vendor/jam/jquery/dist/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/adentifycommon/vendor/js/bootstrap.min.js') }}"></script>
+    {% block javascripts %}{% endblock %}
 </body>
 </html>

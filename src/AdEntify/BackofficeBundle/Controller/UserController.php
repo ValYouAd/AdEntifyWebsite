@@ -2,35 +2,34 @@
 
 namespace AdEntify\BackofficeBundle\Controller;
 
-use AdEntify\BackofficeBundle\Form\CategoryType;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AdEntify\CoreBundle\Entity\Category;
-use A2lix\TranslationFormBundle\Annotation\GedmoTranslation;
+use AdEntify\CoreBundle\Entity\User;
+use AdEntify\BackofficeBundle\Form\UserType;
 
 /**
- * Category controller.
+ * User controller.
  *
- * @Route("/categories")
+ * @Route("/users")
  */
-class CategoryController extends Controller
+class UserController extends Controller
 {
     const PAGE_LIMIT = 10;
 
     /**
-     * Lists all Category entities.
+     * Lists all User entities.
      *
-     * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="categories")
+     * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="users")
      * @Method("GET")
      * @Template()
      */
     public function indexAction($page = 1)
     {
-        $query = $this->getDoctrine()->getManager()->createQuery('SELECT category FROM AdEntify\CoreBundle\Entity\Category category')
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user')
             ->setFirstResult(($page - 1) * self::PAGE_LIMIT)
             ->setMaxResults(self::PAGE_LIMIT);
 
@@ -45,15 +44,15 @@ class CategoryController extends Controller
         );
     }
     /**
-     * Creates a new Category entity.
+     * Creates a new User entity.
      *
-     * @Route("/", name="category_create")
+     * @Route("/", name="users_create")
      * @Method("POST")
-     * @Template("AdEntifyCoreBundle:Category:new.html.twig")
+     * @Template("AdEntifyCoreBundle:User:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Category();
+        $entity = new User();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -62,7 +61,7 @@ class CategoryController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('category_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('users_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -72,16 +71,16 @@ class CategoryController extends Controller
     }
 
     /**
-    * Creates a form to create a Category entity.
+    * Creates a form to create a User entity.
     *
-    * @param Category $entity The entity
+    * @param User $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Category $entity)
+    private function createCreateForm(User $entity)
     {
-        $form = $this->createForm(new CategoryType(), $entity, array(
-            'action' => $this->generateUrl('category_create'),
+        $form = $this->createForm(new UserType(), $entity, array(
+            'action' => $this->generateUrl('users_create'),
             'method' => 'POST',
         ));
 
@@ -91,15 +90,15 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a form to create a new Category entity.
+     * Displays a form to create a new User entity.
      *
-     * @Route("/new", name="category_new")
+     * @Route("/new", name="users_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Category();
+        $entity = new User();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -109,9 +108,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Finds and displays a Category entity.
+     * Finds and displays a User entity.
      *
-     * @Route("/{id}/show", name="category_show")
+     * @Route("/{id}/show", name="users_show")
      * @Method("GET")
      * @Template()
      */
@@ -119,10 +118,10 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AdEntifyCoreBundle:Category')->find($id);
+        $entity = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -134,21 +133,20 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Category entity.
+     * Displays a form to edit an existing User entity.
      *
-     * @Route("/{id}/edit", name="category_edit")
+     * @Route("/{id}/edit", name="users_edit")
      * @Method("GET")
      * @Template()
-     * @GedmoTranslation
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AdEntifyCoreBundle:Category')->find($id);
+        $entity = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -162,16 +160,16 @@ class CategoryController extends Controller
     }
 
     /**
-    * Creates a form to edit a Category entity.
+    * Creates a form to edit a User entity.
     *
-    * @param Category $entity The entity
+    * @param User $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Category $entity)
+    private function createEditForm(User $entity)
     {
-        $form = $this->createForm(new CategoryType(), $entity, array(
-            'action' => $this->generateUrl('category_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new UserType(), $entity, array(
+            'action' => $this->generateUrl('users_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -180,20 +178,20 @@ class CategoryController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Category entity.
+     * Edits an existing User entity.
      *
-     * @Route("/{id}", name="category_update")
+     * @Route("/{id}", name="users_update")
      * @Method("PUT")
-     * @Template("AdEntifyCoreBundle:Category:edit.html.twig")
+     * @Template("AdEntifyCoreBundle:User:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AdEntifyCoreBundle:Category')->find($id);
+        $entity = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -203,7 +201,7 @@ class CategoryController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('category_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('users_edit', array('id' => $id)));
         }
 
         return array(
@@ -213,9 +211,9 @@ class CategoryController extends Controller
         );
     }
     /**
-     * Deletes a Category entity.
+     * Deletes a User entity.
      *
-     * @Route("/{id}", name="category_delete")
+     * @Route("/{id}", name="users_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -225,21 +223,21 @@ class CategoryController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AdEntifyCoreBundle:Category')->find($id);
+            $entity = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Category entity.');
+                throw $this->createNotFoundException('Unable to find User entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('category'));
+        return $this->redirect($this->generateUrl('users'));
     }
 
     /**
-     * Creates a form to delete a Category entity by id.
+     * Creates a form to delete a User entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -248,9 +246,34 @@ class CategoryController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('category_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('users_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm();
+            ->getForm()
+        ;
+    }
+
+    /**
+     * Enable or disable a user
+     *
+     * @Route("{id}/enable/{active}", name="users_enable")
+     *
+     * @param $active
+     */
+    public function enableAction($id, $active)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
+        }
+
+        $entity->setEnabled($active == 1 ? true : false);
+        $em->merge($entity);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('users'));
     }
 }

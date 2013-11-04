@@ -21,3 +21,24 @@ Tags count: Nb tags
 Venues count: Nb lieux
 CPT: CPT
 Actions: Actions
+
+#Categories
+Category list: Liste des catégories
+Category: Categorie
+category:
+    name: Nom
+    visible: Activé
+    createdAt: Créée le
+    slug:      Slug
+
+#Users
+Users: Users
+user:
+    email: Email
+    enabled: Activé
+    roles: Rôles
+    firstname: Prénom
+    lastname: Nom
+    createdat: Créé le
+    actions: Actions
+    count: %count% utilisateurs

@@ -52,12 +52,14 @@ class DefaultController extends Controller
                 ':status' => Photo::STATUS_READY,
             ))
             ->setMaxResults(9)->getResult();
+        $hashtags = $em->createQuery('SELECT h FROM AdEntify\CoreBundle\Entity\Hashtag h ORDER BY h.usedCount DESC')->setMaxResults(30)->getResult();
 
         return array(
             'tagsCount' => str_split($tagsCount),
             'users' => $users,
             'brands' => $brands,
-            'photos' => $photos
+            'photos' => $photos,
+            'hashtags' => $hashtags
         );
     }
 
@@ -78,18 +80,6 @@ class DefaultController extends Controller
      */
     public function appIndexAction()
     {
-        /*$categories = $this->getDoctrine()->getManager()
-            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
-            ->useQueryCache(false)
-            ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
-            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
-            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
-            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
-            ->getResult();
-
-        return array(
-            'categories' => $categories
-        );*/
         return array();
     }
 
