@@ -22,10 +22,24 @@ define([
       },
 
       toJSON: function() {
-         return { photo: {
-            caption: this.get('caption'),
-            _token: this.get('_token')
-         }}
+         var jsonAttributes = this.attributes;
+         delete jsonAttributes.comments_count;
+         delete jsonAttributes.created_at;
+         delete jsonAttributes.fullname;
+         delete jsonAttributes.link;
+         delete jsonAttributes.likes_count;
+         delete jsonAttributes.owner;
+         delete jsonAttributes.ownerModel;
+         delete jsonAttributes.tags;
+         delete jsonAttributes.tagsConverted;
+         delete jsonAttributes.profileLink;
+         delete jsonAttributes.showLikes;
+         delete jsonAttributes.showTags;
+         delete jsonAttributes.status;
+         delete jsonAttributes.tags_count;
+         delete jsonAttributes.visibility_scope;
+         delete jsonAttributes.id;
+         return { photo: jsonAttributes }
       },
 
       defaults: {
@@ -35,14 +49,14 @@ define([
       },
 
       initialize: function() {
-         this.setup();
+         this.setup(true);
          this.listenTo(this, {
             'sync': this.setup,
             'add': this.setup
          });
       },
 
-      setup: function() {
+      setup: function(init) {
          this.set('link', app.beginUrl + app.root + $.t('routing.photo/id/', { id: this.get('id') }));
          if (this.has('owner') && !this.has('ownerModel')) {
             this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
@@ -54,7 +68,8 @@ define([
             this.set('tagsConverted', '');
             this.set('tags', new Tag.Collection(this.get('tags')));
          } else {
-            this.set('tags', new Tag.Collection());
+            if (typeof init !== 'undefined' && init)
+               this.set('tags', new Tag.Collection());
          }
       },
 
@@ -387,7 +402,6 @@ define([
 
       initialize: function() {
          app.appState().set('currentPhotoModel', this.model);
-         this.listenTo(this.model, 'change', this.render);
          this.listenTo(app, 'tagform:changetab', function(tabName) {
             this.tagFormFabChanged(tabName);
          });
@@ -456,8 +470,27 @@ define([
          }
       },
 
+      submitForm: function(evt) {
+         evt.preventDefault();
+         // Validate
+         var caption = $(this.el).find('#photo-caption').val();
+         if (caption) {
+            var btn = $('#form-details button[type="submit"]');
+            btn.button('loading');
+
+            var that = this;
+            this.model.set('caption', caption);
+            this.model.getToken('photo_item', function() {
+               that.model.url = Routing.generate('api_v1_put_photo', { id: that.model.get('id')});
+               that.model.save();
+               btn.button('reset');
+            });
+         }
+      },
+
       events: {
-         'click .photo-overlay': 'addTag'
+         'click .photo-overlay': 'addTag',
+         'submit #form-details': 'submitForm'
       }
    });
 

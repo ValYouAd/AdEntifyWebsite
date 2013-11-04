@@ -173,7 +173,7 @@
         var instagramClientId = '{{ instagram_client_id }}';
         var facebookAppId = '{{ facebook_app_id }}';
         var facebookPermissions = '{{ facebook_permissions }}';
-        var currentLocale = 'en';{#{{ app.request.locale }}';#}
+        var currentLocale = '{{ app.request.locale }}';
         var currentUserId = {{ app.user.id }};
         var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
     </script>

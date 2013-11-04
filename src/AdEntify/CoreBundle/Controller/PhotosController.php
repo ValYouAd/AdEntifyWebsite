@@ -409,13 +409,14 @@ class PhotosController extends FosRestController
                     $em = $this->getDoctrine()->getManager();
                     $em->merge($photo);
                     $em->flush();
+                    return $photo;
                 } else {
-                    $form->getErrorsAsString();
+                    return $form;
                 }
             } else
                 throw new HttpException(403, 'You are not authorized to edit this photo');
         } else
-            throw $this->createNotFoundException('Photo not found');
+            throw new NotFoundHttpException('Photo not found');
     }
 
     /**
