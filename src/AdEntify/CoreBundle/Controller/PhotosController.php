@@ -234,7 +234,27 @@ class PhotosController extends FosRestController
         // Extract hashtags from query
         $hashtags = CommonTools::extractHashtags($query, false, true);
 
-        $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+        // If hashtags found, search photo with this hashtag(s)
+        if (count($hashtags) > 0) {
+            $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+            LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN photo.hashtags hashtag
+            WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
+                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+            AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
+            AND hashtag.name IN (:hashtags)')
+                ->setParameters(array(
+                    ':none' => Tag::VALIDATION_NONE,
+                    ':granted' => Tag::VALIDATION_GRANTED,
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':hashtags' => $hashtags
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+        } else {
+            $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
             LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.venue venue LEFT JOIN tag.person person
             LEFT JOIN tag.product product LEFT JOIN product.brand brand LEFT JOIN photo.hashtags hashtag
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
@@ -242,19 +262,19 @@ class PhotosController extends FosRestController
             AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
             LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
-            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name IN (:hashtags)')
-            ->setParameters(array(
-                ':query' => '%'.$query.'%',
-                ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED,
-                ':status' => Photo::STATUS_READY,
-                ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':facebookFriendsIds' => $facebookFriendsIds,
-                ':followings' => $followings,
-                ':hashtags' => $hashtags
-            ))
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit);
+            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)')
+                ->setParameters(array(
+                    ':query' => '%'.$query.'%',
+                    ':none' => Tag::VALIDATION_NONE,
+                    ':granted' => Tag::VALIDATION_GRANTED,
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+        }
 
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $count = count($paginator);
