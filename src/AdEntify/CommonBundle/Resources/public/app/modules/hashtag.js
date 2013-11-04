@@ -20,7 +20,7 @@ define([
 
       setup: function() {
          if (this.has('name'))
-            this.set('link', app.beginUrl + app.root + $.t('routing.search/keywords', { keywords: this.get('name') }));
+            this.set('link', app.beginUrl + app.root + $.t('routing.search/keywords', { keywords: '%23' + this.get('name') }));
       },
 
       urlRoot: Routing.generate('api_v1_get_hashtags')

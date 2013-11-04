@@ -14,6 +14,7 @@ use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\PhotoType;
+use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -230,6 +231,9 @@ class PhotosController extends FosRestController
             UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
         }
 
+        // Extract hashtags from query
+        $hashtags = CommonTools::extractHashtags($query, false, true);
+
         $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
             LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.venue venue LEFT JOIN tag.person person
             LEFT JOIN tag.product product LEFT JOIN product.brand brand LEFT JOIN photo.hashtags hashtag
@@ -238,7 +242,7 @@ class PhotosController extends FosRestController
             AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
             LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
-            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)')
+            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name IN (:hashtags)')
             ->setParameters(array(
                 ':query' => '%'.$query.'%',
                 ':none' => Tag::VALIDATION_NONE,
@@ -247,6 +251,7 @@ class PhotosController extends FosRestController
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
+                ':hashtags' => $hashtags
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
