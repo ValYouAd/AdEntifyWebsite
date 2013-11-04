@@ -10,28 +10,12 @@
                 <td>{{ entity.username }}</td>
             </tr>
             <tr>
-                <th>Usernamecanonical</th>
-                <td>{{ entity.usernameCanonical }}</td>
-            </tr>
-            <tr>
                 <th>Email</th>
                 <td>{{ entity.email }}</td>
             </tr>
             <tr>
-                <th>Emailcanonical</th>
-                <td>{{ entity.emailCanonical }}</td>
-            </tr>
-            <tr>
                 <th>Enabled</th>
-                <td>{{ entity.enabled }}</td>
-            </tr>
-            <tr>
-                <th>Salt</th>
-                <td>{{ entity.salt }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ entity.password }}</td>
+                <td>{% if entity.enabled %}<i class="glyphicon glyphicon-ok text-success"></i>{% else %}<i class="glyphicon glyphicon-ban-circle text-danger"></i>{% endif %}</td>
             </tr>
             <tr>
                 <th>Lastlogin</th>
@@ -50,16 +34,12 @@
                 <td>{{ entity.expiresAt|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
-                <th>Confirmationtoken</th>
-                <td>{{ entity.confirmationToken }}</td>
-            </tr>
-            <tr>
                 <th>Passwordrequestedat</th>
                 <td>{{ entity.passwordRequestedAt|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ entity.roles }}</td>
+                <td>{{ entity.roles|join(', ') }}</td>
             </tr>
             <tr>
                 <th>Credentialsexpired</th>
@@ -92,10 +72,6 @@
             <tr>
                 <th>Facebookusername</th>
                 <td>{{ entity.facebookUsername }}</td>
-            </tr>
-            <tr>
-                <th>Facebookaccesstoken</th>
-                <td>{{ entity.facebookAccessToken }}</td>
             </tr>
             <tr>
                 <th>Twitterid</th>
@@ -148,11 +124,6 @@
     <li>
         <a href="{{ path('users') }}">
             Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('users_edit', { 'id': entity.id }) }}">
-            Edit
         </a>
     </li>
     <li>{{ form(delete_form) }}</li>

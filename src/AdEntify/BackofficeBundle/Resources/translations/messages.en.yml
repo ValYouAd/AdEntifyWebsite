@@ -23,7 +23,7 @@ category:
     name: Name
     visible: Visible
     createdAt: Created at
-    slug:      Slug
+    slug: Slug
 
 #Users
 Users: Users
@@ -35,3 +35,4 @@ user:
     lastname: Lastname
     createdat: Created at
     actions: Actions
+    count: %count% utilisateurs

@@ -2,7 +2,7 @@
 
 {% block body -%}
     <div class="page-header">
-        <h1><i class="glyphicon glyphicon-list"></i> {{ 'User list'|trans }}</h1>
+        <h1><i class="glyphicon glyphicon-list"></i> {{ 'User list'|trans }} <small>{{ 'user.count'|trans({'%count%': count}) }}</small></h1>
     </div>
 
     {#<ul class="list-unstyled">

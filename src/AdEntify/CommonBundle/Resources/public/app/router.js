@@ -854,6 +854,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          /*$(window).scroll(function(e) {
             $('#right-pane-scrollview').css({top: $(window).scrollTop() });
          });*/
+         if (accountEnabled == 0) {
+            $('#accountDisabled').modal('show');
+         }
          $(window).on('navigate', function(event, data) {
             alert('toto');
             if (data.state.direction == 'back') {

@@ -37,7 +37,11 @@ More members: Plus de membres
 Login: Se connecter
 Sign Up: S'inscrire
 More photos: Plus de photos
+Account disabled: Compte non validé
+Close: Fermer
+Your account is currently under validation.: Votre compte est en attente de validation et n'est donc pas actif pour le moment.
 
+#Login
 modal:
     login: Connexion
     signup: Inscription
