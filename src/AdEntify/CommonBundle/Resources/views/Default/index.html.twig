@@ -44,8 +44,16 @@
 
     <div class="graphik-bg">
         <div class="container">
-            <form action="{{ path('loggedInHome', {'_locale': app.request.locale}) }}" role="search" class="search-form">
-                <input type="text" class="search-input" placeholder="{{ 'Search a user, place, brand...'|trans }}">
+            <script type="text/javascript">
+                function search(evt) {
+                    if (document.getElementById('search-input').value) {
+                        window.location.href = '{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'search/'|trans }}' + encodeURIComponent(document.getElementById('search-input').value);
+                    }
+                    return false;
+                }
+            </script>
+            <form action="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'search/'|trans }}" onsubmit="return search(this)" role="search" class="search-form">
+                <input type="text" id="search-input" class="search-input" placeholder="{{ 'Search a user, place, brand...'|trans }}">
                 <button type="submit" class="search-button"></button>
             </form>
         </div>
