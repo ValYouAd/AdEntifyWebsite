@@ -261,21 +261,45 @@ define([
             });
             var that = this;
             likeButtonView.on('like', function(liked) {
-               $likeCount = $(that.el).find('#like-count');
-               if (liked) {
-                  $likeCount.html(that.model.get('likes_count') + 1);
-               } else {
-                  $likeCount.html(that.model.get('likes_count'));
-               }
+               that.updateLikedCount(liked);
             });
             this.setView('.like-button', likeButtonView);
          }
 
-         // Favorite Button
-         if (!this.getView('.favorite-button')) {
-            this.setView('.favorite-button', new Photo.Views.FavoriteButton({
+         // Pastille popover
+         if (!this.getView('.popover-wrapper')) {
+            var that = this;
+            var pastillePopoverView = new Photo.Views.PastillePopover({
                photo: this.model
-            }));
+            });
+            pastillePopoverView.on('addTag', function() {
+               that.addNewTag(null);
+               that.hidePastillePopover();
+            });
+            pastillePopoverView.on('like', function() {
+               Photo.Common.like(that.model, function(liked) {
+                  that.updateLikedCount(liked);
+               });
+               that.hidePastillePopover();
+            });
+            pastillePopoverView.on('share', function() {
+               if ($(that.el).find('.share-overlay:visible').length > 0) {
+                  $(that.el).find('.share-overlay').fadeOut('fast');
+               } else {
+                  var view = that.getView('.share-overlay');
+                  if (!view)
+                     that.setView('.share-overlay', new Photo.Views.ShareOverlay({
+                        model: that.model
+                     })).render();
+                  $(that.el).find('.share-overlay').fadeIn(100);
+               }
+               that.hidePastillePopover();
+            });
+            pastillePopoverView.on('favorite', function() {
+               Photo.Common.favorite(that.model);
+               that.hidePastillePopover();
+            });
+            this.setView('.popover-wrapper', pastillePopoverView);
          }
       },
 
@@ -290,6 +314,15 @@ define([
       changeTab: function(e) {
          e.preventDefault();
          $(e.currentTarget).tab('show');
+      },
+
+      updateLikedCount: function(liked) {
+         $likeCount = $(this.el).find('#like-count');
+         if (liked) {
+            $likeCount.html(this.model.get('likes_count') + 1);
+         } else {
+            $likeCount.html(this.model.get('likes_count') > 0 ? this.model.get('likes_count') - 1 : 0);
+         }
       },
 
       clickPastille: function() {
@@ -336,6 +369,14 @@ define([
          Tag.Common.addTag(evt, this.model);
       },
 
+      showPastillePopover: function() {
+         $(this.el).find('.adentify-pastille-wrapper .popover').fadeIn(100);
+      },
+
+      hidePastillePopover: function() {
+         $(this.el).find('.adentify-pastille-wrapper .popover').fadeOut('fast');
+      },
+
       events: {
          'click .adentify-pastille': 'clickPastille',
          'mouseenter .photo-container': 'showTags',
@@ -344,7 +385,9 @@ define([
          "click .showLikesCheckbox": "checkboxShowLikes",
          "mouseup .selectOnFocus": "selectTextOnFocus",
          "click #photo-tabs a": "changeTab",
-         'click .add-new-tag': "addNewTag"
+         'click .add-new-tag': "addNewTag",
+         'mouseenter .adentify-pastille-wrapper': 'showPastillePopover',
+         'mouseleave .adentify-pastille-wrapper': 'hidePastillePopover'
       }
    });
 
@@ -533,17 +576,7 @@ define([
 
       likeButtonClick: function() {
          // Like photo
-         var that = this;
-         app.oauth.loadAccessToken({
-            success: function() {
-               $.ajax({
-                  url: Routing.generate('api_v1_post_like'),
-                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  type: 'POST',
-                  data: { photoId: that.photo.get('id') }
-               });
-            }
-         });
+         Photo.Common.like(this.photo);
          this.liked = !this.liked;
 
          this.render();
@@ -590,23 +623,94 @@ define([
 
       favoriteButtonClick: function() {
          // Favorite photo
-         var that = this;
-         app.oauth.loadAccessToken({
-            success: function() {
-               $.ajax({
-                  url: Routing.generate('api_v1_post_photo_favorite'),
-                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  type: 'POST',
-                  data: { photoId: that.photo.get('id') }
-               });
-            }
-         });
+         Photo.Common.favorite(this.photo);
          this.added = !this.added;
 
          this.render();
          this.trigger('favorite', this.added);
       }
    });
+
+   Photo.Views.PastillePopover = Backbone.View.extend({
+      template: 'photo/pastillePopover',
+
+      addTag: function() {
+         this.trigger('addTag', this.options.photo);
+      },
+
+      like: function() {
+         this.trigger('like', this.options.photo);
+      },
+
+      share: function() {
+         this.trigger('share', this.options.photo);
+      },
+
+      favorite: function() {
+         this.trigger('favorite', this.options.photo);
+      },
+
+      events: {
+         'click .add-tag-button': 'addTag',
+         'click .like-button': 'like',
+         'click .share-button': 'share',
+         'click .favorite-button': 'favorite'
+      }
+   });
+
+   Photo.Views.ShareOverlay = Backbone.View.extend({
+      template: 'photo/shareOverlay',
+      tagName: 'div class="share-overlay-wrapper"',
+
+      serialize: function() {
+         return {
+            model: this.model,
+            pageUrl: window.location.href
+         };
+      },
+
+      afterRender: function() {
+         FB.XFBML.parse();
+      }
+   });
+
+   Photo.Common = {
+      like: function(photo, success) {
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_post_like'),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  type: 'POST',
+                  data: { photoId: photo.get('id') },
+                  success: function(data) {
+                     if (success) {
+                        success(data);
+                     }
+                  }
+               });
+            }
+         });
+      },
+
+      favorite: function(photo, success) {
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_post_photo_favorite'),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  type: 'POST',
+                  data: { photoId: photo.get('id') },
+                  success: function(data) {
+                     if (success) {
+                        success(data);
+                     }
+                  }
+               });
+            }
+         });
+      }
+   };
 
    return Photo;
 });

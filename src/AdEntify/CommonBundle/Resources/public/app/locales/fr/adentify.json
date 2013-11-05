@@ -152,7 +152,8 @@
       "unFavorites": "Supprimer de mes Favoris",
       "deletePhoto": "Supprimer",
       "linkedPhotos": "Photos liées",
-      "noLinkedPhotos": "Aucune photo liée"
+      "noLinkedPhotos": "Aucune photo liée",
+      "tweetShare": "Découvrez mon image intéractive sur %23AdEntify &rarr; "
    },
    "externalServicePhotos": {
       "select": "Sélectionner",

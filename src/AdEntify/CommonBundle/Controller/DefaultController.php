@@ -33,9 +33,9 @@ class DefaultController extends Controller
         // Automatic redirect
         $securityContext = $this->container->get('security.context');
         if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
-            /*return $this->redirect($this->generateUrl('loggedInHome', array(
+            return $this->redirect($this->generateUrl('loggedInHome', array(
                 '_locale' => $this->getCurrentLocale()
-            )));*/
+            )));
         }
 
         $em = $this->getDoctrine()->getManager();

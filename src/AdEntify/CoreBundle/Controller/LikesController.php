@@ -38,10 +38,8 @@ class LikesController extends FosRestController
 {
     /**
      * @View()
-     *
-     * @QueryParam(name="dislike", default="false")
      */
-    public function postAction($dislike, Request $request)
+    public function postAction(Request $request)
     {
         if ($request->request->has('photoId') && is_numeric($request->request->get('photoId'))) {
             $em = $this->getDoctrine()->getManager();
@@ -79,12 +77,13 @@ class LikesController extends FosRestController
                     $em->persist($like);
                     $em->flush();
 
-                    return $like;
+                    return true;
                 }
             } else {
                 if ($user && $like) {
                     $em->remove($like);
                     $em->flush();
+                    return false;
                 }
             }
         }

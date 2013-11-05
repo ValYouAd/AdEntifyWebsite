@@ -152,7 +152,8 @@
       "unFavorites": "Delete from Favorites",
       "deletePhoto": "Delete",
       "linkedPhotos": "Related photos",
-      "noLinkedPhotos": "No related photo"
+      "noLinkedPhotos": "No related photo",
+      "tweetShare": "Check out my interactive image on %23AdEntify &rarr; "
    },
    "externalServicePhotos": {
       "select": "Select",

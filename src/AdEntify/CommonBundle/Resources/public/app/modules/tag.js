@@ -1035,7 +1035,8 @@ define([
 
    Tag.Common = {
       addTag: function(evt, photo) {
-         evt.preventDefault();
+         if (evt)
+            evt.preventDefault();
          var photoView = new Tag.Views.AddModal({
             photo: photo
          });
