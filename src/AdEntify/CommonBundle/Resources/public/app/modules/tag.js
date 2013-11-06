@@ -42,6 +42,10 @@ define([
             else
                this.set('cssClass', '');
          }
+         if (this.has('owner') && !this.has('ownerModel')) {
+            var User = require('modules/user');
+            this.set('ownerModel', new User.Model(this.get('owner')));
+         }
 
          this.listenTo(this, 'change', this.render);
       },
@@ -199,13 +203,18 @@ define([
          this.model.delete();
       },
 
+      reportTag: function() {
+
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
          "click a[href]": "clickTag",
          "click .validateTagButton": "validateTag",
          "click .refuseTagButton": "refuseTag",
-         "click .deleteTagButton": "deleteTag"
+         "click .deleteTagButton": "deleteTag",
+         'click .reportTagButton': 'reportTag'
       }
    });
 

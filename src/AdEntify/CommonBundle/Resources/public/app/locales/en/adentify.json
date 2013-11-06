@@ -62,8 +62,8 @@
       "submitChangeLang": "Submit",
       "deleteAccount": "Delete my account",
       "modalDeleteAccountTitle": "Delete my AdEntify account",
-      "modalDeleteAccountText": "Do you really want to delete your AdEntify account <strong>with all your data, comments, rewards, earnings and photos</strong> ? After confirmation, there is no way to get back your data.",
-      "confirmDeleteAccountButton": "I understand and i still want to delete it"
+      "modalDeleteAccountText": "Deleting your acccount will delete the following data on <strong>adentify.com and all your embed photos on internet</strong> :<ul><li>Photos</li><li>Tags</li><li>Earnings</li><li>Rewards</li><li>Comments</li><li>Likes</li><li>Favorites</li></ul>After confirmation, there is no way to get back your data.",
+      "confirmDeleteAccountButton": "I understand and i still want to delete my account"
    },
    "upload": {
       "pageTitle": "Upload my photos - AdEntify",
@@ -139,7 +139,9 @@
       "errorProductEmptyFields": "You must fill in name and description fields",
       "deleteTag": "Delete tag",
       "addNewTag": "Add tag",
-      "submitProduct": "Confirm and add tag"
+      "submitProduct": "Confirm and add tag",
+      "reportTag": "Report",
+      "taggedBy": "Tag by <strong>__author__</strong>"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -205,14 +207,14 @@
       "followingsTitle": "Following",
       "moreFollowings": "View all following",
       "hashtagsTitle": "Hashtags",
-      "noHashtag": "No hashtags yet",
-      "noFollowings": "No followings yet",
-      "noFollowers": "No followers yet",
+      "noHashtag": "No hashtag yet",
+      "noFollowings": "No following yet",
+      "noFollowers": "No follower yet",
       "editMyProfile": "Edit my profile"
    },
    "category": {
       "errorPhotosLoading": "Error loading photos from this category. Please try again.",
-      "noPhotos": "No photos for this category.",
+      "noPhotos": "No photo for this category.",
       "pageTitle": "__name__ photos - AdEntify",
       "title": " __name__",
       "titleAll": "All categories",
@@ -226,7 +228,7 @@
    "search": {
       "placeHolderKeywords": "Search for members, brands, places...",
       "inProgress": "Search in progress...",
-      "noResults": "No results found",
+      "noResults": "No result found",
       "error": "Error loading results.",
       "viewMore": "View more results",
       "tagsBlockTitle": "Tags",
@@ -234,7 +236,7 @@
       "noSearch": "No search available at the moment"
    },
    "comment": {
-      "noComments": "No comments yet, be the first to post!",
+      "noComments": "No comment yet, be the first to post!",
       "addTitle": "Add comment",
       "placeholderBody": "Your comment",
       "addButton": "Add",
@@ -247,7 +249,7 @@
       "unread": "unread",
       "inProgress": "Loading notifications...",
       "photosUploaded": "Your photos were successfully uploaded! You can now add tags.",
-      "noNotifications": "No new notifications.",
+      "noNotifications": "No new notification.",
       "photoFav": "<a href='__authorLink__'>__author__</a> favorited <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
       "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> liked <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
       "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> commented on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
@@ -257,7 +259,7 @@
    },
    "action": {
       "errorLoading": "Error loading actions.",
-      "noActions": "No actions.",
+      "noActions": "No action.",
       "photoFav": "<a href='__authorLink__'>__author__</a> favorited <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
       "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> liked <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
       "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> commented on <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
