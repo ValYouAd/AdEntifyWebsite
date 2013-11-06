@@ -38,7 +38,7 @@
    },
    "mySettings": {
       "pageTitle": "Mes paramètres - AdEntify",
-      "generalSettings": "Paramètres généraux",
+      "generalSettings": "Paramètres",
       "labelLang": "Langue du site",
       "french": "Français",
       "english": "Anglais",
@@ -201,7 +201,7 @@
       "followingsTitle": "Ses abonnements",
       "moreFollowings": "Voir tous ses abonnements",
       "hashtagsTitle": "Hashtags",
-      "noHashtag": "Aucun hashtag pour le moment",
+      "noHashtag": "Aucun hashtags pour le moment",
       "noFollowings": "Aucun abonnement pour le moment",
       "noFollowers": "Aucun abonné pour le moment",
       "editMyProfile": "Editer mon profil"

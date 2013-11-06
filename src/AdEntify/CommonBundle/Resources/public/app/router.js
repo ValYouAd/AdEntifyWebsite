@@ -509,10 +509,31 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
+         var followers = new User.Collection();
+         var followings = new User.Collection();
+
          app.useLayout().setViews({
             "#center-pane-content": new MySettings.Views.Detail(),
-            "#right-pane-content": new MySettings.Views.MenuRight()
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: currentUserId
+               }),
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags
+            })
          }).render();
+
+         followings.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: currentUserId })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: currentUserId })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: currentUserId })
+         });
       },
 
       profile: function(id) {
@@ -551,7 +572,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_user_hashtags', { id: id })
-         })
+         });
       },
 
       category: function(slug) {
