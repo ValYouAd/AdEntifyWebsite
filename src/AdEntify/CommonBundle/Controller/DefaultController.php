@@ -3,12 +3,14 @@
 namespace AdEntify\CommonBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\Tests\Common\Annotations\False;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -117,7 +119,7 @@ class DefaultController extends Controller
     /**
      * @Route("/lang/{locale}", requirements={"locale" = "en|fr"}, name="change_lang")
      */
-    public function langAction($locale)
+    public function langAction($locale, Request $request)
     {
         $this->getRequest()->getSession()->set('_locale', $locale);
         $this->setUserLocale($locale);

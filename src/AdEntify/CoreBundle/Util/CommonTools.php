@@ -9,6 +9,8 @@
 
 namespace AdEntify\CoreBundle\Util;
 
+use Symfony\Component\Routing\Router;
+
 class CommonTools
 {
     /**
@@ -89,5 +91,26 @@ class CommonTools
             $hashtags[] = $hashtag;
         }
         return $hashtags;
+    }
+
+    /**
+     * Get referer route
+     *
+     * @param $request
+     * @param Router $router
+     * @return mixed
+     */
+    public static function getRefererRoute($request, Router $router)
+    {
+        //look for the referer route
+        $referer = $request->headers->get('referer');
+        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
+        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+
+        $matcher = $router->getMatcher();
+        $parameters = $matcher->match($lastPath);
+        $route = $parameters['_route'];
+
+        return $route;
     }
 }

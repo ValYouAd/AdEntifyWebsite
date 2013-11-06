@@ -1,5 +1,5 @@
 <div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-labelledby="commonModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog <%= modalDialogClasses ? modalDialogClasses : '' %>">
         <div class="modal-content <%= modalContentClasses ? modalContentClasses : '' %>">
             <div class="modal-header<%= !showHeader ? ' hide-modal-header' : '' %>">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -10,13 +10,16 @@
             <div class="modal-body">
                 <% if (content) { %>
                 <div class="modal-body-wrapper mt2">
-                    <p data-i18n="<%= content %>"></p>
+                    <p data-i18n="[html]<%= content %>"></p>
                 </div>
                 <% } %>
             </div>
             <% if (showFooter) { %>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" data-i18n="common.close"></button>
+                <% if (showConfirmButton) { %>
+                <button class="btn btn-primary" data-action="confirm" data-i18n="<%= confirmButton %>"></button>
+                <% } %>
             </div>
             <% } %>
         </div><!-- /.modal-content -->

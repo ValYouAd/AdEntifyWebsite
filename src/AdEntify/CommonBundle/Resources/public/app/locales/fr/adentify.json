@@ -59,7 +59,11 @@
       "notSamePassword": "Les mots de passe ne correspondent pas",
       "currentPasswordError": "Le mot de passe actuel est invalide",
       "passwordChanged": "Votre mot de passe a bien été changé",
-      "submitChangeLang": "Valider"
+      "submitChangeLang": "Valider",
+      "deleteAccount": "Supprimer mon compte",
+      "modalDeleteAccountTitle": "Suppression de mon compte AdEntify",
+      "modalDeleteAccountText": "Etes-vous sûr de vouloir supprimer votre compte AdEntify <strong>ainsi que toutes les données, commentaires, récompenses, gains et photos associés</strong> ? Après confirmation, il n'y aura aucun moyen de récupérer vos données.",
+      "confirmDeleteAccountButton": "Je comprends et je veux toujours supprimer mon compte"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",
@@ -282,7 +286,8 @@
       "titlePageNotFound": "Page introuvable",
       "contentPageNotFound": "La page que vous avez demandé ne peut être trouvée.",
       "titleSamePage": "Oups",
-      "contentSamePage": "Oups ! Vous êtes déjà sur la page demandée."
+      "contentSamePage": "Oups ! Vous êtes déjà sur la page demandée.",
+      "confirmButton": "Ok"
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",

@@ -69,6 +69,7 @@ define([
       template: "common/modal",
       showFooter: true,
       showHeader: true,
+      showConfirmButton: false,
 
       serialize: function() {
          return {
@@ -76,7 +77,10 @@ define([
             content: this.content,
             showFooter: this.showFooter,
             showHeader: this.showHeader,
-            modalContentClasses: this.modalContentClasses
+            modalContentClasses: this.modalContentClasses,
+            modalDialogClasses: this.modalDialogClasses,
+            showConfirmButton: this.showConfirmButton,
+            confirmButton: this.confirmButton
          };
       },
 
@@ -88,8 +92,11 @@ define([
       initialize: function() {
          this.showFooter = typeof this.options.showFooter !== 'undefined' ? this.options.showFooter : this.showFooter;
          this.showHeader = typeof this.options.showHeader !== 'undefined' ? this.options.showHeader : this.showHeader;
+         this.showConfirmButton = typeof this.options.showHeader !== 'undefined' ? this.options.showHeader : this.showHeader;
+         this.confirmButton = typeof this.options.confirmButton !== 'undefined' ? this.options.confirmButton : 'common.confirmButton';
          this.title = typeof this.options.title !== 'undefined' ? this.options.title : null;
          this.modalContentClasses = typeof this.options.modalContentClasses !== 'undefined' ? this.options.modalContentClasses : null;
+         this.modalDialogClasses = typeof this.options.modalDialogClasses !== 'undefined' ? this.options.modalDialogClasses : null;
          this.content = typeof this.options.content !== 'undefined' ? this.options.content : null;
       },
 
@@ -118,6 +125,14 @@ define([
             backdrop: true,
             show: true
          });
+      },
+
+      confirmClick: function() {
+         this.trigger('confirm');
+      },
+
+      events: {
+         'click [data-action="confirm"]': 'confirmClick'
       }
    });
 

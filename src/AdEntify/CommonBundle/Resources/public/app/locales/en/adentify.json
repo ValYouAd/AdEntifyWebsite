@@ -59,7 +59,11 @@
       "notSamePassword": "The passwords do not match",
       "currentPasswordError": "Current password does not match",
       "passwordChanged": "Your password has successfully been changed",
-      "submitChangeLang": "Submit"
+      "submitChangeLang": "Submit",
+      "deleteAccount": "Delete my account",
+      "modalDeleteAccountTitle": "Delete my AdEntify account",
+      "modalDeleteAccountText": "Do you really want to delete your AdEntify account <strong>with all your data, comments, rewards, earnings and photos</strong> ? After confirmation, there is no way to get back your data.",
+      "confirmDeleteAccountButton": "I understand and i still want to delete it"
    },
    "upload": {
       "pageTitle": "Upload my photos - AdEntify",
@@ -282,7 +286,8 @@
       "titlePageNotFound": "Page not found",
       "contentPageNotFound": "Error loading the page.",
       "titleSamePage": "Oops",
-      "contentSamePage": "Oops! You already are on this page."
+      "contentSamePage": "Oops! You already are on this page.",
+      "confirmButton": "Ok"
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",

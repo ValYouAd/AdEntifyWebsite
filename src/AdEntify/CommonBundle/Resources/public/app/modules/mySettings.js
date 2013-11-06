@@ -91,7 +91,6 @@ define([
       },
 
       initialize: function() {
-         var that = this;
          // Get current user
          app.oauth.loadAccessToken({
             success: function() {
@@ -191,9 +190,45 @@ define([
          }
       },
 
+      deleteAccount: function() {
+         var modal = new Common.Views.Modal({
+            content: 'mySettings.modalDeleteAccountText',
+            showFooter: true,
+            showHeader: true,
+            title: 'mySettings.modalDeleteAccountTitle',
+            modalDialogClasses: 'deleteAccountDialog',
+            showConfirmButton: true,
+            confirmButton: 'mySettings.confirmDeleteAccountButton'
+         });
+         modal.on('confirm', function() {
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_delete_user', { id: currentUserId }),
+                     type: 'DELETE',
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     success: function() {
+                        window.location.href = Routing.generate('fos_user_security_logout');
+                     }
+                  });
+               }
+            });
+            modal.close();
+         });
+         var oldModal = app.useLayout().getView('#modal-container');
+         if (oldModal) {
+            app.once('modal:hidden', function() {
+               app.useLayout().setView('#modal-container', modal).render();
+            });
+            oldModal.close();
+         } else
+            app.useLayout().setView('#modal-container', modal).render();
+      },
+
       events: {
          "submit .langForm": "submitLang",
-         "submit .changePasswordForm": "submitChangePassword"
+         "submit .changePasswordForm": "submitChangePassword",
+         'click .delete-account-button': 'deleteAccount'
       }
    });
 

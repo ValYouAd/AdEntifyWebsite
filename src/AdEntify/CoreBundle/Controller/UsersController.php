@@ -451,4 +451,26 @@ class UsersController extends FosRestController
             throw new NotFoundHttpException('User not found');
         }
     }
+
+    /**
+     * @View()
+     *
+     * @param $id
+     */
+    public function deleteAction($id)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $user = $securityContext->getToken()->getUser();
+            if ($id == $user->getId()) {
+                $this->getDoctrine()->getManager()->remove($user);
+                /*$this->getDoctrine()->getManager()->flush();*/
+                return true;
+            } else {
+                throw new HttpException(403);
+            }
+        } else {
+            throw new HttpException(403);
+        }
+    }
 }
