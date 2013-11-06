@@ -33,7 +33,7 @@ define([
 
    Hashtag.Views.Item = Backbone.View.extend({
       template: 'hashtag/item',
-      tagName: 'li class="pull-left"',
+      tagName: 'li class="hashtag-item"',
 
       serialize: function() {
          return { model: this.model };
@@ -74,7 +74,7 @@ define([
             } else {
                this.removeView('.hashtags-alert');
             }
-            this.render
+            this.render();
          });
       }
    });

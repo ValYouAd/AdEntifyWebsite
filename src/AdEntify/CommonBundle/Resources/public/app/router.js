@@ -414,7 +414,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#center-pane-content": new Photo.Views.Item({
                photo: photo,
                comments: this.comments,
-               photoId: id
+               photoId: id,
+               categories: this.categories,
+               hashtags: this.hashtags
             }),
             "#right-pane-content": new Photo.Views.RightMenu({
                photo: photo,
@@ -429,6 +431,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.comments.fetch({
             url: Routing.generate('api_v1_get_photo_comments', { id: id })
+         });
+         this.categories.fetch({
+            url: Routing.generate('api_v1_get_photo_categories', { id: id })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_photo_hashtags', { id: id })
          });
       },
 

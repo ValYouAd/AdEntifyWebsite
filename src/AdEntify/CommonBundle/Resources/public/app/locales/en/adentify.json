@@ -211,7 +211,9 @@
       "noPhotos": "No photos for this category.",
       "pageTitle": "__name__ photos - AdEntify",
       "title": " __name__",
-      "titleAll": "All categories"
+      "titleAll": "All categories",
+      "listTitle": "Posted in ",
+      "noCategory": "No category"
    },
    "myAdentify": {
       "pageTitle": "My photos feed - AdEntify",

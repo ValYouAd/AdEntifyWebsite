@@ -10,8 +10,10 @@ define([
    "modules/tag",
    "modules/common",
    "modules/comment",
+   'modules/category',
+   'modules/hashtag',
    "pinterest"
-], function(app, Tag, Common, Comment) {
+], function(app, Tag, Common, Comment, Category, Hashtag) {
 
    var Photo = app.module();
    var loaded = false;
@@ -122,7 +124,9 @@ define([
                photo: this.options.photo,
                comments: this.comments,
                photoId: this.options.photo.get('id'),
-               modal: true
+               modal: true,
+               categories: this.categories,
+               hashtags: this.hashtags
             }),
             "#right-modal-content": new Photo.Views.RightMenu({
                photo: this.options.photo,
@@ -134,6 +138,8 @@ define([
 
       initialize: function() {
          this.comments = new Comment.Collection();
+         this.hashtags = new Hashtag.Collection();
+         this.categories = new Category.Collection();
          var Photos = require('modules/photos');
          this.linkedPhotos = new Photos.Collection();
          this.linkedPhotos.fetch({
@@ -141,6 +147,12 @@ define([
          });
          this.comments.fetch({
             url: Routing.generate('api_v1_get_photo_comments', { id: this.options.photo.get('id') })
+         });
+         this.categories.fetch({
+            url: Routing.generate('api_v1_get_photo_categories', { id: this.options.photo.get('id') })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_photo_hashtags', { id: this.options.photo.get('id') })
          });
       }
    });
@@ -249,10 +261,12 @@ define([
          }
 
          // Comments
-         this.setView('.comments', new Comment.Views.List({
-            comments: this.options.comments,
-            photoId: this.options.photoId
-         }));
+         if (!this.getView('.comments')) {
+            this.setView('.comments', new Comment.Views.List({
+               comments: this.options.comments,
+               photoId: this.options.photoId
+            }));
+         }
 
          // Like Button
          if (!this.getView('.like-button')) {
@@ -300,6 +314,21 @@ define([
                that.hidePastillePopover();
             });
             this.setView('.popover-wrapper', pastillePopoverView);
+         }
+
+         // Categories
+         if (!this.getView('.categories')) {
+            this.setView('.categories', new Category.Views.List({
+               categories: this.options.categories,
+               photoId: this.options.photoId
+            }));
+         }
+
+         // Hashtags
+         if (!this.getView('.hashtags')) {
+            this.setView('.hashtags', new Hashtag.Views.List({
+               hashtags: this.options.hashtags
+            }));
          }
       },
 

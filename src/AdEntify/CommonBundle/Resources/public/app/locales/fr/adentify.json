@@ -211,7 +211,9 @@
       "noPhotos": "Aucune photo dans cette catégorie.",
       "pageTitle": "Photos __name__ - AdEntify",
       "title": " __name__",
-      "titleAll": "Toutes les catégories"
+      "titleAll": "Toutes les catégories",
+      "listTitle": "Posté dans ",
+      "noCategory": "Aucune categorie"
    },
    "myAdentify": {
       "pageTitle": "Mon flux photos - AdEntify",

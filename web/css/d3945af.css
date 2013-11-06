@@ -1493,6 +1493,24 @@ html,body {
 .top-photo-buttons {
     margin-top: -6px;
 }
+.top-photo-buttons .add-new-tag {
+    margin-top: 6px;
+}
+.categories-hashtags {
+    margin: 20px -15px;
+    padding: 10px 15px 5px 15px;
+    border-top: 1px solid #dfe2e6;
+    border-bottom: 1px solid #dfe2e6;
+    background: url('../img/categories-hashtags-background.jpg') repeat;
+}
+.categories-hashtags .categories {
+    border-right: 1px solid #dfe2e6;
+    margin-right: 15px;
+    padding-right: 15px;
+}
+.categories-hashtags .hashtag-list {
+    margin: 0px;
+}
 /* Edit photo */
 .modal .photo-details {
     background-color: #d5d5d5;
@@ -1670,6 +1688,14 @@ html,body {
 
 /* MODULE : Hashtag
 ----------------------- */
+.hashtag-list .hashtag-item {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    display: inline-block;
+    margin-right: 6px;
+    zoom: 1;
+    *display: inline;
+}
 .hashtag-box {
     background: #ffffff url('../img/hashtag-puce.jpg') no-repeat 6px 8px;
     border-radius: 4px;
@@ -1678,10 +1704,8 @@ html,body {
     box-shadow:         0px 1px 2px rgba(0, 0, 0, 0.4);
     font-family: 'asapitalic', "Helvetica Neue", "Arial", sans-serif;
     font-size: 12px;
-    line-height: 34px;
     color: #181616;
     padding: 6px 20px;
-    margin-right: 6px;
 }
 .hashtag-box:hover {
     background: rgb(255,71,71);
@@ -1856,16 +1880,21 @@ html,body {
 
 /* MODULE : Category
 ----------------------- */
-
-.categories-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+.categories-inner {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 11px;
+    color: #525253;
 }
-    .categories-list li {
-        float: left;
-        margin-right: 5px;
-    }
+.category-link,
+.categories-links {
+    font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 14px;
+    color: #2c2c2e;
+    text-decoration: none;
+}
+.category-link:hover {
+    color: #2c2c2e;
+}
 
 /*
 ----------------------- */
@@ -2502,6 +2531,22 @@ label,
     box-sizing: border-box;         /* Opera/IE 8+ */
     outline: none;
 }
+.btn-grey {
+    background: rgb(213,212,212);
+    background: -moz-linear-gradient(top,  rgba(213,212,212,1) 0%, rgba(199,198,198,1) 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(213,212,212,1)), color-stop(50%,rgba(199,198,198,1)));
+    background: -webkit-linear-gradient(top,  rgba(213,212,212,1) 0%,rgba(199,198,198,1) 50%);
+    background: -o-linear-gradient(top,  rgba(213,212,212,1) 0%,rgba(199,198,198,1) 50%);
+    background: -ms-linear-gradient(top,  rgba(213,212,212,1) 0%,rgba(199,198,198,1) 50%);
+    background: linear-gradient(to bottom,  rgba(213,212,212,1) 0%,rgba(199,198,198,1) 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d5d4d4', endColorstr='#c7c6c6',GradientType=0 );
+    color: white;
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+    text-transform: uppercase;
+    font-size: 10px;
+    padding: 3px 30px!important;
+    border: 0px;
+}
 .btn-red-grey-border {
     background: rgb(255,70,70);
     background: -moz-linear-gradient(top,  rgba(255,70,70,1) 0%, rgba(255,45,45,1) 50%);
@@ -2948,6 +2993,12 @@ ul.striped > li:nth-child(even) {
 }
 .mb3 {
     margin-bottom: 30px;
+}
+.mr1 {
+    margin-right: 10px;
+}
+.mr2 {
+    margin-right: 20px;
 }
 /* Max Height */
 .mh25 {
