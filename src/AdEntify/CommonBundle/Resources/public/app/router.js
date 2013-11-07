@@ -585,8 +585,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                photos: this.photos,
                category: category
             }),
-            "#right-pane-content": new Photos.Views.Ticker({
-               tickerPhotos: this.tickerPhotos
+            "#right-pane-content": new Action.Views.List({
+               actions: this.actions
             })
          }).render();
 
@@ -621,14 +621,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                that.errorCallback('category.errorPhotosLoading');
             }
          });
-         // Get category photos untagged
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: false }),
+         this.actions.fetch({
+            url: Routing.generate('api_v1_get_actions'),
             success: function(collection) {
-               that.successCallback(collection, 'category.noPhotos', '#right-pane-content');
+               that.successCallback(collection, 'action.noActions', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('category.errorPhotosLoading', '#right-pane-content');
+               that.errorCallback('action.errorLoading', '#right-pane-content');
             }
          });
       },
@@ -756,6 +755,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }
          if (this.actions.length) {
             this.actions.fullReset();
+         }
+         if (this.comments.length) {
+            this.comments.fullReset();
+         }
+         if (this.hashtags.length) {
+            this.hashtags.fullReset();
          }
          if ($('html, body').hasClass('body-grey-background')) {
             $('html, body').removeClass('body-grey-background');
