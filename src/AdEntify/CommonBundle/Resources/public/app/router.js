@@ -328,14 +328,15 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       facebookAlbums: function() {
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new FacebookAlbums.Views.List({
                albums: this.fbAlbums,
                categories: this.categories
             }),
-            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightAlbums({
+            "#left-pane": new ExternalServicePhotos.Views.MenuRightAlbums({
                categories: this.categories
             })
          }).render();
@@ -344,14 +345,15 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       facebookAlbumsPhotos: function(id) {
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new FacebookPhotos.Views.List({
                albumId: id,
                photos: this.fbPhotos
             }),
-            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightPhotos({
+            "#left-pane": new ExternalServicePhotos.Views.MenuRightPhotos({
                categories: this.categories
             })
          }).render();

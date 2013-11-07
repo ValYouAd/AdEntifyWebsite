@@ -21,7 +21,7 @@ define([
 
    ExternalServicePhotos.Views.Item = Backbone.View.extend({
       template: "externalServicePhotos/item",
-      tagName: "li span2",
+      tagName: 'div class="col-sm-3 photo-item"',
       enableCheck: true,
 
       initialize: function() {
@@ -58,7 +58,7 @@ define([
    ExternalServicePhotos.Views.AlbumItem = Backbone.View.extend({
       template: "externalServicePhotos/albumItem",
 
-      tagName: "li class='span2'",
+      tagName: 'div class="col-sm-4 album-item"',
 
       serialize: function() {
          return {
@@ -83,12 +83,13 @@ define([
       },
 
       initialize: function() {
-         this.listenTo(this.model, 'change', this.render);
+         this.listenTo(this.model, 'change:picture', this.render);
          this.categories = this.options.categories;
       },
 
       selectAlbum: function() {
          var that = this;
+         $(this.el).find('.album-selected').fadeIn('fast');
          $(this.el).find('.caption-select').fadeOut('fast', function() {
             $(that.el).find('.caption-selected').fadeIn();
          });
@@ -97,6 +98,7 @@ define([
 
       cancelSelection: function() {
          var that = this;
+         $(this.el).find('.album-selected').fadeOut('fast');
          $(this.el).find('.caption-selected').fadeOut('fast', function() {
             $(that.el).find('.caption-select').fadeIn();
          });
@@ -104,8 +106,8 @@ define([
       },
 
       events: {
-         "click .selectAlbum": "selectAlbum",
-         "click .cancelSelection": "cancelSelection"
+         'click .selectAlbum': 'selectAlbum',
+         'click .unselect-button': 'cancelSelection'
       }
    });
 
@@ -296,6 +298,42 @@ define([
          $(this.el).i18n();
          if (typeof this.categories !== 'undefined' && this.categories.length > 0)
             $(this.el).find('.selectCategories').select2();
+      }
+   });
+
+   ExternalServicePhotos.Views.Counter = Backbone.View.extend({
+      template: 'externalServicePhotos/counter',
+
+      serialize: function() {
+         return {
+            count: this.counterType == 'album' ? this.checkedAlbums.length : this.checkedImagesCount,
+            translationKey: this.counterType == 'album' ? 'countSelectedAlbum' : 'countSelectedPhoto'
+         };
+      },
+
+      initialize: function() {
+         this.counterType = this.options.counterType;
+         if (this.counterType == 'album') {
+            this.checkedAlbums = [];
+            this.listenTo(app, 'externalServicePhotos:selectAlbum', function(album) {
+               this.checkedAlbums.push(album);
+               this.trigger('checkedAlbum', this.checkedAlbums.length);
+               this.render();
+            });
+            this.listenTo(app, 'externalServicePhotos:cancelSelectAlbum', function(album) {
+               index = _.indexOf(this.checkedAlbums, album);
+               if (index > -1)
+                  this.checkedAlbums.splice(index, 1);
+               this.trigger('checkedAlbum', this.checkedAlbums.length);
+               this.render();
+            });
+         } else {
+            this.checkedImagesCount = 0;
+            this.listenTo(app, 'externalServicePhoto:imageChecked', function(value) {
+               this.checkedImagesCount = this.checkedImagesCount + value;
+               this.render();
+            });
+         }
       }
    });
 

@@ -72,7 +72,18 @@
       "textWhichService": "A partir de quel réseau souhaitez-vous envoyer vos photos ?",
       "textUploadFromComputer": "Vous pouvez également envoyer des photos directement depuis votre ordinateur",
       "uploadFromComputer": "Envoyer des photos depuis mon ordinateur",
-      "browseLocalPhotos": "Parcourir mes photos"
+      "browseLocalPhotos": "Parcourir mes photos",
+      "addPhotosTitle": "Ajouter des photos",
+      "addAlbumsTitle": "Ajouter des albums",
+      "albumSelected": "Sélectionné",
+      "categories": "Ajouter une ou plusieurs catégories",
+      "countSelectedAlbum": "Vous avez sélectionné <strong>__count__ album</strong> afin de les partager sur AdEntify",
+      "countSelectedAlbum_plural": "Vous avez sélectionné <strong>__count__ albums</strong> afin de les partager sur AdEntify",
+      "countSelectedPhoto": "Vous avez sélectionné <strong>__count__ photo</strong> afin de les partager sur AdEntify",
+      "countSelectedPhoto_plural": "Vous avez sélectionné <strong>__count__ photos</strong> afin de les partager sur AdEntify",
+      "submitAlbums": "Valider et ajouter les albums",
+      "submitPhotos": "Valider et ajouter les photos",
+      "photosOfYou": "Photos de vous"
    },
    "facebook": {
       "albumsPageTitle": "Mes albums Facebook - AdEntify",

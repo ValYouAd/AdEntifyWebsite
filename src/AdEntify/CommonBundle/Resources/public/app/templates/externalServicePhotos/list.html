@@ -1,12 +1,36 @@
+<div class="top-grey-title-container">
+    <h1 data-i18n="upload.addPhotosTitle"></h1>
+</div>
+
 <div id="loading-photos" class="loading-gif-container">
-    <div class="loading-gif"></div>
-    <p><em class="small muted" data-i18n="photos.loading"></em></p>
+    <div class="loader rotate"></div>
 </div>
 <div id="loading-upload" class="loading-gif-container" style="display: none;">
-    <div class="loading-gif"></div>
+    <div class="loader rotate"></div>
     <p><em class="small muted" data-i18n="externalServicePhotos.download"></em></p>
 </div>
+
+<div class="upload-details">
+    <div class="album-name pull-left"><%= album %></div>
+    <div class="upload-counter-view"></div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="upload-options">
+    <div class="form-inline pull-left">
+        <label data-i18n="externalServicePhotos.labelPhotosConfidentiality"></label>
+        <select class="photos-confidentiality form-control" name="photos-confidentiality">
+            <option value="private" data-i18n="externalServicePhotos.private"></option>
+            <option value="public" data-i18n="externalServicePhotos.public"></option>
+        </select>
+    </div>
+    <div class="pull-right">
+        <button class="btn-around-corner btn-red-grey-border btn-large submit-photos-button" type="button"><i class="glyphicon glyphicon-ok"></i> <%= $.t('upload.submitPhotos') %></button>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
 <div id="photos-container">
     <div id="errors"></div>
-    <ul id="photos-list" class="thumbnails"></ul>
+    <div id="photos-list" class="row"></div>
 </div>

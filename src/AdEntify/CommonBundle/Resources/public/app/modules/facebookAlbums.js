@@ -35,7 +35,7 @@ define([
          if (this.has('cover_photo')) {
             FB.api(this.get('cover_photo'), function(response) {
                if (response && !response.error) {
-                  that.set("picture", response.picture);
+                  that.set("picture", response.source);
                }
             });
          }
@@ -79,6 +79,12 @@ define([
                categories: this.categories
             }));
          }, this);
+
+         if (!this.getView('.upload-counter-view')) {
+            this.setView('.upload-counter-view', new ExternalServicePhotos.Views.Counter({
+               counterType: 'album'
+            }));
+         }
       },
 
       afterRender: function() {
@@ -176,6 +182,10 @@ define([
                clearInterval(albumLoaded);
             }
          }, 1000);
+      },
+
+      events: {
+         'click .submit-albums-button': 'submitAlbums'
       }
    });
 

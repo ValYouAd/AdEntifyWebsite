@@ -72,7 +72,18 @@
       "textWhichService": "Which network do you want to upload your photos from?",
       "textUploadFromComputer": "You can also upload photos from your computer",
       "uploadFromComputer": "Upload photos from my computer",
-      "browseLocalPhotos": "Browse photos"
+      "browseLocalPhotos": "Browse photos",
+      "addPhotosTitle": "Upload photos",
+      "addAlbumsTitle": "Upload albums",
+      "albumSelected": "Selected",
+      "categories": "Add one or more categories",
+      "countSelectedAlbum": "You have selected <strong>__count__ album</strong> to share on AdEntify",
+      "countSelectedAlbum_plural": "ou have selected <strong>__count__ albums</strong> to share on AdEntify",
+      "countSelectedPhoto": "You have selected <strong>__count__ photo</strong> to share on AdEntify",
+      "countSelectedPhoto_plural": "You have selected <strong>__count__ photos</strong> to share on AdEntify",
+      "submitAlbums": "Submit albums",
+      "submitPhotos": "Submit photos",
+      "photosOfYou": "Photos of you"
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",

@@ -63,8 +63,15 @@ define([
    FacebookPhotos.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/list",
 
+      serialize: function() {
+         return {
+            album: this.albumName
+         };
+      },
+
       initialize: function() {
          var that = this;
+      this.albumName = '';
          if (app.fb.isConnected()) {
             this.loadPhotos();
          } else {
@@ -85,6 +92,12 @@ define([
                model: photo
             }));
          }, this);
+
+         if (!this.getView('.upload-counter-view')) {
+            this.setView('.upload-counter-view', new ExternalServicePhotos.Views.Counter({
+               counterType: 'photos'
+            }));
+         }
       },
 
       afterRender: function() {
@@ -98,9 +111,14 @@ define([
          var that = this;
          if (this.options.albumId == 'photos-of-you') {
             app.fb.loadUserPhotos(function(response) {
+               that.albumName = $.t('upload.photosOfYou');
                that.loadPhotosCompleted(response, that.options.photos);
             });
          } else {
+            app.fb.loadAlbumName(this.options.albumId, function(name) {
+               that.albumName = name;
+               that.render();
+            });
             app.fb.loadPhotos(this.options.albumId, function(response) {
                that.loadPhotosCompleted(response, that.options.photos);
             });
@@ -174,6 +192,10 @@ define([
                }
             });
          }
+      },
+
+      events: {
+         'click .submit-photos-button': 'submitPhotos'
       }
    });
 
