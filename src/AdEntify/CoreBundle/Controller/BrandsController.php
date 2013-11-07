@@ -26,6 +26,7 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
 use AdEntify\CoreBundle\Entity\Brand;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -203,20 +204,31 @@ class BrandsController extends FosRestController
     public function getPhotosAction($slug, $page = 1, $limit = 20)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
-        // Get friends list (id) array
-        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
-        if (!$facebookFriendsIds) {
-            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
-            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+        $securityContext = $this->container->get('security.context');
+        $user = null;
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
         }
 
-        // Get brands ids
-        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
-        if (!$followings) {
-            $followings = $user->getFollowingsIds();
-            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+        // If no user connected, 0 is default
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+
+        if ($user) {
+            // Get friends list (id) array
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get brands ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $user->getFollowingsIds();
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
         }
 
         $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
@@ -267,7 +279,7 @@ class BrandsController extends FosRestController
                 ))
                 ->getSingleScalarResult() > 0 ? true : false;
         } else {
-            throw new HttpException(403);
+            throw new HttpException(401);
         }
     }
 
@@ -302,7 +314,7 @@ class BrandsController extends FosRestController
                 $em->flush();
             }
         } else {
-            throw new HttpException(403);
+            throw new HttpException(401);
         }
     }
 }

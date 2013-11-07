@@ -71,6 +71,7 @@ header {
         width: 227px;
         height: 50px;
         vertical-align: middle;
+        font-size: 14px;
     }
     .signin,
     .signin:hover,

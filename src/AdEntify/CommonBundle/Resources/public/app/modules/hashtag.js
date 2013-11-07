@@ -20,7 +20,7 @@ define([
 
       setup: function() {
          if (this.has('name'))
-            this.set('link', app.beginUrl + app.root + $.t('routing.search/keywords', { keywords: this.get('name') }));
+            this.set('link', app.beginUrl + app.root + $.t('routing.search/keywords', { keywords: '%23' + this.get('name') }));
       },
 
       urlRoot: Routing.generate('api_v1_get_hashtags')
@@ -33,7 +33,7 @@ define([
 
    Hashtag.Views.Item = Backbone.View.extend({
       template: 'hashtag/item',
-      tagName: 'li class="pull-left"',
+      tagName: 'li class="hashtag-item"',
 
       serialize: function() {
          return { model: this.model };
@@ -74,7 +74,7 @@ define([
             } else {
                this.removeView('.hashtags-alert');
             }
-            this.render
+            this.render();
          });
       }
    });

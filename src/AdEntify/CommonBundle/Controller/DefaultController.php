@@ -3,12 +3,14 @@
 namespace AdEntify\CommonBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\Tests\Common\Annotations\False;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -66,21 +68,43 @@ class DefaultController extends Controller
     /**
      * @Route("/{_locale}/app/{slug}", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr","slug" = "(.+)"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+
      */
     public function appAllAction($slug)
     {
-        return array();
+        $categories = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        return array(
+            'categories' => $categories
+        );
     }
 
     /**
      * @Route("/{_locale}/app/", name="loggedInHome", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+
      */
     public function appIndexAction()
     {
-        return array();
+        $categories = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        return array(
+            'categories' => $categories
+        );
     }
 
     /**
@@ -117,7 +141,7 @@ class DefaultController extends Controller
     /**
      * @Route("/lang/{locale}", requirements={"locale" = "en|fr"}, name="change_lang")
      */
-    public function langAction($locale)
+    public function langAction($locale, Request $request)
     {
         $this->getRequest()->getSession()->set('_locale', $locale);
         $this->setUserLocale($locale);

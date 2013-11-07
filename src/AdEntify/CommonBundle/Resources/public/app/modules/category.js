@@ -44,36 +44,18 @@ define([
       }
    });
 
-   Category.Views.Item = Backbone.View.extend({
-      template: "category/item",
-      tagName: "li",
+   Category.Views.List = Backbone.View.extend({
+      template: "category/list",
+      tagName: 'span class="categories-inner"',
 
       serialize: function() {
-         return { model: this.model };
+         return {categories: this.options.categories};
       },
 
       initialize: function() {
-         this.listenTo(this.model, "change", this.render);
-      }
-   });
-
-   Category.Views.List = Backbone.View.extend({
-      template: "category/list",
-
-      initialize: function() {
-         this.photoId = this.options.photoId;
          this.listenTo(this.options.categories, {
             "sync": this.render
          });
-         this.categories = this.options.categories;
-      },
-
-      beforeRender: function() {
-         this.options.categories.each(function(category) {
-            this.insertView(".categories-list", new Category.Views.Item({
-               model: category
-            }));
-         }, this);
       }
    });
 

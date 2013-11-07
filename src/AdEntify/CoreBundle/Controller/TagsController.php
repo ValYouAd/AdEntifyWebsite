@@ -95,15 +95,20 @@ class TagsController extends FosRestController
      */
     public function deleteAction($id)
     {
-        $tag = $this->getAction($id);
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if ($user->getId() == $tag->getOwner()->getId()) {
-            $em = $this->getDoctrine()->getManager();
-            $tag->setDeletedAt(new \DateTime());
-            $em->merge($tag);
-            $em->flush();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $tag = $this->getAction($id);
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            if ($user->getId() == $tag->getOwner()->getId()) {
+                $em = $this->getDoctrine()->getManager();
+                $tag->setDeletedAt(new \DateTime());
+                $em->merge($tag);
+                $em->flush();
+            } else {
+                throw new HttpException(403, 'You are not authorized to delete this tag');
+            }
         } else {
-            throw new HttpException(403, 'You are not authorized to delete this tag');
+            throw new HttpException(401);
         }
     }
 
@@ -125,64 +130,70 @@ class TagsController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        $tag = new Tag();
-        $form = $this->getForm($tag);
-        $form->bind($request);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $tag = new Tag();
+            $form = $this->getForm($tag);
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
 
-            // Get current user
-            $user = $this->container->get('security.context')->getToken()->getUser();
+                // Get current user
+                $user = $this->container->get('security.context')->getToken()->getUser();
 
-            // Get friends list (id) array
-            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
-            if (!$facebookFriendsIds) {
-                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
-                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
-            }
-
-            // Check if user is the owner of the photo
-            $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($tag->getPhoto()->getId());
-            if ($photo->getOwner()->getId() !== $user->getId()) {
-                // Check if owner is a friend or photo is public
-                if ($photo->getVisibilityScope() == Photo::SCOPE_PUBLIC || $photo->getOwner()->getFacebookId() && in_array($photo->getOwner()->getFacebookId(), $facebookFriendsIds)) {
-                    $tag->setWaitingValidation(true)->setValidationStatus(Tag::VALIDATION_WAITING);
-
-                    // Create a new notification
-                    $notification = new Notification();
-                    $notification->setType(Action::TYPE_PHOTO_TAG)->setObjectId($photo->getId())->addPhoto($photo)
-                        ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
-                        ->setAuthor($user)->setMessage('notification.friendTagPhoto');
-                    $em->persist($notification);
-                } else {
-                    throw new HttpException(403, 'You can\t add a tag to this photo');
+                // Get friends list (id) array
+                $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+                if (!$facebookFriendsIds) {
+                    $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                    UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
                 }
+
+                // Check if user is the owner of the photo
+                $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($tag->getPhoto()->getId());
+                if ($photo->getOwner()->getId() !== $user->getId()) {
+                    // Check if owner is a friend or photo is public
+                    if ($photo->getVisibilityScope() == Photo::SCOPE_PUBLIC || $photo->getOwner()->getFacebookId() && in_array($photo->getOwner()->getFacebookId(), $facebookFriendsIds)) {
+                        $tag->setWaitingValidation(true)->setValidationStatus(Tag::VALIDATION_WAITING);
+
+                        // Create a new notification
+                        $notification = new Notification();
+                        $notification->setType(Action::TYPE_PHOTO_TAG)->setObjectId($photo->getId())->addPhoto($photo)
+                            ->setObjectType(get_class($photo))->setOwner($photo->getOwner())
+                            ->setAuthor($user)->setMessage('notification.friendTagPhoto');
+                        $em->persist($notification);
+                    } else {
+                        throw new HttpException(403, 'You can\t add a tag to this photo');
+                    }
+                } else {
+                    // TAG Action
+                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
+                        $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                        get_class($photo), false, 'tagPhoto');
+                }
+
+                $tag->setOwner($user);
+
+                if ($tag->getLink()) {
+                    $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($tag->getLink());
+                    if ($shortUrl)
+                        $tag->setShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
+                            'id' => $shortUrl->getBase62Id()
+                        )));
+                }
+
+                $em->persist($tag);
+                $em->flush();
+
+                $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
+
+                return $tag;
             } else {
-                // TAG Action
-                $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
-                    $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
-                    get_class($photo), false, 'tagPhoto');
+                return $form;
             }
-
-            $tag->setOwner($user);
-
-            if ($tag->getLink()) {
-                $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($tag->getLink());
-                if ($shortUrl)
-                    $tag->setShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
-                        'id' => $shortUrl->getBase62Id()
-                    )));
-            }
-
-            $em->persist($tag);
-            $em->flush();
-
-            $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
-
-            return $tag;
         } else {
-            return $form;
+            throw new HttpException(401);
         }
+
     }
 
     /**
@@ -193,34 +204,39 @@ class TagsController extends FosRestController
      */
     public function postValidationStatusAction($id, Request $request)
     {
-        // Get current user
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Get current user
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $tag = $this->getAction($id);
-        if ($tag->getPhoto()->getOwner()->getId() != $user->getId()) {
-            throw new HttpException(403, 'Access forbidden');
-        }
-
-        if ($request->request->has('waiting_validation')) {
-            $em = $this->getDoctrine()->getManager();
-            $tag->setWaitingValidation(false);
-
-            $status = $request->request->get('waiting_validation');
-            if ($status == Tag::VALIDATION_GRANTED) {
-                $tag->setValidationStatus(Tag::VALIDATION_GRANTED);
-                $em->merge($tag);
-                $em->flush();
-            } else if ($status == Tag::VALIDATION_DENIED) {
-                $tag->setValidationStatus(Tag::VALIDATION_DENIED);
-                $em->merge($tag);
-                $em->flush();
+            $tag = $this->getAction($id);
+            if ($tag->getPhoto()->getOwner()->getId() != $user->getId()) {
+                throw new HttpException(403, 'Access forbidden');
             }
 
-            $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
+            if ($request->request->has('waiting_validation')) {
+                $em = $this->getDoctrine()->getManager();
+                $tag->setWaitingValidation(false);
 
-            return $tag->getValidationStatus();
-        } else
-            throw new NotFoundHttpException('Tag not found');
+                $status = $request->request->get('waiting_validation');
+                if ($status == Tag::VALIDATION_GRANTED) {
+                    $tag->setValidationStatus(Tag::VALIDATION_GRANTED);
+                    $em->merge($tag);
+                    $em->flush();
+                } else if ($status == Tag::VALIDATION_DENIED) {
+                    $tag->setValidationStatus(Tag::VALIDATION_DENIED);
+                    $em->merge($tag);
+                    $em->flush();
+                }
+
+                $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
+
+                return $tag->getValidationStatus();
+            } else
+                throw new NotFoundHttpException('Tag not found');
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**

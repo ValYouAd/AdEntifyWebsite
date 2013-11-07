@@ -38,7 +38,7 @@
    },
    "mySettings": {
       "pageTitle": "Mes paramètres - AdEntify",
-      "generalSettings": "Paramètres généraux",
+      "generalSettings": "Paramètres",
       "labelLang": "Langue du site",
       "french": "Français",
       "english": "Anglais",
@@ -59,7 +59,11 @@
       "notSamePassword": "Les mots de passe ne correspondent pas",
       "currentPasswordError": "Le mot de passe actuel est invalide",
       "passwordChanged": "Votre mot de passe a bien été changé",
-      "submitChangeLang": "Valider"
+      "submitChangeLang": "Valider",
+      "deleteAccount": "Supprimer mon compte",
+      "modalDeleteAccountTitle": "Suppression de mon compte AdEntify",
+      "modalDeleteAccountText": "La suppression de votre compte AdEntify entraînera la suppression des éléments suivants sur <strong>adentify.com ainsi que sur toutes les plateformes utilisants vos photos</strong> :<ul><li>Photos</li><li>Tags</li><li>Gains</li><li>Récompenses</li><li>Commentaires</li><li>Mentions j'aime</li><li>Favoris</li></ul>Après confirmation, il n'y a aucun moyen de récupérer vos données.",
+      "confirmDeleteAccountButton": "Je comprends et je souhaite toujours supprimer mon compte"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",
@@ -135,7 +139,9 @@
       "errorProductEmptyFields": "Vous devez remplir les champs nom et description",
       "deleteTag": "Supprimer ce tag",
       "addNewTag": "Ajouter un tag",
-      "submitProduct": "Valider et ajouter le tag"
+      "submitProduct": "Valider et ajouter le tag",
+      "reportTag": "Signaler",
+      "taggedBy": "Taggué par <strong>__author__</strong>"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -152,7 +158,8 @@
       "unFavorites": "Supprimer de mes Favoris",
       "deletePhoto": "Supprimer",
       "linkedPhotos": "Photos liées",
-      "noLinkedPhotos": "Aucune photo liée"
+      "noLinkedPhotos": "Aucune photo liée",
+      "tweetShare": "Découvrez mon image intéractive sur %23AdEntify &rarr; "
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
@@ -210,7 +217,9 @@
       "noPhotos": "Aucune photo dans cette catégorie.",
       "pageTitle": "Photos __name__ - AdEntify",
       "title": " __name__",
-      "titleAll": "Toutes les catégories"
+      "titleAll": "Toutes les catégories",
+      "listTitle": "Posté dans ",
+      "noCategory": "Aucune catégorie"
    },
    "myAdentify": {
       "pageTitle": "Mon flux photos - AdEntify",
@@ -279,7 +288,8 @@
       "titlePageNotFound": "Page introuvable",
       "contentPageNotFound": "La page que vous avez demandé ne peut être trouvée.",
       "titleSamePage": "Oups",
-      "contentSamePage": "Oups ! Vous êtes déjà sur la page demandée."
+      "contentSamePage": "Oups ! Vous êtes déjà sur la page demandée.",
+      "confirmButton": "Ok"
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",

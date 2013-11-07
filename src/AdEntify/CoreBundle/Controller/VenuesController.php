@@ -81,45 +81,50 @@ class VenuesController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $venueRequest = $request->request->get('venue');
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $venueRequest = $request->request->get('venue');
 
-        // Check if existing foursquare id exist
-        if ($request->request->has('venue')) {
-            $venue = $em->getRepository('AdEntifyCoreBundle:Venue')->findOneBy(array(
-                'foursquareId' => $venueRequest['foursquareId']
-            ));
+            // Check if existing foursquare id exist
+            if ($request->request->has('venue')) {
+                $venue = $em->getRepository('AdEntifyCoreBundle:Venue')->findOneBy(array(
+                    'foursquareId' => $venueRequest['foursquareId']
+                ));
 
-            // Update venue products
-            if ($venue && is_array($venueRequest) && array_key_exists('products', $venueRequest) && count($venueRequest['products']) > 0) {
+                // Update venue products
+                if ($venue && is_array($venueRequest) && array_key_exists('products', $venueRequest) && count($venueRequest['products']) > 0) {
+                    $this->addProductsToVenue($venue, $venueRequest, $em);
+                    $em->merge($venue);
+                    $em->flush();
+                }
+
+                if ($venue) {
+                    return $venue;
+                }
+            }
+            $venue = new Venue();
+            $form = $this->getForm($venue);
+            $form->bind($request);
+            if ($form->isValid()) {
+                // Add venue products
                 $this->addProductsToVenue($venue, $venueRequest, $em);
-                $em->merge($venue);
+                if ($venue->getLink()) {
+                    $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($venue->getLink());
+                    if ($shortUrl)
+                        $venue->setShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
+                            'id' => $shortUrl->getBase62Id()
+                        )));
+                }
+                $em->persist($venue);
                 $em->flush();
-            }
 
-            if ($venue) {
                 return $venue;
+            } else {
+                return $form;
             }
-        }
-        $venue = new Venue();
-        $form = $this->getForm($venue);
-        $form->bind($request);
-        if ($form->isValid()) {
-            // Add venue products
-            $this->addProductsToVenue($venue, $venueRequest, $em);
-            if ($venue->getLink()) {
-                $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($venue->getLink());
-                if ($shortUrl)
-                    $venue->setShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
-                        'id' => $shortUrl->getBase62Id()
-                    )));
-            }
-            $em->persist($venue);
-            $em->flush();
-
-            return $venue;
         } else {
-            return $form;
+            throw new HttpException(401);
         }
     }
 

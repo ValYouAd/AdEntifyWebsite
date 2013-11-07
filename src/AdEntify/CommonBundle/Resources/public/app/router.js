@@ -414,7 +414,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#center-pane-content": new Photo.Views.Item({
                photo: photo,
                comments: this.comments,
-               photoId: id
+               photoId: id,
+               categories: this.categories,
+               hashtags: this.hashtags
             }),
             "#right-pane-content": new Photo.Views.RightMenu({
                photo: photo,
@@ -429,6 +431,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.comments.fetch({
             url: Routing.generate('api_v1_get_photo_comments', { id: id })
+         });
+         this.categories.fetch({
+            url: Routing.generate('api_v1_get_photo_categories', { id: id })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_photo_hashtags', { id: id })
          });
       },
 
@@ -501,10 +509,31 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
+         var followers = new User.Collection();
+         var followings = new User.Collection();
+
          app.useLayout().setViews({
             "#center-pane-content": new MySettings.Views.Detail(),
-            "#right-pane-content": new MySettings.Views.MenuRight()
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: currentUserId
+               }),
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags
+            })
          }).render();
+
+         followings.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: currentUserId })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: currentUserId })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: currentUserId })
+         });
       },
 
       profile: function(id) {
@@ -543,7 +572,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_user_hashtags', { id: id })
-         })
+         });
       },
 
       category: function(slug) {
@@ -556,8 +585,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                photos: this.photos,
                category: category
             }),
-            "#right-pane-content": new Photos.Views.Ticker({
-               tickerPhotos: this.tickerPhotos
+            "#right-pane-content": new Action.Views.List({
+               actions: this.actions
             })
          }).render();
 
@@ -592,14 +621,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                that.errorCallback('category.errorPhotosLoading');
             }
          });
-         // Get category photos untagged
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: false }),
+         this.actions.fetch({
+            url: Routing.generate('api_v1_get_actions'),
             success: function(collection) {
-               that.successCallback(collection, 'category.noPhotos', '#right-pane-content');
+               that.successCallback(collection, 'action.noActions', '#right-pane-content');
             },
             error: function() {
-               that.errorCallback('category.errorPhotosLoading', '#right-pane-content');
+               that.errorCallback('action.errorLoading', '#right-pane-content');
             }
          });
       },
@@ -727,6 +755,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }
          if (this.actions.length) {
             this.actions.fullReset();
+         }
+         if (this.comments.length) {
+            this.comments.fullReset();
+         }
+         if (this.hashtags.length) {
+            this.hashtags.fullReset();
          }
          if ($('html, body').hasClass('body-grey-background')) {
             $('html, body').removeClass('body-grey-background');

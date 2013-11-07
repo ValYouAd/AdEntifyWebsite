@@ -1,9 +1,14 @@
 <% if (model) { %>
 <div class="photo medium">
     <div class="photo-container">
-        <% if (model.get("tags_count") > 0) { %>
-        <div class="adentify-pastille-small"></div>
-        <% } %>
+        <div class="adentify-pastille-wrapper">
+            <% if (model.get("tags_count") > 0) { %>
+            <div class="adentify-pastille-small"></div>
+            <% } else { %>
+            <div class="adentify-grey-pastille-small"></div>
+            <% } %>
+            <div class="popover-wrapper"></div>
+        </div>
         <a href="<%= model.get('link') %>" data-bypass="" class="photo-link photo-overlay">
             <div class="tags-container"></div>
             <!--<div class="caption"><%= model.get('caption') %></div>

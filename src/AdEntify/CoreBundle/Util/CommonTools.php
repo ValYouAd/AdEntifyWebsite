@@ -9,6 +9,8 @@
 
 namespace AdEntify\CoreBundle\Util;
 
+use Symfony\Component\Routing\Router;
+
 class CommonTools
 {
     /**
@@ -68,5 +70,47 @@ class CommonTools
             $pass[] = $alphabet[$n];
         }
         return implode($pass); //turn the array into a string
+    }
+
+    /**
+     * Extract hashtags from a sentence
+     *
+     * @param $sentence
+     * @param bool $withSharp
+     * @return array
+     */
+    public static function extractHashtags($sentence, $withSharp = true, $toLower = false)
+    {
+        $pattern = '/(?:^|\s)(\#\w+)/';
+        preg_match_all($pattern, $sentence, $matches, PREG_OFFSET_CAPTURE);
+
+        $hashtags = array();
+        foreach($matches[0] as $match) {
+            $hashtag = !$withSharp ? str_replace('#', '', $match[0]) : $match[0];
+            $hashtag = $toLower ? strtolower($hashtag) : $hashtag;
+            $hashtags[] = $hashtag;
+        }
+        return $hashtags;
+    }
+
+    /**
+     * Get referer route
+     *
+     * @param $request
+     * @param Router $router
+     * @return mixed
+     */
+    public static function getRefererRoute($request, Router $router)
+    {
+        //look for the referer route
+        $referer = $request->headers->get('referer');
+        $lastPath = substr($referer, strpos($referer, $request->getBaseUrl()));
+        $lastPath = str_replace($request->getBaseUrl(), '', $lastPath);
+
+        $matcher = $router->getMatcher();
+        $parameters = $matcher->match($lastPath);
+        $route = $parameters['_route'];
+
+        return $route;
     }
 }

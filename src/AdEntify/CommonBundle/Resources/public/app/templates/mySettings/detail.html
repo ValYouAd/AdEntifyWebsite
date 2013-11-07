@@ -1,49 +1,61 @@
-<form class="form-horizontal langForm">
-    <fieldset>
-        <legend data-i18n="mySettings.generalSettings"></legend>
+<div class="top-grey-title-container">
+    <h1 data-i18n="mySettings.generalSettings"></h1>
+</div>
 
-        <div class="control-group">
-            <label class="control-label" data-i18n="mySettings.labelLang"></label>
-            <div class="controls">
-                <select id="lang" name="lang">
+<form class="form-horizontal langForm mt3" role="form">
+    <fieldset>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" data-i18n="mySettings.labelLang"></label>
+            <div class="col-sm-10">
+                <select class="form-control" id="lang" name="lang">
                     <option value="fr" data-i18n="mySettings.french"></option>
                     <option value="en" data-i18n="mySettings.english"></option>
                 </select>
             </div>
         </div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-success changeLangButton" data-i18n="mySettings.submitChangeLang"></button>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn-around-corner btn-red-grey-border changeLangButton"><i class="glyphicon glyphicon-ok"></i> <%= $.t('mySettings.submitChangeLang') %></button>
+            </div>
         </div>
     </fieldset>
 </form>
+
+<hr>
 
 <form class="form-horizontal changePasswordForm fadeOut">
     <fieldset>
         <legend data-i18n="mySettings.changePasswordLegend"></legend>
         <div class="alert-changePassword"></div>
-        <div class="control-group">
-            <label class="control-label" data-i18n="mySettings.actualPassword"></label>
-            <div class="controls">
-                <input type="password" name="current_password" class="currentPassword">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" data-i18n="mySettings.actualPassword"></label>
+            <div class="col-sm-10">
+                <input class="form-control" type="password" name="current_password" class="currentPassword">
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" data-i18n="mySettings.newPassword"></label>
-            <div class="controls">
-                <input type="password" name="new[first]" class="newPasswordFirst">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" data-i18n="mySettings.newPassword"></label>
+            <div class="col-sm-10">
+                <input class="form-control" type="password" name="new[first]" class="newPasswordFirst">
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" data-i18n="mySettings.confirmPassword"></label>
-            <div class="controls">
-                <input type="password" name="new[second]" class="newPasswordSecond">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" data-i18n="mySettings.confirmPassword"></label>
+            <div class="col-sm-10">
+                <input class="form-control" type="password" name="new[second]" class="newPasswordSecond">
             </div>
         </div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-success changePasswordButton" data-i18n="mySettings.submitChangePassword"></button>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn-around-corner btn-red-grey-border changePasswordButton"><i class="glyphicon glyphicon-ok"></i> <%= $.t('mySettings.submitChangePassword') %></button>
+            </div>
         </div>
-</fieldset>
+    </fieldset>
 </form>
+
+<div class="mt3 text-center">
+    <button class="btn-around-corner btn-grey delete-account-button"><%= $.t('mySettings.deleteAccount') %></button>
+</div>
 
 <form class="form-horizontal">
     <fieldset>

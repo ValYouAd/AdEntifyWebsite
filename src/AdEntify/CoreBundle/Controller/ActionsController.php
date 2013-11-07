@@ -49,12 +49,17 @@ class ActionsController extends FosRestController
      */
     public function cgetAction($page, $limit)
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = null;
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $em = $this->getDoctrine()->getManager();
-            $user = $securityContext->getToken()->getUser();
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        }
 
-            // Get friends list (id) array
+        // Get friends list (id) array
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+        if ($user) {
             $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
             if (!$facebookFriendsIds) {
                 $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
@@ -67,36 +72,34 @@ class ActionsController extends FosRestController
                 $followings = $user->getFollowingsIds();
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
+        }
 
-            $query = $em->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
-                LEFT JOIN action.target target LEFT JOIN action.author author
-                WHERE action.visibility = :publicVisibility OR (author.id IN (:facebookFriendsIds) OR author.id IN (:followings))
-                ORDER BY action.createdAt DESC')
-                ->setParameters(array(
-                    'publicVisibility' => Action::VISIBILITY_PUBLIC,
-                    'facebookFriendsIds' => $facebookFriendsIds,
-                    'followings' => $followings
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit);
+        $query = $em->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
+            LEFT JOIN action.target target LEFT JOIN action.author author
+            WHERE action.visibility = :publicVisibility OR (author.id IN (:facebookFriendsIds) OR author.id IN (:followings))
+            ORDER BY action.createdAt DESC')
+            ->setParameters(array(
+                'publicVisibility' => Action::VISIBILITY_PUBLIC,
+                'facebookFriendsIds' => $facebookFriendsIds,
+                'followings' => $followings
+            ))
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
 
-            $paginator = new Paginator($query, $fetchJoinCollection = true);
-            $count = count($paginator);
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
 
-            $actions = null;
-            $pagination = null;
-            if ($count > 0) {
-                $actions = array();
-                foreach($paginator as $action) {
-                    $actions[] = $action;
-                }
-
-                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_actions');
+        $actions = null;
+        $pagination = null;
+        if ($count > 0) {
+            $actions = array();
+            foreach($paginator as $action) {
+                $actions[] = $action;
             }
 
-            return PaginationTools::getPaginationArray($actions, $pagination);
-        } else {
-            throw new HttpException(403, 'You have to be logged in');
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_actions');
         }
-    }
+
+        return PaginationTools::getPaginationArray($actions, $pagination);
+}
 } 

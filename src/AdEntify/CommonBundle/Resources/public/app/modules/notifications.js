@@ -145,28 +145,30 @@ define([
 
       pollNotifications: function(notifications) {
          var that = this;
-         notifications.fetch({
-            url: Routing.generate('api_v1_get_user_notifications', { id: app.appState().getCurrentUserId() }),
-            success: function(collection) {
-               if (collection.length == 0) {
-                  app.useLayout().setView('.alert-notifications', new Common.Views.Alert({
-                     cssClass: Common.alertInfo,
-                     message: $.t('notification.noNotifications'),
-                     showClose: true
-                  })).render();
+         if (app.appState().getCurrentUserId() > 0) {
+            notifications.fetch({
+               url: Routing.generate('api_v1_get_user_notifications', { id: app.appState().getCurrentUserId() }),
+               success: function(collection) {
+                  if (collection.length == 0) {
+                     app.useLayout().setView('.alert-notifications', new Common.Views.Alert({
+                        cssClass: Common.alertInfo,
+                        message: $.t('notification.noNotifications'),
+                        showClose: true
+                     })).render();
+                  }
+                  // Set a new timeout
+                  that.pollTimeout = setTimeout(function() {
+                     that.pollNotifications(notifications);
+                  }, app.secondsBetweenPoll * 1000);
+               },
+               error: function() {
+                  // Error, set a new timeout for 5 seconds
+                  that.pollTimeout = setTimeout(function() {
+                     that.pollNotifications(notifications);
+                  }, 5000);
                }
-               // Set a new timeout
-               that.pollTimeout = setTimeout(function() {
-                  that.pollNotifications(notifications);
-               }, app.secondsBetweenPoll * 1000);
-            },
-            error: function() {
-               // Error, set a new timeout for 5 seconds
-               that.pollTimeout = setTimeout(function() {
-                  that.pollNotifications(notifications);
-               }, 5000);
-            }
-         });
+            });
+         }
       },
 
       stopPolling: function() {

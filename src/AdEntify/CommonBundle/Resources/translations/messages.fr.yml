@@ -58,3 +58,4 @@ category/: categorie/
 my/adentify/: mon/adentify/
 my/photos/favorites/: mes/photos/favorites/
 profile/%id%/: profil/%id%/
+search/: recherche/

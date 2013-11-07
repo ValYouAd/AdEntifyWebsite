@@ -22,6 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
 use AdEntify\CoreBundle\Entity\OAuthUserInfo;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class OAuthUserInfoController
@@ -39,11 +40,16 @@ class OAuthUserInfoController extends FosRestController
      */
     public function cgetAction()
     {
-        $token = $this->container->get('security.context')->getToken();
-        if ($token->getUser()) {
-            return $token->getUser()->getOAuthUserInfos();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $token = $this->container->get('security.context')->getToken();
+            if ($token->getUser()) {
+                return $token->getUser()->getOAuthUserInfos();
+            } else {
+                return null;
+            }
         } else {
-            return null;
+            throw new HttpException(401);
         }
     }
 
@@ -54,20 +60,25 @@ class OAuthUserInfoController extends FosRestController
      */
     public function deleteAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $service = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findOneBy(array(
-            'user' => $user->getId(),
-            'id' => $id
-        ));
-        if ($service) {
-            $em->remove($service);
-            $em->flush();
+            $service = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findOneBy(array(
+                'user' => $user->getId(),
+                'id' => $id
+            ));
+            if ($service) {
+                $em->remove($service);
+                $em->flush();
 
-            return true;
+                return true;
+            } else {
+                throw new NotFoundHttpException('Service not found');
+            }
         } else {
-            throw new NotFoundHttpException('Service not found');
+            throw new HttpException(401);
         }
     }
 }

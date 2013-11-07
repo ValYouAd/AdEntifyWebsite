@@ -91,7 +91,7 @@ class ActionRepository extends EntityRepository
         }
 
         // Check if notification has owner
-        if (!$notification->getOwner())
+        if ($notification && !$notification->getOwner())
             $notification = null;
 
         $this->getEntityManager()->flush();

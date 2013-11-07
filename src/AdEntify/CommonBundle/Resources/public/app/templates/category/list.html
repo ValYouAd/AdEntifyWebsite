@@ -1,2 +1,5 @@
-<ul class="categories-list categories-label"></ul>
-<div class="clearfix"></div>
+<% if (categories.length == 0) { %>
+    <%= $.t('category.noCategory') %>
+<% } else { %>
+<%= $.t('category.listTitle') %> <span class="categories-links"><%= categories.map(function(category) { return '<a class="category-link" href="' + category.get("categoryLink") + '">' + category.get('name') + '</a>'; }).join(', ') %></span>
+<% } %>

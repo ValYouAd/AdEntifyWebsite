@@ -35,12 +35,12 @@ function(app, Router, i18n, AppState, TagStats) {
    // Extend Backbone Model
    _.extend(Backbone.Model.prototype, {
       sync: function(method, model, options) {
-         if (!options.headers) {
+         if (!options.headers || currentUserId == 0) {
             app.oauth.loadAccessToken({
                success: function() {
-                     options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
-                     return Backbone.sync(method, model, options);
-                  },
+                  options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };
+                  return Backbone.sync(method, model, options);
+               },
                error: function() {
                   window.location.href = Routing.generate('home_logoff', { '_locale': app.appState().getLocale() });
                }
