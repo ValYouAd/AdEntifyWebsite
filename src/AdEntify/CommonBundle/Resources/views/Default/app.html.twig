@@ -66,6 +66,11 @@
                                                 <span class="user-points-value">0</span> <sup>Pts</sup>
                                             </div>
                                         </div>
+                                    {% else %}
+                                        <div class="account-buttons pull-left">
+                                            <button data-toggle="modal" data-target="#signinModal" type="button" class="btn btn-sm signin"><i class="glyphicon glyphicon-user"></i> {{ 'Login'|trans }}</button>
+                                            <button data-toggle="modal" data-target="#signupModal" type="button" class="btn btn-sm signup"><i class="glyphicon glyphicon-pencil"></i> {{ 'Sign Up'|trans }}</button>
+                                        </div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -156,6 +161,42 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'Close'|trans }}</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        {% endif %}
+
+        {% if not app.user %}
+            <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
+                <div class="modal-dialog account-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="signinModalLabel"><div class="signin-badge pull-left modal-badge"></div> {{ 'modal.login'|trans }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="grey-transparent-background social-buttons">
+                                <div class="text-center">
+                                    <a class="btn btn-facebook" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> Facebook</a>
+                                    <a class="btn btn-twitter" href="../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
+                                </div>
+                            </div>
+                            {% render controller('FOSUserBundle:Security:login') %}
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+                <div class="modal-dialog account-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            {% render controller('FOSUserBundle:Registration:register') %}
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->

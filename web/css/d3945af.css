@@ -1685,7 +1685,7 @@ html,body {
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 }
 .deleteTagButton {
-    cursor: pointer;
+    cur
 }
 /*
 ----------------------- */
@@ -1737,10 +1737,13 @@ html,body {
 
 /* MODULE : Search
 ----------------------- */
+#search-bar {
+    max-width: 431px;
+    margin-right: -35px;
+}
 .search-bar {
     position: relative;
     margin-top: 6px;
-    margin-right: 50px;
 }
     .search-bar .search-input {
         background: url('../img/search_background.png') no-repeat;
@@ -2529,6 +2532,53 @@ label,
     font-family: 'asapregular', sans-serif;
     color: #85888b;
 }
+.account-dialog {
+    padding-top: 15%;
+    max-width: 480px!important;
+}
+.account-dialog .btn {
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    border-radius: 22px;
+    color: #FFFFFF;
+    border: 0px;
+    padding: 4px 30px;
+    font-family: 'asapbold', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 1);
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    outline: none;
+}
+.account-dialog .btn:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.account-dialog .btn-link,
+.account-dialog .btn-link:hover {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    text-shadow:  none;
+    color: #9da0a4;
+}
+.account-dialog .btn-grey {
+    background: #6d6968;
+    background: -moz-linear-gradient(top,  #6d6968 0%, #504d4c 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6d6968), color-stop(50%,#504d4c));
+    background: -webkit-linear-gradient(top,  #6d6968 0%,#504d4c 50%);
+    background: -o-linear-gradient(top,  #6d6968 0%,#504d4c 50%);
+    background: -ms-linear-gradient(top,  #6d6968 0%,#504d4c 50%);
+    background: linear-gradient(to bottom,  #6d6968 0%,#504d4c 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6d6968', endColorstr='#504d4c',GradientType=0 );
+    opacity: 0.3;
+    -webkit-transition: opacity 0.1s ease-in;
+    -moz-transition: opacity 0.1s ease-in;
+    -o-transition: opacity 0.1s ease-in;
+    transition: opacity 0.1s ease-in;
+}
+.account-dialog .btn-grey:hover {
+    opacity: 1;
+}
 /* END : Login/logout dialog
 ----------------------- */
 
@@ -2677,6 +2727,7 @@ label,
 }
 .navbar .tag-button {
     margin-top: 6px;
+    margin-right: -30px;
 }
 .user-information {
     margin-top: 8px;
@@ -2836,7 +2887,74 @@ label,
     color: #2c2c2e;
     text-decoration: none;
 }
-
+.account-buttons {
+    margin-top: 9px;
+    margin-left: -5px;
+}
+.account-buttons .btn {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    border-radius: 22px;
+    color: #FFFFFF;
+    border: 0px;
+    padding: 5px 12px;
+    font-family: 'asapbold', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 0px rgba(0, 0, 0, 1);
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    outline: none;
+    font-size: 11px;
+}
+.signin,
+.signin:hover,
+.signin:active {
+    background: #262424;
+    background: -moz-linear-gradient(top,  #262424 0%, #141212 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#262424), color-stop(50%,#141212));
+    background: -webkit-linear-gradient(top,  #262424 0%,#141212 50%);
+    background: -o-linear-gradient(top,  #262424 0%,#141212 50%);
+    background: -ms-linear-gradient(top,  #262424 0%,#141212 50%);
+    background: linear-gradient(to bottom,  #262424 0%,#141212 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262424', endColorstr='#141212',GradientType=0 );
+    margin-right: 4px;
+}
+.signup,
+.signup:hover,
+.signup:active {
+    background: #ff4747;
+    background: -moz-linear-gradient(top,  #ff4747 0%, #ff2d2c 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff4747), color-stop(50%,#ff2d2c));
+    background: -webkit-linear-gradient(top,  #ff4747 0%,#ff2d2c 50%);
+    background: -o-linear-gradient(top,  #ff4747 0%,#ff2d2c 50%);
+    background: -ms-linear-gradient(top,  #ff4747 0%,#ff2d2c 50%);
+    background: linear-gradient(to bottom,  #ff4747 0%,#ff2d2c 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4747', endColorstr='#ff2d2c',GradientType=0 );
+}
+.account-buttons .icon {
+    float: left;
+    margin-right: 10px;
+}
+.account-buttons .text {
+    float: left;
+}
+.signin-icon {
+    background: url('../img/signin-icon.png');
+    width: 30px;
+    height: 22px;
+    margin-left: 10px;
+    margin-top: -4px;
+}
+.signup-icon {
+    background: url('../img/signup-icon.png');
+    width: 25px;
+    height: 27px;
+    margin-left: 25px;
+    margin-top: -4px;
+}
 /* END : Users
 ----------------------- */
 
