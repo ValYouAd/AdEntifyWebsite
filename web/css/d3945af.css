@@ -3059,8 +3059,12 @@ label,
     position: absolute;
     top: -30px;
     right: 0px;
-    color: #b7babe;
+    color: #cecece;
     text-shadow: none;
+    opacity: 0.7;
+}
+.hide-modal-header .close:hover {
+    opacity: 1;
 }
 .photoModal {
     background: #FFFFFF;
