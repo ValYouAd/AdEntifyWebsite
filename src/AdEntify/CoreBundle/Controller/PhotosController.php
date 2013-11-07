@@ -57,20 +57,31 @@ class PhotosController extends FosRestController
     public function cgetAction($tagged, $page, $limit)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
-        // Get friends list (id) array
-        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
-        if (!$facebookFriendsIds) {
-            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
-            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+        $securityContext = $this->container->get('security.context');
+        $user = null;
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
         }
 
-        // Get followings ids
-        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
-        if (!$followings) {
-            $followings = $user->getFollowingsIds();
-            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+        // If no user connected, 0 is default
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+
+        if ($user) {
+            // Get friends list (id) array
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get followings ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $user->getFollowingsIds();
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
         }
 
         $parameters = null;
@@ -148,20 +159,31 @@ class PhotosController extends FosRestController
     public function getAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
 
-        // Get friends list (id) array
-        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
-        if (!$facebookFriendsIds) {
-            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
-            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+        $securityContext = $this->container->get('security.context');
+        $user = null;
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
         }
 
-        // Get followings ids
-        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
-        if (!$followings) {
-            $followings = $user->getFollowingsIds();
-            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+        // If no user connected, 0 is default
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+
+        if ($user) {
+            // Get friends list (id) array
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get followings ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $user->getFollowingsIds();
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
         }
 
         $photo = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
@@ -178,7 +200,7 @@ class PhotosController extends FosRestController
                 ':id' => $id,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
-                ':currentUserId' => $user->getId(),
+                ':currentUserId' => $user ? $user->getId() : 0,
                 ':none' => Tag::VALIDATION_NONE,
                 ':granted' => Tag::VALIDATION_GRANTED
             ))
@@ -209,30 +231,43 @@ class PhotosController extends FosRestController
     public function getSearchAction($query, $page = 1, $limit = 10, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $securityContext = $this->container->get('security.context');
+        $user = null;
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        }
 
         // Historique de recherche
         $searchHistory = new SearchHistory();
-        $searchHistory->setKeywords($query)->setUser($user)->setIpAddress($request->getClientIp());
+        $searchHistory->setKeywords($query)->setIpAddress($request->getClientIp());
+        if ($user)
+            $searchHistory->setUser($user);
         $em->persist($searchHistory);
         $em->flush();
 
-        // Get friends list (id) array
-        $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
-        if (!$facebookFriendsIds) {
-            $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
-            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
-        }
-
-        // Get followings ids
-        $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
-        if (!$followings) {
-            $followings = $user->getFollowingsIds();
-            UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
-        }
-
         // Extract hashtags from query
         $hashtags = CommonTools::extractHashtags($query, false, true);
+
+        // If no user connected, 0 is default
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+
+        if ($user) {
+            // Get friends list (id) array
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get followings ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $user->getFollowingsIds();
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
+        }
 
         // If hashtags found, search photo with this hashtag(s)
         if (count($hashtags) > 0) {
@@ -391,23 +426,28 @@ class PhotosController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        $photo = new Photo();
-        $form = $this->getForm($photo);
-        $form->bind($request);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $photo = new Photo();
+            $form = $this->getForm($photo);
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
 
-            // Get current user
-            $user = $this->container->get('security.context')->getToken()->getUser();
+                // Get current user
+                $user = $this->container->get('security.context')->getToken()->getUser();
 
-            $photo->setOwner($user)->setStatus(Photo::STATUS_READY)->setVisibilityScope(Photo::SCOPE_PUBLIC);
+                $photo->setOwner($user)->setStatus(Photo::STATUS_READY)->setVisibilityScope(Photo::SCOPE_PUBLIC);
 
-            $em->persist($photo);
-            $em->flush();
+                $em->persist($photo);
+                $em->flush();
 
-            return $photo;
+                return $photo;
+            } else {
+                return $form;
+            }
         } else {
-            return $form;
+            throw new HttpException(401);
         }
     }
 
@@ -424,24 +464,29 @@ class PhotosController extends FosRestController
      */
     public function putAction($id, Request $request)
     {
-        $photo = $this->getAction($id);
-        if ($photo) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($photo->getOwner()->getId() == $user->getId()) {
-                $form = $this->getForm($photo);
-                $form->bind($request);
-                if ($form->isValid()) {
-                    $em = $this->getDoctrine()->getManager();
-                    $em->merge($photo);
-                    $em->flush();
-                    return $photo;
-                } else {
-                    return $form;
-                }
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $photo = $this->getAction($id);
+            if ($photo) {
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                if ($photo->getOwner()->getId() == $user->getId()) {
+                    $form = $this->getForm($photo);
+                    $form->bind($request);
+                    if ($form->isValid()) {
+                        $em = $this->getDoctrine()->getManager();
+                        $em->merge($photo);
+                        $em->flush();
+                        return $photo;
+                    } else {
+                        return $form;
+                    }
+                } else
+                    throw new HttpException(403, 'You are not authorized to edit this photo');
             } else
-                throw new HttpException(403, 'You are not authorized to edit this photo');
-        } else
-            throw new NotFoundHttpException('Photo not found');
+                throw new NotFoundHttpException('Photo not found');
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
@@ -453,16 +498,21 @@ class PhotosController extends FosRestController
      */
     public function deleteAction($id)
     {
-        $photo = $this->getAction($id);
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        // Check if current user is the owner oh the photo and that no tags are link to the photo
-        if ($user->getId() == $photo->getOwner()->getId() && count($photo->getTags()) == 0) {
-            $em = $this->getDoctrine()->getManager();
-            $photo->setDeletedAt(new \DateTime());
-            $em->merge($photo);
-            $em->flush();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $photo = $this->getAction($id);
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            // Check if current user is the owner oh the photo and that no tags are link to the photo
+            if ($user->getId() == $photo->getOwner()->getId() && count($photo->getTags()) == 0) {
+                $em = $this->getDoctrine()->getManager();
+                $photo->setDeletedAt(new \DateTime());
+                $em->merge($photo);
+                $em->flush();
+            } else {
+                throw new HttpException(403, 'You are not authorized to delete this tag');
+            }
         } else {
-            throw new HttpException(403, 'You are not authorized to delete this tag');
+            throw new HttpException(401);
         }
     }
 
@@ -493,19 +543,24 @@ class PhotosController extends FosRestController
      */
     public function getWaitingTagsAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
-        return $em->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
+            return $em->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
                 LEFT JOIN tag.photo photo LEFT JOIN photo.owner as owner
                 WHERE photo.id = :id and owner.id = :userId AND tag.visible = TRUE AND tag.deletedAt IS NULL
                 AND tag.censored = FALSE AND tag.waitingValidation = TRUE and tag.validationStatus = :validationStatus')
-            ->setParameters(array(
-                ':id' => $id,
-                ':validationStatus' => Tag::VALIDATION_WAITING,
-                ':userId' => $user->getId()
-            ))
-            ->getResult();
+                ->setParameters(array(
+                    ':id' => $id,
+                    ':validationStatus' => Tag::VALIDATION_WAITING,
+                    ':userId' => $user->getId()
+                ))
+                ->getResult();
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
@@ -536,7 +591,6 @@ class PhotosController extends FosRestController
      */
     public function getCommentsAction($id)
     {
-
         $photo = $this->getAction($id);
         if (!$photo)
             return null;
@@ -587,17 +641,22 @@ class PhotosController extends FosRestController
      */
     public function getIsLikedAction($id)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(l.id) FROM AdEntify\CoreBundle\Entity\Like l
+            $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(l.id) FROM AdEntify\CoreBundle\Entity\Like l
               WHERE l.photo = :photoId AND l.liker = :userId')
-            ->setParameters(array(
+                ->setParameters(array(
                     'photoId' => $id,
                     'userId' => $user->getId()
                 ))
-            ->getSingleScalarResult();
+                ->getSingleScalarResult();
 
-        return $count > 0 ? true : false;
+            return $count > 0 ? true : false;
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
@@ -608,18 +667,23 @@ class PhotosController extends FosRestController
      */
     public function getIsFavoritesAction($id)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(p.id) FROM AdEntify\CoreBundle\Entity\User u
+            $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(p.id) FROM AdEntify\CoreBundle\Entity\User u
               LEFT JOIN u.favoritesPhotos p
               WHERE p.id = :photoId AND u.id = :userId')
-            ->setParameters(array(
-                'photoId' => $id,
-                'userId' => $user->getId()
-            ))
-            ->getSingleScalarResult();
+                ->setParameters(array(
+                    'photoId' => $id,
+                    'userId' => $user->getId()
+                ))
+                ->getSingleScalarResult();
 
-        return $count > 0 ? true : false;
+            return $count > 0 ? true : false;
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
@@ -633,41 +697,46 @@ class PhotosController extends FosRestController
      */
     public function getUserPhotosAction($tagged, $page = 1, $limit = 20)
     {
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $count = $em->createQuery('SELECT COUNT(photo.id) FROM AdEntify\CoreBundle\Entity\Photo photo
+            $count = $em->createQuery('SELECT COUNT(photo.id) FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.tags tag
                 WHERE photo.owner = :userId AND photo.deletedAt IS NULL AND photo.status = :status AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
                 AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0'))
-            ->setParameters(array(
-                ':userId' => $user->getId(),
-                ':status' => Photo::STATUS_READY
-            ))
-            ->getSingleScalarResult();
-
-        $photos = null;
-        $pagination = null;
-        if ($count > 0) {
-            $photos = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag
-                WHERE photo.owner = :userId AND photo.deletedAt IS NULL AND photo.status = :status AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
-                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0').
-            ' ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':userId' => $user->getId(),
                     ':status' => Photo::STATUS_READY
                 ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit)
-                ->getResult();
+                ->getSingleScalarResult();
 
-            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_photo_user_photos', array(
-                'tagged' => $tagged
-            ));
+            $photos = null;
+            $pagination = null;
+            if ($count > 0) {
+                $photos = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.tags tag
+                WHERE photo.owner = :userId AND photo.deletedAt IS NULL AND photo.status = :status AND '.($tagged == 'true' ? 'photo.tagsCount > 0 AND tag.visible = true
+                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE' : 'photo.tagsCount = 0').
+                    ' ORDER BY photo.createdAt DESC')
+                    ->setParameters(array(
+                        ':userId' => $user->getId(),
+                        ':status' => Photo::STATUS_READY
+                    ))
+                    ->setFirstResult(($page - 1) * $limit)
+                    ->setMaxResults($limit)
+                    ->getResult();
+
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_photo_user_photos', array(
+                    'tagged' => $tagged
+                ));
+            }
+
+            return PaginationTools::getPaginationArray($photos, $pagination);
+        } else {
+            throw new HttpException(401);
         }
-
-        return PaginationTools::getPaginationArray($photos, $pagination);
     }
 
     /**
@@ -686,34 +755,39 @@ class PhotosController extends FosRestController
      */
     public function postFavoriteAction(Request $request)
     {
-        if ($request->request->has('photoId') && is_numeric($request->request->get('photoId'))) {
-            $photo = $this->getAction($request->request->get('photoId'));
-            if ($photo) {
-                $user = $this->container->get('security.context')->getToken()->getUser();
-                $found = false;
-                $em = $this->getDoctrine()->getManager();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ($request->request->has('photoId') && is_numeric($request->request->get('photoId'))) {
+                $photo = $this->getAction($request->request->get('photoId'));
+                if ($photo) {
+                    $user = $this->container->get('security.context')->getToken()->getUser();
+                    $found = false;
+                    $em = $this->getDoctrine()->getManager();
 
-                foreach($user->getFavoritePhotos() as $favoritePhoto) {
-                    if ($favoritePhoto->getId() == $photo->getId())
-                        $found = true; break;
+                    foreach($user->getFavoritePhotos() as $favoritePhoto) {
+                        if ($favoritePhoto->getId() == $photo->getId())
+                            $found = true; break;
+                    }
+
+                    if (!$found) {
+                        // Add favorite
+                        $user->addFavoritePhoto($photo);
+
+                        // FAVORITE Action & notification
+                        $sendNotification = $user->getId() != $photo->getOwner()->getId();
+                        $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
+                            $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                            get_class($photo), $sendNotification, 'photoFav');
+                    } else {
+                        $user->removeFavoritePhoto($photo);
+                    }
+
+                    $em->merge($user);
+                    $em->flush();
                 }
-
-                if (!$found) {
-                    // Add favorite
-                    $user->addFavoritePhoto($photo);
-
-                    // FAVORITE Action & notification
-                    $sendNotification = $user->getId() != $photo->getOwner()->getId();
-                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
-                        $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
-                        get_class($photo), $sendNotification, 'photoFav');
-                } else {
-                    $user->removeFavoritePhoto($photo);
-                }
-
-                $em->merge($user);
-                $em->flush();
             }
+        } else {
+            throw new HttpException(401);
         }
     }
 }

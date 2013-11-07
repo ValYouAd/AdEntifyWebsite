@@ -22,6 +22,7 @@ use FOS\RestBundle\Controller\Annotations\Prefix,
 
 use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class PeopleController
@@ -55,27 +56,32 @@ class PeopleController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        // Check if existing user exist with person facebookId
-        if ($request->request->has('person')) {
-            $personRequest = $request->request->get('person');
-            $user = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:User')->findOneBy(array(
-                'facebookId' => $personRequest['facebookId']
-            ));
-        }
-        $person = new Person();
-        $form = $this->getForm($person);
-        $form->bind($request);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            if (isset($user)) {
-                $person->setUser($user);
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Check if existing user exist with person facebookId
+            if ($request->request->has('person')) {
+                $personRequest = $request->request->get('person');
+                $user = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:User')->findOneBy(array(
+                    'facebookId' => $personRequest['facebookId']
+                ));
             }
-            $em->persist($person);
-            $em->flush();
+            $person = new Person();
+            $form = $this->getForm($person);
+            $form->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                if (isset($user)) {
+                    $person->setUser($user);
+                }
+                $em->persist($person);
+                $em->flush();
 
-            return $person;
+                return $person;
+            } else {
+                return $form;
+            }
         } else {
-            return $form;
+            throw new HttpException(401);
         }
     }
 

@@ -174,7 +174,7 @@
         var facebookAppId = '{{ facebook_app_id }}';
         var facebookPermissions = '{{ facebook_permissions }}';
         var currentLocale = '{{ app.request.locale }}';
-        var currentUserId = {{ app.user.id }};
+        var currentUserId = {{ app.user ? app.user.id : 0 }};
         var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&v=3&sensor=false"></script>

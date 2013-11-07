@@ -60,6 +60,13 @@ class CommentsController extends FosRestController
      */
     public function postAction(Request $request)
     {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+
+        } else {
+            throw new HttpException(401);
+        }
+
         $em = $this->getDoctrine()->getManager();
         $user = $this->container->get('security.context')->getToken()->getUser();
 

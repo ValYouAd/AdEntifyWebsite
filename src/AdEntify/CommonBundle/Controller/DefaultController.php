@@ -68,7 +68,7 @@ class DefaultController extends Controller
     /**
      * @Route("/{_locale}/app/{slug}", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr","slug" = "(.+)"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+
      */
     public function appAllAction($slug)
     {
@@ -78,7 +78,7 @@ class DefaultController extends Controller
     /**
      * @Route("/{_locale}/app/", name="loggedInHome", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"})
      * @Template("AdEntifyCommonBundle:Default:app.html.twig")
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+
      */
     public function appIndexAction()
     {

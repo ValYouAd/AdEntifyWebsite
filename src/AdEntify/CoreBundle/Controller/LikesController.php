@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
 use AdEntify\CoreBundle\Entity\Like;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class LikesController
@@ -41,51 +42,49 @@ class LikesController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        if ($request->request->has('photoId') && is_numeric($request->request->get('photoId'))) {
-            $em = $this->getDoctrine()->getManager();
-            $securityContext = $this->container->get('security.context');
-            $user = $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ? $this->container->get('security.context')->getToken()->getUser() : 0;
-            $like = $em->createQuery('SELECT l FROM AdEntify\CoreBundle\Entity\Like l
-              LEFT JOIN l.photo p WHERE (l.ipAddress = :ipAddress OR l.liker = :userId) AND p.id = :photoId')
-                ->setParameters(array(
-                    ':ipAddress' => $request->getClientIp(),
-                    ':photoId' => $request->request->get('photoId'),
-                    ':userId' => $user ? $user->getId() : $user
-                ))
-                ->SetMaxResults(1)
-                ->getOneOrNullResult();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ($request->request->has('photoId') && is_numeric($request->request->get('photoId'))) {
+                $em = $this->getDoctrine()->getManager();
+                $user = $securityContext->getToken()->getUser();
 
-            if (!$like) {
-                $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($request->request->get('photoId'));
-                if ($photo) {
-                    // Create the like
-                    $like = new Like();
-                    $like->setIpAddress($request->getClientIp())->setPhoto($photo);
+                $like = $em->createQuery('SELECT l FROM AdEntify\CoreBundle\Entity\Like l
+                    LEFT JOIN l.photo p WHERE (l.ipAddress = :ipAddress OR l.liker = :userId) AND p.id = :photoId')
+                    ->setParameters(array(
+                        ':ipAddress' => $request->getClientIp(),
+                        ':photoId' => $request->request->get('photoId'),
+                        ':userId' => $user->getId()
+                    ))
+                    ->SetMaxResults(1)
+                    ->getOneOrNullResult();
 
-                    $currentUser = null;
-                    if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED'))
-                        $currentUser = $securityContext->getToken()->getUser();
+                if (!$like) {
+                    $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($request->request->get('photoId'));
+                    if ($photo) {
+                        // Create the like
+                        $like = new Like();
+                        $like->setIpAddress($request->getClientIp())->setPhoto($photo)->setLiker($user);
 
-                    $sendNotification = $user->getId() != $photo->getOwner()->getId();
-                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_LIKE,
-                        $currentUser, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
-                        get_class($photo), $sendNotification, $currentUser ? 'memberLikedPhoto': 'anonymousLikedPhoto');
+                        $sendNotification = $user->getId() != $photo->getOwner()->getId();
+                        $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_LIKE,
+                            $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                            get_class($photo), $sendNotification, $user ? 'memberLikedPhoto': 'anonymousLikedPhoto');
 
-                    if ($currentUser)
-                        $like->setLiker($currentUser);
+                        $em->persist($like);
+                        $em->flush();
 
-                    $em->persist($like);
-                    $em->flush();
-
-                    return true;
-                }
-            } else {
-                if ($user && $like) {
-                    $em->remove($like);
-                    $em->flush();
-                    return false;
+                        return true;
+                    }
+                } else {
+                    if ($user && $like) {
+                        $em->remove($like);
+                        $em->flush();
+                        return false;
+                    }
                 }
             }
+        } else {
+            throw new HttpException(401);
         }
     }
 }

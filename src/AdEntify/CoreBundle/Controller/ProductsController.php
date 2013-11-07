@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 use AdEntify\CoreBundle\Entity\Product;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class ProductsController
@@ -98,25 +99,30 @@ class ProductsController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $product = new Product();
-        $form = $this->getForm($product);
-        $form->bind($request);
-        if ($form->isValid()) {
-            // Add venue products
-            if ($product->getPurchaseUrl()) {
-                $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
-                if ($shortUrl)
-                    $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
-                        'id' => $shortUrl->getBase62Id()
-                    )));
-            }
-            $em->persist($product);
-            $em->flush();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $product = new Product();
+            $form = $this->getForm($product);
+            $form->bind($request);
+            if ($form->isValid()) {
+                // Add venue products
+                if ($product->getPurchaseUrl()) {
+                    $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
+                    if ($shortUrl)
+                        $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
+                            'id' => $shortUrl->getBase62Id()
+                        )));
+                }
+                $em->persist($product);
+                $em->flush();
 
-            return $product;
+                return $product;
+            } else {
+                return $form;
+            }
         } else {
-            return $form;
+            throw new HttpException(401);
         }
     }
 

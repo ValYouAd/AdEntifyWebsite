@@ -96,7 +96,7 @@ class ActionsController extends FosRestController
 
             return PaginationTools::getPaginationArray($actions, $pagination);
         } else {
-            throw new HttpException(403, 'You have to be logged in');
+            throw new HttpException(401);
         }
     }
 } 

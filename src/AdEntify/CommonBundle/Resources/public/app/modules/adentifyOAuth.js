@@ -15,10 +15,10 @@ define([
          options || (options = {});
          var that = this;
          var currentTimestamp = Math.round(new Date().getTime() / 1000);
-         if (this.get('accessToken') != ''
-               && this.get('expiresAt') != ''
-               && this.get('userId') != ''
-               && this.get('expiresAt') > currentTimestamp) {
+         if (this.get('accessToken') !== ''
+               && this.get('expiresAt') !== ''
+               && this.get('userId') !== ''
+               && (this.get('expiresAt') > currentTimestamp || this.get('expiresAt') == 0)) {
             if (options.success)
                options.success();
          } else {
@@ -47,7 +47,11 @@ define([
       },
 
       getAuthorizationHeader: function() {
-         return "Bearer " + this.get('accessToken');
+         if (this.get('userId') == '0') {
+            return "";
+         } else {
+            return "Bearer " + this.get('accessToken');
+         }
       }
    });
 

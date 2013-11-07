@@ -37,28 +37,33 @@ class SettingsController extends FosRestController
      */
     public function getUserServicesAction()
     {
-        $em = $this->getDoctrine()->getManager();
         $securityContext = $this->container->get('security.context');
-        $user = $securityContext->getToken()->getUser();
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $securityContext = $this->container->get('security.context');
+            $user = $securityContext->getToken()->getUser();
 
-        $services = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findBy(array(
-            'user' => $user->getId()
-        ));
-        $connectedServices = array();
-        if ($services) {
-            foreach($services as $service) {
+            $services = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findBy(array(
+                'user' => $user->getId()
+            ));
+            $connectedServices = array();
+            if ($services) {
+                foreach($services as $service) {
+                    $connectedServices[] = array(
+                        'id' => $service->getId(),
+                        'service_name' => $service->getServiceName(),
+                    );
+                }
+            }
+            if ($securityContext->isGranted('ROLE_FACEBOOK')) {
                 $connectedServices[] = array(
-                    'id' => $service->getId(),
-                    'service_name' => $service->getServiceName(),
+                    'service_name' => 'Facebook',
+                    'cant_delete' => true
                 );
             }
+            return $connectedServices;
+        } else {
+            throw new HttpException(401);
         }
-        if ($securityContext->isGranted('ROLE_FACEBOOK')) {
-            $connectedServices[] = array(
-                'service_name' => 'Facebook',
-                'cant_delete' => true
-            );
-        }
-        return $connectedServices;
     }
 }
