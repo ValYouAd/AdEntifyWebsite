@@ -86,7 +86,8 @@
       "submitPhotos": "Valider et ajouter les photos",
       "photosOfYou": "Photos de vous",
       "sendPhotosFromLocal": "Envoyer des photos depuis mon ordinateur",
-      "localPhotosUploaded": "Mes photos envoyées"
+      "localPhotosUploaded": "Mes photos envoyées",
+      "or": "ou"
    },
    "facebook": {
       "albumsPageTitle": "Mes albums Facebook - AdEntify",

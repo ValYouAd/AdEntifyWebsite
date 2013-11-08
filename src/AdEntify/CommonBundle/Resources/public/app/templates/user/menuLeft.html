@@ -11,7 +11,7 @@
             <% } %>
 
             <div class="profile-picture-wrapper">
-                <img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" />
+                <a href="<%= model.get('link') %>"><img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" /></a>
             </div>
             <h1><%= model.get('fullname') %></h1>
             <% if (currentUserId != model.get('id')) { %>
