@@ -62,6 +62,8 @@ define([
 
    FacebookPhotos.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/list",
+      confidentiality: 'public',
+      albumName: '',
 
       serialize: function() {
          return {
@@ -71,7 +73,6 @@ define([
 
       initialize: function() {
          var that = this;
-      this.albumName = '';
          if (app.fb.isConnected()) {
             this.loadPhotos();
          } else {
@@ -122,6 +123,11 @@ define([
          if (this.options.photos.length > 0) {
             $('#loading-photos').hide();
          }
+         var that = this;
+         $(this.el).find('.photos-confidentiality').change(function() {
+            if ($(this).val())
+               that.confidentiality = $(this).val();
+         });
       },
 
       loadPhotos: function() {
@@ -152,44 +158,43 @@ define([
          photos.trigger('sync');
       },
 
-      submitPhotos: function(options) {
+      submitPhotos: function() {
          // Show loader
          $('#photos-container').fadeOut('fast', function() {
             $('#loading-upload').fadeIn('fast');
          });
 
          // Get checked images
-         checkedImages = $('.checked img');
-         if (checkedImages.length > 0) {
+         var counterView = this.getView('.upload-counter-view');
+         var that = this;
+         if (counterView.checkedPhotos.length > 0) {
             var fbImages = [];
-            var that = this;
-            _.each(checkedImages, function(image, index) {
+            _.each(counterView.checkedPhotos, function(model) {
                fbImage = {
-                  'originalSource' : $(image).data('original-url'),
-                  'originalWidth' : $(image).data('original-width'),
-                  'originalHeight' : $(image).data('original-height'),
-                  'smallSource': $(image).data('small-url'),
-                  'smallWidth': $(image).data('small-width'),
-                  'smallHeight': $(image).data('small-height'),
-                  'mediumSource': $(image).data('medium-url'),
-                  'mediumWidth': $(image).data('medium-width'),
-                  'mediumHeight': $(image).data('medium-height'),
-                  'largeSource': $(image).data('large-url'),
-                  'largeWidth': $(image).data('large-width'),
-                  'largeHeight': $(image).data('large-height'),
-                  'id': $(image).data('service-photo-id'),
-                  'title' : $(image).data('title'),
-                  'confidentiality': options.confidentiality,
-                  'categories': options.categories
+                  'originalSource' : model.get('originalUrl'),
+                  'originalWidth' : model.get('originalWidth'),
+                  'originalHeight' : model.get('originalHeight'),
+                  'smallSource': model.get('smallUrl'),
+                  'smallWidth': model.get('smallWidth'),
+                  'smallHeight': model.get('smallHeight'),
+                  'mediumSource': model.get('mediumUrl'),
+                  'mediumWidth': model.get('mediumWidth'),
+                  'mediumHeight': model.get('mediumHeight'),
+                  'largeSource': model.get('largeUrl'),
+                  'largeWidth': model.get('largeWidth'),
+                  'largeHeight': model.get('largeHeight'),
+                  'id': model.get('servicePhotoId'),
+                  'title' : model.get('title'),
+                  'confidentiality': that.confidentiality,
+                  'categories': model.get('categories')
                };
-               photoModel = that.photos.get(fbImage.id);
-               if (photoModel.has('place')) {
-                  fbImage.place = photoModel.get('place');
+               if (model.has('place')) {
+                  fbImage.place = model.get('place');
                }
-               if (photoModel.has('tags') && typeof photoModel.get('tags').data != 'undefined') {
-                  fbImage.tags = photoModel.get('tags').data;
+               if (model.has('tags') && typeof model.get('tags').data != 'undefined') {
+                  fbImage.tags = model.get('tags').data;
                }
-               fbImages[index] = fbImage;
+               fbImages.push(fbImage);
             });
 
             // POST images to database

@@ -42,9 +42,7 @@ define([
          }
          if (this.has('photos') && this.get('photos').length > 0) {
             var photos = new Photos.Collection();
-            _.each(this.get('photos'), function(photo) {
-               photos.add(new Photo.Model(photo));
-            });
+            photos.add(new Photo.Model(this.get('photos')[0]));
             this.set('photosCollection', photos);
          }
       },

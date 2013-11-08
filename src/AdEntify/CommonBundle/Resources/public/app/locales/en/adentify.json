@@ -82,7 +82,9 @@
       "countSelectedPhoto_plural": "You have selected <strong>__count__ photos</strong> to share on AdEntify",
       "submitAlbums": "Submit albums",
       "submitPhotos": "Submit photos",
-      "photosOfYou": "Photos of you"
+      "photosOfYou": "Photos of you",
+      "sendPhotosFromLocal": "Send photos from my computer",
+      "localPhotosUploaded": "My uploaded photos"
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",

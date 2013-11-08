@@ -49,23 +49,24 @@ define([
       },
 
       selectPhoto: function(e) {
+
          var container = $(this.el).find('.photo-inner');
          if (container.length > 0) {
             container.addClass('checked');
          }
          $(this.el).find('.checked-overlay').fadeIn('fast');
          this.model.set('checked', true);
-         app.trigger('externalServicePhoto:imageChecked', 1);
+         app.trigger('externalServicePhotos:selectPhoto', this.model);
       },
 
       unselectPhoto: function() {
          var container = $(this.el).find('.photo-inner');
          if (container.length > 0) {
-            container.addClass('checked');
+            container.removeClass('checked');
          }
          $(this.el).find('.checked-overlay').fadeOut('fast');
          this.model.set('checked', false);
-         app.trigger('externalServicePhoto:imageChecked', -1);
+         app.trigger('externalServicePhotos:unselectPhoto', this.model);
       },
 
       events: {
@@ -95,10 +96,6 @@ define([
                that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
             });
          }
-         $(this.el).find('.photos-confidentiality').change(function() {
-            if ($(this).val())
-               that.model.set('confidentiality', $(this).val());
-         });
       },
 
       initialize: function() {
@@ -325,7 +322,7 @@ define([
 
       serialize: function() {
          return {
-            count: this.counterType == 'album' ? this.checkedAlbums.length : this.checkedImagesCount,
+            count: this.counterType == 'album' ? this.checkedAlbums.length : this.checkedPhotos.length,
             translationKey: this.counterType == 'album' ? 'countSelectedAlbum' : 'countSelectedPhoto'
          };
       },
@@ -347,10 +344,17 @@ define([
                this.render();
             });
          } else {
-            this.checkedImagesCount = 0;
-            this.listenTo(app, 'externalServicePhoto:imageChecked', function(value) {
-               this.checkedImagesCount = this.checkedImagesCount + value;
-               this.trigger('checkedPhoto', this.checkedImagesCount);
+            this.checkedPhotos = [];
+            this.listenTo(app, 'externalServicePhotos:selectPhoto', function(photo) {
+               this.checkedPhotos.push(photo);
+               this.trigger('checkedPhoto', this.checkedPhotos.length);
+               this.render();
+            });
+            this.listenTo(app, 'externalServicePhotos:unselectPhoto', function(photo) {
+               index = _.indexOf(this.checkedPhotos, photo);
+               if (index > -1)
+                  this.checkedPhotos.splice(index, 1);
+               this.trigger('checkedPhoto', this.checkedPhotos.length);
                this.render();
             });
          }

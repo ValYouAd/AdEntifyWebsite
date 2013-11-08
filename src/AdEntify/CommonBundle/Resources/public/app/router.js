@@ -375,16 +375,37 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       uploadLocal: function() {
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
+
+         var followers = new User.Collection();
+         var followings = new User.Collection();
 
          app.useLayout().setViews({
-            "#center-pane-content": new Upload.Views.LocalUpload(),
-            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightPhotos({
+            "#center-pane-content": new Upload.Views.LocalUpload({
                categories: this.categories
+            }),
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags
             })
          }).render();
 
          this.categories.fetch();
+         followings.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
+         });
       },
 
       facebookAlbums: function() {

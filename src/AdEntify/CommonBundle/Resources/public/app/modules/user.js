@@ -233,7 +233,7 @@ define([
 
    User.ProfileInfosDropdown = {
        listenClick: function() {
-          $('.profile-infos').click(function() {
+          $('.profile-infos .user-names, .profile-infos a').click(function() {
              if ($('.profile-infos .dropdown-menu:visible').length > 0) {
                 $('.profile-infos .dropdown-menu').fadeOut();
              } else {
