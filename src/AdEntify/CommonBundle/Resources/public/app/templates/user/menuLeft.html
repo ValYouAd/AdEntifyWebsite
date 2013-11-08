@@ -11,13 +11,13 @@
             <% } %>
 
             <div class="profile-picture-wrapper">
-                <img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" />
+                <a href="<%= model.get('link') %>"><img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" /></a>
             </div>
             <h1><%= model.get('fullname') %></h1>
             <% if (currentUserId != model.get('id')) { %>
             <div class="follow-button"></div>
             <% } else { %>
-            <a href="<%= $.t('routing.my/profile/') %>" class="btn btn-large btn-around-corner btn-red-grey-border"><%= $.t('profile.editMyProfile') %></a>
+            <a href="<%= rootUrl %><%= $.t('routing.my/settings/') %>" class="btn btn-large btn-around-corner btn-red-grey-border"><%= $.t('profile.editMyProfile') %></a>
             <% } %>
 
             <div class="indicators-container text-center">
@@ -67,8 +67,14 @@
         <!--<a href="#" class="link-grey-whith-red-arrow"><%= $.t('profile.moreFollowers') %></a>-->
     </div>
 
+    <% if (showServices) { %>
     <hr class="menu-left-hr">
 
+    <h2><%= $.t('profile.myLinkedServices') %></h2>
+    <div class="block-white-background">
+        <div class="services"></div>
+    </div>
+    <% } %>
 
    <!-- <hr class="user-hr">
 

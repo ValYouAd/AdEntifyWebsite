@@ -23,9 +23,11 @@
       "loadingMore": "Loading more photos..."
    },
    "myPhotos": {
+      "pageTitleMyPhotos": "My photos - AdEntify",
       "pageTitleTagged": "My tagged photos - AdEntify",
       "pageTitleUntagged": "My untagged photos - AdEntify",
       "titleTagged": "My tagged photos",
+      "titleMyPhotos": "My photos",
       "titleUntagged": "My untagged photos",
       "tools": "Tools",
       "addTagButton": "Add tag",
@@ -48,12 +50,12 @@
       "confirmPassword": "Confirm password",
       "saveChanges": "Save changes",
       "cancel": "Cancel",
-      "connectedServices": "Linked networks",
-      "noConnectedServices": "Your account is not linked with any network.",
-      "errorConnectedServices": "Error linking network",
-      "deleteLink": "Unlink network",
-      "cantDeleteServiceLink": "Error unlinking network",
-      "serviceCannotBeDeleted": "Your Facebook network cannot be unlinked",
+      "connectedServices": "Linked services",
+      "noConnectedServices": "Your account is not linked with any service.",
+      "errorConnectedServices": "Error linking service",
+      "deleteLink": "Unlink service",
+      "cantDeleteServiceLink": "Error unlinking service",
+      "serviceCannotBeDeleted": "Your Facebook service cannot be unlinked",
       "submitChangePassword": "Change password",
       "emptyFieldsChangePassword": "You need to fill in all fields to change your password",
       "notSamePassword": "The passwords do not match",
@@ -69,10 +71,23 @@
       "pageTitle": "Upload my photos - AdEntify",
       "send": "Upload",
       "sendPhotos": "Upload your photos on AdEntify",
-      "textWhichService": "Which network do you want to upload your photos from?",
+      "textWhichService": "Which service do you want to upload your photos from?",
       "textUploadFromComputer": "You can also upload photos from your computer",
       "uploadFromComputer": "Upload photos from my computer",
-      "browseLocalPhotos": "Browse photos"
+      "browseLocalPhotos": "Browse photos",
+      "addPhotosTitle": "Upload photos",
+      "addAlbumsTitle": "Upload albums",
+      "categories": "Add one or more categories",
+      "countSelectedAlbum": "You have selected <strong>__count__ album</strong> to share on AdEntify",
+      "countSelectedAlbum_plural": "You have selected <strong>__count__ albums</strong> to share on AdEntify",
+      "countSelectedPhoto": "You have selected <strong>__count__ photo</strong> to share on AdEntify",
+      "countSelectedPhoto_plural": "You have selected <strong>__count__ photos</strong> to share on AdEntify",
+      "submitAlbums": "Submit albums",
+      "submitPhotos": "Submit photos",
+      "photosOfYou": "Photos of you",
+      "sendPhotosFromLocal": "Send photos from my computer",
+      "localPhotosUploaded": "My uploaded photos",
+      "or": "or"
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",
@@ -164,6 +179,7 @@
    "externalServicePhotos": {
       "select": "Select",
       "selected": "Selected",
+      "photoSelected": "Selected",
       "download": "Loading your photos...",
       "noSelectedPhoto": "You haven't selected any photo yet.",
       "haveRights": "I own the rights for those photos",
@@ -186,7 +202,8 @@
       "downloadAlbums": "Uploading albums in progress…",
       "uploadingError": "Error uploading your photos. Please try again or contact us if error persists.",
       "modalUploadTitle": "Uploading photos in progress...",
-      "modalUploadText": "Your photos are currently uploading. You will be notified at the top right of your screen as soon as they are ready. Then you will be able to tag them!"
+      "modalUploadText": "Your photos are currently uploading. You will be notified at the top right of your screen as soon as they are ready. Then you will be able to tag them!",
+      "backToAlbums": "Back to albums"
    },
    "profile": {
       "follow": "Follow",
@@ -210,7 +227,8 @@
       "noHashtag": "No hashtag yet",
       "noFollowings": "No following yet",
       "noFollowers": "No follower yet",
-      "editMyProfile": "Edit my profile"
+      "editMyProfile": "Edit my profile",
+      "myLinkedServices": "My linked account to AdEntify"
    },
    "category": {
       "errorPhotosLoading": "Error loading photos from this category. Please try again.",
@@ -295,6 +313,7 @@
       "photos/untagged/": "photos/untagged/",
       "upload/": "upload/",
       "upload/local/": "upload/local/",
+      "my/photos/": "my/photos/",
       "my/photos/tagged/": "my/photos/tagged/",
       "my/photos/untagged/": "my/photos/untagged/",
       "facebook/albums/": "facebook/albums/",
@@ -310,6 +329,7 @@
       "category/slug/": "category/__slug__/",
       "search/": "search/",
       "search/keywords": "search/__keywords__",
-      "my/profile/": "my/profile/"
+      "my/profile/": "my/profile/",
+      "my/settings/": "my/settings/"
    }
 }

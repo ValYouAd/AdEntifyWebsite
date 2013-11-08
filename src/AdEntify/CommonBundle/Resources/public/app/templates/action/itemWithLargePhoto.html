@@ -2,9 +2,9 @@
 <div class="pull-left">
     <a href="<%= model.get('authorModel').get('link') %>"><img src="<%= model.get('authorModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('authorModel').get('fullname') %>" /></a>
 </div>
-<% if (model.has('photo')) { %>
-<%= $.t('action.photoUploaded', { 'authorLink' : model.get('authorModel').get('link'), 'author': model.get('authorModel').get('fullname'), 'photoLink' : model.get('photo').get('link') }) %>
-<% } %>
+    <% if (model.has('photo')) { %>
+        <%= $.t('action.photoUploaded', { 'authorLink' : model.get('authorModel').get('link'), 'author': model.get('authorModel').get('fullname'), 'photoLink' : model.get('photo').get('link') }) %>
+    <% } %>
 <% } %>
 <div class="clearfix"></div>
 <% if (model.has('photo')) { %>

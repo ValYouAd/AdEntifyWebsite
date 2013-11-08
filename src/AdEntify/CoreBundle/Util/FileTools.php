@@ -27,7 +27,7 @@ class FileTools
      */
     public static function getExtensionFromUrl($url)
     {
-        $pathParts = pathinfo($url);
+        $pathParts = pathinfo(strtok($url, '?'));
         return '.'.$pathParts['extension'];
     }
 

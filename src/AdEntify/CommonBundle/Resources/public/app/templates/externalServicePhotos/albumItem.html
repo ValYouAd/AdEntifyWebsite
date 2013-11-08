@@ -1,29 +1,20 @@
-<div class="thumbnail">
-    <img src="<%= model.get("picture") %>" alt="<%= model.get("name") %>" />
-    <div class="caption caption-select">
-        <p class="lead"><%= model.get("name") %></p>
-        <p>
-            <a href="<%= model.get("url") %>" class="btn btn-small" data-i18n="externalServicePhotos.viewPhotos"></a>
-            <button type="button" class="selectAlbum btn btn-primary btn-small" data-i18n="externalServicePhotos.selectAlbum"></button>
-        </p>
+<div class="album-inner">
+    <div class="album-thumbnail" style="background-image: url('<%= model.get("picture") %>');">
+        <div class="album-selected"><i class="glyphicon glyphicon-remove unselect-button"></i><i class="glyphicon glyphicon-ok"></i> <%= $.t('externalServicePhotos.selected') %></div>
     </div>
-    <div class="caption caption-selected fadeOut">
-        <div class="alert alert-success fade in">
-            <small><span data-i18n="[html]externalServicePhotos.alertAlbumSelected" data-i18n-options='{"name": "<%= model.get("name") %>"}'></span></small>
+    <div class="album-details">
+        <div class="caption caption-select">
+            <p class="album-name"><%= model.get("name") %></p>
+            <p><a href="<%= model.get("url") %>" class="btn-around-corner btn-grey" data-i18n="externalServicePhotos.viewPhotos"></a></p>
+            <p><button type="button" class="selectAlbum btn-around-corner btn-red" data-i18n="externalServicePhotos.selectAlbum"></button></p>
         </div>
-        <label data-i18n="externalServicePhotos.labelPhotosConfidentiality"></label>
-        <select class="photos-confidentiality" name="photos-confidentiality">
-            <option value="private" data-i18n="externalServicePhotos.private"></option>
-            <option value="public" data-i18n="externalServicePhotos.public"></option>
-        </select>
-        <label>Catégories</label>
-        <select class="selectCategories" multiple="multiple">
-            <% _.forEach(categories.models, function(category) { %>
-            <option value="<%= category.get('id') %>"><%= category.get('name') %></option>
-            <% }); %>
-        </select>
-        <p class="clearfix mt2">
-            <button class="btn btn-danger btn-mini pull-right cancelSelection" type="button"><i class="icon-remove icon-white"></i> <span data-i18n="common.cancel"></span></button>
-        </p>
+        <div class="caption caption-selected fadeOut">
+            <label><%= $.t('upload.categories') %></label>
+            <select class="selectCategories" multiple="multiple">
+                <% _.forEach(categories.models, function(category) { %>
+                <option value="<%= category.get('id') %>"><%= category.get('name') %></option>
+                <% }); %>
+            </select>
+        </div>
     </div>
 </div>

@@ -1,4 +1,28 @@
+<div class="top-grey-title-container">
+    <h1 data-i18n="upload.addAlbumsTitle"></h1>
+</div>
+
 <div id="loading-albums" class="loading-gif-container">
     <div class="loader rotate"></div>
 </div>
-<ul id="albums-list" class="thumbnails"></ul>
+
+<div class="upload-details">
+    <div class="upload-counter-view"></div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="upload-options">
+    <div class="form-inline pull-left">
+        <label data-i18n="externalServicePhotos.labelPhotosConfidentiality"></label>
+        <select class="photos-confidentiality form-control" name="photos-confidentiality">
+            <option value="public" data-i18n="externalServicePhotos.public"></option>
+            <option value="private" data-i18n="externalServicePhotos.private"></option>
+        </select>
+    </div>
+    <div class="pull-right">
+        <button class="btn-around-corner btn-red-grey-border btn-large submit-albums-button fadeOut" type="button"><i class="glyphicon glyphicon-ok"></i> <%= $.t('upload.submitAlbums') %></button>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="row" id="albums-list"></div>

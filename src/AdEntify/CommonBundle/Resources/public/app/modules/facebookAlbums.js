@@ -35,7 +35,7 @@ define([
          if (this.has('cover_photo')) {
             FB.api(this.get('cover_photo'), function(response) {
                if (response && !response.error) {
-                  that.set("picture", response.picture);
+                  that.set("picture", response.source);
                }
             });
          }
@@ -51,6 +51,7 @@ define([
 
    FacebookAlbums.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/albumList",
+      confidentiality: 'public',
 
       initialize: function() {
          var that = this;
@@ -61,7 +62,7 @@ define([
                that.loadAlbums();
             });
          }
-         this.listenTo(app, 'externalServicePhoto:submitAlbums', this.submitAlbums, this);
+         this.albums = this.options.albums;
          this.listenTo(this.options.albums, {
             "sync": this.render
          });
@@ -79,6 +80,24 @@ define([
                categories: this.categories
             }));
          }, this);
+
+         if (!this.getView('.upload-counter-view')) {
+            var counterView = new ExternalServicePhotos.Views.Counter({
+               counterType: 'album'
+            });
+            var that = this;
+            counterView.on('checkedAlbum', function(count) {
+               var submitButton = $(that.el).find('.submit-albums-button');
+               if (count > 0) {
+                  if ($(that.el).find('.submit-albums-button:visible').length == 0)
+                     submitButton.fadeIn('fast');
+               } else {
+                  if ($(that.el).find('.submit-albums-button:hidden').length == 0)
+                     submitButton.fadeOut('fast');
+               }
+            });
+            this.setView('.upload-counter-view', counterView);
+         }
       },
 
       afterRender: function() {
@@ -86,6 +105,11 @@ define([
          if (this.options.albums.length > 0) {
             $('#loading-albums').hide();
          }
+         var that = this;
+         $(this.el).find('.photos-confidentiality').change(function() {
+            if ($(this).val())
+               that.confidentiality = $(this).val();
+         });
       },
 
       loadAlbums: function() {
@@ -114,10 +138,12 @@ define([
          });
       },
 
-      submitAlbums: function(options) {
+      submitAlbums: function() {
          var fbImages = [];
          var stack = [];
-         _.each(options.albums, function(album) {
+         var counterView = this.getView('.upload-counter-view');
+         var that = this;
+         _.each(counterView.checkedAlbums, function(album) {
             stack.push(1);
             app.fb.loadPhotos(album.get('id'), function(response) {
                stack.splice(0, 1);
@@ -139,7 +165,7 @@ define([
                         'largeHeight': model.get('largeHeight'),
                         'id': model.get('servicePhotoId'),
                         'title' : model.get('title'),
-                        'confidentiality': album.get('confidentiality'),
+                        'confidentiality': that.confidentiality,
                         'categories': album.get('categories')
                      };
                      if (model.has('place')) {
@@ -176,6 +202,10 @@ define([
                clearInterval(albumLoaded);
             }
          }, 1000);
+      },
+
+      events: {
+         'click .submit-albums-button': 'submitAlbums'
       }
    });
 

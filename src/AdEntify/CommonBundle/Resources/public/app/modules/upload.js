@@ -54,7 +54,8 @@ define([
 
       beforeRender: function() {
          this.insertView('.upload-photos-container', new Upload.Views.PhotosList({
-            photos: this.photos
+            photos: this.photos,
+            categories: this.options.categories
          }));
       },
 
@@ -67,7 +68,6 @@ define([
                $('#loading-photos').stop().fadeIn();
             },
             done: function (e, data) {
-               app.trigger('externalServicePhoto:imageChecked', 1);
                $('#loading-photos').stop().fadeOut();
                if (data.result) {
                   var photo = new ExternalServicePhotos.Model();
@@ -89,6 +89,7 @@ define([
                   photo.set('originalWidth', data.result['original']['width']);
                   photo.set('originalHeight', data.result['original']['height']);
                   that.photos.add(photo);
+                  app.trigger('externalServicePhotos:selectPhoto', photo);
                } else {
                   app.useLayout().setView('.alert-product', new Common.Views.Alert({
                      cssClass: Common.alertError,
@@ -135,18 +136,49 @@ define([
 
    Upload.Views.PhotosList = Backbone.View.extend({
       template: 'externalServicePhotos/list',
+      albumName: '',
+
+      serialize: function() {
+         return {
+            album: this.albumName,
+            title: 'localPhotosUploaded'
+         };
+      },
 
       initialize: function() {
          this.listenTo(this.options.photos, 'add', this.render);
+         this.categories = this.options.categories;
+         this.listenTo(this.options.categories, {
+            'sync': this.render
+         });
       },
 
       beforeRender: function() {
          this.options.photos.each(function(photo) {
             this.insertView('#photos-list', new ExternalServicePhotos.Views.Item({
                model: photo,
-               enableCheck: false
+               enableCheck: false,
+               categories: this.categories
             }));
          }, this);
+
+         if (!this.getView('.upload-counter-view')) {
+            var counterView = new ExternalServicePhotos.Views.Counter({
+               counterType: 'photos'
+            });
+            var that = this;
+            counterView.on('checkedPhoto', function(count) {
+               var submitButton = $(that.el).find('.submit-photos-button');
+               if (count > 0) {
+                  if ($(that.el).find('.submit-photos-button:visible').length == 0)
+                     submitButton.fadeIn('fast');
+               } else {
+                  if ($(that.el).find('.submit-photos-button:hidden').length == 0)
+                     submitButton.fadeOut('fast');
+               }
+            });
+            this.setView('.upload-counter-view', counterView);
+         }
       },
 
       afterRender: function() {

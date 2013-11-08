@@ -1,10 +1,12 @@
-<div class="page-header">
-    <h1><span data-i18n="upload.send"></span> <small data-i18n="upload.sendPhotos"></small></h1>
+<div class="top-grey-title-container">
+    <h1 data-i18n="upload.sendPhotos"></h1>
 </div>
-<p data-i18n="upload.textWhichService"></p>
-<p><a href="facebook/albums/" id="facebookUploadButton" class="btn btn-inverse btn-large">Facebook</a>
-    <a href="https://api.instagram.com/oauth/authorize/?client_id=<%= model.instagramClientId %>&redirect_uri=<%= model.appRoot %>instagram/authentication&response_type=code" class="btn btn-inverse btn-large">Instagram</a>
-    <button id="flickrUploadButton" class="btn btn-inverse btn-large">Flickr</button>
+
+<p class="lead mt2 text-center" data-i18n="upload.textWhichService"></p>
+<p class="text-center"><a href="facebook/albums/" id="facebookUploadButton" class="btn-around-corner btn-service-upload btn-facebook-rounded"><i class="facebook-circle-icon icon"></i> Facebook</a>
+    <a class="btn-around-corner btn-service-upload btn-instagram-rounded" href="https://api.instagram.com/oauth/authorize/?client_id=<%= model.instagramClientId %>&redirect_uri=<%= model.appRoot %>instagram/authentication&response_type=code"><i class="instagram-circle-icon icon"></i> Instagram</a>
+    <!--<a data-bypass="" id="flickrUploadButton" class="btn-around-corner btn-service-upload btn-flickr-rounded"><i class="flickr-circle-icon icon"></i> Flickr</a>-->
 </p>
-<p data-i18n="upload.textUploadFromComputer"></p>
-<p><a href="<%= model.localUpload %>" class="btn btn-primary btn-large" data-i18n="upload.uploadFromComputer"></a></p>
+<!--<p data-i18n="upload.textUploadFromComputer"></p>-->
+<p class="lead mt1 mb# text-center"><%= $.t('upload.or') %></p>
+<p class="text-center"><a href="<%= model.localUpload %>" class="btn-around-corner btn-service-upload btn-grey"><i class="glyphicon glyphicon-floppy-open"></i> <%= $.t('upload.uploadFromComputer') %></a></p>
