@@ -7,11 +7,20 @@
             <i class="glyphicon glyphicon-remove deleteTagButton"></i>
             <% } %>
         </div>
-        <span class="title"><% if (model.get("link")) { %><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %></a><% } else { %><%= model.get("title") %><% } %></span>
-        <% if (model.get("description")) { %>
-        <p><%= model.get("description") %></p>
-        <% } %>
+        <div class="popover-inner">
+            <span class="title"><% if (model.get("link")) { %><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %></a><% } else { %><%= model.get("title") %><% } %></span>
+            <% if (model.get("description")) { %>
+            <p><%= model.get("description") %></p>
+            <% } %>
+        </div>
         <div id="map<%= model.get("id") %>" class="map"></div>
+        <div class="popover-details">
+            <address>
+                <strong><%= model.get('title') %></strong><br>
+                <% if (model.get('venue').address) { %><%= model.get('venue').address %><br><% } %>
+                <% if (model.get('venue').postalCode) { %><%= model.get('venue').postalCode %><% } %> <% if (model.get('venue').city) { %><%= model.get('venue').city %><% } %> <% if (model.get('venue').country) { %><%= model.get('venue').country %><% } %>
+            </address>
+        </div>
         <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isOwner()) { %>
         <div class="tag-validation">
             <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
