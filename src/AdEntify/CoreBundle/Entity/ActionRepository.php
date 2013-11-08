@@ -29,7 +29,7 @@ class ActionRepository extends EntityRepository
      */
     public function createAction($actionType, User $author = null, User $target = null, $photos = null, $visibility = Action::VISIBILITY_PUBLIC,
                                  $linkedObjectId = null, $linkedObjectType = null, $createNotification = true,
-                                 $message = null, $messageOptions = null)
+                                 $message = null, $messageOptions = null, User $notificationOwner = null)
     {
         $action = null;
 
@@ -84,6 +84,9 @@ class ActionRepository extends EntityRepository
                 $action->setMessageOptions($messageOptions);
             if ($notification)
                 $notification->setMessageOptions($messageOptions);
+        }
+        if ($notificationOwner) {
+            $notification->setOwner($notificationOwner);
         }
 
         if ($action) {

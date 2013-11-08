@@ -306,6 +306,7 @@
       "photos/untagged/": "photos/untagged/",
       "upload/": "upload/",
       "upload/local/": "upload/local/",
+      "my/photos/": "my/photos/",
       "my/photos/tagged/": "my/photos/tagged/",
       "my/photos/untagged/": "my/photos/untagged/",
       "facebook/albums/": "facebook/albums/",

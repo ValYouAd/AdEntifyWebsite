@@ -23,9 +23,11 @@
       "loadingMore": "Chargement des photos en cours..."
    },
    "myPhotos": {
+      "pageTitleMyPhotos": "Mes photos - AdEntify",
       "pageTitleTagged": "Mes photos taguées - AdEntify",
       "pageTitleUntagged": "Mes photos non taguées - AdEntify",
       "titleTagged": "Mes photos taguées",
+      "titleMyPhotos": "Mes photos",
       "titleUntagged": "Mes photos non taguées",
       "tools": "Outils",
       "addTagButton": "Ajouter un tag",
@@ -306,6 +308,7 @@
       "photos/untagged/": "photos/non-taguees/",
       "upload/": "upload/",
       "upload/local/": "upload/local/",
+      "my/photos/": "mes/photos/",
       "my/photos/tagged/": "mes/photos/taguees/",
       "my/photos/untagged/": "mes/photos/non-taguees/",
       "facebook/albums/": "facebook/albums/",

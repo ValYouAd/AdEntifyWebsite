@@ -514,7 +514,7 @@ html,body {
 }
 .check-image .checked-overlay,
 .check-image .hover-overlay {
-    background: rgba(0,0,0,0.5);
+    background: rgba(255,255,255,0.7);
     visibility: hidden;
     opacity: 0;
     position: absolute;

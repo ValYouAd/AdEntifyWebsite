@@ -48,6 +48,7 @@ modal:
 
 #Routing
 photos/untagged/: photos/non-taguees/
+my/photos/: mes/photos/
 my/photos/tagged/: mes/photos/taguees/
 my/photos/untagged/: mes/photos/non-taguees/
 photo/%id%/: photo/%id%/

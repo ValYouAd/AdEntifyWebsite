@@ -38,6 +38,10 @@ define([
    InstagramPhotos.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/list",
 
+      serialize: function() {
+         return { album: null }
+      },
+
       initialize: function() {
          this.loadPhotos();
 
@@ -57,6 +61,12 @@ define([
                model: photo
             }));
          }, this);
+
+         if (!this.getView('.upload-counter-view')) {
+            this.setView('.upload-counter-view', new ExternalServicePhotos.Views.Counter({
+               counterType: 'photos'
+            }));
+         }
       },
 
       afterRender: function() {

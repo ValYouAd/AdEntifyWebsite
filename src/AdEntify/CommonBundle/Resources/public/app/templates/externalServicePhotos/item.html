@@ -2,7 +2,7 @@
     <div class="check-image-container">
         <% if (enableCheck) { %>
         <div class="checked-overlay"><span class="label label-success" data-i18n="externalServicePhotos.selected"></span></div>
-        <div class="hover-overlay"><span class="label label-info" data-i18n="externalServicePhotos.select"></span></div>
+        <div class="hover-overlay"><i class="icon_more_red"></i></div>
         <% } %>
         <img class="check-image-img" src="<%= model.get("thumbUrl") %>" data-small-url="<%= model.get("smallUrl") %>"
         data-small-width="<%= model.get("smallWidth") %>" data-small-height="<%= model.get("smallHeight") %>" data-medium-url="<%= model.get("mediumUrl") %>"
