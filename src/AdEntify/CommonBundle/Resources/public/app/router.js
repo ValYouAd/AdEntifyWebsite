@@ -244,7 +244,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.myPhotos,
-               tagged: true,
+               pageTitle: $.t('myPhotos.pageTitleMyPhotos'),
                title: $.t('myPhotos.titleMyPhotos')
             }),
             "#right-pane-content": new Action.Views.List({
@@ -859,7 +859,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setView('#center-pane-content', new Common.Views.Modal({
             title: 'common.titlePageNotFound',
             content: 'common.contentPageNotFound',
-            redirect: true
+            redirect: true,
+            showConfirmButton: false
          }), true).render();
       },
 

@@ -92,7 +92,7 @@ define([
       initialize: function() {
          this.showFooter = typeof this.options.showFooter !== 'undefined' ? this.options.showFooter : this.showFooter;
          this.showHeader = typeof this.options.showHeader !== 'undefined' ? this.options.showHeader : this.showHeader;
-         this.showConfirmButton = typeof this.options.showHeader !== 'undefined' ? this.options.showHeader : this.showHeader;
+         this.showConfirmButton = typeof this.options.showConfirmButton !== 'undefined' ? this.options.showConfirmButton : this.showConfirmButton;
          this.confirmButton = typeof this.options.confirmButton !== 'undefined' ? this.options.confirmButton : 'common.confirmButton';
          this.title = typeof this.options.title !== 'undefined' ? this.options.title : null;
          this.modalContentClasses = typeof this.options.modalContentClasses !== 'undefined' ? this.options.modalContentClasses : null;

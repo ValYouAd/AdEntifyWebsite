@@ -23,9 +23,11 @@
       "loadingMore": "Loading more photos..."
    },
    "myPhotos": {
+      "pageTitleMyPhotos": "My photos - AdEntify",
       "pageTitleTagged": "My tagged photos - AdEntify",
       "pageTitleUntagged": "My untagged photos - AdEntify",
       "titleTagged": "My tagged photos",
+      "titleMyPhotos": "My photos",
       "titleUntagged": "My untagged photos",
       "tools": "Tools",
       "addTagButton": "Add tag",
