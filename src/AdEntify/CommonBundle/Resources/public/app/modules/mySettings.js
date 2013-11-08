@@ -26,7 +26,7 @@ define([
 
    MySettings.Views.ServiceItem = Backbone.View.extend({
       template: "mySettings/serviceItem",
-      tagName: "li",
+      tagName: 'li class="service-item"',
 
       serialize: function() {
          return { model: this.model };
@@ -74,40 +74,22 @@ define([
       }
    });
 
-   MySettings.Views.Detail = Backbone.View.extend({
-      template: "mySettings/detail",
+   MySettings.Views.ServiceList = Backbone.View.extend({
+      template: 'mySettings/serviceList',
 
       beforeRender: function() {
          this.services.each(function(service) {
-            this.insertView(".connected-services-list", new MySettings.Views.ServiceItem({
+            this.insertView(".services-list", new MySettings.Views.ServiceItem({
                model: service
             }));
          }, this);
       },
 
       afterRender: function() {
-         $(this.el).find('option[value="' + app.appState().getLocale() + '"]').attr("selected", "selected");
-         $(this.el).i18n();
+         $(this.el).find('.service-icon-tooltip').tooltip();
       },
 
       initialize: function() {
-         // Get current user
-         app.oauth.loadAccessToken({
-            success: function() {
-               $.ajax({
-                  url: Routing.generate('api_v1_get_user', { id: currentUserId }),
-                  headers: {
-                     "Authorization": app.oauth.getAuthorizationHeader()
-                  },
-                  success: function(user) {
-                       if (user && typeof user.facebook_id === 'undefined' && typeof user.twitter_id === 'undefined') {
-                          $('.changePasswordForm').fadeIn('fast');
-                       }
-                  }
-               });
-            }
-         });
-         app.trigger('domchange:title', $.t('mySettings.pageTitle'));
          this.services = new MySettings.ServicesCollection();
          this.services.fetch({
             error: function() {
@@ -139,7 +121,40 @@ define([
                   showClose: true
                })).render();
             }
-         })
+         });
+      }
+   });
+
+   MySettings.Views.Detail = Backbone.View.extend({
+      template: "mySettings/detail",
+
+      beforeRender: function() {
+         this.setView(".services", new MySettings.Views.ServiceList());
+      },
+
+      afterRender: function() {
+         $(this.el).find('option[value="' + app.appState().getLocale() + '"]').attr("selected", "selected");
+         $(this.el).i18n();
+      },
+
+      initialize: function() {
+         // Get current user
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_get_user', { id: currentUserId }),
+                  headers: {
+                     "Authorization": app.oauth.getAuthorizationHeader()
+                  },
+                  success: function(user) {
+                       if (user && typeof user.facebook_id === 'undefined' && typeof user.twitter_id === 'undefined') {
+                          $('.changePasswordForm').fadeIn('fast');
+                       }
+                  }
+               });
+            }
+         });
+         app.trigger('domchange:title', $.t('mySettings.pageTitle'));
       },
 
       submitLang: function(e) {

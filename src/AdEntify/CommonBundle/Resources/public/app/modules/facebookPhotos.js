@@ -67,7 +67,10 @@ define([
 
       serialize: function() {
          return {
-            album: this.albumName
+            album: this.albumName,
+            showBackTo: true,
+            backToText: $.t('externalServicePhotos.backToAlbums'),
+            backToLink: app.beginUrl + app.root + $.t('facebook/albums/')
          };
       },
 

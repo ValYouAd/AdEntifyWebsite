@@ -55,11 +55,14 @@ define([
 
    User.Views.MenuLeft = Backbone.View.extend({
       template: "user/menuLeft",
+      showServices: false,
 
       serialize: function() {
          return {
             model: this.model,
-            lastPhoto: this.lastPhoto
+            lastPhoto: this.lastPhoto,
+            showServices: this.showServices,
+            rootUrl: app.beginUrl + app.root
          };
       },
 
@@ -92,6 +95,10 @@ define([
                hashtags: this.options.hashtags
             }));
          }
+         if (this.showServices && !this.getView('.services')) {
+            var MySettings = require('modules/mySettings');
+            this.setView(".services", new MySettings.Views.ServiceList());
+         }
       },
 
       afterRender: function() {
@@ -107,6 +114,7 @@ define([
          this.lastPhoto = null;
          this.followings = this.options.followings;
          this.followers = this.options.followers;
+         this.showServices = typeof this.options.showServices !== 'undefined' ? this.options.showServices : this.showServices;
          this.listenTo(this.options.user, 'sync', this.render);
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {

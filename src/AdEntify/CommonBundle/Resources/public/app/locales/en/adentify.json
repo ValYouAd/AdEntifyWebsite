@@ -201,7 +201,8 @@
       "downloadAlbums": "Uploading albums in progress…",
       "uploadingError": "Error uploading your photos. Please try again or contact us if error persists.",
       "modalUploadTitle": "Uploading photos in progress...",
-      "modalUploadText": "Your photos are currently uploading. You will be notified at the top right of your screen as soon as they are ready. Then you will be able to tag them!"
+      "modalUploadText": "Your photos are currently uploading. You will be notified at the top right of your screen as soon as they are ready. Then you will be able to tag them!",
+      "backToAlbums": "Back to albums"
    },
    "profile": {
       "follow": "Follow",
@@ -225,7 +226,8 @@
       "noHashtag": "No hashtag yet",
       "noFollowings": "No following yet",
       "noFollowers": "No follower yet",
-      "editMyProfile": "Edit my profile"
+      "editMyProfile": "Edit my profile",
+      "myLinkedServices": "My linked account to AdEntify"
    },
    "category": {
       "errorPhotosLoading": "Error loading photos from this category. Please try again.",
@@ -326,6 +328,7 @@
       "category/slug/": "category/__slug__/",
       "search/": "search/",
       "search/keywords": "search/__keywords__",
-      "my/profile/": "my/profile/"
+      "my/profile/": "my/profile/",
+      "my/settings/": "my/settings/"
    }
 }

@@ -1846,7 +1846,7 @@ html,body {
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 }
 .deleteTagButton {
-    cur
+    cursor: pointer;
 }
 /*
 ----------------------- */
@@ -2278,7 +2278,7 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-pastille-small, .adentify-flat-pastille, .add-tag-icon, .adentify-grey-pastille, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .adentify-grey-pastille-small{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-pastille-small, .adentify-flat-pastille, .add-tag-icon, .adentify-grey-pastille, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .adentify-grey-pastille-small, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
@@ -2596,6 +2596,85 @@ html,body {
     height: 34px;
 }
 
+.facebook-circle-icon{
+    background-position: -241px -186px ;
+    width: 31px;
+    height: 32px;
+}
+
+.flickr-circle-icon{
+    background-position: -206px -185px ;
+    width: 31px;
+    height: 32px;
+}
+
+.google-circle-icon{
+    background-position: -277px -185px ;
+    width: 31px;
+    height: 32px;
+}
+
+.instagram-circle-icon{
+    background-position: -277px -151px ;
+    width: 31px;
+    height: 32px;
+}
+
+.link-account-icon{
+    background-position: -302px -99px ;
+    width: 41px;
+    height: 41px;
+}
+
+.pinterest-circle-icon{
+    background-position: -242px -151px ;
+    width: 31px;
+    height: 32px;
+}
+
+.twitter-circle-icon{
+    background-position: -207px -150px ;
+    width: 31px;
+    height: 32px;
+}
+
+.facebook-grey-circle-icon{
+    background-position: -313px -219px ;
+    width: 31px;
+    height: 32px;
+}
+
+.flickr-grey-circle-icon{
+    background-position: -277px -220px ;
+    width: 31px;
+    height: 32px;
+}
+
+.google-grey-circle-icon{
+    background-position: -242px -220px ;
+    width: 31px;
+    height: 32px;
+}
+
+.instagram-grey-circle-icon{
+    background-position: -207px -221px ;
+    width: 31px;
+    height: 32px;
+}
+
+.pinterest-grey-circle-icon{
+    background-position: -312px -185px ;
+    width: 31px;
+    height: 32px;
+}
+
+.twitter-grey-circle-icon{
+    background-position: -312px -151px ;
+    width: 31px;
+    height: 32px;
+}
+
+
 /* DONT CHANGE IT */
 .grey-share-icon {
     height: 19px;
@@ -2817,6 +2896,19 @@ label,
     text-decoration: none;
     color: white;
 }
+.btn-white-grey {
+    border: 1px solid #dcdbdb;
+    background: #f9f9f9;
+    color: #aeacac;
+    font-size: 10px;
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+    text-transform: uppercase;
+    padding: 3px 30px!important;
+}
+.btn-white-grey:hover {
+    text-decoration: none;
+    color: #6e6e6e;
+}
 .btn-red {
     background: rgb(255,70,70);
     background: -moz-linear-gradient(top,  rgba(255,70,70,1) 0%, rgba(255,45,45,1) 50%);
@@ -2878,6 +2970,24 @@ label,
 }
 .deleteAccountDialog {
     max-width: 800px!important;
+}
+.services-list {
+    padding: 6px 10px;
+}
+.service-item {
+    margin: 10px 0px;
+}
+.service-item .service-icon {
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+.service-item .service-action {
+    display: inline-block;
+    font-family: 'asapitalic', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 11px;
+    word-wrap: break-word;
+    max-width: 75%;
 }
 /* END Settings
 ----------------------- */
@@ -3023,26 +3133,26 @@ label,
         margin: 0px 6px;
     }
 .block-white-background {
-    background: url('../img/section-white-background.png') repeat-y;
-    width: 274px;
+    background: white;
     box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
-    padding: 2px;
+    webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow:   0px 1px 5px rgba(0, 0, 0, 0.3);
+    box-shadow:        0px 1px 5px rgba(0, 0, 0, 0.3);
 }
 .block-white-bottom {
-    background: url('../img/section-white-bottom.png') no-repeat;
-    width: 274px;
-    height: 4px;
+    /*background: url('../img/section-white-bottom.png') no-repeat;
+    height: 4px;*/
 }
 .link-grey-whith-red-arrow {
-    background: url('../img/section-bottom-grey-with-red-arrow.png') no-repeat;
-    width: 274px;
-    height: 43px;
-    line-height: 43px;
+    background: url('../img/section-bottom-grey-with-red-arrow.png') repeat;
+    height: 40px;
+    line-height: 40px;
     display: block;
     color: #b7babe;
     font-size: 11px;
     padding-left: 8px;
     box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
+    margin-left: -2px;
 }
 .link-grey-whith-red-arrow:hover {
     color: #b7babe;
@@ -3342,6 +3452,17 @@ label,
     padding: 15px 0px;
     margin: 0px;
     text-align: center;
+}
+.top-grey-title-container .back-to-link a {
+    color: #606366;
+    font-size: 11px;
+    font-family: 'asapitalic', "Helvetica Neue", "Arial", sans-serif;
+    padding: 15px 10px;
+    line-height: 50px;
+    vertical-align: middle;
+}
+.top-grey-title-container .back-to-link a:hover {
+    text-decoration: none;
 }
 ul.striped > li:nth-child(even) {
     background-color: #f5f6f7;

@@ -359,7 +359,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followings: followings,
                followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
+               showServices: true
             })
          }).render();
 
@@ -392,7 +393,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followings: followings,
                followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
+               showServices: true
             })
          }).render();
 
@@ -427,7 +429,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followings: followings,
                followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
+               showServices: true
             })
          }).render();
 
@@ -463,7 +466,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followings: followings,
                followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
+               showServices: true
             })
          }).render();
 
@@ -498,7 +502,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followings: followings,
                followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
+               showServices: true
             })
          }).render();
 
@@ -661,7 +666,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followings: followings,
                followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
+               showServices: true
             })
          }).render();
 
@@ -1035,9 +1041,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       handleWindowEvent: function() {
-         /*$(window).scroll(function(e) {
-            $('#right-pane-scrollview').css({top: $(window).scrollTop() });
-         });*/
          if (accountEnabled == 0) {
             $('#accountDisabled').modal('show');
          }

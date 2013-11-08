@@ -1,4 +1,9 @@
 <div class="top-grey-title-container">
+    <% if (typeof(showBackTo) !== 'undefined' && showBackTo) { %>
+    <div class="pull-right back-to-link">
+        <a href="<%= backToLink %>"><%= backToText %> <i class="glyphicon glyphicon-chevron-right"></i></a>
+    </div>
+    <% } %>
     <h1 data-i18n="upload.<%= typeof(title) !== 'undefined' ? title : 'addPhotosTitle' %>"></h1>
 </div>
 

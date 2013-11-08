@@ -201,7 +201,8 @@
       "downloadAlbums": "Récupération de vos albums en cours...",
       "uploadingError": "Impossible d'envoyer vos photos, veuillez réessayer ou nous contacter si l'erreur persiste",
       "modalUploadTitle": "Envoi des photos en cours...",
-      "modalUploadText": "Vos photos sont en cours de récupération. Vous recevrez une notification en haut à droite de votre écran dès que ces dernières seront prêtes. Vous pourrez alors taguer vos photos!"
+      "modalUploadText": "Vos photos sont en cours de récupération. Vous recevrez une notification en haut à droite de votre écran dès que ces dernières seront prêtes. Vous pourrez alors taguer vos photos!",
+      "backToAlbums": "Retour aux albums"
    },
    "profile": {
       "follow": "Suivre",
@@ -225,7 +226,8 @@
       "noHashtag": "Aucun hashtag pour le moment",
       "noFollowings": "Aucun abonnement pour le moment",
       "noFollowers": "Aucun abonné pour le moment",
-      "editMyProfile": "Editer mon profil"
+      "editMyProfile": "Editer mon profil",
+      "myLinkedServices": "Mes comptes liés à AdEntify"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
@@ -326,6 +328,7 @@
       "category/slug/": "categorie/__slug__/",
       "search/": "recherche/",
       "search/keywords": "recherche/__keywords__",
-      "my/profile/": "mon/profil/"
+      "my/profile/": "mon/profil/",
+      "my/settings/": "mes/parametres/"
    }
 }
