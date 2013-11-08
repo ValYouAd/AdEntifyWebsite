@@ -19,7 +19,7 @@ define([
 
       initialize: function() {
          var images = this.get('images');
-         this.set('thumbUrl', images['thumbnail']['url']);
+         this.set('thumbUrl', images['low_resolution']['url']);
          // Get larger image
          this.set('originalUrl', images['standard_resolution']['url']);
          this.set('originalWidth', images['standard_resolution']['width']);
@@ -49,23 +49,40 @@ define([
          app.trigger('domchange:title', $.t('instagram.pageTitle'));
 
          this.listenTo(this.options.photos, {
-            "add": this.render
+            'sync': this.render
          });
 
          this.photos = this.options.photos;
+         this.categories = this.options.categories;
+         this.listenTo(this.options.categories, {
+            'sync': this.render
+         });
       },
 
       beforeRender: function() {
          this.options.photos.each(function(photo) {
             this.insertView("#photos-list", new ExternalServicePhotos.Views.Item({
-               model: photo
+               model: photo,
+               categories: this.categories
             }));
          }, this);
 
          if (!this.getView('.upload-counter-view')) {
-            this.setView('.upload-counter-view', new ExternalServicePhotos.Views.Counter({
+            var counterView = new ExternalServicePhotos.Views.Counter({
                counterType: 'photos'
-            }));
+            });
+            var that = this;
+            counterView.on('checkedPhoto', function(count) {
+               var submitButton = $(that.el).find('.submit-photos-button');
+               if (count > 0) {
+                  if ($(that.el).find('.submit-photos-button:visible').length == 0)
+                     submitButton.fadeIn('fast');
+               } else {
+                  if ($(that.el).find('.submit-photos-button:hidden').length == 0)
+                     submitButton.fadeOut('fast');
+               }
+            });
+            this.setView('.upload-counter-view', counterView);
          }
       },
 
@@ -108,6 +125,7 @@ define([
                                     photos[i] = response.data[i];
                                  }
                                  that.options.photos.add(photos);
+                                 that.options.photos.trigger('sync');
                               },
                               error : function() {
                                  console.log('impossible de récupérer les photos instagram');

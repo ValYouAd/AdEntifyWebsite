@@ -21,37 +21,56 @@ define([
 
    ExternalServicePhotos.Views.Item = Backbone.View.extend({
       template: "externalServicePhotos/item",
-      tagName: 'div class="col-sm-3 photo-item"',
+      tagName: 'div class="col-sm-4 photo-item"',
       enableCheck: true,
-
-      initialize: function() {
-         this.enableCheck = typeof this.options.enableCheck === 'undefined' ? this.enableCheck : this.options.enableCheck;
-      },
 
       serialize: function() {
          return {
             model: this.model,
-            enableCheck: this.enableCheck
+            enableCheck: this.enableCheck,
+            categories : this.categories
          };
       },
 
-      events: {
-         'click .check-image' : 'toggleCheckedImage'
-      },
-
-      toggleCheckedImage: function(e) {
-         if (this.enableCheck) {
-            var container = $(e.currentTarget).find('.check-image-container');
-            if (container.length > 0) {
-               container.toggleClass('checked');
-            }
-            this.model.set('checked', this.model.has('checked') ? !this.model.get('checked') : true);
-            app.trigger('externalServicePhoto:imageChecked', this.model.get('checked') ? 1 : -1);
-         }
+      initialize: function() {
+         this.enableCheck = typeof this.options.enableCheck === 'undefined' ? this.enableCheck : this.options.enableCheck;
+         this.categories = this.options.categories;
       },
 
       afterRender: function() {
          $(this.el).i18n();
+         if (this.categories.length > 0) {
+            var that = this;
+            $(this.el).find('.selectCategories').select2();
+            $(this.el).find('.selectCategories').on('change', function() {
+               that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
+            });
+         }
+      },
+
+      selectPhoto: function(e) {
+         var container = $(this.el).find('.photo-inner');
+         if (container.length > 0) {
+            container.addClass('checked');
+         }
+         $(this.el).find('.checked-overlay').fadeIn('fast');
+         this.model.set('checked', true);
+         app.trigger('externalServicePhoto:imageChecked', 1);
+      },
+
+      unselectPhoto: function() {
+         var container = $(this.el).find('.photo-inner');
+         if (container.length > 0) {
+            container.addClass('checked');
+         }
+         $(this.el).find('.checked-overlay').fadeOut('fast');
+         this.model.set('checked', false);
+         app.trigger('externalServicePhoto:imageChecked', -1);
+      },
+
+      events: {
+         'click .hover-overlay': 'selectPhoto',
+         'click .unselect-button': 'unselectPhoto'
       }
    });
 
@@ -331,6 +350,7 @@ define([
             this.checkedImagesCount = 0;
             this.listenTo(app, 'externalServicePhoto:imageChecked', function(value) {
                this.checkedImagesCount = this.checkedImagesCount + value;
+               this.trigger('checkedPhoto', this.checkedImagesCount);
                this.render();
             });
          }

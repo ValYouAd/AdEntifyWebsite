@@ -77,7 +77,6 @@
       "browseLocalPhotos": "Parcourir mes photos",
       "addPhotosTitle": "Ajouter des photos",
       "addAlbumsTitle": "Ajouter des albums",
-      "albumSelected": "Sélectionné",
       "categories": "Ajouter une ou plusieurs catégories",
       "countSelectedAlbum": "Vous avez sélectionné <strong>__count__ album</strong> afin de les partager sur AdEntify",
       "countSelectedAlbum_plural": "Vous avez sélectionné <strong>__count__ albums</strong> afin de les partager sur AdEntify",
@@ -176,7 +175,8 @@
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
-      "selected": "Sélectionnée",
+      "selected": "Sélectionné",
+      "photoSelected": "Sélectionnée",
       "download": "Récupération de vos photos en cours...",
       "noSelectedPhoto": "Vous n'avez sélectionné aucune photo pour le moment.",
       "haveRights": "Je dispose des droits pour ces photos",

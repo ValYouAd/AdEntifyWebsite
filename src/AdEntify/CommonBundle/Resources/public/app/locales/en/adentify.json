@@ -75,7 +75,6 @@
       "browseLocalPhotos": "Browse photos",
       "addPhotosTitle": "Upload photos",
       "addAlbumsTitle": "Upload albums",
-      "albumSelected": "Selected",
       "categories": "Add one or more categories",
       "countSelectedAlbum": "You have selected <strong>__count__ album</strong> to share on AdEntify",
       "countSelectedAlbum_plural": "ou have selected <strong>__count__ albums</strong> to share on AdEntify",
@@ -175,6 +174,7 @@
    "externalServicePhotos": {
       "select": "Select",
       "selected": "Selected",
+      "photoSelected": "Selected",
       "download": "Loading your photos...",
       "noSelectedPhoto": "You haven't selected any photo yet.",
       "haveRights": "I own the rights for those photos",

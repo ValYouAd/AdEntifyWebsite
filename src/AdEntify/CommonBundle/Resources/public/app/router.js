@@ -391,50 +391,106 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
+         var followers = new User.Collection();
+         var followings = new User.Collection();
+
          app.useLayout().setViews({
             "#center-pane-content": new FacebookAlbums.Views.List({
                albums: this.fbAlbums,
                categories: this.categories
             }),
-            "#left-pane": new ExternalServicePhotos.Views.MenuRightAlbums({
-               categories: this.categories
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags
             })
          }).render();
 
          this.categories.fetch();
+         followings.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
+         });
       },
 
       facebookAlbumsPhotos: function(id) {
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
+         var followers = new User.Collection();
+         var followings = new User.Collection();
+
          app.useLayout().setViews({
             "#center-pane-content": new FacebookPhotos.Views.List({
                albumId: id,
-               photos: this.fbPhotos
-            }),
-            "#left-pane": new ExternalServicePhotos.Views.MenuRightPhotos({
+               photos: this.fbPhotos,
                categories: this.categories
+            }),
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags
             })
          }).render();
 
          this.categories.fetch();
+         followings.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
+         });
       },
 
       instagramPhotos: function() {
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
+         var followers = new User.Collection();
+         var followings = new User.Collection();
+
          app.useLayout().setViews({
             "#center-pane-content": new InstagramPhotos.Views.List({
-               photos: this.istgPhotos
-            }),
-            "#left-pane": new ExternalServicePhotos.Views.MenuRightPhotos({
+               photos: this.istgPhotos,
                categories: this.categories
+            }),
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags
             })
          }).render();
 
          this.categories.fetch();
+         followings.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
+         });
       },
 
       flickrSets: function() {

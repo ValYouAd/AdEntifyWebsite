@@ -29,12 +29,12 @@ define([
                return image['width'] == 960;
             });
             if (smallImage) {
-               this.set('thumbUrl', smallImage['source']);
                this.set('smallUrl', smallImage['source']);
                this.set('smallWidth', smallImage['width']);
                this.set('smallHeight', smallImage['height']);
             }
             if (mediumImage) {
+               this.set('thumbUrl', mediumImage['source']);
                this.set('mediumUrl', mediumImage['source']);
                this.set('mediumWidth', mediumImage['width']);
                this.set('mediumHeight', mediumImage['height']);
@@ -84,19 +84,36 @@ define([
          app.trigger('domchange:title', $.t('facebook.photosPageTitle'));
          this.listenTo(this.options.photos, 'sync', this.render);
          this.photos = this.options.photos;
+         this.categories = this.options.categories;
+         this.listenTo(this.options.categories, {
+            'sync': this.render
+         });
       },
 
       beforeRender: function() {
          this.options.photos.each(function(photo) {
             this.insertView("#photos-list", new ExternalServicePhotos.Views.Item({
-               model: photo
+               model: photo,
+               categories: this.categories
             }));
          }, this);
 
          if (!this.getView('.upload-counter-view')) {
-            this.setView('.upload-counter-view', new ExternalServicePhotos.Views.Counter({
+            var counterView = new ExternalServicePhotos.Views.Counter({
                counterType: 'photos'
-            }));
+            });
+            var that = this;
+            counterView.on('checkedPhoto', function(count) {
+               var submitButton = $(that.el).find('.submit-photos-button');
+               if (count > 0) {
+                  if ($(that.el).find('.submit-photos-button:visible').length == 0)
+                     submitButton.fadeIn('fast');
+               } else {
+                  if ($(that.el).find('.submit-photos-button:hidden').length == 0)
+                     submitButton.fadeOut('fast');
+               }
+            });
+            this.setView('.upload-counter-view', counterView);
          }
       },
 
