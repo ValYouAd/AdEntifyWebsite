@@ -31,6 +31,17 @@ class ActionRepository extends EntityRepository
                                  $linkedObjectId = null, $linkedObjectType = null, $createNotification = true,
                                  $message = null, $messageOptions = null, User $notificationOwner = null)
     {
+        // Check if same action already exist
+        /*$action = $this->getEntityManager()->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
+            WHERE action.actionType = :actionType AND action.author = :author AND action.target =')
+            ->setParameters(array(
+                'actionType' => $actionType,
+                'author' => $author ? $author->getId() : 0,
+                'target' => $target ? $target->getId() : 0,
+                'linkedObjectId' => $linkedObjectId ? $linkedObjectId : 0,
+                'photos' => $photos ? $photos : array(0)
+            ))->getOneOrNullResult();*/
+
         $action = null;
 
         // Notification

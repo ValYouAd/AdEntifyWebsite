@@ -239,13 +239,20 @@ define([
       }
    });
 
-   User.ProfileInfosDropdown = {
+   User.Dropdown = {
        listenClick: function() {
           $('.profile-infos .user-names, .profile-infos a').click(function() {
              if ($('.profile-infos .dropdown-menu:visible').length > 0) {
                 $('.profile-infos .dropdown-menu').fadeOut();
              } else {
                 $('.profile-infos .dropdown-menu').fadeIn(100);
+             }
+          });
+          $('.navbar .tag-button, .navbar .tag-button a').click(function() {
+             if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
+                $('.navbar .tag-button .dropdown-menu').fadeOut();
+             } else {
+                $('.navbar .tag-button .dropdown-menu').fadeIn(100);
              }
           });
        }

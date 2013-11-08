@@ -2171,6 +2171,24 @@ label,
 .navbar .tag-button {
     margin-top: 6px;
     margin-right: -30px;
+    cursor: pointer;
+    position: relative;
+}
+.navbar .tag-button .dropdown-menu {
+    top: 56px;
+    right: 0px;
+    font-size: 14px;
+    width: 240px;
+}
+.navbar .tag-button .white-arrow-top {
+    top: -6px;
+    right: 20px;
+}
+.navbar .tag-button .icon {
+    margin-right: 18px;
+}
+.navbar .tag-button .dropdown-menu li {
+    padding: 15px 20px;
 }
 .user-information {
     margin-top: 8px;

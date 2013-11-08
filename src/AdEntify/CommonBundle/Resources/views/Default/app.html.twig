@@ -72,7 +72,7 @@
                                                 {% endif %}
                                             </div>
                                             <div class="user-points">
-                                                <span class="user-points-value">0</span> <sup>Pts</sup>
+                                                <span class="user-points-value">0</span> <sup>Points</sup>
                                             </div>
                                         </div>
                                     {% else %}
@@ -83,7 +83,14 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="sprites tag-button pull-right"></div>
+                            <div class="sprites tag-button pull-right">
+                                <div class="dropdown-menu">
+                                    <div class="white-arrow-top"></div>
+                                    <ul class="list-unstyled">
+                                        <li><a href="{{ full_root_url }}{{ 'upload/'|trans }}"><i class="icon my-pictures"></i> {{ 'Upload photos'|trans }}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -940,7 +940,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }
          if (!dropdownMenusSetup) {
             dropdownMenusSetup = true;
-            User.ProfileInfosDropdown.listenClick();
+            User.Dropdown.listenClick();
          }
       },
 
