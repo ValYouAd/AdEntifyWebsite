@@ -205,7 +205,7 @@ define([
             if (!response.error && response.length > 0) {
                albums.unshift({
                   'name': $.t('facebook.photosOfYou'),
-                  'picture': response[0].picture,
+                  'picture': response[0].source,
                   'url': app.beginUrl + app.root + 'facebook/albums/photos-of-you/photos/',
                   'customAlbum': true
                });
@@ -237,6 +237,18 @@ define([
                callback({
                   error: error
                });
+            }
+         });
+      },
+
+      loadAlbumName: function(albumId, callback) {
+         FB.api('/'+ albumId +'?fields=name', function(response) {
+            if (!response || response.error) {
+               callback({
+                  error: response.error
+               });
+            } else {
+               callback(response.name);
             }
          });
       },

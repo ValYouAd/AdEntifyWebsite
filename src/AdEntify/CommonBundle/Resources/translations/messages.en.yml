@@ -48,6 +48,7 @@ modal:
 
 #Routing
 photos/untagged/: photos/untagged/
+my/photos/: my/photos/
 my/photos/tagged/: my/photos/tagged/
 my/photos/untagged/: my/photos/untagged/
 photo/%id%/: photo/%id%/

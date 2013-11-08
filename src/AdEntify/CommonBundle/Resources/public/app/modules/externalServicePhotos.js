@@ -21,44 +21,64 @@ define([
 
    ExternalServicePhotos.Views.Item = Backbone.View.extend({
       template: "externalServicePhotos/item",
-      tagName: "li span2",
+      tagName: 'div class="col-sm-4 photo-item"',
       enableCheck: true,
-
-      initialize: function() {
-         this.enableCheck = typeof this.options.enableCheck === 'undefined' ? this.enableCheck : this.options.enableCheck;
-      },
 
       serialize: function() {
          return {
             model: this.model,
-            enableCheck: this.enableCheck
+            enableCheck: this.enableCheck,
+            categories : this.categories
          };
       },
 
-      events: {
-         'click .check-image' : 'toggleCheckedImage'
-      },
-
-      toggleCheckedImage: function(e) {
-         if (this.enableCheck) {
-            var container = $(e.currentTarget).find('.check-image-container');
-            if (container.length > 0) {
-               container.toggleClass('checked');
-            }
-            this.model.set('checked', this.model.has('checked') ? !this.model.get('checked') : true);
-            app.trigger('externalServicePhoto:imageChecked', this.model.get('checked') ? 1 : -1);
-         }
+      initialize: function() {
+         this.enableCheck = typeof this.options.enableCheck === 'undefined' ? this.enableCheck : this.options.enableCheck;
+         this.categories = this.options.categories;
       },
 
       afterRender: function() {
          $(this.el).i18n();
+         if (this.categories.length > 0) {
+            var that = this;
+            $(this.el).find('.selectCategories').select2();
+            $(this.el).find('.selectCategories').on('change', function() {
+               that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
+            });
+         }
+      },
+
+      selectPhoto: function(e) {
+
+         var container = $(this.el).find('.photo-inner');
+         if (container.length > 0) {
+            container.addClass('checked');
+         }
+         $(this.el).find('.checked-overlay').fadeIn('fast');
+         this.model.set('checked', true);
+         app.trigger('externalServicePhotos:selectPhoto', this.model);
+      },
+
+      unselectPhoto: function() {
+         var container = $(this.el).find('.photo-inner');
+         if (container.length > 0) {
+            container.removeClass('checked');
+         }
+         $(this.el).find('.checked-overlay').fadeOut('fast');
+         this.model.set('checked', false);
+         app.trigger('externalServicePhotos:unselectPhoto', this.model);
+      },
+
+      events: {
+         'click .hover-overlay': 'selectPhoto',
+         'click .unselect-button': 'unselectPhoto'
       }
    });
 
    ExternalServicePhotos.Views.AlbumItem = Backbone.View.extend({
       template: "externalServicePhotos/albumItem",
 
-      tagName: "li class='span2'",
+      tagName: 'div class="col-sm-4 album-item"',
 
       serialize: function() {
          return {
@@ -76,19 +96,16 @@ define([
                that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
             });
          }
-         $(this.el).find('.photos-confidentiality').change(function() {
-            if ($(this).val())
-               that.model.set('confidentiality', $(this).val());
-         });
       },
 
       initialize: function() {
-         this.listenTo(this.model, 'change', this.render);
+         this.listenTo(this.model, 'change:picture', this.render);
          this.categories = this.options.categories;
       },
 
       selectAlbum: function() {
          var that = this;
+         $(this.el).find('.album-selected').fadeIn('fast');
          $(this.el).find('.caption-select').fadeOut('fast', function() {
             $(that.el).find('.caption-selected').fadeIn();
          });
@@ -97,6 +114,7 @@ define([
 
       cancelSelection: function() {
          var that = this;
+         $(this.el).find('.album-selected').fadeOut('fast');
          $(this.el).find('.caption-selected').fadeOut('fast', function() {
             $(that.el).find('.caption-select').fadeIn();
          });
@@ -104,8 +122,8 @@ define([
       },
 
       events: {
-         "click .selectAlbum": "selectAlbum",
-         "click .cancelSelection": "cancelSelection"
+         'click .selectAlbum': 'selectAlbum',
+         'click .unselect-button': 'cancelSelection'
       }
    });
 
@@ -296,6 +314,50 @@ define([
          $(this.el).i18n();
          if (typeof this.categories !== 'undefined' && this.categories.length > 0)
             $(this.el).find('.selectCategories').select2();
+      }
+   });
+
+   ExternalServicePhotos.Views.Counter = Backbone.View.extend({
+      template: 'externalServicePhotos/counter',
+
+      serialize: function() {
+         return {
+            count: this.counterType == 'album' ? this.checkedAlbums.length : this.checkedPhotos.length,
+            translationKey: this.counterType == 'album' ? 'countSelectedAlbum' : 'countSelectedPhoto'
+         };
+      },
+
+      initialize: function() {
+         this.counterType = this.options.counterType;
+         if (this.counterType == 'album') {
+            this.checkedAlbums = [];
+            this.listenTo(app, 'externalServicePhotos:selectAlbum', function(album) {
+               this.checkedAlbums.push(album);
+               this.trigger('checkedAlbum', this.checkedAlbums.length);
+               this.render();
+            });
+            this.listenTo(app, 'externalServicePhotos:cancelSelectAlbum', function(album) {
+               index = _.indexOf(this.checkedAlbums, album);
+               if (index > -1)
+                  this.checkedAlbums.splice(index, 1);
+               this.trigger('checkedAlbum', this.checkedAlbums.length);
+               this.render();
+            });
+         } else {
+            this.checkedPhotos = [];
+            this.listenTo(app, 'externalServicePhotos:selectPhoto', function(photo) {
+               this.checkedPhotos.push(photo);
+               this.trigger('checkedPhoto', this.checkedPhotos.length);
+               this.render();
+            });
+            this.listenTo(app, 'externalServicePhotos:unselectPhoto', function(photo) {
+               index = _.indexOf(this.checkedPhotos, photo);
+               if (index > -1)
+                  this.checkedPhotos.splice(index, 1);
+               this.trigger('checkedPhoto', this.checkedPhotos.length);
+               this.render();
+            });
+         }
       }
    });
 

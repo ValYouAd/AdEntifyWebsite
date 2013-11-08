@@ -19,7 +19,7 @@ define([
 
       initialize: function() {
          var images = this.get('images');
-         this.set('thumbUrl', images['thumbnail']['url']);
+         this.set('thumbUrl', images['low_resolution']['url']);
          // Get larger image
          this.set('originalUrl', images['standard_resolution']['url']);
          this.set('originalWidth', images['standard_resolution']['width']);
@@ -37,6 +37,11 @@ define([
 
    InstagramPhotos.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/list",
+      confidentiality: 'public',
+
+      serialize: function() {
+         return { album: null }
+      },
 
       initialize: function() {
          this.loadPhotos();
@@ -45,18 +50,41 @@ define([
          app.trigger('domchange:title', $.t('instagram.pageTitle'));
 
          this.listenTo(this.options.photos, {
-            "add": this.render
+            'sync': this.render
          });
 
          this.photos = this.options.photos;
+         this.categories = this.options.categories;
+         this.listenTo(this.options.categories, {
+            'sync': this.render
+         });
       },
 
       beforeRender: function() {
          this.options.photos.each(function(photo) {
             this.insertView("#photos-list", new ExternalServicePhotos.Views.Item({
-               model: photo
+               model: photo,
+               categories: this.categories
             }));
          }, this);
+
+         if (!this.getView('.upload-counter-view')) {
+            var counterView = new ExternalServicePhotos.Views.Counter({
+               counterType: 'photos'
+            });
+            var that = this;
+            counterView.on('checkedPhoto', function(count) {
+               var submitButton = $(that.el).find('.submit-photos-button');
+               if (count > 0) {
+                  if ($(that.el).find('.submit-photos-button:visible').length == 0)
+                     submitButton.fadeIn('fast');
+               } else {
+                  if ($(that.el).find('.submit-photos-button:hidden').length == 0)
+                     submitButton.fadeOut('fast');
+               }
+            });
+            this.setView('.upload-counter-view', counterView);
+         }
       },
 
       afterRender: function() {
@@ -64,6 +92,11 @@ define([
          if (this.options.photos.length > 0) {
             $('#loading-photos').hide();
          }
+         var that = this;
+         $(this.el).find('.photos-confidentiality').change(function() {
+            if ($(this).val())
+               that.confidentiality = $(this).val();
+         });
       },
 
       loadPhotos: function() {
@@ -98,6 +131,7 @@ define([
                                     photos[i] = response.data[i];
                                  }
                                  that.options.photos.add(photos);
+                                 that.options.photos.trigger('sync');
                               },
                               error : function() {
                                  console.log('impossible de récupérer les photos instagram');
@@ -123,28 +157,27 @@ define([
          });
 
          // Get checked images
-         checkedImages = $('.checked img');
-         if (checkedImages.length > 0) {
+         var that = this;
+         var counterView = this.getView('.upload-counter-view');
+         if (counterView.checkedPhotos.length > 0) {
             var images = [];
-            var that = this;
-            _.each(checkedImages, function(image, index) {
-               instagramImage = {
-                  'originalSource' : $(image).data('original-url'),
-                  'originalWidth' : $(image).data('original-width'),
-                  'originalHeight' : $(image).data('original-height'),
-                  'title' : $(image).data('title'),
-                  'id': $(image).data('service-photo-id'),
-                  'confidentiality': options.confidentiality,
-                  'categories': options.categories
+            _.each(counterView.checkedPhotos, function(model) {
+               var instagramImage = {
+                  'originalSource' : model.get('originalUrl'),
+                  'originalWidth' : model.get('originalWidth'),
+                  'originalHeight' : model.get('originalHeight'),
+                  'id': model.get('servicePhotoId'),
+                  'title' : model.get('title'),
+                  'confidentiality': that.confidentiality,
+                  'categories': model.get('categories')
                };
-               photoModel = that.photos.get(instagramImage.id);
-               if (photoModel.has('location')) {
-                  instagramImage.location = photoModel.get('location');
+               if (model.has('location')) {
+                  instagramImage.location = model.get('location');
                }
                // Tags
-               if (photoModel.has('users_in_photo') && photoModel.get('users_in_photo').length > 0) {
+               if (model.has('users_in_photo') && model.get('users_in_photo').length > 0) {
                   instagramImage.tags = [];
-                  _.each(photoModel.get('users_in_photo'), function(tag) {
+                  _.each(model.get('users_in_photo'), function(tag) {
                      instagramImage.tags.push({
                         'x': tag.position.x * 100,
                         'y': tag.position.y * 100,
@@ -156,10 +189,10 @@ define([
                   });
                }
                // Hashtags
-               if (photoModel.has('tags') && photoModel.get('tags').length > 0) {
-                  instagramImage.hashtags = photoModel.get('tags');
+               if (model.has('tags') && model.get('tags').length > 0) {
+                  instagramImage.hashtags = model.get('tags');
                }
-               images[index] = instagramImage;
+               images.push(instagramImage);
             });
 
             // POST images to database

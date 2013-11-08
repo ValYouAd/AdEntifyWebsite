@@ -104,7 +104,7 @@ define([
                var tagName = 'li class="action-item"';
                switch (action.get('type')) {
                   case 'photo-upload':
-                     if (action.get('photos').length > 3) {
+                     if (action.get('photos').length > 1) {
                         template = 'action/itemWithPhotos';
                         tagName = 'action-item-with-photos';
                      } else {

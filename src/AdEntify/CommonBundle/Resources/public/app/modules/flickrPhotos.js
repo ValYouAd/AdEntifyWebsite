@@ -37,6 +37,13 @@ define([
 
    FlickrPhotos.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/list",
+      albumName: '',
+
+      serialize: function() {
+         return {
+            album: this.albumName
+         };
+      },
 
       initialize: function() {
          this.loadPhotos();
