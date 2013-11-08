@@ -70,7 +70,7 @@ define([
             this.set('tagsConverted', '');
             this.set('tags', new Tag.Collection(this.get('tags')));
          } else {
-            if (typeof init !== 'undefined' && init)
+            if (typeof init !== 'undefined' && init && this.has('tags') && this.get('tags').length == 0)
                this.set('tags', new Tag.Collection());
          }
       },
