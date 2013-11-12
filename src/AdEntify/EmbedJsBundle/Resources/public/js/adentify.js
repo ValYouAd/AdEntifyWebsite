@@ -26,7 +26,7 @@
 
    AdEntify = {
       hoverTimeout: null,
-      rootUrl: "//local.adentify.com/",
+      rootUrl: "//dev.adentify.com/",
       showTags: false,
       showLikes: false,
 

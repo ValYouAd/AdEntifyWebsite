@@ -2735,7 +2735,7 @@ html,body {
     padding: 0px 20px;
 }
 .modal-content {
-    background: url('../img/graphik_background.png') no-repeat fixed;
+    background: #e6e9ed url('../img/graphik_background.png') no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -3630,6 +3630,9 @@ ul.striped > li:nth-child(even) {
     vertical-align: middle;
     width: 100%;
     height: 100%;
+}
+.text-justify {
+    text-align: justify;
 }
 /*
 ----------------------- */

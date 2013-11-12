@@ -1,0 +1,145 @@
+header {
+    border-top: 10px solid #ff3d3c;
+}
+    .pastille-adentify {
+        top: 0px;
+    }
+    .account-buttons {
+        top: 200px;
+    }
+
+.homepage-capture {
+    margin-top: 305px;
+}
+
+.polygon-background {
+    background: url('../../bundles/adentifycommon/images/about-polygon-background.jpg') no-repeat top center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-bottom: 90px;
+}
+    .polygon-background h2 {
+        font-size: 40px;
+        font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+        color: #5b5756;
+        padding: 50px 0px;
+        margin-top: 0px;
+    }
+
+/* How it works */
+.how-it-works-inner {
+    background: url('../../bundles/adentifycommon/images/about-captures.png') no-repeat top center;
+    width: 1019px;
+    margin: 20px auto 0px auto;
+    height: 1650px;
+    position: relative;
+}
+.steps {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 22px;
+    color: #828081;
+    text-align: left;
+}
+.steps strong {
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+    font-weight: normal;
+}
+.steps li {
+    position: absolute;
+}
+.step1 {
+    top: 155px;
+    left: 711px;
+    max-width: 215px;
+}
+.step2 {
+    top: 819px;
+    left: 3px;
+    max-width: 280px;
+}
+.step3 {
+    top: 1346px;
+    left: 711px;
+    max-width: 280px;
+}
+
+/* Rewards earnings */
+.rewards-earnings {
+    background: url('../../bundles/adentifycommon/images/tags_count_bg.jpg') no-repeat;
+    height: 482px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: #FFFFFF;
+}
+    .rewards-earnings h2 {
+        font-size: 50px;
+        font-family: 'asapbold_italic', "Helvetica Neue", "Arial", sans-serif;
+        margin-top: 0px;
+        padding-top: 20px;
+        text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .rewards-earnings p {
+        font-size: 40px;
+        font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+        text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .rewards-earnings .row {
+        max-width: 700px;
+        margin: auto;
+    }
+
+/* Launch */
+.launch {
+    background: #ffffff;
+    background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f6f6f6));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4747', endColorstr='#ff2d2c',GradientType=0 );
+    border-top: 1px solid #dad9d9;
+}
+     .launch .container {
+         position: relative;
+     }
+     .launch-inner {
+         position: relative;
+         z-index: 10;
+     }
+    .launch h2 {
+        font-size: 40px;
+        font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+        color: #5b5756;
+        padding: 100px 0px 50px 0px;
+        margin-top: 0px;
+    }
+    .porte-voix {
+        background: url('../../bundles/adentifycommon/images/porte-voix-grey.png') no-repeat;
+        width: 442px;
+        height: 331px;
+        position: absolute;
+        bottom: 0px;
+        left: 150px;
+        z-index: 0;
+    }
+    .launch .btn {
+        width: 227px;
+        height: 50px;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+    .launch .icon {
+        float: left;
+        margin-right: 10px;
+    }
+    .launch .text {
+        float: left;
+    }
+    .signup-wrapper {
+        margin-bottom: 120px;
+    }

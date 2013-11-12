@@ -1,0 +1,48 @@
+html, body {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 14px;
+    color: #828081;
+}
+header {
+    border-top: 10px solid #ff3d3c;
+    width: 100%;
+    height: 10px;
+}
+.grey-border {
+    border-left: 1px solid #e1e0e0;
+    border-right: 1px solid #e1e0e0;
+}
+.title {
+    padding: 40px 0px;
+}
+
+h1 {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 36px;
+    color: #2c2c2e;
+}
+h2 {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 20px;
+    color: #9da0a4;
+}
+
+.map {
+    border-top: 1px solid #e1e0e0;
+    border-bottom: 1px solid #e1e0e0;
+    height: 275px;
+    margin-bottom: 30px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+#map-canvas {
+    witdh: 100%;
+    height: 100%;
+}
+
+/* Form */
+form {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 12px;
+    color: #5b5756;
+}

@@ -40,11 +40,26 @@ More photos: More photos
 Account disabled: Account under validation
 Close: Close
 Your account is currently under validation.: Your account is currently under validation.
+How it works?: Comment ça marche ?
+HowItWorksStep1: <strong>Ajoutez</strong> vos photos via Facebook, Twitter, Pinterest ou flickr
+HowItWorksStep2: <strong>Enrichissez</strong> vos tags et partagez les avec vos amis
+HowItWorksStep3: <strong>Bénéficiez</strong> de réductions sur vos marques préférées
+Win points: Win points
+Win cash: Win cash
+RewardsEarningsText: Taguez vos marques préférées et ...
 
 #Login
 modal:
     login: Login
     signup: Sign up
+
+#Contact
+contact:
+    email: Your email
+    name: Your name
+    message: Your message
+    send: Send
+    sent: Your message was sent. We will reply to it as soon as posssible.
 
 #Routing
 photos/untagged/: photos/untagged/

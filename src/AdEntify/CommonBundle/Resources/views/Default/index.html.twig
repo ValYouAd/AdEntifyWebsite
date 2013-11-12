@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
 {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
     'bundles/adentifycommon/css/index.css'
 %}
 <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
@@ -144,11 +145,7 @@
         </div>
     </div>
 
-    <footer>
-        <div class="container text-center">
-            <a href="">{{ 'Advertisers'|trans }}</a> • <a href="">{{ 'Press'|trans }}</a> • <a href="">{{ 'About'|trans }}</a> • <a href="">{{ 'Contact'|trans }}</a> • <a href="">{{ 'Legal notice'|trans }}</a>
-        </div>
-    </footer>
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
 
     <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
         <div class="modal-dialog">
