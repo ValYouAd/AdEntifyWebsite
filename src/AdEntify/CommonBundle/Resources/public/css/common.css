@@ -87,15 +87,6 @@ header {
         margin-left: 25px;
         margin-top: -4px;
     }
-    .btn-red-grey-border {
-        border: 4px solid #cbced2!important;
-        padding: 0px 40px!important;
-        height: 45px;
-        line-height: 35px;
-        vertical-align: middle;
-        color: #FFFFFF;
-        font-size:18px;
-    }
 /* Header
 ----------------------- */
 
@@ -104,14 +95,14 @@ header {
 footer {
     background: url('../images/home_offline_footer.png');
     width: 100%;
-    height: 91px;
+    height: 71px;
     border: 0px;
     font-family: 'asapbold_italic', sans-serif;
     font-style: italic;
     font-size: 11px;
     color: #ffffff;
     text-transform: uppercase;
-    padding-top: 40px;
+    padding-top: 30px;
 }
 footer a:hover,
 footer a {
@@ -123,6 +114,35 @@ footer a {
 /* End Footer
 ----------------------- */
 
+/* Backgrounds */
+.polygon-background {
+    background: url('../images/polygon-background.jpg') no-repeat top center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-bottom: 90px;
+    border-bottom: 1px solid #d9d9d9;
+    border-top: 1px solid #d9d9d9;
+}
+.red-patchwork {
+    background: url('../images/tags_count_bg.jpg') no-repeat;
+    height: 482px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: #FFFFFF;
+}
+.porte-voix {
+    background: url('../images/porte-voix-grey.png') no-repeat;
+    width: 442px;
+    height: 331px;
+    position: absolute;
+    bottom: 0px;
+    left: 150px;
+    z-index: 0;
+}
 
 /* Buttons */
 .btn {

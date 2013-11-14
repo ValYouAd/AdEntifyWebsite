@@ -40,18 +40,24 @@ More photos: More photos
 Account disabled: Account under validation
 Close: Close
 Your account is currently under validation.: Your account is currently under validation.
-How it works?: Comment ça marche ?
-HowItWorksStep1: <strong>Ajoutez</strong> vos photos via Facebook, Twitter, Pinterest ou flickr
-HowItWorksStep2: <strong>Enrichissez</strong> vos tags et partagez les avec vos amis
-HowItWorksStep3: <strong>Bénéficiez</strong> de réductions sur vos marques préférées
-Win points: Win points
-Win cash: Win cash
-RewardsEarningsText: Taguez vos marques préférées et ...
 
 #Login
 modal:
     login: Login
     signup: Sign up
+
+#About
+about:
+    pageTitle: About - AdEntify.com
+    pageDescription: AdEntify is a service that gives you ability to enhence your photos with tags : brands, products, places, people...
+How it works?: How it works?
+HowItWorksStep1: <strong>Ajoutez</strong> vos photos via Facebook, Twitter, Pinterest ou flickr
+HowItWorksStep2: <strong>Enrichissez</strong> vos tags et partagez les avec vos amis
+HowItWorksStep3: <strong>Bénéficiez</strong> de réductions sur vos marques préférées
+Win points: Win points
+Win cash: Win cash
+RewardsEarningsText: Tag your prefered brands and ...
+Ready? Go!: Ready? Go!
 
 #Contact
 contact:
@@ -60,6 +66,21 @@ contact:
     message: Your message
     send: Send
     sent: Your message was sent. We will reply to it as soon as posssible.
+    pageTitle: Contact - AdEntify.com
+    pageDescription: Contact AdEntify Team by mail or social networks
+
+#Press
+press:
+    pageTitle: Press - AdEntify.com
+    pageDescription: Story, team, logos & press release of AdEntify
+Contact us!: Contact us!
+Download press kit: Download press kit
+Download: Download
+Logos HD: HD Logos
+Screenshots: Screenshots
+Communiqué de presse: Press release
+Story: Story
+Team: Team
 
 #Routing
 photos/untagged/: photos/untagged/
@@ -75,3 +96,4 @@ my/adentify/: my/adentify/
 my/photos/favorites/: my/photos/favorites/
 profile/%id%/: profile/%id%/
 search/: search/
+search/keywords: search/%23%keywords%

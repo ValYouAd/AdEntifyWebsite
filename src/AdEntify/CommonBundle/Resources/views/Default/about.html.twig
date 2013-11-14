@@ -24,10 +24,13 @@
     {% endjavascripts %}
 {% endblock %}
 
+{% block title %}{{ 'about.pageTitle'|trans }} - AdEntify.com{% endblock %}
+{% block metadescription %}{{ 'about.pageDescription'|trans }}{% endblock %}
+
 {% block body %}
 
     <header>
-        <h1 class="pastille-adentify">AdEntify</h1>
+        <a href="{{ path('home_logoff') }}"><h1 class="pastille-adentify">AdEntify</h1></a>
 
         <div class="account-buttons">
             <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> <span class="text">{{ 'Login'|trans }}</span></button>

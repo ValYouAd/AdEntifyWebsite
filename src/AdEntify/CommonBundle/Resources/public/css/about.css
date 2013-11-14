@@ -12,21 +12,13 @@ header {
     margin-top: 305px;
 }
 
-.polygon-background {
-    background: url('../images/about-polygon-background.jpg') no-repeat top center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    padding-bottom: 90px;
+.polygon-background h2 {
+    font-size: 40px;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #5b5756;
+    padding: 50px 0px;
+    margin-top: 0px;
 }
-    .polygon-background h2 {
-        font-size: 40px;
-        font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
-        color: #5b5756;
-        padding: 50px 0px;
-        margin-top: 0px;
-    }
 
 /* How it works */
 .how-it-works-inner {
@@ -118,15 +110,7 @@ header {
         padding: 100px 0px 50px 0px;
         margin-top: 0px;
     }
-    .porte-voix {
-        background: url('../images/porte-voix-grey.png') no-repeat;
-        width: 442px;
-        height: 331px;
-        position: absolute;
-        bottom: 0px;
-        left: 150px;
-        z-index: 0;
-    }
+
     .launch .btn {
         width: 227px;
         height: 50px;

@@ -166,7 +166,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/about", name="about")
+     * @Route("/{_locale}/about", name="about")
      * @Template()
      */
     public function aboutAction()
@@ -175,7 +175,16 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/contact", name="contact")
+     * @Route("/{_locale}/press", name="press")
+     * @Template()
+     */
+    public function pressAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Route("/{_locale}/contact", name="contact")
      * @Template()
      */
     public function contactAction(Request $request)

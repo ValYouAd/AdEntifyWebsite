@@ -224,94 +224,79 @@ footer a {
 
 /* End
 ----------------------- */
-header {
-    border-top: 10px solid #ff3d3c;
-}
-    .pastille-adentify {
-        top: 0px;
-    }
-    .account-buttons {
-        top: 200px;
-    }
-
-.homepage-capture {
-    margin-top: 305px;
-}
-
-.polygon-background h2 {
-    font-size: 40px;
+/* Story */
+.story h2 {
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
-    color: #5b5756;
-    padding: 50px 0px;
-    margin-top: 0px;
+    font-size: 40px;
+    color: #FFFFFF;
+    font-weight: normal;
+}
+.story .story-text {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #FFFFFF;
+    font-size: 22px;
+    text-shadow: 0px 1px 0px rgba(50, 50, 50, 0.5);
+    margin-top: 30px;
+    text-align: justify;
 }
 
-/* How it works */
-.how-it-works-inner {
-    background: url('../../bundles/adentifycommon/images/about-captures.png') no-repeat top center;
-    width: 1019px;
-    margin: 20px auto 0px auto;
-    height: 1650px;
-    position: relative;
+/* Team */
+.team h2 {
+    font-family: 'asapitalic', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 40px;
+    color: #5b5756;
+    text-transform: uppercase;
+    padding: 40px 0px;
 }
-.steps {
+.team h3 {
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
-    font-size: 22px;
+    font-size: 16px;
+    color: #181616;
+}
+.team .resume {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 12px;
     color: #828081;
     text-align: left;
 }
-.steps strong {
-    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+.team .profile-picture {
+    border: 4px solid #ffffff;
+}
+
+/* Logos press kit */
+.resources .container {
+    margin: 40px auto;
+}
+.resources h2 {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     font-weight: normal;
+    font-size: 40px;
+    color: #5b5756;
 }
-.steps li {
-    position: absolute;
+.grey-border {
+    border: 1px solid #e1e0e0;
 }
-.step1 {
-    top: 155px;
-    left: 711px;
-    max-width: 215px;
+.resources-list {
+    margin: 40px 0px;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #828081;
+    font-size: 18px;
 }
-.step2 {
-    top: 819px;
-    left: 3px;
-    max-width: 280px;
+.downloads {
+    border-right: 1px solid #e1e0e0;
 }
-.step3 {
-    top: 1346px;
-    left: 711px;
-    max-width: 280px;
+.download {
+    margin: 10px 0px;
+}
+.download-caption {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 10px;
+    color: #9da0a4;
+    margin: 10px 0px;
 }
 
-/* Rewards earnings */
-.rewards-earnings {
-    background: url('../../bundles/adentifycommon/images/tags_count_bg.jpg') no-repeat;
-    height: 482px;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    color: #FFFFFF;
-}
-    .rewards-earnings h2 {
-        font-size: 50px;
-        font-family: 'asapbold_italic', "Helvetica Neue", "Arial", sans-serif;
-        margin-top: 0px;
-        padding-top: 20px;
-        text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
-    }
-    .rewards-earnings p {
-        font-size: 40px;
-        font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
-        text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
-    }
-    .rewards-earnings .row {
-        max-width: 700px;
-        margin: auto;
-    }
-
-/* Launch */
-.launch {
+/* Contact us */
+.contact-us {
     background: #ffffff;
     background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f6f6f6));
@@ -322,34 +307,35 @@ header {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4747', endColorstr='#ff2d2c',GradientType=0 );
     border-top: 1px solid #dad9d9;
 }
-     .launch .container {
-         position: relative;
-     }
-     .launch-inner {
-         position: relative;
-         z-index: 10;
-     }
-    .launch h2 {
+    .contact-us .container {
+        position: relative;
+    }
+    .contact-us-inner {
+        position: relative;
+        z-index: 10;
+    }
+    .contact-us h2 {
         font-size: 40px;
         font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
         color: #5b5756;
         padding: 100px 0px 50px 0px;
         margin-top: 0px;
     }
-
-    .launch .btn {
+    
+    .contact-us .btn {
         width: 227px;
         height: 50px;
+        line-height: 45px;
         vertical-align: middle;
         font-size: 14px;
     }
-    .launch .icon {
+    .contact-us .icon {
         float: left;
         margin-right: 10px;
     }
-    .launch .text {
+    .contact-us .text {
         float: left;
     }
-    .signup-wrapper {
+    .mail-wrapper {
         margin-bottom: 120px;
     }

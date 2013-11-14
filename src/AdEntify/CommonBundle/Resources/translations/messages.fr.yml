@@ -40,18 +40,25 @@ More photos: Plus de photos
 Account disabled: Compte non validé
 Close: Fermer
 Your account is currently under validation.: Votre compte est en attente de validation et n'est donc pas actif pour le moment.
-How it works?: Comment ça marche ?
-HowItWorksStep1: <strong>Ajoutez</strong> vos photos via Facebook, Twitter, Pinterest ou flickr
-HowItWorksStep2: <strong>Enrichissez</strong> vos tags et partagez les avec vos amis
-HowItWorksStep3: <strong>Bénéficiez</strong> de réductions sur vos marques préférées
-Win points: Gagnez des points
-Win cash: Gagnez du cash
-RewardsEarningsText: Taguez vos marques préférées et ...
 
 #Login
 modal:
     login: Connexion
     signup: Inscription
+
+# About
+about:
+    pageTitle: A propos - AdEntify.com
+    pageDescription: AdEntify est une service qui vous donne la possibilité de rendre vos photos intéractives avec l'ajout de tags : produits, marques, lieux, personnes...
+How it works?: Comment ça marche ?
+HowItWorksStep1: <strong>Ajoutez</strong> vos photos via Facebook, Twitter, Pinterest ou flickr
+HowItWorksStep2: <strong>Enrichissez</strong> vos tags et partagez les avec vos amis
+HowItWorksStep3: <strong>Bénéficiez</strong> de réductions sur vos marques préférées
+Rewards: Récompenses
+Win points: Gagnez des points
+Win cash: Gagnez du cash
+RewardsEarningsText: Taguez vos marques préférées et ...
+Ready? Go!: Prêt ? Partez !
 
 #Contact
 contact:
@@ -60,6 +67,23 @@ contact:
     message: Votre message
     send: Envoyer
     sent: Votre message a bien été envoyé. Nous y répondrons dans les plus brefs délais.
+    pageTitle: Contact - AdEntify.com
+    pageDescription: Contacez l'équipe d'AdEntify par email ou bien sur les réseaux sociaux.
+Contact us: Nous contacter
+Follow us!: Nous suivre !
+
+#Press
+press:
+    pageTitle: Presse - AdEntify.com
+    pageDescription: Histoire, équipe, logos et communiqué de presse d'AdEntify
+Contact us!: Contactez-nous !
+Download press kit: Télécharger le dossier de presse
+Download: Télécharger
+Logos HD: Logos HD
+Screenshots: Screenshots
+Communiqué de presse: Communiqué de presse
+Story: Histoire
+Team: Equipe
 
 #Routing
 photos/untagged/: photos/non-taguees/
@@ -75,3 +99,4 @@ my/adentify/: mon/adentify/
 my/photos/favorites/: mes/photos/favorites/
 profile/%id%/: profil/%id%/
 search/: recherche/
+search/keywords: recherche/%23%keywords%
