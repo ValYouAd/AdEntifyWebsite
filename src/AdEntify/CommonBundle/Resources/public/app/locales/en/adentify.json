@@ -157,7 +157,10 @@
       "submitProduct": "Confirm and add tag",
       "reportTag": "Report",
       "taggedBy": "Tag by <strong>__author__</strong>",
-      "deleteTooltip": "Delete tag"
+      "deleteTooltip": "Delete tag",
+      "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
+      "reportReasonLabel": "Report reason",
+      "reportReasonTextarea": "Write reason of the report..."
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -312,7 +315,8 @@
       "contentPageNotFound": "Error loading the page.",
       "titleSamePage": "Oops",
       "contentSamePage": "Oops! You already are on this page.",
-      "confirmButton": "Ok"
+      "confirmButton": "Ok",
+      "report": "Report"
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",

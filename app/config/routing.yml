@@ -169,6 +169,12 @@ hashtag:
     options:
         expose: true
 
+report:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\ReportsController
+    options:
+        expose: true
+
 # Public Tags REST
 public_tag:
     type:     rest

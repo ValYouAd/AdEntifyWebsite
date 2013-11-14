@@ -255,9 +255,9 @@ define([
             var popover = $(this.el).find('.popover');
             var popoverArrow = $(this.el).find('.tag-popover-arrow');
             this.setupPopover(popover, popoverArrow);
-            /*if (!$('#map' + this.model.get('id')).hasClass('loaded')) {*/
+            if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
                Tag.Common.setupGoogleMap(this.model);
-            /*}*/
+            }
             app.tagStats().hover(this.model);
          }
       },
@@ -287,13 +287,56 @@ define([
          this.model.delete();
       },
 
+      reportTag: function() {
+         var that = this;
+         var reportView = new Tag.Views.Report();
+         var modal = new Common.Views.Modal({
+            view: reportView,
+            showFooter: false,
+            showHeader: true,
+            title: $.t('tag.reportTitle'),
+            modalDialogClasses: 'report-dialog'
+         });
+         reportView.on('report:submit', function(reason) {
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     headers : {
+                        "Authorization": app.oauth.getAuthorizationHeader()
+                     },
+                     url: Routing.generate('api_v1_get_csrftoken', { intention: 'report_item'}),
+                     success: function(data) {
+                        $.ajax({
+                           url: Routing.generate('api_v1_post_report'),
+                           headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                           type: 'POST',
+                           data: {
+                              report: {
+                                 'reason': reason,
+                                 'tag': that.model.get('id'),
+                                 '_token': data
+                              }
+                           }
+                        });
+                     }
+                  });
+               }
+            });
+            modal.close();
+         });
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
+         });
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
          "click a[href]": "clickTag",
          "click .validateTagButton": "validateTag",
          "click .refuseTagButton": "refuseTag",
-         "click .deleteTagButton": "deleteTag"
+         "click .deleteTagButton": "deleteTag",
+         'click .reportTagButton': 'reportTag'
       }
    });
 
@@ -1062,6 +1105,19 @@ define([
       }
    });
 
+   Tag.Views.Report = Backbone.View.extend({
+      'template': 'tag/report',
+
+      report: function(evt) {
+         evt.preventDefault();
+         this.trigger('report:submit', $(this.el).find('.reason-textarea').val());
+      },
+
+      events: {
+         'click .reportSubmit': 'report'
+      }
+   });
+
    Tag.Common = {
       addTag: function(evt, photo) {
          if (evt)
@@ -1075,14 +1131,9 @@ define([
             showHeader: false,
             modalContentClasses: 'photoModal'
          });
-         var oldModal = app.useLayout().getView('#modal-container');
-         if (oldModal) {
-            app.once('modal:hidden', function() {
-               app.useLayout().setView('#modal-container', modal).render();
-            });
-            oldModal.close();
-         } else
+         Common.Tools.hideCurrentModalIfOpened(function() {
             app.useLayout().setView('#modal-container', modal).render();
+         });
       },
 
       setupGoogleMap: function(model) {

@@ -136,5 +136,18 @@ define([
       }
    });
 
+   Common.Tools = {
+      hideCurrentModalIfOpened: function(callback) {
+         var currentModal = app.useLayout().getView('#modal-container');
+         if (currentModal) {
+            app.once('modal:hidden', function() {
+               callback();
+            });
+            currentModal.close();
+         } else
+            callback();
+      }
+   }
+
    return Common;
 });

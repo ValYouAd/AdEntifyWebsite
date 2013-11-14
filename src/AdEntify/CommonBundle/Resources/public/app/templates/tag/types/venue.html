@@ -23,6 +23,7 @@
                 </address>
             </div>
             <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { %>
+            <% } %>
             <div class="tag-validation">
                 <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
                 <div class="btn-group">
@@ -37,7 +38,7 @@
                     </ul>
                 </div>
             </div>
-            <% } %>
+
         </div>
     <% } %>
 </div>

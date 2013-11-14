@@ -230,14 +230,9 @@ define([
             });
             modal.close();
          });
-         var oldModal = app.useLayout().getView('#modal-container');
-         if (oldModal) {
-            app.once('modal:hidden', function() {
-               app.useLayout().setView('#modal-container', modal).render();
-            });
-            oldModal.close();
-         } else
+         Common.Tools.hideCurrentModalIfOpened(function() {
             app.useLayout().setView('#modal-container', modal).render();
+         });
       },
 
       events: {

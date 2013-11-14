@@ -157,7 +157,10 @@
       "submitProduct": "Valider et ajouter le tag",
       "reportTag": "Signaler",
       "taggedBy": "Taggué par <strong>__author__</strong>",
-      "deleteTooltip": "Supprimer le tag"
+      "deleteTooltip": "Supprimer le tag",
+      "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
+      "reportReasonLabel": "Raison du signalement",
+      "reportReasonTextarea": "Ecrivez la raison du signalement."
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -312,7 +315,8 @@
       "contentPageNotFound": "La page que vous avez demandé ne peut être trouvée.",
       "titleSamePage": "Oups",
       "contentSamePage": "Oups ! Vous êtes déjà sur la page demandée.",
-      "confirmButton": "Ok"
+      "confirmButton": "Ok",
+      "report": "Signaler"
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",
