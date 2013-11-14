@@ -1774,9 +1774,6 @@ html,body {
     left: 10px;
     top: 11px;
 }
-.unvalidateTag {
-    background: rgba(255,0,0, 0.9)
-}
 .tag .popover {
     position: absolute;
     top: 30px;
@@ -1856,7 +1853,7 @@ html,body {
     color: #b7babe;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
     font-size: 11px;
-    margin: 6px -6px -4px;
+    margin: 2px 0px 0px;
 }
 .tag-validation strong {
     font-weight: normal;

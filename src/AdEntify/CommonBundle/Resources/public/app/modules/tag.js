@@ -93,6 +93,10 @@ define([
           return this && this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
       },
 
+      isPhotoOwner: function() {
+         return this && this.has('photo') && typeof this.get('photo')['owner']['id'] !== 'undefined' ? currentUserId == this.get('photo')['owner']['id'] : false;
+      },
+
       delete: function() {
          // Check if currentUser is the owner
          if (this.isOwner()) {
@@ -115,9 +119,10 @@ define([
    });
 
    Tag.Views.Item = Backbone.View.extend({
+      popoverDesactivated: false,
 
       initialize: function() {
-         this.popoverDesactivated = this.options.desactivatePopover;
+         this.popoverDesactivated = typeof this.options.desactivatePopover !== 'undefined' ? this.options.desactivatePopover : this.popoverDesactivated;
       },
 
       setupPopover: function(popover, popoverArrow) {
@@ -160,7 +165,10 @@ define([
       hoverTimeout: null,
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            popoverDesactivated: this.popoverDesactivated
+         };
       },
 
       initialize: function(options) {
@@ -224,7 +232,10 @@ define([
       hoverTimeout: null,
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            popoverDesactivated: this.popoverDesactivated
+         };
       },
 
       initialize: function(options) {
@@ -286,7 +297,10 @@ define([
       hoverTimeout: null,
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            popoverDesactivated: this.popoverDesactivated
+         };
       },
 
       initialize: function(options) {

@@ -1,45 +1,47 @@
 <div class="tag <%= model.get("cssClass") %>" style="left: <%= model.get("x_position") * 100 %>%; top: <%= model.get("y_position") * 100 %>%">
     <div class="tag-brand-icon tag-icon"></div>
-    <div class="popover popover-product">
-        <div class="tag-popover-arrow"></div>
-        <div class="tag-buttons">
-            <% if (model.isOwner()) { %>
-            <i class="glyphicon glyphicon-remove deleteTagButton"></i>
+    <% if (!popoverDesactivated) { %>
+        <div class="popover popover-product">
+            <div class="tag-popover-arrow"></div>
+            <div class="tag-buttons">
+                <% if (model.isOwner()) { %>
+                <i class="glyphicon glyphicon-remove deleteTagButton"></i>
+                <% } %>
+            </div>
+            <div class="popover-inner">
+                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.get("product").get("brand")) { %> - <%= model.get("product").get("brand")["name"] %><% } %></a></span>
+                <div class="pull-left">
+                    <img src="<%= model.get("product").get("small_url") %>" class="product-photo" />
+                </div>
+                <% if (model.has("product") && model.get("product").has("brandModel")) { %>
+                <div class="brand pull-right">
+                    <a href="<%= model.get('product').get('brandModel').get('brandLink') %>"><img src="<%= model.get('product').get("brandModel").get('profilePicRootUrl') %><%= model.get('product').get("brandModel").get('small_logo_url') %>" alt="<%= model.get("product").get("brand")["name"] %>" class="brand-logo" /></a>
+                </div>
+                <% } %>
+                <% if (model.get("description")) { %>
+                <p><%= model.get("description") %></p>
+                <% } %>
+            </div>
+            <div class="clearfix"></div>
+            <div class="popover-details">
+                <a href="<%= model.get("product").get("purchase_url") %>" class="buy-link"><i class="icon-shopping-cart icon-white"></i> Acheter</a>
+            </div>
+            <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { %>
+            <div class="tag-validation">
+                <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>
+                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>
+                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
+                    </ul>
+                </div>
+            </div>
             <% } %>
         </div>
-        <div class="popover-inner">
-            <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.get("product").get("brand")) { %> - <%= model.get("product").get("brand")["name"] %><% } %></a></span>
-            <div class="pull-left">
-                <img src="<%= model.get("product").get("small_url") %>" class="product-photo" />
-            </div>
-            <% if (model.has("product") && model.get("product").has("brandModel")) { %>
-            <div class="brand pull-right">
-                <a href="<%= model.get('product').get('brandModel').get('brandLink') %>"><img src="<%= model.get('product').get("brandModel").get('profilePicRootUrl') %><%= model.get('product').get("brandModel").get('small_logo_url') %>" alt="<%= model.get("product").get("brand")["name"] %>" class="brand-logo" /></a>
-            </div>
-            <% } %>
-            <% if (model.get("description")) { %>
-            <p><%= model.get("description") %></p>
-            <% } %>
-        </div>
-        <div class="clearfix"></div>
-        <div class="popover-details">
-            <a href="<%= model.get("product").get("purchase_url") %>" class="buy-link"><i class="icon-shopping-cart icon-white"></i> Acheter</a>
-        </div>
-        <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isOwner()) { %>
-        <div class="tag-validation">
-            <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
-            <div class="btn-group">
-                <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>
-                <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>
-                    <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
-                </ul>
-            </div>
-        </div>
-        <% } %>
-    </div>
+    <% } %>
 </div>
