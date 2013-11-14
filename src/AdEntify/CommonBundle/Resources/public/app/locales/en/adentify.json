@@ -156,7 +156,11 @@
       "addNewTag": "Add tag",
       "submitProduct": "Confirm and add tag",
       "reportTag": "Report",
-      "taggedBy": "Tag by <strong>__author__</strong>"
+      "taggedBy": "Tag by <strong>__author__</strong>",
+      "deleteTooltip": "Delete tag",
+      "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
+      "reportReasonLabel": "Report reason",
+      "reportReasonTextarea": "Write reason of the report..."
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -174,7 +178,11 @@
       "deletePhoto": "Delete",
       "linkedPhotos": "Related photos",
       "noLinkedPhotos": "No related photo",
-      "tweetShare": "Check out my interactive image on %23AdEntify &rarr; "
+      "tweetShare": "Check out my interactive image on %23AdEntify &rarr; ",
+      "addTagTooltip": "Add new tag",
+      "likeTooltip": "Like photo",
+      "shareTooltip": "Share photo",
+      "favoriteTooltip": "Add to Favorites"
    },
    "externalServicePhotos": {
       "select": "Select",
@@ -307,7 +315,8 @@
       "contentPageNotFound": "Error loading the page.",
       "titleSamePage": "Oops",
       "contentSamePage": "Oops! You already are on this page.",
-      "confirmButton": "Ok"
+      "confirmButton": "Ok",
+      "report": "Report"
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",

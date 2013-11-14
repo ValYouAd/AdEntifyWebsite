@@ -1,0 +1,133 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    'bundles/adentifycommon/css/press.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var channelUrl = '{{ asset('channel.html') }}';
+        var facebookPermissions = '{{ facebook_permissions }}';
+    </script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% javascripts
+    '@AdEntifyCommonBundle/Resources/public/vendor/jam/jquery/dist/jquery.js'
+    '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block title %}{{ 'press.pageTitle'|trans }} - AdEntify.com{% endblock %}
+{% block metadescription %}{{ 'press.pageDescription'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="story red-patchwork">
+        <div class="container">
+            <div class="text-center">
+                <h2>{{ 'Story'|trans }}</h2>
+            </div>
+            <div class="story-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula dapibus vitae. Quisque convallis massa sit amet risus accumsan mollis. Nam laoreet erat at sapien vehicula, at pretium nunc pulvinar. Pellentesque suscipit scelerisque enim a volutpat. Maecenas auctor posuere imperdiet. Morbi sagittis sapien erat, et aliquet massa ullamcorper eu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse dictum mauris gravida, convallis eros at, laoreet purus. Nulla erat ipsum, pellentesque eu tellus at, lacinia blandit justo. Morbi tortor nulla, eleifend id feugiat nec, blandit nec lacus. Fusce ut laoreet sem, iaculis vehicula diam. Ut ullamcorper dui at leo sollicitudin, bibendum rutrum arcu eleifend. Morbi porta facilisis diam, in pretium arcu aliquet a. Nunc in vulputate lacus, ac rhoncus ligula.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="team polygon-background">
+        <div class="container">
+            <div class="text-center">
+                <h2>{{ 'Team'|trans }}</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 text-center">
+                    <img src="https://graph.facebook.com/jeremie.lf/picture?width=140&height=140" class="profile-picture" />
+                    <h3>Jérémie Le Febvre</h3>
+                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <img src="https://graph.facebook.com/matthieu.dordolo/picture?width=140&height=140" class="profile-picture" />
+                    <h3>Matthieu Dordolo</h3>
+                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <img src="https://graph.facebook.com/pierrick.martos/picture?width=140&height=140" class="profile-picture" />
+                    <h3>Pierrick Martos</h3>
+                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="resources">
+        <div class="container">
+            <div class="text-center">
+                <h2>{{ 'Logos and press kit' }}</h2>
+            </div>
+
+            <div class="row resources-list">
+                <div class="col-sm-9 downloads">
+                    <div class="row">
+                        <div class="col-sm-3 download text-center">
+                            <img src="{{ asset('bundles/adentifycommon/images/adentify-color-vertical.jpg') }}" class="grey-border" /><br>
+                            <div class="download-caption">JPEG - PNG</div>
+                            <a href="{{ asset('bundles/adentifycommon/images/adentify-color-vertical.zip') }}" class="btn-around-corner btn-grey">{{ 'Download'|trans }}</a>
+                        </div>
+                        <div class="col-sm-3 download text-center">
+                            <img src="{{ asset('bundles/adentifycommon/images/adentify-color-horizontal.jpg') }}" class="grey-border" /><br>
+                            <div class="download-caption">JPEG - PNG</div>
+                            <a href="{{ asset('bundles/adentifycommon/images/adentify-color-horizontal.zip') }}" class="btn-around-corner btn-grey">{{ 'Download'|trans }}</a>
+                        </div>
+                        <div class="col-sm-3 download text-center">
+                            <img src="{{ asset('bundles/adentifycommon/images/adentify-black-vertical.jpg') }}" class="grey-border" /><br>
+                            <div class="download-caption">JPEG - PNG</div>
+                            <a href="{{ asset('bundles/adentifycommon/images/adentify-black-vertical.zip') }}" class="btn-around-corner btn-grey">{{ 'Download'|trans }}</a>
+                        </div>
+                        <div class="col-sm-3 download text-center">
+                            <img src="{{ asset('bundles/adentifycommon/images/adentify-black-horizontal.jpg') }}" class="grey-border" /><br>
+                            <div class="download-caption">JPEG - PNG</div>
+                            <a href="{{ asset('bundles/adentifycommon/images/adentify-black-horizontal.zip') }}" class="btn-around-corner btn-grey">{{ 'Download'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="text-center mb2">
+                        <img src="{{ asset('bundles/adentifycommon/images/download-icon.jpg') }}" />
+                    </div>
+                    <ul>
+                        <li>{{ 'Logos HD'|trans }}</li>
+                        <li>{{ 'Screenshots'|trans }}</li>
+                        <li>{{ 'Communiqué de presse'|trans }}</li>
+                    </ul>
+                    <div class="text-center">
+                        <a href="" class="btn-around-corner btn-red-grey-border">{{ 'Download press kit'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="contact-us">
+        <div class="container">
+            <div class="porte-voix"></div>
+            <div class="contact-us-inner">
+                <div class="text-center">
+                    <h2>{{ 'Contact us!'|trans }}</h2>
+                </div>
+                <div class="mail-wrapper text-center">
+                    <a href="mailto:presse@adentify.com" class="btn signup"><i class="glyphicon glyphicon-envelope"></i> presse@adentify.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+
+{% endblock %}

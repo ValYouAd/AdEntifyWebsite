@@ -184,21 +184,7 @@ define([
                   app.trigger('domchange:title', this.options.photo.get('caption'));
                   app.oauth.loadAccessToken({
                      success: function() {
-                        $.ajax({
-                           url: Routing.generate('api_v1_get_photo_waiting_tags', { id: that.model.get('id') }),
-                           headers : {
-                              "Authorization": app.oauth.getAuthorizationHeader()
-                           },
-                           success: function(data) {
-                              if (data && data.length > 0) {
-                                 that.unvalidateTags = [];
-                                 for (var i = 0, len = data.length; i<len; i++) {
-                                    that.options.photo.get('tags').push(data[i]);
-                                 }
-                                 that.render();
-                              }
-                           }
-                        });
+                        that.loadUnvalidateTags();
                      }
                   });
                   this.render();
@@ -210,21 +196,7 @@ define([
          if (this.modal) {
             app.oauth.loadAccessToken({
                success: function() {
-                  $.ajax({
-                     url: Routing.generate('api_v1_get_photo_waiting_tags', { id: that.model.get('id') }),
-                     headers : {
-                        "Authorization": app.oauth.getAuthorizationHeader()
-                     },
-                     success: function(data) {
-                        if (data && data.length > 0) {
-                           that.unvalidateTags = [];
-                           for (var i = 0, len = data.length; i<len; i++) {
-                              that.options.photo.get('tags').push(data[i]);
-                           }
-                           that.render();
-                        }
-                     }
-                  });
+                  that.loadUnvalidateTags();
                }
             });
             this.$el.fadeIn();
@@ -338,6 +310,27 @@ define([
             $('#photo').fadeIn();
          });
          FB.XFBML.parse();
+      },
+
+      loadUnvalidateTags: function() {
+         var that = this;
+         if (this.model.isOwner()) {
+            $.ajax({
+               url: Routing.generate('api_v1_get_photo_waiting_tags', { id: this.model.get('id') }),
+               headers : {
+                  "Authorization": app.oauth.getAuthorizationHeader()
+               },
+               success: function(data) {
+                  if (data && data.length > 0) {
+                     that.unvalidateTags = [];
+                     for (var i = 0, len = data.length; i<len; i++) {
+                        that.options.photo.get('tags').push(data[i]);
+                     }
+                     that.render();
+                  }
+               }
+            });
+         }
       },
 
       changeTab: function(e) {
@@ -677,6 +670,10 @@ define([
 
       favorite: function() {
          this.trigger('favorite', this.options.photo);
+      },
+
+      afterRender: function() {
+         $(this.el).find('.btn-icon').tooltip();
       },
 
       events: {

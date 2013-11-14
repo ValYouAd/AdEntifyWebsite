@@ -2,6 +2,7 @@
 
 namespace AdEntify\CommonBundle\Controller;
 
+use AdEntify\CommonBundle\Models\Contact;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\FileTools;
@@ -161,6 +162,85 @@ class DefaultController extends Controller
             return $this->redirect($shortUrl->getUrl(), 301);
         } else {
             throw new NotFoundHttpException('Redirect url not found');
+        }
+    }
+
+    /**
+     * @Route("/{_locale}/about", name="about")
+     * @Template()
+     */
+    public function aboutAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Route("/{_locale}/press", name="press")
+     * @Template()
+     */
+    public function pressAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Route("/{_locale}/contact", name="contact")
+     * @Template()
+     */
+    public function contactAction(Request $request)
+    {
+        $contact = new Contact();
+
+        $form = $this->createFormBuilder($contact)
+            ->add('email', 'email', array(
+                'label' => 'contact.email',
+                'attr' => array(
+                    'placeholder' => ''
+                )
+            ))
+            ->add('name', 'text', array(
+                'label' => 'contact.name',
+                'attr' => array(
+                    'placeholder' => ''
+                )
+            ))
+            ->add('message', 'textarea', array(
+                'label' => 'contact.message',
+                'attr' => array(
+                    'placeholder' => '',
+                    'rows' => 6
+                )
+            ))
+            ->add('send', 'submit', array(
+                'attr' => array(
+                    'class' => 'btn-around-corner btn-red-grey-border'
+                ),
+                'label' => 'contact.send'
+            ))
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $message = \Swift_Message::newInstance()
+                ->setFrom($this->container->getParameter('mailer_user'))
+                ->setSubject('Contact')
+                ->setTo($this->container->getParameter('contact_email'))
+                ->setBody($this->renderView('AdEntifyCommonBundle:Default:contact-email.html.twig', array(
+                    'contact' => $contact
+                )))
+            ;
+            $this->get('mailer')->send($message);
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'contact.sent'
+            );
+
+            return $this->redirect($this->generateUrl('contact'));
+        } else {
+            return array(
+                'form' => $form->createView()
+            );
         }
     }
 

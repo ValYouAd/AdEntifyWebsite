@@ -102,7 +102,7 @@
                         </div>
                         <footer>
                             <div class="pull-left">
-                                <a href="">{{ 'About'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Press'|trans }}</a> · <a href="">{{ 'Credits'|trans }}</a>
+                                <a href="{{ path('about') }}">{{ 'About'|trans }}</a> • <a href="">{{ 'FAQ'|trans }}</a> • <a href="{{ path('press') }}">{{ 'Press'|trans }}</a> • <a href="{{ path('contact') }}">Contact</a> • <a href="">{{ 'Credits'|trans }}</a>
                             </div>
                             <div class="pull-right">
                                 © {{ date|date('Y') }} AdEntify
@@ -164,12 +164,6 @@
                                 <div class="loader rotate"></div>
                             </div>
                         </section>
-                        {#<footer>
-                            <div class="links">
-                                <a href="">{{ 'About'|trans }}</a> · <a href="">{{ 'FAQ'|trans }}</a> · <a href="">{{ 'Press'|trans }}</a> · <a href="">{{ 'Credits'|trans }}</a>
-                            </div>
-                            <div class="copyright">© {{ date|date('Y') }} AdEntify</div>
-                        </footer>#}
                     </div>
                     <div class="push"></div>
                 </section>

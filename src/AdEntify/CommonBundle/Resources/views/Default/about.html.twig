@@ -1,0 +1,131 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    'bundles/adentifycommon/css/about.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var channelUrl = '{{ asset('channel.html') }}';
+        var facebookPermissions = '{{ facebook_permissions }}';
+    </script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% javascripts
+    '@AdEntifyCommonBundle/Resources/public/vendor/jam/jquery/dist/jquery.js'
+    '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block title %}{{ 'about.pageTitle'|trans }} - AdEntify.com{% endblock %}
+{% block metadescription %}{{ 'about.pageDescription'|trans }}{% endblock %}
+
+{% block body %}
+
+    <header>
+        <a href="{{ path('home_logoff') }}"><h1 class="pastille-adentify">AdEntify</h1></a>
+
+        <div class="account-buttons">
+            <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> <span class="text">{{ 'Login'|trans }}</span></button>
+            <button data-toggle="modal" data-target="#signupModal" type="button" class="btn signup"><i class="icon signup-icon"></i> <span class="text">{{ 'Sign Up'|trans }}</span></button>
+        </div>
+
+        <div class="homepage-capture text-center">
+            <img src="{{ asset('bundles/adentifycommon/images/about-capture-homepage.jpg') }}" />
+        </div>
+
+    </header>
+
+    <div class="polygon-background">
+        <div class="text-center">
+            <h2>{{ 'How it works?'|trans }}</h2>
+            <div class="how-it-works-inner">
+                <ul class="steps list-unstyled">
+                    <li class="step1">{{ 'HowItWorksStep1'|trans|raw }}</li>
+                    <li class="step2">{{ 'HowItWorksStep2'|trans|raw }}</li>
+                    <li class="step3">{{ 'HowItWorksStep3'|trans|raw }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="rewards-earnings">
+        <div class="text-center">
+            <h2>{{ 'Rewards'|trans }}</h2>
+        </div>
+        <p class="text-center">{{ 'RewardsEarningsText'|trans }}</p>
+
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <img src="{{ asset('bundles/adentifycommon/images/circle-points.png') }}" />
+                <p>{{ 'Win points'|trans }}</p>
+            </div>
+            <div class="col-sm-6 text-center">
+                <img src="{{ asset('bundles/adentifycommon/images/circle-dollars.png') }}" />
+                <p>{{ 'Win cash'|trans }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+
+    </div>
+
+    <div class="launch">
+        <div class="container">
+            <div class="porte-voix"></div>
+            <div class="launch-inner">
+                <div class="text-center">
+                    <h2>{{ 'Ready? Go!'|trans }}</h2>
+                </div>
+                <div class="signup-wrapper text-center">
+                    <button data-toggle="modal" data-target="#signupModal" type="button" class="btn signup"><i class="icon signup-icon"></i> <span class="text">{{ 'Sign Up'|trans }}</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+
+    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="signinModalLabel"><div class="signin-badge pull-left modal-badge"></div> {{ 'modal.login'|trans }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="grey-transparent-background social-buttons">
+                        <div class="text-center">
+                            <a class="btn btn-facebook" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> Facebook</a>
+                            <a class="btn btn-twitter" href="../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
+                        </div>
+                    </div>
+                    {% render controller('FOSUserBundle:Security:login') %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
+                </div>
+                <div class="modal-body">
+                    {% render controller('FOSUserBundle:Registration:register') %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}

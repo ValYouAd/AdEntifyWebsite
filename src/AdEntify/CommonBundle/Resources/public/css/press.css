@@ -1,0 +1,115 @@
+/* Story */
+.story h2 {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 40px;
+    color: #FFFFFF;
+    font-weight: normal;
+}
+.story .story-text {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #FFFFFF;
+    font-size: 22px;
+    text-shadow: 0px 1px 0px rgba(50, 50, 50, 0.5);
+    margin-top: 30px;
+    text-align: justify;
+}
+
+/* Team */
+.team h2 {
+    font-family: 'asapitalic', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 40px;
+    color: #5b5756;
+    text-transform: uppercase;
+    padding: 40px 0px;
+}
+.team h3 {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 16px;
+    color: #181616;
+}
+.team .resume {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 12px;
+    color: #828081;
+    text-align: left;
+}
+.team .profile-picture {
+    border: 4px solid #ffffff;
+}
+
+/* Logos press kit */
+.resources .container {
+    margin: 40px auto;
+}
+.resources h2 {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-weight: normal;
+    font-size: 40px;
+    color: #5b5756;
+}
+.grey-border {
+    border: 1px solid #e1e0e0;
+}
+.resources-list {
+    margin: 40px 0px;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #828081;
+    font-size: 18px;
+}
+.downloads {
+    border-right: 1px solid #e1e0e0;
+}
+.download {
+    margin: 10px 0px;
+}
+.download-caption {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 10px;
+    color: #9da0a4;
+    margin: 10px 0px;
+}
+
+/* Contact us */
+.contact-us {
+    background: #ffffff;
+    background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f6f6f6));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4747', endColorstr='#ff2d2c',GradientType=0 );
+    border-top: 1px solid #dad9d9;
+}
+    .contact-us .container {
+        position: relative;
+    }
+    .contact-us-inner {
+        position: relative;
+        z-index: 10;
+    }
+    .contact-us h2 {
+        font-size: 40px;
+        font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+        color: #5b5756;
+        padding: 100px 0px 50px 0px;
+        margin-top: 0px;
+    }
+    
+    .contact-us .btn {
+        width: 227px;
+        height: 50px;
+        line-height: 45px;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+    .contact-us .icon {
+        float: left;
+        margin-right: 10px;
+    }
+    .contact-us .text {
+        float: left;
+    }
+    .mail-wrapper {
+        margin-bottom: 120px;
+    }

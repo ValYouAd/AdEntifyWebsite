@@ -1,41 +1,44 @@
 <div class="tag <%= model.get("cssClass") %>" style="left: <%= model.get("x_position") * 100 %>%; top: <%= model.get("y_position") * 100 %>%">
     <div class="tag-place-icon tag-icon"></div>
-    <div class="popover">
-        <div class="tag-popover-arrow"></div>
-        <div class="tag-buttons">
-            <% if (model.isOwner()) { %>
-            <i class="glyphicon glyphicon-remove deleteTagButton"></i>
-            <% } %>
-        </div>
-        <div class="popover-inner">
-            <span class="title"><% if (model.get("link")) { %><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %></a><% } else { %><%= model.get("title") %><% } %></span>
-            <% if (model.get("description")) { %>
-            <p><%= model.get("description") %></p>
-            <% } %>
-        </div>
-        <div id="map<%= model.get("id") %>" class="map"></div>
-        <div class="popover-details">
-            <address>
-                <strong><%= model.get('title') %></strong><br>
-                <% if (model.get('venue').address) { %><%= model.get('venue').address %><br><% } %>
-                <% if (model.get('venue').postalCode) { %><%= model.get('venue').postalCode %><% } %> <% if (model.get('venue').city) { %><%= model.get('venue').city %><% } %> <% if (model.get('venue').country) { %><%= model.get('venue').country %><% } %>
-            </address>
-        </div>
-        <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isOwner()) { %>
-        <div class="tag-validation">
-            <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
-            <div class="btn-group">
-                <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>
-                <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>
-                    <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
-                </ul>
+    <% if (!popoverDesactivated) { %>
+        <div class="popover">
+            <div class="tag-popover-arrow"></div>
+            <div class="tag-buttons">
+                <% if (model.isOwner()) { %>
+                <i class="glyphicon glyphicon-remove deleteTagButton" data-toggle="tooltip" title data-original-title="<%= $.t('tag.deleteTooltip') %>"></i>
+                <% } %>
             </div>
+            <div class="popover-inner">
+                <span class="title"><% if (model.get("link")) { %><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %></a><% } else { %><%= model.get("title") %><% } %></span>
+                <% if (model.get("description")) { %>
+                <p><%= model.get("description") %></p>
+                <% } %>
+            </div>
+            <div id="map<%= model.get("id") %>" class="map"></div>
+            <div class="popover-details">
+                <address>
+                    <strong><%= model.get('title') %></strong><br>
+                    <% if (model.get('venue').address) { %><%= model.get('venue').address %><br><% } %>
+                    <% if (model.get('venue').postalCode) { %><%= model.get('venue').postalCode %><% } %> <% if (model.get('venue').city) { %><%= model.get('venue').city %><% } %> <% if (model.get('venue').country) { %><%= model.get('venue').country %><% } %>
+                </address>
+            </div>
+            <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { %>
+            <% } %>
+            <div class="tag-validation">
+                <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>
+                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>
+                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
-        <% } %>
-    </div>
+    <% } %>
 </div>

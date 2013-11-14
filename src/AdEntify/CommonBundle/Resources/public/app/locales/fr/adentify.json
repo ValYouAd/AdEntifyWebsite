@@ -156,7 +156,11 @@
       "addNewTag": "Ajouter un tag",
       "submitProduct": "Valider et ajouter le tag",
       "reportTag": "Signaler",
-      "taggedBy": "Taggué par <strong>__author__</strong>"
+      "taggedBy": "Taggué par <strong>__author__</strong>",
+      "deleteTooltip": "Supprimer le tag",
+      "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
+      "reportReasonLabel": "Raison du signalement",
+      "reportReasonTextarea": "Ecrivez la raison du signalement."
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -174,7 +178,11 @@
       "deletePhoto": "Supprimer",
       "linkedPhotos": "Photos liées",
       "noLinkedPhotos": "Aucune photo liée",
-      "tweetShare": "Découvrez mon image intéractive sur %23AdEntify &rarr; "
+      "tweetShare": "Découvrez mon image intéractive sur %23AdEntify &rarr; ",
+      "addTagTooltip": "Ajouter un tag",
+      "likeTooltip": "Aimer la photo",
+      "shareTooltip": "Partager la photo",
+      "favoriteTooltip": "Ajouter en favoris"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
@@ -307,7 +315,8 @@
       "contentPageNotFound": "La page que vous avez demandé ne peut être trouvée.",
       "titleSamePage": "Oups",
       "contentSamePage": "Oups ! Vous êtes déjà sur la page demandée.",
-      "confirmButton": "Ok"
+      "confirmButton": "Ok",
+      "report": "Signaler"
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",

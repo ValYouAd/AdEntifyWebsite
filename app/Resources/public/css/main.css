@@ -928,9 +928,6 @@ html,body {
     left: 10px;
     top: 11px;
 }
-.unvalidateTag {
-    background: rgba(255,0,0, 0.9)
-}
 .tag .popover {
     position: absolute;
     top: 30px;
@@ -1010,7 +1007,7 @@ html,body {
     color: #b7babe;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
     font-size: 11px;
-    margin: 6px -6px -4px;
+    margin: 2px 0px 0px;
 }
 .tag-validation strong {
     font-weight: normal;
@@ -1018,6 +1015,9 @@ html,body {
 }
 .deleteTagButton {
     cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 5px;
 }
 /*
 ----------------------- */
@@ -1449,7 +1449,7 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-pastille-small, .adentify-flat-pastille, .add-tag-icon, .adentify-grey-pastille, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .adentify-grey-pastille-small, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .tag-button, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .adentify-pastille, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-pastille-small, .adentify-flat-pastille, .add-tag-icon, .adentify-grey-pastille, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .adentify-grey-pastille-small, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
@@ -1845,6 +1845,12 @@ html,body {
     height: 32px;
 }
 
+.report-red-icon{
+    background-position: -54px -206px ;
+    width: 41px;
+    height: 41px;
+}
+
 
 /* DONT CHANGE IT */
 .grey-share-icon {
@@ -1883,13 +1889,13 @@ html,body {
     background: white;
 }
 .modal-body {
-    padding: 0px;
+    padding: 0px 0px 1px 0px;
 }
 .modal-body-wrapper {
     padding: 0px 20px;
 }
 .modal-content {
-    background: url('../img/graphik_background.png') no-repeat fixed;
+    background: #e6e9ed url('../img/graphik_background.png') no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -2467,6 +2473,17 @@ label,
 /* END : Users
 ----------------------- */
 
+/* END : Report
+----------------------- */
+.report-dialog {
+    max-width: 600px!important;
+}
+.report-dialog {
+    margin-top: 20px;
+}
+/* END : Report
+----------------------- */
+
 /* Bootstrap customs
 ----------------------- */
 .modal-backdrop{
@@ -2784,6 +2801,9 @@ ul.striped > li:nth-child(even) {
     vertical-align: middle;
     width: 100%;
     height: 100%;
+}
+.text-justify {
+    text-align: justify;
 }
 /*
 ----------------------- */
