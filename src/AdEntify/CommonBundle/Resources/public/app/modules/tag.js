@@ -125,6 +125,12 @@ define([
          this.popoverDesactivated = typeof this.options.desactivatePopover !== 'undefined' ? this.options.desactivatePopover : this.popoverDesactivated;
       },
 
+      afterRender: function() {
+         var deleteTagButton = $(this.el).find('.deleteTagButton');
+         if (deleteTagButton.length > 0)
+            deleteTagButton.tooltip();
+      },
+
       setupPopover: function(popover, popoverArrow) {
          if (this.model) {
             if (this.model.get('y_position') > 0.5) {

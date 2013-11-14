@@ -672,6 +672,10 @@ define([
          this.trigger('favorite', this.options.photo);
       },
 
+      afterRender: function() {
+         $(this.el).find('.btn-icon').tooltip();
+      },
+
       events: {
          'click .add-tag-button': 'addTag',
          'click .like-button': 'like',

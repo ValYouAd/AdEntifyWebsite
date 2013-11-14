@@ -156,7 +156,8 @@
       "addNewTag": "Ajouter un tag",
       "submitProduct": "Valider et ajouter le tag",
       "reportTag": "Signaler",
-      "taggedBy": "Taggué par <strong>__author__</strong>"
+      "taggedBy": "Taggué par <strong>__author__</strong>",
+      "deleteTooltip": "Supprimer le tag"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -174,7 +175,11 @@
       "deletePhoto": "Supprimer",
       "linkedPhotos": "Photos liées",
       "noLinkedPhotos": "Aucune photo liée",
-      "tweetShare": "Découvrez mon image intéractive sur %23AdEntify &rarr; "
+      "tweetShare": "Découvrez mon image intéractive sur %23AdEntify &rarr; ",
+      "addTagTooltip": "Ajouter un tag",
+      "likeTooltip": "Aimer la photo",
+      "shareTooltip": "Partager la photo",
+      "favoriteTooltip": "Ajouter en favoris"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
