@@ -90,11 +90,11 @@ define([
       },
 
       isOwner: function() {
-          return this && this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
+          return this && this.has('owner') ? currentUserId === this.get('owner')['id'] : false;
       },
 
       isPhotoOwner: function() {
-         return this && this.has('photo') && typeof this.get('photo')['owner']['id'] !== 'undefined' ? currentUserId == this.get('photo')['owner']['id'] : false;
+         return this && this.has('photo') && typeof this.get('photo')['owner']['id'] !== 'undefined' ? currentUserId === this.get('photo')['owner']['id'] : false;
       },
 
       delete: function() {
@@ -532,6 +532,10 @@ define([
                });
             }
          });
+         this.listenTo(app, 'addTagModal:hide', function() {
+            if (currentTag && currentTag.has('tempTag') && currentTag.get('tempTag') == true)
+               app.trigger('photo:tagRemoved', currentTag);
+         });
       },
 
       afterRender: function() {
@@ -805,7 +809,8 @@ define([
       },
 
       cancel: function(e) {
-         e.preventDefault();
+         if (e)
+            e.preventDefault();
          // Remove current tag
          if (currentTag)
             app.trigger('photo:tagRemoved', currentTag);
@@ -1122,15 +1127,20 @@ define([
       addTag: function(evt, photo) {
          if (evt)
             evt.preventDefault();
-         var photoView = new Tag.Views.AddModal({
+         var tagView = new Tag.Views.AddModal({
             photo: photo
          });
          var modal = new Common.Views.Modal({
-            view: photoView,
+            view: tagView,
             showFooter: false,
             showHeader: false,
             modalContentClasses: 'photoModal'
          });
+
+         modal.on('hide', function() {
+            app.trigger('addTagModal:hide');
+         });
+
          Common.Tools.hideCurrentModalIfOpened(function() {
             app.useLayout().setView('#modal-container', modal).render();
          });
