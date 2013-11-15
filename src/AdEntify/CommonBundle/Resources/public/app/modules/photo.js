@@ -95,7 +95,7 @@ define([
       },
 
       isOwner: function() {
-         return this && this.has('owner') ? currentUserId == this.get('owner')['id'] : false;
+         return this && this.has('owner') ? currentUserId === this.get('owner')['id'] : false;
       },
 
       delete: function() {
