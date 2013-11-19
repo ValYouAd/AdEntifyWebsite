@@ -259,7 +259,10 @@
       "viewMore": "Voir tous les résultats",
       "tagsBlockTitle": "Tags",
       "usersBlockTitle": "Membres",
-      "noSearch": "Aucune recherche pour le moment"
+      "noSearch": "Aucune recherche pour le moment",
+      "photos": "Photos",
+      "users": "Utilisateurs",
+      "feeds": "Flux"
    },
    "comment": {
       "noComments": "Aucun commentaire pour le moment, soyez le premier à réagir !",

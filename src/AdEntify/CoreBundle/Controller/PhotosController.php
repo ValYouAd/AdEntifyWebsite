@@ -271,15 +271,12 @@ class PhotosController extends FosRestController
 
         // If hashtags found, search photo with this hashtag(s)
         if (count($hashtags) > 0) {
-            $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-            LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN photo.hashtags hashtag
+            $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+            INNER JOIN photo.owner owner LEFT JOIN photo.hashtags hashtag
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-            AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
             AND hashtag.name IN (:hashtags)')
                 ->setParameters(array(
-                    ':none' => Tag::VALIDATION_NONE,
-                    ':granted' => Tag::VALIDATION_GRANTED,
                     ':status' => Photo::STATUS_READY,
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
                     ':facebookFriendsIds' => $facebookFriendsIds,
@@ -776,7 +773,7 @@ class PhotosController extends FosRestController
                         // FAVORITE Action & notification
                         $sendNotification = $user->getId() != $photo->getOwner()->getId();
                         $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
-                            $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                            $user, $photo->getOwner(), array($photo), Action::VISIBILITY_PUBLIC, $photo->getId(),
                             get_class($photo), $sendNotification, 'photoFav');
                     } else {
                         $user->removeFavoritePhoto($photo);

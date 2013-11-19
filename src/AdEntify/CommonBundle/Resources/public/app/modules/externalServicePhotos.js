@@ -248,11 +248,11 @@ define([
       initialize: function() {
          var that = this;
          this.checkedAlbums = [];
-         app.on('externalServicePhotos:selectAlbum', function(album) {
-            that.checkedAlbums.push(album);
-            that.checkAlbumsSelected();
+         this.listenTo(app, 'externalServicePhotos:selectAlbum', function(album) {
+            this.checkedAlbums.push(album);
+            this.checkAlbumsSelected();
          });
-         app.on('externalPhotos:uploadingError', function() {
+         this.listenTo(app, 'externalPhotos:uploadingError', function() {
             btn = $('.submit-photos');
             btn.button('reset');
             app.useLayout().setView('.alert-upload-photos', new Common.Views.Alert({
@@ -261,7 +261,7 @@ define([
                showClose: true
             })).render();
          });
-         app.on('externalPhotos:uploadingInProgress', function() {
+         this.listenTo(app, 'externalPhotos:uploadingInProgress', function() {
             $('#uploadInProgressModal').appendTo("body").modal({
                backdrop: true,
                show: true
@@ -270,11 +270,11 @@ define([
                Backbone.history.navigate($.t('routing.my/adentify/'), true);
             });
          });
-         app.on('externalServicePhotos:cancelSelectAlbum', function(album) {
-            index = _.indexOf(that.checkedAlbums, album);
+         this.listenTo(app, 'externalServicePhotos:cancelSelectAlbum', function(album) {
+            index = _.indexOf(this.checkedAlbums, album);
             if (index > -1)
                that.checkedAlbums.splice(index, 1);
-            that.checkAlbumsSelected();
+            this.checkAlbumsSelected();
          });
          this.categories = this.options.categories;
          this.listenTo(this.options.categories, {
@@ -360,6 +360,19 @@ define([
          }
       }
    });
+
+   ExternalServicePhotos.Common = {
+      showUploadInProgressModal: function() {
+         Backbone.history.navigate($.t('routing.my/photos/'), true);
+         /*$('#uploadInProgressModal').appendTo("body").modal({
+            backdrop: true,
+            show: true
+         });
+         $('#uploadInProgressModal').on('hidden.bs.modal', function() {
+            Backbone.history.navigate($.t('routing.my/photos/'), true);
+         });*/
+      }
+   }
 
    return ExternalServicePhotos;
 });

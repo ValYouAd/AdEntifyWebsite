@@ -268,7 +268,7 @@ class UsersController extends FosRestController
             if ($following && $follower->getId() != $following->getId() && !$this->getIsFollowingAction($id)) {
                 // FOLLOW Action & notification
                 $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_FOLLOW,
-                    $follower, $following, null, Action::VISIBILITY_FRIENDS, null,
+                    $follower, $following, null, Action::VISIBILITY_PUBLIC, null,
                     null, true, 'followUser');
 
                 $follower->addFollowing($following);

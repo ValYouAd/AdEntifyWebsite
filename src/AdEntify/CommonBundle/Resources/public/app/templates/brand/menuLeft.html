@@ -1,11 +1,6 @@
 <aside class="profile-aside">
     <div class="block-white-background">
         <div class="profile-details text-center">
-            <% if (lastPhoto) { %>
-            <div class="last-photo" style="background-image: url('<%= lastPhoto.get('medium_url') %>');"></div>
-            <div class="last-photo-spacer"></div>
-            <% } %>
-
             <div class="profile-picture-wrapper">
                 <img src="<%= model.get('profilePicRootUrl') %><%= model.get('small_logo_url') %>" alt="<%= model.get('name') %>" class="profile-picture" />
             </div>

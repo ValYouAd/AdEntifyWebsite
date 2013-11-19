@@ -31,18 +31,33 @@ class ActionRepository extends EntityRepository
                                  $linkedObjectId = null, $linkedObjectType = null, $createNotification = true,
                                  $message = null, $messageOptions = null, User $notificationOwner = null)
     {
-        // Check if same action already exist
-        /*$action = $this->getEntityManager()->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
-            WHERE action.actionType = :actionType AND action.author = :author AND action.target =')
-            ->setParameters(array(
-                'actionType' => $actionType,
-                'author' => $author ? $author->getId() : 0,
-                'target' => $target ? $target->getId() : 0,
-                'linkedObjectId' => $linkedObjectId ? $linkedObjectId : 0,
-                'photos' => $photos ? $photos : array(0)
-            ))->getOneOrNullResult();*/
-
         $action = null;
+        // Check if same action already exist
+        switch ($actionType) {
+            case Action::TYPE_PHOTO_COMMENT:
+            case Action::TYPE_PHOTO_TAG:
+            case Action::TYPE_PHOTO_FAVORITE:
+            case Action::TYPE_PHOTO_LIKE:
+            case Action::TYPE_USER_FOLLOW:
+            case Action::TYPE_REWARD_NEW:
+                $action = $this->getEntityManager()->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
+                    WHERE action.actionType = :actionType AND action.author = :author AND action.target = :target
+                    AND action.linkedObjectId = :linkedObjectId')
+                    ->setParameters(array(
+                        'actionType' => $actionType,
+                        'author' => $author ? $author->getId() : 0,
+                        'target' => $target ? $target->getId() : 0,
+                        'linkedObjectId' => $linkedObjectId ? $linkedObjectId : 0
+                    ))->getOneOrNullResult();
+                break;
+            case Action::TYPE_PHOTO_UPLOAD:
+                $action = null;
+                break;
+        }
+
+        // If action already exist, don't create it.
+        if ($action)
+            return $action;
 
         // Notification
         $notification = null;

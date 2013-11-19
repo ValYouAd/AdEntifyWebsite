@@ -188,7 +188,7 @@ define([
                   type: 'POST',
                   data: { 'images': fbImages, 'source': 'facebook' },
                   success: function() {
-                     app.trigger('externalPhotos:uploadingInProgress');
+                     ExternalServicePhotos.Common.showUploadInProgressModal();
                   },
                   error: function(e) {
                      // Hide loader
