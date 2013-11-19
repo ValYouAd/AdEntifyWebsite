@@ -73,6 +73,10 @@ define([
                unreadNotifications++;
          });
          return unreadNotifications;
+      },
+
+      comparator: function(action) {
+         return -action.get('id');
       }
    });
 

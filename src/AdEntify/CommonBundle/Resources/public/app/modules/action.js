@@ -54,7 +54,10 @@ define([
 
    Action.Collection = Backbone.Collection.extend({
       model: Action.Model,
-      url: Routing.generate('api_v1_get_actions')
+      url: Routing.generate('api_v1_get_actions'),
+      comparator: function(action) {
+         return -action.get('id');
+      }
    });
 
    Action.Views.Item = Backbone.View.extend({

@@ -3,7 +3,7 @@
     <% if (!popoverDesactivated) { %>
         <div class="popover">
             <div class="tag-popover-arrow"></div>
-            <div class="tag-buttons">
+            <div class="tag-top-buttons">
                 <% if (model.isOwner()) { %>
                 <i class="glyphicon glyphicon-remove deleteTagButton" data-toggle="tooltip" title data-original-title="<%= $.t('tag.deleteTooltip') %>"></i>
                 <% } %>
@@ -22,10 +22,10 @@
                     <% if (model.get('venue').postalCode) { %><%= model.get('venue').postalCode %><% } %> <% if (model.get('venue').city) { %><%= model.get('venue').city %><% } %> <% if (model.get('venue').country) { %><%= model.get('venue').country %><% } %>
                 </address>
             </div>
-            <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { %>
-            <div class="tag-validation">
-                <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
+            <div class="tag-buttons">
+                <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) %></span>
                 <div class="btn-group">
+                    <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { %>
                     <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>
                     <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -35,9 +35,11 @@
                         <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>
                         <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
                     </ul>
+                    <% } else { %>
+                    <button class="btn btn-black btn-sm reportTagButton" data-i18n="tag.reportTag"></button>
+                    <% } %>
                 </div>
             </div>
-            <% } %>
         </div>
     <% } %>
 </div>

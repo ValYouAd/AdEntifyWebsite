@@ -1,1 +1,1 @@
-<button type="button" class="btn-around-corner btn-red-grey-border favorite-button" data-toggle="button"><i class="glyphicon glyphicon-star"></i> <span data-i18n="<% if (added) { %>photo.unFavorites<% } else { %>photo.favorites<% } %>"></span></button>
+<button type="button" class="btn-around-corner btn-red-grey-border favorite-button" data-toggle="button"><i class="glyphicon glyphicon-star"></i> <%= added ? $.t('hoto.unFavorites') : $.t('photo.favorites') %></button>

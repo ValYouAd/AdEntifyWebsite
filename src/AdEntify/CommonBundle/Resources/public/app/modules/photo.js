@@ -399,6 +399,10 @@ define([
          $(this.el).find('.adentify-pastille-wrapper .popover').fadeOut('fast');
       },
 
+      report: function() {
+         Photo.Common.report(this.model);
+      },
+
       events: {
          'click .adentify-pastille': 'clickPastille',
          'mouseenter .photo-container': 'showTags',
@@ -409,7 +413,8 @@ define([
          "click #photo-tabs a": "changeTab",
          'click .add-new-tag': "addNewTag",
          'mouseenter .adentify-pastille-wrapper': 'showPastillePopover',
-         'mouseleave .adentify-pastille-wrapper': 'hidePastillePopover'
+         'mouseleave .adentify-pastille-wrapper': 'hidePastillePopover',
+         'click .report-button': 'report'
       }
    });
 
@@ -734,6 +739,47 @@ define([
                   }
                });
             }
+         });
+      },
+
+      report: function(photo) {
+         var reportView = new Tag.Views.Report();
+         var modal = new Common.Views.Modal({
+            view: reportView,
+            showFooter: false,
+            showHeader: true,
+            title: $.t('photo.reportTitle'),
+            modalDialogClasses: 'report-dialog'
+         });
+         reportView.on('report:submit', function(reason) {
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     headers : {
+                        "Authorization": app.oauth.getAuthorizationHeader()
+                     },
+                     url: Routing.generate('api_v1_get_csrftoken', { intention: 'report_item'}),
+                     success: function(data) {
+                        $.ajax({
+                           url: Routing.generate('api_v1_post_report'),
+                           headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                           type: 'POST',
+                           data: {
+                              report: {
+                                 'reason': reason,
+                                 'photo': photo.get('id'),
+                                 '_token': data
+                              }
+                           }
+                        });
+                     }
+                  });
+               }
+            });
+            modal.close();
+         });
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
          });
       }
    };

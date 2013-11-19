@@ -35,13 +35,15 @@ class ActionRepository extends EntityRepository
         // Check if same action already exist
         switch ($actionType) {
             case Action::TYPE_PHOTO_COMMENT:
+                $action = null;
+                break;
             case Action::TYPE_PHOTO_TAG:
             case Action::TYPE_PHOTO_FAVORITE:
             case Action::TYPE_PHOTO_LIKE:
             case Action::TYPE_USER_FOLLOW:
             case Action::TYPE_REWARD_NEW:
                 $action = $this->getEntityManager()->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
-                    WHERE action.actionType = :actionType AND action.author = :author AND action.target = :target
+                    WHERE action.type = :actionType AND action.author = :author AND action.target = :target
                     AND action.linkedObjectId = :linkedObjectId')
                     ->setParameters(array(
                         'actionType' => $actionType,

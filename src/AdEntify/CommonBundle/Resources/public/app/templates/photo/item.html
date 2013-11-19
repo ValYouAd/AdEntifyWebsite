@@ -41,7 +41,7 @@
         <div class="pinterest"><a target="_blank" href="//pinterest.com/pin/create/button/?url=<%= encodeURIComponent(pageUrl) %>&media=<%= encodeURIComponent(model.get("large_url")) %>&description=<%= encodeURIComponent(model.get("caption")) %>" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div>
     </div>
     <div class="pull-right">
-        <span class="source">Source :</span> <span class="source-name"><%= model.get("source") %></span>
+        <span class="source">Source :</span> <span class="source-name"><%= model.get("source") %></span> <button class="btn btn-link report-button"><i class="report-icon icon"></i> <%= $.t('photo.report') %></button>
     </div>
     <div class="clearfix"></div>
     <div class="categories-hashtags">
