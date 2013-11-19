@@ -79,7 +79,7 @@ class CommentsController extends FosRestController
             // COMMENT Action & notification
             $sendNotification = $user->getId() != $comment->getPhoto()->getOwner()->getId();
             $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_COMMENT,
-                $user, $comment->getPhoto()->getOwner(), array($comment->getPhoto()), Action::VISIBILITY_FRIENDS, $comment->getPhoto()->getId(),
+                $user, $comment->getPhoto()->getOwner(), array($comment->getPhoto()), Action::VISIBILITY_PUBLIC, $comment->getPhoto()->getId(),
                 get_class($comment->getPhoto()), $sendNotification, 'memberCommentPhoto');
 
             $em->persist($comment);

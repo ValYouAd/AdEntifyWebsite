@@ -95,7 +95,7 @@ class TaskWorkerCommand extends ContainerAwareCommand
                     if ($task->getType() == Task::TYPE_UPLOAD) {
                         // UPLOAD PHOTO Action & notification
                         $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_UPLOAD,
-                            $task->getUser(), null, $response['photos'], Action::VISIBILITY_FRIENDS, null, null,
+                            $task->getUser(), null, $response['photos'], Action::VISIBILITY_PUBLIC, null, null,
                             $task->getNotifyCompleted(), 'photosUploaded', null, $task->getUser());
                     }
                     // Task completed, remove it

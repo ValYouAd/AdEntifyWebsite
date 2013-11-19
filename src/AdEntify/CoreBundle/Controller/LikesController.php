@@ -67,7 +67,7 @@ class LikesController extends FosRestController
 
                         $sendNotification = $user->getId() != $photo->getOwner()->getId();
                         $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_LIKE,
-                            $user, $photo->getOwner(), array($photo), Action::VISIBILITY_FRIENDS, $photo->getId(),
+                            $user, $photo->getOwner(), array($photo), Action::VISIBILITY_PUBLIC, $photo->getId(),
                             get_class($photo), $sendNotification, $user ? 'memberLikedPhoto': 'anonymousLikedPhoto');
 
                         $em->persist($like);

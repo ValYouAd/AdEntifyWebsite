@@ -257,9 +257,10 @@
       "noResults": "No result found",
       "error": "Error loading results.",
       "viewMore": "View more results",
-      "tagsBlockTitle": "Tags",
-      "usersBlockTitle": "Members",
-      "noSearch": "No search available at the moment"
+      "noSearch": "No search available at the moment",
+      "photos": "Photos",
+      "users": "Users",
+      "feeds": "Feeds"
    },
    "comment": {
       "noComments": "No comment yet, be the first to post!",

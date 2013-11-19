@@ -76,7 +76,7 @@ class CategoriesController extends FosRestController
     public function cgetAction($locale = 'en')
     {
         return $this->getDoctrine()->getManager()
-            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.name")
             ->useQueryCache(false)
             ->useResultCache(true, null, 'categories'.$locale)
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')

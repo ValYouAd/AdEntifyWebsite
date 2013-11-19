@@ -5,8 +5,9 @@ define([
    'app',
    'modules/user',
    'modules/photo',
-   'modules/photos'
-], function(app, User, Photo, Photos) {
+   'modules/photos',
+   'modules/common'
+], function(app, User, Photo, Photos, Common) {
 
    var Action = app.module();
 
@@ -53,7 +54,6 @@ define([
 
    Action.Collection = Backbone.Collection.extend({
       model: Action.Model,
-      cache: true,
       url: Routing.generate('api_v1_get_actions')
    });
 
@@ -140,6 +140,35 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.actions, 'sync', this.render);
+         this.pollActions(this.options.actions);
+      },
+
+      pollActions: function(actions) {
+         var that = this;
+         if (app.appState().getCurrentUserId() > 0) {
+            actions.fetch({
+               url: Routing.generate('api_v1_get_actions'),
+               success: function(collection) {
+                  /*if (collection.length == 0) {
+                     app.useLayout().setView('.alert-notifications', new Common.Views.Alert({
+                        cssClass: Common.alertInfo,
+                        message: $.t('notification.noNotifications'),
+                        showClose: true
+                     })).render();
+                  }*/
+                  // Set a new timeout
+                  that.pollTimeout = setTimeout(function() {
+                     that.pollActions(actions);
+                  }, app.secondsBetweenPoll * 1000);
+               },
+               error: function() {
+                  // Error, set a new timeout for 5 seconds
+                  that.pollTimeout = setTimeout(function() {
+                     that.pollActions(actions);
+                  }, 5000);
+               }
+            });
+         }
       }
    });
 

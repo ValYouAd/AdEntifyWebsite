@@ -201,7 +201,7 @@ define([
                type: 'POST',
                data: { 'images': images, 'source': 'instagram' },
                success: function() {
-                  app.trigger('externalPhotos:uploadingInProgress');
+                  ExternalServicePhotos.Common.showUploadInProgressModal();
                },
                error: function() {
                   // Hide loader
@@ -212,6 +212,10 @@ define([
                }
             });
          }
+      },
+
+      events: {
+         'click .submit-photos-button': 'submitPhotos'
       }
    });
 

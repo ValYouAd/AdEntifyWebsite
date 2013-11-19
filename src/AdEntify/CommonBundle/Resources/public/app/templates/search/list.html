@@ -1,10 +1,13 @@
 <div class="text-center search-loading fadeOut"><span data-i18n="search.inProgress"></span> <i class="glyphicon glyphicon-refresh rotate"></i></div>
-<div class="search-title">Photos</div>
+<div class="search-title"><%= $.t('search.photos') %></div>
 <div class="alert-search-tags-results"></div>
 <ul class="search-tags-results list-unstyled striped"></ul>
-<div class="search-title">Utilisateurs</div>
+<div class="search-title"><%= $.t('search.users') %></div>
 <div class="alert-search-users-results"></div>
 <ul class="search-users-results list-unstyled striped"></ul>
+<div class="search-title"><%= $.t('search.feeds') %></div>
+<div class="alert-search-feeds-results"></div>
+<ul class="search-feeds-results list-unstyled striped"></ul>
 <div class="view-more-results fadeOut">
     <a href="<%= searchUrl %>">
         <span data-i18n="search.viewMore" class="pull-left"></span>
