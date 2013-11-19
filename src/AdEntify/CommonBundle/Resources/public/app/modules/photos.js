@@ -95,7 +95,6 @@ define([
       },
 
       events: {
-         'click .adentify-pastille-small': 'clickPastille',
          'click .deletePhotoButton': 'deletePhoto',
          'click .photo-link': 'showPhoto',
          'mouseenter .photo-container': 'showTags',

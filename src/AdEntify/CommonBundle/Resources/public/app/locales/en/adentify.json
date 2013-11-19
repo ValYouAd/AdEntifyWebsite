@@ -156,7 +156,7 @@
       "addNewTag": "Add tag",
       "submitProduct": "Confirm and add tag",
       "reportTag": "Report",
-      "taggedBy": "Tag by <strong>__author__</strong>",
+      "taggedBy": "Tag by <strong><a href='__link__'>__author__</a></strong>",
       "deleteTooltip": "Delete tag",
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
       "reportReasonLabel": "Report reason",
@@ -182,7 +182,11 @@
       "addTagTooltip": "Add new tag",
       "likeTooltip": "Like photo",
       "shareTooltip": "Share photo",
-      "favoriteTooltip": "Add to Favorites"
+      "favoriteTooltip": "Add to Favorites",
+      "report": "Report",
+      "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
+      "reportReasonLabel": "Report reason",
+      "reportReasonTextarea": "Write reason of the report..."
    },
    "externalServicePhotos": {
       "select": "Select",

@@ -218,7 +218,7 @@ define([
       },
 
       reportTag: function() {
-
+         Tag.Common.reportTag(this.model);
       },
 
       events: {
@@ -288,45 +288,7 @@ define([
       },
 
       reportTag: function() {
-         var that = this;
-         var reportView = new Tag.Views.Report();
-         var modal = new Common.Views.Modal({
-            view: reportView,
-            showFooter: false,
-            showHeader: true,
-            title: $.t('tag.reportTitle'),
-            modalDialogClasses: 'report-dialog'
-         });
-         reportView.on('report:submit', function(reason) {
-            app.oauth.loadAccessToken({
-               success: function() {
-                  $.ajax({
-                     headers : {
-                        "Authorization": app.oauth.getAuthorizationHeader()
-                     },
-                     url: Routing.generate('api_v1_get_csrftoken', { intention: 'report_item'}),
-                     success: function(data) {
-                        $.ajax({
-                           url: Routing.generate('api_v1_post_report'),
-                           headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                           type: 'POST',
-                           data: {
-                              report: {
-                                 'reason': reason,
-                                 'tag': that.model.get('id'),
-                                 '_token': data
-                              }
-                           }
-                        });
-                     }
-                  });
-               }
-            });
-            modal.close();
-         });
-         Common.Tools.hideCurrentModalIfOpened(function() {
-            app.useLayout().setView('#modal-container', modal).render();
-         });
+         Tag.Common.reportTag(this.model);
       },
 
       events: {
@@ -397,13 +359,18 @@ define([
          this.model.delete();
       },
 
+      reportTag: function() {
+         Tag.Common.reportTag(this.model);
+      },
+
       events: {
          "mouseenter .tag": "hoverIn",
          "mouseleave .tag": "hoverOut",
          "click a[href]": "clickTag",
          "click .validateTagButton": "validateTag",
          "click .refuseTagButton": "refuseTag",
-         "click .deleteTagButton": "deleteTag"
+         "click .deleteTagButton": "deleteTag",
+         'click .reportTagButton': 'reportTag'
       }
    });
 
@@ -1141,6 +1108,47 @@ define([
             app.trigger('addTagModal:hide');
          });
 
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
+         });
+      },
+
+      reportTag: function(tag) {
+         var reportView = new Tag.Views.Report();
+         var modal = new Common.Views.Modal({
+            view: reportView,
+            showFooter: false,
+            showHeader: true,
+            title: $.t('tag.reportTitle'),
+            modalDialogClasses: 'report-dialog'
+         });
+         reportView.on('report:submit', function(reason) {
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     headers : {
+                        "Authorization": app.oauth.getAuthorizationHeader()
+                     },
+                     url: Routing.generate('api_v1_get_csrftoken', { intention: 'report_item'}),
+                     success: function(data) {
+                        $.ajax({
+                           url: Routing.generate('api_v1_post_report'),
+                           headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                           type: 'POST',
+                           data: {
+                              report: {
+                                 'reason': reason,
+                                 'tag': tag.get('id'),
+                                 '_token': data
+                              }
+                           }
+                        });
+                     }
+                  });
+               }
+            });
+            modal.close();
+         });
          Common.Tools.hideCurrentModalIfOpened(function() {
             app.useLayout().setView('#modal-container', modal).render();
          });

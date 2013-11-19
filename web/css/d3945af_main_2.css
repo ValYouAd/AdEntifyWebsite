@@ -688,7 +688,7 @@ html,body {
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 2;
+    /*z-index: 2;*/
     cursor: pointer;
 }
 .arrow-top-adentify-pastille-hover {
@@ -989,7 +989,7 @@ html,body {
 .product-image {
     max-height: 100px;
 }
-.tag .tag-buttons {
+.tag .tag-top-buttons {
     float: right;
     margin-bottom: 8px;
 }
@@ -1001,7 +1001,7 @@ html,body {
 .product-photo {
     max-width: 100%;
 }
-.tag-validation {
+.tag-buttons {
     background: url('../img/dark-grey-tag-background.jpg') repeat;
     padding: 6px 10px;
     color: #b7babe;
@@ -1009,9 +1009,17 @@ html,body {
     font-size: 11px;
     margin: 2px 0px 0px;
 }
-.tag-validation strong {
+.tag-buttons strong {
     font-weight: normal;
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+}
+.tag-buttons .tagged-by {
+    margin-right: 4px;
+}
+.tagged-by a,
+.tagged-by a:hover {
+    text-decoration: none;
+    color: #b7babe!important;
 }
 .deleteTagButton {
     cursor: pointer;

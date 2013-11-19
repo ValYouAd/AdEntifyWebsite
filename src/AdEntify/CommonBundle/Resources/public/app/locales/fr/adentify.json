@@ -156,7 +156,7 @@
       "addNewTag": "Ajouter un tag",
       "submitProduct": "Valider et ajouter le tag",
       "reportTag": "Signaler",
-      "taggedBy": "Taggué par <strong>__author__</strong>",
+      "taggedBy": "Taggué par <strong><a href='__link__'>__author__</a></strong>",
       "deleteTooltip": "Supprimer le tag",
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
       "reportReasonLabel": "Raison du signalement",
@@ -182,7 +182,11 @@
       "addTagTooltip": "Ajouter un tag",
       "likeTooltip": "Aimer la photo",
       "shareTooltip": "Partager la photo",
-      "favoriteTooltip": "Ajouter en favoris"
+      "favoriteTooltip": "Ajouter en favoris",
+      "report": "Signaler",
+      "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
+      "reportReasonLabel": "Raison du signalement",
+      "reportReasonTextarea": "Ecrivez la raison du signalement."
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
