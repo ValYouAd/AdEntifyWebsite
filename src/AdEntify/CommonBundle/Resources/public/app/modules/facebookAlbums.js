@@ -53,6 +53,12 @@ define([
       template: "externalServicePhotos/albumList",
       confidentiality: 'public',
 
+      serialize: function() {
+         return {
+            rootUrl: app.beginUrl + app.root
+         };
+      },
+
       initialize: function() {
          var that = this;
          if (app.fb.isConnected()) {
