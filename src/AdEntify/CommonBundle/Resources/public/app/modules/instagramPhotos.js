@@ -40,7 +40,12 @@ define([
       confidentiality: 'public',
 
       serialize: function() {
-         return { album: null }
+         return {
+            album: null,
+            showBackTo: true,
+            backToText: $.t('upload.backToServices'),
+            backToLink: app.beginUrl + app.root + $.t('routing.upload/')
+         }
       },
 
       initialize: function() {

@@ -49,7 +49,8 @@ class DefaultController extends Controller
         $brands = $em->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand ORDER BY brand.tagsCount DESC')
             ->setMaxResults(12)->getResult();
         $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-            WHERE photo.visibilityScope = :visibilityScope AND photo.deletedAt IS NULL AND photo.status = :status ORDER BY photo.createdAt DESC')
+            WHERE photo.visibilityScope = :visibilityScope AND photo.deletedAt IS NULL AND photo.status = :status AND photo.tagsCount > 0
+            ORDER BY photo.createdAt DESC')
             ->setParameters(array(
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':status' => Photo::STATUS_READY,

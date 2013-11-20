@@ -61,6 +61,7 @@
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'My photos'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}"><i class="icon parameters-icon"></i> {{ 'My settings'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"><i class="icon favorites-icon"></i> {{ 'My favorites'|trans }}</a></li>
+                                                    {% if is_granted('ROLE_ANOUNCER') %}<li><a href="{{ full_root_url }}"><i class="icon glyphicon glyphicon-wrench"></i> {{ 'My brand'|trans }}</a></li>{% endif %}
                                                     <li class="grey-background-item"><a href="{{ url('fos_user_security_logout') }}"><i class="icon cross-icon"></i> {{ 'Log out'|trans }}</a></li>
                                                 </ul>
                                             </div>

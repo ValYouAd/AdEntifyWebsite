@@ -87,7 +87,8 @@
       "photosOfYou": "Photos de vous",
       "sendPhotosFromLocal": "Envoyer des photos depuis mon ordinateur",
       "localPhotosUploaded": "Mes photos envoyées",
-      "or": "ou"
+      "or": "ou",
+      "backToServices": "Revenir aux services"
    },
    "facebook": {
       "albumsPageTitle": "Mes albums Facebook - AdEntify",
