@@ -173,7 +173,8 @@ define([
       serialize: function() {
          return {
             model: this.model,
-            popoverDesactivated: this.popoverDesactivated
+            popoverDesactivated: this.popoverDesactivated,
+            rootUrl: app.beginUrl + app.root
          };
       },
 
@@ -982,7 +983,7 @@ define([
                            currentTag.set('type', 'person');
                            currentTag.set('person', person.get('id'));
                            currentTag.set('title', currentPerson.name);
-                           currentTag.set('link', 'https://www.facebook.com/' + currentPerson.id);
+                           currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/' + currentPerson.id);
                            currentTag.url = Routing.generate('api_v1_post_tag');
                            currentTag.getToken('tag_item', function() {
                               currentTag.save(null, {

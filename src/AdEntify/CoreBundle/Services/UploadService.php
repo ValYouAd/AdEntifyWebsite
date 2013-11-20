@@ -149,8 +149,6 @@ class UploadService
                                 case 'facebook':
                                     $fieldName = 'facebookId';
                                     $link = 'https://www.facebook.com/'.$tag->id;
-                                    if (!$person)
-                                        $brand = $this->em->getRepository('AdEntifyCoreBundle:Brand')->createOrUpdateBrandFromFacebookId($tag->id, $this->fbApi);
                                     break;
                                 case 'instagram':
                                     $fieldName = 'instagramId';
@@ -162,6 +160,8 @@ class UploadService
                                 $person = $personRepository->findOneBy(array(
                                     $fieldName => $tag->id
                                 ));
+                                if (!$person && $source == 'facebook')
+                                    $brand = $this->em->getRepository('AdEntifyCoreBundle:Brand')->createOrUpdateBrandFromFacebookId($tag->id, $this->fbApi);
                             }
 
                             // If not found, check if its a brand

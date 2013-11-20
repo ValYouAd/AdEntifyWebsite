@@ -42,7 +42,8 @@ class UserRepository  extends EntityRepository
                         $actualFacebookFriendsIds = $this->getFacebookFriendsIds($user->getFriends());
                         // Get existing persons
                         $persons = $this->_em->createQuery('SELECT person FROM AdEntify\CoreBundle\Entity\Person person
-                            WHERE person.facebookId IN (:facebookIds) AND person.facebookId NOT IN (:actualFacebookFriendsIds)')
+                            LEFT JOIN person.user user
+                            WHERE person.facebookId IN (:facebookIds) AND (person.facebookId NOT IN (:actualFacebookFriendsIds) OR user IS NULL)')
                             ->setParameters(array(
                                 ':facebookIds' => $facebookIds,
                                 ':actualFacebookFriendsIds' => $actualFacebookFriendsIds
@@ -50,22 +51,30 @@ class UserRepository  extends EntityRepository
                             ->getResult();
                         // Get existing users
                         $users = $this->_em->createQuery('SELECT u FROM AdEntify\CoreBundle\Entity\User u
-                            WHERE u.facebookId IN (:facebookIds) AND u.facebookId NOT IN (:actualFacebookFriendsIds)')
+                            WHERE u.facebookId IN (:facebookIds)')
                             ->setParameters(array(
-                                ':facebookIds' => $facebookIds,
-                                ':actualFacebookFriendsIds' => $actualFacebookFriendsIds
+                                ':facebookIds' => $facebookIds
                             ))
                             ->getResult();
 
                         foreach($friends['data'] as $friend) {
-                            // Check if isnt already a friend
-                            if (in_array($friend['id'], $actualFacebookFriendsIds))
-                                continue;
                             // Check if fb id isnt current user fb id
                             if ($friend['id'] == $user->getFacebookId())
                                 continue;
-
                             $foundPerson = null;
+                            // Check if isnt already a friend
+                            if (in_array($friend['id'], $actualFacebookFriendsIds)) {
+                                foreach ($persons as $person) {
+                                    if ($person->getFacebookId() == $friend['id']) {
+                                        $foundPerson = $person;
+                                        break;
+                                    }
+                                }
+                                if ($foundPerson && !$foundPerson->getUser())
+                                    $this->linkPersonToUser($foundPerson, $users);
+                                continue;
+                            }
+
                             foreach ($persons as $person) {
                                 if ($person->getFacebookId() == $friend['id']) {
                                     $foundPerson = $person;
@@ -85,12 +94,7 @@ class UserRepository  extends EntityRepository
                                     $person->setGender($friend['gender']);
 
                                 // Search if person isnt an AdEntify user
-                                foreach ($users as $user) {
-                                    if ($user->getFacebookId() == $friend['id']) {
-                                        $person->setUser($user);
-                                        break;
-                                    }
-                                }
+                                $this->linkPersonToUser($person, $users);
 
                                 $user->addFriend($person);
                                 $this->_em->persist($person);
@@ -133,5 +137,15 @@ class UserRepository  extends EntityRepository
         if (count($actualFacebookFriendsIds) == 0)
             $actualFacebookFriendsIds[] = 0;
         return $actualFacebookFriendsIds;
+    }
+
+    private function linkPersonToUser($person, $users) {
+
+        foreach ($users as $user) {
+            if ($user->getFacebookId() == $person->getFacebookId()) {
+                $user->setPerson($person);
+                $this->_em->merge($user);
+            }
+        }
     }
 }
