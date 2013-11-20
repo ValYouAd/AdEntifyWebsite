@@ -47,7 +47,8 @@ class TaskWorkerCommand extends ContainerAwareCommand
             ->setParameters(array(
                 'status1' => Task::STATUS_WAITING,
                 'status2' => Task::STATUS_ERROR
-            ))->getSingleScalarResult();
+            ))
+            ->getSingleScalarResult();
 
         if ($currentTasks < self::PARALLEL_TASKS) {
             $task = $this->em->createQuery('SELECT task FROM AdEntify\CoreBundle\Entity\Task task
@@ -55,7 +56,8 @@ class TaskWorkerCommand extends ContainerAwareCommand
                 ->setParameters(array(
                     'status1' => Task::STATUS_WAITING,
                     'status2' => Task::STATUS_ERROR
-                ))->getOneOrNullResult();
+                ))->setMaxResults(1)
+                ->getOneOrNullResult();
 
             if ($task) {
                 // Update task status
