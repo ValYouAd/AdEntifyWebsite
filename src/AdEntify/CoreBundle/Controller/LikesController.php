@@ -11,6 +11,7 @@ namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
+use AdEntify\CoreBundle\Entity\Photo;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -67,7 +68,7 @@ class LikesController extends FosRestController
 
                         $sendNotification = $user->getId() != $photo->getOwner()->getId();
                         $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_LIKE,
-                            $user, $photo->getOwner(), array($photo), Action::VISIBILITY_PUBLIC, $photo->getId(),
+                            $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                             get_class($photo), $sendNotification, $user ? 'memberLikedPhoto': 'anonymousLikedPhoto');
 
                         $em->persist($like);

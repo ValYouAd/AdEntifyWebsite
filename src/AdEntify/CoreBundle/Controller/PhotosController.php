@@ -773,7 +773,7 @@ class PhotosController extends FosRestController
                         // FAVORITE Action & notification
                         $sendNotification = $user->getId() != $photo->getOwner()->getId();
                         $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
-                            $user, $photo->getOwner(), array($photo), Action::VISIBILITY_PUBLIC, $photo->getId(),
+                            $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                             get_class($photo), $sendNotification, 'photoFav');
                     } else {
                         $user->removeFavoritePhoto($photo);

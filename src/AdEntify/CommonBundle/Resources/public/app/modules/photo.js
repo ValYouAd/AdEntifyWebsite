@@ -211,7 +211,7 @@ define([
       serialize: function() {
          return {
             model: this.options.photo,
-            pageUrl: window.location.href
+            pageUrl: this.options.photo.get('link')
          };
       },
 

@@ -342,4 +342,16 @@ class Action
     {
         return $this->visibility;
     }
+
+    public static function getVisibilityWithPhotoVisibility($photoVisibility)
+    {
+        switch ($photoVisibility) {
+            case Photo::SCOPE_PUBLIC:
+                return  Action::VISIBILITY_PUBLIC;
+            case Photo::SCOPE_PRIVATE:
+                return Action::VISIBILITY_FRIENDS;
+            default:
+                return Action::VISIBILITY_PUBLIC;
+        }
+    }
 }

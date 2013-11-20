@@ -75,14 +75,14 @@ class Person
     /**
      * @var integer
      *
-     * @ORM\Column(name="facebook_id", type="bigint", nullable=true)
+     * @ORM\Column(name="facebook_id", type="bigint", nullable=true, unique=true)
      */
     private $facebookId;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="instagram_id", type="bigint", nullable=true)
+     * @ORM\Column(name="instagram_id", type="bigint", nullable=true, unique=true)
      */
     private $instagramId;
 
@@ -94,7 +94,6 @@ class Person
     /**
      * @var User
      *
-     * @Serializer\Exclude
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="person")
      */
     private $user;

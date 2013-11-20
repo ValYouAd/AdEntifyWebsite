@@ -89,7 +89,6 @@ define([
                   photo.set('originalWidth', data.result['original']['width']);
                   photo.set('originalHeight', data.result['original']['height']);
                   that.photos.add(photo);
-                  app.trigger('externalServicePhotos:selectPhoto', photo);
                } else {
                   app.useLayout().setView('.alert-product', new Common.Views.Alert({
                      cssClass: Common.alertError,
@@ -111,7 +110,6 @@ define([
          if (this.photos.length > 0) {
             this.photos.each(function(image) {
                image.set('confidentiality', options.confidentiality);
-               image.set('categories', options.categories);
             });
 
             // POST images to database
@@ -120,7 +118,7 @@ define([
                type: 'POST',
                data: { 'images': this.photos.toJSON(), 'source': 'local' },
                success: function() {
-                  app.trigger('externalPhotos:uploadingInProgress');
+                  ExternalServicePhotos.Common.showUploadInProgressModal();
                },
                error: function() {
                   // Hide loader
@@ -136,6 +134,7 @@ define([
 
    Upload.Views.PhotosList = Backbone.View.extend({
       template: 'externalServicePhotos/list',
+      confidentiality: 'public',
       albumName: '',
 
       serialize: function() {
@@ -187,6 +186,23 @@ define([
          if (this.options.photos.length > 0) {
             $('#loading-photos').hide();
          }
+         var that = this;
+         $(this.el).find('.photos-confidentiality').change(function() {
+            if ($(this).val())
+               that.confidentiality = $(this).val();
+         });
+      },
+
+      submitPhotos: function() {
+         var that = this;
+         app.trigger('externalServicePhoto:submitPhotos', {
+            confidentiality: that.confidentiality,
+
+         });
+      },
+
+      events: {
+         'click .submit-photos-button': 'submitPhotos'
       }
    });
 
