@@ -167,7 +167,7 @@ class TagsController extends FosRestController
                 } else {
                     // TAG Action
                     $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
-                        $user, $photo->getOwner(), array($photo), Action::VISIBILITY_PUBLIC, $photo->getId(),
+                        $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                         get_class($photo), false, 'tagPhoto');
                 }
 
