@@ -20,7 +20,8 @@
       "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
       "noPhotos": "Aucune photo disponible.",
       "loadMore": "Charger plus de photos",
-      "loadingMore": "Chargement des photos en cours..."
+      "loadingMore": "Chargement des photos en cours...",
+      "addTag": "Ajouter un tag"
    },
    "myPhotos": {
       "pageTitleMyPhotos": "Mes photos - AdEntify",

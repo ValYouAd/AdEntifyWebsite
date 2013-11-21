@@ -30,9 +30,18 @@ define([
    Photos.Views.Item = Backbone.View.extend({
       template: "photos/item",
       tagName: "li class='isotope-li'",
+      addTag: false,
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            addTag: this.addTag
+         };
+      },
+
+      initialize: function() {
+         this.itemClickBehavior = typeof this.options.itemClickBehavior !== 'undefined' ? this.options.itemClickBehavior : Photos.Common.PhotoItemClickBehaviorDetail;
+         this.addTag = typeof this.options.addTag !== 'undefined' ? this.options.addTag : this.addTag;
       },
 
       beforeRender: function() {
@@ -64,7 +73,7 @@ define([
          $(this.el).i18n();
       },
 
-      clickPastille: function() {
+      /*clickPastille: function() {
          $tags = $(this.el).find('.tags');
          if ($tags.data('always-visible') == 'no') {
             $tags.data('always-visible', 'yes');
@@ -73,7 +82,7 @@ define([
             $tags.data('always-visible', 'no');
             this.hideTags();
          }
-      },
+      },*/
 
       showTags: function() {
          $(this.el).find('.tags').stop().fadeIn(100);
@@ -91,7 +100,14 @@ define([
       },
 
       showPhoto: function(evt) {
-         Photos.Common.showPhoto(evt, this.model);
+         switch (this.itemClickBehavior) {
+            case Photos.Common.PhotoItemClickBehaviorDetail:
+               Photos.Common.showPhoto(evt, this.model);
+               break;
+            case Photos.Common.PhotoItemClickBehaviorAddTag:
+               Tag.Common.addTag(evt, this.model);
+               break;
+         }
       },
 
       events: {
@@ -106,9 +122,7 @@ define([
       template: "photos/content",
 
       initialize: function() {
-         this.defaultLayout();
          openedContainer = null;
-
          var that = this;
          if (typeof this.options.listenToEnable !== 'undefined') {
             this.listenTo(this.options.photos, 'sync', this.render);
@@ -152,13 +166,14 @@ define([
       beforeRender: function() {
          this.options.photos.each(function(photo) {
             this.insertView("#photos-grid", new Photos.Views.Item({
-               model: photo
+               model: photo,
+               itemClickBehavior: typeof this.options.itemClickBehavior !== 'undefined' ? this.options.itemClickBehavior : Photos.Common.PhotoItemClickBehaviorDetail,
+               addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false
             }));
          }, this);
       },
 
       afterRender: function() {
-         var that = this;
          $(this.el).i18n();
          if (this.title) {
             $(this.el).find('.photos-title').html(this.title);
@@ -174,12 +189,6 @@ define([
             });
             $('#loading-photos').fadeOut('fast');
          });
-
-         // Click on photo overlay
-         /*container.delegate('.photo-overlay', 'click', function(evt) {
-            lastImage = $(this).siblings('img[data-type="medium"]');
-            that.clickOnPhoto(lastImage);
-         });*/
 
          // Pagination
          app.useLayout().insertView("#photos", new Pagination.Views.NextPage({
@@ -208,120 +217,14 @@ define([
          app.useLayout().insertView("#photos-grid", view).render();
       },
 
-      clickOnPhoto: function(imageClicked) {
-         // Already in edit mode
-         if (imageClicked.data('type') == 'large') {
-            this.defaultLayout();
-            // Resize to medium size
-            this.resizeToMediumSize(imageClicked, true);
-            openedContainer = null;
-         } else {
-            // If an image is already in large size, go to medium size
-            if (openedContainer) {
-               this.resizeToMediumSize(openedContainer.children("img[data-type='large']"));
-            }
-            if (!openedContainer) {
-               $("#dashboard").removeClass('view-mode').addClass('edit-mode');
-               $('aside').switchClass("span3", "span1");
-               $('#content').switchClass('span9', 'span11');
-               $('#photos').switchClass('span12', 'span9');
-               if (!Modernizr.csstransitions) {
-                  $('#menu-tools').animate({left: "63%"});
-                  $('#photos').animate({left: "28%"});
-               }
-               // Resize to large size
-               this.resizeToLargeSize(imageClicked);
-            } else {
-               // Resize to large size
-               this.resizeToLargeSize(imageClicked);
-            }
-         }
-      },
-
-      resizeToMediumSize: function(image, relayout) {
-         relayout = typeof relayout !== 'undefined' ? relayout : false;
-
-         // Hide large image
-         image.hide();
-         // Show medium image
-         image.siblings("img[data-type='medium']").show();
-         // Resize container
-         image.parents('.photo').removeClass('large').addClass('medium');
-         // Relayout if ask
-         if (relayout) {
-            container.isotope('reLayout', this.relayoutEnded);
-         }
-      },
-
-      resizeToLargeSize: function(image) {
-         var largeUrl = image.data('large-url');
-         var largeWidth = image.data('large-width');
-         var parentDiv = image.parents('.photo');
-         var containerDiv = image.parents('.photo-container');
-         var mediumUrl = image.attr('src');
-
-         this.updateMenuTools(image.data("id"));
-
-         if (parentDiv) {
-            openedContainer = containerDiv;
-            lastImageContainer = containerDiv;
-
-            var largeImage = parentDiv.children("img[data-type='large']");
-            // Check if large image is already loaded
-            if (largeImage.length > 0) {
-               openedImage = largeImage;
-               // Change photo container size
-               parentDiv.removeClass('medium').addClass("large");
-               image.hide();
-               largeImage.show();
-               container.isotope("reLayout", this.relayoutEnded);
-            } else {
-               // Save medium width
-               image.data("medium-width", image.width());
-               // Increase medium image size before loading the large one
-               image.width(largeWidth);
-               image.height('auto');
-               // Change photo container size
-               parentDiv.removeClass('medium').addClass("large");
-               // Relayout
-               container.isotope('reLayout', this.relayoutEnded);
-               // Load the large image
-               $("<img/>", {
-                  src: largeUrl,
-                  'data-medium': mediumUrl,
-                  'data-type': "large",
-                  style: "display: none;"
-               }).appendTo(containerDiv).load(function() {
-                     openedImage = $(this);
-                     image.hide();
-                     image.width(image.data("medium-width"));
-                     $(this).css({display: 'block'});
-                  });
-            }
-         }
-      },
-
       relayoutEnded: function() {
          $('html, body').animate({
             scrollTop: lastImageContainer.offset().top - 60
          }, 300);
       },
 
-      defaultLayout: function() {
-         $("#dashboard").removeClass('edit-mode').addClass('view-mode');
-         $('#content').switchClass('span11', 'span9');
-         $("aside").switchClass("span1", "span3");
-         $('#photos').switchClass('span9', 'span12');
-      },
-
-      updateMenuTools: function(photoId) {
-         app.appState().set('currentPhotoModel', this.options.photos.get(photoId));
-         $('#menu-tools #photo-caption').val(app.appState().getCurrentPhotoModel().get('caption'));
-      },
-
       submitPhotoDetails: function() {
          if (app.appState().getCurrentPhotoModel()) {
-
             app.appState().getCurrentPhotoModel().set('caption', $('#menu-tools #photo-caption').val());
             app.appState().getCurrentPhotoModel().getToken('photo_item', function() {
                app.appState().getCurrentPhotoModel().url = Routing.generate('api_v1_get_photo', { id: app.appState().getCurrentPhotoModel().get('id')});
@@ -339,61 +242,6 @@ define([
          this.options.photos.nextPage(function() {
             app.trigger('pagination:nextPageLoaded');
          });
-      }
-   });
-
-   // Menu Tools
-   Photos.Views.MenuTools = Backbone.View.extend({
-      template: "photos/menuTools",
-
-      initialize: function() {
-         this.listenTo(app, 'tagMenuTools:cancel', this.showTools);
-         this.listenTo(app, 'tagMenuTools:tagAdded', this.showTools);
-      },
-
-      close: function() {
-         app.trigger('global:closeMenuTools');
-      },
-
-      addTag: function() {
-         app.useLayout().setView("#tool-details", new Tag.Views.MenuTools({
-            tags: new Tag.Collection()
-         })).render();
-         app.trigger('tagMenuTools:addTag');
-         this.hideTools();
-      },
-
-      hideTools: function() {
-         $('#tools').fadeOut('fast', function() {
-            $('#tool-details').fadeIn('fast');
-         });
-      },
-
-      showTools: function() {
-         $('#tool-details').fadeOut('fast', function() {
-            $('#tools').fadeIn('fast');
-         });
-      },
-
-      // Detail Form Submit
-      submitPhotoDetails: function(e) {
-         e.preventDefault();
-         // Validate
-         if ($('#photo-caption').val()) {
-            var btn = $('#form-details button[type="submit"]');
-            btn.button('loading');
-            app.trigger('photos:submitPhotoDetails');
-         }
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      events: {
-         "click .close": "close",
-         "click #add-tag": "addTag",
-         "click #form-details button[type='submit']": "submitPhotoDetails"
       }
    });
 
@@ -447,6 +295,9 @@ define([
    });
 
    Photos.Common = {
+      PhotoItemClickBehaviorDetail: 'detail',
+      PhotoItemClickBehaviorAddTag: 'add-tag',
+
       showPhoto: function(evt, photo) {
          evt.preventDefault();
          var photoView = new Photo.Views.Modal({

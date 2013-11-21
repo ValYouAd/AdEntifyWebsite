@@ -6,7 +6,7 @@
 <% if (model.has('photosCollection') && model.get('photosCollection').length > 0) { %>
 <div class="notification-photos pull-right">
     <% model.get('photosCollection').each(function(photo) { %>
-    <a href="<%= photo.get('link') %>"><img src="<%= photo.get('small_url') %>" class="notification-photo" alt="photo.get('caption')" /></a>
+    <a href="<%= photo.get('link') %>"><div style="background-image: url('<%= photo.get('small_url') %>');" class="notification-photo"></div></a>
     <% }); %>
 </div>
 <% } %>
