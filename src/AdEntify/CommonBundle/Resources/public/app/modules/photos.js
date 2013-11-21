@@ -94,11 +94,6 @@ define([
             $(this.el).find('.tags').stop().fadeOut('fast');
       },
 
-      deletePhoto: function(e) {
-         e.preventDefault();
-         this.model.delete();
-      },
-
       showPhoto: function(evt) {
          switch (this.itemClickBehavior) {
             case Photos.Common.PhotoItemClickBehaviorDetail:
@@ -111,7 +106,6 @@ define([
       },
 
       events: {
-         'click .deletePhotoButton': 'deletePhoto',
          'click .photo-link': 'showPhoto',
          'mouseenter .photo-container': 'showTags',
          'mouseleave .photo-container': 'hideTags'

@@ -705,6 +705,36 @@ define([
       }
    });
 
+   Photo.Views.Report = Backbone.View.extend({
+      'template': 'photo/report',
+
+      serialize: function() {
+         return {
+            model: this.photo
+         }
+      },
+
+      report: function(evt) {
+         evt.preventDefault();
+         this.trigger('report:submit', $(this.el).find('.reason-textarea').val());
+      },
+
+      initialize: function() {
+         this.photo = this.options.photo;
+      },
+
+      deletePhoto: function(e) {
+         e.preventDefault();
+         this.photo.delete();
+         this.trigger('close');
+      },
+
+      events: {
+         'click .reportSubmit': 'report',
+         'click .deletePhotoButton': 'deletePhoto'
+      }
+   });
+
    Photo.Common = {
       like: function(photo, success) {
          app.oauth.loadAccessToken({
@@ -743,7 +773,9 @@ define([
       },
 
       report: function(photo) {
-         var reportView = new Tag.Views.Report();
+         var reportView = new Photo.Views.Report({
+            photo: photo
+         });
          var modal = new Common.Views.Modal({
             view: reportView,
             showFooter: false,
@@ -776,6 +808,9 @@ define([
                   });
                }
             });
+            modal.close();
+         });
+         reportView.on('close', function() {
             modal.close();
          });
          Common.Tools.hideCurrentModalIfOpened(function() {

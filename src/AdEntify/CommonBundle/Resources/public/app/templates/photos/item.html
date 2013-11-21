@@ -25,11 +25,6 @@
             <div class="counters">
                 <i class="icon white-heart-icon"></i> <%= model.get("likes_count") %> <i class="icon white-comment-icon"></i> <%= model.get("comments_count") %>
             </div>-->
-            <div class="photo-buttons">
-                <% if (model.isOwner() && model.get('tags_count') == 0) { %>
-                <button data-bypass="" class="btn btn-danger btn-xs deletePhotoButton"><i class="glyphicon glyphicon-remove"></i> <span data-i18n="photo.deletePhoto"></span></button>
-                <% } %>
-            </div>
         </a>
         <img src="<%= model.get("medium_url") %>" data-id="<%= model.get("id") %>" data-type="medium"
             data-medium-width="<%= model.get("medium_width") %>" data-large-width="<%= model.get("large_width") %>"
