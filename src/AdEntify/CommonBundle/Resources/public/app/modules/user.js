@@ -240,30 +240,44 @@ define([
    });
 
    User.Dropdown = {
-      openDropdown: null,
-
       listenClick: function() {
-          $('.profile-infos .user-names, .profile-infos a').click(function() {
-             if (this.openDropdown) {
-                this.openDropdown.fadeOut();
-             }
+         var that = this;
+         $(document).click(function(){
+            that.closeOpenedDropdown();
+         });
+          $('.profile-infos .user-names, .profile-infos a').click(function(e) {
+             e.stopPropagation();
              if ($('.profile-infos .dropdown-menu:visible').length > 0) {
-                $('.profile-infos .dropdown-menu').fadeOut();
+                $('.profile-infos .dropdown-menu').stop().fadeOut();
              } else {
-                this.openDropdown = $('.profile-infos .dropdown-menu');
-                this.openDropdown.fadeIn(100);
+                that.closeOpenedDropdown();
+                $('.profile-infos .dropdown-menu').fadeIn(100);
              }
           });
-          $('.navbar .tag-button, .navbar .tag-button a').click(function() {
-             if (this.openDropdown) {
-                this.openDropdown.fadeOut();
-             }
+          $('.navbar .tag-button, .navbar .tag-button a').click(function(e) {
+             e.stopPropagation();
              if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
-                $('.navbar .tag-button .dropdown-menu').fadeOut();
+                $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
              } else {
+                that.closeOpenedDropdown();
                 $('.navbar .tag-button .dropdown-menu').fadeIn(100);
              }
           });
+      },
+
+      closeOpenedDropdown: function() {
+         if ($('.profile-infos .dropdown-menu:visible').length > 0) {
+            $('.profile-infos .dropdown-menu').stop().fadeOut();
+         }
+         if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
+            $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
+         }
+         if ($('#notifications .dropdown-menu:visible').length > 0) {
+            $('#notifications .dropdown-menu').stop().fadeOut();
+         }
+         if ($('.dropdown-header-menu').hasClass('in')) {
+            $('.dropdown-header-menu').removeClass('in').addClass('collapse');
+         }
       }
    };
 
