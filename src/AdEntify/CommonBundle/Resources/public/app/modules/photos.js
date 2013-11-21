@@ -165,6 +165,17 @@ define([
                addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false
             }));
          }, this);
+
+         // Pagination
+         if (!this.getView('.pagination-wrapper')) {
+            this.setView('.pagination-wrapper', new Pagination.Views.NextPage({
+               collection: this.options.photos,
+               model: new Pagination.Model({
+                  buttonText: 'photos.loadMore',
+                  loadingText: 'photos.loadingMore'
+               })
+            }));
+         }
       },
 
       afterRender: function() {
@@ -183,15 +194,6 @@ define([
             });
             $('#loading-photos').fadeOut('fast');
          });
-
-         // Pagination
-         app.useLayout().insertView("#photos", new Pagination.Views.NextPage({
-            collection: this.options.photos,
-            model: new Pagination.Model({
-               buttonText: 'photos.loadMore',
-               loadingText: 'photos.loadingMore'
-            })
-         })).render();
       },
 
       newRender: true,
