@@ -177,7 +177,8 @@ define([
          clearTimeout(this.pollTimeout);
       },
 
-      toggleNotifications: function() {
+      toggleNotifications: function(e) {
+         e.stopPropagation();
          // Hide
          if ($(this.el).find('.dropdown-menu:visible').length > 0) {
             $(this.el).find('.dropdown-menu').stop().fadeOut();
@@ -185,6 +186,7 @@ define([
          // Show
          else {
             var that = this;
+            User.Dropdown.closeOpenedDropdown();
             $(this.el).find('.dropdown-menu').stop().fadeIn(100, function() {
                setTimeout(function() {
                   that.notifications.each(function(notification) {

@@ -188,7 +188,8 @@
       "report": "Report",
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
       "reportReasonLabel": "Report reason",
-      "reportReasonTextarea": "Write reason of the report..."
+      "reportReasonTextarea": "Write reason of the report...",
+      "noEmbedOnPrivatePhoto": "You can't share private photo"
    },
    "externalServicePhotos": {
       "select": "Select",

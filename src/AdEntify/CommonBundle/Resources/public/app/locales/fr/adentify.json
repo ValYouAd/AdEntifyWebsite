@@ -188,7 +188,8 @@
       "report": "Signaler",
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
       "reportReasonLabel": "Raison du signalement",
-      "reportReasonTextarea": "Ecrivez la raison du signalement."
+      "reportReasonTextarea": "Ecrivez la raison du signalement.",
+      "noEmbedOnPrivatePhoto": "Vous ne pouvez pas partager une photo privée"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
