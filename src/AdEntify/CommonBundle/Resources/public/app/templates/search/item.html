@@ -1,9 +1,7 @@
-<a href="<%= model.get('link') %>" data-bypass="" data-photo-link="">
-    <img src="<%= model.get('small_url') %>" class="photo pull-left" alt="<%= model.get('caption') %>" />
+<a href="<%= model.get('link') %>" class="item-link" data-bypass="" data-photo-link="">
+    <div style="background-image: url('<%= model.get('small_url') %>')" class="photo pull-left"></div>
+    <div class="photo-details">
+        <%= model.get('caption') %>
+    </div>
 </a>
-
-<div class="photo-details">
-    <a href="<%= model.get('link') %>" data-bypass="" data-photo-link=""><%= model.get('caption') %></a><br>
-    <small>Par <a href="<%= model.get('ownerModel').get('link') %>"><%= model.get('ownerModel').get('fullname') %></a></small>
-</div>
 <div class="clearfix"></div>

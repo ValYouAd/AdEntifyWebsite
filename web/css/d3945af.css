@@ -1974,7 +1974,7 @@ html,body {
         top: 50px;
         left: 15px;
         width: 401px;
-        font-family: 'robotobold';
+        font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
     }
     .search-bar .white-arrow-top {
         left: 20px;
@@ -1988,7 +1988,7 @@ html,body {
         border-bottom: 1px solid #eeeeee;
     }
     .search-bar .view-more-results {
-        font-family: 'asapregular', sans-serif;
+        font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
         padding: 16px 20px;
         margin-bottom: 16px;
     }
@@ -2007,14 +2007,27 @@ html,body {
     .search-bar .dropdown-menu a,
     .search-bar .dropdown-menu a:hover {
         color: #5b5756;
-        font-family: 'robotobold' sans-serif;
+        font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
         text-decoration: none;
+        padding: 0px;
+    }
+    .search-bar .item-link {
+        display: block;
+        width: 100%;
+        min-height: 50px;
     }
     .search-bar .user-fullname {
         font-size: 12px;
     }
     .search-bar .photo {
-        max-height: 50px;
+        width: 75px;
+        height: 50px;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
         margin-right: 8px;
     }
     .search-bar .photo-details {
