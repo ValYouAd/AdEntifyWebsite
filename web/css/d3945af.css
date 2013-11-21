@@ -2072,9 +2072,17 @@ html,body {
     margin: 10px 8px;
 }
 .notification-photo {
-    max-height: 100%;
+    width: 75px;
+    height: 75px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
     margin-left: 8px;
 }
+
 /* END : Notifications
 ----------------------- */
 
