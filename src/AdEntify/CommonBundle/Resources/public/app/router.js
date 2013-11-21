@@ -107,10 +107,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "fr": {
                "": "homepage",
                "mes/photos/": "myPhotos",
-               "mes/photos/taguees/": "myTagged",
-               "mes/photos/non-taguees/": "myUntagged",
                "mes/photos/favorites/": "favoritesPhotos",
-               "photos/non-taguees/": "untagged",
                "photo/:id/": "viewPhoto",
                "edition/photo/:id/": "editPhoto",
                "upload/": "upload",
@@ -134,12 +131,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             },
             "en" : {
                "": "homepage",
-               "photos/untagged/": "untagged",
                "upload/": "upload",
                "upload/local/": "uploadLocal",
                "my/photos/": "myPhotos",
-               "my/photos/tagged/": "myTagged",
-               "my/photos/untagged/": "myUntagged",
                "my/settings/": "mySettings",
                "facebook/albums/": "facebookAlbums",
                "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
@@ -204,40 +198,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
       },
 
-      untagged: function() {
-         this.reset();
-
-         app.useLayout().setViews({
-            "#center-pane-content": new Photos.Views.Content({
-               photos: this.photos,
-               tagged: false
-            }),
-            "#right-pane-content": new Photos.Views.Ticker({
-               tickerPhotos: this.tickerPhotos
-            })
-         }).render();
-
-         var that = this;
-         this.photos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: false }),
-            success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos');
-            },
-            error: function() {
-               that.errorCallback('photos.errorPhotosLoading');
-            }
-         });
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: true }),
-            success: function(collection) {
-               that.successCallback(collection, 'photos.noPhotos', '#right-pane-content');
-            },
-            error: function() {
-               that.errorCallback('photos.errorPhotosLoading', '#right-pane-content');
-            }
-         });
-      },
-
       myPhotos: function() {
          this.reset();
 
@@ -245,7 +205,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#center-pane-content": new Photos.Views.Content({
                photos: this.myPhotos,
                pageTitle: $.t('myPhotos.pageTitleMyPhotos'),
-               title: $.t('myPhotos.titleMyPhotos')
+               title: $.t('myPhotos.titleMyPhotos'),
+               itemClickBehavior: Photos.Common.PhotoItemClickBehaviorAddTag,
+               addTag: true
             }),
             "#right-pane-content": new Action.Views.List({
                actions: this.actions
@@ -255,76 +217,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          var that = this;
          this.myPhotos.fetch({
             url: Routing.generate('api_v1_get_user_photos', { id: app.appState().getCurrentUserId() }),
-            success: function(collection) {
-               that.successCallback(collection, 'myPhotos.noPhotos');
-            },
-            error: function() {
-               that.errorCallback('myPhotos.errorPhotosLoading');
-            }
-         });
-         this.actions.fetch({
-            url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
-            error: function() {
-               that.errorCallback('action.errorLoading', '#right-pane-content');
-            }
-         });
-      },
-
-      myTagged: function() {
-         this.reset();
-
-         app.useLayout().setViews({
-            "#center-pane-content": new Photos.Views.Content({
-               photos: this.myPhotos,
-               tagged: true,
-               title: $.t('myPhotos.titleTagged')
-            }),
-            "#right-pane-content": new Action.Views.List({
-               actions: this.actions
-            })
-         }).render();
-
-         var that = this;
-         this.myPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: true }),
-            success: function(collection) {
-               that.successCallback(collection, 'myPhotos.noPhotos');
-            },
-            error: function() {
-               that.errorCallback('myPhotos.errorPhotosLoading');
-            }
-         });
-         this.actions.fetch({
-            url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
-            error: function() {
-               that.errorCallback('action.errorLoading', '#right-pane-content');
-            }
-         });
-      },
-
-      myUntagged: function() {
-         this.reset();
-
-         app.useLayout().setViews({
-            "#center-pane-content": new Photos.Views.Content({
-               photos: this.myPhotos,
-               tagged: false,
-               title: $.t('myPhotos.titleUntagged')
-            }),
-            "#right-pane-content": new Action.Views.List({
-               actions: this.actions
-            })
-         }).render();
-
-         var that = this;
-         this.myPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_user_photos', { tagged: false }),
             success: function(collection) {
                that.successCallback(collection, 'myPhotos.noPhotos');
             },

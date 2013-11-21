@@ -20,7 +20,8 @@
       "errorPhotosLoading": "Error loading photos. Please try again.",
       "noPhotos": "No photos available.",
       "loadMore": "Load more photos",
-      "loadingMore": "Loading more photos..."
+      "loadingMore": "Loading more photos...",
+      "addTag": "Add tag"
    },
    "myPhotos": {
       "pageTitleMyPhotos": "My photos - AdEntify",

@@ -1272,6 +1272,25 @@ html,body {
     }
     #photos-grid li div.large { width: 100%; text-align: center; }
     #photos-grid li div.large img { max-width: 100%; margin: auto; }
+.photo-container .add-tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255, 0.7);
+    opacity: 0;
+    -webkit-transition: opacity 0.2s ease-out;
+    -moz-transition: opacity 0.2s ease-out;
+    -o-transition: opacity 0.2s ease-out;
+    transition: opacity 0.2s ease-out;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #ff3434;
+    font-size: 26px;
+}
+.photo-container:hover .add-tag {
+    opacity: 1;
+}
 /* Photos
 ----------------------- */
 

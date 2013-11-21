@@ -9,6 +9,16 @@
             <% } %>
             <div class="popover-wrapper"></div>
         </div>
+        <% if (addTag) { %>
+        <div class="add-tag">
+            <div class="table-center">
+                <div class="table-center-cell">
+                    <i class="icon_more_red icon"></i><br>
+                    <%= $.t('photos.addTag') %>
+                </div>
+            </div>
+        </div>
+        <% } %>
         <a href="<%= model.get('link') %>" data-bypass="" class="photo-link photo-overlay">
             <div class="tags-container"></div>
             <!--<div class="caption"><%= model.get('caption') %></div>
@@ -20,7 +30,6 @@
                 <button data-bypass="" class="btn btn-danger btn-xs deletePhotoButton"><i class="glyphicon glyphicon-remove"></i> <span data-i18n="photo.deletePhoto"></span></button>
                 <% } %>
             </div>
-            <!--<a href="<%= model.get('link') %>" class="show-photo-icon view-photo"></a>-->
         </a>
         <img src="<%= model.get("medium_url") %>" data-id="<%= model.get("id") %>" data-type="medium"
             data-medium-width="<%= model.get("medium_width") %>" data-large-width="<%= model.get("large_width") %>"
