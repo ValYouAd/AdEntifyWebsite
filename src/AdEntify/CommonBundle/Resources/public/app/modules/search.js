@@ -113,7 +113,7 @@ define([
       },
 
       isFullscreenSearch: function() {
-         return Backbone.history.fragment == $.t('routing.search/');
+         return Backbone.history.fragment === $.t('routing.search/');
       }
    });
 
@@ -150,12 +150,16 @@ define([
 
       search: function(e) {
          e.preventDefault();
-         if (this.searchTimeout)
-            clearTimeout(this.searchTimeout);
-         var that = this;
-         this.searchTimeout = setTimeout(function() {
-            that.startSearch($(that.el).find('.search-query').val());
-         }, 500);
+         if (e.keyCode == 13 || $(e.currentTarget).hasClass('search-button')) {
+            Backbone.history.navigate($.t('routing.search/'), { trigger: true });
+         } else {
+            if (this.searchTimeout)
+               clearTimeout(this.searchTimeout);
+            var that = this;
+            this.searchTimeout = setTimeout(function() {
+               that.startSearch($(that.el).find('.search-query').val());
+            }, 500);
+         }
       },
 
       startSearch: function(terms) {
