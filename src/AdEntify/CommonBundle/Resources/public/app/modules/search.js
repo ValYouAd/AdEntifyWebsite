@@ -1,8 +1,9 @@
 define([
    'app',
    'modules/common',
-   'modules/photos'
-], function(app, Common, Photos) {
+   'modules/photos',
+   'modules/hashtag'
+], function(app, Common, Photos, Hashtag) {
 
    var Search = app.module();
 
@@ -61,6 +62,11 @@ define([
                model: user
             }));
          }, this);
+         this.options.hashtags.each(function(hashtag) {
+            this.insertView(".search-feeds-results", new Hashtag.Views.Item({
+               model: hashtag
+            }));
+         }, this);
       },
 
       afterRender: function() {
@@ -71,6 +77,7 @@ define([
          var that = this;
          this.listenTo(this.options.photos, 'sync', this.render);
          this.listenTo(this.options.users, 'sync', this.render);
+         this.listenTo(this.options.hashtags, 'sync', this.render);
          this.listenTo(app, 'search:starting', function() {
             if (!this.isFullscreenSearch()) {
                $('.search-bar .dropdown-menu').fadeIn();
@@ -88,7 +95,15 @@ define([
                      message: $.t('search.noResults'),
                      showClose: true
                   })).render();
-                  $('.view-more-results').hide();
+               } else {
+                  $('.view-more-results').show();
+               }
+               if (that.options.hashtags.length == 0) {
+                  app.useLayout().setView('.alert-search-feeds-results', new Common.Views.Alert({
+                     cssClass: Common.alertInfo,
+                     message: $.t('search.noResults'),
+                     showClose: true
+                  })).render();
                } else {
                   $('.view-more-results').show();
                }
@@ -101,6 +116,8 @@ define([
                } else {
                   $('.view-more-results').show();
                }
+               if (this.options.photos.length == 0 && this.options.users.length == 0 && this.options.hashtags.length == 0)
+                  $('.view-more-results').hide();
             }
          });
          this.listenTo(app, 'search:close', function() {
@@ -129,9 +146,11 @@ define([
       initialize: function() {
          this.photos = this.options.photos;
          this.users = this.options.users;
+         this.hashtags = this.options.hashtags;
          app.useLayout().setView('.search-results-container', new Search.Views.List({
             photos: this.photos,
-            users: this.users
+            users: this.users,
+            hashtags: this.hashtags
          })).render();
          this.listenTo(app, 'search:start', function(terms) {
             if (terms) {
@@ -173,6 +192,20 @@ define([
                },
                error: function() {
                   app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('search.error'),
+                     showClose: true
+                  })).render();
+               }
+            });
+            this.hashtags.fetch({
+               url: Routing.generate('api_v1_get_hashtag_search'),
+               data: { 'query': terms },
+               complete: function() {
+                  app.trigger('search:completed');
+               },
+               error: function() {
+                  app.useLayout().setView('.alert-search-feeds-results', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('search.error'),
                      showClose: true
@@ -250,6 +283,12 @@ define([
          this.listenTo(this.options.photos, {
             'sync': this.render
          });
+         this.listenTo(this.options.users, {
+            'sync': this.render
+         });
+         this.listenTo(this.options.hashtags, {
+            'sync': this.render
+         });
          this.listenTo(app, 'search:starting', function(terms) {
             $('.search-loading').fadeIn();
             $('.alert-search-tags-results').html();
@@ -257,9 +296,15 @@ define([
             this.terms = terms;
          });
          this.listenTo(app, 'search:completed', function() {
-            $('.search-loading').stop().fadeOut();
             if (that.options.photos.length == 0) {
                app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('search.noResults'),
+                  showClose: true
+               })).render();
+            }
+            if (that.options.hashtags.length == 0) {
+               app.useLayout().setView('.alert-search-feeds-results', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t('search.noResults'),
                   showClose: true
@@ -287,11 +332,20 @@ define([
                listenToEnable: true
             }));
          }
-         this.options.users.each(function(result) {
-            this.insertView(".search-users-results", new Search.Views.FullUserItem({
-               model: result
-            }));
-         }, this);
+         if (!this.getView('.search-users-results')) {
+            this.options.users.each(function(result) {
+               this.insertView(".search-users-results", new Search.Views.FullUserItem({
+                  model: result
+               }));
+            }, this);
+         }
+         if (!this.getView('.search-feeds-results')) {
+            this.options.hashtags.each(function(result) {
+               this.insertView(".search-feeds-results", new Hashtag.Views.Item({
+                  model: result
+               }));
+            }, this);
+         }
       },
 
       afterRender: function() {
@@ -305,6 +359,13 @@ define([
          }
          if (this.options.users.length == 0) {
             app.useLayout().setView('.alert-search-users-results', new Common.Views.Alert({
+               cssClass: Common.alertInfo,
+               message: $.t('search.noResults'),
+               showClose: true
+            })).render();
+         }
+         if (this.options.hashtags.length == 0) {
+            app.useLayout().setView('.alert-search-feeds-results', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t('search.noResults'),
                showClose: true

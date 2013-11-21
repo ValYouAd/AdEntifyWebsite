@@ -31,7 +31,7 @@ define([
          this.listenTo(app, 'pagination:nextPageLoaded', function() {
             // Check if there is more data to load
             if (!that.options.collection.hasNextPage()) {
-               that.loadMoreButton.fadeOut('fast');
+               $(this.el).find('.pagination').fadeOut('fast');
             }
             // Reset button state
             setTimeout(function() {
@@ -39,20 +39,20 @@ define([
             }, 1000);
          });
 
-         this.listenTo(this.options.collection, 'sync', this.checkButtonVisibility);
+         this.listenTo(this.options.collection, 'sync', this.checkPaginationVisibility);
       },
 
       afterRender: function() {
          $(this.el).i18n();
          this.loadMoreButton = this.$('.loadMore');
-         this.checkButtonVisibility();
+         this.checkPaginationVisibility();
       },
 
-      checkButtonVisibility: function() {
+      checkPaginationVisibility: function() {
          if (this.collection.hasNextPage()) {
-            this.loadMoreButton.fadeIn('fast');
+            $(this.el).find('.pagination').fadeIn('fast');
          } else {
-            this.loadMoreButton.hide();
+            $(this.el).find('.pagination').hide();
          }
       },
 

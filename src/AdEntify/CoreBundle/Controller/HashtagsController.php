@@ -8,6 +8,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -62,5 +63,49 @@ class HashtagsController extends FosRestController
         }
 
         return PaginationTools::getPaginationArray($hashtags, $pagination);
+    }
+
+    /**
+     * @param $query
+     * @param int $limit
+     *
+     * @QueryParam(name="query")
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @View()
+     */
+    public function getSearchAction($query, $page = 1, $limit = 10)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $hashtags = CommonTools::extractHashtags($query, false, true);
+        if (count($hashtags) == 0)
+            $hashtags = explode(" ", $query);
+
+        $query = $em->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
+        WHERE hashtag.name IN (:hashtags)')
+            ->setParameters(array(
+                ':hashtags' => $hashtags
+            ))
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = false);
+        $count = count($paginator);
+
+        $results = null;
+        $pagination = null;
+        if ($count > 0) {
+            $results = array();
+            foreach($paginator as $item) {
+                $results[] = $item;
+            }
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_hashtag_search', array(
+                'query' => $query
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($results, $pagination);
     }
 } 

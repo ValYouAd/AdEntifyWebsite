@@ -87,6 +87,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             photoCategories: new Category.Collection(),
             searchPhotos: new Photos.Collection(),
             searchUsers: new User.Collection(),
+            searchHashtags: new Hashtag.Collection(),
             comments: new Comment.Collection(),
             notifications: new Notifications.Collection(),
             users: new User.Collection(),
@@ -748,6 +749,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#center-pane-content": new Search.Views.FullList({
                photos: this.searchPhotos,
                users: this.searchUsers,
+               hashtags: this.searchHashtags,
                terms: keywords
             })
          }).render();
@@ -821,7 +823,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             searchSetup = true;
             app.useLayout().setView('#search-bar', new Search.Views.Form({
                photos: this.searchPhotos,
-               users: this.searchUsers
+               users: this.searchUsers,
+               hashtags: this.searchHashtags
             })).render();
          }
          if (!notificationsSetup) {
