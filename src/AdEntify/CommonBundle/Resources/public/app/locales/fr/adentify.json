@@ -326,7 +326,8 @@
       "titleSamePage": "Oups",
       "contentSamePage": "Oups ! Vous êtes déjà sur la page demandée.",
       "confirmButton": "Ok",
-      "report": "Signaler"
+      "report": "Signaler",
+      "copy": "Copier"
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",

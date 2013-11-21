@@ -1191,10 +1191,10 @@ html,body {
     font-size: 12px;
 }
 #notifications {
-    font-family: 'robotoregular';
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
 }
 #notifications a {
-    font-family: 'robotobold';
+    font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
 }
 .notifications-button {
     position: absolute;
@@ -1255,7 +1255,10 @@ html,body {
     background-position: center center;
     margin-left: 8px;
 }
-
+#notifications .dropdown-menu a {
+    display: inline;
+    padding: 0px;
+}
 /* END : Notifications
 ----------------------- */
 
@@ -1474,7 +1477,9 @@ html,body {
     .dropdown-menu a:hover {
         color: #5b5756;
         text-decoration: none;
-        font-family: 'asapregular', sans-serif;
+        font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+        display: block;
+        padding: 15px 20px;
     }
     .dropdown-menu .grey-background-item {
         background-color: #f7f8f9;
@@ -2276,9 +2281,6 @@ label,
 .navbar .tag-button .icon {
     margin-right: 18px;
 }
-.navbar .tag-button .dropdown-menu li {
-    padding: 15px 20px;
-}
 .user-information {
     margin-top: 8px;
 }
@@ -2314,9 +2316,6 @@ label,
 }
 .profile-infos .icon {
     margin-right: 18px;
-}
-.profile-infos .dropdown-menu li {
-    padding: 15px 20px;
 }
 .user-points sup {
     font-size: 8px;
