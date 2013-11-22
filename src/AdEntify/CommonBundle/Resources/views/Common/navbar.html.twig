@@ -1,0 +1,23 @@
+<nav class="navbar navbar-inverse navbar-adentify navbar-fixed-top">
+    <div class="container">
+
+        <a href="{{ path('home_logoff') }}" class="logo-nav pull-left"></a>
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('about') }}">{{ 'About'|trans }}</a></li>
+                <li><a href="{{ path('press') }}">{{ 'Press'|trans }}</a></li>
+                <li><a href="{{ path('contact') }}">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
