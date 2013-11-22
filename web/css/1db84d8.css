@@ -2,10 +2,20 @@ html, body {
     background: #FFFFFF;
     height: 100%;
     margin: 0;
-    padding: 0;
 }
-body {
-    padding-top: 0px!important;
+
+.logo-nav {
+    margin-right: 40px;
+}
+.navbar-nav {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 16px;
+    margin-top: 8px;
+}
+@media (max-width:767px) {
+    .navbar-nav {
+        background: #29292b;
+    }
 }
 
 /* Header
@@ -92,23 +102,21 @@ header {
 
 /* Footer
 ----------------------- */
-footer {
+.bottom-footer {
     background: url('../../bundles/adentifycommon/images/home_offline_footer.png');
     width: 100%;
     height: 71px;
     border: 0px;
-    font-family: 'asapbold_italic', sans-serif;
+    font-family: 'asapbold_italic', "Helvetica Neue", "Arial", sans-serif;
     font-style: italic;
     font-size: 11px;
     color: #ffffff;
     text-transform: uppercase;
     padding-top: 30px;
 }
-footer a:hover,
-footer a {
+.bottom-footer a:hover,
+.bottom-footer a {
     color: #ffffff;
-}
-footer a {
     margin: 0px 12px;
 }
 /* End Footer

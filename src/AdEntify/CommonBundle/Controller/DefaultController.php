@@ -172,7 +172,18 @@ class DefaultController extends Controller
      */
     public function aboutAction()
     {
-        return array();
+        $categories = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        return array(
+            'categories' => $categories
+        );
     }
 
     /**
@@ -181,7 +192,18 @@ class DefaultController extends Controller
      */
     public function pressAction()
     {
-        return array();
+        $categories = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        return array(
+            'categories' => $categories
+        );
     }
 
     /**
@@ -239,7 +261,16 @@ class DefaultController extends Controller
 
             return $this->redirect($this->generateUrl('contact'));
         } else {
+            $categories = $this->getDoctrine()->getManager()
+                ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+                ->useQueryCache(false)
+                ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
+                ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+                ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+                ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+                ->getResult();
             return array(
+                'categories' => $categories,
                 'form' => $form->createView()
             );
         }
