@@ -1291,6 +1291,51 @@ html,body {
 .photo-container:hover .add-tag {
     opacity: 1;
 }
+.filters-wrapper ul {
+    margin: 0px;
+    padding: 0px 0px 0px 25px;
+}
+.filters-wrapper li {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    margin: 0;
+    padding: 0;
+}
+.filters-wrapper button {
+    height: 58px;
+    line-height: 58px;
+    vertical-align: middle;
+    padding: 0px 25px;
+    border: 0px;
+    background: none;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 14px;
+    color: #5b5756;
+}
+.filters-wrapper .dropdown-toggle {
+    padding: 0px 25px;
+    border-left: 1px solid #ededef;
+    background-color: #ededed;
+}
+.filters-wrapper .caret {
+    border-top: 4px solid #696665;
+}
+.filters-wrapper button .icon {
+    margin-right: 10px;
+}
+.filters-wrapper .collapsed {
+    background-color: #fcfcfc;
+}
+.first-filters {
+    border: 1px solid #e5e7ea;
+    background-color: #fcfcfc;
+}
+.more-filters {
+    border-left: 1px solid #e5e7ea;
+    border-right: 1px solid #e5e7ea;
+    border-bottom: 1px solid #e5e7ea;
+}
 /* Photos
 ----------------------- */
 

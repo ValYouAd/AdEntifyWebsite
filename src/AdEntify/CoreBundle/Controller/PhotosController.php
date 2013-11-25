@@ -47,14 +47,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class PhotosController extends FosRestController
 {
     /**
-     * GET all photos public and ready
+     * GET all public or friends photos
      *
      * @View()
      * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
+     * @QueryParam(name="brands", requirements="\d+", default="null")
+     * @QueryParam(name="places", requirements="\d+", default="null")
+     * @QueryParam(name="people", requirements="\d+", default="null")
+     * @QueryParam(name="orderBy", default="null")
      */
-    public function cgetAction($tagged, $page, $limit)
+    public function cgetAction($tagged, $page, $limit, $brands, $places, $people, $orderBy)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -96,15 +100,26 @@ class PhotosController extends FosRestController
                 ':none' => Tag::VALIDATION_NONE,
                 ':granted' => Tag::VALIDATION_GRANTED
             );
+
+            $tagClause = '';
+            if ($brands == 1) {
+                $tagClause = ' AND tag.brand IS NOT NULL';
+            }
+            if ($places == 1) {
+                $tagClause = ' AND tag.venue IS NOT NULL';
+            }
+            if ($people == 1) {
+                $tagClause = ' AND tag.person IS NOT NULL';
+            }
+
             $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 INNER JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
                   AND tag.censored = false AND tag.waitingValidation = false
-                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
+                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' . $tagClause .')
                 INNER JOIN photo.owner owner
                 WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                AND photo.tagsCount > 0 ORDER BY photo.createdAt DESC';
-
+                AND photo.tagsCount > 0';
         } else {
             $parameters = array(
                 ':status' => Photo::STATUS_READY,
@@ -116,7 +131,25 @@ class PhotosController extends FosRestController
                 LEFT JOIN photo.owner owner
                 WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                   OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                AND photo.tagsCount = 0 ORDER BY photo.createdAt DESC';
+                AND photo.tagsCount = 0 ';
+        }
+
+        // Order by
+        if ($orderBy) {
+            switch ($orderBy) {
+                case 'mostLiked':
+                    $sql .= ' ORDER BY photo.likesCount DESC';
+                    break;
+                case 'oldest':
+                    $sql .= ' ORDER BY photo.createdAt ASC';
+                    break;
+                case 'mostRecent':
+                default:
+                    $sql .= ' ORDER BY photo.createdAt DESC';
+                    break;
+            }
+        } else {
+            $sql .= ' ORDER BY photo.createdAt DESC';
         }
 
         $query = $em->createQuery($sql)
