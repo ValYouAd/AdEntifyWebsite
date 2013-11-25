@@ -274,9 +274,15 @@ define([
                } else {
                   var view = that.getView('.share-overlay');
                   if (!view)
-                     that.setView('.share-overlay', new Photo.Views.ShareOverlay({
+                  {
+                     view = new Photo.Views.ShareOverlay({
                         model: that.model
-                     })).render();
+                     });
+                     view.on('close', function() {
+                        $(that.el).find('.share-overlay').stop().fadeOut('fast');
+                     });
+                     that.setView('.share-overlay', view).render();
+                  }
                   $(that.el).find('.share-overlay').fadeIn(100);
                }
                that.hidePastillePopover();
@@ -702,6 +708,14 @@ define([
 
       afterRender: function() {
          FB.XFBML.parse();
+      },
+
+      close: function() {
+         this.trigger('close');
+      },
+
+      events: {
+         'click .close-share': 'close'
       }
    });
 

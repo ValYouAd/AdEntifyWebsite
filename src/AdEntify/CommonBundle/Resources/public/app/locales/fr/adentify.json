@@ -269,7 +269,8 @@
       "noSearch": "Aucune recherche pour le moment",
       "photos": "Photos",
       "users": "Utilisateurs",
-      "feeds": "Flux"
+      "feeds": "Flux",
+      "pageTitle": "Search __title__ on AdEntify.com"
    },
    "comment": {
       "noComments": "Aucun commentaire pour le moment, soyez le premier à réagir !",

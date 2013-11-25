@@ -267,7 +267,8 @@
       "noSearch": "No search available at the moment",
       "photos": "Photos",
       "users": "Users",
-      "feeds": "Feeds"
+      "feeds": "Feeds",
+      "pageTitle": "Recherche __title__ sur AdEntify.com"
    },
    "comment": {
       "noComments": "No comment yet, be the first to post!",

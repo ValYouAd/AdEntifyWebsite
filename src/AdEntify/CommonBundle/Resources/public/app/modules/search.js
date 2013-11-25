@@ -329,7 +329,8 @@ define([
             var Photos = require('modules/photos');
             this.setView('.search-photos-results', new Photos.Views.Content({
                photos: this.options.photos,
-               listenToEnable: true
+               listenToEnable: true,
+               pageTitle: $.t('search.pageTitle', { title: this.terms })
             }));
          }
          if (!this.getView('.search-users-results')) {
