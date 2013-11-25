@@ -171,7 +171,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
-               tagged: true
+               tagged: true,
+               filters: true,
+               listenToEnable: true
             }),
             "#right-pane-content": new Action.Views.List({
                actions: this.actions

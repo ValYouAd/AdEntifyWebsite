@@ -315,6 +315,14 @@
       "showTags": "Afficher les tags par défaut",
       "showLikes": "Afficher les likes"
    },
+   "filter": {
+      "brands": "Marques",
+      "places": "Lieux",
+      "people": "Personnes",
+      "mostRecentToOldest": "Du plus récent au plus vieux",
+      "mostOldestToRecent": "Du plus vieux au plus récent",
+      "mostLiked": "Les plus aimées"
+   },
    "common": {
       "viewPhoto": "voir la photo",
       "submit": "Valider",

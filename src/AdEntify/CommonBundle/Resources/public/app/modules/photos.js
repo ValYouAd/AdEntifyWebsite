@@ -114,6 +114,7 @@ define([
 
    Photos.Views.Content = Backbone.View.extend({
       template: "photos/content",
+      filters: false,
 
       initialize: function() {
          openedContainer = null;
@@ -148,12 +149,15 @@ define([
          if (typeof this.options.title !== 'undefined') {
             this.title = this.options.title;
          }
+
+         this.filters = typeof this.options.filters !== 'undefined' ? this.options.filters : this.filters;
       },
 
       serialize: function() {
          return {
             collection: this.options.photos,
-            category: this.category
+            category: this.category,
+            filters: this.filters
          };
       },
 
@@ -238,55 +242,61 @@ define([
          this.options.photos.nextPage(function() {
             app.trigger('pagination:nextPageLoaded');
          });
-      }
-   });
-
-   // Ticker (List of photos)
-   Photos.Views.Ticker = Backbone.View.extend({
-      template: 'common/tickerPhotoList',
-
-      serialize: function() {
-         return { collection: this.options.tickerPhotos };
       },
 
-      beforeRender: function() {
-         this.options.tickerPhotos.each(function(photo) {
-            this.insertView('.ticker-photos', new Photos.Views.TickerItem({
-               model: photo
-            }));
-         }, this);
-      },
-
-      initialize: function() {
-         this.listenTo(this.options.tickerPhotos, {
-            'sync': this.render
+      brandsFilter: function() {
+         this.options.photos.fetch({
+            url: this.getOriginalPhotosUrl() + '&brands=1',
+            reset: true
          });
-      }
-   });
-
-   // Ticker item (Photo)
-   Photos.Views.TickerItem = Backbone.View.extend({
-      template: "common/tickerPhotoItem",
-      tagName: 'li class="ticker-item"',
-
-      serialize: function() {
-         return { model: this.model };
       },
 
-      afterRender: function() {
-         $(this.el).i18n();
+      placesFilter: function() {
+         this.options.photos.fetch({
+            url: this.getOriginalPhotosUrl() + '&places=1',
+            reset: true
+         });
       },
 
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
+      peopleFilter: function() {
+         this.options.photos.fetch({
+            url: this.getOriginalPhotosUrl() + '&people=1',
+            reset: true
+         });
       },
 
-      showPhoto: function(evt) {
-         Photos.Common.showPhoto(evt, this.model);
+      mostRecentFilter: function() {
+         this.options.photos.fetch({
+            url: this.getOriginalPhotosUrl() + '&orderBy=mostRecent',
+            reset: true
+         });
+      },
+
+      oldestFilter: function() {
+         this.options.photos.fetch({
+            url: this.getOriginalPhotosUrl() + '&orderBy=oldest',
+            reset: true
+         });
+      },
+
+      mostLikedFilter: function() {
+         this.options.photos.fetch({
+            url: this.getOriginalPhotosUrl() + '&orderBy=mostLiked',
+            reset: true
+         });
+      },
+
+      getOriginalPhotosUrl: function() {
+         return Routing.generate('api_v1_get_photos', { tagged: true });
       },
 
       events: {
-         'click .photo-link': 'showPhoto'
+         'click .brands-filter': 'brandsFilter',
+         'click .places-filter': 'placesFilter',
+         'click .people-filter': 'peopleFilter',
+         'click .most-recent-filter': 'mostRecentFilter',
+         'click .oldest-filter': 'oldestFilter',
+         'click .most-liked-filter': 'mostLikedFilter'
       }
    });
 
