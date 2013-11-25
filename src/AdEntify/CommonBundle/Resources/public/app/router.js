@@ -200,7 +200,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       myPhotos: function() {
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
+
+         var followers = new User.Collection();
+         var followings = new User.Collection();
 
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
@@ -210,8 +214,15 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                itemClickBehavior: Photos.Common.PhotoItemClickBehaviorAddTag,
                addTag: true
             }),
-            "#right-pane-content": new Action.Views.List({
-               actions: this.actions
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: currentUserId
+               }),
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags,
+               showServices: true
             })
          }).render();
 
@@ -225,14 +236,14 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                that.errorCallback('myPhotos.errorPhotosLoading');
             }
          });
-         this.actions.fetch({
-            url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
-            error: function() {
-               that.errorCallback('action.errorLoading', '#right-pane-content');
-            }
+         followings.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: currentUserId })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: currentUserId })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: currentUserId })
          });
       },
 
