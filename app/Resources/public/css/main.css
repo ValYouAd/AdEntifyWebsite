@@ -879,9 +879,6 @@ html,body {
 .top-photo-buttons {
     margin-top: -6px;
 }
-.top-photo-buttons .add-new-tag {
-    margin-top: 6px;
-}
 .categories-hashtags {
     margin: 20px -15px;
     padding: 10px 15px 5px 15px;
@@ -1339,6 +1336,9 @@ html,body {
 #notifications .dropdown-menu a {
     display: inline;
     padding: 0px;
+}
+.profile-picture-wrapper .profile-picture {
+    cursor: pointer;
 }
 /* END : Notifications
 ----------------------- */

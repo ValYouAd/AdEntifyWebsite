@@ -845,6 +845,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             app.useLayout().setView('#notifications', new Notifications.Views.List({
                notifications: this.notifications
             })).render();
+            $('.profile-picture-wrapper .profile-picture').click(function(e) {
+               app.trigger('notifications:click', e);
+            });
          }
          if (!dropdownMenusSetup) {
             dropdownMenusSetup = true;
