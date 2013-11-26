@@ -46,6 +46,10 @@ Your account is currently under validation.: Votre compte est en attente de vali
 modal:
     login: Connexion
     signup: Inscription
+    fbOrTwitterConnect: Gagnez du temps en vous inscrivant via Facebook ou Twitter
+    facebookConnect: Se connecter avec Facebook
+    twitterConnect: Se connecter avec Twitter
+    noAccount: Je n'ai pas de compte Facebook ou Twitter
 
 # About
 about:

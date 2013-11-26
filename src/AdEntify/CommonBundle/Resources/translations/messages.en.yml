@@ -46,6 +46,10 @@ Your account is currently under validation.: Your account is currently under val
 modal:
     login: Login
     signup: Sign up
+    fbOrTwitterConnect: Save time by sign up with Facebook or Twitter
+    facebookConnect: Connect with Facebook
+    twitterConnect: Connect with Twitter
+    noAccount: I don't have Facebook or Twitter account
 
 #About
 about:
