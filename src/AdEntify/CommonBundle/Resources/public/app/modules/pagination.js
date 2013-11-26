@@ -20,6 +20,8 @@ define([
 
    Pagination.Views.NextPage = Backbone.View.extend({
       template: 'pagination/nextpage',
+      scrollEventBind: false,
+      loadMoreFired: false,
 
       serialize: function() {
          return { model: this.model }
@@ -49,15 +51,21 @@ define([
       },
 
       checkPaginationVisibility: function() {
-         if (this.collection.hasNextPage()) {
-            $(this.el).find('.pagination').fadeIn('fast');
+         this.loadMoreFired = false;
+         if (this.collection.hasNextPage() && !this.scrollEventBind) {
+            var that = this;
+            $(window).bind('scroll', function() {
+               if ($(window).scrollTop() >= ($(document).height() - 300) - $(window).height() && !that.loadMoreFired) {
+                  that.loadMore();
+               }
+            });
          } else {
-            $(this.el).find('.pagination').hide();
+            $(window).unbind('scroll');
          }
       },
 
       loadMore: function() {
-         this.loadMoreButton.button('loading');
+         this.loadMoreFired = true;
          app.trigger('pagination:loadNextPage');
       },
 
