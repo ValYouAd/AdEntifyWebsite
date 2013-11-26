@@ -245,7 +245,7 @@ define([
          $(document).click(function(){
             that.closeOpenedDropdown();
          });
-          $('.profile-infos .user-names, .profile-infos a').click(function(e) {
+          $('.profile-infos .user-names, .profile-infos .user-points, .profile-infos a').click(function(e) {
              e.stopPropagation();
              if ($('.profile-infos .dropdown-menu:visible').length > 0) {
                 $('.profile-infos .dropdown-menu').stop().fadeOut();

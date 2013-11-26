@@ -137,15 +137,23 @@ define([
    });
 
    Common.Tools = {
-      hideCurrentModalIfOpened: function(callback) {
+      hideCurrentModalIfOpened: function(callback, changeHistoryOnClose) {
+         changeHistoryOnClose = typeof changeHistoryOnClose !== 'undefined' ? changeHistoryOnClose : true;
+
          var currentModal = app.useLayout().getView('#modal-container');
          if (currentModal) {
+            currentModal.changeHistoryOnClose = changeHistoryOnClose;
             app.once('modal:hidden', function() {
-               callback();
+               if (callback)
+                  callback();
             });
             currentModal.close();
-         } else
-            callback();
+            return true;
+         } else {
+            if (callback)
+               callback();
+            return false;
+         }
       }
    }
 

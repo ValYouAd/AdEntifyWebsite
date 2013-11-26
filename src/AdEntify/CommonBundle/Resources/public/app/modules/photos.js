@@ -300,6 +300,55 @@ define([
       }
    });
 
+   // Linked photos
+   Photos.Views.Ticker = Backbone.View.extend({
+      template: 'photos/tickerPhotoList',
+
+      serialize: function() {
+         return { collection: this.options.tickerPhotos };
+      },
+
+      beforeRender: function() {
+         this.options.tickerPhotos.each(function(photo) {
+            this.insertView('.ticker-photos', new Photos.Views.TickerItem({
+               model: photo
+            }));
+         }, this);
+      },
+
+      initialize: function() {
+         this.listenTo(this.options.tickerPhotos, {
+            'sync': this.render
+         });
+      }
+   });
+
+   // Linked photo item (Photo)
+   Photos.Views.TickerItem = Backbone.View.extend({
+      template: "photos/tickerPhotoItem",
+      tagName: 'li class="ticker-item"',
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+      },
+
+      showPhoto: function(evt) {
+         Photos.Common.showPhoto(evt, this.model);
+      },
+
+      events: {
+         'click .photo-link': 'showPhoto'
+      }
+   });
+
    Photos.Common = {
       PhotoItemClickBehaviorDetail: 'detail',
       PhotoItemClickBehaviorAddTag: 'add-tag',
@@ -316,8 +365,10 @@ define([
             modalContentClasses: 'photoModal'
          });
          modal.on('hide', function() {
-            if (Modernizr.history) {
-               window.history.back();
+            if (typeof modal.changeHistoryOnClose === 'undefined' || modal.changeHistoryOnClose === true) {
+               if (Modernizr.history) {
+                  window.history.back();
+               }
             }
          });
          modal.on('show', function() {

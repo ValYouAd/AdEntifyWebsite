@@ -955,12 +955,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (accountEnabled == 0) {
             $('#accountDisabled').modal('show');
          }
-         $(window).on('navigate', function(event, data) {
-            alert('toto');
-            if (data.state.direction == 'back') {
-               alert('back');
+         window.onpopstate = function() {
+            if (Common.Tools.hideCurrentModalIfOpened(null, false)) {
+               return;
             }
-         });
+         };
       }
    });
 
