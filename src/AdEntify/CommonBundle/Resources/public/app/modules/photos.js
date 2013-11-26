@@ -316,8 +316,10 @@ define([
             modalContentClasses: 'photoModal'
          });
          modal.on('hide', function() {
-            if (Modernizr.history) {
-               window.history.back();
+            if (typeof modal.changeHistoryOnClose === 'undefined' || modal.changeHistoryOnClose === true) {
+               if (Modernizr.history) {
+                  window.history.back();
+               }
             }
          });
          modal.on('show', function() {

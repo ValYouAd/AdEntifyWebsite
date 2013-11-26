@@ -62,7 +62,7 @@ define([
       },
 
       events: {
-         "click .loadMore": "loadMore"
+         'click .loadMore': 'loadMore'
       }
 
    });

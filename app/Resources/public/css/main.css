@@ -2992,5 +2992,20 @@ ul.striped > li:nth-child(even) {
 .text-justify {
     text-align: justify;
 }
+#center-pane-content .alert-info {
+    text-align: center;
+    background: none;
+    border: none;
+    color: #999797;
+    font-size: 20px;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+}
+#left-pane .alert-info {
+    background: none;
+    border: none;
+    color: #999797;
+    font-size: 16px;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+}
 /*
 ----------------------- */

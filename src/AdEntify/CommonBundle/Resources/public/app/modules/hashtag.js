@@ -65,15 +65,6 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.hashtags, 'sync', function() {
-            if (this.options.hashtags.length == 0) {
-               this.setView('.hashtags-alert', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('profile.noHashtag'),
-                  showClose: true
-               }));
-            } else {
-               this.removeView('.hashtags-alert');
-            }
             this.render();
          });
       }
