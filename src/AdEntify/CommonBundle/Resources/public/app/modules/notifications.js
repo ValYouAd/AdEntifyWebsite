@@ -143,6 +143,7 @@ define([
                $('.notifications-count').html(count);
             }
          });
+         this.listenTo(app, 'notifications:click', this.toggleNotifications);
       },
 
       pollNotifications: function(notifications) {
@@ -187,7 +188,7 @@ define([
          else {
             var that = this;
             User.Dropdown.closeOpenedDropdown();
-            $(this.el).find('.dropdown-menu').stop().fadeIn(100, function() {
+            $(this.el).find('.dropdown-menu').hide().fadeIn(100, function() {
                setTimeout(function() {
                   that.notifications.each(function(notification) {
                      notification.read();

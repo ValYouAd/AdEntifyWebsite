@@ -2186,6 +2186,9 @@ html,body {
     display: inline;
     padding: 0px;
 }
+.profile-picture-wrapper .profile-picture {
+    cursor: pointer;
+}
 /* END : Notifications
 ----------------------- */
 
