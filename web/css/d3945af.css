@@ -1959,8 +1959,8 @@ html,body {
 /* MODULE : Hashtag
 ----------------------- */
 .hashtag-item {
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin-top: 6px;
+    margin-bottom: 6px;
     margin-right: 6px;
     display: inline-block!important;
     zoom: 1;
@@ -3212,6 +3212,7 @@ label,
     font-size: 11px;
     word-wrap: break-word;
     max-width: 75%;
+    vertical-align: middle;
 }
 /* END Settings
 ----------------------- */

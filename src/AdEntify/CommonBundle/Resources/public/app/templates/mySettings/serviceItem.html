@@ -3,7 +3,7 @@
 </div>
 <div class="service-action">
     <% if (model.has('cant_delete') && model.get('cant_delete')) { %>
-    <span class="text-error" data-i18n="mySettings.serviceCannotBeDeleted"></span>
+    <%= $.t('mySettings.serviceCannotBeDeleted') %>
     <% } else { %>
     <button class="btn-around-corner btn-white-grey deletelink"><i class="glyphicon glyphicon-remove"></i> <%= $.t('mySettings.deleteLink') %></button>
     <% } %>
