@@ -50,6 +50,7 @@ header {
         height: 50px;
         vertical-align: middle;
         font-size: 14px;
+        text-align: center;
     }
     .signin,
     .signin:hover,
@@ -77,25 +78,12 @@ header {
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4747', endColorstr='#ff2d2c',GradientType=0 );
     }
     .account-buttons .icon {
-        float: left;
         margin-right: 10px;
-    }
-    .account-buttons .text {
-        float: left;
+        margin-left: 0px;
+        vertical-align: middle;
     }
     .signin-icon {
-        background: url('../../bundles/adentifycommon/images/signin-icon.png');
-        width: 30px;
-        height: 22px;
-        margin-left: 10px;
-        margin-top: -4px;
-    }
-    .signup-icon {
-        background: url('../../bundles/adentifycommon/images/signup-icon.png');
-        width: 25px;
-        height: 27px;
-        margin-left: 25px;
-        margin-top: -4px;
+        margin-top: -6px;
     }
 /* Header
 ----------------------- */
