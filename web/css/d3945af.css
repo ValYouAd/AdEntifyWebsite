@@ -1722,6 +1722,12 @@ html,body {
     font-weight: normal;
     margin-top: 0px;
 }
+.linked-photos .alert-info {
+    background: none;
+    border: none;
+    color: #999797;
+    font-size: 16px;
+}
 .top-photo-buttons {
     margin-top: -6px;
 }
@@ -3673,6 +3679,13 @@ label,
 .comment .profile-picture {
     max-height: 50px;
 }
+.alert-comments .alert-info {
+    background: none;
+    border: none;
+    color: #999797;
+    font-size: 20px;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+}
 /* END : Commentaires
 ----------------------- */
 
@@ -3789,6 +3802,7 @@ ul.striped > li:nth-child(even) {
      @-o-keyframes rotate { from { -webkit-transform: rotateZ(0deg); } to { -webkit-transform: rotateZ(360deg); } }
         @keyframes rotate { from { -webkit-transform: rotateZ(0deg); } to { -webkit-transform: rotateZ(360deg); } }
 
+.g-plusone,
 .fblike {
     display: inline-block;
 }

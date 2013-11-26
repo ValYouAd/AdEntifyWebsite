@@ -30,8 +30,8 @@ define([
             this.set('largeProfilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=120&height=120');
          }
          else {
-            this.set('profilePicture', '');
-            this.set('largeProfilePicture', '');
+            this.set('profilePicture', app.beginUrl + '/img/anonymous-profile-picture.png');
+            this.set('largeProfilePicture', app.beginUrl + '/img/anonymous-profile-picture.png');
          }
       },
 
