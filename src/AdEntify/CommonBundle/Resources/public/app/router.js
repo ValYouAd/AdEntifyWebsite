@@ -632,18 +632,26 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset();
 
          var category = new Category.Model();
+         var that = this;
 
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
-               category: category
+               photosSuccess: function(collection) {
+                  that.successCallback(collection, 'category.noPhotos');
+               },
+               photosError: function() {
+                  that.errorCallback('category.errorPhotosLoading');
+               },
+               category: category,
+               listenToEnable: true,
+               filters: true,
+               photosUrl: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: true })
             }),
             "#right-pane-content": new Action.Views.List({
                actions: this.actions
             })
          }).render();
-
-         var that = this;
 
          // Get category
          if (this.categories.length > 0) {
@@ -666,7 +674,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          // Get category photos
          this.photos.fetch({
-            url: Routing.generate('api_v1_get_category_photos', { slug: slug }),
+            url: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: true }),
             success: function(collection) {
                that.successCallback(collection, 'category.noPhotos');
             },
@@ -935,22 +943,39 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
       successCallback: function(collection, translationKey, target) {
          target = (typeof target === "undefined") ? "#center-pane-content" : target;
+         this.deleteOldAlerts();
+
          // Check if collection is empty
          if (collection.length == 0) {
-            app.useLayout().setView(target, new Common.Views.Alert({
+            this.successView = new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t(translationKey)
-            }), true).render();
+            });
+            app.useLayout().setView(target, this.successView, true).render();
          }
       },
 
       errorCallback: function(translationKey, target) {
          target = (typeof target === "undefined") ? "#center-pane-content" : target;
-         app.useLayout().setView(target, new Common.Views.Alert({
+         this.deleteOldAlerts();
+
+         this.errorView = new Common.Views.Alert({
             cssClass: Common.alertError,
             message: $.t(translationKey),
             showClose: true
-         }), true).render();
+         });
+         app.useLayout().setView(target, this.errorView, true).render();
+      },
+
+      deleteOldAlerts: function() {
+         if (this.successView) {
+            app.useLayout().removeView(this.successView);
+            this.successView = null;
+         }
+         if (this.errorView) {
+            app.useLayout().removeView(this.errorView);
+            this.errorView = null;
+         }
       },
 
       handleWindowEvent: function() {
