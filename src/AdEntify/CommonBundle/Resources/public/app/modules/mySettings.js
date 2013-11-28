@@ -7,8 +7,9 @@
  */
 define([
    "app",
-   "modules/common"
-], function(app, Common) {
+   "modules/common",
+   'modules/upload'
+], function(app, Common, Upload) {
 
    var MySettings = app.module();
 
@@ -69,8 +70,13 @@ define([
          });
       },
 
+      connectInstagram: function() {
+         window.location.href = Upload.Common.getInstagramUrl();
+      },
+
       events: {
-         "click .deletelink": "deleteLink"
+         "click .deletelink": "deleteLink",
+         'click .connect-instagram': 'connectInstagram'
       }
    });
 

@@ -70,7 +70,9 @@ define([
             album: this.albumName,
             showBackTo: true,
             backToText: $.t('externalServicePhotos.backToAlbums'),
-            backToLink: app.beginUrl + app.root + $.t('routing.facebook/albums/')
+            backToLink: app.beginUrl + app.root + $.t('routing.facebook/albums/'),
+            serviceName: 'Facebook',
+            loweredServiceName: 'facebook'
          };
       },
 

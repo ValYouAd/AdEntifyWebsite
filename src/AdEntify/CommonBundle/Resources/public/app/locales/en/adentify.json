@@ -66,7 +66,8 @@
       "deleteAccount": "Delete my account",
       "modalDeleteAccountTitle": "Delete my AdEntify account",
       "modalDeleteAccountText": "Deleting your acccount will delete the following data on <strong>adentify.com and all your embed photos on internet</strong> :<ul><li>Photos</li><li>Tags</li><li>Earnings</li><li>Rewards</li><li>Comments</li><li>Likes</li><li>Favorites</li></ul>After confirmation, there is no way to get back your data.",
-      "confirmDeleteAccountButton": "I understand and i still want to delete my account"
+      "confirmDeleteAccountButton": "I understand and i still want to delete my account",
+      "linkMyAccount": "Link my account"
    },
    "upload": {
       "pageTitle": "Upload my photos - AdEntify",
@@ -89,7 +90,8 @@
       "sendPhotosFromLocal": "Send photos from my computer",
       "localPhotosUploaded": "My uploaded photos",
       "or": "or",
-      "backToServices": "Back to services"
+      "backToServices": "Back to services",
+      "myComputer": "My computer"
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",

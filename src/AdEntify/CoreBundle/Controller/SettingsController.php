@@ -46,21 +46,43 @@ class SettingsController extends FosRestController
             $services = $em->getRepository('AdEntifyCoreBundle:OAuthUserInfo')->findBy(array(
                 'user' => $user->getId()
             ));
+
+            $availableServices = array(
+                'instagram',
+                'Facebook',
+                //'flickr',
+            );
+
             $connectedServices = array();
             if ($services) {
                 foreach($services as $service) {
                     $connectedServices[] = array(
                         'id' => $service->getId(),
                         'service_name' => $service->getServiceName(),
+                        'linked' => true
                     );
                 }
             }
             if ($securityContext->isGranted('ROLE_FACEBOOK')) {
                 $connectedServices[] = array(
                     'service_name' => 'Facebook',
-                    'cant_delete' => true
+                    'cant_delete' => true,
+                    'linked' => true
                 );
             }
+
+            foreach($connectedServices as $connectedService) {
+                if(($key = array_search($connectedService['service_name'], $availableServices)) !== false) {
+                    unset($availableServices[$key]);
+                }
+            }
+            foreach($availableServices as $service) {
+                $connectedServices[] = array(
+                    'service_name' => $service,
+                    'linked' => false
+                );
+            }
+
             return $connectedServices;
         } else {
             throw new HttpException(401);
