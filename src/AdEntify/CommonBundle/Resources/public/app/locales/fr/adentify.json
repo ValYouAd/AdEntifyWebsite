@@ -66,7 +66,8 @@
       "deleteAccount": "Supprimer mon compte",
       "modalDeleteAccountTitle": "Suppression de mon compte AdEntify",
       "modalDeleteAccountText": "La suppression de votre compte AdEntify entraînera la suppression des éléments suivants sur <strong>adentify.com ainsi que sur toutes les plateformes utilisants vos photos</strong> :<ul><li>Photos</li><li>Tags</li><li>Gains</li><li>Récompenses</li><li>Commentaires</li><li>Mentions j'aime</li><li>Favoris</li></ul>Après confirmation, il n'y a aucun moyen de récupérer vos données.",
-      "confirmDeleteAccountButton": "Je comprends et je souhaite toujours supprimer mon compte"
+      "confirmDeleteAccountButton": "Je comprends et je souhaite toujours supprimer mon compte",
+      "linkMyAccount": "Lier mon compte"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",
@@ -89,7 +90,8 @@
       "sendPhotosFromLocal": "Envoyer des photos depuis mon ordinateur",
       "localPhotosUploaded": "Mes photos envoyées",
       "or": "ou",
-      "backToServices": "Revenir aux services"
+      "backToServices": "Revenir aux services",
+      "myComputer": "Mon ordinateur"
    },
    "facebook": {
       "albumsPageTitle": "Mes albums Facebook - AdEntify",

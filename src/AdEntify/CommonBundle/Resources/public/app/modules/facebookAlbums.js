@@ -55,7 +55,9 @@ define([
 
       serialize: function() {
          return {
-            rootUrl: app.beginUrl + app.root
+            rootUrl: app.beginUrl + app.root,
+            serviceName: 'Facebook',
+            loweredServiceName: 'facebook'
          };
       },
 

@@ -730,6 +730,53 @@ html,body {
     display: none;
 }
 
+/* Services */
+.services {
+    margin: 10px auto;
+}
+.services li {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+.services .service-button {
+    background: #eff1f4;
+    border: 1px solid #dfdede;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    font-size: 14px;
+    color: #aeacac;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    height: 42px;
+    display: block;
+    padding: 0px 15px 0px 5px;
+    text-decoration: none;
+    line-height: 37px;
+}
+.services .service-button .icon {
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.services .active,
+.services .service-button:hover {
+    color: white;
+}
+.services .facebook-service-button.active,
+.services .facebook-service-button:hover {
+    background-color: #3b5998;
+}
+.services .instagram-service-button.active,
+.services .instagram-service-button:hover {
+    background-color: #a67360;
+}
+.services .pinterest-service-button.active,
+.services .pinterest-service-button:hover {
+    background-color: #cc2127;
+}
+.services .local-service-button.active {
+    background-color: rgb(199,198,198);
+}
+
 /* End Upload
 ----------------------- */
 
@@ -752,7 +799,6 @@ html,body {
     position: absolute;
     top: 10px;
     right: 10px;
-    /*z-index: 2;*/
     cursor: pointer;
 }
 .full-photo .adentify-pastille-wrapper {
@@ -1113,7 +1159,24 @@ html,body {
 .external-photos .photos-selected {
     display: none;
 }
-/* End M : External Service Photos
+.service-name-container {
+    margin: 10px auto;
+}
+.service-name-container .icon {
+    vertical-align: middle;
+}
+.service-name {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 20px;
+    vertical-align: middle;
+}
+.facebook-text {
+    color: #3b5998;
+}
+.instagram-text {
+    color: #a67360;
+}
+/* End : External Service Photos
 ------------------------------------ */
 
 /* MODULE : Hashtag
@@ -1576,7 +1639,7 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
@@ -1978,6 +2041,59 @@ html,body {
     height: 52px;
 }
 
+.close-white-icon{
+    background-position: -154px -229px ;
+    width: 11px;
+    height: 11px;
+}
+
+.facebook-circle-white-icon{
+    background-position: -241px -291px ;
+    width: 32px;
+    height: 32px;
+}
+
+.flickr-circle-white-icon{
+    background-position: -206px -291px ;
+    width: 32px;
+    height: 32px;
+}
+
+.google-circle-white-icon{
+    background-position: -313px -256px ;
+    width: 32px;
+    height: 32px;
+}
+
+.instagram-circle-white-icon{
+    background-position: -277px -256px ;
+    width: 32px;
+    height: 32px;
+}
+
+.pinterest-circle-white-icon{
+    background-position: -241px -256px ;
+    width: 32px;
+    height: 32px;
+}
+
+.twitter-circle-white-icon{
+    background-position: -206px -256px ;
+    width: 32px;
+    height: 32px;
+}
+
+.white-separator-32{
+    background-position: -329px -60px ;
+    width: 1px;
+    height: 32px;
+}
+
+.local-circle-white-icon{
+    background-position: -98px -200px ;
+    width: 32px;
+    height: 32px;
+}
 
 
 /* DONT CHANGE IT */
@@ -2263,6 +2379,27 @@ label,
     text-decoration: none;
     color: #6e6e6e;
 }
+.btn-dark-grey {
+    background: rgb(109,105,104);
+    background: -moz-linear-gradient(top,  rgba(109,105,104,1) 0%, rgba(80,77,76,1) 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(109,105,104,1)), color-stop(50%,rgba(80,77,76,1)));
+    background: -webkit-linear-gradient(top,  rgba(109,105,104,1) 0%,rgba(80,77,76,1) 50%);
+    background: -o-linear-gradient(top,  rgba(109,105,104,1) 0%,rgba(80,77,76,1) 50%);
+    background: -ms-linear-gradient(top,  rgba(109,105,104,1) 0%,rgba(80,77,76,1) 50%);
+    background: linear-gradient(to bottom,  rgba(109,105,104,1) 0%,rgba(80,77,76,1) 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6d6968', endColorstr='#504d4c',GradientType=0 );
+    color: white;
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+    text-transform: uppercase;
+    padding: 3px 30px!important;
+    font-size: 10px;
+    border: 1px solid #ecebeb;
+    text-shadow: 0 0 1px rgba(0,0,0,0.8);
+}
+.btn-dark-grey:hover {
+    text-decoration: none;
+    color: white;
+}
 .btn-red {
     background: rgb(255,70,70);
     background: -moz-linear-gradient(top,  rgba(255,70,70,1) 0%, rgba(255,45,45,1) 50%);
@@ -2278,7 +2415,7 @@ label,
     font-size: 10px;
     padding: 3px 30px!important;
     border: 0px;
-    text-shadow: 0 0 1px rgba(0,0,0,0.8)
+    text-shadow: 0 0 1px rgba(0,0,0,0.8);
 }
 .btn-red-grey-border {
     background: rgb(255,70,70);

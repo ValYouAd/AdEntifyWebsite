@@ -6,7 +6,11 @@
     <% } %>
     <h1 data-i18n="upload.<%= typeof(title) !== 'undefined' ? title : 'addPhotosTitle' %>"></h1>
 </div>
-
+<% if (typeof serviceName !== 'undefined') { %>
+<div class="service-name-container text-center">
+    <i class="<%= loweredServiceName %>-circle-icon icon"></i> <span class="<%= loweredServiceName %>-text service-name"><%= serviceName %></span>
+</div>
+<% } %>
 <div id="loading-photos" class="loading-gif-container">
     <div class="loader rotate"></div>
 </div>

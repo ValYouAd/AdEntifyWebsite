@@ -3,10 +3,4 @@
 </div>
 
 <p class="lead mt2 text-center" data-i18n="upload.textWhichService"></p>
-<p class="text-center"><a href="facebook/albums/" id="facebookUploadButton" class="btn-around-corner btn-service-upload btn-facebook-rounded"><i class="facebook-circle-icon icon"></i> Facebook</a>
-    <a class="btn-around-corner btn-service-upload btn-instagram-rounded" href="https://api.instagram.com/oauth/authorize/?client_id=<%= model.instagramClientId %>&redirect_uri=<%= model.appRoot %>instagram/authentication&response_type=code"><i class="instagram-circle-icon icon"></i> Instagram</a>
-    <!--<a data-bypass="" id="flickrUploadButton" class="btn-around-corner btn-service-upload btn-flickr-rounded"><i class="flickr-circle-icon icon"></i> Flickr</a>-->
-</p>
-<!--<p data-i18n="upload.textUploadFromComputer"></p>-->
-<p class="lead mt1 mb# text-center"><%= $.t('upload.or') %></p>
-<p class="text-center"><a href="<%= model.localUpload %>" class="btn-around-corner btn-service-upload btn-grey"><i class="glyphicon glyphicon-floppy-open"></i> <%= $.t('upload.uploadFromComputer') %></a></p>
+<div class="services-container"></div>

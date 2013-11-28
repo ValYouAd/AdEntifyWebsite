@@ -180,6 +180,10 @@ define([
                })
             }));
          }
+         if (!this.getView('.services-container')) {
+            var upload = require('modules/upload');
+            this.setView('.services-container', new upload.Views.Services());
+         }
       },
 
       afterRender: function() {

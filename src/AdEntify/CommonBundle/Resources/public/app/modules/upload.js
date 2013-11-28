@@ -21,10 +21,25 @@ define([
          return {
             model: {
                appRoot: app.rootUrl,
-               instagramClientId: instagramClientId,
-               localUpload: app.beginUrl + app.root + $.t('routing.upload/local/')
+               localUpload: app.beginUrl + app.root + $.t('routing.upload/local/'),
+               instagramUrl: Upload.Common.getInstagramUrl()
             }
          }
+      },
+
+      initialize: function() {
+         app.trigger('domchange:title', $.t('upload.pageTitle'));
+      },
+
+      beforeRender: function() {
+         if (!this.getView('.services-container')) {
+            var upload = require('modules/upload');
+            this.setView('.services-container', new upload.Views.Services());
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
       },
 
       events: {
@@ -33,14 +48,6 @@ define([
 
       flickrUpload: function() {
          window.location.href = Routing.generate('flickr_request_token');
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      initialize: function() {
-         app.trigger('domchange:title', $.t('upload.pageTitle'));
       }
    });
 
@@ -205,6 +212,22 @@ define([
          'click .submit-photos-button': 'submitPhotos'
       }
    });
+
+   Upload.Views.Services = Backbone.View.extend({
+      template: 'upload/services',
+
+      serialize: function() {
+         return {
+            rootUrl: app.beginUrl + app.root
+         }
+      }
+   });
+
+   Upload.Common = {
+      getInstagramUrl: function() {
+         return 'https://api.instagram.com/oauth/authorize/?client_id=' + instagramClientId + '&redirect_uri=' + app.rootUrl + 'instagram/authentication&response_type=code';
+      }
+   }
 
    return Upload;
 });

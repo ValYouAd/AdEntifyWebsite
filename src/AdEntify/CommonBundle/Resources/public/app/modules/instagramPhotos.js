@@ -44,7 +44,9 @@ define([
             album: null,
             showBackTo: true,
             backToText: $.t('upload.backToServices'),
-            backToLink: app.beginUrl + app.root + $.t('routing.upload/')
+            backToLink: app.beginUrl + app.root + $.t('routing.upload/'),
+            serviceName: 'instagram',
+            loweredServiceName: 'instagram'
          }
       },
 
