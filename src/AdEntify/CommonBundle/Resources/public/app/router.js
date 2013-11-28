@@ -214,7 +214,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                pageTitle: $.t('myPhotos.pageTitleMyPhotos'),
                title: $.t('myPhotos.titleMyPhotos'),
                itemClickBehavior: Photos.Common.PhotoItemClickBehaviorAddTag,
-               addTag: true
+               addTag: true,
+               showServices: true
             }),
             "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({
@@ -853,6 +854,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             dropdownMenusSetup = true;
             User.Dropdown.listenClick();
          }
+         $('.tag-button').tooltip();
       },
 
       // Shortcut for building a url.

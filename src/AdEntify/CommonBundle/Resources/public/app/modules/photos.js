@@ -115,6 +115,7 @@ define([
    Photos.Views.Content = Backbone.View.extend({
       template: "photos/content",
       filters: false,
+      showServices: false,
 
       initialize: function() {
          openedContainer = null;
@@ -151,13 +152,15 @@ define([
          }
 
          this.filters = typeof this.options.filters !== 'undefined' ? this.options.filters : this.filters;
+         this.showServices = typeof this.options.showServices !== 'undefined' ? this.options.showServices : this.showServices;
       },
 
       serialize: function() {
          return {
             collection: this.options.photos,
             category: this.category,
-            filters: this.filters
+            filters: this.filters,
+            showServices: this.showServices
          };
       },
 
