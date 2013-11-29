@@ -962,6 +962,7 @@ html,body {
 }
 #dashboard {
     background: #ffffff;
+    overflow: hidden;
 }
 #center-pane {
     border-left: 1px solid #e4e7e9;
@@ -969,6 +970,8 @@ html,body {
     min-height: 100%;
     height: auto !important;
     height: 100%;
+    padding-bottom: 500em;
+    margin-bottom: -500em;
 }
 .push {
     clear: both;
@@ -1098,10 +1101,12 @@ html,body {
 #right-pane {
     background: url('../img/ticker_background.png') repeat;
     position: relative;
-    min-height: 100%;
-    height: 100%;
+    /*min-height: 100%;
+    height: 100%;*/
     /*padding: 25px 4px 4px 4px;*/
     padding: 0px;
+    padding-bottom: 500em;
+    margin-bottom: -500em;
     word-wrap: break-word;
     color: #c5c5c4;
     font-family: robotoregular, Arial, sans-serif;
@@ -3702,6 +3707,7 @@ label,
 }
 .modal-row {
     margin-left: 0px;
+    overflow: hidden;
 }
 .edit-modal-row {
     margin: 0px;
@@ -3763,6 +3769,12 @@ label,
     border-bottom: 1px solid #cecdcd;
     border-top: 1px solid #cecdcd;
     margin: 0px -15px;
+}
+.photo-modal #center-modal,
+.linked-photos,
+.photoModal #right-modal {
+    padding-bottom: 500em;
+    margin-bottom: -500em;
 }
 .photoModal #right-modal {
     padding-left: 0px;

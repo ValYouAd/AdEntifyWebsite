@@ -171,6 +171,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
+               photosSuccess: function(collection) {
+                  this.successCallback(collection, 'photos.noPhotos');
+               },
+               photosError: function() {
+                  this.errorCallback('photos.errorPhotosLoading');
+               },
                tagged: true,
                filters: true,
                listenToEnable: true
@@ -862,6 +868,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             dropdownMenusSetup = true;
             User.Dropdown.listenClick();
          }
+         // Tag button tooltip
          $('.tag-button').tooltip();
       },
 
@@ -924,15 +931,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       routeTriggered: function(e) {
-         if ($('#dashboard').hasClass('edit-mode')) {
-            $("#dashboard").removeClass('edit-mode').addClass('view-mode');
-         }
-         if ($('#center-pane').hasClass('span11')) {
-            $('#center-pane').switchClass('span11', 'span9');
-         }
-         if ($("aside").hasClass('span1')) {
-            $("aside").switchClass("span1", "span3");
-         }
          app.stopLoading();
          // Analytics
          var url = Backbone.history.root + Backbone.history.getFragment();

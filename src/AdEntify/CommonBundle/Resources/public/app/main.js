@@ -192,7 +192,6 @@ function(app, Router, i18n, AppState, TagStats) {
        // Stop the default event to ensure the link will not cause a page
        // refresh.
        evt.preventDefault();
-       app.appState().setLastClickedAhref(evt);
 
        // Check if modal opened
        var modalView = app.useLayout().getView('#modal-container');
