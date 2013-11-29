@@ -115,6 +115,7 @@ define([
    Photos.Views.Content = Backbone.View.extend({
       template: "photos/content",
       filters: false,
+      showServices: false,
 
       initialize: function() {
          openedContainer = null;
@@ -151,13 +152,18 @@ define([
          }
 
          this.filters = typeof this.options.filters !== 'undefined' ? this.options.filters : this.filters;
+         this.showServices = typeof this.options.showServices !== 'undefined' ? this.options.showServices : this.showServices;
+         this.photosUrl = typeof this.options.photosUrl !== 'undefined' ? this.options.photosUrl : Routing.generate('api_v1_get_photos', { tagged: true });
+         this.photosSuccess = typeof this.options.photosSuccess !== 'undefined' ? this.options.photosSuccess : null;
+         this.photosError = typeof this.options.photosError !== 'undefined' ? this.options.photosError : null;
       },
 
       serialize: function() {
          return {
             collection: this.options.photos,
             category: this.category,
-            filters: this.filters
+            filters: this.filters,
+            showServices: this.showServices
          };
       },
 
@@ -251,47 +257,59 @@ define([
       brandsFilter: function() {
          this.options.photos.fetch({
             url: this.getOriginalPhotosUrl() + '&brands=1',
-            reset: true
+            reset: true,
+            success: this.photosSuccess,
+            error: this.photosError
          });
       },
 
       placesFilter: function() {
          this.options.photos.fetch({
             url: this.getOriginalPhotosUrl() + '&places=1',
-            reset: true
+            reset: true,
+            success: this.photosSuccess,
+            error: this.photosError
          });
       },
 
       peopleFilter: function() {
          this.options.photos.fetch({
             url: this.getOriginalPhotosUrl() + '&people=1',
-            reset: true
+            reset: true,
+            success: this.photosSuccess,
+            error: this.photosError
          });
       },
 
       mostRecentFilter: function() {
          this.options.photos.fetch({
             url: this.getOriginalPhotosUrl() + '&orderBy=mostRecent',
-            reset: true
+            reset: true,
+            success: this.photosSuccess,
+            error: this.photosError
          });
       },
 
       oldestFilter: function() {
          this.options.photos.fetch({
             url: this.getOriginalPhotosUrl() + '&orderBy=oldest',
-            reset: true
+            reset: true,
+            success: this.photosSuccess,
+            error: this.photosError
          });
       },
 
       mostLikedFilter: function() {
          this.options.photos.fetch({
             url: this.getOriginalPhotosUrl() + '&orderBy=mostLiked',
-            reset: true
+            reset: true,
+            success: this.photosSuccess,
+            error: this.photosError
          });
       },
 
       getOriginalPhotosUrl: function() {
-         return Routing.generate('api_v1_get_photos', { tagged: true });
+         return this.photosUrl;
       },
 
       events: {

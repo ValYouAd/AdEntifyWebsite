@@ -89,14 +89,7 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="sprites tag-button pull-right">
-                                <div class="dropdown-menu">
-                                    <div class="white-arrow-top"></div>
-                                    <ul class="list-unstyled">
-                                        <li><a href="{{ full_root_url }}{{ 'upload/'|trans }}"><i class="icon my-pictures"></i> {{ 'Upload photos'|trans }}</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <a href="{{ full_root_url }}{{ 'upload/'|trans }}" class="tag-button pull-right" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ 'Upload photos'|trans }}"></a>
                         </div>
                     </div>
 
@@ -137,9 +130,7 @@
                 </section>
 
                 <section id="right-pane" class="col-sm-4 col-md-3">
-                    <div id="right-pane-scrollview">
-                        <section id="right-pane-content"></section>
-                    </div>
+                    <section id="right-pane-content"></section>
                     <div class="push"></div>
                 </section>
             </div>
