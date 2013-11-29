@@ -168,14 +168,16 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       homepage: function() {
          this.reset();
 
+         var that = this;
+
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
                photosSuccess: function(collection) {
-                  this.successCallback(collection, 'photos.noPhotos');
+                  that.successCallback(collection, 'photos.noPhotos');
                },
                photosError: function() {
-                  this.errorCallback('photos.errorPhotosLoading');
+                  that.errorCallback('photos.errorPhotosLoading');
                },
                tagged: true,
                filters: true,
@@ -186,7 +188,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             })
          }).render();
 
-         var that = this;
          this.photos.fetch({
             url: Routing.generate('api_v1_get_photos', { tagged: true }),
             success: function(collection) {

@@ -34,7 +34,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "nelmio/cors-bundle": "dev-master",
         "nelmio/api-doc-bundle": "dev-master",
-        "a2lix/translation-form-bundle": "1.*@dev"
+        "a2lix/translation-form-bundle": "1.*@dev",
+        "aws/aws-sdk-php": "2.*"
     },
     "scripts": {
         "post-install-cmd": [
