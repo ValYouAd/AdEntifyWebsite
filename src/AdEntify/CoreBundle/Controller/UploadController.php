@@ -69,15 +69,15 @@ class UploadController extends Controller
             $uploadedFile = $_FILES['files'];
             $path = FileTools::getProductPhotoPath();
             $filename = uniqid().$uploadedFile['name'][0];
-            $file = move_uploaded_file($uploadedFile['tmp_name'][0], $path.$filename);
-            if ($file) {
+            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('files')[0], $path, $filename);
+            if ($url) {
                 $thumb = new Thumb();
-                $thumb->setOriginalPath($path.$filename);
+                $thumb->setOriginalPath($url);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
 
                 $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $filename);
-                $thumbs['original'] = $filename;
+                $thumbs['original'] = $url;
                 $response = new JsonResponse();
                 $response->setData($thumbs);
                 return $response;
@@ -100,8 +100,9 @@ class UploadController extends Controller
             $user = $this->container->get('security.context')->getToken()->getUser();
             $path = FileTools::getUserPhotosPath($user);
             $filename = uniqid().$uploadedFile['name'][0];
-            $file = move_uploaded_file($uploadedFile['tmp_name'][0], $path.$filename);
-            if ($file) {
+
+            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('files')[0], $path, $filename);
+            if ($url) {
                 $em = $this->getDoctrine()->getManager();
                 $userLocalUpload = $em->getRepository('AdEntifyCoreBundle:LocalUpload')->findOneBy(array(
                     'owner' => $user->getId()
@@ -122,16 +123,16 @@ class UploadController extends Controller
                 $em->flush();
 
                 $thumb = new Thumb();
-                $thumb->setOriginalPath($path.$filename);
+                $thumb->setOriginalPath($url);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_LARGE);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
                 $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
 
                 // Add original
-                $originalImageSize = getimagesize($path.$filename);
+                $originalImageSize = getimagesize($url);
                 $thumbs['original'] = array(
-                    'filename' => $this->container->getParameter('root_url') . 'uploads/photos/users/' . $user->getId().'/original/' . $filename,
+                    'filename' => $url,
                     'width' => $originalImageSize[0],
                     'height' => $originalImageSize[1],
                 );
@@ -145,5 +146,9 @@ class UploadController extends Controller
         } else {
             throw new NotFoundHttpException('No images to upload.');
         }
+    }
+
+    protected function getFileUploader() {
+        return $this->get('adentify_storage.file_uploader');
     }
 }

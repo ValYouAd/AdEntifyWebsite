@@ -28,6 +28,11 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('client_secret')->isRequired()->cannotBeEmpty()->end()
                 ->end()
             ->end()
+            ->arrayNode('amazon_s3')
+                ->children()
+                    ->scalarNode('base_url')->end()
+                ->end()
+            ->end()
         ->end();
 
         return $treeBuilder;
