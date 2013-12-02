@@ -67,7 +67,9 @@
       "modalDeleteAccountTitle": "Suppression de mon compte AdEntify",
       "modalDeleteAccountText": "La suppression de votre compte AdEntify entraînera la suppression des éléments suivants sur <strong>adentify.com ainsi que sur toutes les plateformes utilisants vos photos</strong> :<ul><li>Photos</li><li>Tags</li><li>Gains</li><li>Récompenses</li><li>Commentaires</li><li>Mentions j'aime</li><li>Favoris</li></ul>Après confirmation, il n'y a aucun moyen de récupérer vos données.",
       "confirmDeleteAccountButton": "Je comprends et je souhaite toujours supprimer mon compte",
-      "linkMyAccount": "Lier mon compte"
+      "linkMyAccount": "Lier mon compte",
+      "profilePicture": "Photo de profil",
+      "profilePictureUpload": "Envoyer ma photo de profil"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",

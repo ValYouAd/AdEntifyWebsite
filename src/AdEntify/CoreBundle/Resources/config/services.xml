@@ -9,6 +9,9 @@
         <parameter key="ad_entify_core.emailService">AdEntify\CoreBundle\Services\EmailService</parameter>
         <parameter key="ad_entify_core.uploadService">AdEntify\CoreBundle\Services\UploadService</parameter>
         <parameter key="ad_entify_core.tagRevenueService">AdEntify\CoreBundle\Services\TagRevenueService</parameter>
+        <parameter key="adentify_storage.file_uploader.class">AdEntify\CoreBundle\Services\FileUploader</parameter>
+        <parameter key="adentify_storage.aws_s3.client.class">Aws\S3\S3Client</parameter>
+        <parameter key="adentify_storage.aws_s3.client.factory">Aws\S3\S3Client</parameter>
         <!--<parameter key="ad_entify_core.oauthEventListener">AdEntify\CoreBundle\EventListener\OAuthEventListener</parameter>-->
     </parameters>
 
@@ -16,7 +19,7 @@
         <service id="ad_entify_core.thumb" class="%ad_entify_core.thumbService%">
             <argument type="service" id="imagine.filter.manager" />
             <argument type="service" id="imagine" />
-            <argument>%root_url%</argument>
+            <argument type="service" id="adentify_storage.file_uploader" />
         </service>
         <service id="ad_entify_core.email" class="%ad_entify_core.emailService%">
             <argument type="service" id="templating" />
@@ -29,9 +32,21 @@
             <argument type="service" id="ad_entify_core.thumb" />
             <argument>%root_url%</argument>
             <argument type="service" id="fos_facebook.api"></argument>
+            <argument type="service" id="adentify_storage.file_uploader" />
         </service>
         <service id="ad_entify_core.tagRevenue" class="%ad_entify_core.tagRevenueService%">
             <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+        <service id="adentify_storage.aws_s3.client" class="%adentify_storage.aws_s3.client.class%" factory-class="%adentify_storage.aws_s3.client.factory%" factory-method="factory">
+            <argument type="collection">
+                <argument key="key">%aws_key%</argument>
+                <argument key="secret">%aws_secret_key%</argument>
+                <argument key="region">%aws_region%</argument>
+            </argument>
+        </service>
+        <service id="adentify_storage.file_uploader" class="%adentify_storage.file_uploader.class%">
+            <argument type="service" id="file_storage_filesystem" />
+            <argument>%adentify_base_url%</argument>
         </service>
         <!--<service id="ad_entify_core.oauth_event_listener" class="%ad_entify_core.oauthEventListener%">
             <argument type="service" id="fos_user.user_manager" />

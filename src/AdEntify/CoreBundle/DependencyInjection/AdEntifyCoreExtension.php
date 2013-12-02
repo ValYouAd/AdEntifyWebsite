@@ -25,6 +25,11 @@ class AdEntifyCoreExtension extends Extension
         $container->setParameter('foursquare.client_id', $config['foursquare']['client_id']);
         $container->setParameter('foursquare.client_secret', $config['foursquare']['client_secret']);
 
+        if (!isset($config['amazon_s3']['base_url'])) {
+            throw new \InvalidArgumentException('The option "acme_storage.amazon_s3.base_url" must be set.');
+        }
+        $container->setParameter('adentify_storage.amazon_s3.base_url', $config['amazon_s3']['base_url']);
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
     }

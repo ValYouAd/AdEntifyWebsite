@@ -40,6 +40,8 @@ class AppKernel extends Kernel
 
             new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
 
+            new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+
             new AdEntify\UserBundle\AdEntifyUserBundle(),
             new AdEntify\CoreBundle\AdEntifyCoreBundle(),
             new AdEntify\CommonBundle\AdEntifyCommonBundle(),

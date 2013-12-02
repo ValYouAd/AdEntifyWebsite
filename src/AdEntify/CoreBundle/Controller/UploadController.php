@@ -69,15 +69,15 @@ class UploadController extends Controller
             $uploadedFile = $_FILES['files'];
             $path = FileTools::getProductPhotoPath();
             $filename = uniqid().$uploadedFile['name'][0];
-            $file = move_uploaded_file($uploadedFile['tmp_name'][0], $path.$filename);
-            if ($file) {
+            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('files')[0], $path, $filename);
+            if ($url) {
                 $thumb = new Thumb();
-                $thumb->setOriginalPath($path.$filename);
+                $thumb->setOriginalPath($url);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
 
                 $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $filename);
-                $thumbs['original'] = $filename;
+                $thumbs['original'] = $url;
                 $response = new JsonResponse();
                 $response->setData($thumbs);
                 return $response;
@@ -86,6 +86,41 @@ class UploadController extends Controller
             }
         } else {
             throw new NotFoundHttpException('No images to upload.');
+        }
+    }
+
+    /**
+     * @Route("/upload/profile-picture", methods="POST", name="upload_profile_picture")
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function uploadProfilePicture()
+    {
+        if (isset($_FILES['profilepicture'])) {
+            $uploadedFile = $_FILES['profilepicture'];
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $path = FileTools::getUserProfilePicturePath($user);
+            $filename = uniqid().$uploadedFile['name'][0];
+            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('profilepicture'), $path, $filename);
+            if ($url) {
+                $thumb = new Thumb();
+                $thumb->setOriginalPath($url);
+                $thumb->addThumbSize(FileTools::PROFILE_PICTURE_TYPE);
+
+                $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $user, $filename);
+                $thumbs['original'] = $url;
+                $response = new JsonResponse();
+                $response->setData($thumbs);
+
+                $user->setProfilePicture($thumbs['profile-picture']['filename']);
+                $this->getDoctrine()->getManager()->merge($user);
+                $this->getDoctrine()->getManager()->flush();
+
+                return $response;
+            } else {
+                throw new HttpException(500);
+            }
+        } else {
+            throw new NotFoundHttpException('No profile picture to upload.');
         }
     }
 
@@ -100,8 +135,9 @@ class UploadController extends Controller
             $user = $this->container->get('security.context')->getToken()->getUser();
             $path = FileTools::getUserPhotosPath($user);
             $filename = uniqid().$uploadedFile['name'][0];
-            $file = move_uploaded_file($uploadedFile['tmp_name'][0], $path.$filename);
-            if ($file) {
+
+            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('files')[0], $path, $filename);
+            if ($url) {
                 $em = $this->getDoctrine()->getManager();
                 $userLocalUpload = $em->getRepository('AdEntifyCoreBundle:LocalUpload')->findOneBy(array(
                     'owner' => $user->getId()
@@ -122,16 +158,16 @@ class UploadController extends Controller
                 $em->flush();
 
                 $thumb = new Thumb();
-                $thumb->setOriginalPath($path.$filename);
+                $thumb->setOriginalPath($url);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_LARGE);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
                 $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
 
                 // Add original
-                $originalImageSize = getimagesize($path.$filename);
+                $originalImageSize = getimagesize($url);
                 $thumbs['original'] = array(
-                    'filename' => $this->container->getParameter('root_url') . 'uploads/photos/users/' . $user->getId().'/original/' . $filename,
+                    'filename' => $url,
                     'width' => $originalImageSize[0],
                     'height' => $originalImageSize[1],
                 );
@@ -145,5 +181,9 @@ class UploadController extends Controller
         } else {
             throw new NotFoundHttpException('No images to upload.');
         }
+    }
+
+    protected function getFileUploader() {
+        return $this->get('adentify_storage.file_uploader');
     }
 }

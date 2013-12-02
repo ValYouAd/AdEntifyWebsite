@@ -21,6 +21,8 @@ class FileTools
     const LOGO_TYPE_MEDIUM = 'logo-medium';
     const LOGO_TYPE_SMALLL = 'logo-small';
 
+    const PROFILE_PICTURE_TYPE = 'profile-picture';
+
     /**
      * @param $url
      * @return string
@@ -39,9 +41,7 @@ class FileTools
      */
     public static function getUserPhotosPath($user, $type = self::PHOTO_TYPE_ORIGINAL)
     {
-        $path = __DIR__.'/../../../../web/uploads/photos/users/'.$user->getId().'/'.$type.'/';
-        FileTools::createDirIfNotExist($path);
-        return $path;
+        return 'uploads/photos/users/'.$user->getId().'/'.$type.'/';
     }
 
     /**
@@ -49,9 +49,15 @@ class FileTools
      */
     public static function getProductPhotoPath($type = self::PHOTO_TYPE_ORIGINAL)
     {
-        $path = __DIR__.'/../../../../web/uploads/photos/products/'.$type.'/';
-        FileTools::createDirIfNotExist($path);
-        return $path;
+        return 'uploads/photos/products/'.$type.'/';
+    }
+
+    /**
+     * @return string path
+     */
+    public static function getUserProfilePicturePath($user)
+    {
+        return 'uploads/photos/users/'.$user->getId().'/profile-picture/';
     }
 
     /**
@@ -63,9 +69,7 @@ class FileTools
      */
     public static function getBrandLogoPath($type = self::LOGO_TYPE_ORIGINAL, $absolute = true)
     {
-        $path = ($absolute ? __DIR__.'/../../../../web/' : '').'uploads/brands/'.$type.'/';
-        FileTools::createDirIfNotExist($path);
-        return $path;
+        return 'uploads/brands/'.$type.'/';
     }
 
     /**
@@ -98,15 +102,21 @@ class FileTools
         );
     }
 
-    /**
-     * Create dir if path dirs not exist
-     *
-     * @param $path
-     */
-    private static function createDirIfNotExist($path)
+    public static function loadFile($sourceUrl, $timeout = 10)
     {
-        if (!is_dir($path)) {
-            mkdir($path, 0777, true);
-        }
+        $sourceUrl = str_replace(' ', '%20', $sourceUrl);
+        $ch = curl_init($sourceUrl);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        curl_close($ch);
+
+        return array(
+            'content' => $result,
+            'content-type' => $contentType
+        );
     }
 }
