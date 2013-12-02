@@ -869,8 +869,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             dropdownMenusSetup = true;
             User.Dropdown.listenClick();
          }
-         // Tag button tooltip
-         $('.tag-button').tooltip();
       },
 
       // Shortcut for building a url.

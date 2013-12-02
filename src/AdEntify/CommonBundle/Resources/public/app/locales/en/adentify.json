@@ -67,7 +67,9 @@
       "modalDeleteAccountTitle": "Delete my AdEntify account",
       "modalDeleteAccountText": "Deleting your acccount will delete the following data on <strong>adentify.com and all your embed photos on internet</strong> :<ul><li>Photos</li><li>Tags</li><li>Earnings</li><li>Rewards</li><li>Comments</li><li>Likes</li><li>Favorites</li></ul>After confirmation, there is no way to get back your data.",
       "confirmDeleteAccountButton": "I understand and i still want to delete my account",
-      "linkMyAccount": "Link my account"
+      "linkMyAccount": "Link my account",
+      "profilePicture": "Profile picture",
+      "profilePictureUpload": "Upload my profile picture"
    },
    "upload": {
       "pageTitle": "Upload my photos - AdEntify",

@@ -273,6 +273,13 @@ class User extends BaseUser
      */
     private $followedBrandsCount = 0;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profile_picture", type="string", length=255, nullable=true)
+     */
+    private $profilePicture;
+
     public function __construct()
     {
         parent::__construct();
@@ -970,5 +977,22 @@ class User extends BaseUser
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * @param string $profilePicture
+     */
+    public function setProfilePicture($profilePicture)
+    {
+        $this->profilePicture = $profilePicture;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
     }
 }

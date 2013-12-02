@@ -90,6 +90,41 @@ class UploadController extends Controller
     }
 
     /**
+     * @Route("/upload/profile-picture", methods="POST", name="upload_profile_picture")
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function uploadProfilePicture()
+    {
+        if (isset($_FILES['profilepicture'])) {
+            $uploadedFile = $_FILES['profilepicture'];
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $path = FileTools::getUserProfilePicturePath($user);
+            $filename = uniqid().$uploadedFile['name'][0];
+            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('profilepicture'), $path, $filename);
+            if ($url) {
+                $thumb = new Thumb();
+                $thumb->setOriginalPath($url);
+                $thumb->addThumbSize(FileTools::PROFILE_PICTURE_TYPE);
+
+                $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $user, $filename);
+                $thumbs['original'] = $url;
+                $response = new JsonResponse();
+                $response->setData($thumbs);
+
+                $user->setProfilePicture($thumbs['profile-picture']['filename']);
+                $this->getDoctrine()->getManager()->merge($user);
+                $this->getDoctrine()->getManager()->flush();
+
+                return $response;
+            } else {
+                throw new HttpException(500);
+            }
+        } else {
+            throw new NotFoundHttpException('No profile picture to upload.');
+        }
+    }
+
+    /**
      * @Route("/upload/local-photo", methods="POST", name="upload_local_photo")
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */

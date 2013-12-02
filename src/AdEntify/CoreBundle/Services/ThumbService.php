@@ -63,6 +63,19 @@ class ThumbService
         return $generatedThumbs;
     }
 
+    public function generateProfilePictureThumb(Thumb $thumb, User $user, $filename)
+    {
+        $generatedThumbs = array();
+        foreach($thumb->getDesiredThumbSizes() as $size) {
+            $path = FileTools::getUserProfilePicturePath($user);
+
+            // Generate thumb
+            $generatedThumbs[$size] = $this->generateThumb($thumb, $size, $path, $filename);
+        }
+
+        return $generatedThumbs;
+    }
+
     public function generateBrandLogoThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
@@ -110,7 +123,7 @@ class ThumbService
     {
         return $this->filterManager->get($size)
             ->apply($this->imagine->load($imageInfo['content']))
-            ->get('jpeg', array(
+            ->get($this->getFormat($imageInfo['content-type']), array(
                 'quality' => $this->filterManager->getOption($size, "quality", 100),
                 'format'  => $this->filterManager->getOption($size, "format", null)
             ));;
@@ -124,12 +137,27 @@ class ThumbService
      * @return array
      */
     private function getImageSize($url, $array) {
+        $url = str_replace(' ', '%20', $url);
         $imageSize = getimagesize($url);
 
         return array_merge($array, array(
             'width' => $imageSize[0],
             'height' => $imageSize[1]
         ));
+    }
+
+    private function getFormat($mime)
+    {
+        static $formats = array(
+            'image/jpeg' =>         'jpeg',
+            'image/jpg' =>         'jpg',
+            'image/gif' =>          'gif',
+            'image/png' =>          'png',
+            'image/vnd.wap.wbmp' => 'wbmp',
+            'image/xbm' =>          'xbm',
+        );
+
+        return $formats[$mime];
     }
 
     private function getMimeType($format)

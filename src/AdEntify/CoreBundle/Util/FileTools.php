@@ -21,6 +21,8 @@ class FileTools
     const LOGO_TYPE_MEDIUM = 'logo-medium';
     const LOGO_TYPE_SMALLL = 'logo-small';
 
+    const PROFILE_PICTURE_TYPE = 'profile-picture';
+
     /**
      * @param $url
      * @return string
@@ -48,6 +50,14 @@ class FileTools
     public static function getProductPhotoPath($type = self::PHOTO_TYPE_ORIGINAL)
     {
         return 'uploads/photos/products/'.$type.'/';
+    }
+
+    /**
+     * @return string path
+     */
+    public static function getUserProfilePicturePath($user)
+    {
+        return 'uploads/photos/users/'.$user->getId().'/profile-picture/';
     }
 
     /**
@@ -94,9 +104,11 @@ class FileTools
 
     public static function loadFile($sourceUrl, $timeout = 10)
     {
+        $sourceUrl = str_replace(' ', '%20', $sourceUrl);
         $ch = curl_init($sourceUrl);
-        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($ch);
         $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
