@@ -64,10 +64,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                app.fb.connected(response);
             } else if (response.status === 'not_authorized') {
                //app.fb.notLoggedIn();
-               window.location.href = Routing.generate('root_url');
+               //window.location.href = Routing.generate('root_url');
             } else {
                //app.fb.notLoggedIn();
-               window.location.href = Routing.generate('root_url');
+               //window.location.href = Routing.generate('root_url');
             }
          });
 
