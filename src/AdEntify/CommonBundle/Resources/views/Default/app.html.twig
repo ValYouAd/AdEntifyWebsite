@@ -49,7 +49,9 @@
                                     {% if app.user %}
                                         <div class="profile-picture-wrapper pull-left">
                                             <div id="notifications" class="pull-right"></div>
-                                            {% if app.user.facebookId %}
+                                            {% if app.user.profilePicture %}
+                                                <img class="profile-picture" src="{{ app.user.profilePicture }}" />
+                                            {% elseif app.user.facebookId %}
                                                 <img class="profile-picture" src="https://graph.facebook.com/{{ app.user.facebookId }}/picture?width=40&height=40" />
                                             {% else %}
                                                 <img class="profile-picture" src="{{ asset('img/anonymous-profile-picture.png') }}" />

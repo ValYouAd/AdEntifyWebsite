@@ -108,7 +108,8 @@ class ThumbService
         $thumbInfo = array(
             'filename' => $url
         );
-        $this->getImageSize($url, $thumbInfo);
+        $thumbInfo = $this->getImageSize($url, $thumbInfo);
+
         return $thumbInfo;
     }
 

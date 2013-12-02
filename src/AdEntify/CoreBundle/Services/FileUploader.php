@@ -70,10 +70,10 @@ class FileUploader
      * @param $path
      * @return string
      */
-    public function uploadFromUrl($url, $path)
+    public function uploadFromUrl($url, $path, $timeout = 10)
     {
         // Get content and content-type of the file
-        $result = FileTools::loadFile($url);
+        $result = FileTools::loadFile($url, $timeout);
 
         // Format filename with path
         $uploadedFilename = $path . uniqid() . FileTools::getExtensionFromUrl($url);
