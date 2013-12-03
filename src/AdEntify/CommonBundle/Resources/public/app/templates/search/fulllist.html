@@ -1,12 +1,22 @@
-<div>
-    <h1 class="text-center search-infos"><%= terms ? terms : $.t('search.noSearch') %></h1>
-    <span class="lead" data-i18n="search.photos"></span>
+<h1 class="text-center search-infos"><%= terms ? terms : $.t('search.noSearch') %></h1>
+<div class="alert-search-results"></div>
+<div class="photos-container results-container">
+    <div class="search-title" data-i18n="search.photos"></div>
     <div class="alert-search-tags-results"></div>
     <div class="search-photos-results"></div>
-    <span class="lead" data-i18n="search.feeds"></span>
-    <div class="alert-search-feeds-results"></div>
-    <div class="search-feeds-results"></div>
-    <span class="lead" data-i18n="search.users"></span>
+</div>
+<div class="users-container results-container">
+    <div class="search-title" data-i18n="search.users"></div>
     <div class="alert-search-users-results"></div>
     <ul class="search-users-results list-unstyled"></ul>
+</div>
+<div class="feeds-container results-container">
+    <div class="search-title" data-i18n="search.feeds"></div>
+    <div class="alert-search-feeds-results"></div>
+    <div class="search-feeds-results"></div>
+</div>
+<div class="brands-container results-container">
+    <div class="search-title" data-i18n="search.brands"></div>
+    <div class="alert-search-brands-results"></div>
+    <ul id="brands" class="search-brands-results row list-unstyled"></ul>
 </div>

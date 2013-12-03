@@ -2,8 +2,9 @@ define([
    'app',
    'modules/common',
    'modules/photos',
-   'modules/hashtag'
-], function(app, Common, Photos, Hashtag) {
+   'modules/hashtag',
+   'modules/brand'
+], function(app, Common, Photos, Hashtag, Brand) {
 
    var Search = app.module();
 
@@ -62,15 +63,12 @@ define([
                model: user
             }));
          }, this);
-         this.options.hashtags.each(function(hashtag) {
-            this.insertView(".search-feeds-results", new Hashtag.Views.Item({
-               model: hashtag
-            }));
-         }, this);
+         Search.Common.setupResults(this);
       },
 
       afterRender: function() {
          $(this.el).i18n();
+         Search.Common.hideContainerWithNoResults(this);
       },
 
       initialize: function() {
@@ -78,6 +76,7 @@ define([
          this.listenTo(this.options.photos, 'sync', this.render);
          this.listenTo(this.options.users, 'sync', this.render);
          this.listenTo(this.options.hashtags, 'sync', this.render);
+         this.listenTo(this.options.brands, 'sync', this.render);
          this.listenTo(app, 'search:starting', function() {
             if (!this.isFullscreenSearch()) {
                $('.search-bar .dropdown-menu').fadeIn();
@@ -89,42 +88,30 @@ define([
          this.listenTo(app, 'search:completed', function() {
             if (!this.isFullscreenSearch()) {
                $('.search-loading').stop().fadeOut();
-               if (that.options.photos.length == 0) {
-                  app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
+
+               if (this.options.photos.length == 0 && this.options.users.length == 0 && this.options.hashtags.length == 0
+                  && this.options.brands.length == 0)
+               {
+                  this.setView('.alert-search-results', new Common.Views.Alert({
                      cssClass: Common.alertInfo,
                      message: $.t('search.noResults'),
                      showClose: true
                   })).render();
-               } else {
-                  $('.view-more-results').show();
-               }
-               if (that.options.hashtags.length == 0) {
-                  app.useLayout().setView('.alert-search-feeds-results', new Common.Views.Alert({
-                     cssClass: Common.alertInfo,
-                     message: $.t('search.noResults'),
-                     showClose: true
-                  })).render();
-               } else {
-                  $('.view-more-results').show();
-               }
-               if (that.options.users.length == 0) {
-                  app.useLayout().setView('.alert-search-users-results', new Common.Views.Alert({
-                     cssClass: Common.alertInfo,
-                     message: $.t('search.noResults'),
-                     showClose: true
-                  })).render();
-               } else {
-                  $('.view-more-results').show();
-               }
-               if (this.options.photos.length == 0 && this.options.users.length == 0 && this.options.hashtags.length == 0)
                   $('.view-more-results').hide();
+               }
+               else {
+                  var view = this.getView('.alert-search-results');
+                  if (view) view.remove();
+                  this.$('.view-more-results').show();
+               }
             }
          });
          this.listenTo(app, 'search:close', function() {
             $('.search-bar .dropdown-menu').stop().fadeOut();
          });
          this.listenTo(app, 'search:show', function() {
-            if (!that.isFullscreenSearch && that.options.photos.length > 0)
+            if (!this.isFullscreenSearch() && (this.options.photos.length > 0 || this.options.users.length > 0
+               || this.options.hashtags.length > 0 || this.options.brands.length > 0))
                $('.search-bar .dropdown-menu').stop().fadeIn();
          });
       },
@@ -144,13 +131,16 @@ define([
       },
 
       initialize: function() {
+         this.requests = [];
          this.photos = this.options.photos;
          this.users = this.options.users;
          this.hashtags = this.options.hashtags;
-         app.useLayout().setView('.search-results-container', new Search.Views.List({
+         this.brands = this.options.brands;
+         this.setView('.search-results-container', new Search.Views.List({
             photos: this.photos,
             users: this.users,
-            hashtags: this.hashtags
+            hashtags: this.hashtags,
+            brands: this.brands
          })).render();
          this.listenTo(app, 'search:start', function(terms) {
             if (terms) {
@@ -184,47 +174,70 @@ define([
       startSearch: function(terms) {
          if (terms) {
             app.trigger('search:starting', terms);
+            var that = this;
+            this.requests = [];
+            this.requests.push(new $.Deferred());
             this.photos.fetch({
                url: Routing.generate('api_v1_get_photo_search'),
                data: { 'query': terms },
                complete: function() {
-                  app.trigger('search:completed');
+                  that.requests.pop().resolve();
                },
                error: function() {
-                  app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
+                  that.setView('.alert-search-tags-results', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('search.error'),
                      showClose: true
                   })).render();
                }
             });
+            this.requests.push(new $.Deferred());
             this.hashtags.fetch({
                url: Routing.generate('api_v1_get_hashtag_search'),
                data: { 'query': terms },
                complete: function() {
-                  app.trigger('search:completed');
+                  that.requests.pop().resolve();
                },
                error: function() {
-                  app.useLayout().setView('.alert-search-feeds-results', new Common.Views.Alert({
+                  that.setView('.alert-search-feeds-results', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('search.error'),
                      showClose: true
                   })).render();
                }
             });
+            this.requests.push(new $.Deferred());
             this.users.fetch({
                url: Routing.generate('api_v1_get_user_search'),
                data: { 'query': terms },
                complete: function() {
-                  app.trigger('search:completed');
+                  that.requests.pop().resolve();
                },
                error: function() {
-                  app.useLayout().setView('.alert-search-users-results', new Common.Views.Alert({
+                  that.setView('.alert-search-users-results', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('search.error'),
                      showClose: true
                   })).render();
                }
+            });
+            this.requests.push(new $.Deferred());
+            this.brands.fetch({
+               url: Routing.generate('api_v1_get_brand_search'),
+               data: { query: terms },
+               complete: function() {
+                  that.requests.pop().resolve();
+               },
+               error: function() {
+                  that.setView('.alert-search-brands-results', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('search.error'),
+                     showClose: true
+                  })).render();
+               }
+            });
+            $.when.apply(null, this.requests).done(function() {
+               app.trigger('search:completed');
             });
          }
       },
@@ -270,6 +283,7 @@ define([
 
    Search.Views.FullList =  Backbone.View.extend({
       template: "search/fulllist",
+      tagName: 'div class="search-fulllist"',
 
       serialize: function() {
          return {
@@ -280,15 +294,10 @@ define([
       initialize: function() {
          var that = this;
          this.terms = typeof this.options.terms !== 'undefined' ? this.options.terms : null;
-         this.listenTo(this.options.photos, {
-            'sync': this.render
-         });
-         this.listenTo(this.options.users, {
-            'sync': this.render
-         });
-         this.listenTo(this.options.hashtags, {
-            'sync': this.render
-         });
+         this.listenTo(this.options.photos, 'sync', this.render);
+         this.listenTo(this.options.users, 'sync', this.render);
+         this.listenTo(this.options.hashtags, 'sync', this.render);
+         this.listenTo(this.options.brands, 'sync', this.render);
          this.listenTo(app, 'search:starting', function(terms) {
             $('.search-loading').fadeIn();
             $('.alert-search-tags-results').html();
@@ -296,26 +305,17 @@ define([
             this.terms = terms;
          });
          this.listenTo(app, 'search:completed', function() {
-            if (that.options.photos.length == 0) {
-               app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
+            if (this.options.photos.length == 0 && this.options.users.length == 0 && this.options.hashtags.length == 0
+               && this.options.brands.length == 0)
+            {
+               this.setView('.alert-search-results', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t('search.noResults'),
                   showClose: true
                })).render();
             }
-            if (that.options.hashtags.length == 0) {
-               app.useLayout().setView('.alert-search-feeds-results', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('search.noResults'),
-                  showClose: true
-               })).render();
-            }
-            if (that.options.users.length == 0) {
-               app.useLayout().setView('.alert-search-users-results', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('search.noResults'),
-                  showClose: true
-               })).render();
+            else {
+               this.getView('.alert-search-results').remove();
             }
          });
          if (this.terms) {
@@ -340,38 +340,12 @@ define([
                }));
             }, this);
          }
-         if (!this.getView('.search-feeds-results')) {
-            this.options.hashtags.each(function(result) {
-               this.insertView(".search-feeds-results", new Hashtag.Views.Item({
-                  model: result
-               }));
-            }, this);
-         }
+         Search.Common.setupResults(this);
       },
 
       afterRender: function() {
          $(this.el).i18n();
-         if (this.options.photos.length == 0) {
-            app.useLayout().setView('.alert-search-tags-results', new Common.Views.Alert({
-               cssClass: Common.alertInfo,
-               message: $.t('search.noResults'),
-               showClose: true
-            })).render();
-         }
-         if (this.options.users.length == 0) {
-            app.useLayout().setView('.alert-search-users-results', new Common.Views.Alert({
-               cssClass: Common.alertInfo,
-               message: $.t('search.noResults'),
-               showClose: true
-            })).render();
-         }
-         if (this.options.hashtags.length == 0) {
-            app.useLayout().setView('.alert-search-feeds-results', new Common.Views.Alert({
-               cssClass: Common.alertInfo,
-               message: $.t('search.noResults'),
-               showClose: true
-            })).render();
-         }
+         Search.Common.hideContainerWithNoResults(this);
       }
    });
 
@@ -382,6 +356,52 @@ define([
 
       }
    });
+
+   Search.Common = {
+      setupResults: function(context) {
+         if (!context.getView('.search-feeds-results')) {
+            context.options.hashtags.each(function(result) {
+               context.insertView(".search-feeds-results", new Hashtag.Views.Item({
+                  model: result
+               }));
+            }, context);
+         }
+         if (!context.getView('.search-brands-results')) {
+            context.options.brands.each(function(result) {
+               context.insertView(".search-brands-results", new Brand.Views.Item({
+                  model: result
+               }));
+            }, context);
+         }
+      },
+      
+      hideContainerWithNoResults: function(context) {
+         if (context.options.users.length == 0) {
+            context.$('.users-container').fadeOut();
+         } else {
+            if (context.$('.users-container:visible').length == 0)
+               context.$('.users-container').stop().fadeIn();
+         }
+         if (context.options.hashtags.length == 0) {
+            context.$('.feeds-container').fadeOut();
+         } else {
+            if (context.$('.feeds-container:visible').length == 0)
+               context.$('.feeds-container').stop().fadeIn();
+         }
+         if (context.options.photos.length == 0) {
+            context.$('.photos-container').fadeOut();
+         } else {
+            if (context.$('.photos-container:visible').length == 0)
+               context.$('.photos-container').stop().fadeIn();
+         }
+         if (context.options.brands.length == 0) {
+            context.$('.brands-container').fadeOut();
+         } else {
+            if (context.$('.brands-container:visible').length == 0)
+               context.$('.brands-container').stop().fadeIn();
+         }
+      }
+   }
 
    return Search;
 });

@@ -362,6 +362,18 @@ html,body {
     #photos-grid .photo-container {
         position: relative;
     }
+    #photos-grid .tags {
+        opacity: 0;
+        display: block;
+        -webkit-transition: opacity 0.3s ease-out;
+        -moz-transition: opacity 0.3s ease-out;
+        -ms-transition: opacity 0.3s ease-out;
+        -o-transition: opacity 0.3s ease-out;
+        transition: opacity 0.3s ease-out;
+    }
+    #photos-grid .photo-container:hover .tags {
+        opacity: 1;
+    }
     #photos-grid .photo-overlay {
         /*background: url('../img/red_transparent.png') repeat;
         cursor:default;*/
@@ -453,6 +465,7 @@ html,body {
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     color: #ff3434;
     font-size: 26px;
+    z-index: 1000;
 }
 .photo-container:hover .add-tag {
     opacity: 1;
@@ -816,9 +829,20 @@ html,body {
     top: 10px;
     right: 10px;
     cursor: pointer;
+    opacity: 0;
+
+    -webkit-transition: opacity 0.3s ease-out;
+    -moz-transition: opacity 0.3s ease-out;
+    -ms-transition: opacity 0.3s ease-out;
+    -o-transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
+}
+.photo-container:hover .adentify-pastille-wrapper {
+    opacity: 1;
 }
 .full-photo .adentify-pastille-wrapper {
     z-index: 2;
+    opacity: 1;
 }
 .arrow-top-adentify-pastille-hover {
     position: absolute;
@@ -1279,6 +1303,9 @@ html,body {
         margin: 4px 0px;
         border-bottom: 1px solid #eeeeee;
     }
+    .search-users-results li {
+        padding: 5px 0px;
+    }
     .search-bar .view-more-results {
         font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
         padding: 16px 20px;
@@ -1337,12 +1364,32 @@ html,body {
     .search-bar .photo-details {
         padding-top: 4px;
     }
-.search-infos {
-    font-size: 36px;
-    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
-    color: #2c2c2e;
-    padding: 30px 0px;
+    .search-infos {
+        font-size: 36px;
+        font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+        color: #2c2c2e;
+        padding: 30px 0px;
+    }
+    .results-container {
+        margin: 20px 0px;
+    }
+    .search-fulllist .search-title {
+        font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
+        font-size: 20px;
+    }
+
+/* Brands */
+.search-bar .brands li {
+    padding: 5px;
+    height: 30px;
 }
+.search-bar .brands .brand-logo {
+    max-height: 30px;
+}
+.search-bar .brands .tagged-count {
+    display: none;
+}
+
 /*
 ----------------------- */
 
@@ -1470,10 +1517,12 @@ html,body {
     -moz-filter: none;
     filter: none;
 }
-#brands {
+#brands,
+.brands {
    border-top: 1px solid #e0dfdf;
 }
-#brands li {
+#brands li,
+.brands li {
     margin: 0px;
     padding: 30px;
     border-style: solid;
@@ -1482,15 +1531,18 @@ html,body {
     height: 150px;
     position: relative;
 }
-#brands .brand-logo {
+#brands .brand-logo,
+.brands .brand-logo {
     max-height: 90px;
 }
-#brands .thumbnail {
+#brands .thumbnail,
+.brands .thumbnail {
     border: 0px;
     margin: 0px;
     padding: 0px;
 }
-#brands .tagged-count {
+#brands .tagged-count,
+.brands .tagged-count {
     font-family: 'asapbold_italic', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 20px;
     color: #ff3434;
@@ -1507,11 +1559,13 @@ html,body {
     width: 100%;
     text-align: center;
 }
-#brands .tagged-count .bold {
+#brands .tagged-count .bold,
+.brands .tagged-count .bold {
     font-family: 'asapbold', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
 }
-#brands li:hover .tagged-count {
+#brands li:hover .tagged-count,
+.brands li:hover .tagged-count {
     opacity: 1;
     text-decoration: none;
 }

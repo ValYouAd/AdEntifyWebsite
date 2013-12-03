@@ -276,7 +276,8 @@
       "photos": "Photos",
       "users": "Utilisateurs",
       "feeds": "Flux",
-      "pageTitle": "Search __title__ on AdEntify.com"
+      "pageTitle": "Search __title__ on AdEntify.com",
+      "brands": "Marques"
    },
    "comment": {
       "noComments": "Soyez le premier à réagir !",
