@@ -102,7 +102,8 @@ class HashtagsController extends FosRestController
             }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_hashtag_search', array(
-                'query' => $query
+                'query' => $query,
+                'limit' => $limit
             ));
         }
 

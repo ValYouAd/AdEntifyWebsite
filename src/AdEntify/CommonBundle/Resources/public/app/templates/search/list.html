@@ -1,13 +1,26 @@
 <div class="text-center search-loading fadeOut"><span data-i18n="search.inProgress"></span> <i class="glyphicon glyphicon-refresh rotate"></i></div>
-<div class="search-title"><%= $.t('search.photos') %></div>
-<div class="alert-search-tags-results"></div>
-<ul class="search-tags-results list-unstyled striped"></ul>
-<div class="search-title"><%= $.t('search.users') %></div>
-<div class="alert-search-users-results"></div>
-<ul class="search-users-results list-unstyled striped"></ul>
-<div class="search-title"><%= $.t('search.feeds') %></div>
-<div class="alert-search-feeds-results"></div>
-<ul class="search-feeds-results list-unstyled striped"></ul>
+<div class="alert-search-results"></div>
+<div class="photos-container">
+    <div class="search-title"><%= $.t('search.photos') %></div>
+    <div class="alert-search-tags-results"></div>
+    <ul class="search-tags-results list-unstyled striped"></ul>
+</div>
+<div class="users-container">
+    <div class="search-title"><%= $.t('search.users') %></div>
+    <div class="alert-search-users-results"></div>
+    <ul class="search-users-results list-unstyled striped"></ul>
+</div>
+<div class="feeds-container">
+    <div class="search-title"><%= $.t('search.feeds') %></div>
+    <div class="alert-search-feeds-results"></div>
+    <ul class="search-feeds-results list-unstyled striped"></ul>
+</div>
+<div class="brands-container">
+    <div class="search-title"><%= $.t('search.brands') %></div>
+    <div class="alert-search-brands-results"></div>
+    <ul class="search-brands-results list-unstyled striped"></ul>
+</div>
+<div class="clearfix"></div>
 <div class="view-more-results fadeOut">
     <a href="<%= searchUrl %>">
         <span data-i18n="search.viewMore" class="pull-left"></span>

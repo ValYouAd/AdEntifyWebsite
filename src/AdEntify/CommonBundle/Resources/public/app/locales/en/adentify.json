@@ -270,11 +270,14 @@
       "noResults": "No result found",
       "error": "Error loading results.",
       "viewMore": "View more results",
+      "tagsBlockTitle": "Tags",
+      "usersBlockTitle": "Users",
       "noSearch": "No search available at the moment",
       "photos": "Photos",
       "users": "Users",
       "feeds": "Feeds",
-      "pageTitle": "Recherche __title__ sur AdEntify.com"
+      "pageTitle": "Recherche __title__ sur AdEntify.com",
+      "brands": "Marques"
    },
    "comment": {
       "noComments": "Be the first to post!",

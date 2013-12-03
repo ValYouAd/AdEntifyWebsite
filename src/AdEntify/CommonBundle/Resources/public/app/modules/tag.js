@@ -523,13 +523,16 @@ define([
                app.oauth.loadAccessToken({
                   success: function() {
                      $.ajax({
-                        url: Routing.generate('api_v1_get_brand_search', { query: query }),
+                        url: Routing.generate('api_v1_get_brand_search'),
+                        data: {
+                           query: query
+                        },
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
-                           if (typeof response !== 'undefined' && response.length > 0) {
+                           if (typeof response !== 'undefined' && response.data.length > 0) {
                               var brands = [];
                               currentBrands = {};
-                              _.each(response, function(brand) {
+                              _.each(response.data, function(brand) {
                                  brands.push(brand.name);
                                  currentBrands[brand.name] = brand;
                               });

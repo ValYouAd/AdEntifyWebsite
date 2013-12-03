@@ -114,18 +114,33 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
+     * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View()
      */
     public function getSearchAction($query, $page, $limit)
     {
-        return $this->getDoctrine()->getManager()->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand
             WHERE brand.name LIKE :query')
             ->setParameter(':query', '%'.$query.'%')
             ->setMaxResults($limit)
-            ->setFirstResult(($page - 1) * $limit)
-            ->getResult();
+            ->setFirstResult(($page - 1) * $limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = false);
+        $count = count($paginator);
+
+        $brands = null;
+        $pagination = null;
+        if ($count > 0) {
+            $brands = array();
+            foreach($paginator as $brand) $brands[] = $brand;
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_brand_search', array(
+                'query' => $query
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($brands, $pagination);
     }
 
     /**
