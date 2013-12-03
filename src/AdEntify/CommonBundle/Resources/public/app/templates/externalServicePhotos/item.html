@@ -13,6 +13,8 @@
                 <option value="<%= category.get('id') %>"><%= category.get('name') %></option>
                 <% }); %>
             </select>
+            <label><%= $.t('upload.hashtags') %></label>
+            <input type="hidden" class="selectHashtags bigdrop" />
         </div>
     </div>
 </div>

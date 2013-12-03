@@ -93,7 +93,8 @@
       "localPhotosUploaded": "My uploaded photos",
       "or": "or",
       "backToServices": "Back to services",
-      "myComputer": "My computer"
+      "myComputer": "My computer",
+      "hashtags": "Add one or more hashtags"
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",
@@ -212,6 +213,7 @@
       "loadingAlbums": "Loading albums in progress…",
       "viewPhotos": "View photos",
       "selectAlbum": "Select",
+      "unselectAlbum": "Unselect",
       "noSelectedAlbum": "You haven't selected any album.",
       "labelPhotosCategories": "Choose categories for your photos",
       "textSelectedAlbums": "You selected",
@@ -361,6 +363,6 @@
       "search/": "search/",
       "search/keywords": "search/__keywords__",
       "my/profile/": "my/profile/",
-      "my/settings/": "my/settings/"
+      "my/dashboard/": "my/dashboard/"
    }
 }

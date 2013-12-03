@@ -83,9 +83,9 @@ class HashtagsController extends FosRestController
             $hashtags = explode(" ", $query);
 
         $query = $em->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
-        WHERE hashtag.name IN (:hashtags)')
+        WHERE (REGEXP(hashtag.name, :hashtags) > 0)')
             ->setParameters(array(
-                ':hashtags' => $hashtags
+                ':hashtags' => implode('|', $hashtags)
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);

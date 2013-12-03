@@ -191,7 +191,8 @@ define([
                   'id': model.get('servicePhotoId'),
                   'title' : model.get('title'),
                   'confidentiality': that.confidentiality,
-                  'categories': model.get('categories')
+                  'categories': model.get('categories'),
+                  'hashtags': model.get('hashtags')
                };
                if (model.has('place')) {
                   fbImage.place = model.get('place');

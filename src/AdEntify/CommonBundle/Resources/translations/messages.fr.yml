@@ -41,6 +41,7 @@ More photos: Plus de photos
 Account disabled: Compte non validé
 Close: Fermer
 Your account is currently under validation.: Votre compte est en attente de validation et n'est donc pas actif pour le moment.
+My dashboard: Mon dashboard
 
 #Login
 modal:
@@ -105,3 +106,4 @@ my/photos/favorites/: mes/photos/favorites/
 profile/%id%/: profil/%id%/
 search/: recherche/
 search/keywords: recherche/%23%keywords%
+my/dashboard/: mon/dashboard/

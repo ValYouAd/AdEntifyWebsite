@@ -46,6 +46,33 @@ define([
                that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
             });
          }
+         $(this.el).find('.selectHashtags').select2({
+            minimumInputLength: 1,
+            multiple: true,
+            ajax: {
+               url: Routing.generate('api_v1_get_hashtag_search'),
+               dataType: 'json',
+               data: function(term, page) {
+                  return {
+                     query: term,
+                     page: page
+                  }
+               },
+               results: function(data, page) {
+                  return {
+                     results : $.map(data.data, function(item) {
+                        return {
+                           id : item.name,
+                           text : item.name
+                        };
+                     })
+                  }
+               },
+               dropdownCssClass: "bigdrop"
+            }
+         }).on("change", function(e) {
+               that.model.set('hashtags', e.val);
+            });
       },
 
       selectPhoto: function(e) {
@@ -96,6 +123,33 @@ define([
                that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
             });
          }
+         $(this.el).find('.selectHashtags').select2({
+            minimumInputLength: 1,
+            multiple: true,
+            ajax: {
+               url: Routing.generate('api_v1_get_hashtag_search'),
+               dataType: 'json',
+               data: function(term, page) {
+                  return {
+                     query: term,
+                     page: page
+                  }
+               },
+               results: function(data, page) {
+                  return {
+                     results : $.map(data.data, function(item) {
+                        return {
+                           id : item.name,
+                           text : item.name
+                        };
+                     })
+                  }
+               },
+               dropdownCssClass: "bigdrop"
+            }
+         }).on("change", function(e) {
+               that.model.set('hashtags', e.val);
+            });
       },
 
       initialize: function() {
@@ -105,25 +159,26 @@ define([
 
       selectAlbum: function() {
          var that = this;
-         $(this.el).find('.album-selected').fadeIn('fast');
-         $(this.el).find('.caption-select').fadeOut('fast', function() {
-            $(that.el).find('.caption-selected').fadeIn();
+         $(this.el).find('.checked-overlay').fadeIn('fast');
+         $(this.el).find('.selectAlbumWrapper').fadeOut('fast', function() {
+            $(that.el).find('.unselectAlbumWrapper').fadeIn();
          });
          app.trigger('externalServicePhotos:selectAlbum', this.model);
       },
 
       cancelSelection: function() {
          var that = this;
-         $(this.el).find('.album-selected').fadeOut('fast');
-         $(this.el).find('.caption-selected').fadeOut('fast', function() {
-            $(that.el).find('.caption-select').fadeIn();
+         $(this.el).find('.checked-overlay').fadeOut('fast');
+         $(this.el).find('.unselectAlbumWrapper').fadeOut('fast', function() {
+            $(that.el).find('.selectAlbumWrapper').fadeIn();
          });
          app.trigger('externalServicePhotos:cancelSelectAlbum', this.model);
       },
 
       events: {
          'click .selectAlbum': 'selectAlbum',
-         'click .unselect-button': 'cancelSelection'
+         'click .unselect-button': 'cancelSelection',
+         'click .unselectAlbum': 'cancelSelection'
       }
    });
 

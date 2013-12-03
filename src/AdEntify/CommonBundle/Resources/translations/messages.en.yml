@@ -41,6 +41,7 @@ More photos: More photos
 Account disabled: Account under validation
 Close: Close
 Your account is currently under validation.: Your account is currently under validation.
+My dashboard: My dashboard
 
 #Login
 modal:
@@ -102,3 +103,4 @@ my/photos/favorites/: my/photos/favorites/
 profile/%id%/: profile/%id%/
 search/: search/
 search/keywords: search/%23%keywords%
+my/dashboard/: my/dashboard/
