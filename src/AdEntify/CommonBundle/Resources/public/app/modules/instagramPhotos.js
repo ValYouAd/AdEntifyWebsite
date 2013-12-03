@@ -176,7 +176,8 @@ define([
                   'id': model.get('servicePhotoId'),
                   'title' : model.get('title'),
                   'confidentiality': that.confidentiality,
-                  'categories': model.get('categories')
+                  'categories': model.get('categories'),
+                  'hashtags': model.get('hashtags')
                };
                if (model.has('location')) {
                   instagramImage.location = model.get('location');
@@ -197,7 +198,13 @@ define([
                }
                // Hashtags
                if (model.has('tags') && model.get('tags').length > 0) {
-                  instagramImage.hashtags = model.get('tags');
+                  if (typeof instagramImage.hashtags === 'undefined') {
+                     instagramImage.hashtags = model.get('tags');
+                  } else {
+                     $.each(model.get('tags'), function(index, item) {
+                        instagramImage.hashtags.push(item);
+                     });
+                  }
                }
                images.push(instagramImage);
             });

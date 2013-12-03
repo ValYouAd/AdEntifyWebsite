@@ -946,7 +946,7 @@ body {
 
 html,body {
     height: 100%;
-    background: #eaedf1 url('../img/ticker_background.png') repeat-y 100% 0;
+    background: #eaedf1;
 }
 .body-grey-background {
     background: url('../img/body-grey-background.jpg') repeat;
@@ -972,6 +972,9 @@ html,body {
     height: 100%;
     padding-bottom: 500em;
     margin-bottom: -500em;
+}
+#right-pane {
+    border-right: 1px solid #e4e7e9;
 }
 .push {
     clear: both;
@@ -1486,7 +1489,7 @@ html,body {
     right: 5px;
     cursor: pointer;
 }
-.album-selected {
+.album-item .checked-overlay {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -1494,11 +1497,12 @@ html,body {
     height: 100%;
     background: rgba(255,255,255,0.85);
     display: none;
+    padding: 5px 10px;
+}
+.album-item .album-selected {
     font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
     font-size: 22px;
     color: #2c2c2e;
-    padding-left: 15px;
-    padding-top: 40px;
 }
 .album-item .album-details {
     text-align: center;

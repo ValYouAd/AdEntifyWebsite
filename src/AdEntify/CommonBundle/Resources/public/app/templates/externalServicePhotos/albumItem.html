@@ -1,20 +1,23 @@
 <div class="album-inner">
     <div class="album-thumbnail" style="background-image: url('<%= model.get("picture") %>');">
-        <div class="album-selected"><i class="glyphicon glyphicon-remove unselect-button"></i><i class="glyphicon glyphicon-ok"></i> <%= $.t('externalServicePhotos.selected') %></div>
-    </div>
-    <div class="album-details">
-        <div class="caption caption-select">
-            <p class="album-name"><%= model.get("name") %></p>
-            <p><a href="<%= model.get("url") %>" class="btn-around-corner btn-grey" data-i18n="externalServicePhotos.viewPhotos"></a></p>
-            <p><button type="button" class="selectAlbum btn-around-corner btn-red" data-i18n="externalServicePhotos.selectAlbum"></button></p>
-        </div>
-        <div class="caption caption-selected fadeOut">
+        <div class="checked-overlay fadeOut">
+            <div class="album-selected"><i class="glyphicon glyphicon-remove unselect-button"></i><i class="glyphicon glyphicon-ok"></i> <%= $.t('externalServicePhotos.selected') %></div>
             <label><%= $.t('upload.categories') %></label>
             <select class="selectCategories" multiple="multiple">
                 <% _.forEach(categories.models, function(category) { %>
                 <option value="<%= category.get('id') %>"><%= category.get('name') %></option>
                 <% }); %>
             </select>
+            <label><%= $.t('upload.hashtags') %></label>
+            <input type="hidden" class="selectHashtags bigdrop" />
+        </div>
+    </div>
+    <div class="album-details">
+        <div class="caption caption-select">
+            <p class="album-name"><%= model.get("name") %></p>
+            <p><a href="<%= model.get("url") %>" class="btn-around-corner btn-grey" data-i18n="externalServicePhotos.viewPhotos"></a></p>
+            <p class="selectAlbumWrapper"><button type="button" class="selectAlbum btn-around-corner btn-red" data-i18n="externalServicePhotos.selectAlbum"></button></p>
+            <p class="unselectAlbumWrapper fadeOut"><button type="button" class="unselectAlbum btn-around-corner btn-red" data-i18n="externalServicePhotos.unselectAlbum"></button></p>
         </div>
     </div>
 </div>
