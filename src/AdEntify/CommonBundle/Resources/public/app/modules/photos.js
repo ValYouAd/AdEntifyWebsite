@@ -67,14 +67,14 @@ define([
       },
 
       afterRender: function() {
-         $(this.el).find('.photo-img-medium').load(function() {
+         this.$('.photo-img-medium').load(function() {
             $(this).animate({'ohoto-acity': '1.0'});
          });
          $(this.el).i18n();
       },
 
       /*clickPastille: function() {
-         $tags = $(this.el).find('.tags');
+         $tags = this.$('.tags');
          if ($tags.data('always-visible') == 'no') {
             $tags.data('always-visible', 'yes');
             this.showTags();
@@ -85,13 +85,13 @@ define([
       },*/
 
       showTags: function() {
-         $(this.el).find('.tags').stop().fadeIn(100);
+         this.$('.tags').stop().fadeIn(100);
       },
 
       hideTags: function() {
-         $tags = $(this.el).find('.tags');
+         $tags = this.$('.tags');
          if ($tags.data('always-visible') == 'no')
-            $(this.el).find('.tags').stop().fadeOut('fast');
+            this.$('.tags').stop().fadeOut('fast');
       },
 
       showPhoto: function(evt) {
@@ -106,9 +106,7 @@ define([
       },
 
       events: {
-         'click .photo-link': 'showPhoto',
-         'mouseenter .photo-container': 'showTags',
-         'mouseleave .photo-container': 'hideTags'
+         'click .photo-link': 'showPhoto'
       }
    });
 
@@ -195,8 +193,8 @@ define([
       afterRender: function() {
          $(this.el).i18n();
          if (this.title) {
-            $(this.el).find('.photos-title').html(this.title);
-            $(this.el).find('.photos-title').fadeIn('fast');
+            this.$('.photos-title').html(this.title);
+            this.$('.photos-title').fadeIn('fast');
          }
          container = this.$('#photos-grid');
 

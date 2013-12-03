@@ -362,6 +362,18 @@ html,body {
     #photos-grid .photo-container {
         position: relative;
     }
+    #photos-grid .tags {
+        opacity: 0;
+        display: block;
+        -webkit-transition: opacity 0.3s ease-out;
+        -moz-transition: opacity 0.3s ease-out;
+        -ms-transition: opacity 0.3s ease-out;
+        -o-transition: opacity 0.3s ease-out;
+        transition: opacity 0.3s ease-out;
+    }
+    #photos-grid .photo-container:hover .tags {
+        opacity: 1;
+    }
     #photos-grid .photo-overlay {
         /*background: url('../img/red_transparent.png') repeat;
         cursor:default;*/
@@ -816,9 +828,20 @@ html,body {
     top: 10px;
     right: 10px;
     cursor: pointer;
+    opacity: 0;
+
+    -webkit-transition: opacity 0.3s ease-out;
+    -moz-transition: opacity 0.3s ease-out;
+    -ms-transition: opacity 0.3s ease-out;
+    -o-transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
+}
+.photo-container:hover .adentify-pastille-wrapper {
+    opacity: 1;
 }
 .full-photo .adentify-pastille-wrapper {
     z-index: 2;
+    opacity: 1;
 }
 .arrow-top-adentify-pastille-hover {
     position: absolute;

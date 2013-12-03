@@ -126,7 +126,7 @@ define([
       },
 
       afterRender: function() {
-         var deleteTagButton = $(this.el).find('.deleteTagButton');
+         var deleteTagButton = this.$('.deleteTagButton');
          if (deleteTagButton.length > 0)
             deleteTagButton.tooltip();
       },
@@ -186,8 +186,8 @@ define([
       hoverIn: function() {
          if (!this.popoverDesactivated) {
             clearTimeout(this.hoverTimeout);
-            var popover = $(this.el).find('.popover');
-            var popoverArrow = $(this.el).find('.tag-popover-arrow');
+            var popover = this.$('.popover');
+            var popoverArrow = this.$('.tag-popover-arrow');
             this.setupPopover(popover, popoverArrow);
             app.tagStats().hover(this.model);
          }
@@ -253,8 +253,8 @@ define([
       hoverIn: function() {
          if (!this.popoverDesactivated) {
             clearTimeout(this.hoverTimeout);
-            var popover = $(this.el).find('.popover');
-            var popoverArrow = $(this.el).find('.tag-popover-arrow');
+            var popover = this.$('.popover');
+            var popoverArrow = this.$('.tag-popover-arrow');
             this.setupPopover(popover, popoverArrow);
             if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
                Tag.Common.setupGoogleMap(this.model);
@@ -325,8 +325,8 @@ define([
       hoverIn: function() {
          if (!this.popoverDesactivated) {
             clearTimeout(this.hoverTimeout);
-            var popover = $(this.el).find('.popover');
-            var popoverArrow = $(this.el).find('.tag-popover-arrow');
+            var popover = this.$('.popover');
+            var popoverArrow = this.$('.tag-popover-arrow');
             this.setupPopover(popover, popoverArrow);
             if (this.model.has('venue') && !$('#map' + this.model.get('id')).hasClass('loaded')) {
                Tag.Common.setupGoogleMap(this.model);
@@ -435,7 +435,7 @@ define([
       },
 
       showTags: function(show) {
-         $tags = $(this.el).find('.tags');
+         $tags = this.$('.tags');
          if ($tags.length > 0) {
             if (typeof show === 'undefined') {
                if ($tags.data('state') == 'hidden') {
@@ -494,8 +494,8 @@ define([
          this.listenTo(app, 'photo:tagAdded', function(tag) {
             var that = this;
             currentTag = tag;
-            if ($(this.el).find('.tag-text:visible').length > 0) {
-               $(this.el).find('.tag-text').fadeOut('fast', function() {
+            if (this.$('.tag-text:visible').length > 0) {
+               this.$('.tag-text').fadeOut('fast', function() {
                   $(that.el).find('.tag-tabs').fadeIn('fast');
                });
             }
@@ -785,14 +785,14 @@ define([
          app.appState().set('currentPosition', '');
          // Hide form
          var that = this;
-         $(this.el).find('.tag-tabs').fadeOut('fast', function() {
+         this.$('.tag-tabs').fadeOut('fast', function() {
             $(that.el).find('.tag-text').fadeIn('fast');
          });
       },
 
       submit: function(e) {
          e.preventDefault();
-         $activePane = $(this.el).find('.tab-content .active');
+         $activePane = this.$('.tab-content .active');
 
          var that = this;
 
@@ -1064,7 +1064,7 @@ define([
       createProduct: function(e) {
          e.preventDefault();
          var that = this;
-         $(this.el).find('.createProductButtonContainer').fadeOut('fast', function() {
+         this.$('.createProductButtonContainer').fadeOut('fast', function() {
             $(that.el).find('.createProductContainer').fadeIn('fast');
          });
          newProduct = new Product.Model();
@@ -1083,7 +1083,7 @@ define([
 
       report: function(evt) {
          evt.preventDefault();
-         this.trigger('report:submit', $(this.el).find('.reason-textarea').val());
+         this.trigger('report:submit', this.$('.reason-textarea').val());
       },
 
       events: {
