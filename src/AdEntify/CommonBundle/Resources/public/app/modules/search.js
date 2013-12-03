@@ -283,6 +283,7 @@ define([
 
    Search.Views.FullList =  Backbone.View.extend({
       template: "search/fulllist",
+      tagName: 'div class="search-fulllist"',
 
       serialize: function() {
          return {
