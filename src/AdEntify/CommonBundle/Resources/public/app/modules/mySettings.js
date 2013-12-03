@@ -8,7 +8,8 @@
 define([
    "app",
    "modules/common",
-   'modules/upload'
+   'modules/upload',
+   'jquery.fileupload'
 ], function(app, Common, Upload) {
 
    var MySettings = app.module();
@@ -141,6 +142,22 @@ define([
       afterRender: function() {
          $(this.el).find('option[value="' + app.appState().getLocale() + '"]').attr("selected", "selected");
          $(this.el).i18n();
+
+         $(this.el).find('#profilepictureupload').attr("data-url", Routing.generate('upload_profile_picture'));
+         $(this.el).find('#profilepictureupload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+               if (data.result) {
+                  console.log(data);
+               } else {
+                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorProductImageUpload'),
+                     showClose: true
+                  })).render();
+               }
+            }
+         });
       },
 
       initialize: function() {

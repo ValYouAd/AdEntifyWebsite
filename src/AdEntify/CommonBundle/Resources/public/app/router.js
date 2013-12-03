@@ -64,10 +64,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                app.fb.connected(response);
             } else if (response.status === 'not_authorized') {
                //app.fb.notLoggedIn();
-               window.location.href = Routing.generate('root_url');
+               //window.location.href = Routing.generate('root_url');
             } else {
                //app.fb.notLoggedIn();
-               window.location.href = Routing.generate('root_url');
+               //window.location.href = Routing.generate('root_url');
             }
          });
 
@@ -168,14 +168,16 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       homepage: function() {
          this.reset();
 
+         var that = this;
+
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
                photosSuccess: function(collection) {
-                  this.successCallback(collection, 'photos.noPhotos');
+                  that.successCallback(collection, 'photos.noPhotos');
                },
                photosError: function() {
-                  this.errorCallback('photos.errorPhotosLoading');
+                  that.errorCallback('photos.errorPhotosLoading');
                },
                tagged: true,
                filters: true,
@@ -186,7 +188,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             })
          }).render();
 
-         var that = this;
          this.photos.fetch({
             url: Routing.generate('api_v1_get_photos', { tagged: true }),
             success: function(collection) {
@@ -868,8 +869,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             dropdownMenusSetup = true;
             User.Dropdown.listenClick();
          }
-         // Tag button tooltip
-         $('.tag-button').tooltip();
       },
 
       // Shortcut for building a url.

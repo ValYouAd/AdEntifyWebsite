@@ -49,7 +49,9 @@
                                     {% if app.user %}
                                         <div class="profile-picture-wrapper pull-left">
                                             <div id="notifications" class="pull-right"></div>
-                                            {% if app.user.facebookId %}
+                                            {% if app.user.profilePicture %}
+                                                <img class="profile-picture" src="{{ app.user.profilePicture }}" />
+                                            {% elseif app.user.facebookId %}
                                                 <img class="profile-picture" src="https://graph.facebook.com/{{ app.user.facebookId }}/picture?width=40&height=40" />
                                             {% else %}
                                                 <img class="profile-picture" src="{{ asset('img/anonymous-profile-picture.png') }}" />
@@ -89,7 +91,15 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <a href="{{ full_root_url }}{{ 'upload/'|trans }}" class="tag-button pull-right" data-toggle="tooltip" data-placement="bottom" title data-original-title="{{ 'Upload photos'|trans }}"></a>
+                            <div class="sprites tag-button pull-right">
+                                <div class="dropdown-menu">
+                                    <div class="white-arrow-top"></div>
+                                    <ul class="list-unstyled">
+                                        <li><a href="{{ full_root_url }}{{ 'upload/'|trans }}"><i class="icon my-pictures"></i> {{ 'Upload photos'|trans }}</a></li>
+                                        <li><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'My photos'|trans }}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -25,7 +25,11 @@ define([
          else
             this.set('fullname', this.get('firstname') + ' ' + this.get('lastname'));
          this.set('link', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('id') }));
-         if (this.get('facebook_id')) {
+         if (this.has('profile_picture') && this.get('profile_picture')) {
+            this.set('profilePicture', this.get('profile_picture'));
+            this.set('largeProfilePicture', this.get('profile_picture'));
+         }
+         else if (this.get('facebook_id')) {
             this.set('profilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=50&height=50');
             this.set('largeProfilePicture', 'https://graph.facebook.com/' + this.get('facebook_id') + '/picture?width=120&height=120');
          }

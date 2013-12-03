@@ -248,13 +248,13 @@ avalanche_imagine:
     filters:
         small:
             type:    thumbnail
-            options: { size: [300, 9999], mode: inset, quality: 100 }
+            options: { size: [300, 9999], mode: inset, quality: 100, format: jpeg }
         medium:
             type:    thumbnail
-            options: { size: [500, 9999], mode: inset, quality: 100 }
+            options: { size: [500, 9999], mode: inset, quality: 100, format: jpeg }
         large:
             type:    thumbnail
-            options: { size: [1024, 9999], mode: inset, quality: 100 }
+            options: { size: [1024, 9999], mode: inset, quality: 100, format: jpeg }
         logo-small:
             type:    thumbnail
             options: { size: [100, 9999], mode: inset, quality: 100 }
@@ -264,12 +264,17 @@ avalanche_imagine:
         logo-large:
            type:    thumbnail
            options: { size: [500, 9999], mode: inset, quality: 100 }
+        profile-picture:
+           type:    thumbnail
+           options: { size: [120, 120], mode: outbound, quality: 100, format: jpeg }
 
 # AdEntify Core
 ad_entify_core:
     foursquare:
         client_id:     %foursquare_client_id%
         client_secret: %foursquare_client_secret%
+    amazon_s3:
+        base_url: %adentify_base_url%
 
 jms_serializer:
     metadata:
@@ -321,3 +326,15 @@ a2lix_translation_form:
     default_required: true      # [2]
     manager_registry: doctrine      # [3]
     templating: "A2lixTranslationFormBundle::default.html.twig"      # [4]
+
+knp_gaufrette:
+    adapters:
+        file_storage:
+            aws_s3:
+                service_id: adentify_storage.aws_s3.client
+                bucket_name:  %adentify_bucket_name%
+
+    filesystems:
+        file_storage:
+            adapter:    file_storage
+            alias:      file_storage_filesystem
