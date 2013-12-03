@@ -1311,6 +1311,7 @@ html,body {
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     color: #ff3434;
     font-size: 26px;
+    z-index: 1000;
 }
 .photo-container:hover .add-tag {
     opacity: 1;
