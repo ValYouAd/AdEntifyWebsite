@@ -342,7 +342,9 @@
       "contentSamePage": "Oups ! Vous êtes déjà sur la page demandée.",
       "confirmButton": "Ok",
       "report": "Signaler",
-      "copy": "Copier"
+      "copy": "Copier",
+      "titleNotLogged": "Connexion à AdEntify requise",
+      "contentNotLogged": "Vous devez être connecté à votre compte AdEntify pour accéder à cette page."
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",

@@ -340,7 +340,9 @@
       "contentSamePage": "Oops! You already are on this page.",
       "confirmButton": "Ok",
       "report": "Report",
-      "Copy": "Copy"
+      "Copy": "Copy",
+      "titleNotLogged": "Connection required",
+      "contentNotLogged": "You need to be logged to access this page."
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",

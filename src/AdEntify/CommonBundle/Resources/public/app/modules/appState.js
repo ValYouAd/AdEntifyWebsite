@@ -13,6 +13,10 @@ define([
          return currentUserId;
       },
 
+      isLogged: function() {
+         return currentUserId > 0;
+      },
+
       getLocale: function() {
          return this.get('locale');
       },
