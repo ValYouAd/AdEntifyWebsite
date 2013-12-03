@@ -1,0 +1,1 @@
+<button class="service-button <%= model.get('service_name').toLowerCase() %>-service-button<% if (model.get('linked')) { %> active<% } %>"><i class="<%= model.get('service_name').toLowerCase() %>-circle-white-icon icon"></i> <%= model.get('service_name') %></button>

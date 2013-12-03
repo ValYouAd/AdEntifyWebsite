@@ -209,6 +209,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       myPhotos: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
@@ -226,7 +231,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }),
             "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({
-                  id: currentUserId
+                  id: app.appState().getCurrentUserId()
                }),
                followings: followings,
                followers: followers,
@@ -247,17 +252,22 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }
          });
          followings.fetch({
-            url: Routing.generate('api_v1_get_user_followings', { id: currentUserId })
+            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
          });
          followers.fetch({
-            url: Routing.generate('api_v1_get_user_followers', { id: currentUserId })
+            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
          });
          this.hashtags.fetch({
-            url: Routing.generate('api_v1_get_user_hashtags', { id: currentUserId })
+            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
          });
       },
 
       upload: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
@@ -290,6 +300,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       uploadLocal: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
@@ -325,6 +340,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       facebookAlbums: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
@@ -361,6 +381,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       facebookAlbumsPhotos: function(id) {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
@@ -398,6 +423,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       instagramPhotos: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
@@ -434,6 +464,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       flickrSets: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset();
 
          app.useLayout().setViews({
@@ -450,6 +485,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       flickrPhotos: function(id) {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset();
 
          app.useLayout().setViews({
@@ -565,6 +605,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       mySettings: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
@@ -575,7 +620,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#center-pane-content": new MySettings.Views.Detail(),
             "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({
-                  id: currentUserId
+                  id: app.appState().getCurrentUserId()
                }),
                followings: followings,
                followers: followers,
@@ -586,13 +631,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }).render();
 
          followings.fetch({
-            url: Routing.generate('api_v1_get_user_followings', { id: currentUserId })
+            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
          });
          followers.fetch({
-            url: Routing.generate('api_v1_get_user_followers', { id: currentUserId })
+            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
          });
          this.hashtags.fetch({
-            url: Routing.generate('api_v1_get_user_hashtags', { id: currentUserId })
+            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
          });
       },
 
@@ -701,6 +746,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       myAdentify: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset();
 
          app.useLayout().setViews({
@@ -736,6 +786,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       favoritesPhotos: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
          this.reset();
 
          app.useLayout().setViews({

@@ -9,8 +9,9 @@ define([
    'app',
    'modules/photos',
    'modules/externalServicePhotos',
-   'modules/common'
-], function(app, Photos, ExternalServicePhotos, Common) {
+   'modules/common',
+   'modules/mySettings'
+], function(app, Photos, ExternalServicePhotos, Common, MySettings) {
 
    var Upload = app.module();
 
@@ -34,7 +35,7 @@ define([
       beforeRender: function() {
          if (!this.getView('.services-container')) {
             var upload = require('modules/upload');
-            this.setView('.services-container', new upload.Views.Services());
+            this.setView('.services-container', new upload.Views.ServiceButtons());
          }
       },
 
@@ -213,19 +214,67 @@ define([
       }
    });
 
-   Upload.Views.Services = Backbone.View.extend({
-      template: 'upload/services',
+   Upload.Views.ServiceButtons = Backbone.View.extend({
+      template: 'upload/serviceButtons',
 
       serialize: function() {
          return {
             rootUrl: app.beginUrl + app.root
+         };
+      },
+
+      beforeRender: function() {
+         this.services.each(function(service) {
+            this.insertView(".services", new Upload.Views.ServiceButton({
+               model: service
+            }));
+         }, this);
+      },
+
+      initialize: function() {
+         this.services = new MySettings.ServicesCollection();
+         this.services.fetch();
+         this.listenTo(this.services, 'sync', this.render);
+      }
+   });
+
+   Upload.Views.ServiceButton = Backbone.View.extend({
+      template: 'upload/serviceButton',
+      tagName: 'li',
+
+      serialize: function() {
+         return {
+            model: this.model,
+            rootUrl: app.beginUrl + app.root
          }
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, "change", this.render);
+      },
+
+      showServicePhotos: function(evt) {
+         evt.preventDefault();
+         switch(this.model.get('service_name')) {
+            case 'Facebook':
+               Backbone.history.navigate($.t('facebook/albums/'), { trigger: true });
+               break;
+            case 'instagram':
+               var url = Upload.Common.getInstagramUrl(this.model.get('linked'));
+               this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
+               break;
+         }
+      },
+
+      events: {
+         'click .service-button': 'showServicePhotos'
       }
    });
 
    Upload.Common = {
-      getInstagramUrl: function() {
-         return 'https://api.instagram.com/oauth/authorize/?client_id=' + instagramClientId + '&redirect_uri=' + app.rootUrl + 'instagram/authentication&response_type=code';
+      getInstagramUrl: function(connected) {
+         connected = typeof connected !== 'undefined' ? connected : false;
+         return connected ? $.t('routing.instagram/photos/') : 'https://api.instagram.com/oauth/authorize/?client_id=' + instagramClientId + '&redirect_uri=' + app.rootUrl + 'instagram/authentication&response_type=code';
       }
    }
 

@@ -154,6 +154,16 @@ define([
                callback();
             return false;
          }
+      },
+
+      notLoggedModal: function(redirect) {
+         redirect = typeof redirect !== 'undefined' ? redirect : false;
+         app.useLayout().setView('#center-pane-content', new Common.Views.Modal({
+            title: 'common.titleNotLogged',
+            content: 'common.contentNotLogged',
+            redirect: redirect,
+            showConfirmButton: false
+         }), true).render();
       }
    }
 

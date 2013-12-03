@@ -1598,6 +1598,9 @@ html,body {
     zoom: 1;
     *display: inline;
 }
+.services button .icon {
+    top: -1px;
+}
 .services .service-button {
     background: #eff1f4;
     border: 1px solid #dfdede;
