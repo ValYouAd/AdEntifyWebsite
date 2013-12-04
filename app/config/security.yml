@@ -21,9 +21,6 @@ security:
             id: my.twitter.user
 
     firewalls:
-        login:
-            pattern:   ^/(login$|register|resetting)  # Les adresses de ces pages sont login, register et resetting
-            anonymous: true                           # On autorise bien évidemment les anonymes sur ces pages !
         api:
             pattern:    ^/api/
             fos_oauth:  true
@@ -31,7 +28,7 @@ security:
             anonymous:  true
         main:
             # since anonymous is allowed users will not be forced to login
-            pattern:   ^/.*
+            pattern:   ^/
             form_login:                      # On définit notre méthode d'authentification
                 provider:    fos_userbundle  # On lit l'authentification au provider définit plus haut
                 remember_me: true            # On active la possibilité du "Se souvenir de moi" (désactivé par défaut)
@@ -59,4 +56,7 @@ security:
         #- { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ], requires_channel: https }
         #- { path: ^/public-api, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ], requires_channel: https }
         - { path: ^/bo-admin, roles: [ ROLE_TEAM ] }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.*, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ], requires_channel: https }

@@ -19,12 +19,13 @@ class RegistrationFormType extends BaseType
         parent::buildForm($builder, $options);
 
         $builder->add('firstname', 'text', array(
-            'label' => null,
-            'attr' => array(
-                'placeholder' => 'Firstname',
-                'class' => 'form-control'
-            )
-        ))
+                'label' => null,
+                'attr' => array(
+                    'placeholder' => 'Firstname',
+                    'class' => 'form-control'
+                )
+            ))
+            ->add('username', 'hidden')
             ->add('lastname', 'text', array(
                 'label' => null,
                 'attr' => array(

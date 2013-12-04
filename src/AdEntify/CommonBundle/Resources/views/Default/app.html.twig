@@ -150,7 +150,7 @@
         <!-- Modal -->
         <div id="modal-container"></div>
 
-        {% if app.user and app.user.isEnabed() == false %}
+        {% if (app.user and app.user.isEnabed() == false) or app.request.query.has('accountDisabled') %}
             <div class="modal fade" id="accountDisabled" tabindex="-1" role="dialog" aria-labelledby="accountDisabledLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
