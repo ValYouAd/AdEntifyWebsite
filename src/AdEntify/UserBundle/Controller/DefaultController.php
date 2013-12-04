@@ -48,7 +48,7 @@ class DefaultController extends Controller
 
                     if (null === $user) {
                         $user = $userManager->createUser();
-                        $user->setEnabled(true);
+                        $user->setEnabled(false);
                         $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
                     }
 
