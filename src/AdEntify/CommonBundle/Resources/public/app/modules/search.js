@@ -284,15 +284,16 @@ define([
    Search.Views.FullList =  Backbone.View.extend({
       template: "search/fulllist",
       tagName: 'div class="search-fulllist"',
+      resultsCount: 0,
 
       serialize: function() {
          return {
-            terms : this.terms
+            terms : this.terms,
+            resultsCount: this.resultsCount
          }
       },
 
       initialize: function() {
-         var that = this;
          this.terms = typeof this.options.terms !== 'undefined' ? this.options.terms : null;
          this.listenTo(this.options.photos, 'sync', this.render);
          this.listenTo(this.options.users, 'sync', this.render);
@@ -325,6 +326,7 @@ define([
       },
 
       beforeRender: function() {
+         this.resultsCount = this.options.photos.length + this.options.users.length + this.options.hashtags.length + this.options.brands.length;
          if (!this.getView('.search-photos-results')) {
             var Photos = require('modules/photos');
             this.setView('.search-photos-results', new Photos.Views.Content({

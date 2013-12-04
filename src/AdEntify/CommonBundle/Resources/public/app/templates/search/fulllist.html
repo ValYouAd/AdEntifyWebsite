@@ -1,4 +1,5 @@
 <h1 class="text-center search-infos"><%= terms ? terms : $.t('search.noSearch') %></h1>
+<div class="results-count text-center" data-i18n="[html]search.resultsCount" data-i18n-options='{"count": <%= resultsCount %>}'></div>
 <div class="alert-search-results"></div>
 <div class="photos-container results-container">
     <div class="search-title" data-i18n="search.photos"></div>

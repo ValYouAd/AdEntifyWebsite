@@ -2214,7 +2214,7 @@ html,body {
         font-size: 36px;
         font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
         color: #2c2c2e;
-        padding: 30px 0px;
+        padding: 30px 0px 0px 0px;
     }
     .results-container {
         margin: 20px 0px;
@@ -2223,6 +2223,17 @@ html,body {
         font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
         font-size: 20px;
     }
+
+.results-count {
+    font-family: 'asapitalic', "Helvetica Neue", "Arial", sans-serif;
+    color: #ff3434;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.results-count strong {
+    font-family: 'asapbold_italic', "Helvetica Neue", "Arial", sans-serif;
+    font-weight: normal;
+}
 
 /* Brands */
 .search-bar .brands li {
