@@ -277,7 +277,9 @@
       "users": "Utilisateurs",
       "feeds": "Flux",
       "pageTitle": "Search __title__ on AdEntify.com",
-      "brands": "Marques"
+      "brands": "Marques",
+      "resultsCount": "<strong>__count__</strong> résultat",
+      "resultsCount_plural": "<strong>__count__</strong> résultats"
    },
    "comment": {
       "noComments": "Soyez le premier à réagir !",

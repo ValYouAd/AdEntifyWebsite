@@ -277,7 +277,9 @@
       "users": "Users",
       "feeds": "Feeds",
       "pageTitle": "Recherche __title__ sur AdEntify.com",
-      "brands": "Marques"
+      "brands": "Marques",
+      "resultsCount": "<strong>__count__</strong> result",
+      "resultsCount_plural": "<strong>__count__</strong> results"
    },
    "comment": {
       "noComments": "Be the first to post!",

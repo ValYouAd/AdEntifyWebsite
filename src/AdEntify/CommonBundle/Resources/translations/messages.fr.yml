@@ -78,6 +78,12 @@ contact:
 Contact us: Nous contacter
 Follow us!: Nous suivre !
 
+#Jobs
+Jobs: Emplois
+jobs:
+    pageTitle: Emplois - AdEntify.com
+    pageDescription: Postes à pourvoir au sein de la team AdEntify
+
 #Press
 press:
     pageTitle: Presse - AdEntify.com

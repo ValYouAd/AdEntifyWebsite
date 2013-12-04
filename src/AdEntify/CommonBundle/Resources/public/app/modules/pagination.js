@@ -31,6 +31,7 @@ define([
          var that = this;
          this.collection = this.options.collection;
          this.listenTo(app, 'pagination:nextPageLoaded', function() {
+            this.$('.loading-gif-container').stop().fadeOut();
             // Check if there is more data to load
             if (!that.options.collection.hasNextPage()) {
                $(this.el).find('.pagination').fadeOut('fast');
@@ -41,16 +42,16 @@ define([
             }, 1000);
          });
 
-         this.listenTo(this.options.collection, 'sync', this.checkPaginationVisibility);
+         this.listenTo(this.options.collection, 'sync', this.checkWindowScrollHandler);
       },
 
       afterRender: function() {
          $(this.el).i18n();
          this.loadMoreButton = this.$('.loadMore');
-         this.checkPaginationVisibility();
+         this.checkWindowScrollHandler();
       },
 
-      checkPaginationVisibility: function() {
+      checkWindowScrollHandler: function() {
          this.loadMoreFired = false;
          if (this.collection.hasNextPage() && !this.scrollEventBind) {
             var that = this;
@@ -66,6 +67,7 @@ define([
 
       loadMore: function() {
          this.loadMoreFired = true;
+         this.$('.loading-gif-container').stop().fadeIn();
          app.trigger('pagination:loadNextPage');
       },
 

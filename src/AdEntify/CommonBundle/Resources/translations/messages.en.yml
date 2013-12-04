@@ -75,6 +75,12 @@ contact:
     pageTitle: Contact - AdEntify.com
     pageDescription: Contact AdEntify Team by mail or social networks
 
+#Jobs
+Jobs: Jobs
+jobs:
+    pageTitle: Jobs - AdEntify.com
+    pageDescription: Jobs in AdEntify Team
+
 #Press
 press:
     pageTitle: Press - AdEntify.com

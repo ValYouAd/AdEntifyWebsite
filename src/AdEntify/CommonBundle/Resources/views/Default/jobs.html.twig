@@ -1,0 +1,60 @@
+{% extends "::base.html.twig" %}
+{% if form is defined %}{% form_theme form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    'bundles/adentifycommon/css/jobs.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var channelUrl = '{{ asset('channel.html') }}';
+        var facebookPermissions = '{{ facebook_permissions }}';
+    </script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% javascripts
+    '@AdEntifyCommonBundle/Resources/public/vendor/jam/jquery/dist/jquery.js'
+    '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block title %}{{ 'jobs.pageTitle'|trans }} - AdEntify.com{% endblock %}
+{% block metadescription %}{{ 'jobs.pageDescription'|trans }}{% endblock %}
+
+
+{% block body %}
+
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+
+    <div class="jobs polygon-background">
+        <div class="container">
+            <div class="text-center">
+                <h1>{{ 'Jobs'|trans }}</h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 text-center">
+                    <h3>iOS Developer</h3>
+                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <h3>Business developer</h3>
+                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <h3>Community Manager</h3>
+                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+
+{% endblock %}

@@ -117,7 +117,7 @@ define([
       },
 
       isFullscreenSearch: function() {
-         return Backbone.history.fragment === $.t('routing.search/');
+         return Backbone.history.fragment.indexOf($.t('routing.search/')) !== -1;
       }
    });
 
@@ -284,15 +284,16 @@ define([
    Search.Views.FullList =  Backbone.View.extend({
       template: "search/fulllist",
       tagName: 'div class="search-fulllist"',
+      resultsCount: 0,
 
       serialize: function() {
          return {
-            terms : this.terms
+            terms : this.terms,
+            resultsCount: this.resultsCount
          }
       },
 
       initialize: function() {
-         var that = this;
          this.terms = typeof this.options.terms !== 'undefined' ? this.options.terms : null;
          this.listenTo(this.options.photos, 'sync', this.render);
          this.listenTo(this.options.users, 'sync', this.render);
@@ -305,17 +306,8 @@ define([
             this.terms = terms;
          });
          this.listenTo(app, 'search:completed', function() {
-            if (this.options.photos.length == 0 && this.options.users.length == 0 && this.options.hashtags.length == 0
-               && this.options.brands.length == 0)
-            {
-               this.setView('.alert-search-results', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('search.noResults'),
-                  showClose: true
-               })).render();
-            }
-            else {
-               this.getView('.alert-search-results').remove();
+            if (this.terms == '%23cocacola') {
+               $('.feeds-container').hide();
             }
          });
          if (this.terms) {
@@ -325,6 +317,14 @@ define([
       },
 
       beforeRender: function() {
+         // Check if its a feed
+         var hashtags = this.terms.match(/(?:^|\s)(\#\w+)/g);
+         this.isFeed = hashtags.length == 1;
+         if (this.isFeed) {
+            this.resultsCount = this.options.photos.length;
+         } else {
+            this.resultsCount = this.options.photos.length + this.options.users.length + this.options.hashtags.length + this.options.brands.length;
+         }
          if (!this.getView('.search-photos-results')) {
             var Photos = require('modules/photos');
             this.setView('.search-photos-results', new Photos.Views.Content({
@@ -345,7 +345,8 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-         Search.Common.hideContainerWithNoResults(this);
+
+         Search.Common.hideContainerWithNoResults(this, this.isFeed);
       }
    });
 
@@ -375,14 +376,14 @@ define([
          }
       },
       
-      hideContainerWithNoResults: function(context) {
-         if (context.options.users.length == 0) {
+      hideContainerWithNoResults: function(context, feed) {
+         if (context.options.users.length == 0 || feed) {
             context.$('.users-container').fadeOut();
          } else {
             if (context.$('.users-container:visible').length == 0)
                context.$('.users-container').stop().fadeIn();
          }
-         if (context.options.hashtags.length == 0) {
+         if (context.options.hashtags.length == 0 || feed) {
             context.$('.feeds-container').fadeOut();
          } else {
             if (context.$('.feeds-container:visible').length == 0)
@@ -394,7 +395,7 @@ define([
             if (context.$('.photos-container:visible').length == 0)
                context.$('.photos-container').stop().fadeIn();
          }
-         if (context.options.brands.length == 0) {
+         if (context.options.brands.length == 0 || feed) {
             context.$('.brands-container').fadeOut();
          } else {
             if (context.$('.brands-container:visible').length == 0)

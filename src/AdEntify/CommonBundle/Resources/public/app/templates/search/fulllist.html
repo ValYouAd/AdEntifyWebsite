@@ -1,21 +1,21 @@
 <h1 class="text-center search-infos"><%= terms ? terms : $.t('search.noSearch') %></h1>
-<div class="alert-search-results"></div>
-<div class="photos-container results-container">
+<div class="results-count text-center" data-i18n="[html]search.resultsCount" data-i18n-options='{"count": <%= resultsCount %>}'></div>
+<div class="photos-container results-container fadeOut">
     <div class="search-title" data-i18n="search.photos"></div>
     <div class="alert-search-tags-results"></div>
     <div class="search-photos-results"></div>
 </div>
-<div class="users-container results-container">
+<div class="users-container results-container fadeOut">
     <div class="search-title" data-i18n="search.users"></div>
     <div class="alert-search-users-results"></div>
     <ul class="search-users-results list-unstyled"></ul>
 </div>
-<div class="feeds-container results-container">
+<div class="feeds-container results-container fadeOut">
     <div class="search-title" data-i18n="search.feeds"></div>
     <div class="alert-search-feeds-results"></div>
     <div class="search-feeds-results"></div>
 </div>
-<div class="brands-container results-container">
+<div class="brands-container results-container fadeOut">
     <div class="search-title" data-i18n="search.brands"></div>
     <div class="alert-search-brands-results"></div>
     <ul id="brands" class="search-brands-results row list-unstyled"></ul>
