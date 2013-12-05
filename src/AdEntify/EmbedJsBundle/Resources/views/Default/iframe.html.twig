@@ -1,5 +1,17 @@
 {% extends "@AdEntifyEmbedJs/iframe/layout.html.twig" %}
 {% block body %}
-    <img width="{{ photo.largeWidth }}" height="{{ photo.largeHeight }}" src="{{ photo.largeUrl }}" alt="{{ photo.caption }}" data-adentify-photo-id="{{ photo.id }}"{% if showTags %} data-adentify-tags="" {% endif %}{% if showLikes %} data-adentify-likes="" {% endif %} />
+    {% if cover %}
+        <div style="width: 100%; height: 100%; background-image: url({{ photo.largeUrl }}); background-repeat: no-repeat;background-position: center center;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;" data-adentify-photo-id="{{ photo.id }}"{% if showTags %} data-adentify-tags="" {% endif %}{% if showLikes %} data-adentify-likes="" {% endif %}></div>
+    {% else %}
+        <img style="width: 100%; height: 100%; max-width: {{ photo.largeWidth }}px; max-height: {{ photo.largeHeight }}px;" src="{{ photo.largeUrl }}" alt="{{ photo.caption }}" data-adentify-photo-id="{{ photo.id }}"{% if showTags %} data-adentify-tags="" {% endif %}{% if showLikes %} data-adentify-likes="" {% endif %}{% if cover %} data-cover="" {% endif %} />
+    {% endif %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId={{ facebook_app_id }}";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
     <script type="text/javascript" async src="{{ root_url|raw }}embed/{{ photo.id }}.js"></script>
 {% endblock %}

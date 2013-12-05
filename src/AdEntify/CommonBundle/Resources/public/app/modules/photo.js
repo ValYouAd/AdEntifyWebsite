@@ -402,7 +402,7 @@ define([
       },
 
       hidePastillePopover: function() {
-         $(this.el).find('.adentify-pastille-wrapper .popover').fadeOut('fast');
+         $(this.el).find('.adentify-pastille-wrapper .popover').stop().fadeOut('fast');
       },
 
       report: function() {
@@ -702,7 +702,8 @@ define([
       serialize: function() {
          return {
             model: this.model,
-            pageUrl: window.location.href
+            pageUrl: window.location.href,
+            rootUrl: app.rootUrl
          };
       },
 
