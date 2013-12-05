@@ -1,7 +1,3 @@
-<!--<div id="loading-profile" class="loading-gif-container">
-    <div class="loader rotate"></div>
-</div>-->
-
 <aside class="profile-aside">
     <div class="block-white-background">
         <div class="profile-details text-center">
@@ -21,7 +17,31 @@
             <% } %>
 
             <div class="indicators-container text-center">
-                <div class="indicator">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="separator-sm-vertical"></div>
+                        <div class="indicator-value"><%= model.get("photos_count") %></div>
+                        <div class="indicator-label"><%= $.t('profile.photosIndicator') %></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="indicator-value"><%= model.get("tags_count") %></div>
+                        <div class="indicator-label"><%= $.t('profile.tagsIndicator') %></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="separator-sm-horizontal"></div>
+                        <div class="separator-sm-vertical"></div>
+                        <div class="indicator-value"><%= model.get("followings_count") %></div>
+                        <div class="indicator-label"><%= $.t('profile.followingIndicator') %></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="separator-sm-horizontal"></div>
+                        <div class="indicator-value"><%= model.get("followers_count") %></div>
+                        <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>
+                    </div>
+                </div>
+                <!--<div class="indicator">
                     <div class="indicator-value"><%= model.get("photos_count") %></div>
                     <div class="indicator-label"><%= $.t('profile.photosIndicator') %></div>
                 </div>
@@ -39,9 +59,8 @@
                 <div class="indicator">
                     <div class="indicator-value"><%= model.get("followers_count") %></div>
                     <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>
-                </div>
+                </div>-->
             </div>
-
         </div>
     </div>
     <div class="block-white-bottom"></div>

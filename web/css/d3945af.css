@@ -3625,7 +3625,7 @@ label,
         font-weight: normal;
     }
     .indicators-container {
-        margin: 0px auto 20px auto;
+        margin: 20px auto 20px auto;
     }
     .indicators-container .separator {
         display: inline-block;
@@ -3659,6 +3659,21 @@ label,
         position: relative;
         top: 12px;
         margin: 0px 6px;
+    }
+    .separator-sm-horizontal {
+        background: url('../img/separator-sm-horizontal.png') no-repeat center;
+        width: 25px;
+        height: 1px;
+        position: relative;
+        margin: 10px auto;
+    }
+    .separator-sm-vertical {
+        background: url('../img/separator-sm-vertical.png') no-repeat center;
+        width: 1px;
+        height: 25px;
+        float: right;
+        margin-right: -15px;
+        margin-top: 10px;
     }
 .block-white-background {
     background: white;
