@@ -26,7 +26,7 @@
 
    AdEntify = {
       hoverTimeout: null,
-      rootUrl: "//dev.adentify.com/",
+      rootUrl: "//local.adentify.com/",
       showTags: false,
       showLikes: false,
 
@@ -36,12 +36,17 @@
          // Load options
          AdEntify.showTags = typeof jQuery(this.getValue('selector')).attr('data-adentify-tags') !== 'undefined' ? true : false;
          AdEntify.showLikes = typeof jQuery(this.getValue('selector')).attr('data-adentify-likes') !== 'undefined' ? true : false;
+         AdEntify.cover = typeof jQuery(this.getValue('selector')).attr('data-cover') !== 'undefined' ? false : true;
+
+         if (AdEntify.cover) {
+            jQuery(this.getValue('selector')).height(document.documentElement.clientHeight);
+         }
 
          // Load CSS
          if (jQuery('meta[property="adentitfy-loaded"]').length == 0) {
             $head = jQuery('head');
             $head.append('<style type="text/css">' +
-               '.adentify-pastille {opacity: 1;background: url("'+ AdEntify.rootUrl +'img/pastille.png") no-repeat;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;width: 25px;height: 25px;position: absolute;top: 10px;right: 10px;z-index: 2;cursor: pointer;}' +
+               '.adentify-pastille {opacity: 1;background: url("'+ AdEntify.rootUrl +'img/adentify-pastille.png") no-repeat;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;width: 52px;height: 52px;position: absolute;top: 10px;right: 10px;z-index: 2;cursor: pointer;}' +
                '.adentify-photo-container:hover .adentify-pastille { opacity: 1; }' +
                (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
                '.tags li {margin: 0;padding: 0;}' +
@@ -68,14 +73,66 @@
                '.icon-white,.nav-pills>.active>a>[class^="icon-"],.nav-pills>.active>a>[class*=" icon-"],.nav-list>.active>a>[class^="icon-"],.nav-list>.active>a>[class*=" icon-"],.navbar-inverse .nav>.active>a>[class^="icon-"],.navbar-inverse .nav>.active>a>[class*=" icon-"],.dropdown-menu>li>a:hover>[class^="icon-"],.dropdown-menu>li>a:focus>[class^="icon-"],.dropdown-menu>li>a:hover>[class*=" icon-"],.dropdown-menu>li>a:focus>[class*=" icon-"],.dropdown-menu>.active>a>[class^="icon-"],.dropdown-menu>.active>a>[class*=" icon-"],.dropdown-submenu:hover>a>[class^="icon-"],.dropdown-submenu:focus>a>[class^="icon-"],.dropdown-submenu:hover>a>[class*=" icon-"],.dropdown-submenu:focus>a>[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings-white.png");}' +
                '.icon-heart {background-position: -96px 0;}' +
                '.adentify-photo-likes {position: absolute; bottom: 5px; right: 5px; color: white;text-shadow: 0 0 3px rgba(0,0,0,0.8); text-rendering: optimizelegibility;}' +
+               '.list-unstyled { padding-left:0;list-style:none; }' +
+               '.popover-pastille-buttons {margin: 0;padding: 0;}' +
+               '.popover-pastille-buttons li {border-bottom: 1px solid #dfe2e6;width: 67px;height: 54px;line-height: 64px;text-align: center;vertical-align: middle;}' +
+               '.arrow-top-adentify-pastille-hover {position: absolute;top: -7px;left: 50%;margin-left: -6px;}' +
+               '.adentify-pastille-wrapper {position: absolute;top: 0px;right: 0px;cursor: pointer;}' +
+               '.adentify-pastille-wrapper .popover {top: 69px; right: 4px; left: auto; border-radius: 0px;border-left: 1px solid #dfe2e6;border-top: 1px solid #dfe2e6;border-right: 1px solid #dfe2e6;padding: 0px;}' +
+               '.arrow-top-adentify-pastille-hover, .add-tag-icon, .like-icon, .share-icon, .favorite-icon { background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");background-color: transparent;background-repeat: no-repeat; }' +
+               '.arrow-top-adentify-pastille-hover{background-position: -106px -174px ;width: 13px;height: 8px;}' +
+               '.add-tag-icon{background-position: -83px -174px ;width: 19px;height: 19px;}' +
+               '.favorite-icon{background-position: -102px -150px ;width: 21px;height: 20px;}' +
+               '.like-icon{background-position: -56px -185px ;width: 21px;height: 17px;}' +
+               '.share-icon{background-position: -55px -159px ;width: 26px;height: 23px;}' +
+               '.btn-icon {border: 0px;padding: 0px;margin: 0px; cursor: pointer;}' +
+               '.share-overlay {position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;background: rgba(0,0,0,0.8);}' +
+               '.close-share {position: absolute;top: 10px;left: 10px;color: white;font-size: 20px;cursor: pointer;}' +
+               '.share-overlay-wrapper {display: table;width: 100%;height: 100%;}' +
+               '.share-overlay-cell {display: table-cell;vertical-align: middle;}' +
+               '.share-overlay-inner {max-width: 500px;max-height: 200px;margin: auto;}' +
+               '.share-overlay-inner textarea {margin: 20px 0px 10px 0px; height: 80px;}' +
+               '.form-control{display:block;width:100%;height:34px;padding:6px 12px;font-size:14px;line-height:1.428571429;color:#555555;vertical-align:middle;background-color:#ffffff;border:1px solid #cccccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;}.form-control:focus{border-color:#66afe9;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);}' +
+               '.fblike, .pinterest {display: inline-block;} .pinterest { height: 20px; vertical-align: top;margin-left: 40px; }' +
+               '.fadeOut {display: none;}' +
                '</style>');
             $head.append('<meta property="adentify-loaded" content="true">');
          }
 
-         jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="position: relative;display: inline-block;" />');
+         jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="width: 100%; position: relative;display: inline-block;" />');
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
          $tags = jQuery('<ul class="tags" data-state="hidden" data-always-visible="no" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
-         $pastille = jQuery('<div class="adentify-pastille" />').insertBefore(this.getValue('selector'));
+         $pastilleWrapper = jQuery('<div class="adentify-pastille-wrapper" />').insertBefore(this.getValue('selector'));
+         $pastille = jQuery($pastilleWrapper).append('<div class="adentify-pastille" />');
+         $pastillePopover = jQuery($pastilleWrapper).append('<div class="popover">\
+            <div class="arrow-top-adentify-pastille-hover"></div>\
+            <ul class="popover-pastille-buttons list-unstyled">\
+               <li><button class="btn-icon add-tag-icon add-tag-button"></button></li>\
+               <li><button class="btn-icon like-icon like-button"></button></li>\
+               <li><button class="btn-icon share-icon share-button"></button></li>\
+               <li><button class="btn-icon favorite-icon favorite-button"></button></li>\
+            </ul>\
+         </div>');
+         $pastillePopover.find('.like-icon').click(function() {
+            window.open(that.photoUrl());
+            return false;
+         });
+         $pastillePopover.find('.add-tag-icon').click(function() {
+            window.open(that.photoUrl());
+            return false;
+         });
+         $pastillePopover.find('.favorite-icon').click(function() {
+            window.open(that.photoUrl());
+            return false;
+         });
+         $pastillePopover.find('.share-icon').click(function() {
+            if (jQuery(that.getValue('selector')).siblings('.share-overlay:visible').length > 0) {
+               jQuery(that.getValue('selector')).siblings('.share-overlay').fadeOut();
+            } else {
+               jQuery(that.getValue('selector')).siblings('.share-overlay').fadeIn();
+            }
+            return false;
+         });
          $pastille.on('click', function() {
             if ($tags.data('always-visible') == 'no') {
                $tags.data('always-visible', 'yes');
@@ -86,20 +143,46 @@
             }
          });
          $pastille.on('mouseenter', function() {
-            $tags.stop().fadeIn('fast');
+            $pastillePopover.find('.popover').fadeIn('fast');
+            $tags.fadeIn('fast');
             $tags.data('state', 'visible');
          });
          $pastille.on('mouseleave', function() {
+            $pastillePopover.find('.popover').fadeOut('fast');
             if ($tags.data('always-visible') == 'no') {
-               $tags.stop().fadeOut('fast');
+               $tags.fadeOut('fast');
                $tags.data('state', 'hidden');
             }
          });
+         var that = this;
          jQuery.ajax({
             url: AdEntify.rootUrl + 'public-api/v1/photos/' + jQuery(this.getValue('selector')).data('adentify-photo-id'),
-            dataType: "jsonp",
+            dataType: 'jsonp',
             success: function(photo) {
                if (typeof photo !== 'undefined' && typeof photo.tags !== 'undefined') {
+                  var photoContainer = jQuery(that.getValue('selector')).parent('.adentify-photo-container');
+                  if (photoContainer.length > 0) {
+                     photoContainer.css({maxHeight: photo.large_height, maxWidth: photo.large_width});
+                  }
+                  jQuery('<div class="share-overlay fadeOut"><div class="share-overlay-wrapper"><div class="share-overlay-cell">\
+                              <div class="share-overlay-inner">\
+                              <iframe allowtransparency="true" frameborder="0" scrolling="no"\
+                              src="https://platform.twitter.com/widgets/tweet_button.html?text=' + that.photoUrl() + '&via=AdEntify&lang=' + that.currentLang() + '" style="width:130px; height:20px;"></iframe>\
+                              <div class="g-plusone" data-size="medium" data-href="' + that.photoUrl() + '"></div>\
+                              <script type="text/javascript">\
+                              window.___gcfg = {lang: "' + that.currentLang() + '"};\
+                              (function() {\
+                                 var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;\
+                                 po.src = "https://apis.google.com/js/plusone.js";\
+                                 var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);\
+                                 })();\
+                              </script>\
+                              <div class="fblike"><div class="fb-like" data-href="' + that.photoUrl() + '" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div></div>\
+                              <div class="pinterest"><a target="_blank" href="//pinterest.com/pin/create/button/?url=' + encodeURIComponent(that.photoUrl()) + '&media=' + encodeURIComponent(photo.large_url) + '&description=' + encodeURIComponent(photo.caption) + '" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div>\
+                              <textarea class="embedCode form-control input-block-level selectOnFocus" rows="3">&lt;iframe src="' + AdEntify.rootUrl + 'iframe/photo-' + jQuery(that.getValue('selector')).data('adentify-photo-id') +'.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;width:' + photo.large_width + 'px; height:' + photo.large_height + 'px;" allowTransparency="true"&gt;&lt;/iframe&gt;</textarea>\
+                      </div>\
+                  </div></div></div>').insertBefore(that.getValue('selector'));
+                  FB.XFBML.parse();
                   if (AdEntify.showLikes === true) {
                      jQuery('<div class="adentify-photo-likes">' + photo.likes_count + ' <i class="icon-heart icon-white"></i></div>').insertBefore(that.getValue('selector'));
                   }
@@ -134,8 +217,7 @@
          $tags = jQuery('.tags');
          $tags.on('mouseenter', '.tag', function() {
             var popover = jQuery(this).find('.popover');
-            popover.css({top: jQuery(this).data('y') > 0.5 ? '-'+popover.height()+'px' : '30px'});
-            popover.css({left: jQuery(this).data('x') > 0.5 ? '-'+popover.width()+'px' : '30px'});
+            popover.css({top: jQuery(this).data('y') > 0.5 ? '-'+popover.height()+'px' : '30px', left: jQuery(this).data('x') > 0.5 ? '-'+popover.width()+'px' : '30px'});
 
             // Load map if found
             var map = jQuery(this).find('.map');
@@ -203,6 +285,21 @@
          }
          xhr.setRequestHeader('X-Custom-Auth', 'value');
          return xhr;
+      },
+
+      photoUrl: function(https) {
+         https = typeof https !== 'undefined' ? https : true;
+         return (https ? 'https:' : '') + AdEntify.rootUrl + this.currentLang() + '/app/photo/' + jQuery(this.getValue('selector')).data('adentify-photo-id') + '/';
+      },
+
+      currentLang: function() {
+         var language = window.navigator.userLanguage || window.navigator.language;
+         if (language.indexOf('fr') !== -1) {
+            return 'fr';
+         }
+         else {
+            return 'en';
+         }
       }
    };
 
