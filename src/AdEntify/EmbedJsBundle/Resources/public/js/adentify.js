@@ -50,7 +50,7 @@
                '.adentify-photo-container:hover .adentify-pastille { opacity: 1; }' +
                (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
                '.tags li {margin: 0;padding: 0;}' +
-               '.tag {position: absolute;background: rgba(0,0,0,0.9);width: 25px;height: 25px;border-radius: 12.5px;}' +
+               '.tag {position: absolute;background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");background-color: transparent;background-repeat: no-repeat;background-position: -102px -109px;width: 35px;height: 36px;}' +
                '.popover {position: absolute;display: none;padding: 4px 6px;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;}' +
                '.popover-product {min-width: 250px;}' +
                '.popover-product .product-image {max-width: 250px;}' +
@@ -79,7 +79,6 @@
                '.arrow-top-adentify-pastille-hover {position: absolute;top: -7px;left: 50%;margin-left: -6px;}' +
                '.adentify-pastille-wrapper {position: absolute;top: 0px;right: 0px;cursor: pointer;}' +
                '.adentify-pastille-wrapper .popover {top: 69px; right: 4px; left: auto; border-radius: 0px;border-left: 1px solid #dfe2e6;border-top: 1px solid #dfe2e6;border-right: 1px solid #dfe2e6;padding: 0px;}' +
-               '.arrow-top-adentify-pastille-hover, .add-tag-icon, .like-icon, .share-icon, .favorite-icon { background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");background-color: transparent;background-repeat: no-repeat; }' +
                '.arrow-top-adentify-pastille-hover{background-position: -106px -174px ;width: 13px;height: 8px;}' +
                '.add-tag-icon{background-position: -83px -174px ;width: 19px;height: 19px;}' +
                '.favorite-icon{background-position: -102px -150px ;width: 21px;height: 20px;}' +
@@ -95,6 +94,10 @@
                '.form-control{display:block;width:100%;height:34px;padding:6px 12px;font-size:14px;line-height:1.428571429;color:#555555;vertical-align:middle;background-color:#ffffff;border:1px solid #cccccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;}.form-control:focus{border-color:#66afe9;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);}' +
                '.fblike, .pinterest {display: inline-block;} .pinterest { height: 20px; vertical-align: top;margin-left: 40px; }' +
                '.fadeOut {display: none;}' +
+               '.tag .tag-icon {position: absolute;}.tag .tag-brand-icon{top: 9px;left: 11px;}.tag .tag-place-icon{left: 12px;top: 10px;}.tag .tag-text-icon{left: 12px;top: 10px;}.tag .tag-user-icon{left: 11px;top: 10px;}.tag .tag-video-icon{left: 10px;top: 11px;}' +
+               '.tag-brand-icon{background-position: -181px -109px ;width: 12px;height: 17px;}.tag-place-icon{background-position: -163px -127px ;width: 11px;height: 14px;}.tag-text-icon{background-position: -162px -108px ;width: 11px;height: 15px;}.tag-user-icon{background-position: -142px -126px ;width: 13px;height: 13px;}.tag-video-icon{background-position: -141px -109px ;width: 16px;height: 13px;}' +
+               // sprites
+               '.arrow-top-adentify-pastille-hover, .add-tag-icon, .like-icon, .share-icon, .favorite-icon, .tag-place-icon, .tag-user-icon, .tag-brand-icon { background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");background-color: transparent;background-repeat: no-repeat; }' +
                '</style>');
             $head.append('<meta property="adentify-loaded" content="true">');
          }
@@ -192,15 +195,15 @@
                      for (i; i <tags.length; i++) {
                         var tag = tags[i];
                         if (tag.type == 'place') {
-                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
+                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-place-icon tag-icon"></div><div class="popover"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
                               + (tag.description ? '<p>' + tag.description + '</p>' : '') +
                               '<div id="map' + tag.id + '" class="map" data-lng="' + tag.venue.lng + '" data-lat="' + tag.venue.lat + '"></div></div></div>');
                         } else if (tag.type == 'person') {
-                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
+                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-user-icon tag-icon"></div><div class="popover"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
                               (tag.description ? '<p>' + tag.description + '</p>' : '') +
                               '</div></div>');
                         } else if (tag.type == 'product') {
-                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="popover popover-product"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
+                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><<div class="tag-brand-icon tag-icon"></div>div class="popover popover-product"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
                               (tag.description ? '<p>' + tag.description + '</p>' : '') +
                               (tag.product && tag.product.brand ? '<div class="brand pull-right"><img src="' + tag.product.brand.small_logo_url + '" alt="' + tag.product.brand.name + '" class="brand-logo" /></div>' : '') +
                               '<a href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div></div>');
