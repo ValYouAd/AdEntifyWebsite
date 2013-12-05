@@ -332,6 +332,13 @@
       "mostOldestToRecent": "Oldest to most recent",
       "mostLiked": "Most likes"
    },
+   "notLogged": {
+      "like": "You can't like when you aren't logged. Please connect or sign up.",
+      "addTag": "You can't add tag when you aren't logged. Please connect or sign up.",
+      "follow": "You can't follow when you aren't logged. Please connect or sign up.",
+      "favorite": "You can't add favorite when you aren't logged. Please connect or sign up.",
+      "comment": "You can't post comment when you aren't logged. Please connect or sign up."
+   },
    "common": {
       "viewPhoto": "View photo",
       "submit": "Submit",

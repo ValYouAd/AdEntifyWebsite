@@ -394,7 +394,11 @@ define([
       },
 
       addNewTag: function(evt) {
-         Tag.Common.addTag(evt, this.model);
+         if (app.appState().isLogged()) {
+            Tag.Common.addTag(evt, this.model);
+         } else {
+            Common.Tools.notLoggedModal(false, 'notLogged.comment');
+         }
       },
 
       showPastillePopover: function() {
@@ -608,12 +612,16 @@ define([
       },
 
       likeButtonClick: function() {
-         // Like photo
-         Photo.Common.like(this.photo);
-         this.liked = !this.liked;
+         if (app.appState().isLogged()) {
+            // Like photo
+            Photo.Common.like(this.photo);
+            this.liked = !this.liked;
 
-         this.render();
-         this.trigger('like', this.liked);
+            this.render();
+            this.trigger('like', this.liked);
+         } else {
+            Common.Tools.notLoggedModal(false, 'notLogged.like');
+         }
       }
    });
 
@@ -655,12 +663,16 @@ define([
       },
 
       favoriteButtonClick: function() {
-         // Favorite photo
-         Photo.Common.favorite(this.photo);
-         this.added = !this.added;
+         if (app.appState().isLogged()) {
+            // Favorite photo
+            Photo.Common.favorite(this.photo);
+            this.added = !this.added;
 
-         this.render();
-         this.trigger('favorite', this.added);
+            this.render();
+            this.trigger('favorite', this.added);
+         } else {
+            Common.Tools.notLoggedModal(false, 'notLogged.favorite');
+         }
       }
    });
 
@@ -668,11 +680,19 @@ define([
       template: 'photo/pastillePopover',
 
       addTag: function() {
-         this.trigger('addTag', this.options.photo);
+         if (app.appState().isLogged()) {
+            this.trigger('addTag', this.options.photo);
+         } else {
+            Common.Tools.notLoggedModal(false, 'notLogged.addTag');
+         }
       },
 
       like: function() {
-         this.trigger('like', this.options.photo);
+         if (app.appState().isLogged()) {
+            this.trigger('like', this.options.photo);
+         } else {
+            Common.Tools.notLoggedModal(false, 'notLogged.like');
+         }
       },
 
       share: function() {
@@ -680,7 +700,11 @@ define([
       },
 
       favorite: function() {
-         this.trigger('favorite', this.options.photo);
+         if (app.appState().isLogged()) {
+            this.trigger('favorite', this.options.photo);
+         } else {
+            Common.Tools.notLoggedModal(false, 'notLogged.favorite');
+         }
       },
 
       afterRender: function() {

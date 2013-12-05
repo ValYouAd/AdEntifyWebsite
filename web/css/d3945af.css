@@ -889,22 +889,22 @@ th.visible-print,td.visible-print{display:none !important;}
 }
 @font-face {
     font-family: 'asapbold';
-    src: url('../../../fonts/asap-bold-webfont.eot');
-    src: url('../../../fonts/asap-bold-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../../../fonts/asap-bold-webfont.woff') format('woff'),
-    url('../../../fonts/asap-bold-webfont.ttf') format('truetype'),
-    url('../../../fonts/asap-bold-webfont.svg#asapbold') format('svg');
+    src: url('../fonts/asap-bold-webfont.eot');
+    src: url('../fonts/asap-bold-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/asap-bold-webfont.woff') format('woff'),
+    url('../fonts/asap-bold-webfont.ttf') format('truetype'),
+    url('../fonts/asap-bold-webfont.svg#asapbold') format('svg');
     font-weight: normal;
     font-style: normal;
 
 }
 @font-face {
     font-family: 'asapbold_italic';
-    src: url('../../../fonts/asap-bolditalic-webfont.eot');
-    src: url('../../../fonts/asap-bolditalic-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../../../fonts/asap-bolditalic-webfont.woff') format('woff'),
-    url('../../../fonts/asap-bolditalic-webfont.ttf') format('truetype'),
-    url('../../../fonts/asap-bolditalic-webfont.svg#asapbold_italic') format('svg');
+    src: url('../fonts/asap-bolditalic-webfont.eot');
+    src: url('../fonts/asap-bolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/asap-bolditalic-webfont.woff') format('woff'),
+    url('../fonts/asap-bolditalic-webfont.ttf') format('truetype'),
+    url('../fonts/asap-bolditalic-webfont.svg#asapbold_italic') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -927,7 +927,6 @@ th.visible-print,td.visible-print{display:none !important;}
     url('../fonts/asap-regular-webfont.svg#asapregular') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
 
 /* Fix navbar bug (content under navbar) */
@@ -1707,6 +1706,22 @@ html,body {
     margin: 0;
     padding: 0;
 }
+.add-tag-icon:hover {
+    background-position: -165px -221px;
+}
+
+.favorite-icon:hover{
+    background-position: -133px -219px ;
+}
+
+.like-icon:hover{
+    background-position: -164px -194px ;
+}
+
+.share-icon:hover{
+    background-position: -133px -192px ;
+}
+
 .popover-pastille-buttons li {
     border-bottom: 1px solid #dfe2e6;
     width: 67px;
@@ -2566,12 +2581,11 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
 }
-
 .brands-icon{
     background-position: -110px -51px ;
     width: 17px;
@@ -3022,6 +3036,29 @@ html,body {
     height: 32px;
 }
 
+.red-add-tag-icon{
+    background-position: -165px -221px ;
+    width: 19px;
+    height: 19px;
+}
+
+.red-favorite-icon{
+    background-position: -133px -219px ;
+    width: 21px;
+    height: 20px;
+}
+
+.red-like-icon{
+    background-position: -164px -194px ;
+    width: 21px;
+    height: 17px;
+}
+
+.red-share-icon{
+    background-position: -133px -192px ;
+    width: 26px;
+    height: 23px;
+}
 
 /* DONT CHANGE IT */
 .grey-share-icon {
@@ -3151,6 +3188,9 @@ label,
 .form-control {
     font-family: 'asapregular', sans-serif;
     color: #85888b;
+}
+.notlogged-dialog {
+    max-width: 480px!important;
 }
 .account-dialog {
     padding-top: 15%;

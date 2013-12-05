@@ -224,22 +224,26 @@ define([
       },
 
       followButtonClick: function() {
-         // Favorite photo
-         var that = this;
-         app.oauth.loadAccessToken({
-            success: function() {
-               $.ajax({
-                  url: Routing.generate('api_v1_post_user_follower', { id: that.user.get('id') }),
-                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  type: 'POST',
-                  data: { userId: that.user.get('id') }
-               });
-            }
-         });
-         this.follow = !this.follow;
+         if (app.appState().isLogged()) {
+            // Follow user
+            var that = this;
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_post_user_follower', { id: that.user.get('id') }),
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     type: 'POST',
+                     data: { userId: that.user.get('id') }
+                  });
+               }
+            });
+            this.follow = !this.follow;
 
-         this.render();
-         this.trigger('follow', this.follow);
+            this.render();
+            this.trigger('follow', this.follow);
+         } else {
+            Common.Tools.notLoggedModal(false, 'notLogged.follow');
+         }
       }
    });
 

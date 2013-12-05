@@ -156,13 +156,15 @@ define([
          }
       },
 
-      notLoggedModal: function(redirect) {
+      notLoggedModal: function(redirect, content) {
          redirect = typeof redirect !== 'undefined' ? redirect : false;
+         content = typeof content !== 'undefined' ? content : 'common.contentNotLogged';
          app.useLayout().setView('#center-pane-content', new Common.Views.Modal({
             title: 'common.titleNotLogged',
-            content: 'common.contentNotLogged',
+            content: content,
             redirect: redirect,
-            showConfirmButton: false
+            showConfirmButton: false,
+            modalDialogClasses: 'notlogged-dialog'
          }), true).render();
       }
    }
