@@ -44,13 +44,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          // Handle window event
          this.handleWindowEvent();
 
-         // Initialize Fb
+         // Initialize authent
          app.fb = new Facebook.Model();
          // Get AdEntify accesstoken for AdEntify API
          app.oauth = new AdEntifyOAuth.Model();
          app.oauth.loadAccessToken();
 
-         // Facebook init
+         // Facebook
          FB.init({
             appId      : facebookAppId,                                   // App ID from the app dashboard
             channelUrl : channelUrl,  // Channel file for x-domain comms
@@ -62,12 +62,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                app.fb.connected(response);
-            } else if (response.status === 'not_authorized') {
-               //app.fb.notLoggedIn();
-               //window.location.href = Routing.generate('root_url');
-            } else {
-               //app.fb.notLoggedIn();
-               //window.location.href = Routing.generate('root_url');
             }
          });
 
@@ -102,6 +96,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          // Dom events
          this.listenTo(app, 'domchange:title', this.onDomChangeTitle);
+
+         // Handle url parameters
+         this.checkUrlQuery();
       },
 
       routes: function() {
@@ -1042,6 +1039,20 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                return;
             }
          };
+      },
+
+      checkUrlQuery: function() {
+         if (Common.Tools.getParameterByName('showLinkedAccount') && app.appState().isLogged()) {
+            app.useLayout().setView('#modal-container', new Common.Views.Modal({
+               title: 'profile.myLinkedServices',
+               view: new MySettings.Views.ServiceList({
+                  showLabel: true
+               }),
+               redirect: true,
+               showConfirmButton: false,
+               modalDialogClasses: 'linkedaccount-dialog'
+            })).render();
+         }
       }
    });
 

@@ -2346,6 +2346,9 @@ label,
 .notlogged-dialog {
     max-width: 480px!important;
 }
+.linkedaccount-dialog {
+    max-width: 480px!important;
+}
 .account-dialog {
     padding-top: 15%;
     max-width: 480px!important;
@@ -2623,6 +2626,16 @@ label,
     display: inline-block;
     margin-right: 15px;
     vertical-align: middle;
+}
+.service-item .service-icon-tooltip,
+.service-item .service-name-label {
+    display: inline-block;
+    vertical-align: middle;
+}
+.service-item .service-name-label {
+    margin-left: 6px;
+    font-size: 14px;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
 .service-item .service-action {
     display: inline-block;

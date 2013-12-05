@@ -1,5 +1,5 @@
-<div class="service-icon">
-    <div class="<%= model.get('service_name').toLowerCase() %>-circle-icon service-icon-tooltip" data-toggle="tooltip" title data-original-title="<%= model.get('service_name') %>"></div>
+<div class="service-icon <%= model.get('service_name').toLowerCase() %>-text">
+    <div class="<%= model.get('service_name').toLowerCase() %>-circle-icon service-icon-tooltip" data-toggle="tooltip" title data-original-title="<%= model.get('service_name') %>"></div><% if (showLabel) { %> <div class="service-name-label"><%= model.get('service_name') %></div><% } %>
 </div>
 <div class="service-action">
     <% if (model.has('cant_delete') && model.get('cant_delete')) { %>
