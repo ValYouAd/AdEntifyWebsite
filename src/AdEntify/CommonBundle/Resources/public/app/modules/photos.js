@@ -73,17 +73,6 @@ define([
          $(this.el).i18n();
       },
 
-      /*clickPastille: function() {
-         $tags = this.$('.tags');
-         if ($tags.data('always-visible') == 'no') {
-            $tags.data('always-visible', 'yes');
-            this.showTags();
-         } else {
-            $tags.data('always-visible', 'no');
-            this.hideTags();
-         }
-      },*/
-
       showTags: function() {
          this.$('.tags').stop().fadeIn(100);
       },
@@ -116,20 +105,6 @@ define([
       showServices: false,
 
       initialize: function() {
-         openedContainer = null;
-         var that = this;
-         if (typeof this.options.listenToEnable !== 'undefined') {
-            this.listenTo(this.options.photos, 'sync', this.render);
-         } else {
-            this.options.photos.once('sync', this.render, this);
-         }
-         this.listenTo(this.options.photos, 'remove', this.render);
-         this.listenTo(app, 'global:closeMenuTools', function() {
-            that.clickOnPhoto(openedImage);
-         });
-         this.listenTo(app, 'photos:submitPhotoDetails', this.submitPhotoDetails);
-         this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
-
          if (this.options.tagged) {
             app.trigger('domchange:title', $.t('photos.pageTitleTagged'));
          } else if (this.options.pageTitle) {
@@ -158,11 +133,58 @@ define([
 
       serialize: function() {
          return {
-            collection: this.options.photos,
-            category: this.category,
             filters: this.filters,
-            showServices: this.showServices
+            showServices: this.showServices,
+            category: this.category
          };
+      },
+
+      beforeRender: function() {
+         // Filters
+         if (this.filters && !this.getView('.filters-wrapper')) {
+            this.setView('.filters-wrapper', new Photos.Views.Filter({
+               photosUrl: this.photosUrl,
+               photos: this.options.photos
+            }));
+         }
+
+         // Photos
+         if (!this.getView('.photos-grid-container')) {
+            this.setView('.photos-grid-container', new Photos.Views.List({
+               photos: this.options.photos,
+               photosUrl: this.photosUrl,
+               photosSuccess: this.photosSuccess,
+               photosError: this.photosError,
+               listenToEnable: this.options.listenToEnable
+            }));
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         if (this.title) {
+            this.$('.photos-title').html(this.title);
+            this.$('.photos-title').fadeIn('fast');
+         }
+      }
+   });
+
+   Photos.Views.List = Backbone.View.extend({
+      'template': 'photos/list',
+
+      initialize: function() {
+         if (typeof this.options.listenToEnable !== 'undefined') {
+            this.listenTo(this.options.photos, 'sync', this.render);
+         } else {
+            this.options.photos.once('sync', this.render, this);
+         }
+         this.listenTo(this.options.photos, 'remove', this.render);
+         this.listenTo(app, 'photos:submitPhotoDetails', this.submitPhotoDetails);
+         this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
+
+         this.photosUrl = typeof this.options.photosUrl !== 'undefined' ? this.options.photosUrl : Routing.generate('api_v1_get_photos', { tagged: true });
+         this.photosSuccess = typeof this.options.photosSuccess !== 'undefined' ? this.options.photosSuccess : null;
+         this.photosError = typeof this.options.photosError !== 'undefined' ? this.options.photosError : null;
       },
 
       beforeRender: function() {
@@ -192,10 +214,6 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-         if (this.title) {
-            this.$('.photos-title').html(this.title);
-            this.$('.photos-title').fadeIn('fast');
-         }
          container = this.$('#photos-grid');
 
          // Wait images loaded
@@ -250,60 +268,73 @@ define([
          this.options.photos.nextPage(function() {
             app.trigger('pagination:nextPageLoaded');
          });
+      }
+   });
+
+   Photos.Views.Filter = Backbone.View.extend({
+      template: 'photos/filters',
+      currentFilter: null,
+
+      initialize: function() {
+         this.photosUrl = this.options.photosUrl;
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
       },
 
       brandsFilter: function() {
-         this.options.photos.fetch({
-            url: this.getOriginalPhotosUrl() + '&brands=1',
-            reset: true,
-            success: this.photosSuccess,
-            error: this.photosError
-         });
+         var activate = this.activateFilter(this.$('.brands-filter').parent());
+         this.loadPhotos(activate ? '&brands=1' : '');
       },
 
       placesFilter: function() {
-         this.options.photos.fetch({
-            url: this.getOriginalPhotosUrl() + '&places=1',
-            reset: true,
-            success: this.photosSuccess,
-            error: this.photosError
-         });
+         var activate = this.activateFilter(this.$('.places-filter').parent());
+         this.loadPhotos(activate ? '&places=1' : '');
       },
 
       peopleFilter: function() {
-         this.options.photos.fetch({
-            url: this.getOriginalPhotosUrl() + '&people=1',
-            reset: true,
-            success: this.photosSuccess,
-            error: this.photosError
-         });
+         var activate = this.activateFilter(this.$('.people-filter').parent());
+         this.loadPhotos(activate ? '&people=1' : '');
       },
 
       mostRecentFilter: function() {
-         this.options.photos.fetch({
-            url: this.getOriginalPhotosUrl() + '&orderBy=mostRecent',
-            reset: true,
-            success: this.photosSuccess,
-            error: this.photosError
-         });
+         var activate = this.activateFilter(this.$('.most-recent-filter').parent());
+         this.loadPhotos(activate ? '&orderBy=mostRecent' : '');
       },
 
       oldestFilter: function() {
+         var activate = this.activateFilter(this.$('.oldest-filter').parent());
+         this.loadPhotos(activate ? '&orderBy=oldest' : '');
+      },
+
+      mostLikedFilter: function() {
+         var activate = this.activateFilter(this.$('.most-liked-filter').parent());
+         this.loadPhotos(activate ? '&orderBy=mostLiked' : '');
+      },
+
+      loadPhotos: function(query) {
          this.options.photos.fetch({
-            url: this.getOriginalPhotosUrl() + '&orderBy=oldest',
+            url: this.getOriginalPhotosUrl() + query,
             reset: true,
             success: this.photosSuccess,
             error: this.photosError
          });
       },
 
-      mostLikedFilter: function() {
-         this.options.photos.fetch({
-            url: this.getOriginalPhotosUrl() + '&orderBy=mostLiked',
-            reset: true,
-            success: this.photosSuccess,
-            error: this.photosError
-         });
+      activateFilter: function(newFilter) {
+         if (newFilter.hasClass('active')) {
+            this.activeFilter = null;
+            newFilter.removeClass('active');
+            return false;
+         }
+
+         if (this.activeFilter) {
+            this.activeFilter.removeClass('active');
+         }
+         this.activeFilter = newFilter;
+         this.activeFilter.addClass('active');
+         return true;
       },
 
       getOriginalPhotosUrl: function() {
