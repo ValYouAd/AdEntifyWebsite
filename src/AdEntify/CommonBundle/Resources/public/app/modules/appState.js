@@ -17,6 +17,14 @@ define([
          return currentUserId > 0;
       },
 
+      doIfLogged: function(func, content) {
+         if (this.isLogged) {
+            func();
+         } else {
+            require('modules/common').Tools.notLoggedModal(false, content);
+         }
+      },
+
       getLocale: function() {
          return this.get('locale');
       },

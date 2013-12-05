@@ -156,14 +156,23 @@ define([
          }
       },
 
-      notLoggedModal: function(redirect) {
+      notLoggedModal: function(redirect, content) {
          redirect = typeof redirect !== 'undefined' ? redirect : false;
+         content = typeof content !== 'undefined' ? content : 'common.contentNotLogged';
          app.useLayout().setView('#center-pane-content', new Common.Views.Modal({
             title: 'common.titleNotLogged',
-            content: 'common.contentNotLogged',
+            content: content,
             redirect: redirect,
-            showConfirmButton: false
+            showConfirmButton: false,
+            modalDialogClasses: 'notlogged-dialog'
          }), true).render();
+      },
+
+      getParameterByName: function (name) {
+         name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
       }
    }
 

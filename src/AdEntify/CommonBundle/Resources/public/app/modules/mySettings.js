@@ -31,11 +31,15 @@ define([
       tagName: 'li class="service-item"',
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            showLabel: this.showLabel
+         };
       },
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+         this.showLabel = this.options.showLabel;
       },
 
       afterRender: function() {
@@ -83,11 +87,13 @@ define([
 
    MySettings.Views.ServiceList = Backbone.View.extend({
       template: 'mySettings/serviceList',
+      showLabel: false,
 
       beforeRender: function() {
          this.services.each(function(service) {
             this.insertView(".services-list", new MySettings.Views.ServiceItem({
-               model: service
+               model: service,
+               showLabel: this.showLabel
             }));
          }, this);
       },
@@ -98,24 +104,18 @@ define([
 
       initialize: function() {
          this.services = new MySettings.ServicesCollection();
+         this.showLabel = typeof this.options.showLabel !== 'undefined' ? this.options.showLabel : this.showLabel;
+         var that = this;
          this.services.fetch({
+            success: function() {
+               that.render();
+            },
             error: function() {
                app.useLayout().setView('.alert-connected-services', new Common.Views.Alert({
                   cssClass: Common.alertError,
                   message: $.t('mySettings.errorConnectedServices'),
                   showClose: true
                })).render();
-            }
-         });
-         this.listenTo(this.services, "sync", function(collection) {
-            if (collection.length == 0) {
-               app.useLayout().setView('.alert-connected-services', new Common.Views.Alert({
-                  cssClass: Common.alertInfo,
-                  message: $.t('mySettings.noConnectedServices'),
-                  showClose: true
-               })).render();
-            } else {
-               this.render();
             }
          });
          this.listenTo(this.services, "remove", this.render);

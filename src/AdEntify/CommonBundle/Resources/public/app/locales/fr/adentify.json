@@ -332,6 +332,13 @@
       "mostOldestToRecent": "Du plus vieux au plus récent",
       "mostLiked": "Les plus aimées"
    },
+   "notLogged": {
+      "like": "Vous ne pouvez pas aimer lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
+      "addTag": "Vous ne pouvez pas ajouter de tag sur une photo lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
+      "follow": "Vous ne pouvez pas suivre quelqu'un lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
+      "favorite": "Vous ne pouvez pas ajouter de photo en favoris lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
+      "comment": "Vous ne pouvez pas poster de commentaire lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire."
+   },
    "common": {
       "viewPhoto": "voir la photo",
       "submit": "Valider",

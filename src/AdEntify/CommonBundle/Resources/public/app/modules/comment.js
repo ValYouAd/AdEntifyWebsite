@@ -97,39 +97,43 @@ define([
 
       addComment: function(e) {
          e.preventDefault();
-         var that = this;
-         if ($('.comment-body').val()) {
-            var btn = $('.add-comment-button');
-            btn.button('loading');
+         if (app.appState().isLogged()) {
+            var that = this;
+            if ($('.comment-body').val()) {
+               var btn = $('.add-comment-button');
+               btn.button('loading');
 
-            var comment = new Comment.Model();
-            comment.set('body', $('.comment-body').val());
-            comment.set('photo', this.photoId);
-            comment.url = Routing.generate('api_v1_post_comment');
-            comment.getToken('comment_item', function() {
-               comment.save(null, {
-                  success: function(comment) {
-                     btn.button('reset');
-                     that.comments.add(comment);
-                     that.render();
-                     $('.comment-body').val('');
-                  },
-                  error: function() {
-                     app.useLayout().setView('.alert-add-comment', new Common.Views.Alert({
-                        cssClass: Common.alertError,
-                        message: $.t('comment.errorCommentPost'),
-                        showClose: true
-                     })).render();
-                     btn.button('reset');
-                  }
+               var comment = new Comment.Model();
+               comment.set('body', $('.comment-body').val());
+               comment.set('photo', this.photoId);
+               comment.url = Routing.generate('api_v1_post_comment');
+               comment.getToken('comment_item', function() {
+                  comment.save(null, {
+                     success: function(comment) {
+                        btn.button('reset');
+                        that.comments.add(comment);
+                        that.render();
+                        $('.comment-body').val('');
+                     },
+                     error: function() {
+                        app.useLayout().setView('.alert-add-comment', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('comment.errorCommentPost'),
+                           showClose: true
+                        })).render();
+                        btn.button('reset');
+                     }
+                  });
                });
-            });
+            } else {
+               app.useLayout().setView('.alert-add-comment', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('comment.noBody'),
+                  showClose: true
+               })).render();
+            }
          } else {
-            app.useLayout().setView('.alert-add-comment', new Common.Views.Alert({
-               cssClass: Common.alertError,
-               message: $.t('comment.noBody'),
-               showClose: true
-            })).render();
+            Common.Tools.notLoggedModal(false, 'notLogged.comment');
          }
       },
 
