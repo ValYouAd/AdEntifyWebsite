@@ -14,7 +14,7 @@
     <services>
         <!-- EmailProvider -->
         <service id="adentify_user.emailLoginProvider" class="AdEntify\UserBundle\Security\User\Provider\EmailLoginProvider" public="false">
-            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="fos_user.user_provider.username_email" />
         </service>
 
         <service id="adentify_fos_facebook.logout_handler" class="AdEntify\UserBundle\Security\Logout\FacebookHandler" public="false">
@@ -30,6 +30,13 @@
         <service id="adentify_user.registration.form.type" class="AdEntify\UserBundle\Form\Type\RegistrationFormType">
             <tag name="form.type" alias="adentify_user_registration" />
             <argument>%fos_user.model.user.class%</argument>
+        </service>
+
+        <service id="adentify_user.registration" class="AdEntify\UserBundle\EventListener\RegistrationListener">
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="router" />
+            <argument type="service" id="fos_user.security.login_manager" />
+            <argument>%fos_user.firewall_name%</argument>
         </service>
     </services>
 

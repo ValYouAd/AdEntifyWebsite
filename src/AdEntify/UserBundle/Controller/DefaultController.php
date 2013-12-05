@@ -60,19 +60,26 @@ class DefaultController extends Controller
                         throw new UsernameNotFoundException('The user is not authenticated on facebook');
                     }
 
-                    $token = new UsernamePasswordToken($user, $user->getPassword(), 'secured_area', $user->getRoles());
-
-                    $this->container->get('security.context')->setToken($token);
+                    if ($user->isEnabled()) {
+                        $token = new UsernamePasswordToken($user, $user->getPassword(), 'secured_area', $user->getRoles());
+                        $this->container->get('security.context')->setToken($token);
+                    }
                 } catch(\FacebookApiExceptionion $e) {
                     return $this->redirect($this->generateUrl("root_url"));
                 }
 
             }
 
-            if ($request->getSession()->has('_security.main.target_path')) {
-                return $this->redirect($request->getSession()->get('_security.main.target_path'));
+            if ($user->isEnabled()) {
+                if ($request->getSession()->has('_security.main.target_path')) {
+                    return $this->redirect($request->getSession()->get('_security.main.target_path'));
+                } else {
+                    return $this->redirect($this->generateUrl("root_url"));
+                }
             } else {
-                return $this->redirect($this->generateUrl("root_url"));
+                return $this->redirect($this->generateUrl('loggedInHome', array(
+                    'accountDisabled' => true
+                )));
             }
         }
     }

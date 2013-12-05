@@ -14,11 +14,11 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class EmailLoginProvider implements  UserProviderInterface
+class EmailLoginProvider implements UserProviderInterface
 {
     private $userManager;
 
-    public function __construct(UserManagerInterface $userManager)
+    public function __construct(UserProviderInterface $userManager)
     {
         $this->userManager = $userManager;
     }

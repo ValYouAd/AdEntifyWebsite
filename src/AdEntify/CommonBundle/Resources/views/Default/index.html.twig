@@ -69,6 +69,9 @@
                 <div class="row photos">
                     {% for photo in photos %}
                         <div class="col-xs-6 col-sm-4 col-md-4 photo-wrapper">
+
+                            {#<iframe src="https://local.adentify.com/iframe/photo-{{ photo.id }}.html?cover=1" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowTransparency="true" class="photo"></iframe>#}
+
                             <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="photo" style="background-image: url({{ photo.mediumUrl }})">
                                 <div class="adentify-pastille-wrapper">
                                     <div class="adentify-pastille-small"></div>
