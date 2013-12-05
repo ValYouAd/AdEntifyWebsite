@@ -46,6 +46,7 @@
          if (jQuery('meta[property="adentitfy-loaded"]').length == 0) {
             $head = jQuery('head');
             $head.append('<style type="text/css">' +
+               '@font-face {font-family: "asapregular";src: url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.svg#asapregular") format("svg");font-weight: normal;font-style: normal;}@font-face {font-family: "robotobold";src: url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.svg#robotobold") format("svg");font-weight: normal;font-style: normal;}@font-face {font-family: "asapbold";src: url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.svg#asapbold") format("svg");font-weight: normal;font-style: normal;}' +
                '.adentify-pastille {opacity: 1;background: url("'+ AdEntify.rootUrl +'img/adentify-pastille.png") no-repeat;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;width: 52px;height: 52px;position: absolute;top: 10px;right: 10px;z-index: 2;cursor: pointer;}' +
                '.adentify-photo-container:hover .adentify-pastille { opacity: 1; }' +
                (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
@@ -94,10 +95,14 @@
                '.form-control{display:block;width:100%;height:34px;padding:6px 12px;font-size:14px;line-height:1.428571429;color:#555555;vertical-align:middle;background-color:#ffffff;border:1px solid #cccccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;}.form-control:focus{border-color:#66afe9;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);}' +
                '.fblike, .pinterest {display: inline-block;} .pinterest { height: 20px; vertical-align: top;margin-left: 40px; }' +
                '.fadeOut {display: none;}' +
+               '.tag .popover {position: absolute;top: 30px;left: -50%;z-index: 2000;padding: 0px;border: 0px;border-radius: 0px;font-family: "asapregular", "Helvetica Neue", "Arial", sans-serif;max-width: none;min-width: 150px;-webkit-transition: opacity 0.3s ease-out;-moz-transition: opacity 0.3s ease-out;-ms-transition: opacity 0.3s ease-out;-o-transition: opacity 0.3s ease-out;transition: opacity 0.3s ease-out;}' +
                '.tag .tag-icon {position: absolute;}.tag .tag-brand-icon{top: 9px;left: 11px;}.tag .tag-place-icon{left: 12px;top: 10px;}.tag .tag-text-icon{left: 12px;top: 10px;}.tag .tag-user-icon{left: 11px;top: 10px;}.tag .tag-video-icon{left: 10px;top: 11px;}' +
                '.tag-brand-icon{background-position: -181px -109px ;width: 12px;height: 17px;}.tag-place-icon{background-position: -163px -127px ;width: 11px;height: 14px;}.tag-text-icon{background-position: -162px -108px ;width: 11px;height: 15px;}.tag-user-icon{background-position: -142px -126px ;width: 13px;height: 13px;}.tag-video-icon{background-position: -141px -109px ;width: 16px;height: 13px;}' +
+               '.tag .tag-popover-arrow {position: absolute;}' +
+               '.tag-popover-arrow-bottom{background-position: -196px -131px ;width: 10px;height: 10px;}.tag-popover-arrow-left{background-position: -191px -93px ;width: 10px;height: 10px;}.tag-popover-arrow-right{background-position: -179px -131px ;width: 10px;height: 10px;}.tag-popover-arrow-top{background-position: -207px -93px ;width: 10px;height: 10px;}' +
+               '.tag .popover-inner {padding: 6px;}.tag .popover .title {font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;font-size: 14px;color: #181616;}.tag .popover address {margin-bottom: 0px;color: #5b5756;font-size: 12px;}.tag .popover a {color: #000000;font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;}.popover .popover-details {background: #f5f5f7;padding: 10px 25px;}.popover-details strong {font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;font-weight: normal;}.popover-details a.buy-link {font-size: 16px;color: #4e4e50;}.popover-product {min-width: 250px;}.popover-product .brand-logo {max-height: 50px;}.tag .map {width: 270px;height: 260px;}.brand-logo,.product-image {max-height: 100px;}.tag .tag-top-buttons {float: right;margin-bottom: 8px;}.tag-text {font-family: "robotoregular", "Helvetica Neue", "Arial", sans-serif;font-size: 16px;padding: 10px;}.product-photo {max-width: 100%;}.tag-buttons {background: url("'+ AdEntify.rootUrl +'img/dark-grey-tag-background.jpg") repeat;padding: 6px 10px;color: #b7babe;font-family: "asapregular", "Helvetica Neue", "Arial", sans-serif;font-size: 11px;margin: 2px 0px 0px;}.tag-buttons strong {font-weight: normal;font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;}.tag-buttons .tagged-by {margin-right: 4px;}.tagged-by a,.tagged-by a:hover {text-decoration: none;color: #b7babe!important;}' +
                // sprites
-               '.arrow-top-adentify-pastille-hover, .add-tag-icon, .like-icon, .share-icon, .favorite-icon, .tag-place-icon, .tag-user-icon, .tag-brand-icon { background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");background-color: transparent;background-repeat: no-repeat; }' +
+               '.arrow-top-adentify-pastille-hover, .add-tag-icon, .like-icon, .share-icon, .favorite-icon, .tag-place-icon, .tag-user-icon, .tag-brand-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top { background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");background-color: transparent;background-repeat: no-repeat; }' +
                '</style>');
             $head.append('<meta property="adentify-loaded" content="true">');
          }
@@ -194,21 +199,54 @@
                      var i = 0;
                      for (i; i <tags.length; i++) {
                         var tag = tags[i];
+                        var $tag = null;
                         if (tag.type == 'place') {
-                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-place-icon tag-icon"></div><div class="popover"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
+                           $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-place-icon tag-icon"></div><div class="popover"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
                               + (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                              '<div id="map' + tag.id + '" class="map" data-lng="' + tag.venue.lng + '" data-lat="' + tag.venue.lat + '"></div></div></div>');
+                              '</div><div id="map' + tag.id + '" class="map" data-lng="' + tag.venue.lng + '" data-lat="' + tag.venue.lat + '"></div>\
+                              <div class="popover-details">\
+                                 <address>\
+                                 <strong>' + tag.title + '</strong><br>\
+                                   ' + (tag.venue.address ? tag.venue.address + '<br>' : '') +
+                              (tag.venue.postalCode ? tag.venue.postalCode + ' ' : '') + (tag.venue.city ? tag.venue.city + ' ' : '') + (tag.venue.country ? tag.venue.country + ' ' : '') +
+                               '</address></div></div></div>');
                         } else if (tag.type == 'person') {
-                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-user-icon tag-icon"></div><div class="popover"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
+                           $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%">\
+                              <div class="tag-user-icon tag-icon"></div><div class="popover"><div class="tag-popover-arrow"></div>\
+                              <div class="popover-inner"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
                               (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                              '</div></div>');
+                              '</div></div></div>');
                         } else if (tag.type == 'product') {
-                           jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><<div class="tag-brand-icon tag-icon"></div>div class="popover popover-product"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
+                           $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
                               (tag.description ? '<p>' + tag.description + '</p>' : '') +
+                              '</div><div class="clearfix"></div>' +
                               (tag.product && tag.product.brand ? '<div class="brand pull-right"><img src="' + tag.product.brand.small_logo_url + '" alt="' + tag.product.brand.name + '" class="brand-logo" /></div>' : '') +
-                              '<a href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div></div>');
+                              '<div class="popover-details"><a href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div></div></div>');
                         } else {
                            jQuery($tags).append('');
+                        }
+
+                        if ($tag) {
+                           var popoverArrow = $tag.find('.tag-popover-arrow');
+                           // Arrow position
+                           if (tag.y_position > 0.5) {
+                              popoverArrow.addClass('tag-popover-arrow-bottom');
+                              popoverArrow.css({bottom: '-10px'});
+                           } else {
+                              popoverArrow.css({top: '-10px'});
+                              popoverArrow.addClass('tag-popover-arrow-top');
+                           }
+                           if (tag.x_position > 0.5) {
+                              popoverArrow.css({right: '20px'});
+                           } else {
+                              popoverArrow.css({left: '20px'});
+                           }
+                        }
+
+                        if (typeof popover !== 'undefined') {
+                           popover.css({top: this.model.get('y_position') > 0.5 ? '-'+(popover.height() + 18)+'px' : '46px'});
+                           popover.css({left: this.model.get('x_position') > 0.5 ? '-'+(popover.width() - 31)+'px' : '-8px'});
+                           popover.fadeIn(100);
                         }
                      }
                   }
