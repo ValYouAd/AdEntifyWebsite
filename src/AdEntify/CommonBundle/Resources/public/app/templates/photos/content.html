@@ -8,26 +8,7 @@
         <% } %>
     </div>
     <% if (filters) { %>
-    <div class="filters-wrapper">
-        <div class="">
-            <ul class="first-filters list-unstyled">
-                <li><button class="brands-filter"><i class="brands-icon icon"></i> <%= $.t('filter.brands') %></button></li>
-                <li><button class="places-filter"><i class="venues-icon icon"></i> <%= $.t('filter.places') %></button></li>
-                <li><button class="people-filter"><i class="people-icon icon"></i> <%= $.t('filter.people') %></button></li>
-                <li class="pull-right">
-                    <button type="button" class="dropdown-toggle collapsed" data-toggle="collapse" data-target=".more-filters">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                </li>
-            </ul>
-        </div>
-        <ul class="more-filters list-unstyled collapse">
-            <li><button class="most-recent-filter"><i class="clock-icon icon"></i> <%= $.t('filter.mostRecentToOldest') %></button></li>
-            <li><button class="oldest-filter"><i class="clock-icon icon"></i> <%= $.t('filter.mostOldestToRecent') %></button></li>
-            <li><button class="most-liked-filter"><i class="heart-icon icon"></i> <%= $.t('filter.mostLiked') %></button></li>
-        </ul>
-    </div>
+    <div class="filters-wrapper"></div>
     <% } %>
     <% if (showServices) { %>
     <div class="services-container"></div>
@@ -35,7 +16,5 @@
         <div class="loader rotate"></div>
     </div>
     <% } %>
-    <ul id="photos-grid" class="transitions-enabled clearfix"></ul>
-    <div class="clearfix"></div>
-    <div class="pagination-wrapper"></div>
+    <div class="photos-grid-container"></div>
 </div>
