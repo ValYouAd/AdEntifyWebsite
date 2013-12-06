@@ -69,7 +69,8 @@ class UploadController extends Controller
             $uploadedFile = $_FILES['files'];
             $path = FileTools::getProductPhotoPath();
             $filename = uniqid().$uploadedFile['name'][0];
-            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('files')[0], $path, $filename);
+            $file = $this->getRequest()->files->get('files');
+            $url = $this->getFileUploader()->upload($file[0], $path, $filename);
             if ($url) {
                 $thumb = new Thumb();
                 $thumb->setOriginalPath($url);
@@ -135,8 +136,9 @@ class UploadController extends Controller
             $user = $this->container->get('security.context')->getToken()->getUser();
             $path = FileTools::getUserPhotosPath($user);
             $filename = uniqid().$uploadedFile['name'][0];
+            $file = $this->getRequest()->files->get('files');
 
-            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('files')[0], $path, $filename);
+            $url = $this->getFileUploader()->upload($file[0], $path, $filename);
             if ($url) {
                 $em = $this->getDoctrine()->getManager();
                 $userLocalUpload = $em->getRepository('AdEntifyCoreBundle:LocalUpload')->findOneBy(array(
