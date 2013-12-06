@@ -318,8 +318,10 @@ define([
 
       beforeRender: function() {
          // Check if its a feed
-         var hashtags = this.terms.match(/(?:^|\s)(\#\w+)/g);
-         this.isFeed = hashtags.length == 1;
+         var hashtags = [];
+         if (this.terms)
+            hashtags = this.terms.match(/(?:^|\s)(\#\w+)/g);
+         this.isFeed = hashtags && hashtags.length == 1;
          if (this.isFeed) {
             this.resultsCount = this.options.photos.length;
          } else {

@@ -10,6 +10,10 @@
     {% endstylesheets %}
 {% endblock %}
 
+{% block meta %}
+<meta name="fragment" content="!">
+{% endblock %}
+
 {% block body %}
 
     {% set full_root_url = root_url ~ app.request.locale ~ '/app/' %}

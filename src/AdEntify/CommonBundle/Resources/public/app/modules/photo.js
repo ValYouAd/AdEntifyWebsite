@@ -181,7 +181,9 @@ define([
                      showClose: true
                   })).render();
                } else {
-                  app.trigger('domchange:title', this.options.photo.get('caption'));
+                  app.trigger('domchange:title', $.t('photo.pageTitle', {caption: this.options.photo.get('caption')}));
+                  if (this.options.photo.get('caption'))
+                     app.trigger('domchange:description', $.t('photo.pageDescription', {caption: this.options.photo.get('caption')}));
                   app.oauth.loadAccessToken({
                      success: function() {
                         that.loadUnvalidateTags();
@@ -592,18 +594,20 @@ define([
          if (this.options.photo) {
             this.photo = this.options.photo;
             var that = this;
-            app.oauth.loadAccessToken({
-               success: function() {
-                  $.ajax({
-                     url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
-                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                     success: function(response) {
-                        that.liked = response;
-                        that.render();
-                     }
-                  });
-               }
-            });
+            if (app.appState().isLogged()) {
+               app.oauth.loadAccessToken({
+                  success: function() {
+                     $.ajax({
+                        url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
+                        headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                        success: function(response) {
+                           that.liked = response;
+                           that.render();
+                        }
+                     });
+                  }
+               });
+            }
          }
       },
 

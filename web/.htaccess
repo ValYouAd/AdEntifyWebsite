@@ -9,7 +9,7 @@ DirectoryIndex app.php
     RewriteEngine On
 
     RewriteCond %{QUERY_STRING} ^_escaped_fragment_=(.*)$
-    RewriteRule (.*) http://localhost:3000/%1? [P]
+    RewriteRule (.*) http://localhost:8000/%1? [P]
 
     # Redirect to URI without front controller to prevent duplicate content
     # (with and without `/app.php`). Only do this redirect on the initial

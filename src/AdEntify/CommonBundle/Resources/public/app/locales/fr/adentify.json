@@ -1,6 +1,7 @@
 {
    "brand": {
       "pageTitle": "Marques",
+      "pageDescription": "Découvrez toutes les marques répertoriées sur AdEntify.com avec leurs photos et tags.",
       "pageSubTitle": "__count__ marque",
       "pageSubTitle_plural": "__count__ marques",
       "tagged": "__count__ <span class='bold'>fois taguée</span>",
@@ -14,9 +15,8 @@
       "moreFollowers": "Voir tous les abonnés"
    },
    "photos": {
-      "pageTitleTagged": "Photos taguées - AdEntify",
-      "pageTitleUntagged": "Photos non taguées - AdEntify",
-      "loading": "Chargement des photos en cours...",
+      "pageTitle": "Découvrez, taguez et partagez des photos - AdEntify",
+      "loading": "Chargement des pageTitlephotos en cours...",
       "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
       "noPhotos": "Aucune photo disponible.",
       "loadMore": "Charger plus de photos",
@@ -194,7 +194,9 @@
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
       "reportReasonLabel": "Raison du signalement",
       "reportReasonTextarea": "Ecrivez la raison du signalement.",
-      "noEmbedOnPrivatePhoto": "Vous ne pouvez pas partager une photo privée"
+      "noEmbedOnPrivatePhoto": "Vous ne pouvez pas partager une photo privée",
+      "pageTitle": "__caption__ AdEntify.com",
+      "pageDescription": "__caption__. Browse more photos and tags on AdEntify.com"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",

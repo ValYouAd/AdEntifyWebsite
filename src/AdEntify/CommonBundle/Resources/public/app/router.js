@@ -96,6 +96,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          // Dom events
          this.listenTo(app, 'domchange:title', this.onDomChangeTitle);
+         this.listenTo(app, 'domchange:description', this.onDomChangeDescription);
 
          // Handle url parameters
          this.checkUrlQuery();
@@ -981,6 +982,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       onDomChangeTitle: function(title) {
          if (typeof title !== 'undefined' && title != '') {
             $(document).attr('title', title);
+         }
+      },
+
+      onDomChangeDescription: function(description) {
+         if (typeof description !== 'undefined' && description != '') {
+            $('meta[name=description]').attr('content', description);
          }
       },
 

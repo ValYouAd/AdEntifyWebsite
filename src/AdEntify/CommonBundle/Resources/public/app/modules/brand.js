@@ -89,6 +89,7 @@ define([
             "sync": this.render
          });
          app.trigger('domchange:title', $.t('brand.pageTitle'));
+         app.trigger('domchange:description', $.t('brand.pageDescription'))
       }
    });
 
@@ -163,18 +164,20 @@ define([
             this.slug = this.options.slug;
             this.brand = this.options.brand;
             var that = this;
-            app.oauth.loadAccessToken({
-               success: function() {
-                  $.ajax({
-                     url: Routing.generate('api_v1_get_brand_is_following', { 'slug': that.slug }),
-                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                     success: function(response) {
-                        that.follow = response;
-                        that.render();
-                     }
-                  });
-               }
-            });
+            if (app.appState().isLogged()) {
+               app.oauth.loadAccessToken({
+                  success: function() {
+                     $.ajax({
+                        url: Routing.generate('api_v1_get_brand_is_following', { 'slug': that.slug }),
+                        headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                        success: function(response) {
+                           that.follow = response;
+                           that.render();
+                        }
+                     });
+                  }
+               });
+            }
          }
       },
 

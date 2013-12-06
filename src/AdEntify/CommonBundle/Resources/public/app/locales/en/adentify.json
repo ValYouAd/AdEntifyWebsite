@@ -1,6 +1,7 @@
 {
    "brand": {
       "pageTitle": "Brands",
+      "pageDescription": "All brands on AdEntify.com with their photos and tags.",
       "pageSubTitle": "__count__ brand",
       "pageSubTitle_plural": "__count__ brands",
       "tagged": "__count__ <span class='bold'>tagged</span>",
@@ -14,8 +15,7 @@
       "moreFollowers": "View more followers"
    },
    "photos": {
-      "pageTitleTagged": "Tagged photos - AdEntify",
-      "pageTitleUntagged": "Untagged photos - AdEntify",
+      "pageTitle": "Browse, tag & share photos - AdEntify",
       "loading": "Loading photos...",
       "errorPhotosLoading": "Error loading photos. Please try again.",
       "noPhotos": "No photos available.",
@@ -194,7 +194,9 @@
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
       "reportReasonLabel": "Report reason",
       "reportReasonTextarea": "Write reason of the report...",
-      "noEmbedOnPrivatePhoto": "You can't share private photo"
+      "noEmbedOnPrivatePhoto": "You can't share private photo",
+      "pageTitle": "__caption__ AdEntify.com",
+      "pageDescription": "__caption__"
    },
    "externalServicePhotos": {
       "select": "Select",
