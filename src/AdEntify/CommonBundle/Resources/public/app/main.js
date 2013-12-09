@@ -35,7 +35,7 @@ function(app, Router, i18n, AppState, TagStats) {
    // Extend Backbone Model
    _.extend(Backbone.Model.prototype, {
       sync: function(method, model, options) {
-         if (!options.headers || currentUserId == 0) {
+         if (!options.headers || currentUserId > 0) {
             app.oauth.loadAccessToken({
                success: function() {
                   options.headers = { 'Authorization': app.oauth.getAuthorizationHeader() };

@@ -96,6 +96,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          // Dom events
          this.listenTo(app, 'domchange:title', this.onDomChangeTitle);
+         this.listenTo(app, 'domchange:description', this.onDomChangeDescription);
 
          // Handle url parameters
          this.checkUrlQuery();
@@ -225,7 +226,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                title: $.t('myPhotos.titleMyPhotos'),
                itemClickBehavior: Photos.Common.PhotoItemClickBehaviorAddTag,
                addTag: true,
-               showServices: true
+               showServices: true,
+               filters: true
             }),
             "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({
@@ -935,8 +937,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          leftActive = typeof leftActive !== 'undefined' ? leftActive : false;
          rightActive = typeof rightActive !== 'undefined' ? rightActive : true;
          if (leftActive || rightActive) {
-            if (!$('#center-pane').hasClass('col-sm-8 col-md-9'))
-               $('#center-pane').removeClass().addClass('col-sm-8 col-md-9');
+            if (!$('#center-pane').hasClass('col-sm-12 col-md-9'))
+               $('#center-pane').removeClass().addClass('col-sm-12 col-md-9');
          } else {
             if (!$('#center-pane').hasClass('col-sm-12 col-md-12'))
                $('#center-pane').removeClass().addClass('col-sm-12 col-md-12');
@@ -961,7 +963,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (show) {
             if ($('#left-pane').hasClass('hide'))
                $('#left-pane').removeClass('hide');
+            $('#center-pane').removeClass('col-sm-12').addClass('col-sm-9');
          } else {
+            if ($('#center-pane').hasClass('col-sm-9'))
+               $('#center-pane').removeClass('col-sm-9').addClass('col-sm-12');
             if (!$('#left-pane').hasClass('hide'))
                $('#left-pane').addClass('hide');
          }
@@ -981,6 +986,12 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       onDomChangeTitle: function(title) {
          if (typeof title !== 'undefined' && title != '') {
             $(document).attr('title', title);
+         }
+      },
+
+      onDomChangeDescription: function(description) {
+         if (typeof description !== 'undefined' && description != '') {
+            $('meta[name=description]').attr('content', description);
          }
       },
 

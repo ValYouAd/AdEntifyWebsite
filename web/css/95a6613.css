@@ -220,6 +220,9 @@ header {
 
 /* End
 ----------------------- */
+body {
+    display: none;
+}
 header {
     border-top: 10px solid #ff3d3c;
 }
@@ -348,4 +351,20 @@ header {
     }
     .signup-wrapper {
         margin-bottom: 120px;
+    }
+
+.bottom-white-border {
+    background: url('../../bundles/adentifycommon/images/bottom-white-border.png') repeat-x;
+    height: 19px;
+    position: relative;
+}
+    .footer-home-button {
+        background: url('../../bundles/adentifycommon/images/footer-home-button.png');
+        width: 115px;
+        height: 73px;
+        display: block;
+        position: absolute;
+        left: 50%;
+        bottom: 0px;
+        margin-left: -57px;
     }

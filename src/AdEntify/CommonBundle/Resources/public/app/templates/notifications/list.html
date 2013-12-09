@@ -1,4 +1,4 @@
-<button class="notifications-button" title="Notifications" data-toggle="button"><%= notifications.unreadCount() %></button>
+<% if (notifications.unreadCount() > 0) { %><button class="notifications-button" title="Notifications" data-toggle="button"><%= notifications.unreadCount() %></button><% } %>
 <div class="dropdown-menu fadeOut">
     <div class="white-arrow-top"></div>
     <div class="alert-notifications"></div>

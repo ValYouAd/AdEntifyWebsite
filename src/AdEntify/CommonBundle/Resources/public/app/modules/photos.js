@@ -18,9 +18,6 @@ define([
 ], function(app, Tag, Pagination, Photo, Common) {
 
    var Photos = app.module();
-   var openedContainer = null;
-   var openedImage = null;
-   var lastImageContainer = null;
    var container = null;
 
    Photos.Collection = Backbone.Collection.extend({
@@ -105,9 +102,7 @@ define([
       showServices: false,
 
       initialize: function() {
-         if (this.options.tagged) {
-            app.trigger('domchange:title', $.t('photos.pageTitleTagged'));
-         } else if (this.options.pageTitle) {
+         if (this.options.pageTitle) {
             app.trigger('domchange:title', this.options.pageTitle);
          }
          else if (this.options.category) {
@@ -116,9 +111,8 @@ define([
                "change": this.render
             });
          }
-         else if (!this.options.tagged) {
-            app.trigger('domchange:title', $.t('photos.pageTitleUntagged'));
-         }
+         else
+            app.trigger('domchange:title', $.t('photos.pageTitle'));
 
          if (typeof this.options.title !== 'undefined') {
             this.title = this.options.title;
@@ -144,7 +138,9 @@ define([
          if (this.filters && !this.getView('.filters-wrapper')) {
             this.setView('.filters-wrapper', new Photos.Views.Filter({
                photosUrl: this.photosUrl,
-               photos: this.options.photos
+               photos: this.options.photos,
+               photosSuccess: this.options.photosSuccess,
+               photosError: this.options.photosError
             }));
          }
 
@@ -155,8 +151,14 @@ define([
                photosUrl: this.photosUrl,
                photosSuccess: this.photosSuccess,
                photosError: this.photosError,
-               listenToEnable: this.options.listenToEnable
+               listenToEnable: this.options.listenToEnable,
+               addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false
             }));
+         }
+
+         if (this.showServices && !this.getView('.services-container')) {
+            var upload = require('modules/upload');
+            this.setView('.services-container', new upload.Views.ServiceButtons());
          }
       },
 
@@ -205,10 +207,6 @@ define([
                   loadingText: 'photos.loadingMore'
                })
             }));
-         }
-         if (!this.getView('.services-container')) {
-            var upload = require('modules/upload');
-            this.setView('.services-container', new upload.Views.ServiceButtons());
          }
       },
 
@@ -277,6 +275,8 @@ define([
 
       initialize: function() {
          this.photosUrl = this.options.photosUrl;
+         this.photosSuccess = this.options.photosSuccess;
+         this.photosError = this.options.photosError;
       },
 
       afterRender: function() {

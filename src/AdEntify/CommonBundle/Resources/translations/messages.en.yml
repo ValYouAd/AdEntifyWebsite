@@ -17,6 +17,7 @@ My favorites: My favorites
 My settings: My settings
 My profile: My profile
 My brand: My brand
+Tag my photos: Tag my photos
 Log out: Log out
 Press: Press
 Credits: Credits
@@ -57,9 +58,9 @@ about:
     pageTitle: About - AdEntify.com
     pageDescription: AdEntify is a service that gives you ability to enhence your photos with tags : brands, products, places, people...
 How it works?: How it works?
-HowItWorksStep1: <strong>Ajoutez</strong> vos photos via Facebook, Twitter, Pinterest ou flickr
-HowItWorksStep2: <strong>Enrichissez</strong> vos tags et partagez les avec vos amis
-HowItWorksStep3: <strong>Bénéficiez</strong> de réductions sur vos marques préférées
+HowItWorksStep1: <strong>Add</strong> your photos via Facebook, Twitter, Pinterest or flickr
+HowItWorksStep2: <strong>Enrich</strong> your tags and share them with friends
+HowItWorksStep3: <strong>Get</strong> discounts on your favorites brands
 Win points: Win points
 Win cash: Win cash
 RewardsEarningsText: Tag your prefered brands and ...
@@ -93,6 +94,9 @@ Screenshots: Screenshots
 Communiqué de presse: Press release
 Story: Story
 Team: Team
+
+#HP Offline
+tags: '[0,1]%count% tag|]1,Inf[%count% tags'
 
 #Routing
 photos/untagged/: photos/untagged/

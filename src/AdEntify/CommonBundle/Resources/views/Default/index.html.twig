@@ -21,6 +21,17 @@
     '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script type="text/javascript">
+        $("a").click(function(event){
+            event.preventDefault();
+            linkLocation = this.href;
+            $("body").fadeOut('fast', redirectPage(linkLocation));
+        });
+
+        function redirectPage(link) {
+            document.location.href= link;
+        }
+    </script>
     {% endjavascripts %}
 {% endblock %}
 
@@ -69,12 +80,16 @@
                 <div class="row photos">
                     {% for photo in photos %}
                         <div class="col-xs-6 col-sm-4 col-md-4 photo-wrapper">
-
-                            {#<iframe src="https://local.adentify.com/iframe/photo-{{ photo.id }}.html?cover=1" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowTransparency="true" class="photo"></iframe>#}
-
                             <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="photo" style="background-image: url({{ photo.mediumUrl }})">
                                 <div class="adentify-pastille-wrapper">
                                     <div class="adentify-pastille-small"></div>
+                                </div>
+                                <div class="white-background">
+                                    <div class="table-center">
+                                        <div class="table-center-cell text-center tags-count">
+                                            {{ 'tags'|transchoice(photo.tags|length, {'%count%': photo.tags|length }) }}
+                                        </div>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -142,7 +157,14 @@
                 <div class="row mt4 mb4">
                     {% for brand in brands %}
                     <div class="col-xs-3 col-sm-2 col-md-1 brand">
-                        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brand/%slug%/'|trans({'%slug%': brand.slug}) }}"><img src="{{ asset(brand.smallLogoUrl) }}" alt="{{ brand.name }}" class="brand-logo" /></a>
+                        <div class="table-center">
+                            <div class="table-center-cell text-center">
+                                <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brand/%slug%/'|trans({'%slug%': brand.slug}) }}">
+                                    <img src="{{ asset(brand.smallLogoUrl) }}" alt="{{ brand.name }}" class="brand-logo" />
+                                    <div class="tagged-count text-center">{{ 'tags'|transchoice(brand.tags|length, {'%count%': brand.tags|length }) }}</div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>

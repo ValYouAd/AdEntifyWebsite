@@ -11,7 +11,7 @@
 </div>
 <% } %>
 <% if (model.get("type") == "photo-upload") { %>
-<div class="message"><a data-i18n="[href]routing.my/photos/untagged/"><span data-i18n="<%= model.get("message") %>"></span></a></div>
+<div class="message"><span data-i18n="[html]<%= model.get("message") %>" data-i18n-options='{"link": "<%= $.t('routing.my/photos/') %>"}'></span></div>
 <% } else if (model.get("type") == "photo-like" || model.get("type") == "photo-fav" || model.get("type") == "photo-tag"
                 || model.get("type") == "photo-comment" || model.get("type") == "user-follow") { %>
 <div class="message">

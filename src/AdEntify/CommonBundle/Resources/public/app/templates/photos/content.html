@@ -7,14 +7,11 @@
         <h1 class="photos-title fadeOut"></h1>
         <% } %>
     </div>
-    <% if (filters) { %>
-    <div class="filters-wrapper"></div>
-    <% } %>
     <% if (showServices) { %>
     <div class="services-container"></div>
-    <div id="loading-photos" class="loading-gif-container">
-        <div class="loader rotate"></div>
-    </div>
+    <% } %>
+    <% if (filters) { %>
+    <div class="filters-wrapper"></div>
     <% } %>
     <div class="photos-grid-container"></div>
 </div>

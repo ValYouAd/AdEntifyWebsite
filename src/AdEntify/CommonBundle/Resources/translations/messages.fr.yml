@@ -17,6 +17,7 @@ My favorites: Mes favoris
 My settings: Mes paramètres
 My profile: Mon profil
 My brand: Ma marque
+Tag my photos: Taguer mes photos
 Log out: Déconnexion
 Press: Presse
 Credits: Crédits
@@ -96,6 +97,9 @@ Screenshots: Screenshots
 Communiqué de presse: Communiqué de presse
 Story: Histoire
 Team: Equipe
+
+# HP offline
+tags: '[0,1]%count% tag|]1,Inf[%count% tags'
 
 #Routing
 photos/untagged/: photos/non-taguees/

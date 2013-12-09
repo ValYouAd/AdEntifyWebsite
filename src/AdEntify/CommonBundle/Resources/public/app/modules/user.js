@@ -204,18 +204,20 @@ define([
          if (this.options.user) {
             this.user = this.options.user;
             var that = this;
-            app.oauth.loadAccessToken({
-               success: function() {
-                  $.ajax({
-                     url: Routing.generate('api_v1_get_user_is_following', { 'id': that.options.user.get('id') }),
-                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                     success: function(response) {
-                        that.follow = response;
-                        that.render();
-                     }
-                  });
-               }
-            });
+            if (app.appState().isLogged()) {
+               app.oauth.loadAccessToken({
+                  success: function() {
+                     $.ajax({
+                        url: Routing.generate('api_v1_get_user_is_following', { 'id': that.options.user.get('id') }),
+                        headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                        success: function(response) {
+                           that.follow = response;
+                           that.render();
+                        }
+                     });
+                  }
+               });
+            }
          }
       },
 
