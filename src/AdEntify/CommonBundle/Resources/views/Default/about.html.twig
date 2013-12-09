@@ -21,6 +21,11 @@
     '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script type="text/javascript">
+        $(function() {
+           $('body').fadeIn('fast');
+        });
+    </script>
     {% endjavascripts %}
 {% endblock %}
 

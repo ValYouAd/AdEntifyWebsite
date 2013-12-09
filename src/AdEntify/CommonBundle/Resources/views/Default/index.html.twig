@@ -21,6 +21,17 @@
     '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script type="text/javascript">
+        $("a").click(function(event){
+            event.preventDefault();
+            linkLocation = this.href;
+            $("body").fadeOut('fast', redirectPage(linkLocation));
+        });
+
+        function redirectPage(link) {
+            document.location.href= link;
+        }
+    </script>
     {% endjavascripts %}
 {% endblock %}
 
