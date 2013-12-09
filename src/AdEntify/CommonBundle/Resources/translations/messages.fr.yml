@@ -97,6 +97,10 @@ Communiqué de presse: Communiqué de presse
 Story: Histoire
 Team: Equipe
 
+# HP offline
+photo:
+    taggedCount: %count% tags
+
 #Routing
 photos/untagged/: photos/non-taguees/
 my/photos/: mes/photos/

@@ -94,6 +94,9 @@ Communiqué de presse: Press release
 Story: Story
 Team: Team
 
+photo:
+    taggedCount: %count% tags
+
 #Routing
 photos/untagged/: photos/untagged/
 my/photos/: my/photos/

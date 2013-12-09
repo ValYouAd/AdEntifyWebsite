@@ -5,13 +5,21 @@ require.config({
   // generated configuration file.
   deps: ["../vendor/jam/require.config", "main"],
 
+  waitSeconds: 5,
+
   paths: {
-     facebook: "//connect.facebook.net/fr_FR/all",
+     facebook: [
+        "//connect.facebook.net/fr_FR/all",
+        "../vendor/lib/fr-fb"
+     ],
      "lodash": "../vendor/jam/lodash/dist/lodash.underscore.min",
      "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
      "bootstrap": "../vendor/js/bootstrap.min",
      "hmacsha1": "../vendor/js/hmac-sha1",
-     "pinterest": "//assets.pinterest.com/js/pinit",
+     "pinterest": [
+        "//assets.pinterest.com/js/pinit",
+        "../vendor/lib/pinit"
+     ],
      "select2": "../vendor/js/select2/select2",
      "select2fr": "../vendor/js/select2/select2_locale_fr",
      "jquery.fileupload": "../vendor/js/jquery.fileupload",
@@ -42,8 +50,7 @@ require.config({
         "deps": [
            "jquery",
            "facebook",
-           "bootstrap",
-           "i18next2"
+           "bootstrap"
         ]
      },
      "jquery-ui": {

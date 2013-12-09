@@ -344,8 +344,7 @@ html,body {
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     font-weight: normal;
     font-size: 20px;
-    padding: 15px 0px;
-    margin: 0px;
+    margin: 15px 0px;
 }
 #photos-grid {
     overflow: visible!important;
@@ -442,10 +441,10 @@ html,body {
          @-o-keyframes opacityKeyframe { from { opacity: 0; } to { opacity: 1; } }
             @keyframes opacityKeyframe { from { opacity: 0; } to { opacity: 1; } }
 
-    #photos-grid li div.medium { width: 422px; text-align: center; }
+    #photos-grid li div.medium { width: 277px; text-align: center; }
     #photos-grid li div.medium img { max-width: 100%; min-width: 100%; margin: auto; }
     @media (max-width: 1200px) {
-        #photos-grid li div.medium { width: 348px; text-align: center; }
+        #photos-grid li div.medium { width: 230px; text-align: center; }
     }
     #photos-grid li div.large { width: 100%; text-align: center; }
     #photos-grid li div.large img { max-width: 100%; margin: auto; }
@@ -3085,6 +3084,7 @@ label,
     text-shadow:  none;
     color: #9da0a4;
 }
+@media (min-width:768px) and (max-width:991px) {.container{max-width: 100%;} }
 /* END : Bootstrap customs
 ----------------------- */
 
@@ -3196,9 +3196,11 @@ ul.striped > li:nth-child(even) {
 .icon {
     position:relative;top:1px;display:inline-block;font-style:normal;font-weight:normal;line-height:1;
 }
-.fadeOut,
-.hide {
+.fadeOut {
     display: none;
+}
+.hide {
+    display: none!important;
 }
 .opacity0 {
     opacity: 0;

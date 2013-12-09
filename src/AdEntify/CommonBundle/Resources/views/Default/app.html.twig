@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block meta %}
-<meta name="fragment" content="!">
+    <meta name="fragment" content="!">
 {% endblock %}
 
 {% block body %}
@@ -133,9 +133,9 @@
         <div class="container dashboard-container">
             <div id="dashboard" class="row view-mode">
 
-                <section id="left-pane" class="col-sm-4 col-md-3 hide"></section>
+                <section id="left-pane" class="col-sm-3 col-md-3 hide"></section>
 
-                <section id="center-pane" class="col-sm-8 col-md-9">
+                <section id="center-pane" class="col-sm-12 col-md-9">
                     <section id="center-pane-content">
                         <div class="loading-gif-container">
                             <div class="loader rotate"></div>
@@ -144,7 +144,7 @@
                     <div class="push"></div>
                 </section>
 
-                <section id="right-pane" class="col-sm-4 col-md-3">
+                <section id="right-pane" class="hidden-xs hidden-sm col-md-3">
                     <section id="right-pane-content"></section>
                     <div class="push"></div>
                 </section>

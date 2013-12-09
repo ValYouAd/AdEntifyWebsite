@@ -151,8 +151,14 @@ define([
                photosUrl: this.photosUrl,
                photosSuccess: this.photosSuccess,
                photosError: this.photosError,
-               listenToEnable: this.options.listenToEnable
+               listenToEnable: this.options.listenToEnable,
+               addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false
             }));
+         }
+
+         if (this.showServices && !this.getView('.services-container')) {
+            var upload = require('modules/upload');
+            this.setView('.services-container', new upload.Views.ServiceButtons());
          }
       },
 
@@ -201,10 +207,6 @@ define([
                   loadingText: 'photos.loadingMore'
                })
             }));
-         }
-         if (!this.getView('.services-container')) {
-            var upload = require('modules/upload');
-            this.setView('.services-container', new upload.Views.ServiceButtons());
          }
       },
 
