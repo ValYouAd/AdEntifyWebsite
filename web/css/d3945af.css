@@ -2275,10 +2275,10 @@ html,body {
     font-size: 12px;
 }
 #notifications {
-    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
 #notifications a {
-    font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 }
 .notifications-button {
     position: absolute;

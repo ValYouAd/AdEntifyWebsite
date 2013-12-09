@@ -138,7 +138,7 @@ define([
          this.listenTo(app, 'notifications:read', function() {
             var count = that.notifications.unreadCount();
             if (count == 0) {
-               $('.notifications-count').hide();
+               this.render();
             } else {
                $('.notifications-count').html(count);
             }
@@ -149,6 +149,7 @@ define([
       pollNotifications: function(notifications) {
          var that = this;
          if (app.appState().getCurrentUserId() > 0) {
+            this.currentNotificationsCount = notifications.length;
             notifications.fetch({
                url: Routing.generate('api_v1_get_user_notifications', { id: app.appState().getCurrentUserId() }),
                success: function(collection) {
@@ -159,6 +160,8 @@ define([
                         showClose: true
                      })).render();
                   }
+                  if (that.currentNotificationsCount != collection.length)
+                     that.render();
                   // Set a new timeout
                   that.pollTimeout = setTimeout(function() {
                      that.pollNotifications(notifications);

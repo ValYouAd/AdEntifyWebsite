@@ -29,7 +29,7 @@
     {% endjavascripts %}
 {% endblock %}
 
-{% block title %}{{ 'about.pageTitle'|trans }} - AdEntify.com{% endblock %}
+{% block title %}{{ 'about.pageTitle'|trans }}{% endblock %}
 {% block metadescription %}{{ 'about.pageDescription'|trans }}{% endblock %}
 
 {% block body %}
@@ -99,7 +99,9 @@
         </div>
     </div>
 
-    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+    <div class="bottom-white-border">
+        <a class="footer-home-button" href="{{ path('home_logoff') }}"></a>
+    </div>
 
     <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
         <div class="modal-dialog">
