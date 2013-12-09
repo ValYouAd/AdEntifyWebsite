@@ -94,8 +94,8 @@ Communiqué de presse: Press release
 Story: Story
 Team: Team
 
-photo:
-    taggedCount: %count% tags
+#HP Offline
+tags: '[0,1]%count% tag|]1,Inf[%count% tags'
 
 #Routing
 photos/untagged/: photos/untagged/

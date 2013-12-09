@@ -87,7 +87,7 @@
                                 <div class="white-background">
                                     <div class="table-center">
                                         <div class="table-center-cell text-center tags-count">
-                                            {{ 'photo.taggedCount'|trans({'%count%': photo.tags|length }) }}
+                                            {{ 'tags'|transchoice(photo.tags|length, {'%count%': photo.tags|length }) }}
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +159,10 @@
                     <div class="col-xs-3 col-sm-2 col-md-1 brand">
                         <div class="table-center">
                             <div class="table-center-cell text-center">
-                                <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brand/%slug%/'|trans({'%slug%': brand.slug}) }}"><img src="{{ asset(brand.smallLogoUrl) }}" alt="{{ brand.name }}" class="brand-logo" /></a>
+                                <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'brand/%slug%/'|trans({'%slug%': brand.slug}) }}">
+                                    <img src="{{ asset(brand.smallLogoUrl) }}" alt="{{ brand.name }}" class="brand-logo" />
+                                    <div class="tagged-count text-center">{{ 'tags'|transchoice(brand.tags|length, {'%count%': brand.tags|length }) }}</div>
+                                </a>
                             </div>
                         </div>
                     </div>
