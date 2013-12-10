@@ -10,7 +10,7 @@
             </div>
             <div class="popover-inner">
                 <div class="text-center">
-                    <img src="https://graph.facebook.com/<%= model.get('person')['facebook_id'] %>/picture?type=square" />
+                    <img src="https://graph.facebook.com/<%= model.get('person')['facebook_id'] %>/picture?type=normal" />
                 </div>
                 <span class="title"><a href="<%= typeof model.get('person').user !== 'undefined' ? rootUrl + $.t('routing.profile/id/', { id: model.get('person').user.id }) : model.get("link") %>" target="_blank"><%= model.get("title") %></a></span>
                 <% if (model.get("description")) { %>

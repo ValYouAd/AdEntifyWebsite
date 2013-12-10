@@ -6,7 +6,10 @@
     </div>
 </div>
 <h1 class="lead"><%= model.get("caption") %></h1>
-<div class="full-photo text-center">
+<div class="loading-gif-container">
+    <div class="loader rotate"></div>
+</div>
+<div class="full-photo text-center fadeOut">
     <div class="photo-container">
         <div class="adentify-pastille-wrapper">
             <% if (model.get("tags_count") > 0) { %>
@@ -41,7 +44,7 @@
         <div class="pinterest"><a target="_blank" href="//pinterest.com/pin/create/button/?url=<%= encodeURIComponent(pageUrl) %>&media=<%= encodeURIComponent(model.get("large_url")) %>&description=<%= encodeURIComponent(model.get("caption")) %>" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div>
     </div>
     <div class="pull-right">
-        <span class="source">Source :</span> <span class="source-name"><%= model.get("source") %></span> <button class="btn btn-link report-button"><i class="report-icon icon"></i> <%= $.t('photo.report') %></button>
+        <span class="source">Source :</span> <span class="source-name"><%= model.get("source") %></span> <button class="btn btn-link report-button"><i class="glyphicon glyphicon-warning-sign"></i> <%= $.t('photo.report') %></button>
     </div>
     <div class="clearfix"></div>
     <div class="categories-hashtags">
@@ -62,7 +65,7 @@
     </div>
     <div class="tab-pane" id="share">
         <h2 data-i18n="photo.link"></h2>
-        <input class="form-control" type="text" value="<%= pageUrl %>" class="input-block-level selectOnFocus">
+        <input type="text" value="<%= pageUrl %>" class="input-block-level form-control selectOnFocus">
 
         <% if (model.get('visibility_scope') == 'public') { %>
         <h2 data-i18n="photo.embed"></h2>

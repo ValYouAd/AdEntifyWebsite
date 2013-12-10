@@ -166,16 +166,20 @@ define([
          this.model = this.options.photo;
          this.modal = typeof this.options.modal !== 'undefined' ? this.options.modal : false;
          this.listenTo(this.options.photo, {
-            'error': function() {
-               app.useLayout().setView('#content', new Common.Views.Alert({
-                  cssClass: Common.alertError,
-                  message: $.t('photo.errorLoading'),
-                  showClose: true
-               })).render();
+            'error': function(model, resp) {
+               if (resp.status == 404) {
+                  Common.Tools.notFound();
+               } else {
+                  app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('photo.errorLoading'),
+                     showClose: true
+                  })).render();
+               }
             },
             'sync': function(model, resp) {
                if (resp == null) {
-                  app.useLayout().setView('#content', new Common.Views.Alert({
+                  app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('photo.noPhoto'),
                      showClose: true
@@ -265,9 +269,7 @@ define([
                that.hidePastillePopover();
             });
             pastillePopoverView.on('like', function() {
-               Photo.Common.like(that.model, function(liked) {
-                  that.updateLikedCount(liked);
-               });
+               that.getView('.like-button').likeButtonClick();
                that.hidePastillePopover();
             });
             pastillePopoverView.on('share', function() {
@@ -313,11 +315,25 @@ define([
       },
 
       afterRender: function() {
-         $(this.el).i18n();
-         $('.full-photo img').load(function() {
-            $('#photo').fadeIn();
+         var that = this;
+         this.$('.photo-full').load(function() {
+            that.photoLoaded();
          });
+         this.photoLoadedTimeout = setTimeout(function() {
+            that.photoLoaded();
+         }, 3000);
+         $(this.el).i18n();
          FB.XFBML.parse();
+      },
+
+      photoLoaded: function() {
+         var that = this;
+         clearTimeout(this.photoLoadedTimeout);
+         this.$('.loading-gif-container').fadeOut(200, function() {
+            if (!that.$('.full-photo:visible').length > 0) {
+               that.$('.full-photo').fadeIn('fast');
+            }
+         });
       },
 
       loadUnvalidateTags: function() {
@@ -348,10 +364,11 @@ define([
 
       updateLikedCount: function(liked) {
          $likeCount = $(this.el).find('#like-count');
+         var currentLikeCount = $likeCount.html() ? parseInt($likeCount.html()) : 0;
          if (liked) {
-            $likeCount.html(this.model.get('likes_count') + 1);
+            $likeCount.html(currentLikeCount + 1);
          } else {
-            $likeCount.html(this.model.get('likes_count') > 0 ? this.model.get('likes_count') - 1 : 0);
+            $likeCount.html(currentLikeCount > 0 ? currentLikeCount - 1 : 0);
          }
       },
 

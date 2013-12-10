@@ -841,12 +841,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       notFound: function() {
-         app.useLayout().setView('#center-pane-content', new Common.Views.Modal({
-            title: 'common.titlePageNotFound',
-            content: 'common.contentPageNotFound',
-            redirect: true,
-            showConfirmButton: false
-         }), true).render();
+         Common.Tools.notFound();
       },
 
       reset: function(activeLeftPane, activeRightPane) {

@@ -168,6 +168,15 @@ define([
          }), true).render();
       },
 
+      notFound: function() {
+         app.useLayout().setView('#center-pane-content', new Common.Views.Modal({
+            title: 'common.titlePageNotFound',
+            content: 'common.contentPageNotFound',
+            redirect: true,
+            showConfirmButton: false
+         }), true).render();
+      },
+
       getParameterByName: function (name) {
          name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),

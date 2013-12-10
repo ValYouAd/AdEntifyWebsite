@@ -128,7 +128,7 @@ define([
                   that.options.albums.add(response);
                   that.render();
                } else {
-                  app.useLayout().setView('#content', new Common.Views.Alert({
+                  app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                      cssClass: Common.alertInfo,
                      message: $.t('facebook.noAlbums'),
                      showClose: true
@@ -136,7 +136,7 @@ define([
                   $('#loading-albums').hide();
                }
             } else {
-               app.useLayout().setView('#content', new Common.Views.Alert({
+               app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                   cssClass: Common.alertError,
                   message: $.t('facebook.errorLoadingAlbums'),
                   showClose: true
