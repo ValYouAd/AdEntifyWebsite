@@ -43,6 +43,8 @@ Account disabled: Compte non validé
 Close: Fermer
 Your account is currently under validation.: Votre compte est en attente de validation et n'est donc pas actif pour le moment.
 My dashboard: Mon dashboard
+Firstname: Prénom
+Lastname: Nom
 
 #Login
 modal:

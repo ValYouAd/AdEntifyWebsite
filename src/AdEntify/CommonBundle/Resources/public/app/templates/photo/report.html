@@ -1,6 +1,13 @@
 <div class="modal-body-wrapper">
     <form class="form-horizontal mt2" role="form">
         <fieldset>
+
+            <div class="form-group">
+                <div class="col-md-12 text-center">
+                    <button type="button" data-bypass="" class="btn-around-corner btn-red-grey-border deletePhotoButton"><%= $.t('photo.deletePhoto') %></button>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label data-i18n="photo.reportReasonLabel" class="col-sm-4 control-label"></label>
                 <div class="col-sm-8">
@@ -11,9 +18,6 @@
             <div class="form-group">
                 <div class="col-md-8 col-md-offset-4">
                     <button type="button" class="btn btn-link" data-dismiss="modal"><%= $.t('common.cancel') %></button>
-                    <% if (model.isOwner() && model.get('tags_count') == 0) { %>
-                    <button type="button" data-bypass="" class="btn btn-link deletePhotoButton"><%= $.t('photo.deletePhoto') %></button>
-                    <% } %>
                     <input type="submit" class="btn-around-corner btn-red-grey-border reportSubmit" value="<%= $.t('common.report') %>" />
                 </div>
             </div>

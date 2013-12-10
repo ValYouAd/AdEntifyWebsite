@@ -269,9 +269,7 @@ define([
                that.hidePastillePopover();
             });
             pastillePopoverView.on('like', function() {
-               Photo.Common.like(that.model, function(liked) {
-                  that.updateLikedCount(liked);
-               });
+               that.getView('.like-button').likeButtonClick();
                that.hidePastillePopover();
             });
             pastillePopoverView.on('share', function() {
@@ -352,10 +350,11 @@ define([
 
       updateLikedCount: function(liked) {
          $likeCount = $(this.el).find('#like-count');
+         var currentLikeCount = $likeCount.html() ? parseInt($likeCount.html()) : 0;
          if (liked) {
-            $likeCount.html(this.model.get('likes_count') + 1);
+            $likeCount.html(currentLikeCount + 1);
          } else {
-            $likeCount.html(this.model.get('likes_count') > 0 ? this.model.get('likes_count') - 1 : 0);
+            $likeCount.html(currentLikeCount > 0 ? currentLikeCount - 1 : 0);
          }
       },
 
