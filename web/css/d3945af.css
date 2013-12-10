@@ -1868,7 +1868,7 @@ html,body {
 .actions-list {
     margin: 7px 10px 0px 10px;
     font-size: 12px;
-    font-family: 'robotoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'asapregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #c5c5c4;
 }
 .actions-list .ticker_separator {
@@ -1876,7 +1876,7 @@ html,body {
 }
 .actions-list a,
 .actions-list a:hover {
-    font-family: 'robotobold', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'asapbold', "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #c5c5c4;
 }
 .actions-list .profile-picture {

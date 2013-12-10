@@ -166,16 +166,20 @@ define([
          this.model = this.options.photo;
          this.modal = typeof this.options.modal !== 'undefined' ? this.options.modal : false;
          this.listenTo(this.options.photo, {
-            'error': function() {
-               app.useLayout().setView('#content', new Common.Views.Alert({
-                  cssClass: Common.alertError,
-                  message: $.t('photo.errorLoading'),
-                  showClose: true
-               })).render();
+            'error': function(model, resp) {
+               if (resp.status == 404) {
+                  Common.Tools.notFound();
+               } else {
+                  app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('photo.errorLoading'),
+                     showClose: true
+                  })).render();
+               }
             },
             'sync': function(model, resp) {
                if (resp == null) {
-                  app.useLayout().setView('#content', new Common.Views.Alert({
+                  app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('photo.noPhoto'),
                      showClose: true

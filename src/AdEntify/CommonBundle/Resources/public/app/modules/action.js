@@ -151,14 +151,7 @@ define([
          if (app.appState().getCurrentUserId() > 0) {
             actions.fetch({
                url: Routing.generate('api_v1_get_actions'),
-               success: function(collection) {
-                  /*if (collection.length == 0) {
-                     app.useLayout().setView('.alert-notifications', new Common.Views.Alert({
-                        cssClass: Common.alertInfo,
-                        message: $.t('notification.noNotifications'),
-                        showClose: true
-                     })).render();
-                  }*/
+               success: function() {
                   // Set a new timeout
                   that.pollTimeout = setTimeout(function() {
                      that.pollActions(actions);
