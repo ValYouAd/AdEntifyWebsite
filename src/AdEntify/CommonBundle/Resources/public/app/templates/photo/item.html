@@ -6,7 +6,10 @@
     </div>
 </div>
 <h1 class="lead"><%= model.get("caption") %></h1>
-<div class="full-photo text-center">
+<div class="loading-gif-container">
+    <div class="loader rotate"></div>
+</div>
+<div class="full-photo text-center fadeOut">
     <div class="photo-container">
         <div class="adentify-pastille-wrapper">
             <% if (model.get("tags_count") > 0) { %>

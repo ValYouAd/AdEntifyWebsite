@@ -315,11 +315,25 @@ define([
       },
 
       afterRender: function() {
-         $(this.el).i18n();
-         $('.full-photo img').load(function() {
-            $('#photo').fadeIn();
+         var that = this;
+         this.$('.photo-full').load(function() {
+            that.photoLoaded();
          });
+         this.photoLoadedTimeout = setTimeout(function() {
+            that.photoLoaded();
+         }, 3000);
+         $(this.el).i18n();
          FB.XFBML.parse();
+      },
+
+      photoLoaded: function() {
+         var that = this;
+         clearTimeout(this.photoLoadedTimeout);
+         this.$('.loading-gif-container').fadeOut(200, function() {
+            if (!that.$('.full-photo:visible').length > 0) {
+               that.$('.full-photo').fadeIn('fast');
+            }
+         });
       },
 
       loadUnvalidateTags: function() {
