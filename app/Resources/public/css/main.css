@@ -444,7 +444,7 @@ html,body {
     #photos-grid li div.medium { width: 277px; text-align: center; }
     #photos-grid li div.medium img { max-width: 100%; min-width: 100%; margin: auto; }
     @media (max-width: 1200px) {
-        #photos-grid li div.medium { width: 230px; text-align: center; }
+        #photos-grid li div.medium { width: 220px; text-align: center; }
     }
     #photos-grid li div.large { width: 100%; text-align: center; }
     #photos-grid li div.large img { max-width: 100%; margin: auto; }
