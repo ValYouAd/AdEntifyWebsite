@@ -309,7 +309,8 @@ define([
          // Hashtags
          if (!this.getView('.hashtags')) {
             this.setView('.hashtags', new Hashtag.Views.List({
-               hashtags: this.options.hashtags
+               hashtags: this.options.hashtags,
+               showAlert: true
             }));
          }
       },
@@ -324,6 +325,7 @@ define([
          }, 3000);
          $(this.el).i18n();
          FB.XFBML.parse();
+         this.$('.report-button').tooltip();
       },
 
       photoLoaded: function() {

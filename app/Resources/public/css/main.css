@@ -444,7 +444,7 @@ html,body {
     #photos-grid li div.medium { width: 277px; text-align: center; }
     #photos-grid li div.medium img { max-width: 100%; min-width: 100%; margin: auto; }
     @media (max-width: 1200px) {
-        #photos-grid li div.medium { width: 230px; text-align: center; }
+        #photos-grid li div.medium { width: 220px; text-align: center; }
     }
     #photos-grid li div.large { width: 100%; text-align: center; }
     #photos-grid li div.large img { max-width: 100%; margin: auto; }
@@ -464,6 +464,7 @@ html,body {
     color: #ff3434;
     font-size: 26px;
     z-index: 1000;
+    cursor: pointer;
 }
 .photo-container:hover .add-tag {
     opacity: 1;
@@ -999,6 +1000,12 @@ html,body {
     border-right: 1px solid #dfe2e6;
     margin-right: 15px;
     padding-right: 15px;
+}
+.categories-hashtags .alert-info {
+    font-size: 14px!important;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    margin-bottom: 0px;
+    padding: 0px;
 }
 .categories-hashtags .hashtags-list {
     margin: 0px;
@@ -1740,11 +1747,12 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
 }
+
 .brands-icon{
     background-position: -110px -51px ;
     width: 17px;
@@ -2184,7 +2192,7 @@ html,body {
 }
 
 .white-separator-32{
-    background-position: -329px -60px ;
+    background-position: -326px -60px ;
     width: 1px;
     height: 32px;
 }
@@ -2218,6 +2226,19 @@ html,body {
     width: 26px;
     height: 23px;
 }
+
+.small-arrow-top{
+    background-position: -334px -86px ;
+    width: 11px;
+    height: 5px;
+}
+
+.more-profile{
+    background-position: -313px -2px ;
+    width: 20px;
+    height: 20px;
+}
+
 
 /* DONT CHANGE IT */
 .grey-share-icon {
@@ -2567,6 +2588,28 @@ label,
     color: #FFFFFF;
     text-decoration: none;
 }
+.btn-grey-white-border {
+    background: rgb(219,219,219);
+    background: -moz-linear-gradient(top,  rgba(219,219,219,1) 0%, rgba(207,207,207,1) 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(219,219,219,1)), color-stop(50%,rgba(207,207,207,1)));
+    background: -webkit-linear-gradient(top,  rgba(219,219,219,1) 0%,rgba(207,207,207,1) 50%);
+    background: -o-linear-gradient(top,  rgba(219,219,219,1) 0%,rgba(207,207,207,1) 50%);
+    background: -ms-linear-gradient(top,  rgba(219,219,219,1) 0%,rgba(207,207,207,1) 50%);
+    background: linear-gradient(to bottom,  rgba(219,219,219,1) 0%,rgba(207,207,207,1) 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dbdbdb', endColorstr='#cfcfcf',GradientType=0 );
+    border: 3px solid #f4f4f5!important;
+    padding: 7px 20px!important;
+    color: #FFFFFF;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+.btn-grey-white-border:hover {
+    border: 3px solid #e2e2e2!important;
+    color: #FFFFFF;
+    text-decoration: none;
+}
 .btn-large {
     padding: 10px 35px!important;
     font-size: 14px;
@@ -2855,6 +2898,9 @@ label,
 }
 .link-grey-whith-red-arrow:hover {
     color: #b7babe;
+}
+.user-item .more-profile {
+    margin-top: 10px;
 }
 .followers .user-item,
 .followings .user-item {
@@ -3167,6 +3213,14 @@ label,
 .top-grey-title-container {
     background-color: #e0e4ea;
     margin: 0px -15px 5px -15px;
+    position: relative;
+    min-height: 50px;
+}
+.top-grey-title-container .small-arrow-top {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -5px;
 }
 .top-grey-title-container h1,
 .top-grey-title-container h2 {
@@ -3177,6 +3231,11 @@ label,
     padding: 15px 0px;
     margin: 0px;
     text-align: center;
+}
+.top-grey-title-container .back-to-link {
+    position: absolute;
+    top:0px;
+    right: 0px;
 }
 .top-grey-title-container .back-to-link a {
     color: #606366;
@@ -3308,8 +3367,11 @@ ul.striped > li:nth-child(even) {
     background: none;
     border: none;
     color: #999797;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    margin-bottom: 0px;
+    padding: 0px;
+    text-align: center;
 }
 /*
 ----------------------- */
