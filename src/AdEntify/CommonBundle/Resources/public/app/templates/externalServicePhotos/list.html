@@ -5,6 +5,7 @@
     </div>
     <% } %>
     <h1 data-i18n="upload.<%= typeof(title) !== 'undefined' ? title : 'addPhotosTitle' %>"></h1>
+    <div class="small-arrow-top"></div>
 </div>
 <% if (typeof serviceName !== 'undefined') { %>
 <div class="service-name-container text-center">
@@ -29,13 +30,6 @@
     </div>
 
     <div class="upload-options">
-        <div class="form-inline pull-left">
-            <label data-i18n="externalServicePhotos.labelPhotosConfidentiality"></label>
-            <select class="photos-confidentiality form-control" name="photos-confidentiality">
-                <option value="public" data-i18n="externalServicePhotos.public"></option>
-                <option value="private" data-i18n="externalServicePhotos.private"></option>
-            </select>
-        </div>
         <div class="pull-right">
             <button class="btn-around-corner btn-red-grey-border btn-large submit-photos-button fadeOut" type="button"><i class="glyphicon glyphicon-ok"></i> <%= $.t('upload.submitPhotos') %></button>
         </div>
@@ -44,6 +38,16 @@
 
     <div id="errors"></div>
     <div id="photos-list" class="row"></div>
+
+    <div class="upload-options">
+        <div class="form-inline">
+            <label data-i18n="externalServicePhotos.labelPhotosConfidentiality"></label>
+            <select class="photos-confidentiality form-control" name="photos-confidentiality">
+                <option value="public" data-i18n="externalServicePhotos.public"></option>
+                <option value="private" data-i18n="externalServicePhotos.private"></option>
+            </select>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="uploadInProgressModal" tabindex="-1" role="dialog" aria-labelledby="uploadInProgressLabel" aria-hidden="true">

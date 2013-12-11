@@ -91,8 +91,13 @@ define([
          }
       },
 
+      showTags: function(evt) {
+         Tag.Common.addTag(evt, this.model);
+      },
+
       events: {
-         'click .photo-link': 'showPhoto'
+         'click .photo-link': 'showPhoto',
+         'click .add-tag': 'showTags'
       }
    });
 

@@ -13,7 +13,7 @@
             <% if (currentUserId != model.get('id')) { %>
             <div class="follow-button"></div>
             <% } else { %>
-            <a href="<%= rootUrl %><%= $.t('routing.my/settings/') %>" class="btn btn-large btn-around-corner btn-red-grey-border"><%= $.t('profile.editMyProfile') %></a>
+            <a href="<%= rootUrl %><%= $.t('routing.my/settings/') %>" class="btn btn-large btn-around-corner btn-grey-white-border"><%= $.t('profile.editMyProfile') %></a>
             <% } %>
 
             <div class="indicators-container text-center">
@@ -41,25 +41,6 @@
                         <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>
                     </div>
                 </div>
-                <!--<div class="indicator">
-                    <div class="indicator-value"><%= model.get("photos_count") %></div>
-                    <div class="indicator-label"><%= $.t('profile.photosIndicator') %></div>
-                </div>
-                <div class="sm-separator separator"></div>
-                <div class="indicator">
-                    <div class="indicator-value"><%= model.get("tags_count") %></div>
-                    <div class="indicator-label"><%= $.t('profile.tagsIndicator') %></div>
-                </div>
-                <div class="lg-separator separator"></div>
-                <div class="indicator">
-                    <div class="indicator-value"><%= model.get("followings_count") %></div>
-                    <div class="indicator-label"><%= $.t('profile.followingIndicator') %></div>
-                </div>
-                <div class="sm-separator separator"></div>
-                <div class="indicator">
-                    <div class="indicator-value"><%= model.get("followers_count") %></div>
-                    <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>
-                </div>-->
             </div>
         </div>
     </div>
@@ -67,28 +48,25 @@
 
     <hr class="menu-left-hr">
 
+    <% if (showHashtags) { %>
     <h2><%= $.t('profile.hashtagsTitle') %></h2>
     <div class="hashtags"></div>
-
     <hr class="menu-left-hr">
+    <% } %>
 
+    <% if (showFollowings) { %>
     <h2><%= $.t('profile.followingsTitle') %></h2>
-    <div class="block-white-background">
-        <div class="followings"></div>
-        <!--<a href="#" class="link-grey-whith-red-arrow"><%= $.t('profile.moreFollowings') %></a>-->
-    </div>
-
+    <div class="followings"></div>
     <hr class="menu-left-hr">
+    <% } %>
 
+    <% if (showFollowers) { %>
     <h2><%= $.t('profile.followersTitle') %></h2>
-    <div class="block-white-background">
-        <div class="followers"></div>
-        <!--<a href="#" class="link-grey-whith-red-arrow"><%= $.t('profile.moreFollowers') %></a>-->
-    </div>
+    <div class="followers"></div>
+    <hr class="menu-left-hr">
+    <% } %>
 
     <% if (showServices) { %>
-    <hr class="menu-left-hr">
-
     <h2><%= $.t('profile.myLinkedServices') %></h2>
     <div class="block-white-background">
         <div class="services"></div>

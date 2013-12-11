@@ -66,21 +66,24 @@ define([
             model: this.model,
             lastPhoto: this.lastPhoto,
             showServices: this.showServices,
-            rootUrl: app.beginUrl + app.root
+            rootUrl: app.beginUrl + app.root,
+            showHashtags: this.showHashtags,
+            showFollowers: this.showFollowers,
+            showFollowings: this.showFollowings
          };
       },
 
       beforeRender: function() {
          var that = this;
-         if (!this.getView('.followings')) {
+         if (!this.getView('.followings') && this.options.followings) {
             this.setView('.followings', new User.Views.List({
-               users: this.followings,
+               users: this.options.followings,
                noUsersMessage: 'profile.noFollowings'
             }));
          }
-         if (!this.getView('.followers')) {
+         if (!this.getView('.followers') && this.options.followers) {
             this.setView('.followers', new User.Views.List({
-               users: this.followers,
+               users: this.options.followers,
                noUsersMessage: 'profile.noFollowers'
             }));
          }
@@ -94,9 +97,10 @@ define([
                that.render();
             });
          }
-         if (!this.getView('.hashtags')) {
+         if (!this.getView('.hashtags') && this.options.hashtags) {
             this.setView('.hashtags', new Hashtag.Views.List({
-               hashtags: this.options.hashtags
+               hashtags: this.options.hashtags,
+               showAlert: true
             }));
          }
          if (this.showServices && !this.getView('.services')) {
@@ -116,8 +120,9 @@ define([
 
       initialize: function() {
          this.lastPhoto = null;
-         this.followings = this.options.followings;
-         this.followers = this.options.followers;
+         this.showFollowings = typeof this.options.followings !== 'undefined';
+         this.showFollowers = typeof this.options.followers !== 'undefined';
+         this.showHashtags = typeof this.options.hashtags !== 'undefined';
          this.showServices = typeof this.options.showServices !== 'undefined' ? this.options.showServices : this.showServices;
          this.listenTo(this.options.user, 'sync', this.render);
          this.options.photos.once('sync', function(collection) {

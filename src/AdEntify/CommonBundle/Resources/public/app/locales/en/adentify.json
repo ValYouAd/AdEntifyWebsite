@@ -379,6 +379,7 @@
       "search/": "search/",
       "search/keywords": "search/__keywords__",
       "my/profile/": "my/profile/",
+      "my/settings/": "my/settings/",
       "my/dashboard/": "my/dashboard/"
    }
 }

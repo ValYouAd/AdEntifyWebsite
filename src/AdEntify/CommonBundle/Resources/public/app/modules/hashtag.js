@@ -50,6 +50,7 @@ define([
 
    Hashtag.Views.List = Backbone.View.extend({
       template: "hashtag/list",
+      showAlert: false,
 
       beforeRender: function() {
          this.options.hashtags.each(function(hashtag) {
@@ -61,12 +62,24 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+         if (this.options.hashtags.length == 0)
+            this.$('.hashtags-list').hide();
       },
 
       initialize: function() {
          this.listenTo(this.options.hashtags, 'sync', function() {
+            if (this.options.hashtags.length == 0 && this.showAlert) {
+               this.setView('.hashtags-alert', new Common.Views.Alert({
+                  cssClass: Common.alertInfo,
+                  message: $.t('profile.noHashtag'),
+                  showClose: true
+               }));
+            } else {
+               this.removeView('.hashtags-alert');
+            }
             this.render();
          });
+         this.showAlert = typeof this.options.showAlert !== 'undefined' ? this.options.showAlert : this.showAlert;
       }
    });
 
