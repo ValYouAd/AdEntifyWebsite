@@ -2692,6 +2692,11 @@ label,
 
 /* Settings
 ----------------------- */
+.langForm {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 20px;
+}
 .changePasswordForm legend {
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     color: #9da0a4;

@@ -451,7 +451,7 @@ class UsersController extends FosRestController
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
             return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followings following WHERE following.id = :userId')
+            LEFT JOIN user.followers follower WHERE follower.id = :userId')
                 ->setParameters(array(
                     'userId' => $user->getId()
                 ))
@@ -471,7 +471,7 @@ class UsersController extends FosRestController
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
             return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followers follower WHERE follower.id = :userId')
+            LEFT JOIN user.followings following WHERE following.id = :userId')
                 ->setParameters(array(
                     'userId' => $user->getId()
                 ))

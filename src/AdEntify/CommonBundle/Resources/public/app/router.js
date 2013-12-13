@@ -553,7 +553,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followers: followers,
                photos: this.photos,
                hashtags: this.hashtags,
-               showServices: true
+               showServices: true,
+               showFollowButton: false
             })
          }).render();
 

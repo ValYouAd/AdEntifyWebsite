@@ -248,6 +248,8 @@
       "followingIndicator": "Following",
       "followersIndicator": "Followers",
       "followersTitle": "Followers",
+      "myFollowingsTitle": "My followings",
+      "myFollowersTitle": "My followers",
       "moreFollowers": "View all followers",
       "followingsTitle": "Following",
       "moreFollowings": "View all following",
