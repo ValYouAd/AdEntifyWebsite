@@ -3,7 +3,8 @@
         <div class="text-center">{{ error|trans({}, 'FOSUserBundle') }}</div>
     {% endif %}
 
-    <form action="{{ path("fos_user_security_check") }}" method="post" role="form">
+    <form class="login-form" action="{{ path("fos_user_security_check") }}" method="post" role="form">
+        <div class="login-alert"></div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
         <div class="form-group modal-body-wrapper">

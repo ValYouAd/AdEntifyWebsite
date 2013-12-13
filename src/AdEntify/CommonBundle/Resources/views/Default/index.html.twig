@@ -41,6 +41,51 @@
                     $('#signupModal').modal('show');
                 }, 500);
             });
+
+            $('.login-form #_submit').click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type        : $('.login-form').attr( 'method' ),
+                    url         : '{{ path("fos_user_security_check") }}',
+                    data        : $('.login-form').serialize(),
+                    dataType    : "json",
+                    success     : function(data) {
+                        if (data.success)
+                            window.location.href = Routing.generate('loggedInHome') + '?accountDisabled=1';
+                        else
+                            $('.login-alert').html("<div class='alert alert-danger'>{{ 'Your email and/or password are wrong.'|trans }}</div>")
+                    },
+                    error: function(){
+                        $('.login-alert').html("<div class='alert alert-danger'>{{ 'Your email and/or password are wrong.'|trans }}</div>")
+                    }
+                });
+            });
+
+            $('.fos_user_registration_register #_submit').click(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type        : $('.fos_user_registration_register').attr( 'method' ),
+                    url         : '{{ path("fos_user_registration_register") }}',
+                    data        : $('.fos_user_registration_register').serialize(),
+                    dataType    : "json",
+                    success     : function(data, status, object) {
+                        if (data.success)
+                            window.location.href = Routing.generate('loggedInHome') + '?accountDisabled=1';
+                        else
+                        {
+                            var markup = "<div class='alert alert-danger'><ul>";
+                            data.errors.forEach(function(error) {
+                               markup += "<li>" + error + "</li>";
+                            });
+                            markup += "</ul></div>"
+                            $('.register-alert').html(markup);
+                        }
+                    },
+                    error: function(data, status, object){
+                        $('.register-alert').html("<div class='alert alert-danger'>{{ 'There is an error, please retry.'|trans }}</div>")
+                    }
+                });
+            });
         });
     </script>
 {% endblock %}

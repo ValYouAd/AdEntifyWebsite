@@ -145,7 +145,7 @@ define([
                popoverArrow.addClass('tag-popover-arrow-top');
             }
             if (this.model.get('x_position') > 0.5) {
-               popoverArrow.css({right: '20px'});
+               popoverArrow.css({right: '10px'});
             } else {
                popoverArrow.css({left: '20px'});
             }

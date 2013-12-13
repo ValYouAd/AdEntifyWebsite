@@ -10,7 +10,7 @@ define([
 ], function(app) {
 
    var Common = app.module();
-   Common.alertError = 'alert-error';
+   Common.alertError = 'alert-danger';
    Common.alertInfo = 'alert-info';
    Common.alertSuccess = 'alert-success';
    Common.alertWarning = 'alert-block';

@@ -1,7 +1,7 @@
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
     {{ form_errors(form) }}
     <fieldset>
-
+        <div class="register-alert"></div>
         <div class="modal-body-wrapper register-fields">
             <div class="row">
                 <div class="col-md-6">
@@ -39,7 +39,7 @@
         <div class="form-group">
             <div class="col-md-8 col-md-offset-4">
                 <button type="button" class="btn btn-link" data-dismiss="modal">{{ 'Cancel'|trans }}</button>
-                <input type="submit" class="btn btn-red-grey-border" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+                <input type="submit" id="_submit" class="btn btn-red-grey-border" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
             </div>
         </div>
     </fieldset>

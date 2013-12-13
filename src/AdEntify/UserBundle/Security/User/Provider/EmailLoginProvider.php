@@ -25,7 +25,7 @@ class EmailLoginProvider implements UserProviderInterface
 
     public function loadUserByUsername($username)
     {
-        $user = $this->userManager->findUserByEmail($username);
+        $user = $this->userManager->findUser($username);
 
         if (!$user) {
             throw new UsernameNotFoundException(sprintf('Vous n\'êtes pas inscrit(e) avec l\'email "%s"', $username));

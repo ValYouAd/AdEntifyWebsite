@@ -38,6 +38,13 @@
             <argument type="service" id="fos_user.security.login_manager" />
             <argument>%fos_user.firewall_name%</argument>
         </service>
+
+        <service id="adentify_authentication_handler" class="AdEntify\UserBundle\Security\AuthenticationHandler">
+            <argument type="service" id="router" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="service_container" />
+        </service>
     </services>
 
 </container>
