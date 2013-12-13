@@ -35,6 +35,10 @@ define([
 
    Tag.Model = Backbone.Model.extend({
 
+      defaults: {
+         cssClass: null
+      },
+
       initialize: function() {
          if (this.has('waiting_validation') && this.get('waiting_validation')) {
             if (this.has('validation_status') && this.get('validation_status') == 'waiting')

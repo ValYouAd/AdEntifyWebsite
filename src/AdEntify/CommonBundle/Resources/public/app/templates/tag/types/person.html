@@ -13,12 +13,14 @@
                     <img src="https://graph.facebook.com/<%= model.get('person')['facebook_id'] %>/picture?type=normal" />
                 </div>
                 <span class="title"><a href="<%= typeof model.get('person').user !== 'undefined' ? rootUrl + $.t('routing.profile/id/', { id: model.get('person').user.id }) : model.get("link") %>" target="_blank"><%= model.get("title") %></a></span>
-                <% if (model.get("description")) { %>
+                <% if (model.has('description') && model.get("description")) { %>
                 <p><%= model.get("description") %></p>
                 <% } %>
             </div>
             <div class="tag-buttons">
+                <% if (model.has('ownerModel')) { %>
                 <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) %></span>
+                <% } %>
                 <div class="btn-group">
                     <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { %>
                     <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>
