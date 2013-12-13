@@ -504,6 +504,7 @@ class PhotosController extends FosRestController
                     $form->bind($request);
                     if ($form->isValid()) {
                         $em = $this->getDoctrine()->getManager();
+                        echo count($photo->getHashtags());
                         $em->merge($photo);
                         $em->flush();
                         return $photo;

@@ -109,4 +109,30 @@ class HashtagsController extends FosRestController
 
         return PaginationTools::getPaginationArray($results, $pagination);
     }
+
+    /**
+     * @param Request $request
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     *
+     * @View()
+     */
+    public function postAction(Request $request)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $hashtags = $request->request->get('hashtags');
+            $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
+
+            $result = array();
+            foreach($hashtags as $hashtagName) {
+                $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
+                $result[] = $hashtag;
+            }
+            $em->flush();
+            return $result;
+        } else {
+            throw new HttpException(401);
+        }
+    }
 } 

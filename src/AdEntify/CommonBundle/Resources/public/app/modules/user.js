@@ -60,6 +60,8 @@ define([
    User.Views.MenuLeft = Backbone.View.extend({
       template: "user/menuLeft",
       showServices: false,
+      showFollowButton: true,
+      loaded: false,
 
       serialize: function() {
          return {
@@ -69,7 +71,8 @@ define([
             rootUrl: app.beginUrl + app.root,
             showHashtags: this.showHashtags,
             showFollowers: this.showFollowers,
-            showFollowings: this.showFollowings
+            showFollowings: this.showFollowings,
+            showFollowButton: this.showFollowButton
          };
       },
 
@@ -116,6 +119,12 @@ define([
                $('#profile').fadeIn();
             });
          }
+         if (this.loaded) {
+            var that = this;
+            this.$('.loading-gif-container').fadeOut(200, function() {
+               that.$('.profile-aside').fadeIn('fast');
+            });
+         }
       },
 
       initialize: function() {
@@ -124,7 +133,11 @@ define([
          this.showFollowers = typeof this.options.followers !== 'undefined';
          this.showHashtags = typeof this.options.hashtags !== 'undefined';
          this.showServices = typeof this.options.showServices !== 'undefined' ? this.options.showServices : this.showServices;
-         this.listenTo(this.options.user, 'sync', this.render);
+         this.showFollowButton = typeof this.options.showFollowButton !== 'undefined' ? this.options.showFollowButton : this.showFollowButton;
+         this.listenTo(this.options.user, 'sync', function() {
+            this.loaded = true;
+            this.render();
+         });
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {
                this.lastPhoto = collection.first();

@@ -10,7 +10,7 @@
             </div>
             <div class="popover-inner">
                 <span class="title"><% if (model.get("link")) { %><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %></a><% } else { %><%= model.get("title") %><% } %></span>
-                <% if (model.get("description")) { %>
+                <% if (model.has('description') && model.get("description")) { %>
                 <p><%= model.get("description") %></p>
                 <% } %>
             </div>
@@ -23,7 +23,9 @@
                 </address>
             </div>
             <div class="tag-buttons">
+                <% if (model.has('ownerModel')) { %>
                 <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) %></span>
+                <% } %>
                 <div class="btn-group">
                     <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { %>
                     <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>

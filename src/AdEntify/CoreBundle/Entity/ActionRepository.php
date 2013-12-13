@@ -38,19 +38,23 @@ class ActionRepository extends EntityRepository
                 $action = null;
                 break;
             case Action::TYPE_PHOTO_TAG:
+                $linkedObjectType = get_class(new Tag());
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
+                break;
             case Action::TYPE_PHOTO_FAVORITE:
+                $linkedObjectType = get_class(new Photo());
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
+                break;
             case Action::TYPE_PHOTO_LIKE:
+                $linkedObjectType = get_class(new Photo());
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
+                break;
             case Action::TYPE_USER_FOLLOW:
+                $linkedObjectType = get_class(new User());
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
+                break;
             case Action::TYPE_REWARD_NEW:
-                $action = $this->getEntityManager()->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
-                    WHERE action.type = :actionType AND action.author = :author AND action.target = :target
-                    AND action.linkedObjectId = :linkedObjectId')
-                    ->setParameters(array(
-                        'actionType' => $actionType,
-                        'author' => $author ? $author->getId() : 0,
-                        'target' => $target ? $target->getId() : 0,
-                        'linkedObjectId' => $linkedObjectId ? $linkedObjectId : 0
-                    ))->getOneOrNullResult();
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
                 break;
             case Action::TYPE_PHOTO_UPLOAD:
                 $action = null;
@@ -131,5 +135,28 @@ class ActionRepository extends EntityRepository
             'action' => $action,
             'notification' => $notification
         );
+    }
+
+    private function getExistingAction($actionType, $author, $target, $linkedObjectId = null, $linkedObjectType  = null)
+    {
+        $parameters = array(
+            'actionType' => $actionType,
+            'author' => $author ? $author->getId() : 0,
+            'target' => $target ? $target->getId() : 0,
+            'linkedObjectId' => $linkedObjectId ? $linkedObjectId : 0
+        );
+
+        $sql = 'SELECT action FROM AdEntify\CoreBundle\Entity\Action action
+                    WHERE action.type = :actionType AND action.author = :author AND action.target = :target
+                    AND action.linkedObjectId = :linkedObjectId';
+
+        if ($linkedObjectType)
+        {
+            $parameters['linkedObjectType'] = $linkedObjectType;
+            $sql .= ' AND action.linkedObjectType = :linkedObjectType';
+        }
+
+        return $this->getEntityManager()->createQuery($sql)
+            ->setParameters($parameters)->getOneOrNullResult();
     }
 }

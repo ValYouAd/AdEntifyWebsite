@@ -268,8 +268,8 @@ class UsersController extends FosRestController
             if ($following && $follower->getId() != $following->getId() && !$this->getIsFollowingAction($id)) {
                 // FOLLOW Action & notification
                 $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_FOLLOW,
-                    $follower, $following, null, Action::VISIBILITY_PUBLIC, null,
-                    null, true, 'followUser');
+                    $follower, $following, null, Action::VISIBILITY_PUBLIC, $following->getId(),
+                    get_class($following), true, 'followUser');
 
                 $follower->addFollowing($following);
                 $follower->setFollowingsCount($follower->getFollowingsCount() + 1);
@@ -451,7 +451,7 @@ class UsersController extends FosRestController
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
             return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followings following WHERE following.id = :userId')
+            LEFT JOIN user.followers follower WHERE follower.id = :userId')
                 ->setParameters(array(
                     'userId' => $user->getId()
                 ))
@@ -471,7 +471,7 @@ class UsersController extends FosRestController
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
             return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followers follower WHERE follower.id = :userId')
+            LEFT JOIN user.followings following WHERE following.id = :userId')
                 ->setParameters(array(
                     'userId' => $user->getId()
                 ))

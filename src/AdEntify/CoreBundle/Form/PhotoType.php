@@ -70,6 +70,20 @@ class PhotoType extends AbstractType
             ->add('longitude', 'number', array(
                 'precision' => 6,
                 'required' => false
+            ))
+            ->add('categories', 'entity', array(
+                'class' => 'AdEntifyCoreBundle:Category',
+                'property' => 'name',
+                'required' => false,
+                'multiple' => true,
+                'description' => 'Category ID. Get the right id with the GET operations of categories endpoint'
+            ))
+            ->add('hashtags', 'entity', array(
+                'class' => 'AdEntifyCoreBundle:Hashtag',
+                'property' => 'name',
+                'required' => false,
+                'multiple' => true,
+                'description' => 'Hashtag ID. Get the right id with the GET operations of hashtags endpoint'
             ));
     }
 

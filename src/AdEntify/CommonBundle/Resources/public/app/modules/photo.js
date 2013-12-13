@@ -24,7 +24,7 @@ define([
       },
 
       toJSON: function() {
-         var jsonAttributes = this.attributes;
+         var jsonAttributes = jQuery.extend(true, {}, this.attributes);
          delete jsonAttributes.comments_count;
          delete jsonAttributes.created_at;
          delete jsonAttributes.fullname;
@@ -416,7 +416,7 @@ define([
 
       addNewTag: function(evt) {
          if (app.appState().isLogged()) {
-            Tag.Common.addTag(evt, this.model);
+            Tag.Common.addTag(evt, this.model, this.options.categories, this.options.hashtags);
          } else {
             Common.Tools.notLoggedModal(false, 'notLogged.comment');
          }
@@ -494,10 +494,15 @@ define([
 
    Photo.Views.Edit = Backbone.View.extend({
       template: 'photo/edit',
+      currentHashtags: [],
 
       serialize: function() {
          return {
-            model: this.model
+            model: this.model,
+            categories: this.categories,
+            isSelectedCategory: this.isSelectedCategory,
+            photoCategories: this.photoCategories,
+            photoHashtags: this.photoHashtags
          }
       },
 
@@ -510,6 +515,11 @@ define([
             if (this.model.has('tags'))
                this.model.get('tags').remove(tag);
          });
+         this.photoCategories = this.options.photoCategories;
+         this.photoHashtags = this.options.photoHashtags;
+         this.categories = new Category.Collection();
+         this.listenTo(this.categories, 'sync', this.render);
+         this.categories.fetch();
       },
 
       beforeRender: function() {
@@ -532,6 +542,94 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+         if (this.categories && this.categories.length > 0) {
+            var that = this;
+            $(this.el).find('.selectCategories').select2();
+            $(this.el).find('.selectCategories').on('change', function() {
+               that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
+            });
+            that.model.set('categories', $(that.el).find('.selectCategories').select2('val'));
+         }
+         this.$('.selectHashtags').select2({
+            minimumInputLength: 1,
+            multiple: true,
+            createSearchChoice: function(term, data) {
+               if ($(data).filter(function() {
+                  return this.text.localeCompare(term)===0;
+               }).length===0) {
+                  return {id:term, text:term};
+               }
+            },
+            initSelection: function(element, callback) {
+               var hashtag = $(element).val();
+               var res = hashtag.split(',');
+               var data = [];
+               res.forEach(function(h) {
+                  data.push({
+                     id: h,
+                     text: h
+                  })
+               });
+               callback(data);
+            },
+            ajax: {
+               url: Routing.generate('api_v1_get_hashtag_search'),
+               dataType: 'json',
+               data: function(term, page) {
+                  return {
+                     query: term,
+                     page: page
+                  }
+               },
+               results: function(data, page) {
+                  return {
+                     results : $.map(data.data, function(item) {
+                        return {
+                           id : item.name,
+                           text : item.name,
+                           usedCount: item.used_count
+                        };
+                     })
+                  }
+               }
+            },
+            dropdownCssClass: "bigdrop",
+            formatResult: function (hashtag) {
+               var markup = "<table class='hashtag-result'><tr>";
+               if (hashtag.text !== undefined) {
+                  markup += "<td class='hashtag-name'>" + hashtag.text + "</td>";
+               }
+               if (hashtag.usedCount !== undefined) {
+                  markup += "<td class='hashtag-usecount'>" + $.t('hashtag.usedCount', {count: hashtag.usedCount}) + "</td>";
+               } else {
+                  markup += "<td class='hashtag-usecount'>" + $.t('hashtag.usedCount', {count: 0}) + "</td>";
+               }
+               markup += "</tr></table>"
+               return markup;
+            }
+         }).on("change", function(e) {
+               that.model.set('hashtags', e.val);
+            });
+         if (this.photoHashtags && this.photoHashtags.length > 0) {
+            this.$('.selectHashtags').select2('val', this.photoHashtags.map(function(model) { return model.get('name'); }));
+         }
+      },
+
+      isSelectedCategory: function(category) {
+         if (typeof this.photoCategories !== 'undefined') {
+            var found = false;
+            this.photoCategories.each(function(cat) {
+               if (cat.get('id') == category.get('id'))
+               {
+                  found = true;
+                  return found;
+               }
+            });
+            if (found)
+               return 'selected="selected"';
+         }
+
+         return null;
       },
 
       addTag: function(e) {
@@ -579,14 +677,42 @@ define([
             var btn = $('#form-details button[type="submit"]');
             btn.button('loading');
 
-            var that = this;
             this.model.set('caption', caption);
-            this.model.getToken('photo_item', function() {
-               that.model.url = Routing.generate('api_v1_put_photo', { id: that.model.get('id')});
-               that.model.save();
-               btn.button('reset');
-            });
+
+            var that = this;
+            if (this.model.has('hashtags')) {
+               app.oauth.loadAccessToken({
+                  success: function() {
+                     $.ajax({
+                        url: Routing.generate('api_v1_post_hashtag'),
+                        headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                        type: 'POST',
+                        data: {
+                           hashtags: that.model.get('hashtags')
+                        },
+                        success: function(data)
+                        {
+                           that.model.set('hashtags', $.map(data, function(h) { return h.id; }));
+                           that.save(btn);
+                        },
+                        error: function() {
+                           btn.button('reset');
+                        }
+                     });
+                  }
+               });
+            } else
+               that.save(btn);
          }
+      },
+
+      save: function(btn) {
+         var that = this;
+         this.model.getToken('photo_item', function() {
+            that.model.url = Routing.generate('api_v1_put_photo', { id: that.model.get('id')});
+            that.model.save();
+            btn.button('reset');
+         });
       },
 
       events: {

@@ -35,6 +35,10 @@ define([
 
    Tag.Model = Backbone.Model.extend({
 
+      defaults: {
+         cssClass: null
+      },
+
       initialize: function() {
          if (this.has('waiting_validation') && this.get('waiting_validation')) {
             if (this.has('validation_status') && this.get('validation_status') == 'waiting')
@@ -141,7 +145,7 @@ define([
                popoverArrow.addClass('tag-popover-arrow-top');
             }
             if (this.model.get('x_position') > 0.5) {
-               popoverArrow.css({right: '20px'});
+               popoverArrow.css({right: '10px'});
             } else {
                popoverArrow.css({left: '20px'});
             }
@@ -466,7 +470,9 @@ define([
       beforeRender: function() {
          this.setViews({
             "#center-modal-content": new this.Photo.Views.Edit({
-               model: this.options.photo
+               model: this.options.photo,
+               photoCategories: this.options.photoCategories,
+               photoHashtags: this.options.photoHashtags
             }),
             "#right-modal-content": new Tag.Views.AddTagForm({
                photo: this.options.photo
@@ -1016,7 +1022,11 @@ define([
                         },
                         error: function() {
                            $submit.button('reset');
-                           // TODO: show alert
+                           app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                              cssClass: Common.alertError,
+                              message: $.t('tag.errorPerson'),
+                              showClose: true
+                           })).render();
                         }
                      });
                   });
@@ -1095,11 +1105,13 @@ define([
    });
 
    Tag.Common = {
-      addTag: function(evt, photo) {
+      addTag: function(evt, photo, photoCategories, photoHashtags) {
          if (evt)
             evt.preventDefault();
          var tagView = new Tag.Views.AddModal({
-            photo: photo
+            photo: photo,
+            photoCategories: photoCategories,
+            photoHashtags: photoHashtags
          });
          var modal = new Common.Views.Modal({
             view: tagView,

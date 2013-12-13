@@ -1,4 +1,7 @@
-<aside class="profile-aside">
+<div class="loading-gif-container">
+    <div class="loader rotate"></div>
+</div>
+<aside class="profile-aside fadeOut">
     <div class="block-white-background">
         <div class="profile-details text-center">
             <% if (lastPhoto) { %>
@@ -10,10 +13,12 @@
                 <a href="<%= model.get('link') %>"><img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" /></a>
             </div>
             <h1><%= model.get('fullname') %></h1>
-            <% if (currentUserId != model.get('id')) { %>
-            <div class="follow-button"></div>
-            <% } else { %>
-            <a href="<%= rootUrl %><%= $.t('routing.my/settings/') %>" class="btn btn-large btn-around-corner btn-grey-white-border"><%= $.t('profile.editMyProfile') %></a>
+            <% if (showFollowButton) { %>
+                <% if (currentUserId != model.get('id')) { %>
+                <div class="follow-button"></div>
+                <% } else { %>
+                <a href="<%= rootUrl %><%= $.t('routing.my/settings/') %>" class="btn btn-large btn-around-corner btn-grey-white-border"><%= $.t('profile.editMyProfile') %></a>
+                <% } %>
             <% } %>
 
             <div class="indicators-container text-center">
@@ -55,13 +60,13 @@
     <% } %>
 
     <% if (showFollowings) { %>
-    <h2><%= $.t('profile.followingsTitle') %></h2>
+    <h2><%= $.t(currentUserId != model.get('id') ? 'profile.followingsTitle' : 'profile.myFollowingsTitle') %></h2>
     <div class="followings"></div>
     <hr class="menu-left-hr">
     <% } %>
 
     <% if (showFollowers) { %>
-    <h2><%= $.t('profile.followersTitle') %></h2>
+    <h2><%= $.t(currentUserId != model.get('id') ? 'profile.followersTitle' : 'profile.myFollowersTitle') %></h2>
     <div class="followers"></div>
     <hr class="menu-left-hr">
     <% } %>

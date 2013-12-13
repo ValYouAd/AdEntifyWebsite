@@ -72,7 +72,6 @@ define([
       },
 
       initialize: function() {
-         var that = this;
          this.listenTo(this.options.photos, 'sync', this.render);
          this.listenTo(this.options.users, 'sync', this.render);
          this.listenTo(this.options.hashtags, 'sync', this.render);
