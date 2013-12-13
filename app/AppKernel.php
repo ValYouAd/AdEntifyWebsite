@@ -36,7 +36,7 @@ class AppKernel extends Kernel
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
 
             new Nelmio\CorsBundle\NelmioCorsBundle(),
-            //new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
 
             new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
 

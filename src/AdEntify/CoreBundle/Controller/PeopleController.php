@@ -59,26 +59,43 @@ class PeopleController extends FosRestController
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             // Check if existing user exist with person facebookId
-            if ($request->request->has('person')) {
-                $personRequest = $request->request->get('person');
-                $user = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:User')->findOneBy(array(
-                    'facebookId' => $personRequest['facebookId']
-                ));
-            }
-            $person = new Person();
-            $form = $this->getForm($person);
-            $form->bind($request);
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                if (isset($user)) {
+            if (!$request->request->has('person'))
+                throw new HttpException(404);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $personRequest = $request->request->get('person');
+            $user = $em->getRepository('AdEntifyCoreBundle:User')->findOneBy(array(
+                'facebookId' => $personRequest['facebookId']
+            ));
+            $person = $em->getRepository('AdEntifyCoreBundle:Person')->findOneBy(array(
+                'facebookId' => $personRequest['facebookId']
+            ));
+
+            if ($person) {
+                if (!$person->getUser() && $user)
                     $person->setUser($user);
-                }
-                $em->persist($person);
+
+                $em->merge($person);
                 $em->flush();
 
                 return $person;
             } else {
-                return $form;
+                $person = new Person();
+                $form = $this->getForm($person);
+                $form->bind($request);
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
+                    if ($user) {
+                        $person->setUser($user);
+                    }
+                    $em->persist($person);
+                    $em->flush();
+
+                    return $person;
+                } else {
+                    return $form;
+                }
             }
         } else {
             throw new HttpException(401);

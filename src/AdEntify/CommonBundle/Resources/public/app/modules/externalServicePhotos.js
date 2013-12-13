@@ -49,6 +49,13 @@ define([
          $(this.el).find('.selectHashtags').select2({
             minimumInputLength: 1,
             multiple: true,
+            createSearchChoice: function(term, data) {
+               if ($(data).filter(function() {
+                  return this.text.localeCompare(term)===0;
+               }).length===0) {
+                  return {id:term, text:term};
+               }
+            },
             ajax: {
                url: Routing.generate('api_v1_get_hashtag_search'),
                dataType: 'json',
@@ -63,12 +70,26 @@ define([
                      results : $.map(data.data, function(item) {
                         return {
                            id : item.name,
-                           text : item.name
+                           text : item.name,
+                           usedCount: item.used_count
                         };
                      })
                   }
-               },
-               dropdownCssClass: "bigdrop"
+               }
+            },
+            dropdownCssClass: "bigdrop",
+            formatResult: function (hashtag) {
+               var markup = "<table class='hashtag-result'><tr>";
+               if (hashtag.text !== undefined) {
+                  markup += "<td class='hashtag-name'>" + hashtag.text + "</td>";
+               }
+               if (hashtag.usedCount !== undefined) {
+                   markup += "<td class='hashtag-usecount'>" + $.t('hashtag.usedCount', {count: hashtag.usedCount}) + "</td>";
+               } else {
+                  markup += "<td class='hashtag-usecount'>" + $.t('hashtag.usedCount', {count: 0}) + "</td>";
+               }
+               markup += "</tr></table>"
+               return markup;
             }
          }).on("change", function(e) {
                that.model.set('hashtags', e.val);
@@ -126,6 +147,13 @@ define([
          $(this.el).find('.selectHashtags').select2({
             minimumInputLength: 1,
             multiple: true,
+            createSearchChoice: function(term, data) {
+               if ($(data).filter(function() {
+                  return this.text.localeCompare(term)===0;
+               }).length===0) {
+                  return {id:term, text:term};
+               }
+            },
             ajax: {
                url: Routing.generate('api_v1_get_hashtag_search'),
                dataType: 'json',
@@ -144,8 +172,21 @@ define([
                         };
                      })
                   }
-               },
-               dropdownCssClass: "bigdrop"
+               }
+            },
+            dropdownCssClass: "bigdrop",
+            formatResult: function (hashtag) {
+               var markup = "<table class='hashtag-result'><tr>";
+               if (hashtag.text !== undefined) {
+                  markup += "<td class='hashtag-name'>" + hashtag.text + "</td>";
+               }
+               if (hashtag.usedCount !== undefined) {
+                  markup += "<td class='hashtag-usecount'>" + $.t('hashtag.usedCount', {count: hashtag.usedCount}) + "</td>";
+               } else {
+                  markup += "<td class='hashtag-usecount'>" + $.t('hashtag.usedCount', {count: 0}) + "</td>";
+               }
+               markup += "</tr></table>"
+               return markup;
             }
          }).on("change", function(e) {
                that.model.set('hashtags', e.val);

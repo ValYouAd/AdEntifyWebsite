@@ -1218,6 +1218,22 @@ html,body {
     right: 5px;
     top: 5px;
 }
+.add-tag-form {
+
+}
+.add-tag-form label {
+    color: #5b5756;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 12px;
+}
+.add-tag-form .btn-dark-grey {
+    font-size: 12px;
+    padding: 7px 30px!important;
+}
+.add-tag-form .dropdown-menu a,
+.add-tag-form .dropdown-menu a:hover {
+    padding: 3px 20px;
+}
 /*
 ----------------------- */
 
@@ -1279,6 +1295,24 @@ html,body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4747', endColorstr='#ff2d2d',GradientType=0 );
     color: white;
     text-decoration: none;
+}
+.hashtag-result {
+    width: 100%;
+}
+.hashtag-result .hashtag-name {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 12px;
+    color: #5b5756;
+}
+.select2-highlighted .hashtag-name,
+.select2-result-label:hover .hashtag-name {
+    color: white;
+}
+.hashtag-result .hashtag-usecount {
+    font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
+    font-weight: normal;
+    color: #ff3b3a;
+    text-align: right;
 }
 /* End Module : Hashtag
 ----------------------- */
@@ -2550,6 +2584,7 @@ label,
     text-decoration: none;
     color: white;
 }
+
 .btn-red {
     background: rgb(255,70,70);
     background: -moz-linear-gradient(top,  rgba(255,70,70,1) 0%, rgba(255,45,45,1) 50%);
@@ -3214,7 +3249,6 @@ label,
     background-color: #e0e4ea;
     margin: 0px -15px 5px -15px;
     position: relative;
-    min-height: 50px;
 }
 .top-grey-title-container .small-arrow-top {
     position: absolute;

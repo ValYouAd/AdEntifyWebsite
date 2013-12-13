@@ -199,8 +199,17 @@ class UploadService
                     $hashtagRepository = $this->em->getRepository('AdEntifyCoreBundle:Hashtag');
                     foreach($image->hashtags as $hashtagName) {
                         $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
-                        if ($hashtag)
-                            $photo->addHashtag($hashtag);
+                        if ($hashtag) {
+                            $found = false;
+                            foreach($photo->getHashtags() as $ht) {
+                                if ($ht->getId() == $hashtag->getId()) {
+                                    $found = true;
+                                    break;
+                                }
+                            }
+                            if (!$found)
+                                $photo->addHashtag($hashtag);
+                        }
                     }
                 } else if (!empty($image->title)) {
                     // Get hashtags in title
@@ -308,17 +317,17 @@ class UploadService
                                 } else {
                                     // Check if width is right
                                     if ($image->mediumWidth != self::MEDIUM_SIZE) {
-                                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user, $filename);
+                                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
                                     } else {
                                         $photo->setMediumWidth($image->mediumWidth);
                                         $photo->setMediumHeight($image->mediumHeight);
                                     }
                                 }
                             } else {
-                                $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user, $filename);
+                                $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
                             }
                         } else {
-                            $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo, $user, $filename);
+                            $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
                         }
 
                         // LARGE IMAGE
@@ -338,10 +347,10 @@ class UploadService
                                     $photo->setLargeHeight($image->largeHeight);
                                 }
                             } else {
-                                $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo, $user, $filename);
+                                $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
                             }
                         } else {
-                            $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo, $user, $filename);
+                            $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
                         }
 
                         // Thumb generation
@@ -399,7 +408,7 @@ class UploadService
         }
     }
 
-    private function generateThumbIfOriginalLarger(Thumb $thumb, $size, $photoType, Photo $photo, User $user, $filename)
+    private function generateThumbIfOriginalLarger(Thumb $thumb, $size, $photoType, Photo $photo)
     {
         if ($photo->getOriginalWidth() < $size) {
             if ($size == self::MEDIUM_SIZE) {

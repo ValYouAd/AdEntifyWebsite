@@ -35,10 +35,14 @@ header {
         position: relative;
         z-index: 0;
         background: url('../../bundles/adentifycommon/images/carousel.jpg') no-repeat top center fixed;
+        -webkit-background-size: 100%;
+        -moz-background-size: 100%;
+        -o-background-size: 100%;
+        background-size: 100%;
         -webkit-background-size: cover;
-           -moz-background-size: cover;
-             -o-background-size: cover;
-                background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
     }
 /* End Header
 ----------------------- */

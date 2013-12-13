@@ -96,6 +96,10 @@
       "myComputer": "My computer",
       "hashtags": "Add one or more hashtags"
    },
+   "hashtag": {
+      "usedCount": "__count__ time",
+      "usedCount_plural": "__count__ time"
+   },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",
       "photosPageTitle": "My Facebook photos - AdEntify",
@@ -134,8 +138,8 @@
       "cancelTagAdding": "Cancel tag",
       "textAddTagToPhoto": "Click on the photo where you want to add this tag.",
       "labelPersonName": "Enter the name of the person you want to tag",
-      "placeholderPersonName": "Name...",
-      "submitPerson": "Confirm that person and add tag",
+      "placeholderPersonName": "First Name or Last Name",
+      "submitPerson": "Confirm and add tag",
       "addingInProgress": "Adding in progress...",
       "textNoFacebookConnect": "You are <b>not connected to Facebook.</b> We cannot upload your friends.",
       "placeholderBrandName": "Coca-cola, Apple, Zara...",
@@ -167,7 +171,8 @@
       "deleteTooltip": "Delete tag",
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
       "reportReasonLabel": "Report reason",
-      "reportReasonTextarea": "Write reason of the report..."
+      "reportReasonTextarea": "Write reason of the report...",
+      "errorPerson": "Can't get person data"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",

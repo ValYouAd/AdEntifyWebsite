@@ -96,6 +96,10 @@
       "myComputer": "Mon ordinateur",
       "hashtags": "Ajouter un ou plusieurs hashtags"
    },
+   "hashtag": {
+      "usedCount": "__count__ fois",
+      "usedCount_plural": "__count__ fois"
+   },
    "facebook": {
       "albumsPageTitle": "Mes albums Facebook - AdEntify",
       "photosPageTitle": "Mes photos Facebook - AdEntify",
@@ -134,8 +138,8 @@
       "cancelTagAdding": "Annuler l'ajout de tag",
       "textAddTagToPhoto": "Cliquez sur la photo à l'endroit où vous souhaitez ajouter un tag.",
       "labelPersonName": "Entrez le prénom ou le nom de la personne que vous souhaitez taguer",
-      "placeholderPersonName": "Prénom, nom...",
-      "submitPerson": "Valider la personne et ajouter le tag",
+      "placeholderPersonName": "Prénom ou nom",
+      "submitPerson": "Valider et ajouter le tag",
       "addingInProgress": "Ajout en cours...",
       "textNoFacebookConnect": "Vous n'êtes <b>pas connecté(e) à Facebook.</b> Nous ne pouvons pas récupérer vos amis.",
       "placeholderBrandName": "Coca-cola, Apple, Zara...",
@@ -167,7 +171,8 @@
       "deleteTooltip": "Supprimer le tag",
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
       "reportReasonLabel": "Raison du signalement",
-      "reportReasonTextarea": "Ecrivez la raison du signalement."
+      "reportReasonTextarea": "Ecrivez la raison du signalement.",
+      "errorPerson": "Impossible de récupérer les informations sur la personne"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
