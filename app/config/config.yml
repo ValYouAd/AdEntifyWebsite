@@ -29,7 +29,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ 'AdEntifyCommonBundle' ]
+    bundles:        [ 'AdEntifyCommonBundle', 'FOSUserBundle' ]
     filters:
         cssrewrite: ~
 
@@ -58,12 +58,12 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport:  %mailer_transport%
-    host:       %mailer_host%
-    username:   %mailer_user%
-    password:   %mailer_password%
-    port:       %mailer_port%
-    encryption: %mailer_encryption%
+    transport:      %mailer_transport%
+    host:           %mailer_host%
+    username:       %mailer_user%
+    password:       %mailer_password%
+    port:           %mailer_port%
+    encryption:     %mailer_encryption%
     #spool:     { type: memory }
 
 # FosRestBundle
@@ -140,6 +140,9 @@ fos_user:
     registration:
         form:
             type: adentify_user_registration
+    from_email:
+        address:        %from_email%
+        sender_name:    AdEntify
 
 stof_doctrine_extensions:
     default_locale: "%locale%"

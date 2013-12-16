@@ -1318,6 +1318,7 @@ html,body {
 .filters-wrapper ul {
     margin: 0px;
     padding: 0px 0px 0px 25px;
+    text-align: center;
 }
 .filters-wrapper li {
     display: inline-block;
@@ -1713,11 +1714,13 @@ html,body {
     background-position: -165px -221px;
 }
 
-.favorite-icon:hover{
+.favorite-icon:hover,
+.favorite-icon.active {
     background-position: -133px -219px ;
 }
 
-.like-icon:hover{
+.like-icon:hover,
+.like-icon.active{
     background-position: -164px -194px ;
 }
 
@@ -3307,6 +3310,15 @@ label,
 }
 .login-dialog {
     max-width: 310px!important;
+}
+.lost-password a {
+    color: #a5a6a8;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    text-decoration: underline;
+    font-size: 10px;
+    float: right;
+    text-align: right;
+    margin-top: 6px;
 }
 .headline {
     font-size: 16px;

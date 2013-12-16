@@ -1,5 +1,2 @@
-<?php $pattern = '/(?:^|\s)(\#\w+)/';
-preg_match_all($pattern, 'hello you #sea #valras', $matches, PREG_OFFSET_CAPTURE);
-foreach($matches[0] as $match) {
-    echo str_replace('#', '', $match[0]);
-}
+jQuery('html, body').css({ background: '#000000 url("http://www.gtanf.com/images/body-new.jpg") no-repeat top center fixed'});
+jQuery('html, body').css({ background: '#000000 url("http://www.gtanf.com/images/body-noel-2013.jpg") no-repeat top center fixed'});
