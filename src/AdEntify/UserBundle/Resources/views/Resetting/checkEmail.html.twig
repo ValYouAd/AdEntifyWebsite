@@ -1,0 +1,27 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    'bundles/adentifycommon/css/resetting.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+
+    <div class="resetting polygon-background">
+        <div class="container">
+            {% trans_default_domain 'FOSUserBundle' %}
+
+            <p>
+            {{ 'resetting.check_email'|trans({'%email%': email}) }}
+            </p>
+        </div>
+    </div>
+
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+{% endblock %}

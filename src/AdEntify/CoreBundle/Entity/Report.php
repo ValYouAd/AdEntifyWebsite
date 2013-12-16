@@ -65,6 +65,13 @@ class Report
     private $reason;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reason_option", type="text", nullable=true)
+     */
+    private $option;
+
+    /**
      * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
      */
     public function setCreatedAt($createdAt)
@@ -155,5 +162,21 @@ class Report
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @param string $option
+     */
+    public function setOption($option)
+    {
+        $this->option = $option;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOption()
+    {
+        return $this->option;
     }
 }

@@ -108,6 +108,60 @@
 
     </header>
 
+    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="signinModalLabel"><div class="signin-badge pull-left modal-badge"></div> {{ 'modal.login'|trans }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="grey-transparent-background social-buttons">
+                        <div class="text-center">
+                            <a class="btn btn-facebook" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> Facebook</a>
+                            <a class="btn btn-twitter" href="../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
+                        </div>
+                    </div>
+                    {% render controller('FOSUserBundle:Security:login') %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog login-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="loginModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="headline">{{ 'modal.fbOrTwitterConnect'|trans }}</p>
+                    <div class="text-center mt3 mb2">
+                        <a class="btn btn-facebook-large" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> {{ 'modal.facebookConnect'|trans }}</a>
+                    </div>
+                    <div class="text-center mb3">
+                        <a class="btn btn-twitter-large" href="../login/twitter"><i class="twitter-icon icon"></i> {{ 'modal.twitterConnect'|trans }}</a>
+                    </div>
+                    <p><button type="button" class="btn btn-link no-account-button">{{ 'modal.noAccount'|trans }}</button></p>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
+                </div>
+                <div class="modal-body">
+                    {% render controller('FOSUserBundle:Registration:register') %}
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <div class="graphik-bg">
         <div class="container">
@@ -230,60 +284,5 @@
     </div>
 
     {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
-
-    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="signinModalLabel"><div class="signin-badge pull-left modal-badge"></div> {{ 'modal.login'|trans }}</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="grey-transparent-background social-buttons">
-                        <div class="text-center">
-                            <a class="btn btn-facebook" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> Facebook</a>
-                            <a class="btn btn-twitter" href="../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
-                        </div>
-                    </div>
-                    {% render controller('FOSUserBundle:Security:login') %}
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog login-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="loginModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
-                </div>
-                <div class="modal-body">
-                    <p class="headline">{{ 'modal.fbOrTwitterConnect'|trans }}</p>
-                    <div class="text-center mt3 mb2">
-                        <a class="btn btn-facebook-large" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> {{ 'modal.facebookConnect'|trans }}</a>
-                    </div>
-                    <div class="text-center mb3">
-                        <a class="btn btn-twitter-large" href="../login/twitter"><i class="twitter-icon icon"></i> {{ 'modal.twitterConnect'|trans }}</a>
-                    </div>
-                    <p><button type="button" class="btn btn-link no-account-button">{{ 'modal.noAccount'|trans }}</button></p>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
-                </div>
-                <div class="modal-body">
-                    {% render controller('FOSUserBundle:Registration:register') %}
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 
 {% endblock %}

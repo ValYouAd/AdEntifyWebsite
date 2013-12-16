@@ -1,30 +1,29 @@
 parameters:
-    database_driver:      pdo_mysql
-    database_host:        127.0.0.1
-    database_port:        3306
-    database_name:        adentify
-    database_user:        adentify
-    database_password:    H8Ff8tTpCcneTeG9
+    database_driver:              pdo_mysql
+    database_host:                127.0.0.1
+    database_port:                3306
+    database_name:                adentify
+    database_user:                adentify
+    database_password:            H8Ff8tTpCcneTeG9
 
-    mailer_transport:     smtp
-    mailer_host:          smtp.office365.com
-    mailer_port:          587
-    mailer_user:          pierrick@adentify.com
-    mailer_password:      P8m9ADcomBR@
-    mailer_encryption:    tls
+    mailer_transport:             smtp
+    mailer_host:                  smtp.office365.com
+    mailer_port:                  587
+    mailer_user:                  pierrick@adentify.com
+    mailer_password:              P8m9ADcomBR@
+    mailer_encryption:            tls
 
-    contact_email:        pierrick@adentify.com
+    contact_email:                pierrick@adentify.com
 
-    locale:               en
-    secret:               AdEntify@SecretKey!2013--@D
+    locale:                       en
+    secret:                       AdEntify@SecretKey!2013--@D
 
-    aws_key:              AKIAJUEUXVG626O7OS7A
-    aws_secret_key:       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
-    aws_region:           eu-west-1
-    adentify_bucket_name: cdn.adentify.com
-    adentify_base_url:    http://cdn.adentify.com/
+    aws_key:                      AKIAJUEUXVG626O7OS7A
+    aws_secret_key:               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
+    aws_region:                   eu-west-1
+    adentify_bucket_name:         cdn.adentify.com
+    adentify_base_url:            http://cdn.adentify.com/
 
-    contact_email:                contact@adentify.com
     from_email:                   no-reply@adentify.com
     instagram_client_id:          db51217592cf490aab08224763fc6cea
     instagram_client_secret:      48017f2c3cf441d6996ca7813e1abeb9

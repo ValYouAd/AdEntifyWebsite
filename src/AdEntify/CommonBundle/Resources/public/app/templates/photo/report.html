@@ -2,9 +2,46 @@
     <form class="form-horizontal mt2" role="form">
         <fieldset>
 
+            <% if (model.isOwner()) { %>
             <div class="form-group">
                 <div class="col-md-12 text-center">
                     <button type="button" data-bypass="" class="btn-around-corner btn-red-grey-border deletePhotoButton"><%= $.t('photo.deletePhoto') %></button>
+                </div>
+            </div>
+            <% } %>
+
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-2">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="reportOptions" id="reportOptions1" value="photo.reportDontLike">
+                            <%= $.t('photo.reportDontLike') %>
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="reportOptions" id="reportOptions2" value="photo.reportHarassing">
+                            <%= $.t('photo.reportHarassing') %>
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="reportOptions" id="reportOptions3" value="photo.reportShouldntBe">
+                            <%= $.t('photo.reportShouldntBe') %>
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="reportOptions" id="reportOptions4" value="photo.reportSpam">
+                            <%= $.t('photo.reportSpam') %>
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="reportOptions" id="reportOptions5" value="photo.reportOther" checked>
+                            <%= $.t('photo.reportOther') %>
+                        </label>
+                    </div>
                 </div>
             </div>
 

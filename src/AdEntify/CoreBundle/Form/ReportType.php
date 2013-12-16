@@ -17,6 +17,9 @@ class ReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('reason', 'textarea')
+            ->add('option', 'text', array(
+                'required' => false
+            ))
             ->add('tag', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Tag',
                 'property' => 'title',

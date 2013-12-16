@@ -201,7 +201,12 @@
       "reportReasonTextarea": "Ecrivez la raison du signalement.",
       "noEmbedOnPrivatePhoto": "Vous ne pouvez pas partager une photo privée",
       "pageTitle": "__caption__ AdEntify.com",
-      "pageDescription": "__caption__. Browse more photos and tags on AdEntify.com"
+      "pageDescription": "__caption__. Découvrez et taguez plus de photos sur AdEntify.com",
+      "reportDontLike": "Je n'aime pas cette photo de moi",
+      "reportHarassing": "Harcelement contre ma personne ou une personne que je connais",
+      "reportShouldntBe": "Je pense que cette photo ne devrait pas être sur AdEntify",
+      "reportSpam": "C'est du spam",
+      "reportOther": "Autre"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
@@ -346,7 +351,8 @@
       "addTag": "Vous ne pouvez pas ajouter de tag sur une photo lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
       "follow": "Vous ne pouvez pas suivre quelqu'un lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
       "favorite": "Vous ne pouvez pas ajouter de photo en favoris lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
-      "comment": "Vous ne pouvez pas poster de commentaire lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire."
+      "comment": "Vous ne pouvez pas poster de commentaire lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
+      "report": "Vous ne pouvez pas signaler une photo lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire."
    },
    "common": {
       "viewPhoto": "voir la photo",

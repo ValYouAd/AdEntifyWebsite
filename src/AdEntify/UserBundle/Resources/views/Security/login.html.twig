@@ -13,6 +13,7 @@
 
         <div class="form-group modal-body-wrapper">
             <input class="form-control" type="password" id="password" name="_password" required="required" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" />
+            <div class="lost-password"><a href="{{ path('fos_user_resetting_request') }}">{{ 'Lost password?'|trans }}</a></div>
         </div>
 
         <div class="form-group grey-transparent-background">

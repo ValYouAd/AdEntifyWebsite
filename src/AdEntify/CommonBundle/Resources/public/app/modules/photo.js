@@ -431,7 +431,11 @@ define([
       },
 
       report: function() {
-         Photo.Common.report(this.model);
+         if (app.appState().isLogged()) {
+            Photo.Common.report(this.model);
+         } else {
+            Common.Tools.notLoggedModal(false, 'notLogged.report');
+         }
       },
 
       events: {
@@ -827,6 +831,15 @@ define([
 
    Photo.Views.PastillePopover = Backbone.View.extend({
       template: 'photo/pastillePopover',
+      isFavorite: false,
+      liked: false,
+
+      serialize: function() {
+         return {
+            isFavorite: this.isFavorite,
+            liked: this.liked
+         };
+      },
 
       addTag: function() {
          if (app.appState().isLogged()) {
@@ -839,6 +852,8 @@ define([
       like: function() {
          if (app.appState().isLogged()) {
             this.trigger('like', this.options.photo);
+            this.liked = !this.liked;
+            this.render();
          } else {
             Common.Tools.notLoggedModal(false, 'notLogged.like');
          }
@@ -851,9 +866,35 @@ define([
       favorite: function() {
          if (app.appState().isLogged()) {
             this.trigger('favorite', this.options.photo);
+            this.isFavorite = !this.isFavorite;
+            this.render();
          } else {
             Common.Tools.notLoggedModal(false, 'notLogged.favorite');
          }
+      },
+
+      initialize: function() {
+         var that = this;
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_get_photo_is_favorites', { 'id': that.options.photo.get('id') }),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  success: function(response) {
+                     that.isFavorite = response;
+                     that.render();
+                  }
+               });
+               $.ajax({
+                  url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  success: function(response) {
+                     that.liked = response;
+                     that.render();
+                  }
+               });
+            }
+         });
       },
 
       afterRender: function() {
@@ -904,7 +945,7 @@ define([
 
       report: function(evt) {
          evt.preventDefault();
-         this.trigger('report:submit', $(this.el).find('.reason-textarea').val());
+         this.trigger('report:submit', this.$('.reason-textarea').val(), $.t(this.$('input[name="reportOptions"]:checked').val()));
       },
 
       initialize: function() {
@@ -971,7 +1012,7 @@ define([
             title: $.t('photo.reportTitle'),
             modalDialogClasses: 'report-dialog'
          });
-         reportView.on('report:submit', function(reason) {
+         reportView.on('report:submit', function(reason, option) {
             app.oauth.loadAccessToken({
                success: function() {
                   $.ajax({
@@ -987,6 +1028,7 @@ define([
                            data: {
                               report: {
                                  'reason': reason,
+                                 'option': option,
                                  'photo': photo.get('id'),
                                  '_token': data
                               }
