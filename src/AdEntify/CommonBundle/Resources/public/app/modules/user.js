@@ -268,29 +268,45 @@ define([
    });
 
    User.Dropdown = {
+      openedDropdown: null,
       listenClick: function() {
          var that = this;
-         $(document).click(function(){
-            that.closeOpenedDropdown();
-         });
-          $('.profile-infos .user-names, .profile-infos .user-points, .profile-infos a').click(function(e) {
-             e.stopPropagation();
+         $('.profile-infos .user-names, .profile-infos .user-points, .profile-infos a').click(function(e) {
              if ($('.profile-infos .dropdown-menu:visible').length > 0) {
                 $('.profile-infos .dropdown-menu').stop().fadeOut();
+                that.stopListeningDocumentClick();
              } else {
                 that.closeOpenedDropdown();
-                $('.profile-infos .dropdown-menu').fadeIn(100);
+                $('.profile-infos .dropdown-menu').fadeIn(100, function() {
+                   that.listenDocumentClick();
+                });
              }
-          });
-          $('.navbar .tag-button, .navbar .tag-button a').click(function(e) {
-             e.stopPropagation();
-             if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
-                $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
-             } else {
-                that.closeOpenedDropdown();
-                $('.navbar .tag-button .dropdown-menu').fadeIn(100);
-             }
-          });
+         });
+         $('.navbar .tag-button, .navbar .tag-button a').click(function(e) {
+            if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
+               $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
+               that.stopListeningDocumentClick();
+            } else {
+               that.closeOpenedDropdown();
+               $('.navbar .tag-button .dropdown-menu').fadeIn(100, function() {
+                  that.listenDocumentClick();
+               });
+            }
+         });
+      },
+
+      listenDocumentClick: function() {
+         var that = this;
+         setTimeout(function() {
+            $(document).on('click.dropdown', function(evt) {
+               console.log(evt);
+               that.closeOpenedDropdown();
+            });
+         }, 500);
+      },
+
+      stopListeningDocumentClick: function() {
+         $(document).off('click.dropdown');
       },
 
       closeOpenedDropdown: function() {

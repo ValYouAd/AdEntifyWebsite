@@ -132,7 +132,7 @@
       "geolocationSuccess": "Nous venons de vous <strong>géolocaliser avec succès.</strong>",
       "labelPlaceName": "Entrez le nom de votre lieu",
       "labelPlaceDescription": "Description du lieu",
-      "placeholderPlaceName": "Monument, restaurant, adresse...",
+      "placeholderPlaceName": "Monument, restaurant, café, cinéma, site touristique, magasin, musée...",
       "labelPlaceLink": "Lien",
       "submitPlace": "Valider ce lieu et ajouter le tag",
       "cancelTagAdding": "Annuler l'ajout de tag",
@@ -172,7 +172,11 @@
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
       "reportReasonLabel": "Raison du signalement",
       "reportReasonTextarea": "Ecrivez la raison du signalement.",
-      "errorPerson": "Impossible de récupérer les informations sur la personne"
+      "errorPerson": "Impossible de récupérer les informations sur la personne",
+      "placeLinkPlaceholder": "Site officiel, blog...",
+      "placeMoreDetails": "Plus d'informations",
+      "placeLessDetails": "Moins d'informations",
+      "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
