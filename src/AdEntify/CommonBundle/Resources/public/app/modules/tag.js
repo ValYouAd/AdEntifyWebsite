@@ -550,8 +550,8 @@ define([
                   }
                });
             },
-            minLength: 2,
-            items: 10,
+            minLength: 1,
+            items: 15,
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                if (currentBrand) {
