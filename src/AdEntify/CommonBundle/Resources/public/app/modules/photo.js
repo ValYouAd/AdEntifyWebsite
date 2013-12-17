@@ -637,7 +637,7 @@ define([
       },
 
       addTag: function(e) {
-         var tagRadius = 12.5;
+         var tagRadius = 17.5;
          var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
          var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
 

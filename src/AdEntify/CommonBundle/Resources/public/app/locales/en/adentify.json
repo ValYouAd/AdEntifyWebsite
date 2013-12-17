@@ -132,7 +132,7 @@
       "geolocationSuccess": "Your photo has been <strong>successfully geolocalized.</strong>",
       "labelPlaceName": "Enter the name of the place",
       "labelPlaceDescription": "Describe the place",
-      "placeholderPlaceName": "Monument, restaurant, address...",
+      "placeholderPlaceName": "Monument, restaurant, café, cinema, shop, museum...",
       "labelPlaceLink": "Link",
       "submitPlace": "Confirm that place and add tag",
       "cancelTagAdding": "Cancel tag",
@@ -172,7 +172,10 @@
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
       "reportReasonLabel": "Report reason",
       "reportReasonTextarea": "Write reason of the report...",
-      "errorPerson": "Can't get person data"
+      "errorPerson": "Can't get person data",
+      "placeLinkPlaceholder": "Official website, blog...",
+      "placeMoreDetails": "More details",
+      "tellUsMore": "You want to win more? Tell us more about this product"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
