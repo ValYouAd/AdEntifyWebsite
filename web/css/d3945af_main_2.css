@@ -1344,13 +1344,17 @@ html,body {
         color: #b1b4b9;
         font-family: 'asapitalic', sans-serif;
     }
-    .search-button {
+    .search-bar .search-button {
         border: 0px;
         position: absolute;
         right: 28px;
         top: 18px;
         cursor: pointer;
         outline: none;
+        background: none;
+    }
+    .search-button {
+        border: 0px;
     }
     .search-bar .dropdown-menu {
         position: absolute;
@@ -1436,6 +1440,23 @@ html,body {
         font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
         color: #2c2c2e;
         padding: 30px 0px 0px 0px;
+    }
+    .search-infos .popover-content {
+        font-size: 12px;
+    }
+    .search-infos .fb-share {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+    .search-infos .tweet {
+        display: inline-block;
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+    .search-infos .g-plus {
+        display: inline-block;
+        vertical-align: middle;
     }
     .results-container {
         margin: 20px 0px;
@@ -1787,12 +1808,11 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
 }
-
 .brands-icon{
     background-position: -110px -51px ;
     width: 17px;
@@ -2279,7 +2299,23 @@ html,body {
     height: 20px;
 }
 
+.categories-icon{
+    background-position: -99px -236px ;
+    width: 22px;
+    height: 14px;
+}
 
+.grey-tagged-icon{
+    background-position: -1px -251px ;
+    width: 23px;
+    height: 22px;
+}
+
+.search-button{
+    background-position: 0 -217px ;
+    width: 33px;
+    height: 32px;
+}
 /* DONT CHANGE IT */
 .grey-share-icon {
     height: 19px;

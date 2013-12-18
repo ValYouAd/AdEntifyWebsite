@@ -51,6 +51,8 @@ doctrine:
                 dql:
                     string_functions:
                         regexp: AdEntify\CoreBundle\Dql\RegExp
+                    datetime_functions:
+                        date:   AdEntify\CoreBundle\Dql\DateFunction
                 auto_mapping: true
                 #metadata_cache_driver: apc
                 #result_cache_driver: apc

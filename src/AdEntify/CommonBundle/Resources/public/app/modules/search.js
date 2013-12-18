@@ -315,6 +315,10 @@ define([
             this.terms = $('.search-query').val();
       },
 
+      getFullSearchUrl: function() {
+         return app.beginUrl + app.root + $.t('routing.search/') + encodeURIComponent(this.terms);
+      },
+
       beforeRender: function() {
          // Check if its a feed
          var hashtags = [];
@@ -341,6 +345,12 @@ define([
                }));
             }, this);
          }
+         if (!this.getView('.search-filters')) {
+            var filters = new Search.Views.Filters({
+               photos: this.options.photos
+            });
+            this.setView('.search-filters', filters);
+         }
          Search.Common.setupResults(this);
       },
 
@@ -348,14 +358,89 @@ define([
          $(this.el).i18n();
 
          Search.Common.hideContainerWithNoResults(this, this.isFeed);
+         this.$('.search-button').popover({
+            html: true,
+            content: '<div class="fb-share"><div class="fb-share-button" data-href="' + this.getFullSearchUrl() + '" data-type="button"></div></div> <div class="tweet"><a href="https://twitter.com/share" class="twitter-share-button" data-via="AdEntify" data-url="' + this.getFullSearchUrl() + '" data-lang="' + currentLocale + '" data-count="none">Tweet</a></div>' +
+               '<div class="g-plus"><div class="g-plusone" data-size="medium" data-annotation="none" data-href="' + this.getFullSearchUrl() + '"></div><script type="text/javascript">window.___gcfg = {lang: \'fr\'};(function() {var po = document.createElement(\'script\'); po.type = \'text/javascript\'; po.async = true;po.src = \'https://apis.google.com/js/plusone.js\';var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(po, s);})();</script></div>'
+         }).on('shown.bs.popover', function() {
+               FB.XFBML.parse();
+               twttr.widgets.load();
+            });
       }
    });
 
    Search.Views.FullSearch = Backbone.View.extend({
-      template: "search/fullsearch",
+      template: "search/fullsearch"
+   });
+
+   Search.Views.Filters = Backbone.View.extend({
+      template: 'search/filters',
+      currentFilter: null,
+      tagName: 'div class="filters-wrapper"',
 
       initialize: function() {
+         this.photosUrl = this.options.photosUrl;
+         this.photosSuccess = this.options.photosSuccess;
+         this.photosError = this.options.photosError;
+      },
 
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      activateFilter: function(newFilter) {
+         if (newFilter.hasClass('active')) {
+            this.activeFilter = null;
+            newFilter.removeClass('active');
+            return false;
+         }
+
+         if (this.activeFilter) {
+            this.activeFilter.removeClass('active');
+         }
+         this.activeFilter = newFilter;
+         this.activeFilter.addClass('active');
+         return true;
+      },
+
+      mostOldestFilter: function(e) {
+         var activate = this.activateFilter($(e.currentTarget).parent());
+         this.loadPhotos(activate ? '&orderBy=oldest' : '');
+      },
+
+      taggedPhotosFilter: function(e) {
+         var activate = this.activateFilter($(e.currentTarget).parent());
+         this.loadPhotos(activate ? '&tagged=1' : '');
+      },
+
+      todayFilter: function(e) {
+         var activate = this.activateFilter($(e.currentTarget).parent());
+         this.loadPhotos(activate ? '&today=1' : '');
+      },
+
+      mostLikedFilter: function(e) {
+         var activate = this.activateFilter($(e.currentTarget).parent());
+         this.loadPhotos(activate ? '&orderBy=mostLiked' : '');
+      },
+
+      loadPhotos: function(query) {
+         this.options.photos.fetch({
+            url: this.getOriginalPhotosUrl() + query,
+            reset: true,
+            success: this.photosSuccess,
+            error: this.photosError
+         });
+      },
+
+      getOriginalPhotosUrl: function() {
+         return Routing.generate('api_v1_get_photo_search', {query: $('.search-query').val() });
+      },
+
+      events: {
+         'click .mostOldest-filter': 'mostOldestFilter',
+         'click .taggedPhotos-filter': 'taggedPhotosFilter',
+         'click .today-filter': 'todayFilter',
+         'click .mostLiked-filter': 'mostLikedFilter'
       }
    });
 
@@ -402,8 +487,13 @@ define([
             if (context.$('.brands-container:visible').length == 0)
                context.$('.brands-container').stop().fadeIn();
          }
+         if (feed) {
+            context.$('.search-title').hide();
+         } else {
+            context.$('.search-title').show();
+         }
       }
-   }
+   };
 
    return Search;
 });

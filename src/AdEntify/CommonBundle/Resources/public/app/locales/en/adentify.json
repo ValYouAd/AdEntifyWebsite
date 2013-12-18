@@ -296,7 +296,8 @@
       "pageTitle": "Search __title__ on AdEntify.com",
       "brands": "Brands",
       "resultsCount": "<strong>__count__</strong> result",
-      "resultsCount_plural": "<strong>__count__</strong> results"
+      "resultsCount_plural": "<strong>__count__</strong> results",
+      "shareSearch": "Share search"
    },
    "comment": {
       "noComments": "Be the first to post!",
@@ -347,7 +348,9 @@
       "people": "People",
       "mostRecentToOldest": "Most recent to oldest",
       "mostOldestToRecent": "Oldest to most recent",
-      "mostLiked": "Most likes"
+      "mostLiked": "Most likes",
+      "today": "Today",
+      "taggedPhotos": "Tagged photos"
    },
    "notLogged": {
       "like": "You can't like when you aren't logged. Please connect or sign up.",
