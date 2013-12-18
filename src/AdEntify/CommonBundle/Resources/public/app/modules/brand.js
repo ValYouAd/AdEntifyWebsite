@@ -95,6 +95,7 @@ define([
 
    Brand.Views.MenuLeft = Backbone.View.extend({
       template: 'brand/menuLeft',
+      loaded: false,
 
       serialize: function() {
          return {
@@ -112,6 +113,11 @@ define([
                users: this.followers
             }));
          }
+         if (!this.getView('.followings')) {
+            this.setView('.followings', new User.Views.List({
+               users: this.followings
+            }));
+         }
          if (!this.getView('.follow-button')) {
             var followButtonView = new Brand.Views.FollowButton({
                brand: this.model,
@@ -127,14 +133,24 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+         if (this.loaded) {
+            var that = this;
+            this.$('.loading-gif-container').fadeOut(200, function() {
+               that.$('.profile-aside').fadeIn('fast');
+            });
+         }
       },
 
       initialize: function() {
          this.lastPhoto = null;
          this.followers = this.options.followers;
+         this.followings = this.options.followings;
          this.categories = this.options.categories;
          this.slug = this.options.slug;
-         this.listenTo(this.model, 'sync', this.render);
+         this.listenTo(this.model, 'sync', function() {
+            this.loaded = true;
+            this.render();
+         });
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {
                this.lastPhoto = collection.first();

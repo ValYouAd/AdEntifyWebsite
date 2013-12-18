@@ -214,6 +214,11 @@ class Brand
 
     private $logoUrl;
 
+    /**
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="brand")
+     */
+    private $admin;
+
     public function __construct()
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
@@ -681,5 +686,38 @@ class Brand
     public function getTumblrUrl()
     {
         return $this->tumblrUrl;
+    }
+
+    /**
+     * @param int $photosCount
+     */
+    public function setPhotosCount($photosCount)
+    {
+        $this->photosCount = $photosCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPhotosCount()
+    {
+        return $this->photosCount;
+    }
+
+    /**
+     * @param mixed $admin
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
     }
 }

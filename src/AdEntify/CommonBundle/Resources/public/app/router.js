@@ -488,6 +488,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             id: slug
          });
 
+         var followers = new User.Collection();
+         var followings = new User.Collection();
+
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
@@ -496,7 +499,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#left-pane": new Brand.Views.MenuLeft({
                model: brand,
                slug: slug,
-               followers: this.users,
+               followers: followers,
+               followings: followings,
                photos: this.photos,
                categories: this.categories
             })
@@ -526,8 +530,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }
          });
 
-         this.users.fetch({
+         followers.fetch({
             url: Routing.generate('api_v1_get_brand_followers', { slug: slug })
+         });
+         followings.fetch({
+            url: Routing.generate('api_v1_get_brand_followings', { slug: slug })
          });
       },
 

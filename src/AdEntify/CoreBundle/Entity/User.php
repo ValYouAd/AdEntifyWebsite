@@ -280,6 +280,11 @@ class User extends BaseUser
      */
     private $profilePicture;
 
+    /**
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", mappedBy="admin")
+     */
+    private $brand;
+
     public function __construct()
     {
         parent::__construct();
@@ -994,5 +999,22 @@ class User extends BaseUser
     public function getProfilePicture()
     {
         return $this->profilePicture;
+    }
+
+    /**
+     * @param mixed $brand
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrand()
+    {
+        return $this->brand;
     }
 }

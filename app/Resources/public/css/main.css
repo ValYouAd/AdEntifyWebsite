@@ -6,7 +6,7 @@
     url('../fonts/pacifico-webfont.woff') format('woff'),
     url('../fonts/pacifico-webfont.ttf') format('truetype'),
     url('../fonts/pacifico-webfont.svg#pacificoregular') format('svg');
-    font-weight: normal;
+    font-weight: 300!important;
     font-style: normal;
 }
 /* robotobold */
@@ -184,6 +184,21 @@ html,body {
     top: 6px;
     left: 0px;
 }
+.dropdown-header-menu .circle-social-icons {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    margin-right: 15px;
+}
+.circle-social-icons.large-icons {
+    margin-top: 15px;
+}
+.dropdown-header-menu .copyright {
+    vertical-align: middle;
+}
+.circle-social-icons .icon {
+    vertical-align: middle;
+}
 .dropdown-header-menu .row {
     margin: 15px -15px;
 }
@@ -342,7 +357,6 @@ html,body {
 .photos-title {
     color: #606366;
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
-    font-weight: normal;
     font-size: 20px;
     margin: 15px 0px;
 }
@@ -625,7 +639,7 @@ html,body {
 }
 .upload-counter strong {
     font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
-    font-weight: normal;
+
     color: #ff3b3a;
 }
 .upload-options {
@@ -980,7 +994,6 @@ html,body {
     font-family: 'pacificoregular', sans-serif;
     font-size: 22px;
     color: #606366;
-    font-weight: normal;
     margin-top: 0px;
 }
 .linked-photos .alert-info {
@@ -1166,7 +1179,7 @@ html,body {
 }
 .popover-details strong {
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
-    font-weight: normal;
+
 }
 .popover-details a.buy-link {
     font-size: 16px;
@@ -1207,7 +1220,7 @@ html,body {
     margin: 2px 0px 0px;
 }
 .tag-buttons strong {
-    font-weight: normal;
+
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 }
 .tag-buttons .tagged-by {
@@ -1316,7 +1329,7 @@ html,body {
 }
 .hashtag-result .hashtag-usecount {
     font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
-    font-weight: normal;
+
     color: #ff3b3a;
     text-align: right;
 }
@@ -1474,7 +1487,7 @@ html,body {
 }
 .results-count strong {
     font-family: 'asapbold_italic', "Helvetica Neue", "Arial", sans-serif;
-    font-weight: normal;
+
 }
 
 /* Brands */
@@ -1602,10 +1615,15 @@ html,body {
 
 /* Brand
 ----------------------- */
+.brand-profile-picture {
+    border: 0px!important;
+    -webkit-border-radius: 0px!important;
+    -moz-border-radius: 0px!important;
+    border-radius: 0px!important;
+}
 .brand-heading h1 {
     font-family: 'pacificoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 36px;
-    font-weight: normal;
     color: #2c2c2e;
     padding: 35px 0px;
 }
@@ -1812,11 +1830,12 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .small-facebook-grey-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-grey-circle-icon, .small-twitter-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-pinterest-circle-icon, .small-facebook-circle-icon, .small-twitter-circle-icon{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
 }
+
 .brands-icon{
     background-position: -110px -51px ;
     width: 17px;
@@ -2320,10 +2339,126 @@ html,body {
     width: 33px;
     height: 32px;
 }
+
+.small-facebook-grey-circle-icon{
+    background-position: -53px -253px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-instagram-grey-circle-icon{
+    background-position: -35px -253px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-pinterest-grey-circle-icon{
+    background-position: -35px -235px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-twitter-grey-circle-icon{
+    background-position: -35px -218px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-google-circle-icon{
+    background-position: -71px -270px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-google-grey-circle-icon{
+    background-position: -53px -270px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-instagram-circle-icon{
+    background-position: -18px -275px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-pinterest-circle-icon{
+    background-position: -1px -275px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-facebook-circle-icon{
+    background-position: -36px -270px ;
+    width: 15px;
+    height: 15px;
+}
+
+.small-twitter-circle-icon{
+    background-position: -71px -253px ;
+    width: 15px;
+    height: 15px;
+}
+
 /* DONT CHANGE IT */
 .grey-share-icon {
     height: 19px;
     background-position: -138px -83px;
+}
+.facebook-grey-circle-icon:hover {
+    background-position: -241px -186px ;
+    width: 31px;
+    height: 32px;
+}
+.flickr-grey-circle-icon:hover{
+    background-position: -206px -185px ;
+    width: 31px;
+    height: 32px;
+}
+.google-grey-circle-icon:hover{
+    background-position: -277px -185px ;
+    width: 31px;
+    height: 32px;
+}
+.instagram-grey-circle-icon:hover{
+    background-position: -277px -151px ;
+    width: 31px;
+    height: 32px;
+}
+.pinterest-grey-circle-icon:hover{
+    background-position: -242px -151px ;
+    width: 31px;
+    height: 32px;
+}
+.twitter-grey-circle-icon:hover {
+    background-position: -207px -150px ;
+    width: 31px;
+    height: 32px;
+}
+.small-google-grey-circle-icon:hover{
+    background-position: -71px -270px ;
+    width: 15px;
+    height: 15px;
+}
+.small-instagram-grey-circle-icon:hover{
+    background-position: -18px -275px ;
+    width: 15px;
+    height: 15px;
+}
+.small-pinterest-grey-circle-icon:hover{
+    background-position: -1px -275px ;
+    width: 15px;
+    height: 15px;
+}
+.small-facebook-grey-circle-icon:hover{
+    background-position: -36px -270px ;
+    width: 15px;
+    height: 15px;
+}
+.small-twitter-grey-circle-icon:hover{
+    background-position: -71px -253px ;
+    width: 15px;
+    height: 15px;
 }
 
 /*
@@ -2800,7 +2935,6 @@ label,
         font-family: 'pacificoregular', sans-serif;
         font-size: 20px;
         color: #606366;
-        font-weight: normal;
     }
 .profile-aside .brand-categories {
     font-family: 'robotolight', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -2916,7 +3050,7 @@ label,
         font-size: 19px;
         font-family: 'robotobold', sans-serif;
         margin: 8px auto;
-        font-weight: normal;
+
     }
     .indicators-container {
         margin: 20px auto 20px auto;
@@ -3292,7 +3426,6 @@ label,
     font-size: 32px;
     color: #2c2c2e;
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
-    font-weight: normal;
     padding: 10px 0px 10px 50px;
     border: 0px;
 }
@@ -3320,7 +3453,6 @@ label,
 .top-grey-title-container h2 {
     color: #606366;
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
-    font-weight: normal;
     font-size: 20px;
     padding: 15px 0px;
     margin: 0px;
