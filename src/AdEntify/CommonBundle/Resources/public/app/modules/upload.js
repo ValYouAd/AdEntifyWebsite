@@ -204,8 +204,7 @@ define([
       submitPhotos: function() {
          var that = this;
          app.trigger('externalServicePhoto:submitPhotos', {
-            confidentiality: that.confidentiality,
-
+            confidentiality: that.confidentiality
          });
       },
 
@@ -263,7 +262,7 @@ define([
                var url = Upload.Common.getInstagramUrl(this.model.get('linked'));
                this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
                break;
-            case 'flickr':
+            case 'Flickr':
                var url = Upload.Common.getFlickrUrl(this.model.get('linked'));
                this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
                break;

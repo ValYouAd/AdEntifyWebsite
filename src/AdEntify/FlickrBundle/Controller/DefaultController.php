@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class DefaultController extends Controller
 {
-    const SERVICE_NAME = 'flickr';
+    const SERVICE_NAME = 'Flickr';
     const SESSION_REQUEST_TOKEN = 'flickr-request-token';
     const SESSION_REQUEST_TOKEN_SECRET = 'flickr-request-token-secret';
 

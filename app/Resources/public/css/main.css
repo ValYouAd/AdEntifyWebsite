@@ -815,6 +815,10 @@ html,body {
 .services .instagram-service-button:hover {
     background-color: #a67360;
 }
+.services .flickr-service-button.active,
+.services .flickr-service-button:hover {
+    background-color: #0063db;
+}
 .services .pinterest-service-button.active,
 .services .pinterest-service-button:hover {
     background-color: #cc2127;
@@ -1274,6 +1278,9 @@ html,body {
 }
 .facebook-text {
     color: #3b5998;
+}
+.flickr-text {
+    color: #0063db;
 }
 .instagram-text {
     color: #a67360;

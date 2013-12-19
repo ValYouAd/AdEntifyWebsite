@@ -116,8 +116,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "facebook/albums/": "facebookAlbums",
                "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
                "instagram/photos/": "instagramPhotos",
-               "flickr/sets/": "flickrSets",
-               "flickr/sets/:id/photos/": "flickrPhotos",
+               "flickr/albums/": "flickrSets",
+               "flickr/albums/:id/photos/": "flickrPhotos",
                "marques/": "viewBrands",
                "marque/:slug/": "viewBrand",
                "mon/profil/": "myProfile",
@@ -422,15 +422,21 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             return;
          }
 
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new FlickrPhotos.Views.List({
                photos: this.flrPhotos,
-               albumId: id
-            }),
-            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightPhotos({
+               albumId: id,
                categories: this.categories
+            }),
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               photos: this.photos,
+               showServices: true
             })
          }).render();
 

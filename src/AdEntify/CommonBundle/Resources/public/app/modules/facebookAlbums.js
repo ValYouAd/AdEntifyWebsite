@@ -75,7 +75,6 @@ define([
             "sync": this.render
          });
          app.trigger('domchange:title', $.t('facebook.albumsPageTitle'));
-         this.categories = this.options.categories;
          this.listenTo(this.options.categories, {
             "sync": this.render
          });
@@ -85,7 +84,7 @@ define([
          this.options.albums.each(function(album) {
             this.insertView("#albums-list", new ExternalServicePhotos.Views.AlbumItem({
                model: album,
-               categories: this.categories
+               categories: this.options.categories
             }));
          }, this);
 

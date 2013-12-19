@@ -30,27 +30,12 @@ define([
       },
 
       setup: function() {
-         var that = this;
-
-         this.set('title', this.attributes.title._content);
-         this.set('description', this.attributes.description._content);
-         this.set('id', this.attributes.id);
-         if (!this.has('url'))
-         this.set('url', app.beginUrl + app.root + 'flickr/sets/' + this.get("id") + '/photos/');
-
-         /*if (this.has('cover_photo')) {
-            FB.api(this.get('cover_photo'), function(response) {
-               if (response && !response.error) {
-                  that.set("picture", response.source);
-               }
-            });
-         }*/
+         this.set('url', app.beginUrl + app.root + $.t('routing.flickr/sets/id/photos/', { id: this.get("id") }));
       }
    });
 
    FlickrSets.Collection = Backbone.Collection.extend({
       model: FlickrSets.Model,
-      cache: true
    });
 
    FlickrSets.Views.List = Backbone.View.extend({
@@ -82,22 +67,27 @@ define([
                         error = data.error;
                      } else {
                         var flickrOAuthInfos = _.find(data, function(service) {
-                           if (service.service_name == 'flickr') {
+                           if (service.service_name == 'Flickr') {
                               return true;
                            } else { return false; }
                         });
                         // Connect to Flickr API
                         if (flickrOAuthInfos) {
                            $.ajax({
-                              url: 'http://api.flickr.com/services/rest/?method=flickr.photosets.getList&format=json&api_key=370e2e2f28c0ca81fd6a5a336a6e2c89'
+                              url: 'https://api.flickr.com/services/rest/?method=flickr.photosets.getList&format=json&api_key=' + flickrClientId
                                  + '&user_id='+ flickrOAuthInfos.service_user_id + '&jsoncallback=?',
                               dataType: 'jsonp',
                               success: function(response) {
                                  var sets = [];
                                  for (var i= 0, l=response.photosets.photoset.length; i<l; i++) {
-                                    sets[i] = response.photosets.photoset[i];
+                                    var model = new FlickrSets.Model();
+                                    var album = response.photosets.photoset[i];
+                                    model.set('name', album.title._content);
+                                    model.set('id', album.id);
+                                    model.set('description', album.description._content);
+                                    model.setup();
+                                    that.options.sets.add(model);
                                  }
-                                 that.options.sets.add(sets);
                                  loaded = true;
                               },
                               error : function() {
@@ -127,8 +117,9 @@ define([
 
       beforeRender: function() {
          this.options.sets.each(function(album) {
-            this.insertView("#sets-list", new ExternalServicePhotos.Views.AlbumItem({
-               model: album
+            this.insertView("#albums-list", new ExternalServicePhotos.Views.AlbumItem({
+               model: album,
+               categories: this.options.categories
             }));
          }, this);
 
@@ -178,7 +169,7 @@ define([
                         'originalWidth' : model.get('originalWidth'),
                         'originalHeight' : model.get('originalHeight'),
                         'id': model.get('servicePhotoId'),
-                        'title' : model.get('title'),
+                        'title' : model.get('name'),
                         'confidentiality': album.get('confidentiality'),
                         'categories': album.get('categories')
                      };
@@ -194,9 +185,9 @@ define([
                $.ajax({
                   url : Routing.generate('upload_load_external_photos'),
                   type: 'POST',
-                  data: { 'images': flickrImages, 'source': 'flickr' },
+                  data: { 'images': flickrImages, 'source': 'Flickr' },
                   success: function() {
-                     app.trigger('externalPhotos:uploadingInProgress');
+                     ExternalServicePhotos.Common.showUploadInProgressModal();
                   },
                   error: function(e) {
                      // Hide loader
