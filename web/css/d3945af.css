@@ -3345,7 +3345,7 @@ html,body {
     background: white;
 }
 .modal-body {
-    padding: 0px 0px 1px 0px;
+    padding: 0px;
 }
 .modal-body-wrapper {
     padding: 0px 20px;
