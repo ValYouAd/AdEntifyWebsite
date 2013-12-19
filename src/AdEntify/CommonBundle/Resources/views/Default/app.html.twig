@@ -36,7 +36,7 @@
 
                     <div class="row">
                         <div class="col-sm-8 col-md-9">
-                            <a href="{{ full_root_url }}" class="logo-nav pull-left"></a>
+                            <a href="{{ full_root_url }}" class="logo-nav pull-left hidden-sm hidden-xs"></a>
                             <div class="pull-right" id="search-bar"></div>
                             <div class="pull-right">
                                 <button type="button" class="navbar-toggle navbar-toggle-header-menu" data-toggle="collapse" data-target=".dropdown-header-menu">
@@ -111,9 +111,15 @@
 
                     <div class="dropdown-header-menu container collapse">
                         <div class="row">
-                            {% for category in categories %}
-                            <div class="col-sm-4"><a href="{{ full_root_url }}{{ 'category/'|trans }}{{ category.slug }}/">{{ category.name }}</a></div>
-                            {% endfor %}
+                            <div class="col-sm-3 text-red">
+                                <div class="col-sm-12"><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'All brands'|trans }}</a></div>
+                                <div class="col-sm-12"><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'Add a brand'|trans }}</a></div>
+                            </div>
+                            <div class="col-sm-9">
+                                {% for category in categories %}
+                                    <div class="col-sm-4"><a href="{{ full_root_url }}{{ 'category/'|trans }}{{ category.slug }}/">{{ category.name }}</a></div>
+                                {% endfor %}
+                            </div>
                         </div>
                         <footer>
                             <div class="pull-left">

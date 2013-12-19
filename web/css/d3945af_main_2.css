@@ -3599,5 +3599,8 @@ ul.striped > li:nth-child(even) {
     padding: 0px;
     text-align: center;
 }
+text-red {
+    color: #ff3434;
+}
 /*
 ----------------------- */

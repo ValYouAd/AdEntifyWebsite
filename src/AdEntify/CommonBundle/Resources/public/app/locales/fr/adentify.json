@@ -12,7 +12,9 @@
       "pageTitleViewBrand": "Photos de __name__ - AdEntify",
       "viewPhotos": "Voir les photos",
       "followersTitle": "Ses abonnés",
-      "moreFollowers": "Voir tous les abonnés"
+      "moreFollowers": "Voir tous les abonnés",
+      "rewards": "Récompenses",
+      "noRewards": "__name__ n'a pas encore de récompense"
    },
    "photos": {
       "pageTitle": "Découvrez, taguez et partagez des photos - AdEntify",
@@ -267,7 +269,12 @@
       "noFollowings": "Aucun abonnement pour le moment",
       "noFollowers": "Aucun abonné pour le moment",
       "editMyProfile": "Editer mon profil",
-      "myLinkedServices": "Mes comptes liés à AdEntify"
+      "myLinkedServices": "Mes comptes liés à AdEntify",
+      "rewards": "Récompenses",
+      "noRewards": "Aucune récompense pour le moment",
+      "brandsTitle": "Ses marques",
+      "myBrandsTitle": "Mes marques",
+      "noBrands": "Aucune marque pour le moment"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",

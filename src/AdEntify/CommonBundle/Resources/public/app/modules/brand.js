@@ -7,8 +7,8 @@
  */
 define([
    'app',
-   'modules/user'
-], function(app, User) {
+   'modules/reward'
+], function(app, Reward) {
 
    var Brand = app.module();
 
@@ -108,14 +108,23 @@ define([
 
       beforeRender: function() {
          var that = this;
+         var User = require('modules/user');
+         if (!this.getView('.rewards') && this.loaded) {
+            this.setView('.rewards', new Reward.Views.List({
+               rewards: new Reward.Collection(),
+               emptyMessage: $.t('brand.noRewards', { name: this.model.get('name') })
+            }));
+         }
          if (!this.getView('.followers')) {
             this.setView('.followers', new User.Views.List({
-               users: this.followers
+               users: this.followers,
+               noUsersMessage: 'profile.noFollowers'
             }));
          }
          if (!this.getView('.followings')) {
             this.setView('.followings', new User.Views.List({
-               users: this.followings
+               users: this.followings,
+               noUsersMessage: 'profile.noFollowings'
             }));
          }
          if (!this.getView('.follow-button')) {
@@ -127,6 +136,9 @@ define([
             followButtonView.on('follow', function(follow) {
                that.model.changeFollowersCount(follow);
                that.render();
+            });
+            followButtonView.on('followed', function() {
+               that.followers.fetch();
             });
          }
       },
@@ -209,7 +221,10 @@ define([
                $.ajax({
                   url: Routing.generate('api_v1_post_brand_follower', { slug: that.slug }),
                   headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  type: 'POST'
+                  type: 'POST',
+                  success: function() {
+                     that.trigger('followed');
+                  }
                });
             }
          });

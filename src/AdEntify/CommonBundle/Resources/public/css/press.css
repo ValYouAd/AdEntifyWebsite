@@ -114,3 +114,33 @@
     .mail-wrapper {
         margin-bottom: 120px;
     }
+
+/* Photos */
+.photos-videos h2 {
+    font-size: 40px;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #5b5756;
+    padding: 40px 0px;
+}
+.photos {
+    margin: 40px 0px;
+}
+.photo-wrapper {
+    padding: 0px 10px;
+}
+.photo {
+    border: 10px solid #FFFFFF;
+    -webkit-box-shadow: 0px 2px 9px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    0px 2px 9px rgba(50, 50, 50, 0.5);
+    box-shadow:         0px 2px 9px rgba(50, 50, 50, 0.5);
+    height: 300px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 5px 0px;
+    display: block;
+    position: relative;
+}

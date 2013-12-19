@@ -489,7 +489,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
 
          var followers = new User.Collection();
+         followers.url = Routing.generate('api_v1_get_brand_followers', { slug: slug });
          var followings = new User.Collection();
+         followings.url = Routing.generate('api_v1_get_brand_followings', { slug: slug });
 
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
@@ -530,12 +532,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }
          });
 
-         followers.fetch({
-            url: Routing.generate('api_v1_get_brand_followers', { slug: slug })
-         });
-         followings.fetch({
-            url: Routing.generate('api_v1_get_brand_followings', { slug: slug })
-         });
+         followers.fetch();
+         followings.fetch();
       },
 
       mySettings: function() {
@@ -581,6 +579,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          $('html, body').addClass('body-grey-background');
 
          var followers = new User.Collection();
+         followers.url = Routing.generate('api_v1_get_user_followers', { id: id });
          var followings = new User.Collection();
 
          app.useLayout().setViews({
@@ -607,9 +606,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          followings.fetch({
             url: Routing.generate('api_v1_get_user_followings', { id: id })
          });
-         followers.fetch({
-            url: Routing.generate('api_v1_get_user_followers', { id: id })
-         });
+         followers.fetch();
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_user_hashtags', { id: id })
          });

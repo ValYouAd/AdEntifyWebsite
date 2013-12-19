@@ -45,6 +45,7 @@ Your account is currently under validation.: Votre compte est en attente de vali
 My dashboard: Mon dashboard
 Firstname: Prénom
 Lastname: Nom
+All brands: Toutes les marques
 
 #Login
 modal:
@@ -99,6 +100,7 @@ Screenshots: Screenshots
 Communiqué de presse: Communiqué de presse
 Story: Histoire
 Team: Equipe
+Photos & videos: Photos & vidéos
 
 # HP offline
 tags: '[0,1]%count% tag|]1,Inf[%count% tags'
