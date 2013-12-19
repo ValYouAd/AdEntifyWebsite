@@ -263,6 +263,10 @@ define([
                var url = Upload.Common.getInstagramUrl(this.model.get('linked'));
                this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
                break;
+            case 'flickr':
+               var url = Upload.Common.getFlickrUrl(this.model.get('linked'));
+               this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
+               break;
          }
       },
 
@@ -275,6 +279,11 @@ define([
       getInstagramUrl: function(connected) {
          connected = typeof connected !== 'undefined' ? connected : false;
          return connected ? $.t('routing.instagram/photos/') : 'https://api.instagram.com/oauth/authorize/?client_id=' + instagramClientId + '&redirect_uri=' + app.rootUrl + 'instagram/authentication&response_type=code';
+      },
+
+      getFlickrUrl: function(connected) {
+         connected = typeof connected !== 'undefined' ? connected : false;
+         return connected ? $.t('routing.flickr/sets/') : Routing.generate('flickr_request_token');
       }
    }
 

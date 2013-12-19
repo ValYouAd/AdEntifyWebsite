@@ -50,7 +50,7 @@ class SettingsController extends FosRestController
             $availableServices = array(
                 'instagram',
                 'Facebook',
-                //'flickr',
+                'flickr',
             );
 
             $connectedServices = array();

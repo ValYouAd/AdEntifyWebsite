@@ -18,15 +18,33 @@ define([
 
    FlickrSets.Model = Backbone.Model.extend({
       defaults: {
-         confidentiality: 'private',
+         confidentiality: 'public',
          categories: []
       },
 
       initialize: function() {
+         this.listenTo(this, {
+            'change': this.setup,
+            'add': this.setup
+         });
+      },
+
+      setup: function() {
+         var that = this;
+
          this.set('title', this.attributes.title._content);
          this.set('description', this.attributes.description._content);
          this.set('id', this.attributes.id);
-         this.set('url', 'flickr/sets/' + this.get("id") + '/photos/');
+         if (!this.has('url'))
+         this.set('url', app.beginUrl + app.root + 'flickr/sets/' + this.get("id") + '/photos/');
+
+         /*if (this.has('cover_photo')) {
+            FB.api(this.get('cover_photo'), function(response) {
+               if (response && !response.error) {
+                  that.set("picture", response.source);
+               }
+            });
+         }*/
       }
    });
 
@@ -36,7 +54,15 @@ define([
    });
 
    FlickrSets.Views.List = Backbone.View.extend({
-      template: "externalServicePhotos/albumList",
+      template: 'externalServicePhotos/albumList',
+
+      serialize: function() {
+         return {
+            rootUrl: app.beginUrl + app.root,
+            serviceName: 'Flickr',
+            loweredServiceName: 'flickr'
+         };
+      },
 
       initialize: function() {
          var that = this;
@@ -80,12 +106,13 @@ define([
                               }
                            });
                         } else {
-                           // TODO : Redirect to error page
+                           Backbone.history.navigate($.t('routing.upload/'), { trigger: true });
+                           // TODO error : pas de token flickr
                         }
                      }
                   },
                   error: function() {
-                     error = 'Can\'t get instagram token.';
+                     Backbone.history.navigate($.t('routing.upload/'), { trigger: true });
                   }
                });
             }
@@ -104,13 +131,36 @@ define([
                model: album
             }));
          }, this);
+
+         if (!this.getView('.upload-counter-view')) {
+            var counterView = new ExternalServicePhotos.Views.Counter({
+               counterType: 'album'
+            });
+            var that = this;
+            counterView.on('checkedAlbum', function(count) {
+               var submitButton = $(that.el).find('.submit-albums-button');
+               if (count > 0) {
+                  if ($(that.el).find('.submit-albums-button:visible').length == 0)
+                     submitButton.fadeIn('fast');
+               } else {
+                  if ($(that.el).find('.submit-albums-button:hidden').length == 0)
+                     submitButton.fadeOut('fast');
+               }
+            });
+            this.setView('.upload-counter-view', counterView);
+         }
       },
 
       afterRender: function() {
          $(this.el).i18n();
-         if (loaded) {
-            $('#loading-sets').hide();
+         if (this.options.sets.length > 0) {
+            $('#loading-albums').hide();
          }
+         var that = this;
+         $(this.el).find('.photos-confidentiality').change(function() {
+            if ($(this).val())
+               that.confidentiality = $(this).val();
+         });
       },
 
       submitAlbums: function(options) {

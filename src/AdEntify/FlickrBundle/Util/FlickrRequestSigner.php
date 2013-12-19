@@ -12,6 +12,13 @@ namespace AdEntify\FlickrBundle\Util;
 
 class FlickrRequestSigner
 {
+    protected $hash = true;
+
+    public function __construct($hash = true)
+    {
+        $this->hash = $hash;
+    }
+
     public function signRequest($flickrUrl, $key, $secret, $params = array(), $type = 'GET', $tokenSecret = '')
     {
         $nonce = md5(microtime(true));
@@ -55,7 +62,7 @@ class FlickrRequestSigner
         $joinedString = substr($joinedString, 0, strlen($joinedString) -1);
 
         $request = $type.'&'.urlencode($flickrUrl).'&'.urlencode($joinedString);
-        $signedRequest = base64_encode(hash_hmac('sha1', $request, $secret.'&'.$tokenSecret, true));
+        $signedRequest = $this->hash ? base64_encode(hash_hmac('sha1', $request, $secret.'&'.$tokenSecret, true)) : $request;
 
         return $signedRequest;
     }

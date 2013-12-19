@@ -145,6 +145,7 @@ define([
                               }
                            })
                         } else {
+                           Backbone.history.navigate($.t('routing.upload/'), { trigger: true });
                            // TODO error : pas de token instagram
                         }
                      }

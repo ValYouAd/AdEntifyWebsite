@@ -396,15 +396,20 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             return;
          }
 
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new FlickrSets.Views.List({
                sets: this.flrSets,
                categories: this.categories
             }),
-            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightAlbums({
-               categories: this.categories
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               photos: this.photos,
+               showServices: true
             })
          }).render();
 

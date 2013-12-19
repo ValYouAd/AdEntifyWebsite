@@ -19,7 +19,7 @@ define([
    FacebookAlbums.Model = Backbone.Model.extend({
       picture: null,
       defaults: {
-         confidentiality: 'private',
+         confidentiality: 'public',
          categories: []
       },
 
