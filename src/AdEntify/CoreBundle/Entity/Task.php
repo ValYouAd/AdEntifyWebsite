@@ -105,6 +105,13 @@ class Task
     private $attempt = 0;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="progress", type="smallint")
+     */
+    private $progress = 0;
+
+    /**
      * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
      */
     public function setCreatedAt($createdAt)
@@ -263,5 +270,22 @@ class Task
     public function getErrorMessage()
     {
         return $this->errorMessage;
+    }
+
+    /**
+     * @param int $progress
+     */
+    public function setProgress($progress)
+    {
+        $this->progress = $progress;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProgress()
+    {
+        return $this->progress;
     }
 }

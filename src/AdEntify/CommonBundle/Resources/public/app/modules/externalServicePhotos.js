@@ -269,6 +269,7 @@ define([
 
    ExternalServicePhotos.Common = {
       showUploadInProgressModal: function() {
+         Common.Tools.showUploadProgressBar();
          Backbone.history.navigate($.t('routing.my/photos/'), true);
          /*$('#uploadInProgressModal').appendTo("body").modal({
             backdrop: true,

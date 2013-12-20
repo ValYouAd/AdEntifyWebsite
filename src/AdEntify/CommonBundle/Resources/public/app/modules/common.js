@@ -136,7 +136,44 @@ define([
       }
    });
 
+   Common.Views.ProgressBar = Backbone.View.extend({
+      template: 'common/progressBar',
+      progress: 0,
+
+      update: function(progress) {
+         if (progress <= 100 && this.progress != progress) {
+            this.progress = progress;
+            this.$('.progress-value').html(this.progress);
+            this.$('.progress-bar').css({width: this.progress + '%'}).attr('aria-valuenow', this.progress);
+         }
+      }
+   });
+
    Common.Tools = {
+      showUploadProgressBar: function() {
+         var progressBar = new Common.Views.ProgressBar();
+         app.oauth.loadAccessToken({
+            success: function() {
+               var progressInterval = setInterval(function() {
+                  $.ajax({
+                     type: 'GET',
+                     url: Routing.generate('api_v1_task_user_progress'),
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     success: function(progress) {
+                        if (progress != null)
+                           progressBar.update(progress);
+                        else {
+                           progressBar.remove();
+                           clearInterval(progressInterval);
+                        }
+                     }
+                  });
+               }, 2000);
+            }
+         });
+         app.useLayout().setView('.top-progress-bar', progressBar);
+      },
+
       hideCurrentModalIfOpened: function(callback, changeHistoryOnClose) {
          changeHistoryOnClose = typeof changeHistoryOnClose !== 'undefined' ? changeHistoryOnClose : true;
 

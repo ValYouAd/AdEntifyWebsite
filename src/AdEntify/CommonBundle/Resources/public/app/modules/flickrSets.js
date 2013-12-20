@@ -35,11 +35,12 @@ define([
    });
 
    FlickrSets.Collection = Backbone.Collection.extend({
-      model: FlickrSets.Model,
+      model: FlickrSets.Model
    });
 
    FlickrSets.Views.List = Backbone.View.extend({
       template: 'externalServicePhotos/albumList',
+      confidentiality: 'public',
 
       serialize: function() {
          return {
@@ -51,8 +52,6 @@ define([
 
       initialize: function() {
          var that = this;
-
-         this.listenTo(app, 'externalServicePhoto:submitAlbums', this.submitAlbums);
 
          // Get flickr token
          app.oauth.loadAccessToken({
@@ -154,10 +153,12 @@ define([
          });
       },
 
-      submitAlbums: function(options) {
+      submitAlbums: function() {
          var flickrImages = [];
          var stack = [];
-         _.each(options.albums, function(album) {
+         var counterView = this.getView('.upload-counter-view');
+         var that = this;
+         _.each(counterView.checkedAlbums, function(album) {
             stack.push(1);
             app.fb.loadPhotos(album.get('id'), function(response) {
                stack.splice(0, 1);
@@ -170,7 +171,7 @@ define([
                         'originalHeight' : model.get('originalHeight'),
                         'id': model.get('servicePhotoId'),
                         'title' : model.get('name'),
-                        'confidentiality': album.get('confidentiality'),
+                        'confidentiality': that.confidentiality,
                         'categories': album.get('categories')
                      };
                      flickrImages.push(flickrImage);
@@ -201,6 +202,10 @@ define([
                clearInterval(albumLoaded);
             }
          }, 1000);
+      },
+
+      events: {
+         'click .submit-albums-button': 'submitAlbums'
       }
    });
 

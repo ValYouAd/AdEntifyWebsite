@@ -2550,6 +2550,14 @@ html,body {
 /* Common Templates
 ----------------------- */
 
+/* Progress bar */
+.top-progress-bar .progress {
+    margin: 0;
+    border-radius: 0px;
+    height: 6px;
+    background: none;
+}
+
 /* Ticker */
 .ticker-item .photo {
     max-width: 100%;

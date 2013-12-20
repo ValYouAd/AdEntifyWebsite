@@ -100,6 +100,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          // Handle url parameters
          this.checkUrlQuery();
+
+         Common.Tools.showUploadProgressBar();
       },
 
       routes: function() {
