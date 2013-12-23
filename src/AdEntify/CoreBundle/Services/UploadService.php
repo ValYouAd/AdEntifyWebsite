@@ -17,6 +17,7 @@ use AdEntify\CoreBundle\Entity\Venue;
 use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\FileTools;
 use AdEntify\CoreBundle\Util\TaskProgressHelper;
+use Guzzle\Service\Client;
 use Symfony\Component\HttpFoundation\Response;
 
 class UploadService
@@ -41,7 +42,6 @@ class UploadService
 
     public function uploadPhotos($user, $data, $task = null)
     {
-        $response = null;
         $venueRepository = $this->em->getRepository('AdEntifyCoreBundle:Venue');
         $categories = $this->em->getRepository('AdEntifyCoreBundle:Category')->findAll();
 
@@ -55,6 +55,15 @@ class UploadService
                 $taskProgressHelper = new TaskProgressHelper($this->em);
                 $taskProgressHelper->start($task, (count($images) * 3));
             }
+
+            $client = new Client();
+            $requests = array();
+            // Download images in parallel
+            foreach($images as $image)
+            {
+                $requests[] = $client->get($image->originalSource);
+            }
+            $responses = $client->send($requests);
 
             foreach($images as $image) {
                 // Build filename & path
@@ -102,7 +111,18 @@ class UploadService
                 // Online photos, download them
                 else {
                     // ORIGINAL IMAGE
-                    $originalUrl = $this->fileUploader->uploadFromUrl($image->originalSource, $originalPath, 30);
+
+                    // Get downloaded image
+                    $downloadedImage = null;
+                    foreach($responses as $response) {
+                        if ($response->getEffectiveUrl() == $image->originalSource)
+                            $downloadedImage = $response;
+                    }
+                    if ($downloadedImage)
+                        $originalUrl = $this->fileUploader->uploadFromContent($downloadedImage->getBody(), $downloadedImage->getContentType(), $originalPath, $filename);
+                    else
+                        $originalUrl = $this->fileUploader->uploadFromUrl($image->originalSource, $originalPath, 30);
+
                     // Get image size
                     if (empty($image->originalWidth) || empty($image->originalHeight)) {
                         // If image downloaded well, get imagesize
@@ -211,9 +231,6 @@ class UploadService
                         } else {*/
                             $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
                         //}
-
-                        /*if (isset($taskProgressHelper))
-                            $taskProgressHelper->advance();*/
 
                         // Thumb generation
                         if ($thumb->IsThumbGenerationNeeded()) {

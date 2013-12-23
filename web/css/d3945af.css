@@ -852,7 +852,7 @@ th.visible-print,td.visible-print{display:none !important;}
     url('../fonts/pacifico-webfont.woff') format('woff'),
     url('../fonts/pacifico-webfont.ttf') format('truetype'),
     url('../fonts/pacifico-webfont.svg#pacificoregular') format('svg');
-    font-weight: 300!important;
+    font-weight: 400!important;
     font-style: normal;
 }
 /* robotobold */
@@ -1332,7 +1332,6 @@ html,body {
 .filters-wrapper ul {
     margin: 0px;
     padding: 0px 0px 0px 25px;
-    text-align: center;
 }
 .filters-wrapper li {
     display: inline-block;
@@ -1377,6 +1376,7 @@ html,body {
     border-left: 1px solid #e5e7ea;
     border-right: 1px solid #e5e7ea;
     border-bottom: 1px solid #e5e7ea;
+    text-align: center;
 }
 /* Photos
 ----------------------- */
@@ -1638,12 +1638,17 @@ html,body {
     -webkit-border-radius: 20px;
     font-size: 14px;
     color: #aeacac;
-    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     height: 42px;
     display: block;
     padding: 0px 15px 0px 5px;
     text-decoration: none;
     line-height: 37px;
+    margin-right: 8px;
+    font-size: 20px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    text-rendering: optimizelegibility;
+    letter-spacing: 1px;
 }
 .services .service-button .icon {
     vertical-align: middle;
