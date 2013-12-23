@@ -37,7 +37,8 @@
         "a2lix/translation-form-bundle": "1.*@dev",
         "aws/aws-sdk-php": "2.*",
         "knplabs/gaufrette": "dev-master",
-        "knplabs/knp-gaufrette-bundle": "dev-master"
+        "knplabs/knp-gaufrette-bundle": "dev-master",
+        "guzzle/guzzle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
