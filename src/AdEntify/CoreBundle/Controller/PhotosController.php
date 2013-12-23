@@ -265,6 +265,9 @@ class PhotosController extends FosRestController
      */
     public function getSearchAction($query, $page = 1, $limit = 10, $today, $orderBy, Request $request)
     {
+        if (!$query)
+            return null;
+
         $em = $this->getDoctrine()->getManager();
 
         $securityContext = $this->container->get('security.context');

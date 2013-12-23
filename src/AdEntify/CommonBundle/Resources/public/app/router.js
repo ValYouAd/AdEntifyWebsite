@@ -100,8 +100,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          // Handle url parameters
          this.checkUrlQuery();
-
-         Common.Tools.showUploadProgressBar();
       },
 
       routes: function() {
@@ -837,6 +835,18 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.hashtags.length) {
             this.hashtags.fullReset();
          }
+         /*if (this.searchBrands.length) {
+            this.searchBrands.fullReset();
+         }
+         if (this.searchHashtags.length) {
+            this.searchHashtags.fullReset();
+         }
+         if (this.searchPhotos.length) {
+            this.searchPhotos.fullReset();
+         }
+         if (this.searchUsers.length) {
+            this.searchUsers.fullReset();
+         }*/
          if ($('html, body').hasClass('body-grey-background')) {
             $('html, body').removeClass('body-grey-background');
          }

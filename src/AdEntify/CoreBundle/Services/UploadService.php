@@ -53,7 +53,7 @@ class UploadService
             $venues = array();
             if ($task) {
                 $taskProgressHelper = new TaskProgressHelper($this->em);
-                $taskProgressHelper->start($task, (count($images) * 8));
+                $taskProgressHelper->start($task, (count($images) * 3));
             }
 
             foreach($images as $image) {
@@ -71,17 +71,6 @@ class UploadService
                     $photo->setVisibilityScope(Photo::SCOPE_PRIVATE);
                 else
                     $photo->setVisibilityScope(Photo::SCOPE_PUBLIC);
-                // Set category(ies)
-                if (isset($image->categories) && is_array($image->categories) && count($image->categories) > 0) {
-                    foreach($image->categories as $categoryId) {
-                        foreach($categories as $category) {
-                            if ($category->getId() == $categoryId) {
-                                $photo->addCategory($category);
-                                break;
-                            }
-                        }
-                    }
-                }
 
                 // Thumb
                 $thumb = new Thumb();
@@ -108,7 +97,7 @@ class UploadService
                     $uploadedPhotos[] = $photo;
                     $countUploadedPhotos++;
                     if (isset($taskProgressHelper))
-                        $taskProgressHelper->advance(4);
+                        $taskProgressHelper->advance(2);
                 }
                 // Online photos, download them
                 else {
@@ -138,7 +127,7 @@ class UploadService
                         $countUploadedPhotos++;
 
                         // GET SMALL IMAGE
-                        if (array_key_exists('smallSource', $image)) {
+                        /*if (array_key_exists('smallSource', $image)) {
                             $smallPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_SMALLL);
                             $smalllUrl = $this->fileUploader->uploadFromUrl($image->smallSource, $smallPath, 30);
 
@@ -162,15 +151,15 @@ class UploadService
                                 // Unable to load image, we have to generate it
                                 $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
                             }
-                        } else {
+                        } else {*/
                             $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                        }
+                        //}
 
-                        if (isset($taskProgressHelper))
-                            $taskProgressHelper->advance();
+                        /*if (isset($taskProgressHelper))
+                            $taskProgressHelper->advance();*/
 
                         // MEDIUM IMAGE
-                        if (array_key_exists('mediumSource', $image)) {
+                        /*if (array_key_exists('mediumSource', $image)) {
                             $mediumPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_MEDIUM);
                             $mediumUrl = $this->fileUploader->uploadFromUrl($image->mediumSource, $mediumPath, 30);
 
@@ -193,15 +182,15 @@ class UploadService
                             } else {
                                 $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
                             }
-                        } else {
+                        } else {*/
                             $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
-                        }
+                        //}
 
-                        if (isset($taskProgressHelper))
-                            $taskProgressHelper->advance();
+                        /*if (isset($taskProgressHelper))
+                            $taskProgressHelper->advance();*/
 
                         // LARGE IMAGE
-                        if (array_key_exists('largeSource', $image)) {
+                        /*if (array_key_exists('largeSource', $image)) {
                             $largePath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_LARGE);
                             $largeUrl = $this->fileUploader->uploadFromUrl($image->largeSource, $largePath, 30);
 
@@ -219,12 +208,12 @@ class UploadService
                             } else {
                                 $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
                             }
-                        } else {
+                        } else {*/
                             $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
-                        }
+                        //}
 
-                        if (isset($taskProgressHelper))
-                            $taskProgressHelper->advance();
+                        /*if (isset($taskProgressHelper))
+                            $taskProgressHelper->advance();*/
 
                         // Thumb generation
                         if ($thumb->IsThumbGenerationNeeded()) {
@@ -322,9 +311,6 @@ class UploadService
                         break;
                 }
 
-                if (isset($taskProgressHelper))
-                    $taskProgressHelper->advance();
-
                 // Photo tags
                 if (isset($image->tags) && is_array($image->tags) && count($image->tags) > 0) {
                     $personRepository = $this->em->getRepository('AdEntifyCoreBundle:Person');
@@ -408,6 +394,18 @@ class UploadService
                             $hashtag = $hashtagRepository->createIfNotExist(str_replace('#', '', $match[0]));
                             if ($hashtag)
                                 $photo->addHashtag($hashtag);
+                        }
+                    }
+                }
+
+                // Set category(ies)
+                if (isset($image->categories) && is_array($image->categories) && count($image->categories) > 0) {
+                    foreach($image->categories as $categoryId) {
+                        foreach($categories as $category) {
+                            if ($category->getId() == $categoryId) {
+                                $photo->addCategory($category);
+                                break;
+                            }
                         }
                     }
                 }

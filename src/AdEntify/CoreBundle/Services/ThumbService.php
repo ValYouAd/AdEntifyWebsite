@@ -40,11 +40,12 @@ class ThumbService
         if (empty($filename))
             $filename = uniqid().FileTools::getExtensionFromUrl($thumb->getOriginalPath());
 
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath());
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getUserPhotosPath($user, $size);
 
             // Generate thumb
-            $generatedThumbs[$size] = $this->generateThumb($thumb, $size, $path, $filename);
+            $generatedThumbs[$size] = $this->generateThumb($size, $path, $filename, $fileInfo);
         }
 
         return $generatedThumbs;
@@ -53,11 +54,12 @@ class ThumbService
     public function generateProductThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath());
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getProductPhotoPath($size);
 
             // Generate thumb
-            $generatedThumbs[$size] = $this->generateThumb($thumb, $size, $path, $filename);
+            $generatedThumbs[$size] = $this->generateThumb($size, $path, $filename, $fileInfo);
         }
 
         return $generatedThumbs;
@@ -66,11 +68,12 @@ class ThumbService
     public function generateProfilePictureThumb(Thumb $thumb, User $user, $filename)
     {
         $generatedThumbs = array();
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath());
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getUserProfilePicturePath($user);
 
             // Generate thumb
-            $generatedThumbs[$size] = $this->generateThumb($thumb, $size, $path, $filename);
+            $generatedThumbs[$size] = $this->generateThumb($size, $path, $filename, $fileInfo);
         }
 
         return $generatedThumbs;
@@ -79,31 +82,31 @@ class ThumbService
     public function generateBrandLogoThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath());
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getBrandLogoPath($size);
 
             // Generate thumb
-            $generatedThumbs[$size] = $this->generateThumb($thumb, $size, $path, $filename);
+            $generatedThumbs[$size] = $this->generateThumb($size, $path, $filename, $fileInfo);
         }
 
         return $generatedThumbs;
     }
 
     /**
-     * Generate Thumb
+     * Generate thumb
      *
-     * @param $thumb
      * @param $size
      * @param $path
      * @param $filename
+     * @param $fileinfo
      * @return array
      */
-    private function generateThumb($thumb, $size, $path, $filename)
+    private function generateThumb($size, $path, $filename, $fileinfo)
     {
-        $result = FileTools::loadFile($thumb->getOriginalPath());
-        $imageContent = $this->resize($size, $result);
+        $imageContent = $this->resize($size, $fileinfo);
         $this->replace_extension($filename, 'jpg');
-        $url = $this->fileUploader->uploadFromContent($imageContent, $result['content-type'], $path, $filename);
+        $url = $this->fileUploader->uploadFromContent($imageContent, $fileinfo['content-type'], $path, $filename);
 
         $thumbInfo = array(
             'filename' => $url

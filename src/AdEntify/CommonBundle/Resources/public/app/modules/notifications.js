@@ -23,6 +23,10 @@ define([
          });
       },
 
+      defaults: {
+         rootUrl: app.beginUrl + app.root
+      },
+
       toJSON: function() {
          return { notification: {
             '_token': this.get('_token'),

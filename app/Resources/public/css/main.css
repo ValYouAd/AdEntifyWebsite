@@ -1708,7 +1708,7 @@ html,body {
 .top-progress-bar .progress {
     margin: 0;
     border-radius: 0px;
-    height: 6px;
+    height: 4px;
     background: none;
 }
 
