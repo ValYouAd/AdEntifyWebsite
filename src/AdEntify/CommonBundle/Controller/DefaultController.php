@@ -56,7 +56,7 @@ class DefaultController extends Controller
                 ':status' => Photo::STATUS_READY,
             ))
             ->setMaxResults(9)->getResult();
-        $hashtags = $em->createQuery('SELECT h FROM AdEntify\CoreBundle\Entity\Hashtag h ORDER BY h.usedCount DESC')->setMaxResults(30)->getResult();
+        $hashtags = $em->createQuery('SELECT h FROM AdEntify\CoreBundle\Entity\Hashtag h ORDER BY h.usedCount DESC')->setMaxResults(36)->getResult();
 
         return array(
             'tagsCount' => str_split($tagsCount),

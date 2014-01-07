@@ -305,7 +305,7 @@ define([
             this.terms = terms;
          });
          this.listenTo(app, 'search:completed', function() {
-            if (this.terms == '%23cocacola') {
+            if (this.terms.indexOf('%23') != -1) {
                $('.feeds-container').hide();
             }
          });
