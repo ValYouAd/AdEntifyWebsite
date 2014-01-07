@@ -3619,7 +3619,9 @@ ul.striped > li:nth-child(even) {
     padding: 0px;
     text-align: center;
 }
-text-red {
+.text-red,
+.text-red a,
+.text-red a:hover {
     color: #ff3434;
 }
 /*

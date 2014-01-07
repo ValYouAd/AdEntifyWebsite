@@ -194,7 +194,7 @@ define([
          // Show
          else {
             var that = this;
-            User.Dropdown.closeOpenedDropdown();
+            User.Dropdown.closeOpenedDropdown(e);
             $(this.el).find('.dropdown-menu').hide().fadeIn(100, function() {
                setTimeout(function() {
                   that.notifications.each(function(notification) {
