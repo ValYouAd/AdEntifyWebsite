@@ -94,7 +94,7 @@ class ProductType
         return $this->name;
     }
 
-    public function setParent(Category $parent)
+    public function setParent(ProductType $parent)
     {
         $this->parent = $parent;
     }

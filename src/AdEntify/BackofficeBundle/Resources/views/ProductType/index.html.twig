@@ -16,6 +16,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Parent product type</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,6 +25,7 @@
             <tr>
                 <td><a href="{{ path('producttype_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
+                <td>{% if entity.parent %}{{ entity.parent.name }}{% else %}<span class="text-warning">Pas de parent</span>{% endif %}</td>
                 <td>
                 <ul>
                     <li>

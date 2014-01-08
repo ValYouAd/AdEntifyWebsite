@@ -3,7 +3,7 @@
 {% block body -%}
     <h1>ProductType</h1>
 
-    <table class="record_properties">
+    <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -12,6 +12,10 @@
             <tr>
                 <th>Name</th>
                 <td>{{ entity.name }}</td>
+            </tr>
+            <tr>
+                <th>Parent</th>
+                <td>{% if entity.parent %}{{ entity.parent.name }}{% else %}<span class="text-warning">Pas de parent</span>{% endif %}</td>
             </tr>
         </tbody>
     </table>
