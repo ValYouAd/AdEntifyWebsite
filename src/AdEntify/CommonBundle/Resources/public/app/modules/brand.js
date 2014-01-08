@@ -7,8 +7,8 @@
  */
 define([
    'app',
-   'modules/user'
-], function(app, User) {
+   'modules/reward'
+], function(app, Reward) {
 
    var Brand = app.module();
 
@@ -95,6 +95,7 @@ define([
 
    Brand.Views.MenuLeft = Backbone.View.extend({
       template: 'brand/menuLeft',
+      loaded: false,
 
       serialize: function() {
          return {
@@ -107,9 +108,23 @@ define([
 
       beforeRender: function() {
          var that = this;
+         var User = require('modules/user');
+         if (!this.getView('.rewards') && this.loaded) {
+            this.setView('.rewards', new Reward.Views.List({
+               rewards: new Reward.Collection(),
+               emptyMessage: $.t('brand.noRewards', { name: this.model.get('name') })
+            }));
+         }
          if (!this.getView('.followers')) {
             this.setView('.followers', new User.Views.List({
-               users: this.followers
+               users: this.followers,
+               noUsersMessage: 'profile.noFollowers'
+            }));
+         }
+         if (!this.getView('.followings')) {
+            this.setView('.followings', new User.Views.List({
+               users: this.followings,
+               noUsersMessage: 'profile.noFollowings'
             }));
          }
          if (!this.getView('.follow-button')) {
@@ -122,19 +137,32 @@ define([
                that.model.changeFollowersCount(follow);
                that.render();
             });
+            followButtonView.on('followed', function() {
+               that.followers.fetch();
+            });
          }
       },
 
       afterRender: function() {
          $(this.el).i18n();
+         if (this.loaded) {
+            var that = this;
+            this.$('.loading-gif-container').fadeOut(200, function() {
+               that.$('.profile-aside').fadeIn('fast');
+            });
+         }
       },
 
       initialize: function() {
          this.lastPhoto = null;
          this.followers = this.options.followers;
+         this.followings = this.options.followings;
          this.categories = this.options.categories;
          this.slug = this.options.slug;
-         this.listenTo(this.model, 'sync', this.render);
+         this.listenTo(this.model, 'sync', function() {
+            this.loaded = true;
+            this.render();
+         });
          this.options.photos.once('sync', function(collection) {
             if (collection.length > 0) {
                this.lastPhoto = collection.first();
@@ -193,7 +221,10 @@ define([
                $.ajax({
                   url: Routing.generate('api_v1_post_brand_follower', { slug: that.slug }),
                   headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  type: 'POST'
+                  type: 'POST',
+                  success: function() {
+                     that.trigger('followed');
+                  }
                });
             }
          });

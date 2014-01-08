@@ -23,6 +23,10 @@ define([
          });
       },
 
+      defaults: {
+         rootUrl: app.beginUrl + app.root
+      },
+
       toJSON: function() {
          return { notification: {
             '_token': this.get('_token'),
@@ -190,7 +194,7 @@ define([
          // Show
          else {
             var that = this;
-            User.Dropdown.closeOpenedDropdown();
+            User.Dropdown.closeOpenedDropdown(e);
             $(this.el).find('.dropdown-menu').hide().fadeIn(100, function() {
                setTimeout(function() {
                   that.notifications.each(function(notification) {

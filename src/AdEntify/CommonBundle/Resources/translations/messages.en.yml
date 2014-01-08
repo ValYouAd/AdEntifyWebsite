@@ -45,6 +45,8 @@ Your account is currently under validation.: Your account is currently under val
 My dashboard: My dashboard
 Firstname: First Name
 Lastname: Last Name
+All brands: All brands
+Add a brand: Add a brand
 
 #Login
 modal:
@@ -99,6 +101,23 @@ Team: Team
 
 #HP Offline
 tags: '[0,1]%count% tag|]1,Inf[%count% tags'
+search:
+    placeHolderKeywords: Search for members, brands, places...
+    inProgress: Search in progress...
+    noResults: No result found
+    error: Error loading results.
+    viewMore: View more results
+    tagsBlockTitle: Tags
+    usersBlockTitle: Users
+    noSearch: No search available at the moment
+    photos: Photos
+    users: Users
+    feeds: Feeds
+    pageTitle: Search __title__ on AdEntify.com
+    brands: Brands
+    resultsCount: <strong>__count__</strong> result
+    resultsCount_plural: <strong>__count__</strong> results
+    shareSearch: Share search
 
 #Routing
 photos/untagged/: photos/untagged/
@@ -106,7 +125,9 @@ my/photos/: my/photos/
 my/photos/tagged/: my/photos/tagged/
 my/photos/untagged/: my/photos/untagged/
 photo/%id%/: photo/%id%/
+photo/id/: photo/
 brands/: brands/
+brand/slug/: brand/
 'brand/%slug%/': brand/%slug%
 my/settings/: my/settings/
 category/: category/

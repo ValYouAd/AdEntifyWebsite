@@ -550,8 +550,8 @@ define([
                   }
                });
             },
-            minLength: 2,
-            items: 10,
+            minLength: 1,
+            items: 15,
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                if (currentBrand) {
@@ -588,8 +588,8 @@ define([
                   }
                });
             },
-            minLength: 2,
-            items: 10,
+            minLength: 1,
+            items: 15,
             updater: function(selectedItem) {
                currentProduct = currentProducts[selectedItem];
                if (currentProduct) {
@@ -1083,11 +1083,25 @@ define([
          newProduct = new Product.Model();
       },
 
+      moreDetailsPlace: function(e) {
+         var i = this.$('.more-details-button i');
+         var span = this.$('.more-details-button span');
+         if (i.hasClass('glyphicon-plus-sign')) {
+            i.removeClass('glyphicon-plus-sign').addClass('glyphicon-minus-sign');
+            span.html($.t('tag.placeLessDetails'));
+         } else {
+            i.removeClass('glyphicon-minus-sign').addClass('glyphicon-plus-sign');
+            span.html($.t('tag.placeMoreDetails'));
+         }
+         e.preventDefault();
+      },
+
       events: {
          "click .cancel-add-tag": "cancel",
          "click .btn-geolocation": "geolocation",
          "click .submitTagButton": "submit",
-         "click .createProductButton": "createProduct"
+         "click .createProductButton": "createProduct",
+         'click .more-details-button': 'moreDetailsPlace'
       }
    });
 

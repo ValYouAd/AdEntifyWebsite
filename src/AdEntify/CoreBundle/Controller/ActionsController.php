@@ -45,7 +45,7 @@ class ActionsController extends FosRestController
      *
      * @View()
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="30")
+     * @QueryParam(name="limit", requirements="\d+", default="20")
      */
     public function cgetAction($page, $limit)
     {

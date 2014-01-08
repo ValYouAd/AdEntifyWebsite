@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class DefaultController extends Controller
 {
-    const SERVICE_NAME = 'flickr';
+    const SERVICE_NAME = 'Flickr';
     const SESSION_REQUEST_TOKEN = 'flickr-request-token';
     const SESSION_REQUEST_TOKEN_SECRET = 'flickr-request-token-secret';
 
@@ -74,7 +74,7 @@ class DefaultController extends Controller
 
             // Redirect user to authorize page
             return $this->redirect(
-                'http://www.flickr.com/services/oauth/authorize?oauth_token='.$output['oauth_token']
+                'http://www.flickr.com/services/oauth/authorize?oauth_token='.$output['oauth_token'] . '&perms=read'
             );
         } else {
             throw new AuthenticationException('Can\'t get Flickr feed');
@@ -92,7 +92,6 @@ class DefaultController extends Controller
             throw new AuthenticationException($this->getRequest()->query->get('error_reason'));
         } else if ($this->getRequest()->query->has('oauth_token') &&
                     $this->getRequest()->query->has('oauth_verifier')) {
-
             // Get token, token secret & verifier
             $session = $this->getRequest()->getSession();
             $token = $this->getRequest()->query->get('oauth_token');
@@ -117,8 +116,8 @@ class DefaultController extends Controller
                         'oauth_token=' => $token,
                         'oauth_verifier=' => $verifier,
                     ),
-                    $tokenSecret,
-                    'GET'
+                    'GET',
+                    $tokenSecret
                 );
 
                 // Get access token

@@ -259,10 +259,15 @@ class PhotosController extends FosRestController
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="today", requirements="\d+", default="null")
+     * @QueryParam(name="orderBy", default="null")
      * @View()
      */
-    public function getSearchAction($query, $page = 1, $limit = 10, Request $request)
+    public function getSearchAction($query, $page = 1, $limit = 10, $today, $orderBy, Request $request)
     {
+        if (!$query)
+            return null;
+
         $em = $this->getDoctrine()->getManager();
 
         $securityContext = $this->container->get('security.context');
@@ -302,20 +307,45 @@ class PhotosController extends FosRestController
             }
         }
 
+        // Order by
+        if ($orderBy) {
+            switch ($orderBy) {
+                case 'mostLiked':
+                    $orderByQuery = ' ORDER BY photo.likesCount DESC';
+                    break;
+                case 'oldest':
+                    $orderByQuery = ' ORDER BY photo.createdAt ASC';
+                    break;
+                case 'mostRecent':
+                default:
+                    $orderByQuery = ' ORDER BY photo.createdAt DESC';
+                    break;
+            }
+        } else {
+            $orderByQuery = ' ORDER BY photo.createdAt DESC';
+        }
+
+        $whereClauses = array();
+        $parameters = array();
+        if ($today == 1) {
+            $whereClauses[] = ' AND DATE(photo.createdAt) = DATE(:currentDate) ';
+            $parameters['currentDate'] = new \DateTime();
+        }
+
         // If hashtags found, search photo with this hashtag(s)
         if (count($hashtags) > 0) {
             $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
             INNER JOIN photo.owner owner LEFT JOIN photo.hashtags hashtag
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-            AND hashtag.name IN (:hashtags)')
-                ->setParameters(array(
+            AND hashtag.name IN (:hashtags)' . implode('', $whereClauses) . $orderByQuery)
+                ->setParameters(array_merge(array(
                     ':status' => Photo::STATUS_READY,
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
                     ':facebookFriendsIds' => $facebookFriendsIds,
                     ':followings' => $followings,
                     ':hashtags' => $hashtags
-                ))
+                ), $parameters))
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit);
         } else {
@@ -325,10 +355,10 @@ class PhotosController extends FosRestController
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
             AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
-            LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
+            (LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
-            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)')
-                ->setParameters(array(
+            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query))' . implode('', $whereClauses) . $orderByQuery)
+                ->setParameters(array_merge(array(
                     ':query' => '%'.$query.'%',
                     ':none' => Tag::VALIDATION_NONE,
                     ':granted' => Tag::VALIDATION_GRANTED,
@@ -336,7 +366,7 @@ class PhotosController extends FosRestController
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
                     ':facebookFriendsIds' => $facebookFriendsIds,
                     ':followings' => $followings
-                ))
+                ), $parameters))
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit);
         }

@@ -116,8 +116,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "facebook/albums/": "facebookAlbums",
                "facebook/albums/:id/photos/": "facebookAlbumsPhotos",
                "instagram/photos/": "instagramPhotos",
-               "flickr/sets/": "flickrSets",
-               "flickr/sets/:id/photos/": "flickrPhotos",
+               "flickr/albums/": "flickrSets",
+               "flickr/albums/:id/photos/": "flickrPhotos",
                "marques/": "viewBrands",
                "marque/:slug/": "viewBrand",
                "mon/profil/": "myProfile",
@@ -396,15 +396,20 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             return;
          }
 
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new FlickrSets.Views.List({
                sets: this.flrSets,
                categories: this.categories
             }),
-            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightAlbums({
-               categories: this.categories
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               photos: this.photos,
+               showServices: true
             })
          }).render();
 
@@ -417,15 +422,21 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             return;
          }
 
-         this.reset();
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
             "#center-pane-content": new FlickrPhotos.Views.List({
                photos: this.flrPhotos,
-               albumId: id
-            }),
-            "#right-pane-content": new ExternalServicePhotos.Views.MenuRightPhotos({
+               albumId: id,
                categories: this.categories
+            }),
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               photos: this.photos,
+               showServices: true
             })
          }).render();
 
@@ -488,6 +499,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             id: slug
          });
 
+         var followers = new User.Collection();
+         followers.url = Routing.generate('api_v1_get_brand_followers', { slug: slug });
+         var followings = new User.Collection();
+         followings.url = Routing.generate('api_v1_get_brand_followings', { slug: slug });
+
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
@@ -496,7 +512,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#left-pane": new Brand.Views.MenuLeft({
                model: brand,
                slug: slug,
-               followers: this.users,
+               followers: followers,
+               followings: followings,
                photos: this.photos,
                categories: this.categories
             })
@@ -526,9 +543,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             }
          });
 
-         this.users.fetch({
-            url: Routing.generate('api_v1_get_brand_followers', { slug: slug })
-         });
+         followers.fetch();
+         followings.fetch();
       },
 
       mySettings: function() {
@@ -574,6 +590,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          $('html, body').addClass('body-grey-background');
 
          var followers = new User.Collection();
+         followers.url = Routing.generate('api_v1_get_user_followers', { id: id });
          var followings = new User.Collection();
 
          app.useLayout().setViews({
@@ -600,9 +617,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          followings.fetch({
             url: Routing.generate('api_v1_get_user_followings', { id: id })
          });
-         followers.fetch({
-            url: Routing.generate('api_v1_get_user_followers', { id: id })
-         });
+         followers.fetch();
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_user_hashtags', { id: id })
          });
@@ -820,6 +835,18 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.hashtags.length) {
             this.hashtags.fullReset();
          }
+         /*if (this.searchBrands.length) {
+            this.searchBrands.fullReset();
+         }
+         if (this.searchHashtags.length) {
+            this.searchHashtags.fullReset();
+         }
+         if (this.searchPhotos.length) {
+            this.searchPhotos.fullReset();
+         }
+         if (this.searchUsers.length) {
+            this.searchUsers.fullReset();
+         }*/
          if ($('html, body').hasClass('body-grey-background')) {
             $('html, body').removeClass('body-grey-background');
          }

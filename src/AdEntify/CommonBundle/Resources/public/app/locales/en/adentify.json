@@ -12,7 +12,9 @@
       "pageTitleViewBrand": "__name__ photos - AdEntify",
       "viewPhotos": "View photos",
       "followersTitle": "Followers",
-      "moreFollowers": "View more followers"
+      "moreFollowers": "View more followers",
+      "rewards": "Rewards",
+      "noRewards": "No reward yet for __name__"
    },
    "photos": {
       "pageTitle": "Browse, tag & share photos - AdEntify",
@@ -132,7 +134,7 @@
       "geolocationSuccess": "Your photo has been <strong>successfully geolocalized.</strong>",
       "labelPlaceName": "Enter the name of the place",
       "labelPlaceDescription": "Describe the place",
-      "placeholderPlaceName": "Monument, restaurant, address...",
+      "placeholderPlaceName": "Monument, restaurant, café, cinema, shop, museum...",
       "labelPlaceLink": "Link",
       "submitPlace": "Confirm that place and add tag",
       "cancelTagAdding": "Cancel tag",
@@ -172,7 +174,10 @@
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Report",
       "reportReasonLabel": "Report reason",
       "reportReasonTextarea": "Write reason of the report...",
-      "errorPerson": "Can't get person data"
+      "errorPerson": "Can't get person data",
+      "placeLinkPlaceholder": "Official website, blog...",
+      "placeMoreDetails": "More details",
+      "tellUsMore": "You want to win more? Tell us more about this product"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -263,7 +268,12 @@
       "noFollowings": "No following yet",
       "noFollowers": "No follower yet",
       "editMyProfile": "Edit my profile",
-      "myLinkedServices": "My linked account to AdEntify"
+      "myLinkedServices": "My linked account to AdEntify",
+      "rewards": "Rewards",
+      "noRewards": "No reward yet",
+      "brandsTitle": "Brands",
+      "myBrandsTitle": "My brands",
+      "noBrands": "No brand yet"
    },
    "category": {
       "errorPhotosLoading": "Error loading photos from this category. Please try again.",
@@ -293,7 +303,8 @@
       "pageTitle": "Search __title__ on AdEntify.com",
       "brands": "Brands",
       "resultsCount": "<strong>__count__</strong> result",
-      "resultsCount_plural": "<strong>__count__</strong> results"
+      "resultsCount_plural": "<strong>__count__</strong> results",
+      "shareSearch": "Share search"
    },
    "comment": {
       "noComments": "Be the first to post!",
@@ -344,7 +355,9 @@
       "people": "People",
       "mostRecentToOldest": "Most recent to oldest",
       "mostOldestToRecent": "Oldest to most recent",
-      "mostLiked": "Most likes"
+      "mostLiked": "Most likes",
+      "today": "Today",
+      "taggedPhotos": "Tagged photos"
    },
    "notLogged": {
       "like": "You can't like when you aren't logged. Please connect or sign up.",

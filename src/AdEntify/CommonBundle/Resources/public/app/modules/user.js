@@ -8,8 +8,10 @@
 define([
    'app',
    'modules/hashtag',
-   'modules/common'
-], function(app, Hashtag, Common) {
+   'modules/common',
+   'modules/reward',
+   'modules/brand'
+], function(app, Hashtag, Common, Reward, Brand) {
 
    var User = app.module();
 
@@ -72,12 +74,26 @@ define([
             showHashtags: this.showHashtags,
             showFollowers: this.showFollowers,
             showFollowings: this.showFollowings,
-            showFollowButton: this.showFollowButton
+            showFollowButton: this.showFollowButton,
+            showRewards: this.showRewards,
+            showBrands: this.showBrands
          };
       },
 
       beforeRender: function() {
          var that = this;
+         if (!this.getView('.rewards') && this.loaded) {
+            this.setView('.rewards', new Reward.Views.List({
+               rewards: new Reward.Collection(),
+               emptyMessage: $.t('profile.noRewards')
+            }));
+         }
+         if (!this.getView('.brands') && this.options.brands) {
+            this.setView('.brands', new Brand.Views.List({
+               brands: this.options.brands,
+               emptyMessage: 'profile.noBrands'
+            }));
+         }
          if (!this.getView('.followings') && this.options.followings) {
             this.setView('.followings', new User.Views.List({
                users: this.options.followings,
@@ -98,6 +114,9 @@ define([
             followButtonView.on('follow', function(follow) {
                that.options.user.changeFollowersCount(follow);
                that.render();
+            });
+            followButtonView.on('followed', function() {
+               that.options.followers.fetch();
             });
          }
          if (!this.getView('.hashtags') && this.options.hashtags) {
@@ -132,6 +151,8 @@ define([
          this.showFollowings = typeof this.options.followings !== 'undefined';
          this.showFollowers = typeof this.options.followers !== 'undefined';
          this.showHashtags = typeof this.options.hashtags !== 'undefined';
+         this.showRewards = typeof this.options.rewards !== 'undefined';
+         this.showBrands = typeof this.options.brands !== 'undefined';
          this.showServices = typeof this.options.showServices !== 'undefined' ? this.options.showServices : this.showServices;
          this.showFollowButton = typeof this.options.showFollowButton !== 'undefined' ? this.options.showFollowButton : this.showFollowButton;
          this.listenTo(this.options.user, 'sync', function() {
@@ -253,7 +274,10 @@ define([
                      url: Routing.generate('api_v1_post_user_follower', { id: that.user.get('id') }),
                      headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                      type: 'POST',
-                     data: { userId: that.user.get('id') }
+                     data: { userId: that.user.get('id') },
+                     success: function() {
+                        that.trigger('followed');
+                     }
                   });
                }
             });
@@ -268,39 +292,48 @@ define([
    });
 
    User.Dropdown = {
+      openedDropdown: null,
+      documentClickTimeout: null,
+
       listenClick: function() {
+         this.listenDocumentClick();
+
          var that = this;
-         $(document).click(function(){
-            that.closeOpenedDropdown();
-         });
-          $('.profile-infos .user-names, .profile-infos .user-points, .profile-infos a').click(function(e) {
-             e.stopPropagation();
+         $('.profile-infos .user-names, .profile-infos .user-points, .profile-infos a').click(function(e) {
+            console.log('profile click');
              if ($('.profile-infos .dropdown-menu:visible').length > 0) {
                 $('.profile-infos .dropdown-menu').stop().fadeOut();
              } else {
-                that.closeOpenedDropdown();
+                that.closeOpenedDropdown(e);
                 $('.profile-infos .dropdown-menu').fadeIn(100);
              }
-          });
-          $('.navbar .tag-button, .navbar .tag-button a').click(function(e) {
-             e.stopPropagation();
-             if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
-                $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
-             } else {
-                that.closeOpenedDropdown();
-                $('.navbar .tag-button .dropdown-menu').fadeIn(100);
-             }
-          });
+         });
+         $('.navbar .tag-button, .navbar .tag-button a').click(function(e) {
+            console.log('navbar click');
+            if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
+               $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
+            } else {
+               that.closeOpenedDropdown(e);
+               $('.navbar .tag-button .dropdown-menu').fadeIn(100);
+            }
+         });
       },
 
-      closeOpenedDropdown: function() {
-         if ($('.profile-infos .dropdown-menu:visible').length > 0) {
+      listenDocumentClick: function() {
+         var that = this;
+         $(document).on('click', function(evt) {
+            console.log('document click');
+            that.closeOpenedDropdown(evt);
+         });
+      },
+      closeOpenedDropdown: function(evt) {
+         if ($('.profile-infos .dropdown-menu:visible').length > 0 && $(evt.target).parents('.profile-infos').length == 0) {
             $('.profile-infos .dropdown-menu').stop().fadeOut();
          }
-         if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
+         if ($('.navbar .tag-button .dropdown-menu:visible').length > 0 && !$(evt.target).hasClass('tag-button')) {
             $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
          }
-         if ($('#notifications .dropdown-menu:visible').length > 0) {
+         if ($('#notifications .dropdown-menu:visible').length > 0 && $(evt.target).parents('#notifications').length == 0) {
             $('#notifications .dropdown-menu').stop().fadeOut();
          }
          if ($('.dropdown-header-menu').hasClass('in')) {

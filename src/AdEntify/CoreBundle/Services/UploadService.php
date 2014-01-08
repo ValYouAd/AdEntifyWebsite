@@ -16,6 +16,8 @@ use AdEntify\CoreBundle\Entity\User;
 use AdEntify\CoreBundle\Entity\Venue;
 use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\FileTools;
+use AdEntify\CoreBundle\Util\TaskProgressHelper;
+use Guzzle\Service\Client;
 use Symfony\Component\HttpFoundation\Response;
 
 class UploadService
@@ -38,9 +40,8 @@ class UploadService
         $this->fileUploader = $fileUploader;
     }
 
-    public function uploadPhotos($user, $data)
+    public function uploadPhotos($user, $data, $task = null)
     {
-        $response = null;
         $venueRepository = $this->em->getRepository('AdEntifyCoreBundle:Venue');
         $categories = $this->em->getRepository('AdEntifyCoreBundle:Category')->findAll();
 
@@ -50,6 +51,19 @@ class UploadService
             $countUploadedPhotos = $failedPhotos = 0;
             $uploadedPhotos = array();
             $venues = array();
+            if ($task) {
+                $taskProgressHelper = new TaskProgressHelper($this->em);
+                $taskProgressHelper->start($task, (count($images) * 3));
+            }
+
+            $client = new Client();
+            $requests = array();
+            // Download images in parallel
+            foreach($images as $image)
+            {
+                $requests[] = $client->get($image->originalSource);
+            }
+            $responses = $client->send($requests);
 
             foreach($images as $image) {
                 // Build filename & path
@@ -66,15 +80,191 @@ class UploadService
                     $photo->setVisibilityScope(Photo::SCOPE_PRIVATE);
                 else
                     $photo->setVisibilityScope(Photo::SCOPE_PUBLIC);
-                // Set category(ies)
-                if (isset($image->categories) && is_array($image->categories) && count($image->categories) > 0) {
-                    foreach($image->categories as $categoryId) {
-                        foreach($categories as $category) {
-                            if ($category->getId() == $categoryId) {
-                                $photo->addCategory($category);
-                                break;
+
+                // Thumb
+                $thumb = new Thumb();
+
+                if ($source == 'local') {
+                    $photo->setOriginalUrl($image->originalSource);
+                    $photo->setOriginalWidth($image->originalWidth);
+                    $photo->setOriginalHeight($image->originalHeight);
+
+                    $photo->setSmallUrl($image->smallSource);
+                    $photo->setSmallWidth($image->smallWidth);
+                    $photo->setSmallHeight($image->smallHeight);
+
+                    $photo->setMediumUrl($image->mediumSource);
+                    $photo->setMediumWidth($image->mediumWidth);
+                    $photo->setMediumHeight($image->mediumHeight);
+
+                    $photo->setLargeUrl($image->largeSource);
+                    $photo->setLargeWidth($image->largeWidth);
+                    $photo->setLargeHeight($image->largeHeight);
+
+                    $photo->setStatus(Photo::STATUS_READY);
+
+                    $uploadedPhotos[] = $photo;
+                    $countUploadedPhotos++;
+                    if (isset($taskProgressHelper))
+                        $taskProgressHelper->advance(2);
+                }
+                // Online photos, download them
+                else {
+                    // ORIGINAL IMAGE
+
+                    // Get downloaded image
+                    $downloadedImage = null;
+                    foreach($responses as $response) {
+                        if ($response->getEffectiveUrl() == $image->originalSource)
+                            $downloadedImage = $response;
+                    }
+                    if ($downloadedImage)
+                        $originalUrl = $this->fileUploader->uploadFromContent($downloadedImage->getBody(), $downloadedImage->getContentType(), $originalPath, $filename);
+                    else
+                        $originalUrl = $this->fileUploader->uploadFromUrl($image->originalSource, $originalPath, 30);
+
+                    // Get image size
+                    if (empty($image->originalWidth) || empty($image->originalHeight)) {
+                        // If image downloaded well, get imagesize
+                        if ($originalUrl) {
+                            $size = getimagesize($originalUrl);
+                            $photo->setOriginalWidth($size[0]);
+                            $photo->setOriginalHeight($size[1]);
+                        }
+                    } else {
+                        $photo->setOriginalWidth($image->originalWidth);
+                        $photo->setOriginalHeight($image->originalHeight);
+                    }
+
+                    if (isset($taskProgressHelper))
+                        $taskProgressHelper->advance();
+
+                    // Set url to the downloaded image or the source url if not download
+                    if ($originalUrl) {
+                        $photo->setOriginalUrl($originalUrl);
+                        $thumb->setOriginalPath($originalUrl);
+                        $uploadedPhotos[] = $photo;
+                        $countUploadedPhotos++;
+
+                        // GET SMALL IMAGE
+                        /*if (array_key_exists('smallSource', $image)) {
+                            $smallPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_SMALLL);
+                            $smalllUrl = $this->fileUploader->uploadFromUrl($image->smallSource, $smallPath, 30);
+
+                            if ($smalllUrl) {
+                                $photo->setSmallUrl($smalllUrl);
+                                // Set image size
+                                if (empty($image->smallWidth) || empty($image->smallHeight)) {
+                                    $size = getimagesize($smalllUrl);
+                                    $photo->setSmallWidth($size[0]);
+                                    $photo->setSmallHeight($size[1]);
+                                } else {
+                                    // Check if width is right
+                                    if ($image->smallWidth != self::SMALL_SIZE) {
+                                        $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
+                                    } else {
+                                        $photo->setSmallWidth($image->smallWidth);
+                                        $photo->setSmallHeight($image->smallHeight);
+                                    }
+                                }
+                            } else {
+                                // Unable to load image, we have to generate it
+                                $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
+                            }
+                        } else {*/
+                            $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
+                        //}
+
+                        /*if (isset($taskProgressHelper))
+                            $taskProgressHelper->advance();*/
+
+                        // MEDIUM IMAGE
+                        /*if (array_key_exists('mediumSource', $image)) {
+                            $mediumPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_MEDIUM);
+                            $mediumUrl = $this->fileUploader->uploadFromUrl($image->mediumSource, $mediumPath, 30);
+
+                            if ($mediumUrl) {
+                                $photo->setMediumUrl($mediumUrl);
+                                // Set image size
+                                if (empty($image->mediumWidth) || empty($image->mediumHeight)) {
+                                    $size = getimagesize($mediumUrl);
+                                    $photo->setMediumWidth($size[0]);
+                                    $photo->setMediumHeight($size[1]);
+                                } else {
+                                    // Check if width is right
+                                    if ($image->mediumWidth != self::MEDIUM_SIZE) {
+                                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
+                                    } else {
+                                        $photo->setMediumWidth($image->mediumWidth);
+                                        $photo->setMediumHeight($image->mediumHeight);
+                                    }
+                                }
+                            } else {
+                                $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
+                            }
+                        } else {*/
+                            $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
+                        //}
+
+                        /*if (isset($taskProgressHelper))
+                            $taskProgressHelper->advance();*/
+
+                        // LARGE IMAGE
+                        /*if (array_key_exists('largeSource', $image)) {
+                            $largePath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_LARGE);
+                            $largeUrl = $this->fileUploader->uploadFromUrl($image->largeSource, $largePath, 30);
+
+                            if ($largeUrl) {
+                                $photo->setLargeUrl($largeUrl);
+                                // Set image size
+                                if (empty($image->largeWidth) || empty($image->largeHeight)) {
+                                    $size = getimagesize($largeUrl);
+                                    $photo->setLargeWidth($size[0]);
+                                    $photo->setLargeHeight($size[1]);
+                                } else {
+                                    $photo->setLargeWidth($image->largeWidth);
+                                    $photo->setLargeHeight($image->largeHeight);
+                                }
+                            } else {
+                                $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
+                            }
+                        } else {*/
+                            $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
+                        //}
+
+                        // Thumb generation
+                        if ($thumb->IsThumbGenerationNeeded()) {
+                            $generatedThumbs = $this->thumbService->generateUserPhotoThumb($thumb, $user, $filename);
+                            foreach($generatedThumbs as $key => $value) {
+                                switch ($key) {
+                                    case FileTools::PHOTO_TYPE_LARGE:
+                                        $photo->setLargeUrl($value['filename']);
+                                        $photo->setLargeWidth($value['width']);
+                                        $photo->setLargeHeight($value['height']);
+                                        break;
+                                    case FileTools::PHOTO_TYPE_MEDIUM:
+                                        $photo->setMediumUrl($value['filename']);
+                                        $photo->setMediumWidth($value['width']);
+                                        $photo->setMediumHeight($value['height']);
+                                        break;
+                                    case FileTools::PHOTO_TYPE_SMALLL:
+                                        $photo->setSmallUrl($value['filename']);
+                                        $photo->setSmallWidth($value['width']);
+                                        $photo->setSmallHeight($value['height']);
+                                        break;
+                                }
                             }
                         }
+
+                        if (isset($taskProgressHelper))
+                            $taskProgressHelper->advance();
+
+                        $photo->setStatus(Photo::STATUS_READY);
+                    } else {
+                        // Set status to LOAD_ERROR if original image is not reachable
+                        $photo->setOriginalUrl($image->originalSource);
+                        $photo->setStatus(Photo::STATUS_LOAD_ERROR);
+                        $failedPhotos++;
                     }
                 }
 
@@ -225,164 +415,15 @@ class UploadService
                     }
                 }
 
-                // Thumb
-                $thumb = new Thumb();
-
-                if ($source == 'local') {
-                    $photo->setOriginalUrl($image->originalSource);
-                    $photo->setOriginalWidth($image->originalWidth);
-                    $photo->setOriginalHeight($image->originalHeight);
-
-                    $photo->setSmallUrl($image->smallSource);
-                    $photo->setSmallWidth($image->smallWidth);
-                    $photo->setSmallHeight($image->smallHeight);
-
-                    $photo->setMediumUrl($image->mediumSource);
-                    $photo->setMediumWidth($image->mediumWidth);
-                    $photo->setMediumHeight($image->mediumHeight);
-
-                    $photo->setLargeUrl($image->largeSource);
-                    $photo->setLargeWidth($image->largeWidth);
-                    $photo->setLargeHeight($image->largeHeight);
-
-                    $photo->setStatus(Photo::STATUS_READY);
-
-                    $uploadedPhotos[] = $photo;
-                    $countUploadedPhotos++;
-                }
-                // Online photos, download them
-                else {
-                    // ORIGINAL IMAGE
-                    $originalUrl = $this->fileUploader->uploadFromUrl($image->originalSource, $originalPath, 30);
-                    // Get image size
-                    if (empty($image->originalWidth) || empty($image->originalHeight)) {
-                        // If image downloaded well, get imagesize
-                        if ($originalUrl) {
-                            $size = getimagesize($originalUrl);
-                            $photo->setOriginalWidth($size[0]);
-                            $photo->setOriginalHeight($size[1]);
-                        }
-                    } else {
-                        $photo->setOriginalWidth($image->originalWidth);
-                        $photo->setOriginalHeight($image->originalHeight);
-                    }
-                    // Set url to the downloaded image or the source url if not download
-                    if ($originalUrl) {
-                        $photo->setOriginalUrl($originalUrl);
-                        $thumb->setOriginalPath($originalUrl);
-                        $uploadedPhotos[] = $photo;
-                        $countUploadedPhotos++;
-
-                        // GET SMALL IMAGE
-                        if (array_key_exists('smallSource', $image)) {
-                            $smallPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_SMALLL);
-                            $smalllUrl = $this->fileUploader->uploadFromUrl($image->smallSource, $smallPath, 30);
-
-                            if ($smalllUrl) {
-                                $photo->setSmallUrl($smalllUrl);
-                                // Set image size
-                                if (empty($image->smallWidth) || empty($image->smallHeight)) {
-                                    $size = getimagesize($smalllUrl);
-                                    $photo->setSmallWidth($size[0]);
-                                    $photo->setSmallHeight($size[1]);
-                                } else {
-                                    // Check if width is right
-                                    if ($image->smallWidth != self::SMALL_SIZE) {
-                                        $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                                    } else {
-                                        $photo->setSmallWidth($image->smallWidth);
-                                        $photo->setSmallHeight($image->smallHeight);
-                                    }
-                                }
-                            } else {
-                                // Unable to load image, we have to generate it
-                                $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                            }
-                        } else {
-                            $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                        }
-
-                        // MEDIUM IMAGE
-                        if (array_key_exists('mediumSource', $image)) {
-                            $mediumPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_MEDIUM);
-                            $mediumUrl = $this->fileUploader->uploadFromUrl($image->mediumSource, $mediumPath, 30);
-
-                            if ($mediumUrl) {
-                                $photo->setMediumUrl($mediumUrl);
-                                // Set image size
-                                if (empty($image->mediumWidth) || empty($image->mediumHeight)) {
-                                    $size = getimagesize($mediumUrl);
-                                    $photo->setMediumWidth($size[0]);
-                                    $photo->setMediumHeight($size[1]);
-                                } else {
-                                    // Check if width is right
-                                    if ($image->mediumWidth != self::MEDIUM_SIZE) {
-                                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
-                                    } else {
-                                        $photo->setMediumWidth($image->mediumWidth);
-                                        $photo->setMediumHeight($image->mediumHeight);
-                                    }
-                                }
-                            } else {
-                                $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
-                            }
-                        } else {
-                            $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
-                        }
-
-                        // LARGE IMAGE
-                        if (array_key_exists('largeSource', $image)) {
-                            $largePath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_LARGE);
-                            $largeUrl = $this->fileUploader->uploadFromUrl($image->largeSource, $largePath, 30);
-
-                            if ($largeUrl) {
-                                $photo->setLargeUrl($largeUrl);
-                                // Set image size
-                                if (empty($image->largeWidth) || empty($image->largeHeight)) {
-                                    $size = getimagesize($largeUrl);
-                                    $photo->setLargeWidth($size[0]);
-                                    $photo->setLargeHeight($size[1]);
-                                } else {
-                                    $photo->setLargeWidth($image->largeWidth);
-                                    $photo->setLargeHeight($image->largeHeight);
-                                }
-                            } else {
-                                $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
-                            }
-                        } else {
-                            $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
-                        }
-
-                        // Thumb generation
-                        if ($thumb->IsThumbGenerationNeeded()) {
-                            $generatedThumbs = $this->thumbService->generateUserPhotoThumb($thumb, $user, $filename);
-                            foreach($generatedThumbs as $key => $value) {
-                                switch ($key) {
-                                    case FileTools::PHOTO_TYPE_LARGE:
-                                        $photo->setLargeUrl($value['filename']);
-                                        $photo->setLargeWidth($value['width']);
-                                        $photo->setLargeHeight($value['height']);
-                                        break;
-                                    case FileTools::PHOTO_TYPE_MEDIUM:
-                                        $photo->setMediumUrl($value['filename']);
-                                        $photo->setMediumWidth($value['width']);
-                                        $photo->setMediumHeight($value['height']);
-                                        break;
-                                    case FileTools::PHOTO_TYPE_SMALLL:
-                                        $photo->setSmallUrl($value['filename']);
-                                        $photo->setSmallWidth($value['width']);
-                                        $photo->setSmallHeight($value['height']);
-                                        break;
-                                }
+                // Set category(ies)
+                if (isset($image->categories) && is_array($image->categories) && count($image->categories) > 0) {
+                    foreach($image->categories as $categoryId) {
+                        foreach($categories as $category) {
+                            if ($category->getId() == $categoryId) {
+                                $photo->addCategory($category);
+                                break;
                             }
                         }
-
-                        $photo->setStatus(Photo::STATUS_READY);
-                    } else {
-                        // Set status to LOAD_ERROR if original image is not reachable
-                        $photo->setOriginalUrl($image->originalSource);
-                        $photo->setStatus(Photo::STATUS_LOAD_ERROR);
-                        $failedPhotos++;
                     }
                 }
 
@@ -392,8 +433,10 @@ class UploadService
                 if (!empty($source))
                     $photo->setSource($source);
                 $this->em->persist($photo);
-            }
 
+                if (isset($taskProgressHelper))
+                    $taskProgressHelper->advance();
+            }
             $this->em->flush();
 
             return array(

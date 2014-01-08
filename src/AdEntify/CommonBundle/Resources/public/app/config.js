@@ -40,6 +40,11 @@ require.config({
            "jquery"
         ]
      },
+     "typeahead" : {
+        "deps": [
+           "jquery"
+        ]
+     },
      "bootstrap": {
         "deps": [
            "jquery-ui",

@@ -77,6 +77,112 @@ h2 {
     top: 10px;
     right: 20px;
 }
+.search {
+    position: relative;
+}
+.search .dropdown-menu {
+    left: 70px;
+    width: 100%;
+    max-width: 1000px;
+    top: 57px;
+    font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
+}
+.search .white-arrow-top {
+    left: 20px;
+}
+.search-results-list {
+    list-style-type: none;
+    margin: 0;
+}
+.search-results-list li {
+    margin: 4px 0px;
+    border-bottom: 1px solid #eeeeee;
+}
+.search-users-results li {
+    padding: 5px 0px;
+}
+.search .view-more-results {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+}
+.search .search-title {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding-left: 6px;
+    font-size: 1.4em;
+}
+.search .profile-picture {
+    border: 0px;
+    margin: 6px 10px;
+    max-height: 40px;
+    vertical-align: middle;
+}
+.search .dropdown-menu a,
+.search .dropdown-menu a:hover {
+    color: #5b5756;
+    font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
+    text-decoration: none;
+    padding: 0px;
+}
+.search .item-link {
+    display: block;
+    width: 100%;
+    min-height: 50px;
+}
+.search .user-fullname {
+    font-size: 12px;
+}
+.search .hashtag-box {
+    font-size: 12px;
+    color: #181616!important;
+    padding: 6px 20px!important;
+    display: inline;
+}
+.search .hashtag-box:hover {
+    color: #ffffff!important;
+    font-size: 12px;
+    padding: 6px 20px!important;
+    display: inline;
+}
+.search .photo {
+    width: 125px;
+    height: 75px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-right: 8px;
+}
+.search .photo-details {
+    padding-top: 4px;
+}
+.search .brand-logo {
+    width: auto;
+}
+/*.search .brands li {
+    padding: 5px;
+    height: 30px;
+}
+.search .brands .brand-logo {
+    max-height: 50px;
+}*/
+.search .brands .tagged-count {
+    display: none;
+}
+
+.search-users-results .profile-picture {
+    max-width: 50px;
+}
+.search .hashtag-item {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    margin-right: 6px;
+    display: inline-block!important;
+    zoom: 1;
+}
 /* End Recherche
 ----------------------- */
 
@@ -234,6 +340,8 @@ h2 {
 .hashtag-box {
     font-size: 16px;
     margin-right: 5px;
+    display: inline-block;
+    margin-bottom: 5px;
 }
 /* End Trends
 ----------------------- */

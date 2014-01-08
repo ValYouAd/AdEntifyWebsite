@@ -137,7 +137,7 @@ class Tag
     private $yPosition;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="tags")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="tags", cascade={"persist"})
      */
     private $photo;
 

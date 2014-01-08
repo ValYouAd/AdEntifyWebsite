@@ -37,31 +37,58 @@ define([
 
    FlickrPhotos.Views.List = Backbone.View.extend({
       template: "externalServicePhotos/list",
+      confidentiality: 'public',
       albumName: '',
 
       serialize: function() {
          return {
-            album: this.albumName
+            album: this.albumName,
+            showBackTo: true,
+            backToText: $.t('externalServicePhotos.backToAlbums'),
+            backToLink: app.beginUrl + app.root + $.t('routing.flickr/sets/'),
+            serviceName: 'Flickr',
+            loweredServiceName: 'flickr'
          };
       },
 
       initialize: function() {
          this.loadPhotos();
 
-         this.listenTo(app, 'externalServicePhoto:submitPhotos', this.submitPhotos);
          app.trigger('domchange:title', $.t('flickr.photosPageTitle'));
 
          this.listenTo(this.options.photos, {
             "add": this.render
+         });
+         this.listenTo(this.options.categories, {
+            'sync': this.render
          });
       },
 
       beforeRender: function() {
          this.options.photos.each(function(photo) {
             this.insertView("#photos-list", new ExternalServicePhotos.Views.Item({
-               model: photo
+               model: photo,
+               categories: this.options.categories
             }));
          }, this);
+
+         if (!this.getView('.upload-counter-view')) {
+            var counterView = new ExternalServicePhotos.Views.Counter({
+               counterType: 'photos'
+            });
+            var that = this;
+            counterView.on('checkedPhoto', function(count) {
+               var submitButton = $(that.el).find('.submit-photos-button');
+               if (count > 0) {
+                  if ($(that.el).find('.submit-photos-button:visible').length == 0)
+                     submitButton.fadeIn('fast');
+               } else {
+                  if ($(that.el).find('.submit-photos-button:hidden').length == 0)
+                     submitButton.fadeOut('fast');
+               }
+            });
+            this.setView('.upload-counter-view', counterView);
+         }
       },
 
       afterRender: function() {
@@ -69,6 +96,11 @@ define([
          if (this.options.photos.length > 0) {
             $('#loading-photos').hide();
          }
+         var that = this;
+         $(this.el).find('.photos-confidentiality').change(function() {
+            if ($(this).val())
+               that.confidentiality = $(this).val();
+         });
       },
 
       loadPhotos: function() {
@@ -99,19 +131,22 @@ define([
          });
 
          // Get checked images
-         checkedImages = $('.checked img');
-         if (checkedImages.length > 0) {
+         // Get checked images
+         var counterView = this.getView('.upload-counter-view');
+         var that = this;
+         if (counterView.checkedPhotos.length > 0) {
             var images = [];
-            _.each(checkedImages, function(image, index) {
-               images[index] = {
-                  'originalSource' : $(image).data('original-url'),
-                  'originalWidth' : $(image).data('original-width'),
-                  'originalHeight' : $(image).data('original-height'),
-                  'title' : $(image).data('title'),
-                  'id': $(image).data('service-photo-id'),
-                  'confidentiality': options.confidentiality,
-                  'categories': options.categories
-               };
+            _.each(counterView.checkedPhotos, function(model) {
+               images.push({
+                  'originalSource' : model.get('originalUrl'),
+                  'originalWidth' : model.get('originalWidth'),
+                  'originalHeight' : model.get('originalHeight'),
+                  'title' : model.get('title'),
+                  'id': model.get('servicePhotoId'),
+                  'confidentiality': that.confidentiality,
+                  'categories': model.get('categories'),
+                  'hashtags': model.get('hashtags')
+               });
             });
 
             // Get larger images size
@@ -119,7 +154,7 @@ define([
             _.each(images, function(image) {
                if (!image.source) {
                   deferreds.push($.ajax({
-                     url: 'http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&format=json&api_key=370e2e2f28c0ca81fd6a5a336a6e2c89'
+                     url: 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&format=json&api_key=' + flickrClientId
                         + '&photo_id='+ image.id + '&jsoncallback=?',
                      dataType: 'jsonp',
                      success: function(response) {
@@ -165,9 +200,9 @@ define([
                $.ajax({
                   url : Routing.generate('upload_load_external_photos'),
                   type: 'POST',
-                  data: { 'images': images, 'source': 'flickr' },
+                  data: { 'images': images, 'source': 'Flickr' },
                   success: function() {
-                     app.trigger('externalPhotos:uploadingInProgress');
+                     ExternalServicePhotos.Common.showUploadInProgressModal();
                   },
                   error: function() {
                      // Hide loader
@@ -179,6 +214,10 @@ define([
                })
             });
          }
+      },
+
+      events: {
+         'click .submit-photos-button': 'submitPhotos'
       }
    });
 

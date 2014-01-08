@@ -45,6 +45,8 @@ Your account is currently under validation.: Votre compte est en attente de vali
 My dashboard: Mon dashboard
 Firstname: Prénom
 Lastname: Nom
+All brands: Toutes les marques
+Add a brand: Ajouter une marque
 
 #Login
 modal:
@@ -99,9 +101,27 @@ Screenshots: Screenshots
 Communiqué de presse: Communiqué de presse
 Story: Histoire
 Team: Equipe
+Photos & videos: Photos & vidéos
 
 # HP offline
 tags: '[0,1]%count% tag|]1,Inf[%count% tags'
+search:
+    "placeHolderKeywords": "Rechercher un utilisateur, un lieu, une marque..."
+    "inProgress": "Recherche en cours..."
+    "noResults": "Aucun résultat pour votre recherche"
+    "error": "Impossible de récupérer les résultats"
+    "viewMore": "Voir tous les résultats"
+    "tagsBlockTitle": "Tags"
+    "usersBlockTitle": "Membres"
+    "noSearch": "Aucune recherche pour le moment"
+    "photos": "Photos"
+    "users": "Utilisateurs"
+    "feeds": "Flux"
+    "pageTitle": "Search __title__ on AdEntify.com"
+    "brands": "Marques"
+    "resultsCount": "<strong>__count__</strong> résultat"
+    "resultsCount_plural": "<strong>__count__</strong> résultats"
+    "shareSearch": "Partager la recherche"
 
 #Routing
 photos/untagged/: photos/non-taguees/
@@ -109,8 +129,10 @@ my/photos/: mes/photos/
 my/photos/tagged/: mes/photos/taguees/
 my/photos/untagged/: mes/photos/non-taguees/
 photo/%id%/: photo/%id%/
+photo/id/: photo/
 brands/: marques/
 'brand/%slug%/': marque/%slug%
+brand/slug/: marque/
 my/settings/: mes/parametres/
 category/: categorie/
 my/adentify/: mon/adentify/

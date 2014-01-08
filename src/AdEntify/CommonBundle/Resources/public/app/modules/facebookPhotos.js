@@ -86,11 +86,8 @@ define([
             });
          }
 
-         this.listenTo(app, 'externalServicePhoto:submitPhotos', this.submitPhotos);
          app.trigger('domchange:title', $.t('facebook.photosPageTitle'));
          this.listenTo(this.options.photos, 'sync', this.render);
-         this.photos = this.options.photos;
-         this.categories = this.options.categories;
          this.listenTo(this.options.categories, {
             'sync': this.render
          });
@@ -100,7 +97,7 @@ define([
          this.options.photos.each(function(photo) {
             this.insertView("#photos-list", new ExternalServicePhotos.Views.Item({
                model: photo,
-               categories: this.categories
+               categories: this.options.categories
             }));
          }, this);
 

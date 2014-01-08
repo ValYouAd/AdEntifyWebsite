@@ -116,6 +116,22 @@
         </div>
     </div>
 
+    <div class="photos-videos polygon-background">
+        <div class="container">
+            <div class="text-center">
+                <h2>{{ 'Photos & videos'|trans }}</h2>
+            </div>
+
+            <div class="row photos">
+                {% for photo in photos %}
+                    <div class="col-xs-6 col-sm-4 col-md-4 photo-wrapper">
+                        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="photo" style="background-image: url({{ photo.mediumUrl }})"></a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     <div class="contact-us">
         <div class="container">
             <div class="porte-voix"></div>

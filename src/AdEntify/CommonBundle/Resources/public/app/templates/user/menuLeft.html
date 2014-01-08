@@ -53,6 +53,12 @@
 
     <hr class="menu-left-hr">
 
+    <% if (showRewards) { %>
+    <h2><%= $.t('profile.rewards') %></h2>
+    <div class="rewards"></div>
+    <hr class="menu-left-hr">
+    <% } %>
+
     <% if (showHashtags) { %>
     <h2><%= $.t('profile.hashtagsTitle') %></h2>
     <div class="hashtags"></div>
@@ -68,6 +74,12 @@
     <% if (showFollowers) { %>
     <h2><%= $.t(currentUserId != model.get('id') ? 'profile.followersTitle' : 'profile.myFollowersTitle') %></h2>
     <div class="followers"></div>
+    <hr class="menu-left-hr">
+    <% } %>
+
+    <% if (showBrands) { %>
+    <h2><%= $.t(currentUserId != model.get('id') ? 'profile.brandsTitle' : 'profile.myBrandsTitle') %></h2>
+    <div class="brands"></div>
     <hr class="menu-left-hr">
     <% } %>
 

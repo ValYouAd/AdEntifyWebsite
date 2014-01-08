@@ -17,11 +17,12 @@ class CategoryType extends AbstractType
         $builder
             ->add('translations', 'a2lix_translations_gedmo', array(
                 'translatable_class' => 'AdEntify\CoreBundle\Entity\Category',
-                'fields' => array(
+                'required' => true,
+                /*'fields' => array(
                     'name' => array(
                         'type' => 'text'
                     ),
-                )
+                )*/
             ))
             ->add('visible', 'checkbox');
     }

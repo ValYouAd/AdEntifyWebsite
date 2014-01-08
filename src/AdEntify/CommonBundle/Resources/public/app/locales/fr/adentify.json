@@ -12,7 +12,9 @@
       "pageTitleViewBrand": "Photos de __name__ - AdEntify",
       "viewPhotos": "Voir les photos",
       "followersTitle": "Ses abonnés",
-      "moreFollowers": "Voir tous les abonnés"
+      "moreFollowers": "Voir tous les abonnés",
+      "rewards": "Récompenses",
+      "noRewards": "__name__ n'a pas encore de récompense"
    },
    "photos": {
       "pageTitle": "Découvrez, taguez et partagez des photos - AdEntify",
@@ -132,7 +134,7 @@
       "geolocationSuccess": "Nous venons de vous <strong>géolocaliser avec succès.</strong>",
       "labelPlaceName": "Entrez le nom de votre lieu",
       "labelPlaceDescription": "Description du lieu",
-      "placeholderPlaceName": "Monument, restaurant, adresse...",
+      "placeholderPlaceName": "Monument, restaurant, café, cinéma, site touristique, magasin, musée...",
       "labelPlaceLink": "Lien",
       "submitPlace": "Valider ce lieu et ajouter le tag",
       "cancelTagAdding": "Annuler l'ajout de tag",
@@ -172,7 +174,11 @@
       "reportTitle": "<div class='report-red-icon pull-left modal-badge'></div> Signaler",
       "reportReasonLabel": "Raison du signalement",
       "reportReasonTextarea": "Ecrivez la raison du signalement.",
-      "errorPerson": "Impossible de récupérer les informations sur la personne"
+      "errorPerson": "Impossible de récupérer les informations sur la personne",
+      "placeLinkPlaceholder": "Site officiel, blog...",
+      "placeMoreDetails": "Plus d'informations",
+      "placeLessDetails": "Moins d'informations",
+      "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -263,7 +269,12 @@
       "noFollowings": "Aucun abonnement pour le moment",
       "noFollowers": "Aucun abonné pour le moment",
       "editMyProfile": "Editer mon profil",
-      "myLinkedServices": "Mes comptes liés à AdEntify"
+      "myLinkedServices": "Mes comptes liés à AdEntify",
+      "rewards": "Récompenses",
+      "noRewards": "Aucune récompense pour le moment",
+      "brandsTitle": "Ses marques",
+      "myBrandsTitle": "Mes marques",
+      "noBrands": "Aucune marque pour le moment"
    },
    "category": {
       "errorPhotosLoading": "Impossible de récupérer les photos de cette catégorie. Veuillez réessayer.",
@@ -293,7 +304,8 @@
       "pageTitle": "Search __title__ on AdEntify.com",
       "brands": "Marques",
       "resultsCount": "<strong>__count__</strong> résultat",
-      "resultsCount_plural": "<strong>__count__</strong> résultats"
+      "resultsCount_plural": "<strong>__count__</strong> résultats",
+      "shareSearch": "Partager la recherche"
    },
    "comment": {
       "noComments": "Soyez le premier à réagir !",
@@ -344,7 +356,9 @@
       "people": "Personnes",
       "mostRecentToOldest": "Du plus récent au plus vieux",
       "mostOldestToRecent": "Du plus vieux au plus récent",
-      "mostLiked": "Les plus aimées"
+      "mostLiked": "Les plus aimées",
+      "today": "Aujourd'hui",
+      "taggedPhotos": "Photos taguées"
    },
    "notLogged": {
       "like": "Vous ne pouvez pas aimer lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",

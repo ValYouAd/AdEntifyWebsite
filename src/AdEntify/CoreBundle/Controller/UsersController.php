@@ -13,6 +13,7 @@ use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Tag;
+use AdEntify\CoreBundle\Entity\Task;
 use AdEntify\CoreBundle\Form\VenueType;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -34,6 +35,7 @@ use AdEntify\CoreBundle\Entity\User;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * Class UsersController
@@ -502,5 +504,21 @@ class UsersController extends FosRestController
         } else {
             throw new HttpException(401);
         }
+    }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     *
+     * @param $id
+     */
+    public function taskProgressAction()
+    {
+        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+        $task = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Task')->findOneBy(array(
+            'user' => $currentUser->getId(),
+            'type' => Task::TYPE_UPLOAD
+        ));
+        return $task ? $task->getProgress() : null;
     }
 }

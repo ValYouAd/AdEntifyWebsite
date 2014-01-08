@@ -36,7 +36,7 @@
 
                     <div class="row">
                         <div class="col-sm-8 col-md-9">
-                            <a href="{{ full_root_url }}" class="logo-nav pull-left"></a>
+                            <a href="{{ full_root_url }}" class="logo-nav pull-left hidden-sm hidden-xs"></a>
                             <div class="pull-right" id="search-bar"></div>
                             <div class="pull-right">
                                 <button type="button" class="navbar-toggle navbar-toggle-header-menu" data-toggle="collapse" data-target=".dropdown-header-menu">
@@ -70,6 +70,7 @@
                                                     <li><a href="{{ full_root_url }}{{ 'my/dashboard/'|trans }}"><i class="icon dashboard-icon"></i> {{ 'My dashboard'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"><i class="icon favorites-icon"></i> {{ 'My favorites'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}"><i class="icon parameters-icon"></i> {{ 'My settings'|trans }}</a></li>
+                                                    {% if is_granted('ROLE_TEAM') %}<li><a href="{{ path('brands') }}" data-bypass=""><i class="icon glyphicon glyphicon-wrench"></i> Backoffice</a></li>{% endif %}
                                                     {% if is_granted('ROLE_ANOUNCER') %}<li><a href="{{ full_root_url }}"><i class="icon glyphicon glyphicon-wrench"></i> {{ 'My brand'|trans }}</a></li>{% endif %}
                                                     <li class="grey-background-item"><a href="{{ url('fos_user_security_logout') }}"><i class="icon cross-icon"></i> {{ 'Log out'|trans }}</a></li>
                                                 </ul>
@@ -110,16 +111,25 @@
 
                     <div class="dropdown-header-menu container collapse">
                         <div class="row">
-                            {% for category in categories %}
-                            <div class="col-sm-4"><a href="{{ full_root_url }}{{ 'category/'|trans }}{{ category.slug }}/">{{ category.name }}</a></div>
-                            {% endfor %}
+                            <div class="col-sm-3 text-red">
+                                <div class="col-sm-12"><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'All brands'|trans }}</a></div>
+                                <div class="col-sm-12"><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'Add a brand'|trans }}</a></div>
+                            </div>
+                            <div class="col-sm-9">
+                                {% for category in categories %}
+                                    <div class="col-sm-4"><a href="{{ full_root_url }}{{ 'category/'|trans }}{{ category.slug }}/">{{ category.name }}</a></div>
+                                {% endfor %}
+                            </div>
                         </div>
                         <footer>
                             <div class="pull-left">
                                 <a href="{{ path('about') }}">{{ 'About'|trans }}</a> • <a href="">{{ 'FAQ'|trans }}</a> • <a href="{{ path('press') }}">{{ 'Press'|trans }}</a> • <a href="{{ path('contact') }}">Contact</a> • <a href="">{{ 'Credits'|trans }}</a>
                             </div>
                             <div class="pull-right">
-                                © {{ date|date('Y') }} AdEntify
+                                <div class="circle-social-icons">
+                                    <a href="https://www.facebook.com/pages/AdEntify/167935029970678?fref=ts"><i class="small-facebook-grey-circle-icon icon"></i></a> <a href="https://twitter.com/adentify"><i class="small-twitter-grey-circle-icon icon"></i></a> <a href="https://plus.google.com/u/0/b/115776105780658726605/+Adentify/posts"><i class="small-google-grey-circle-icon icon"></i></a> <a href="http://instagram.com/adentify"><i class="small-pinterest-grey-circle-icon icon"></i></a>
+                                </div>
+                                <span class="copyright"> © {{ date|date('Y') }} AdEntify</span>
                             </div>
                             <div class="clearfix"></div>
                         </footer>
@@ -129,6 +139,8 @@
             </div>
 
         </nav>
+
+        <div class="top-progress-bar"></div>
 
         <div class="container dashboard-container">
             <div id="dashboard" class="row view-mode">
@@ -220,6 +232,7 @@
         }
         var channelUrl = '{{ asset('channel.php') }}';
         var instagramClientId = '{{ instagram_client_id }}';
+        var flickrClientId = '{{ flickr_client_id }}';
         var facebookAppId = '{{ facebook_app_id }}';
         var facebookPermissions = '{{ facebook_permissions }}';
         var currentLocale = '{{ app.request.locale }}';

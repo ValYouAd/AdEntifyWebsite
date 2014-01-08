@@ -6,6 +6,7 @@
         <img src="<%= model.get('large_url') %>" alt="<%= model.get('caption') %>" class="photo-full" />
     </div>
 </div>
+<% if (model.isOwner()) { %>
 <div class="photo-details">
     <form id="form-details">
         <fieldset>
@@ -30,3 +31,4 @@
         </fieldset>
     </form>
 </div>
+<% } %>

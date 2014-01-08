@@ -183,6 +183,47 @@ class BrandsController extends FosRestController
     }
 
     /**
+     * @View()
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     *
+     * @param $slug
+     * @param $page
+     * @param $limit
+     * @return mixed
+     */
+    public function getFollowingsAction($slug, $page = 1, $limit = 10)
+    {
+        $brand = $this->getAction($slug);
+        if (!$brand)
+            throw new HttpException(404);
+
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+            LEFT JOIN user.followers follower WHERE follower.id = :brandUserId ORDER BY user.followersCount DESC')
+            ->setParameter('brandUserId', $brand->getAdmin() ? $brand->getAdmin()->getId() : 0)
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $pagination = null;
+        $users = null;
+        $count = count($paginator);
+        if ($count > 0) {
+            $users = array();
+            foreach($paginator as $user) {
+                $users[] = $user;
+            }
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_brand_followings', array(
+                'slug' => $slug
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($users, $pagination);
+    }
+
+    /**
      * @param $slug
      * @return ArrayCollection|null
      *

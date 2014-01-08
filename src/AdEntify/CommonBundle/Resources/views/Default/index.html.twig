@@ -31,6 +31,187 @@
         function redirectPage(link) {
             document.location.href= link;
         }
+
+        var SearchForm = {
+
+            initialize: function() {
+                $('.search-input').keyup(this.search).blur(SearchForm.closeSearchResults).focus(SearchForm.showSearchResults);
+            },
+
+            search: function(e) {
+                e.preventDefault();
+                if (e.keyCode == 13 || $(e.currentTarget).hasClass('search-button')) {
+                    Backbone.history.navigate($.t('routing.search/'), { trigger: true });
+                } else {
+                    if (this.searchTimeout)
+                        clearTimeout(this.searchTimeout);
+                    this.searchTimeout = setTimeout(function() {
+                        SearchForm.startSearch($('.search-input').val());
+                    }, 500);
+                }
+            },
+
+            startSearch: function(terms) {
+                if (terms) {
+                    $('.search-loading').fadeIn();
+                    var that = this;
+                    this.requests = [];
+                    this.photos = [];
+                    this.brands = [];
+                    this.hashtags = [];
+                    this.users = [];
+                    this.requests.push(new $.Deferred());
+                    $.ajax({
+                        url: Routing.generate('api_v1_get_photo_search'),
+                        data: { 'query': terms },
+                        success: function(data) {
+                            if (data && typeof data.data !== 'undefined')
+                            {
+                                $('.search-tags-results').html('');
+                                for (var i = 0; i < data.data.length; i++) {
+                                    var model = data.data[i];
+                                    $('.search-tags-results').append('<li><a href="' + '{{ 'photo/id/'|trans }}' + model.id +' " class="item-link" data-bypass="" data-photo-link="">\
+                                    <div style="background-image: url(' + model.small_url + ')" class="photo pull-left"></div>\
+                                    <div class="photo-details">' + (model.caption ? model.caption : '') + '</div></a><div class="clearfix"></div></li>');
+                                }
+
+                                if (data.data.length > 0) {
+                                    $('.photos-container').fadeIn();
+                                } else {
+                                    $('.photos-container').fadeOut();
+                                }
+                            } else {
+                                $('.photos-container').fadeOut();
+                            }
+                        },
+                        complete: function() {
+                            that.requests.pop().resolve();
+                        },
+                        error: function() {
+                            that.setView('.alert-search-tags-results', new Common.Views.Alert({
+                                cssClass: Common.alertError,
+                                message: $.t('search.error'),
+                                showClose: true
+                            })).render();
+                        }
+                    });
+                    this.requests.push(new $.Deferred());
+                    $.ajax({
+                        url: Routing.generate('api_v1_get_hashtag_search'),
+                        data: { 'query': terms },
+                        success: function(data) {
+                            if (data && typeof data.data !== 'undefined')
+                            {
+                                $('.search-feeds-results').html('');
+                                for (var i = 0; i < data.data.length; i++) {
+                                    var model = data.data[i];
+                                    $('.search-feeds-results').append('<li class="hashtag-item"><a href="' + model.link + '" class="hashtag-box">#' + model.name + '</a></li>');
+                                }
+                                if (data.data.length > 0) {
+                                    $('.feeds-container').fadeIn();
+                                } else {
+                                    $('.feeds-container').fadeOut();
+                                }
+                            } else {
+                                $('.feeds-container').fadeOut();
+                            }
+                        },
+                        complete: function() {
+                            that.requests.pop().resolve();
+                        },
+                        error: function() {
+                            that.setView('.alert-search-feeds-results', new Common.Views.Alert({
+                                cssClass: Common.alertError,
+                                message: $.t('search.error'),
+                                showClose: true
+                            })).render();
+                        }
+                    });
+                    this.requests.push(new $.Deferred());
+                    $.ajax({
+                        url: Routing.generate('api_v1_get_user_search'),
+                        data: { 'query': terms },
+                        success: function(data) {
+                            if (data && typeof data.data !== 'undefined')
+                            {
+                                $('.search-users-results').html('');
+                                for (var i = 0; i < data.data.length; i++) {
+                                    var model = data.data[i];
+                                    $('.search-tags-results').append('<li><a href="' + model.link + '">\
+                                            <img src="' + (typeof model.facebook_id !== 'undefined' ? 'https://graph.facebook.com/' + model.facebook_id + '/picture?width=50&height=50' : './img/anonymous-profile-picture.png') + '" class="profile-picture" />\
+                                            <span class="user-fullname">' + model.firstname + ' ' + model.lastname + '</span></a><div class="clearfix"></div></li>');
+                                }
+
+                                if (data.data.length > 0) {
+                                    $('.users-container').fadeIn();
+                                } else {
+                                    $('.users-container').fadeOut();
+                                }
+                            } else {
+                                $('.users-container').fadeOut();
+                            }
+                        },
+                        complete: function() {
+                            that.requests.pop().resolve();
+                        },
+                        error: function() {
+                            that.setView('.alert-search-users-results', new Common.Views.Alert({
+                                cssClass: Common.alertError,
+                                message: $.t('search.error'),
+                                showClose: true
+                            })).render();
+                        }
+                    });
+                    this.requests.push(new $.Deferred());
+                    $.ajax({
+                        url: Routing.generate('api_v1_get_brand_search'),
+                        data: { query: terms },
+                        success: function(data) {
+                            if (data && typeof data.data !== 'undefined')
+                            {
+                                $('.search-brands-results').html('');
+                                for (var i = 0; i < data.data.length; i++) {
+                                    var model = data.data[i];
+                                    $('.search-brands-results').append('<li class="col-xs-4 col-sm-2 brand"><div class="table-center"><div class="table-center-cell text-center"><a href="' + '{{ 'brand/slug/'|trans }}' + model.slug + '" class="thumbnail">\
+                                    <img src="../' + model.medium_logo_url + '" alt="' + model.name + '" class="brand-logo" /></a></div></div></li>');
+                                }
+
+                                if (data.data.length > 0) {
+                                    $('.brands-container').fadeIn();
+                                } else {
+                                    $('.brands-container').fadeOut();
+                                }
+                            } else {
+                                $('.brands-container').fadeOut();
+                            }
+                        },
+                        complete: function() {
+                            that.requests.pop().resolve();
+                        },
+                        error: function() {
+                            that.setView('.alert-search-brands-results', new Common.Views.Alert({
+                                cssClass: Common.alertError,
+                                message: $.t('search.error'),
+                                showClose: true
+                            })).render();
+                        }
+                    });
+                    $.when.apply(null, this.requests).done(function() {
+                        $('.search-loading').fadeOut();
+                    });
+                }
+            },
+
+            closeSearchResults: function() {
+                $('.dropdown-menu').hide();
+            },
+
+            showSearchResults: function() {
+                $('.dropdown-menu').show();
+            }
+        };
+
+        SearchForm.initialize();
     </script>
     {% endjavascripts %}
     <script type="text/javascript">
@@ -173,10 +354,46 @@
                     return false;
                 }
             </script>
-            <form action="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'search/'|trans }}" onsubmit="return search(this)" role="search" class="search-form">
-                <input type="text" id="search-input" class="search-input" placeholder="{{ 'Search a user, place, brand...'|trans }}">
-                <button type="submit" class="search-button"></button>
-            </form>
+            <div class="search">
+                <form action="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'search/'|trans }}" onsubmit="return search(this)" role="search" class="search-form">
+                    <input type="text" id="search-input" class="search-input" placeholder="{{ 'Search a user, place, brand...'|trans }}">
+                    <button type="submit" class="search-button"></button>
+                </form>
+                <div class="dropdown-menu">
+                    <div class="white-arrow-top"></div>
+                    <div class="search-results-container">
+                        <div class="text-center search-loading fadeOut">{{ 'search.inProgress'|trans }} <i class="glyphicon glyphicon-refresh rotate"></i></div>
+                        <div class="alert-search-results"></div>
+                        <div class="photos-container fadeOut">
+                            <div class="search-title">{{ 'search.photos'|trans }}</div>
+                            <div class="alert-search-tags-results"></div>
+                            <ul class="search-tags-results list-unstyled striped"></ul>
+                        </div>
+                        <div class="users-container fadeOut">
+                            <div class="search-title">{{ 'search.users'|trans }}</div>
+                            <div class="alert-search-users-results"></div>
+                            <ul class="search-users-results list-unstyled striped"></ul>
+                        </div>
+                        <div class="feeds-container fadeOut">
+                            <div class="search-title">{{ 'search.feeds'|trans }}</div>
+                            <div class="alert-search-feeds-results"></div>
+                            <ul class="search-feeds-results list-unstyled striped"></ul>
+                        </div>
+                        <div class="brands-container fadeOut">
+                            <div class="search-title">{{ 'search.brands'|trans }}</div>
+                            <div class="alert-search-brands-results"></div>
+                            <ul class="search-brands-results brands list-unstyled striped"></ul>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="view-more-results fadeOut">
+                            <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'search/'|trans }}">
+                                <span data-i18n="search.viewMore" class="pull-left"></span>
+                                <div class="pull-right red-cross-right"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

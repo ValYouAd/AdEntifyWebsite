@@ -56,7 +56,7 @@ class DefaultController extends Controller
                 ':status' => Photo::STATUS_READY,
             ))
             ->setMaxResults(9)->getResult();
-        $hashtags = $em->createQuery('SELECT h FROM AdEntify\CoreBundle\Entity\Hashtag h ORDER BY h.usedCount DESC')->setMaxResults(30)->getResult();
+        $hashtags = $em->createQuery('SELECT h FROM AdEntify\CoreBundle\Entity\Hashtag h ORDER BY h.usedCount DESC')->setMaxResults(36)->getResult();
 
         return array(
             'tagsCount' => str_split($tagsCount),
@@ -192,8 +192,18 @@ class DefaultController extends Controller
      */
     public function pressAction()
     {
-        return array(
+        $em = $this->getDoctrine()->getManager();
+        $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+            WHERE photo.visibilityScope = :visibilityScope AND photo.deletedAt IS NULL AND photo.status = :status AND photo.tagsCount > 0
+            ORDER BY photo.createdAt DESC')
+            ->setParameters(array(
+                ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                ':status' => Photo::STATUS_READY,
+            ))
+            ->setMaxResults(9)->getResult();
 
+        return array(
+            'photos' => $photos
         );
     }
 
