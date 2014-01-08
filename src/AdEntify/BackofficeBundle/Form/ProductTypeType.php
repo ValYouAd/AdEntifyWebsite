@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class CategoryType extends AbstractType
+class ProductTypeType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -16,15 +16,20 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('translations', 'a2lix_translations_gedmo', array(
-                'translatable_class' => 'AdEntify\CoreBundle\Entity\Category',
+                'translatable_class' => 'AdEntify\CoreBundle\Entity\ProductType',
                 'required' => true,
-                /*'fields' => array(
+                'fields' => array(
                     'name' => array(
-                        'type' => 'text'
+
                     ),
-                )*/
+                )
             ))
-            ->add('visible', 'checkbox');
+            ->add('parent', 'entity', array(
+                'class' => 'AdEntifyCoreBundle:ProductType',
+                'property' => 'name',
+                'required' => false
+            ))
+        ;
     }
     
     /**
@@ -33,7 +38,7 @@ class CategoryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AdEntify\CoreBundle\Entity\Category'
+            'data_class' => 'AdEntify\CoreBundle\Entity\ProductType'
         ));
     }
 
@@ -42,6 +47,6 @@ class CategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'adentify_backofficebundle_category';
+        return 'adentify_backofficebundle_producttype';
     }
 }

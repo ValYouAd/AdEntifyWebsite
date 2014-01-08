@@ -1,0 +1,11 @@
+{% extends '::base.admin.html.twig' %}
+
+{% form_theme form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
+
+{% block body -%}
+    <h1>ProductType creation</h1>
+
+    {{ form(form) }}
+
+    <a class="btn btn-default" href="{{ path('producttype') }}">Back to the list</a>
+{% endblock %}
