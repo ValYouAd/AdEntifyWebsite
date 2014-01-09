@@ -1,3 +1,5 @@
+{% form_theme form 'AdEntifyCommonBundle:Form:fields.html.twig' %}
+
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
     {{ form_errors(form) }}
     <fieldset>
@@ -20,6 +22,15 @@
                     {{ form_widget(form.email) }}
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label><small>{{ 'BirthdayRequirementInfo'|trans }}</small></label>
+                    {{ form_errors(form.birthday) }}
+                    {{ form_widget(form.birthday) }}
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                 {{ form_errors(form.plainPassword.first) }}

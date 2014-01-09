@@ -26,7 +26,8 @@ require.config({
      "jquery.iframe-transport": "../vendor/js/jquery.iframe-transport",
      "jquery.ui.widget": "../vendor/js/jquery.ui.widget",
      "moment": "../vendor/js/moment.min",
-     "typeahead": "../vendor/js/bootstrap3-typeahead.min"
+     "typeahead": "../vendor/js/bootstrap3-typeahead.min",
+     "bday-picker": "../vendor/js/bday-picker.min"
   },
 
    map: {
@@ -69,6 +70,11 @@ require.config({
         ]
      },
      "select2fr": {
+        "deps": [
+           "jquery"
+        ]
+     },
+     "bday-picker": {
         "deps": [
            "jquery"
         ]

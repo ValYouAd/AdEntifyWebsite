@@ -57,6 +57,9 @@ modal:
     twitterConnect: Connect with Twitter
     noAccount: I don't have Facebook or Twitter account
 
+#Register
+BirthdayRequirementInfo: Providing your birthday helps make sure you get the right AdEntify experience for your age. This info is private and never shown on your profile.
+
 #About
 about:
     pageTitle: About - AdEntify.com

@@ -57,6 +57,9 @@ modal:
     twitterConnect: Se connecter avec Twitter
     noAccount: Je n'ai pas de compte Facebook ou Twitter
 
+#Register
+BirthdayRequirementInfo: Votre date de naissance nous permet de vous présenter des contenus appropriés à votre âge. Cette information est privée et jamais affichée sur votre profil.
+
 # About
 about:
     pageTitle: A propos - AdEntify.com

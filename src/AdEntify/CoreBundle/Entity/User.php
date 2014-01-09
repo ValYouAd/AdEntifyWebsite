@@ -55,6 +55,14 @@ class User extends BaseUser
     private $lastname;
 
     /**
+     * @var datetime $birthday
+     *
+     * @ORM\Column(name="birthday", type="datetime", nullable=true)
+     * @Assert\DateTime()
+     */
+    private $birthday = null;
+
+    /**
      * @Serializer\Exclude
      * @var datetime $created_on
      *
@@ -443,6 +451,9 @@ class User extends BaseUser
                 $this->setGender(self::GENDER_MALE);
             if ($fbdata['gender'] == 'female')
                 $this->setGender(self::GENDER_FEMALE);
+        }
+        if (isset($fbdata['birthday'])) {
+            $this->setBirthday(new \DateTime($fbdata['birthday']));
         }
     }
 
@@ -1016,5 +1027,21 @@ class User extends BaseUser
     public function getBrand()
     {
         return $this->brand;
+    }
+
+    /**
+     * @param \AdEntify\CoreBundle\Entity\datetime $birthday
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+    }
+
+    /**
+     * @return \AdEntify\CoreBundle\Entity\datetime
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
     }
 }

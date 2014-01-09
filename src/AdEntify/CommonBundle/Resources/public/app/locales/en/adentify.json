@@ -71,7 +71,8 @@
       "confirmDeleteAccountButton": "I understand and i still want to delete my account",
       "linkMyAccount": "Link my account",
       "profilePicture": "Profile picture",
-      "profilePictureUpload": "Upload my profile picture"
+      "profilePictureUpload": "Upload my profile picture",
+      "labelBirthday": "Birthday"
    },
    "upload": {
       "pageTitle": "Upload my photos - AdEntify",

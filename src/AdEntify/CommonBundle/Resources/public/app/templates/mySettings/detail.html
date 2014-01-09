@@ -2,7 +2,7 @@
     <h1 data-i18n="mySettings.generalSettings"></h1>
 </div>
 
-<form class="form-horizontal langForm mt3" role="form">
+<form class="form-horizontal settingsForm mt3" role="form">
     <fieldset>
         <div class="form-group">
             <label class="col-sm-4 control-label" data-i18n="mySettings.labelLang"></label>
@@ -11,6 +11,12 @@
                     <option value="fr" data-i18n="mySettings.french"></option>
                     <option value="en" data-i18n="mySettings.english"></option>
                 </select>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <label class="col-sm-4 control-label" data-i18n="mySettings.labelBirthday"></label>
+            <div class="col-sm-8">
+                <div class="birthdate"></div>
             </div>
         </div>
         <div class="form-group">
@@ -26,7 +32,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
-                <button type="submit" class="btn-around-corner btn-red-grey-border changeLangButton"><i class="glyphicon glyphicon-ok"></i> <%= $.t('mySettings.submitChangeLang') %></button>
+                <button type="submit" class="btn-around-corner btn-red-grey-border submitSettings"><i class="glyphicon glyphicon-ok"></i> <%= $.t('mySettings.submitChangeLang') %></button>
             </div>
         </div>
     </fieldset>

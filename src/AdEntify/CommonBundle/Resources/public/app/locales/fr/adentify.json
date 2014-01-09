@@ -71,7 +71,8 @@
       "confirmDeleteAccountButton": "Je comprends et je souhaite toujours supprimer mon compte",
       "linkMyAccount": "Lier mon compte",
       "profilePicture": "Photo de profil",
-      "profilePictureUpload": "Envoyer ma photo de profil"
+      "profilePictureUpload": "Envoyer ma photo de profil",
+      "labelBirthday": "Date de naissance"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",

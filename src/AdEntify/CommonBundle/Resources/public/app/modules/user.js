@@ -300,7 +300,6 @@ define([
 
          var that = this;
          $('.profile-infos .user-names, .profile-infos .user-points, .profile-infos a').click(function(e) {
-            console.log('profile click');
              if ($('.profile-infos .dropdown-menu:visible').length > 0) {
                 $('.profile-infos .dropdown-menu').stop().fadeOut();
              } else {
@@ -309,7 +308,6 @@ define([
              }
          });
          $('.navbar .tag-button, .navbar .tag-button a').click(function(e) {
-            console.log('navbar click');
             if ($('.navbar .tag-button .dropdown-menu:visible').length > 0) {
                $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
             } else {
@@ -322,7 +320,6 @@ define([
       listenDocumentClick: function() {
          var that = this;
          $(document).on('click', function(evt) {
-            console.log('document click');
             that.closeOpenedDropdown(evt);
          });
       },
