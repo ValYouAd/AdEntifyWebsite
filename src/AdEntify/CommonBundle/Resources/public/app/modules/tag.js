@@ -1099,11 +1099,20 @@ define([
                         showClose: true
                      })).render();
                   } else {
-                     that.setView('.alert-product', new Common.Views.Alert({
-                        cssClass: Common.alertError,
-                        message: $.t('tag.errorTagPost'),
-                        showClose: true
-                     })).render();
+                     var json = $.parseJSON(r.responseText);
+                     if (json && typeof json.errors !== 'undefined') {
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t(json.errors.pop()),
+                           showClose: true
+                        })).render();
+                     } else {
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorTagPost'),
+                           showClose: true
+                        })).render();
+                     }
                   }
                }
             });

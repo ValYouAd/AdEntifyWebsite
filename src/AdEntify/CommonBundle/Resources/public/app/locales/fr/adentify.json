@@ -369,6 +369,9 @@
       "comment": "Vous ne pouvez pas poster de commentaire lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
       "report": "Vous ne pouvez pas signaler une photo lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire."
    },
+   "legalNotice": {
+      "alcool": "L'abus d'alcool est dangereux pour la santé"
+   },
    "common": {
       "viewPhoto": "voir la photo",
       "submit": "Valider",
@@ -409,5 +412,8 @@
       "my/profile/": "mon/profil/",
       "my/settings/": "mes/parametres/",
       "my/dashboard/": "mon/dashboard/"
+   },
+   "error": {
+      "tooYoung": "Vous êtes trop jeune pour taguer ce produit ou cette marque."
    }
 }

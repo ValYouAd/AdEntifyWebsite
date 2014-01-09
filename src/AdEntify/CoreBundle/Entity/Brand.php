@@ -215,6 +215,20 @@ class Brand
     private $logoUrl;
 
     /**
+     * @var integer
+     *
+     * * @ORM\Column(name="min_age", type="integer")
+     */
+    private $minAge = 13;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="legal_notice", type="text", nullable=true)
+     */
+    private $legalNotice;
+
+    /**
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="brand")
      */
     private $admin;
@@ -719,5 +733,39 @@ class Brand
     public function getAdmin()
     {
         return $this->admin;
+    }
+
+    /**
+     * @param int $minAge
+     */
+    public function setMinAge($minAge)
+    {
+        $this->minAge = $minAge;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMinAge()
+    {
+        return $this->minAge;
+    }
+
+    /**
+     * @param string $legalNotice
+     */
+    public function setLegalNotice($legalNotice)
+    {
+        $this->legalNotice = $legalNotice;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLegalNotice()
+    {
+        return $this->legalNotice;
     }
 }

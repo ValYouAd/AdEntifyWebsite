@@ -368,6 +368,9 @@
       "comment": "You can't post comment when you aren't logged. Please connect or sign up.",
       "report": "You can't report when you aren't logged. Please connect or sign up."
    },
+   "legalNotice": {
+      "alcool": "L'abus d'alcool est dangereux pour la santé"
+   },
    "common": {
       "viewPhoto": "View photo",
       "submit": "Submit",
@@ -408,5 +411,8 @@
       "my/profile/": "my/profile/",
       "my/settings/": "my/settings/",
       "my/dashboard/": "my/dashboard/"
+   },
+   "error": {
+      "tooYoung": "You are too young to tag this product or brand."
    }
 }

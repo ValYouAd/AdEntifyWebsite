@@ -56,6 +56,12 @@ class BrandType extends AbstractType
                 'multiple' => true,
 
             ))
+            ->add('minAge', 'integer', array(
+                'required' => false,
+            ))
+            ->add('legalNotice', 'text', array(
+                'required' => false,
+            ))
         ;
     }
     

@@ -125,6 +125,20 @@ class Product
      */
     private $originalUrl;
 
+    /**
+     * @var integer
+     *
+     * * @ORM\Column(name="min_age", type="integer")
+     */
+    private $minAge = 13;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="legal_notice", type="text", nullable=true)
+     */
+    private $legalNotice;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
@@ -338,5 +352,39 @@ class Product
     public function getPurchaseShortUrl()
     {
         return $this->purchaseShortUrl;
+    }
+
+    /**
+     * @param string $legalNotice
+     */
+    public function setLegalNotice($legalNotice)
+    {
+        $this->legalNotice = $legalNotice;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLegalNotice()
+    {
+        return $this->legalNotice;
+    }
+
+    /**
+     * @param int $minAge
+     */
+    public function setMinAge($minAge)
+    {
+        $this->minAge = $minAge;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMinAge()
+    {
+        return $this->minAge;
     }
 }
