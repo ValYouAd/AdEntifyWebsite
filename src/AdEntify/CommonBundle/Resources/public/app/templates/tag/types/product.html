@@ -9,10 +9,12 @@
                 <% } %>
             </div>
             <div class="popover-inner">
-                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.get("product").get("brand")) { %> - <%= model.get("product").get("brand")["name"] %><% } %></a></span>
+                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.has('product') && model.get("product").get("brand")) { %> - <%= model.get("product").get("brand")["name"] %><% } %></a></span>
+                <% if (model.has("product")) { %>
                 <div class="pull-left">
                     <img src="<%= model.get("product").get("small_url") %>" class="product-photo" />
                 </div>
+                <% } %>
                 <% if (model.has("product") && model.get("product").has("brandModel")) { %>
                 <div class="brand pull-right">
                     <a href="<%= model.get('product').get('brandModel').get('brandLink') %>"><img src="<%= model.get('product').get("brandModel").get('profilePicRootUrl') %><%= model.get('product').get("brandModel").get('small_logo_url') %>" alt="<%= model.get("product").get("brand")["name"] %>" class="brand-logo" /></a>
@@ -23,9 +25,11 @@
                 <% } %>
             </div>
             <div class="clearfix"></div>
+            <% if (model.has("product")) { %>
             <div class="popover-details">
                 <a href="<%= model.get("product").get("purchase_url") %>" class="buy-link"><i class="icon-shopping-cart icon-white"></i> Acheter</a>
             </div>
+            <% } %>
             <div class="tag-buttons">
                 <% if (model.has('ownerModel')) { %>
                 <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) %></span>

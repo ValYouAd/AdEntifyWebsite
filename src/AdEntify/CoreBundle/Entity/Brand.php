@@ -95,7 +95,7 @@ class Brand
     /**
      * @var string
      *
-     * @ORM\Column(name="original_logo_url", type="string", length=255)
+     * @ORM\Column(name="original_logo_url", type="string", length=255, nullable=true)
      * @Gedmo\UploadableFilePath
      */
     private $originalLogoUrl;

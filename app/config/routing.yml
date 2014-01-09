@@ -178,6 +178,12 @@ report:
     options:
         expose: true
 
+productType:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\ProductTypesController
+    options:
+        expose: true
+
 # Public Tags REST
 public_tag:
     type:     rest

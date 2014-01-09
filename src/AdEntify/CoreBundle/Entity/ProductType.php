@@ -55,10 +55,25 @@ class ProductType
      */
     private $translations;
 
+    /**
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="product")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $tags;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tags_count", type="integer")
+     */
+    private $tagsCount = 0;
+
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -130,5 +145,40 @@ class ProductType
     public function getTranslations()
     {
         return $this->translations;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsCount()
+    {
+        return $this->tagsCount;
+    }
+
+    /**
+     * @param int $tagsCount
+     */
+    public function setTagsCount($tagsCount)
+    {
+        $this->tagsCount = $tagsCount;
+        return $this;
+    }
+
+    public function addTag(\AdEntify\CoreBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+        $tag->setProduct($this);
+        return $this;
+    }
+
+    public function removeTag(\AdEntify\CoreBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+        $tag->setProduct(null);
+    }
+
+    public function getTags()
+    {
+        return $this->tags;
     }
 }

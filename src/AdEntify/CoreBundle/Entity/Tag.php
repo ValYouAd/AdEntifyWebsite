@@ -153,6 +153,11 @@ class Tag
     private $product;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductType", inversedBy="tags")
+     */
+    private $productType;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="tags")
      */
     private $person;
@@ -563,5 +568,22 @@ class Tag
     public function getBrandTag()
     {
         return $this->brandTag;
+    }
+
+    /**
+     * @param mixed $productType
+     */
+    public function setProductType($productType)
+    {
+        $this->productType = $productType;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductType()
+    {
+        return $this->productType;
     }
 }
