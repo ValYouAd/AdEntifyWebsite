@@ -38,7 +38,7 @@ class Brand
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\NotBlank(message="brand.name.notblank")
      */
     private $name;

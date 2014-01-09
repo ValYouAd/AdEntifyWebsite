@@ -126,6 +126,13 @@ search:
     "resultsCount_plural": "<strong>__count__</strong> résultats"
     "shareSearch": "Partager la recherche"
 
+#Brand
+Add a new brand: Ajouter une nouvelle marque
+Congrats, brand was successfully added !: Félicitations, la marque a été ajouté.
+addBrand:
+    pageTitle: Ajouter une marque - AdEntify.com
+    pageDescription: Ajouter votre marque ou une marque encore non présente sur AdEntify avec ce formulaire.
+
 #Routing
 photos/untagged/: photos/non-taguees/
 my/photos/: mes/photos/

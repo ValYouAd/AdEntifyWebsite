@@ -47,6 +47,7 @@ class BrandController extends Controller
             'pageLimit' => self::PAGE_LIMIT
         );
     }
+
     /**
      * Creates a new Brand entity.
      *

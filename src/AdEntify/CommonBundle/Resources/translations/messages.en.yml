@@ -122,6 +122,13 @@ search:
     resultsCount_plural: <strong>__count__</strong> results
     shareSearch: Share search
 
+#Brand
+Add a new brand: Add a new brand
+Congrats, brand was successfully added !: Congrats, brand was successfully added !
+addBrand:
+    pageTitle: Add a brand - AdEntify.com
+    pageDescription: Add you brand or a new brand with this form.
+
 #Routing
 photos/untagged/: photos/untagged/
 my/photos/: my/photos/
