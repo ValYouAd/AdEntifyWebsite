@@ -26,7 +26,9 @@ define([
    var currentBrands = {};
    var currentBrand = null;
    var currentProducts = {};
+   var currentProductTypes = {};
    var currentProduct = null;
+   var currentProductType = null;
    var newProduct = null;
    var currentVenues = {};
    var currentVenue = null;
@@ -543,8 +545,10 @@ define([
                                  currentBrands[brand.name] = brand;
                               });
                               process(brands);
-                              $('#loading-brand').fadeOut(200);
                            }
+                        },
+                        complete: function() {
+                           $('#loading-brand').fadeOut(200);
                         }
                      });
                   }
@@ -569,22 +573,35 @@ define([
                $('#loading-product').css({'display': 'inline-block'});
                app.oauth.loadAccessToken({
                   success: function() {
-                     $.ajax({
+                     var products = [];
+                     currentProducts = {};
+                     currentProductTypes = {};
+                     $.when($.ajax({
                         url: Routing.generate('api_v1_get_product_search', { query: query }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
                            if (typeof response !== 'undefined' && response.length > 0) {
-                              var products = [];
-                              currentProducts = {};
                               _.each(response, function(product) {
                                  products.push(product.name);
                                  currentProducts[product.name] = product;
                               });
-                              process(products);
-                              $('#loading-product').fadeOut(200);
                            }
                         }
-                     });
+                     }), $.ajax({
+                        url: Routing.generate('api_v1_get_producttype_search', { query: query }),
+                        headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                        success: function(response) {
+                           if (typeof response !== 'undefined' && response.length > 0) {
+                              _.each(response, function(productType) {
+                                 products.push(productType.name);
+                                 currentProductTypes[productType.name] = productType;
+                              });
+                           }
+                        }
+                     })).done(function(a1, a2) {
+                           process(products);
+                           $('#loading-product').fadeOut(200);
+                        });
                   }
                });
             },
@@ -602,11 +619,18 @@ define([
                      $('#brand-name').val(currentBrand.name);
                      $('#brand-logo').html('<img src="' + app.rootUrl + '/' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                   }
+               } else {
+                  currentProductType = currentProductTypes[selectedItem];
                }
                return selectedItem;
             },
             highlighter: function(item) {
-               return '<div><img style="height: 20px;" src="' + currentProducts[item].small_url + '"> ' + item + '</div>'
+               var found = currentProducts[item]
+               if (found) {
+                  return '<div><img style="height: 20px;" src="' + found.small_url + '"> ' + item + '</div>';
+               } else {
+                  return '<div>' + item + '</div>'
+               }
             }
          });
 
@@ -813,7 +837,7 @@ define([
                      $submit.button('loading');
                      if (!currentBrand) {
                         $submit.button('reset');
-                        app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                        that.setView('.alert-product', new Common.Views.Alert({
                            cssClass: Common.alertError,
                            message: $.t('tag.errorSelectBrand'),
                            showClose: true
@@ -822,7 +846,7 @@ define([
                      }
                      if (!$('#product-description').val() || !$('#product-name').val()) {
                         $submit.button('reset');
-                        app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                        that.setView('.alert-product', new Common.Views.Alert({
                            cssClass: Common.alertError,
                            message: $.t('tag.errorProductEmptyFields'),
                            showClose: true
@@ -850,7 +874,7 @@ define([
                                        },
                                        error: function() {
                                           $submit.button('reset');
-                                          app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                                          that.setView('.alert-product', new Common.Views.Alert({
                                              cssClass: Common.alertError,
                                              message: $.t('tag.errorVenuePost'),
                                              showClose: true
@@ -864,7 +888,7 @@ define([
                            },
                            error: function() {
                               $submit.button('reset');
-                              app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                              that.setView('.alert-product', new Common.Views.Alert({
                                  cssClass: Common.alertError,
                                  message: $.t('tag.errorProductPost'),
                                  showClose: true
@@ -872,9 +896,9 @@ define([
                            }
                         });
                      });
-                  } else if (currentProduct) {
+                  } else if (currentProduct || currentProductType) {
                      // Check if there is a venue for the current product
-                     if (currentVenue) {
+                     if (currentVenue && currentProduct) {
                         // POST currentVenue
                         venue = new Venue.Model();
                         venue.entityToModel(currentVenue);
@@ -887,7 +911,7 @@ define([
                               },
                               error: function() {
                                  $submit.button('reset');
-                                 app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                                 that.setView('.alert-product', new Common.Views.Alert({
                                     cssClass: Common.alertError,
                                     message: $.t('tag.errorVenuePost'),
                                     showClose: true
@@ -901,7 +925,7 @@ define([
                   }
                } else {
                   $submit.button('reset');
-                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                  that.setView('.alert-product', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('tag.noProductSelected'),
                      showClose: true
@@ -940,7 +964,7 @@ define([
                                  },
                                  error: function() {
                                     $submit.button('reset');
-                                    app.useLayout().setView('.alert-venue', new Common.Views.Alert({
+                                    that.setView('.alert-venue', new Common.Views.Alert({
                                        cssClass: Common.alertError,
                                        message: $.t('tag.errorTagPost'),
                                        showClose: true
@@ -952,13 +976,13 @@ define([
                         error: function(e, r) {
                            $submit.button('reset');
                            if (r.status === 403) {
-                              app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                              that.setView('.alert-person', new Common.Views.Alert({
                                  cssClass: Common.alertError,
                                  message: $.t('tag.forbiddenTagPost'),
                                  showClose: true
                               })).render();
                            } else {
-                              app.useLayout().setView('.alert-venue', new Common.Views.Alert({
+                              that.setView('.alert-venue', new Common.Views.Alert({
                                  cssClass: Common.alertError,
                                  message: $.t('tag.errorVenuePost'),
                                  showClose: true
@@ -969,7 +993,7 @@ define([
                   });
                } else {
                   $submit.button('reset');
-                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                  that.setView('.alert-product', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('tag.noVenueSelected'),
                      showClose: true
@@ -1009,7 +1033,7 @@ define([
                                           showClose: true
                                        })).render();
                                     } else {
-                                       app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                                       that.setView('.alert-person', new Common.Views.Alert({
                                           cssClass: Common.alertError,
                                           message: $.t('tag.errorTagPost'),
                                           showClose: true
@@ -1022,7 +1046,7 @@ define([
                         },
                         error: function() {
                            $submit.button('reset');
-                           app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                           that.setView('.alert-person', new Common.Views.Alert({
                               cssClass: Common.alertError,
                               message: $.t('tag.errorPerson'),
                               showClose: true
@@ -1036,14 +1060,24 @@ define([
       },
 
       postProduct: function($submit, newProduct) {
+         var that = this;
+
          // Link tag to photo
          currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
          // Set tag info
          currentTag.set('type', 'product');
-         currentTag.set('product', typeof newProduct !== 'undefined' ? newProduct.get('id') : currentProduct.id);
-         currentTag.set('title', typeof newProduct !== 'undefined' ? newProduct.get('name') : currentProduct.name);
-         currentTag.set('description', typeof newProduct !== 'undefined' ? newProduct.get('description') : currentProduct.description);
-         currentTag.set('link', typeof newProduct !== 'undefined' ? newProduct.get('purchase_url') : currentProduct.purchase_url);
+
+         // Check if it's a product or a productType
+         if (currentProductType) {
+            currentTag.set('productType', currentProductType.id);
+            currentTag.set('title', currentProductType.name);
+         } else {
+            currentTag.set('product', typeof newProduct !== 'undefined' ? newProduct.get('id') : currentProduct.id);
+            currentTag.set('title', typeof newProduct !== 'undefined' ? newProduct.get('name') : currentProduct.name);
+            currentTag.set('description', typeof newProduct !== 'undefined' ? newProduct.get('description') : currentProduct.description);
+            currentTag.set('link', typeof newProduct !== 'undefined' ? newProduct.get('purchase_url') : currentProduct.purchase_url);
+         }
+
          if (currentBrand)
             currentTag.set('brand', currentBrand.id);
          currentTag.url = Routing.generate('api_v1_post_tag');
@@ -1051,23 +1085,34 @@ define([
             currentTag.save(null, {
                success: function() {
                   currentTag.set('persisted', '');
-                  app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
+                  if (currentBrand)
+                     app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
                   app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                },
                error: function(e, r) {
+                  delete currentTag.id;
                   $submit.button('reset');
                   if (r.status === 403) {
-                     app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     that.setView('.alert-product', new Common.Views.Alert({
                         cssClass: Common.alertError,
                         message: $.t('tag.forbiddenTagPost'),
                         showClose: true
                      })).render();
                   } else {
-                     app.useLayout().setView('.alert-product', new Common.Views.Alert({
-                        cssClass: Common.alertError,
-                        message: $.t('tag.errorTagPost'),
-                        showClose: true
-                     })).render();
+                     var json = $.parseJSON(r.responseText);
+                     if (json && typeof json.errors !== 'undefined') {
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: Common.Tools.getHtmlErrors(json.errors),
+                           showClose: true
+                        })).render();
+                     } else {
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorTagPost'),
+                           showClose: true
+                        })).render();
+                     }
                   }
                }
             });

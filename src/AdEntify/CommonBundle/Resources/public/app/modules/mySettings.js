@@ -9,7 +9,8 @@ define([
    "app",
    "modules/common",
    'modules/upload',
-   'jquery.fileupload'
+   'jquery.fileupload',
+   'bday-picker'
 ], function(app, Common, Upload) {
 
    var MySettings = app.module();
@@ -158,6 +159,10 @@ define([
                }
             }
          });
+
+         this.$('.birthdate').birthdaypicker(options={
+            defaultDate: currentUserBirthday
+         });
       },
 
       initialize: function() {
@@ -180,9 +185,32 @@ define([
          app.trigger('domchange:title', $.t('mySettings.pageTitle'));
       },
 
-      submitLang: function(e) {
+      submitSettings: function(e) {
+         var redirect = function() {
+            window.location.href = Routing.generate('change_lang', { 'locale' : $('#lang').val() });
+         };
+         var that = this;
+
          e.preventDefault();
-         window.location.href = Routing.generate('change_lang', {'locale': $('#lang').val()});
+         if (this.$('#birthdate').val()) {
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_post_user_birthday'),
+                     type: 'POST',
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     data: {
+                        'birthday': that.$('#birthdate').val()
+                     },
+                     complete: function() {
+                        redirect();
+                     }
+                  });
+               }
+            });
+         } else {
+            redirect();
+         }
       },
 
       submitChangePassword: function(e) {
@@ -259,7 +287,7 @@ define([
       },
 
       events: {
-         "submit .langForm": "submitLang",
+         "submit .settingsForm": "submitSettings",
          "submit .changePasswordForm": "submitChangePassword",
          'click .delete-account-button': 'deleteAccount'
       }

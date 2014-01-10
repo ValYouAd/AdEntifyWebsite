@@ -521,4 +521,17 @@ class UsersController extends FosRestController
         ));
         return $task ? $task->getProgress() : null;
     }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function postBirthdayAction()
+    {
+        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+        $currentUser->setBirthday(new \DateTime($this->getRequest()->request->get('birthday')));
+        $this->getDoctrine()->getManager()->merge($currentUser);
+        $this->getDoctrine()->getManager()->flush();
+        return '';
+    }
 }

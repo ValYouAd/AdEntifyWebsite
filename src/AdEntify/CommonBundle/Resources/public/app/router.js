@@ -126,6 +126,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "mon/adentify/": "myAdentify",
                "recherche/": "search",
                "recherche/:keywords": "search",
+               "marque/creer": "createBrand",
 
                '*notFound': 'notFound'
             },
@@ -783,6 +784,16 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }).render();
       },
 
+      createBrand: function() {
+         app.useLayout().setViews({
+            "#center-pane-content": new Brand.Views.Create({
+               categories: this.categories
+            })
+         }).render();
+
+         this.categories.fetch();
+      },
+
       notFound: function() {
          Common.Tools.notFound();
       },
@@ -853,6 +864,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       setupEnvironment: function() {
+         var that = this;
          // Add search form if not already set
          if (!searchSetup) {
             searchSetup = true;
@@ -876,6 +888,16 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             dropdownMenusSetup = true;
             User.Dropdown.listenClick();
          }
+         $('.add-brand-link').click(function() {
+            var createBrandView = new Brand.Views.Create({
+               categories: that.categories
+            });
+            that.categories.fetch();
+            app.useLayout().setView('#modal-container', new Common.Views.Modal({
+               title: 'brand.createBrandTitle',
+               view: createBrandView
+            })).render();
+         });
       },
 
       // Shortcut for building a url.

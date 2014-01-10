@@ -38,7 +38,7 @@ class Brand
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\NotBlank(message="brand.name.notblank")
      */
     private $name;
@@ -95,7 +95,7 @@ class Brand
     /**
      * @var string
      *
-     * @ORM\Column(name="original_logo_url", type="string", length=255)
+     * @ORM\Column(name="original_logo_url", type="string", length=255, nullable=true)
      * @Gedmo\UploadableFilePath
      */
     private $originalLogoUrl;
@@ -215,9 +215,30 @@ class Brand
     private $logoUrl;
 
     /**
+     * @var integer
+     *
+     * * @ORM\Column(name="min_age", type="integer")
+     */
+    private $minAge = 13;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="legal_notice", type="text", nullable=true)
+     */
+    private $legalNotice;
+
+    /**
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="brand")
      */
     private $admin;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="validated", type="boolean")
+     */
+    private $validated = false;
 
     public function __construct()
     {
@@ -719,5 +740,56 @@ class Brand
     public function getAdmin()
     {
         return $this->admin;
+    }
+
+    /**
+     * @param int $minAge
+     */
+    public function setMinAge($minAge)
+    {
+        $this->minAge = $minAge;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMinAge()
+    {
+        return $this->minAge;
+    }
+
+    /**
+     * @param string $legalNotice
+     */
+    public function setLegalNotice($legalNotice)
+    {
+        $this->legalNotice = $legalNotice;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLegalNotice()
+    {
+        return $this->legalNotice;
+    }
+
+    /**
+     * @param boolean $validated
+     */
+    public function setValidated($validated)
+    {
+        $this->validated = $validated;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getValidated()
+    {
+        return $this->validated;
     }
 }

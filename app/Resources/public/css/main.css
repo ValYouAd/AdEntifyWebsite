@@ -1157,7 +1157,7 @@ html,body {
     border-radius: 0px;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
     max-width: none;
-    min-width: 150px;
+    min-width: 270px;
     
     -webkit-transition: opacity 0.3s ease-out;
     -moz-transition: opacity 0.3s ease-out;
@@ -1219,6 +1219,7 @@ html,body {
 }
 .product-photo {
     max-width: 100%;
+    max-height: 200px;
 }
 .tag-buttons {
     background: url('../img/dark-grey-tag-background.jpg') repeat;
@@ -3012,11 +3013,11 @@ label,
     box-shadow:         0px 0px 7px rgba(0, 0, 0, 0.3) inset;
 }
 .profile-infos .user-names {
-    color: #FFFFFF;
+    color: #898989;
     font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
 }
 .profile-infos .user-points {
-    color: #898989;
+    color: #FFFFFF;
     font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
     font-size: 18px;
 }
@@ -3623,6 +3624,9 @@ ul.striped > li:nth-child(even) {
 .text-red a,
 .text-red a:hover {
     color: #ff3434;
+}
+a[data-bypass] {
+    cursor: pointer;
 }
 /*
 ----------------------- */

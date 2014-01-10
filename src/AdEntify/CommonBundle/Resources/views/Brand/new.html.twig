@@ -1,0 +1,24 @@
+{% extends "::base.html.twig" %}
+{% if form is defined %}{% form_theme form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block title %}{{ 'addBrand.pageTitle'|trans }}{% endblock %}
+{% block metadescription %}{{ 'addBrand.pageDescription'|trans }}{% endblock %}
+
+{% block body %}
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+    <div class="polygon-background">
+        <div class="container">
+            <h1>{{ 'Add a new brand'|trans }}</h1>
+            {{ form(form, {'attr': {'class' : 'form-horizontal'} }) }}
+        </div>
+    </div>
+
+{% endblock %}

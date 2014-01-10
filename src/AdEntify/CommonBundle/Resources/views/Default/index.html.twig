@@ -29,7 +29,7 @@
         });
 
         function redirectPage(link) {
-            document.location.href= link;
+            document.location.href = link;
         }
 
         var SearchForm = {
@@ -70,7 +70,7 @@
                                 $('.search-tags-results').html('');
                                 for (var i = 0; i < data.data.length; i++) {
                                     var model = data.data[i];
-                                    $('.search-tags-results').append('<li><a href="' + '{{ 'photo/id/'|trans }}' + model.id +' " class="item-link" data-bypass="" data-photo-link="">\
+                                    $('.search-tags-results').append('<li><a href="app/' + '{{ 'photo/id/'|trans }}' + model.id + '/" class="item-link">\
                                     <div style="background-image: url(' + model.small_url + ')" class="photo pull-left"></div>\
                                     <div class="photo-details">' + (model.caption ? model.caption : '') + '</div></a><div class="clearfix"></div></li>');
                                 }
@@ -105,7 +105,7 @@
                                 $('.search-feeds-results').html('');
                                 for (var i = 0; i < data.data.length; i++) {
                                     var model = data.data[i];
-                                    $('.search-feeds-results').append('<li class="hashtag-item"><a href="' + model.link + '" class="hashtag-box">#' + model.name + '</a></li>');
+                                    $('.search-feeds-results').append('<li class="hashtag-item"><a href="app/{{ 'search/'|trans() }}%23' + model.name + '" class="hashtag-box">#' + model.name + '</a></li>');
                                 }
                                 if (data.data.length > 0) {
                                     $('.feeds-container').fadeIn();
@@ -118,13 +118,6 @@
                         },
                         complete: function() {
                             that.requests.pop().resolve();
-                        },
-                        error: function() {
-                            that.setView('.alert-search-feeds-results', new Common.Views.Alert({
-                                cssClass: Common.alertError,
-                                message: $.t('search.error'),
-                                showClose: true
-                            })).render();
                         }
                     });
                     this.requests.push(new $.Deferred());
@@ -153,13 +146,6 @@
                         },
                         complete: function() {
                             that.requests.pop().resolve();
-                        },
-                        error: function() {
-                            that.setView('.alert-search-users-results', new Common.Views.Alert({
-                                cssClass: Common.alertError,
-                                message: $.t('search.error'),
-                                showClose: true
-                            })).render();
                         }
                     });
                     this.requests.push(new $.Deferred());
@@ -172,7 +158,7 @@
                                 $('.search-brands-results').html('');
                                 for (var i = 0; i < data.data.length; i++) {
                                     var model = data.data[i];
-                                    $('.search-brands-results').append('<li class="col-xs-4 col-sm-2 brand"><div class="table-center"><div class="table-center-cell text-center"><a href="' + '{{ 'brand/slug/'|trans }}' + model.slug + '" class="thumbnail">\
+                                    $('.search-brands-results').append('<li class="col-xs-4 col-sm-2 brand"><div class="table-center"><div class="table-center-cell text-center"><a href="app/' + '{{ 'brand/slug/'|trans }}' + model.slug + '" class="thumbnail">\
                                     <img src="../' + model.medium_logo_url + '" alt="' + model.name + '" class="brand-logo" /></a></div></div></li>');
                                 }
 
@@ -187,13 +173,6 @@
                         },
                         complete: function() {
                             that.requests.pop().resolve();
-                        },
-                        error: function() {
-                            that.setView('.alert-search-brands-results', new Common.Views.Alert({
-                                cssClass: Common.alertError,
-                                message: $.t('search.error'),
-                                showClose: true
-                            })).render();
                         }
                     });
                     $.when.apply(null, this.requests).done(function() {
@@ -203,7 +182,7 @@
             },
 
             closeSearchResults: function() {
-                $('.dropdown-menu').hide();
+                setTimeout(function() { $('.dropdown-menu').hide(); }, 500);
             },
 
             showSearchResults: function() {

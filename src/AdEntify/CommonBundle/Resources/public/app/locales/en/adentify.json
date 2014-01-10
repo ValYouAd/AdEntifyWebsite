@@ -14,7 +14,22 @@
       "followersTitle": "Followers",
       "moreFollowers": "View more followers",
       "rewards": "Rewards",
-      "noRewards": "No reward yet for __name__"
+      "noRewards": "No reward yet for __name__",
+      "placeholderName": "Name",
+      "placeholderDescription": "Description",
+      "placeholderWebsiteUrl": "Website URL",
+      "placeholderFacebookUrl": "Facebook URL",
+      "placeholderTwitterUrl": "Twitter URL",
+      "placeholderPinterestUrl": "Pinterest URL",
+      "placeholderInstagramUrl": "Instagram URL",
+      "placeholderTumblrUrl": "Tumblr URL",
+      "labelCategories": "Select one or more categories",
+      "addInProgress": "Please wait...",
+      "errorCreate": "An error occurred, please try again.",
+      "alreadyExist": "This brand already exist.",
+      "loadInfo": "Load data",
+      "createBrandTitle": "Add a brand",
+      "createSuccessfull": "The brand has successfully been added. However, it must be validated by the Adentify team before being visible on the website."
    },
    "photos": {
       "pageTitle": "Browse, tag & share photos - AdEntify",
@@ -71,7 +86,8 @@
       "confirmDeleteAccountButton": "I understand and i still want to delete my account",
       "linkMyAccount": "Link my account",
       "profilePicture": "Profile picture",
-      "profilePictureUpload": "Upload my profile picture"
+      "profilePictureUpload": "Upload my profile picture",
+      "labelBirthday": "Birthday"
    },
    "upload": {
       "pageTitle": "Upload my photos - AdEntify",
@@ -367,6 +383,9 @@
       "comment": "You can't post comment when you aren't logged. Please connect or sign up.",
       "report": "You can't report when you aren't logged. Please connect or sign up."
    },
+   "legalNotice": {
+      "alcool": "L'abus d'alcool est dangereux pour la santé"
+   },
    "common": {
       "viewPhoto": "View photo",
       "submit": "Submit",
@@ -382,7 +401,8 @@
       "report": "Report",
       "Copy": "Copy",
       "titleNotLogged": "Connection required",
-      "contentNotLogged": "You need to be logged to access this page."
+      "contentNotLogged": "You need to be logged to access this page.",
+      "waiting": "Please wait..."
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",
@@ -407,5 +427,9 @@
       "my/profile/": "my/profile/",
       "my/settings/": "my/settings/",
       "my/dashboard/": "my/dashboard/"
+   },
+   "error": {
+      "tooYoung": "You are too young to tag this product or brand.",
+      "generic": "An error occurred. Please try again."
    }
 }

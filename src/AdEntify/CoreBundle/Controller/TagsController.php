@@ -16,7 +16,9 @@ use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
+use AdEntify\CoreBundle\Validator\AgeValidator;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -136,10 +138,22 @@ class TagsController extends FosRestController
             $form = $this->getForm($tag);
             $form->bind($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
+
+                $ageObject = null;
+                if ($tag->getProduct())
+                    $ageObject = $tag->getProduct();
+                if ($tag->getBrand())
+                    $ageObject = $tag->getBrand();
+                if ($ageObject) {
+                    if (!AgeValidator::validateAge($ageObject, $user)) {
+                        $form->addError(new FormError('error.tooYoung'));
+                        return $form;
+                    }
+                }
+
+                $em = $this->getDoctrine()->getManager();
 
                 // Get friends list (id) array
                 $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);

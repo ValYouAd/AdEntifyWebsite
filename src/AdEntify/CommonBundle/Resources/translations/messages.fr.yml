@@ -57,6 +57,9 @@ modal:
     twitterConnect: Se connecter avec Twitter
     noAccount: Je n'ai pas de compte Facebook ou Twitter
 
+#Register
+BirthdayRequirementInfo: Votre date de naissance nous permet de vous présenter des contenus appropriés à votre âge. Cette information est privée et jamais affichée sur votre profil.
+
 # About
 about:
     pageTitle: A propos - AdEntify.com
@@ -122,6 +125,13 @@ search:
     "resultsCount": "<strong>__count__</strong> résultat"
     "resultsCount_plural": "<strong>__count__</strong> résultats"
     "shareSearch": "Partager la recherche"
+
+#Brand
+Add a new brand: Ajouter une nouvelle marque
+Congrats, brand was successfully added !: Félicitations, la marque a été ajouté.
+addBrand:
+    pageTitle: Ajouter une marque - AdEntify.com
+    pageDescription: Ajouter votre marque ou une marque encore non présente sur AdEntify avec ce formulaire.
 
 #Routing
 photos/untagged/: photos/non-taguees/

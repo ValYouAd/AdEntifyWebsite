@@ -49,6 +49,12 @@ class TagType extends AbstractType
                 'required' => false,
                 'description' => 'Product ID. Get the right id with the GET operations of products endpoint'
             ))
+            ->add('productType', 'entity', array(
+                'class' => 'AdEntifyCoreBundle:ProductType',
+                'property' => 'name',
+                'required' => false,
+                'description' => 'Product Type ID. Get the right id with the GET operations of products endpoint'
+            ))
             ->add('person', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Person',
                 'property' => 'fullname',

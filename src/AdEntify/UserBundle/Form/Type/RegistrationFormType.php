@@ -40,6 +40,9 @@ class RegistrationFormType extends BaseType
                     'class' => 'form-control'
                 )
             ))
+            ->add('birthday', 'birthday', array(
+                'label' => 'Birthday'
+            ))
             ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
                 'options' => array('translation_domain' => 'FOSUserBundle'),

@@ -1,6 +1,6 @@
 <?php
 
-namespace AdEntify\BackofficeBundle\Form;
+namespace AdEntify\CommonBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,28 +42,12 @@ class BrandType extends AbstractType
                 'data_class' => null,
                 'required' => false,
             ))
-            ->add('logoUrl', 'url', array(
-                'required' => false,
-            ))
-            ->add('productsCount', 'integer')
-            ->add('tagsCount', 'integer')
-            ->add('venuesCount', 'integer')
-            ->add('costPerTag', 'money')
             ->add('categories', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Category',
                 'property' => 'name',
                 'required' => false,
                 'multiple' => true,
 
-            ))
-            ->add('minAge', 'integer', array(
-                'required' => false,
-            ))
-            ->add('legalNotice', 'text', array(
-                'required' => false,
-            ))
-            ->add('validated', 'checkbox', array(
-                'required' => false
             ))
         ;
     }
@@ -83,6 +67,6 @@ class BrandType extends AbstractType
      */
     public function getName()
     {
-        return 'adentify_backofficebundle_brand';
+        return 'adentify_commonbundle_brand';
     }
 }

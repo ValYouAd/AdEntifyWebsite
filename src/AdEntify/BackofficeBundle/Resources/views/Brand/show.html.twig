@@ -50,8 +50,20 @@
                 <td>{{ entity.instagramUrl }}</td>
             </tr>
             <tr>
-                <th>{{ 'Pinterest URL'|trans }}</th>
-                <td>{{ entity.pinterestUrl }}</td>
+                <th>{{ 'Tumblr URL'|trans }}</th>
+                <td>{{ entity.tumblrUrl }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Min age'|trans }}</th>
+                <td>{{ entity.minAge }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Legal notice'|trans }}</th>
+                <td>{{ entity.legalNotice }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Validated'|trans }}</th>
+                <td>{% if entity.validated %}<i class="glyphicon glyphicon-ok text-success"></i>{% else %}<i class="glyphicon glyphicon-ban-circle text-danger"></i>{% endif %}</td>
             </tr>
         </tbody>
     </table>

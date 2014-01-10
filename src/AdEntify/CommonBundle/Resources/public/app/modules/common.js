@@ -219,6 +219,41 @@ define([
          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
             results = regex.exec(location.search);
          return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      },
+
+      getHtmlErrors: function(json) {
+         var errors = null;
+         if (json instanceof Array)
+            errors = json;
+         else if (typeof json.errors !== 'undefined')
+            errors = json.errors;
+
+         if (errors && errors instanceof Array && errors.length > 0) {
+            if (errors.length > 1) {
+               var markup = '<ul>';
+               for (var i = 0; i<errors.length; i++) {
+                  markup += '<li>';
+                  if (typeof errors[i].message !== 'undefined')
+                     markup += $.t(errors[i].message);
+                  else
+                     markup += $.t(errors[i]);
+                  markup += '</li>';
+               }
+               markup += '</ul>';
+               return markup;
+            } else {
+               var error = errors.pop();
+               if (error.message !== 'undefined')
+                  return $.t(error.message);
+               else
+                  return $.t(error);
+            }
+         } else if (typeof json.message !== 'undefined') {
+            return $.t(json.message);
+         }
+         else {
+            return $.t('error.generic');
+         }
       }
    }
 

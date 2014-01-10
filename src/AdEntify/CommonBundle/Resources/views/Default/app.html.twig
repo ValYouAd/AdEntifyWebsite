@@ -78,7 +78,7 @@
                                             <div class="user-infos-wrapper">
                                                 <div class="user-names">
                                                     {% if app.user.firstname or app.user.lastname %}
-                                                        {% if app.user.firstname %}{{ app.user.firstname }}{% endif %} {% if app.user.lastname %}{{ app.user.lastname }}{% endif %}
+                                                        {% if app.user.firstname %}{{ app.user.firstname }}{% endif %}
                                                     {% else %}
                                                         {{ app.user.email }}
                                                     {% endif %}
@@ -113,7 +113,7 @@
                         <div class="row">
                             <div class="col-sm-3 text-red">
                                 <div class="col-sm-12"><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'All brands'|trans }}</a></div>
-                                <div class="col-sm-12"><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'Add a brand'|trans }}</a></div>
+                                <div class="col-sm-12"><a data-bypass="" class="add-brand-link">{{ 'Add a brand'|trans }}</a></div>
                             </div>
                             <div class="col-sm-9">
                                 {% for category in categories %}
@@ -237,6 +237,7 @@
         var facebookPermissions = '{{ facebook_permissions }}';
         var currentLocale = '{{ app.request.locale }}';
         var currentUserId = {{ app.user ? app.user.id : 0 }};
+        var currentUserBirthday = '{{ app.user.birthday ? app.user.birthday|date('m/d/Y') : '' }}';
         var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&v=3&sensor=false"></script>

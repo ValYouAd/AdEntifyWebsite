@@ -46,6 +46,10 @@
                 <source>Please enter your lastname.</source>
                 <target>Veuillez spécifier un nom</target>
             </trans-unit>
+            <trans-unit id="12">
+                <source>You are too young to tag this product or brand.</source>
+                <target>Vous êtes trop jeune pour taguer ce produit ou cette marque.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
