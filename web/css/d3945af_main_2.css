@@ -3625,5 +3625,8 @@ ul.striped > li:nth-child(even) {
 .text-red a:hover {
     color: #ff3434;
 }
+a[data-bypass] {
+    cursor: pointer;
+}
 /*
 ----------------------- */
