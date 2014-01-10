@@ -1,0 +1,61 @@
+<div class="modal-body-wrapper mt2">
+    <div class="alert-success-brand"></div>
+    <form role="form">
+
+    <div class="alert-add-brand"></div>
+
+    <div class="row form-group">
+        <div class="col-md-6">
+            <input type="text" name="name" placeholder="<%= $.t('brand.placeholderName') %>" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <input type="hidden" name="original_logo_url">
+            <img class="brand-logo fadeOut" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-6">
+            <textarea name="description" placeholder="<%= $.t('brand.placeholderDescription') %>" class="form-control"></textarea>
+        </div>
+        <div class="col-md-6">
+            <select class="categories" name="categories" placeholder="<%= $.t('brand.labelCategories') %>" multiple="multiple">
+                <% _.forEach(categories.models, function(category) { %>
+                <option value="<%= category.get('id') %>"><%= category.get('name') %></option>
+                <% }); %>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="website_url" placeholder="<%= $.t('brand.placeholderWebsiteUrl') %>" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <input type="text" name="facebook_url" placeholder="<%= $.t('brand.placeholderFacebookUrl') %>" class="form-control" />
+            <span class="input-group-btn">
+                <button type="button" data-toggle="button" data-i18n="[data-loading-text]common.waiting" class="btn btn-info facebookButton"><%= $.t('brand.loadInfo') %></button>
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="twitter_url" placeholder="<%= $.t('brand.placeholderTwitterUrl') %>" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="pinterest_url" placeholder="<%= $.t('brand.placeholderPinterestUrl') %>" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="instagram_url" placeholder="<%= $.t('brand.placeholderInstagramUrl') %>" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="text" name="tumblr_url" placeholder="<%= $.t('brand.placeholderTumblrUrl') %>" class="form-control" />
+    </div>
+
+    <button type="submit" data-i18n="[data-loading-text]brand.addInProgress" class="btn-around-corner btn-red-grey-border" data-toggle="button"><%= $.t('common.submit') %></button>
+</form>
+</div>

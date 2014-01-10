@@ -1103,7 +1103,7 @@ define([
                      if (json && typeof json.errors !== 'undefined') {
                         that.setView('.alert-product', new Common.Views.Alert({
                            cssClass: Common.alertError,
-                           message: $.t(json.errors.pop()),
+                           message: Common.Tools.getHtmlErrors(json.errors),
                            showClose: true
                         })).render();
                      } else {

@@ -62,6 +62,9 @@ class BrandType extends AbstractType
             ->add('legalNotice', 'text', array(
                 'required' => false,
             ))
+            ->add('validated', 'checkbox', array(
+                'required' => false
+            ))
         ;
     }
     

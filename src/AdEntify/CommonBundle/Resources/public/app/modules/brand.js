@@ -7,8 +7,10 @@
  */
 define([
    'app',
-   'modules/reward'
-], function(app, Reward) {
+   'modules/reward',
+   'modules/common',
+   'jquery.serializeJSON'
+], function(app, Reward, Common) {
 
    var Brand = app.module();
 
@@ -20,6 +22,13 @@ define([
             'add': this.setup
          });
          this.setup();
+      },
+
+      toJSON: function() {
+         var jsonAttributes = jQuery.extend(true, {}, this.attributes);
+         delete jsonAttributes.brandLink;
+         delete jsonAttributes.profilePicRootUrl;
+         return { brand: jsonAttributes }
       },
 
       setup: function() {
@@ -232,6 +241,95 @@ define([
 
          this.render();
          this.trigger('follow', this.follow);
+      }
+   });
+
+   Brand.Views.Create = Backbone.View.extend({
+      template: 'brand/create',
+
+      serialize: function() {
+         return {
+            categories: this.options.categories
+         };
+      },
+
+      initialize: function() {
+         this.listenTo(this.options.categories, 'sync', this.render);
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         if (this.options.categories.length > 0) {
+            this.$('.categories').select2();
+         }
+      },
+
+      formSubmit: function(e) {
+         e.preventDefault();
+
+         var btn = this.$('button[type="submit"]');
+         btn.button('loading');
+
+         var that = this;
+
+         var brand = new Brand.Model(this.$('form').serializeJSON());
+         brand.set('categories', this.$('.categories').select2('val'));
+         brand.url = Routing.generate('api_v1_post_brand');
+         brand.getToken('brand_item', function() {
+            brand.save(null, {
+               success: function() {
+                  that.setView('.alert-success-brand', new Common.Views.Alert({
+                     cssClass: Common.alertSuccess,
+                     message: $.t('brand.createSuccessfull'),
+                     showClose: true
+                  })).render();
+                  that.$('form').fadeOut('fast', function() {
+                     that.$('.alert-success-brand').fadeIn();
+                  });
+                  that.trigger('created');
+               },
+               complete: function() {
+                  btn.button('reset');
+               },
+               error: function(e, r) {
+                  var json = $.parseJSON(r.responseText);
+                  that.setView('.alert-add-brand', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: json ? Common.Tools.getHtmlErrors(json) : $.t('brand.errorCreate'),
+                     showClose: true
+                  })).render();
+               }
+            });
+         });
+      },
+
+      loadFacebookData: function() {
+         var that = this;
+         var btn = this.$('input[name="facebook_url"]');
+         $.ajax({
+            url: 'http://graph.facebook.com/?id=' + btn.val(),
+            success: function(json) {
+               if (json && typeof json.error === 'undefined') {
+                  if (json.name)
+                     that.$('input[name="name"]').val(json.name);
+                  if (json.description)
+                     that.$('textarea[name="description"]').html(json.description);
+                  if (json.website)
+                     that.$('input[name="website_url"]').val(json.website);
+                  if (json.id)
+                  {
+                     var img = 'https://graph.facebook.com/' + json.id + '/picture?width=2000';
+                     that.$('input[name="original_logo_url"]').val(img);
+                     that.$('.brand-logo').attr('src', img).fadeIn();
+                  }
+               }
+            }
+         });
+      },
+
+      events: {
+         'click button[type="submit"]': 'formSubmit',
+         'click .facebookButton': 'loadFacebookData'
       }
    });
 

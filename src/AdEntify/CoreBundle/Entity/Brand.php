@@ -233,6 +233,13 @@ class Brand
      */
     private $admin;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="validated", type="boolean")
+     */
+    private $validated = false;
+
     public function __construct()
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
@@ -767,5 +774,22 @@ class Brand
     public function getLegalNotice()
     {
         return $this->legalNotice;
+    }
+
+    /**
+     * @param boolean $validated
+     */
+    public function setValidated($validated)
+    {
+        $this->validated = $validated;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getValidated()
+    {
+        return $this->validated;
     }
 }

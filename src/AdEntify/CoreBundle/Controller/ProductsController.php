@@ -127,9 +127,9 @@ class ProductsController extends FosRestController
     }
 
     /**
-     * Get form for Venue
+     * Get form for Product
      *
-     * @param null $venue
+     * @param null $product
      * @return mixed
      */
     protected function getForm($product = null)

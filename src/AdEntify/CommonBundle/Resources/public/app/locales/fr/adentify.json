@@ -14,7 +14,22 @@
       "followersTitle": "Ses abonnés",
       "moreFollowers": "Voir tous les abonnés",
       "rewards": "Récompenses",
-      "noRewards": "__name__ n'a pas encore de récompense"
+      "noRewards": "__name__ n'a pas encore de récompense",
+      "placeholderName": "Nom",
+      "placeholderDescription": "Description",
+      "placeholderWebsiteUrl": "URL du site officiel",
+      "placeholderFacebookUrl": "URL de la page Facebook",
+      "placeholderTwitterUrl": "URL de la page Twitter",
+      "placeholderPinterestUrl": "URL de la page Pinterest",
+      "placeholderInstagramUrl": "URL de la page Instagram",
+      "placeholderTumblrUrl": "URL de la page Tumblr",
+      "labelCategories": "Choisissez une ou plusieurs catégories",
+      "addInProgress": "Ajout de la marque en cours...",
+      "errorCreate": "Une erreur est survenue lors de l'ajout de la marque",
+      "alreadyExist": "Cette marque existe déjà.",
+      "loadInfo": "Récupérer les informations",
+      "createBrandTitle": "Ajouter une marque",
+      "createSuccessfull": "La marque a bien été ajouté. Elle doit cependant être validé par l'équipe AdEntify avant d'être visible sur le site."
    },
    "photos": {
       "pageTitle": "Découvrez, taguez et partagez des photos - AdEntify",
@@ -387,7 +402,8 @@
       "report": "Signaler",
       "copy": "Copier",
       "titleNotLogged": "Connexion à AdEntify requise",
-      "contentNotLogged": "Vous devez être connecté à votre compte AdEntify pour accéder à cette page."
+      "contentNotLogged": "Vous devez être connecté à votre compte AdEntify pour accéder à cette page.",
+      "waiting": "Veuillez patientier..."
    },
    "routing": {
       "photos/untagged/": "photos/non-taguees/",
@@ -414,6 +430,7 @@
       "my/dashboard/": "mon/dashboard/"
    },
    "error": {
-      "tooYoung": "Vous êtes trop jeune pour taguer ce produit ou cette marque."
+      "tooYoung": "Vous êtes trop jeune pour taguer ce produit ou cette marque.",
+      "generic": "Une erreur est survenue. Veuillez réessayer."
    }
 }

@@ -14,7 +14,22 @@
       "followersTitle": "Followers",
       "moreFollowers": "View more followers",
       "rewards": "Rewards",
-      "noRewards": "No reward yet for __name__"
+      "noRewards": "No reward yet for __name__",
+      "placeholderName": "Name",
+      "placeholderDescription": "Description",
+      "placeholderWebsiteUrl": "Website URL",
+      "placeholderFacebookUrl": "Facebook URL",
+      "placeholderTwitterUrl": "Twitter URL",
+      "placeholderPinterestUrl": "Pinterest URL",
+      "placeholderInstagramUrl": "Instagram URL",
+      "placeholderTumblrUrl": "Tumblr URL",
+      "labelCategories": "Select one or more categories",
+      "addInProgress": "Please wait...",
+      "errorCreate": "An error occurred, please try again.",
+      "alreadyExist": "This brand already exist.",
+      "loadInfo": "Load data",
+      "createBrandTitle": "Add a brand",
+      "createSuccessfull": "The brand has successfully been added. However, it must be validated by the Adentify team before being visible on the website."
    },
    "photos": {
       "pageTitle": "Browse, tag & share photos - AdEntify",
@@ -386,7 +401,8 @@
       "report": "Report",
       "Copy": "Copy",
       "titleNotLogged": "Connection required",
-      "contentNotLogged": "You need to be logged to access this page."
+      "contentNotLogged": "You need to be logged to access this page.",
+      "waiting": "Please wait..."
    },
    "routing": {
       "photos/untagged/": "photos/untagged/",
@@ -413,6 +429,7 @@
       "my/dashboard/": "my/dashboard/"
    },
    "error": {
-      "tooYoung": "You are too young to tag this product or brand."
+      "tooYoung": "You are too young to tag this product or brand.",
+      "generic": "An error occurred. Please try again."
    }
 }

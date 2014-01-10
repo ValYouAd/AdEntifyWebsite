@@ -113,7 +113,7 @@
                         <div class="row">
                             <div class="col-sm-3 text-red">
                                 <div class="col-sm-12"><a href="{{ full_root_url }}{{ 'brands/'|trans }}">{{ 'All brands'|trans }}</a></div>
-                                <div class="col-sm-12"><a href="{{ path('public_brands_new') }}">{{ 'Add a brand'|trans }}</a></div>
+                                <div class="col-sm-12"><a data-bypass="" class="add-brand-link">{{ 'Add a brand'|trans }}</a></div>
                             </div>
                             <div class="col-sm-9">
                                 {% for category in categories %}

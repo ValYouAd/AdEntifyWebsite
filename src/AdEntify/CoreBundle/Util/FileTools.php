@@ -102,7 +102,7 @@ class FileTools
         );
     }
 
-    public static function loadFile($sourceUrl, $timeout = 10)
+    public static function loadFile($sourceUrl, $timeout = 10, $getSize = false)
     {
         $sourceUrl = str_replace(' ', '%20', $sourceUrl);
         $ch = curl_init($sourceUrl);
@@ -110,13 +110,26 @@ class FileTools
         curl_setopt($ch, CURLOPT_HTTPGET, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         $result = curl_exec($ch);
         $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         curl_close($ch);
+        if ($getSize) {
+            $im = imagecreatefromstring($result);
+            $width = imagesx($im);
+            $height = imagesy($im);
+            return array(
+                'content' => $result,
+                'content-type' => $contentType,
+                'width' => $width,
+                'height' => $height
+            );
 
-        return array(
-            'content' => $result,
-            'content-type' => $contentType
-        );
+        } else {
+            return array(
+                'content' => $result,
+                'content-type' => $contentType
+            );
+        }
     }
 }

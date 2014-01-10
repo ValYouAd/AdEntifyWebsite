@@ -27,7 +27,8 @@ require.config({
      "jquery.ui.widget": "../vendor/js/jquery.ui.widget",
      "moment": "../vendor/js/moment.min",
      "typeahead": "../vendor/js/bootstrap3-typeahead.min",
-     "bday-picker": "../vendor/js/bday-picker.min"
+     "bday-picker": "../vendor/js/bday-picker.min",
+     "jquery.serializeJSON": "../vendor/js/jquery.serializeJSON.min"
   },
 
    map: {
@@ -77,6 +78,11 @@ require.config({
      "bday-picker": {
         "deps": [
            "jquery"
+        ]
+     },
+     "jquery.serializeJSON": {
+        "deps": [
+            "jquery"
         ]
      }
   }

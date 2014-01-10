@@ -10,8 +10,12 @@
 namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Form\BrandType;
+use AdEntify\CoreBundle\Model\Thumb;
+use AdEntify\CoreBundle\Util\FileTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -57,7 +61,9 @@ class BrandsController extends FosRestController
      */
     public function cgetAction()
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->findAll();
+        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->findBy(array(
+            'validated' => true
+        ));
     }
 
     /**
@@ -76,8 +82,61 @@ class BrandsController extends FosRestController
     public function getAction($slug)
     {
         return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->findOneBy(array(
-            'slug' => $slug
+            'slug' => $slug,
+            'validated' => true
         ));
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a Brand",
+     *  input="AdEntify\CoreBundle\Form\BrandType",
+     *  output="AdEntify\CoreBundle\Entity\Brand",
+     *  section="Brand"
+     * )
+     *
+     * @View()
+     */
+    public function postAction(Request $request)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $brand = new Brand();
+            $form = $this->getForm($brand);
+            $form->bind($request);
+            if ($form->isValid()) {
+
+                $found = $this->getAction($brand->getName());
+                if ($found) {
+                    $form->addError(new FormError('brand.alreadyExist'));
+                    return $form;
+                }
+
+                if ($brand->getOriginalLogoUrl()) {
+                    $thumb = new Thumb();
+                    $filename = urlencode($brand->getName()).'.jpg';
+                    $thumb->setOriginalPath($brand->getOriginalLogoUrl());
+                    $thumb->addThumbSize(FileTools::LOGO_TYPE_LARGE);
+                    $thumb->addThumbSize(FileTools::LOGO_TYPE_MEDIUM);
+                    $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);
+                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
+                    $brand->setSmallLogoUrl($thumbs[FileTools::LOGO_TYPE_SMALLL]['filename']);
+                    $brand->setMediumLogoUrl($thumbs[FileTools::LOGO_TYPE_MEDIUM]['filename']);
+                    $brand->setLargeLogoUrl($thumbs[FileTools::LOGO_TYPE_LARGE]['filename']);
+                }
+
+                $em->persist($brand);
+                $em->flush();
+
+                return $brand;
+            } else {
+                return $form;
+            }
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
@@ -122,7 +181,7 @@ class BrandsController extends FosRestController
     public function getSearchAction($query, $page, $limit)
     {
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand
-            WHERE brand.name LIKE :query')
+            WHERE brand.name LIKE :query AND brand.validated = 1')
             ->setParameter(':query', '%'.$query.'%')
             ->setMaxResults($limit)
             ->setFirstResult(($page - 1) * $limit);
@@ -372,5 +431,16 @@ class BrandsController extends FosRestController
         } else {
             throw new HttpException(401);
         }
+    }
+
+    /**
+     * Get form for Brand
+     *
+     * @param null $brand
+     * @return mixed
+     */
+    protected function getForm($brand = null)
+    {
+        return $this->createForm(new BrandType(), $brand);
     }
 }

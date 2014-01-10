@@ -48,13 +48,15 @@ class ThumbService
             $generatedThumbs[$size] = $this->generateThumb($size, $path, $filename, $fileInfo);
         }
 
+        $this->consolidateThumbs($generatedThumbs, $thumb);
+
         return $generatedThumbs;
     }
 
     public function generateProductThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath());
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, true);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getProductPhotoPath($size);
 
@@ -62,13 +64,15 @@ class ThumbService
             $generatedThumbs[$size] = $this->generateThumb($size, $path, $filename, $fileInfo);
         }
 
+        $this->consolidateThumbs($generatedThumbs, $thumb);
+
         return $generatedThumbs;
     }
 
     public function generateProfilePictureThumb(Thumb $thumb, User $user, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath());
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, true);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getUserProfilePicturePath($user);
 
@@ -76,19 +80,22 @@ class ThumbService
             $generatedThumbs[$size] = $this->generateThumb($size, $path, $filename, $fileInfo);
         }
 
+        $this->consolidateThumbs($generatedThumbs, $thumb);
+
         return $generatedThumbs;
     }
 
     public function generateBrandLogoThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath());
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, true);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getBrandLogoPath($size);
-
             // Generate thumb
             $generatedThumbs[$size] = $this->generateThumb($size, $path, $filename, $fileInfo);
         }
+
+        $this->consolidateThumbs($generatedThumbs, $thumb);
 
         return $generatedThumbs;
     }
@@ -102,11 +109,14 @@ class ThumbService
      * @param $fileinfo
      * @return array
      */
-    private function generateThumb($size, $path, $filename, $fileinfo)
+    private function generateThumb($size, $path, $filename, $fileInfo)
     {
-        $imageContent = $this->resize($size, $fileinfo);
+        $imageContent = $this->resize($size, $fileInfo);
+        if (!$imageContent)
+            return null;
+
         $this->replace_extension($filename, 'jpg');
-        $url = $this->fileUploader->uploadFromContent($imageContent, $fileinfo['content-type'], $path, $filename);
+        $url = $this->fileUploader->uploadFromContent($imageContent, $fileInfo['content-type'], $path, $filename);
 
         $thumbInfo = array(
             'filename' => $url
@@ -125,12 +135,17 @@ class ThumbService
      */
     private function resize($size, $imageInfo)
     {
-        return $this->filterManager->get($size)
-            ->apply($this->imagine->load($imageInfo['content']))
-            ->get($this->getFormat($imageInfo['content-type']), array(
-                'quality' => $this->filterManager->getOption($size, "quality", 100),
-                'format'  => $this->filterManager->getOption($size, "format", null)
-            ));;
+        $sizes = $this->filterManager->getOption($size, "size", null);
+        if (array_key_exists('width', $imageInfo) && $sizes && is_array($sizes) && $sizes[0] > $imageInfo['width']) {
+            return false;
+        } else {
+            return $this->filterManager->get($size)
+                ->apply($this->imagine->load($imageInfo['content']))
+                ->get($this->getFormat($imageInfo['content-type']), array(
+                    'quality' => $this->filterManager->getOption($size, "quality", 100),
+                    'format'  => $this->filterManager->getOption($size, "format", null)
+                ));
+        }
     }
 
     /**
@@ -150,6 +165,17 @@ class ThumbService
         ));
     }
 
+    private function consolidateThumbs(&$generatedThumbs, Thumb $thumb)
+    {
+        foreach ($generatedThumbs as $key => $generatedThumb) {
+            if (!$generatedThumb) {
+                $generatedThumbs[$key] = array(
+                    'filename' => $thumb->getOriginalPath()
+                );
+            }
+        }
+    }
+
     private function getFormat($mime)
     {
         static $formats = array(
@@ -162,20 +188,6 @@ class ThumbService
         );
 
         return $formats[$mime];
-    }
-
-    private function getMimeType($format)
-    {
-        static $mimeTypes = array(
-            'jpeg' => 'image/jpeg',
-            'jpg'  => 'image/jpeg',
-            'gif'  => 'image/gif',
-            'png'  => 'image/png',
-            'wbmp' => 'image/vnd.wap.wbmp',
-            'xbm'  => 'image/xbm',
-        );
-
-        return $mimeTypes[$format];
     }
 
     function replace_extension($filename, $new_extension) {
