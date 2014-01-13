@@ -46,7 +46,7 @@ class DefaultController extends Controller
         $tagsCount = $em->createQuery('SELECT COUNT(tag.id) FROM AdEntify\CoreBundle\Entity\Tag tag')->getSingleScalarResult();
         $users = $em->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user WHERE user.facebookId IS NOT NULL ORDER BY user.followersCount DESC')
             ->setMaxResults(6)->getResult();
-        $brands = $em->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand ORDER BY brand.tagsCount DESC')
+        $brands = $em->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand WHERE brand.validated = 1 ORDER BY brand.tagsCount DESC')
             ->setMaxResults(12)->getResult();
         $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
             WHERE photo.visibilityScope = :visibilityScope AND photo.deletedAt IS NULL AND photo.status = :status AND photo.tagsCount > 0

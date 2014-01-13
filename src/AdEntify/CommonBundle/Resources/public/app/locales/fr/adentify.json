@@ -140,7 +140,7 @@
       "place": "Lieu",
       "person": "Personne",
       "labelProductName": "Entrez le nom de votre produit",
-      "labelProductDescription": "Description de votre produit",
+      "labelProductDescription": "Décrivez votre produit",
       "placeholderProductName": "Nom de votre produit",
       "buttonAddProduct": "Ajouter le produit",
       "textGeolocation": "Vous cherchez un lieu à proximité ?",
