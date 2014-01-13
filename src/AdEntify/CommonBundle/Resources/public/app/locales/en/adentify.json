@@ -29,7 +29,10 @@
       "alreadyExist": "This brand already exist.",
       "loadInfo": "Load data",
       "createBrandTitle": "Add a brand",
-      "createSuccessfull": "The brand has successfully been added. However, it must be validated by the Adentify team before being visible on the website."
+      "createSuccessfull": "The brand has successfully been added. However, it must be validated by the Adentify team before being visible on the website.",
+      "myBrandsPageTitle": "My brands",
+      "noUserBrands": "You don't follow any brand for the moment.",
+      "noBrands": "No brands available yet"
    },
    "photos": {
       "pageTitle": "Browse, tag & share photos - AdEntify",
@@ -419,6 +422,7 @@
       "photo/id/": "photo/__id__/",
       "brands/": "brands/",
       "brand/slug/": "brand/__slug__/",
+      "my/brands/": "my/brands/",
       "my/adentify/": "my/adentify/",
       "profile/id/": "profile/__id__/",
       "category/slug/": "category/__slug__/",

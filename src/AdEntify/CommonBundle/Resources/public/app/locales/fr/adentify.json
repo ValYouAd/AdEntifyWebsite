@@ -29,7 +29,10 @@
       "alreadyExist": "Cette marque existe déjà.",
       "loadInfo": "Récupérer les informations",
       "createBrandTitle": "Ajouter une marque",
-      "createSuccessfull": "La marque a bien été ajouté. Elle doit cependant être validé par l'équipe AdEntify avant d'être visible sur le site."
+      "createSuccessfull": "La marque a bien été ajouté. Elle doit cependant être validé par l'équipe AdEntify avant d'être visible sur le site.",
+      "myBrandsPageTitle": "Mes marques",
+      "noUserBrands": "Vous ne suivez aucune marque pour le moment",
+      "noBrands": "Aucune marque n'est référencée pour le moment"
    },
    "photos": {
       "pageTitle": "Découvrez, taguez et partagez des photos - AdEntify",
@@ -420,6 +423,7 @@
       "photo/id/": "photo/__id__/",
       "brands/": "marques/",
       "brand/slug/": "marque/__slug__/",
+      "my/brands/": "mes/marques/",
       "my/adentify/": "mon/adentify/",
       "profile/id/": "profil/__id__/",
       "category/slug/": "categorie/__slug__/",

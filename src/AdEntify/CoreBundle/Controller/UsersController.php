@@ -534,4 +534,18 @@ class UsersController extends FosRestController
         $this->getDoctrine()->getManager()->flush();
         return '';
     }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function getBrandsAction()
+    {
+        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+        $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
+            LEFT JOIN b.followers as follower WHERE b.validated = 1 AND follower.id = :currentUserId')
+        ->setParameters(array(
+                'currentUserId' => $currentUser->getId()
+            ));
+    }
 }

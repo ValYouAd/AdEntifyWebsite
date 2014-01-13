@@ -73,11 +73,15 @@ define([
 
    Brand.Views.List = Backbone.View.extend({
       template: "brand/list",
+      loaded: false,
 
       serialize: function() {
          return {
             collection: this.options.brands,
-            brandsCount: typeof this.options.brands !== 'undefined' ? this.options.brands.length : 0
+            brandsCount: typeof this.options.brands !== 'undefined' ? this.options.brands.length : 0,
+            title: typeof this.options.title !== 'undefined' ? this.options.title : $.t('brand.pageTitle'),
+            hasData: this.loaded && this.options.brands.length > 0,
+            loaded: this.loaded
          };
       },
 
@@ -87,6 +91,13 @@ define([
                model: brand
             }));
          }, this);
+         if (this.loaded && this.options.brands.length == 0) {
+            this.setView('.alert-brands', new Common.Views.Alert({
+               cssClass: Common.alertInfo,
+               message: typeof this.options.emptyDataMessage !== 'undefined' ? this.options.emptyDataMessage : $.t('brand.noUserBrands'),
+               showClose: true
+            }));
+         }
       },
 
       afterRender: function() {
@@ -95,7 +106,10 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.brands, {
-            "sync": this.render
+            'sync': function() {
+               this.loaded = true;
+               this.render();
+            }
          });
          app.trigger('domchange:title', $.t('brand.pageTitle'));
          app.trigger('domchange:description', $.t('brand.pageDescription'))

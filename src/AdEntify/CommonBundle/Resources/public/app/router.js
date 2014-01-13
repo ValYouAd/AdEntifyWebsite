@@ -120,13 +120,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "flickr/albums/:id/photos/": "flickrPhotos",
                "marques/": "viewBrands",
                "marque/:slug/": "viewBrand",
+               "mes/marques/": "myBrands",
                "mon/profil/": "myProfile",
                "profil/:id/": "profile",
                "categorie/:slug/": "category",
                "mon/adentify/": "myAdentify",
                "recherche/": "search",
                "recherche/:keywords": "search",
-               "marque/creer": "createBrand",
 
                '*notFound': 'notFound'
             },
@@ -144,6 +144,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "photo/:id/": "viewPhoto",
                "brands/": "viewBrands",
                "brand/:slug/": "viewBrand",
+               "my/brands/": "myBrands",
                "my/profile/": "myProfile",
                "profile/:id/": "profile",
                "category/:slug/": "category",
@@ -484,11 +485,35 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          app.useLayout().setViews({
             "#center-pane-content": new Brand.Views.List({
-               brands: this.brands
+               brands: this.brands,
+               emptyDataMessage: $.t('brand.noBrands')
             })
          }).render();
 
          this.brands.fetch();
+      },
+
+      myBrands: function() {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
+         this.reset(false, false);
+         $('html, body').addClass('body-grey-background');
+
+         var userBrands = new Brand.Collection();
+
+         app.useLayout().setViews({
+            "#center-pane-content": new Brand.Views.List({
+               brands: userBrands,
+               title: $.t('brand.myBrandsPageTitle')
+            })
+         }).render();
+
+         userBrands.fetch({
+            url: Routing.generate('api_v1_get_user_brands')
+         });
       },
 
       viewBrand: function(slug) {

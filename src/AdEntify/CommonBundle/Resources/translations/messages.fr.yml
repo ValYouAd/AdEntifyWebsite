@@ -10,6 +10,7 @@ Log in with Facebook: Me connecter avec Facebook
 Log in with Twitter: Me connecter avec Twitter
 My photos: Mes photos
 My settings: Mes paramètres
+My brands: Mes marques
 Categories: Catégories
 All categories: Toutes les catégories
 My AdEntify: Mon AdEntify
@@ -142,6 +143,7 @@ photo/%id%/: photo/%id%/
 photo/id/: photo/
 brands/: marques/
 'brand/%slug%/': marque/%slug%
+my/brands/: mes/marques/
 brand/slug/: marque/
 my/settings/: mes/parametres/
 category/: categorie/
