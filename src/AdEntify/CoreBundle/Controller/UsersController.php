@@ -548,4 +548,40 @@ class UsersController extends FosRestController
                 'currentUserId' => $currentUser->getId()
             ));
     }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function getAnalyticsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+
+        $taggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
+            AND p.tags IS NOT EMPTY')
+            ->setParameters(array(
+                'currentUserId' => $currentUser->getId()
+            ))
+            ->getSingleScalarResult();
+
+        $untaggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
+            AND p.tags IS EMPTY')
+            ->setParameters(array(
+                'currentUserId' => $currentUser->getId()
+            ))
+            ->getSingleScalarResult();
+
+        $totalPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId')
+            ->setParameters(array(
+                'currentUserId' => $currentUser->getId()
+            ))
+            ->getSingleScalarResult();
+
+        return array(
+            'taggedPhotos' => $taggedPhotos,
+            'totalPhotos' => $totalPhotos,
+            'untaggedPhotos' => $untaggedPhotos
+        );
+    }
 }

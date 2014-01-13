@@ -1903,6 +1903,9 @@ html,body {
 .actions-list img {
     max-width: 100%;
 }
+.actions-white .actions-list {
+    color: #505051;
+}
 .actions-list {
     margin: 7px 10px 0px 10px;
     font-size: 12px;
@@ -1911,6 +1914,10 @@ html,body {
 }
 .actions-list .ticker_separator {
     margin: 7px 0px;
+}
+.actions-white .actions-list a,
+.actions-white .actions-list a:hover {
+    color: #505051;
 }
 .actions-list a,
 .actions-list a:hover {
@@ -1943,6 +1950,11 @@ html,body {
 .action-photos .photo-2 {
     width: 33%;
     float:right;
+}
+.actions-white .ticker_separator {
+    background: none;
+    border-bottom: 1px solid #e1e0e0;
+    width: 100%;
 }
 /* END MODULE : Actions
 ----------------------- */
@@ -3793,7 +3805,7 @@ label,
 /* END Settings
 ----------------------- */
 
-/* Users
+/* MODULE : Users
 ----------------------- */
 .profile-aside {
     font-family: 'asapregular', sans-serif;
@@ -4078,6 +4090,16 @@ label,
     margin-left: 25px;
     margin-top: -4px;
 }
+
+.dashboard h2 {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 20px;
+    color: #9da0a4;
+}
+.dashboard h2.border {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e1e0e0;
+}
 /* END : Users
 ----------------------- */
 
@@ -4285,6 +4307,47 @@ label,
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
 /* END : Commentaires
+----------------------- */
+
+/* Chart
+----------------------- */
+.chart-legend {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #2c2c2e;
+    font-size: 10px;
+}
+.chart-legend .puce {
+    vertical-align: middle;
+    font-size: 50px;
+    line-height: 0px;
+}
+.chart-legend label {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    vertical-align: middle;
+    padding-left: 8px;
+}
+.chart-legend .large {
+    font-size: 26px;
+    line-height: 22px;
+}
+.legend-columns {
+    margin: auto;
+}
+.legend-columns .legend-column {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    margin-right: 15px;
+}
+.legend-red {
+    color: #ff4140;
+    font-size: 20px;
+}
+.legend-grey {
+    color: #e0e4ea;
+    font-size: 20px;
+}
+/* End chart
 ----------------------- */
 
 /* Headings

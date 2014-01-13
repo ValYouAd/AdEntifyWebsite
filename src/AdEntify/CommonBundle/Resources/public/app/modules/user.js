@@ -10,7 +10,8 @@ define([
    'modules/hashtag',
    'modules/common',
    'modules/reward',
-   'modules/brand'
+   'modules/brand',
+   'Chart'
 ], function(app, Hashtag, Common, Reward, Brand) {
 
    var User = app.module();
@@ -291,6 +292,65 @@ define([
       }
    });
 
+   User.Views.Dashboard = Backbone.View.extend({
+      template: 'user/dashboard',
+      chartData: null,
+      rawData: null,
+
+      serialize: function() {
+         return {
+            rawData: this.rawData
+         };
+      },
+
+      beforeRender: function() {
+         if (!this.getView('.my-history-content')) {
+            var Action = require('modules/action');
+            this.setView('.my-history-content', new Action.Views.List({
+               actions: this.options.actions
+            }));
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         if (this.chartData) {
+            var ctx = this.$('.userPhotosChart').get(0).getContext('2d');
+            var chart = new Chart(ctx);
+            chart.Pie(this.chartData, {
+               animationEasing: 'easeInOutCubic'
+            });
+         }
+      },
+
+      initialize: function() {
+         var that = this;
+         this.listenTo(this.options.actions, 'sync', function() {
+            if (this.getView('.my-history-content'))
+               this.getView('.my-history-content').render();
+         });
+         User.Tools.getAnalytics({
+            success: function(data) {
+               that.rawData = data;
+               that.chartData = [
+                  {
+                     value: parseInt(data.taggedPhotos),
+                     color: "#ff4140"
+                  },
+                  {
+                     value: parseInt(data.untaggedPhotos),
+                     color: "#e0e4ea"
+                  }
+               ];
+               that.render();
+            },
+            error: function() {
+
+            }
+         });
+      }
+   });
+
    User.Dropdown = {
       openedDropdown: null,
       documentClickTimeout: null,
@@ -338,6 +398,25 @@ define([
          }
       }
    };
+
+   User.Tools = {
+      getAnalytics: function(options) {
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_get_user_analytics'),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  success: function(data) {
+                     options.success(data);
+                  },
+                  error: function(e, r) {
+                     options.error(e, r);
+                  }
+               });
+            }
+         });
+      }
+   }
 
    return User;
 });

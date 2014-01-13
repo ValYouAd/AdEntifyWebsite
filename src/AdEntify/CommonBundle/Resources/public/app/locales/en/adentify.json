@@ -262,6 +262,12 @@
       "modalUploadText": "Your photos are currently uploading. You will be notified at the top right of your screen as soon as they are ready. Then you will be able to tag them!",
       "backToAlbums": "Back to albums"
    },
+   "user": {
+      "dashboardTitle": "My dashboard",
+      "history": "My history",
+      "photos": "My AdEntify photos",
+      "credits": "My credits"
+   },
    "profile": {
       "follow": "Follow",
       "unfollow": "Unfollow",

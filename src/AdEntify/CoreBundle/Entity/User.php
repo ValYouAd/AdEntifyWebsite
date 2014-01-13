@@ -293,6 +293,13 @@ class User extends BaseUser
      */
     private $brand;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="points", type="integer")
+     */
+    private $points = 0;
+
     public function __construct()
     {
         parent::__construct();
@@ -1043,5 +1050,22 @@ class User extends BaseUser
     public function getBirthday()
     {
         return $this->birthday;
+    }
+
+    /**
+     * @param int $points
+     */
+    public function setPoints($points)
+    {
+        $this->points = $points;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPoints()
+    {
+        return $this->points;
     }
 }

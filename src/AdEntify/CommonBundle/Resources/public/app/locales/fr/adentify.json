@@ -263,6 +263,16 @@
       "modalUploadText": "Vos photos sont en cours de récupération. Vous recevrez une notification en haut à droite de votre écran dès que ces dernières seront prêtes. Vous pourrez alors taguer vos photos!",
       "backToAlbums": "Retour aux albums"
    },
+   "user": {
+      "dashboardTitle": "Mon dashboard",
+      "history": "Mon historique",
+      "photos": "Mes photos AdEntify",
+      "credits": "Mes crédits",
+      "labelTaggedPhotos": "<span class='large'>__count__</span><br> photo tagué",
+      "labelTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos taguées",
+      "labelUnTaggedPhotos": "<span class='large'>__count__</span><br> photo non tagué",
+      "labelUnTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos non taguées"
+   },
    "profile": {
       "follow": "Suivre",
       "unfollow": "Ne plus suivre",

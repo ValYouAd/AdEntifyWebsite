@@ -210,10 +210,6 @@ class Brand
      */
     private $followersCount = 0;
 
-    private $photosCount = 0;
-
-    private $logoUrl;
-
     /**
      * @var integer
      *
@@ -239,6 +235,16 @@ class Brand
      * @ORM\Column(name="validated", type="boolean")
      */
     private $validated = false;
+
+    /**
+     * @var int
+     */
+    private $photosCount = 0;
+
+    /**
+     * @var string
+     */
+    private $logoUrl;
 
     public function __construct()
     {

@@ -187,6 +187,15 @@ class Tag
     /**
      * @Serializer\Exclude
      *
+     * @var integer
+     *
+     * @ORM\Column(name="points", type="integer")
+     */
+    private $points = 0;
+
+    /**
+     * @Serializer\Exclude
+     *
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      */
     private $brandTag;
@@ -585,5 +594,21 @@ class Tag
     public function getProductType()
     {
         return $this->productType;
+    }
+
+    /**
+     * @param int $points
+     */
+    public function setPoints($points)
+    {
+        $this->points = $points;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPoints()
+    {
+        return $this->points;
     }
 }

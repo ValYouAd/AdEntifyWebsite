@@ -28,7 +28,8 @@ require.config({
      "moment": "../vendor/js/moment.min",
      "typeahead": "../vendor/js/bootstrap3-typeahead.min",
      "bday-picker": "../vendor/js/bday-picker.min",
-     "jquery.serializeJSON": "../vendor/js/jquery.serializeJSON.min"
+     "jquery.serializeJSON": "../vendor/js/jquery.serializeJSON.min",
+     "Chart": "../vendor/js/Chart.min"
   },
 
    map: {
@@ -84,6 +85,9 @@ require.config({
         "deps": [
             "jquery"
         ]
+     },
+     "Chart": {
+        "deps": ["jquery"]
      }
   }
 
