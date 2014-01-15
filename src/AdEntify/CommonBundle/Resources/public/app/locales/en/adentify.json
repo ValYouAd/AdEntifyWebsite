@@ -351,7 +351,9 @@
       "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> commented on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
       "anonymousLikedPhoto": "Someone commented on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
       "friendTagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "followUser": "<a href='__authorLink__'>__author__</a> now follows you"
+      "followUser": "<a href='__authorLink__'>__author__</a> now follows you",
+      "tagPoints": "You just win __count__ points for your last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
+      "publicTagPoints": "You just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>"
    },
    "action": {
       "errorLoading": "Error loading actions.",

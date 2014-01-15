@@ -26,6 +26,7 @@ class Action
     const TYPE_PHOTO_TAG = 'photo-tag';
     const TYPE_REWARD_NEW = 'reward-new';
     const TYPE_USER_FOLLOW = 'user-follow';
+    const TYPE_USER_POINTS = 'user-points';
 
     const VISIBILITY_PUBLIC = 'public';
     const VISIBILITY_FRIENDS = 'friends';

@@ -584,4 +584,13 @@ class UsersController extends FosRestController
             'untaggedPhotos' => $untaggedPhotos
         );
     }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function getPointsAction()
+    {
+        return $this->container->get('security.context')->getToken()->getUser()->getPoints();
+    }
 }

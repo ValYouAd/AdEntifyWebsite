@@ -356,7 +356,9 @@
       "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> a commenté <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
       "anonymousLikedPhoto": "Un membre a aimé <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
       "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
-      "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné(e) à vos photos"
+      "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné(e) à vos photos",
+      "tagPoints": "Vous venez de gagner <strong>__count__ points</strong> pour votre dernier tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "publicTagPoints": "Vous venez de gagner <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>"
    },
    "action": {
       "errorLoading": "Une erreur est survenue lors de la récupération des actions.",

@@ -2390,7 +2390,8 @@ html,body {
 #notifications {
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
-#notifications a {
+#notifications a,
+#notifications strong {
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 }
 .notifications-button {

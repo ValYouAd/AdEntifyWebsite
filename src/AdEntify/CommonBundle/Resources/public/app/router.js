@@ -918,6 +918,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             dropdownMenusSetup = true;
             User.Dropdown.listenClick();
          }
+         if (!app.useLayout().getView('.user-points')) {
+            app.useLayout().setView('.user-points', new User.Views.Points()).render();
+         }
          $('.add-brand-link').click(function() {
             var createBrandView = new Brand.Views.Create({
                categories: that.categories

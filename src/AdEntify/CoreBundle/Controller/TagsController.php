@@ -138,8 +138,6 @@ class TagsController extends FosRestController
             $form = $this->getForm($tag);
             $form->bind($request);
             if ($form->isValid()) {
-
-                $tag->setCreatedAt(new \DateTime());
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
 

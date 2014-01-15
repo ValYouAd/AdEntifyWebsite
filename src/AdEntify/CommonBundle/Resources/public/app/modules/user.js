@@ -351,6 +351,38 @@ define([
       }
    });
 
+   User.Views.Points = Backbone.View.extend({
+      template: 'user/points',
+      points: null,
+
+      serialize: function() {
+         return {
+            points: this.points
+         };
+      },
+
+      initialize: function() {
+         this.listenTo(app, 'tagMenuTools:tagAdded', this.updatePoints);
+         this.updatePoints();
+      },
+
+      updatePoints: function() {
+         var that = this;
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_get_user_points'),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  success: function(points) {
+                     that.points = points;
+                     that.render();
+                  }
+               });
+            }
+         });
+      }
+   });
+
    User.Dropdown = {
       openedDropdown: null,
       documentClickTimeout: null,
