@@ -173,7 +173,7 @@ class Brand
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Venue", mappedBy="brand")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Venue", mappedBy="brands")
      */
     private $venues;
 

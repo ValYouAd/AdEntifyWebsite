@@ -236,7 +236,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Action", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Action", mappedBy="target")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $actions;

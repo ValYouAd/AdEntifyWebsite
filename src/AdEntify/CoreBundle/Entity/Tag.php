@@ -30,6 +30,11 @@ class Tag
     const TYPE_PERSON =  "person";
     const TYPE_BRAND =  "brand";
 
+    const TAG_POINTS_PLACE = 10;
+    const TAG_POINTS_PRODUCT = 10;
+    const TAG_POINTS_COMPLETE_PRODUCT = 15;
+    const TAG_POINTS_PERSON = 10;
+
     const VALIDATION_NONE =    "none";
     const VALIDATION_WAITING = "waiting";
     const VALIDATION_DENIED =  "denied";

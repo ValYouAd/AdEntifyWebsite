@@ -243,7 +243,7 @@ define([
                return markup;
             } else {
                var error = errors.pop();
-               if (error.message !== 'undefined')
+               if (typeof error.message !== 'undefined')
                   return $.t(error.message);
                else
                   return $.t(error);

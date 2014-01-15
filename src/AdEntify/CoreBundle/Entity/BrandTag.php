@@ -35,7 +35,7 @@ class BrandTag
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="productTags")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="itemTags")
      * @ORM\JoinColumn(nullable=false)
      */
     private $brand;
@@ -47,13 +47,13 @@ class BrandTag
     private $photo;
 
     /**
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag")
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="brandTag")
      * @ORM\JoinColumn(nullable=false)
      */
     private $tag;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="itemTags")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="brandTags")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

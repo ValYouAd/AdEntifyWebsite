@@ -138,6 +138,8 @@ class TagsController extends FosRestController
             $form = $this->getForm($tag);
             $form->bind($request);
             if ($form->isValid()) {
+
+                $tag->setCreatedAt(new \DateTime());
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
 
@@ -154,6 +156,9 @@ class TagsController extends FosRestController
                 }
 
                 $em = $this->getDoctrine()->getManager();
+
+                // Calculate tag points
+                $this->get('ad_entify_core.points')->calculateTagPoints($tag);
 
                 // Get friends list (id) array
                 $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
@@ -183,6 +188,8 @@ class TagsController extends FosRestController
                     $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
                         $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                         get_class($photo), false, 'tagPhoto');
+
+                    $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
                 }
 
                 $tag->setOwner($user);
@@ -235,6 +242,7 @@ class TagsController extends FosRestController
                 $status = $request->request->get('waiting_validation');
                 if ($status == Tag::VALIDATION_GRANTED) {
                     $tag->setValidationStatus(Tag::VALIDATION_GRANTED);
+                    $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
                     $em->merge($tag);
                     $em->flush();
                 } else if ($status == Tag::VALIDATION_DENIED) {

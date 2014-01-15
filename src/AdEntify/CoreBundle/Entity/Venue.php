@@ -191,9 +191,9 @@ class Venue
     private $productsCount = 0;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="venues")
-     *
      * @Serializer\Exclude
+     *
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="venues")
      */
     private $brands;
 
