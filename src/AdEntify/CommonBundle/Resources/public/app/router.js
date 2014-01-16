@@ -549,8 +549,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          brand.fetch({
             url: Routing.generate('api_v1_get_brand', { slug: slug }),
-            success: function() {
+            success: function(brand) {
                app.trigger('domchange:title', $.t('brand.pageTitleViewBrand', { name: brand.get('name') }));
+            },
+            error: function(model, resp) {
+               if (resp.status == 404) {
+                  Common.Tools.notFound();
+               }
             }
          });
 

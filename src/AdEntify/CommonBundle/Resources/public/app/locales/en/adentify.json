@@ -366,7 +366,11 @@
       "followUser": "<a href='__authorLink__'>__author__</a> now follows <a href='__targetLink__'>__target__</a>",
       "photoUploaded": "<a href='__authorLink__'>__author__</a> added <a href='__photoLink__' data-bypass='' class='photo-link'>a new photo</a>",
       "photosUploaded": "<a href='__authorLink__'>__author__</a> added __count__ new photos",
-      "tagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>"
+      "tagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
+      "brandTagged": "<a href='__authorLink__'>__author__</a> tagged <a href='__brandLink__'>__brandName__</a> on <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
+      "followBrand": "<a href='__authorLink__'>__author__</a> just became a <a href='__brandLink__'>__brandName__</a> fan",
+      "tagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
+      "publicTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>his photo</a>"
    },
    "pagination": {
       "loadMore": "Load more",

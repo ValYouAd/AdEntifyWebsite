@@ -24,9 +24,11 @@ class Action
     const TYPE_PHOTO_LIKE = 'photo-like';
     const TYPE_PHOTO_FAVORITE = 'photo-fav';
     const TYPE_PHOTO_TAG = 'photo-tag';
+    const TYPE_PHOTO_BRAND_TAG = 'photo-brand-tag';
     const TYPE_REWARD_NEW = 'reward-new';
     const TYPE_USER_FOLLOW = 'user-follow';
     const TYPE_USER_POINTS = 'user-points';
+    const TYPE_BRAND_FOLLOW = 'brand-follow';
 
     const VISIBILITY_PUBLIC = 'public';
     const VISIBILITY_FRIENDS = 'friends';
@@ -58,7 +60,7 @@ class Action
     /**
      * @var string
      *
-     * @ORM\Column(name="message_options", type="text", nullable=true)
+     * @ORM\Column(name="message_options", type="array", nullable=true)
      */
     private $messageOptions;
 
@@ -105,6 +107,11 @@ class Action
      * @ORM\Column(name="visibility", type="string", length=255)
      */
     private $visibility = self::VISIBILITY_PUBLIC;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="notifications")
+     */
+    private $brand;
 
     public function __construct()
     {
@@ -342,6 +349,23 @@ class Action
     public function getVisibility()
     {
         return $this->visibility;
+    }
+
+    /**
+     * @param mixed $brand
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrand()
+    {
+        return $this->brand;
     }
 
     public static function getVisibilityWithPhotoVisibility($photoVisibility)

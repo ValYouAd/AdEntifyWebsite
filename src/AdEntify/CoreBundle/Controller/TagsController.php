@@ -141,6 +141,7 @@ class TagsController extends FosRestController
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
 
+                // Check age
                 $ageObject = null;
                 if ($tag->getProduct())
                     $ageObject = $tag->getProduct();
@@ -188,6 +189,13 @@ class TagsController extends FosRestController
                         get_class($photo), false, 'tagPhoto');
 
                     $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
+                }
+
+                if ($tag->getBrand())
+                {
+                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
+                        $user, null, array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
+                        get_class($photo), false, 'brandTagged', null, null, $tag->getBrand());
                 }
 
                 $tag->setOwner($user);

@@ -44,6 +44,10 @@ define([
          if (this.get('object_type') === "AdEntify\\CoreBundle\\Entity\\Photo") {
             this.set('photoLink', app.beginUrl + app.root + $.t('routing.photo/id/', {id: this.get('object_id') }));
          }
+         if (this.has('brand')) {
+            var brandModule = require('modules/brand');
+            this.set('brandModel', new brandModule(this.get('brand')));
+         }
          if (this.has('photos') && this.get('photos').length > 0) {
             var photos = new Photos.Collection();
             photos.add(new Photo.Model(this.get('photos')[0]));

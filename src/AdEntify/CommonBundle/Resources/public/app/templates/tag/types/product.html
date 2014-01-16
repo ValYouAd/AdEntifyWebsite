@@ -20,7 +20,7 @@
                 <% } %>
                 <% if (model.has("product") && model.get("product").has("brandModel")) { %>
                 <div class="brand pull-right">
-                    <a href="<%= model.get('product').get('brandModel').get('brandLink') %>"><img src="<%= model.get('product').get("brandModel").get('profilePicRootUrl') %><%= model.get('product').get("brandModel").get('small_logo_url') %>" alt="<%= model.get("product").get("brand")["name"] %>" class="brand-logo" /></a>
+                    <a href="<%= model.get('product').get('brandModel').get('link') %>"><img src="<%= model.get('product').get("brandModel").get('profilePicRootUrl') %><%= model.get('product').get("brandModel").get('small_logo_url') %>" alt="<%= model.get("product").get("brand")["name"] %>" class="brand-logo" /></a>
                 </div>
                 <% } %>
             </div>

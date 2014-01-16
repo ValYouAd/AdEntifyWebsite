@@ -54,29 +54,20 @@ class PointService
         if ($taggerIsPhotoOwner) {
             $user->setPoints($user->getPoints() + $tag->getPoints());
 
-            // Create a new notification
-            $notification = new Notification();
-            $notification->setType(Action::TYPE_USER_POINTS)->setObjectId($tag->getPhoto()->getId())->addPhoto($tag->getPhoto())
-                ->setObjectType(get_class($tag->getPhoto()))->setOwner($user)->setAuthor($user)->setMessage('notification.tagPoints')
-                ->setMessageOptions($tag->getPoints());
-            $this->em->persist($notification);
+            $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
+                $user, null, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
+                get_class($tag->getPhoto()), true, 'tagPoints', array('count' => $tag->getPoints()));
         } else if ($tag->getValidationStatus() == Tag::VALIDATION_GRANTED) {
             $tag->getPhoto()->getOwner()->setPoints($tag->getPhoto()->getOwner() + 5);
             $user->setPoints($user->getPoints() + ($tag->getPoints() - 5));
 
-            // Create a new notification
-            $notification = new Notification();
-            $notification->setType(Action::TYPE_USER_POINTS)->setObjectId($tag->getPhoto()->getId())->addPhoto($tag->getPhoto())
-                ->setObjectType(get_class($tag->getPhoto()))->setOwner($user)->setAuthor($user)->setMessage('notification.tagPoints')
-                ->setMessageOptions($tag->getPoints() - 5);
-            $this->em->persist($notification);
+            $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
+                $user, null, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
+                get_class($tag->getPhoto()), true, 'tagPoints', array('count' => ($tag->getPoints() - 5)));
 
-            // Create a new notification
-            $ownerNotification = new Notification();
-            $ownerNotification->setType(Action::TYPE_USER_POINTS)->setObjectId($tag->getPhoto()->getId())->addPhoto($tag->getPhoto())
-                ->setObjectType(get_class($tag->getPhoto()))->setOwner($tag->getPhoto()->getOwner())
-                ->setAuthor($user)->setMessage('notification.publicTagPoints')->setMessageOptions(5);
-            $this->em->persist($ownerNotification);
+            $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
+                $user, $tag->getPhoto()->getOwner(), array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
+                get_class($tag->getPhoto()), true, 'tagPoints', array('count' => 5));
         }
 
         $this->em->merge($user);

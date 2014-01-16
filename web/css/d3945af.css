@@ -1928,6 +1928,10 @@ html,body {
     margin-right: 6px;
     max-height: 40px;
 }
+.actions-list .brand-picture {
+    margin-right: 6px;
+    max-height: 40px;
+}
 .actions-list .small-photo {
     max-width: 60px;
     margin: -6px 0px -6px 5px;
@@ -2561,6 +2565,9 @@ html,body {
 .brands li:hover .tagged-count {
     opacity: 1;
     text-decoration: none;
+}
+.brand-picture {
+    
 }
 /* End Brand
 ----------------------- */

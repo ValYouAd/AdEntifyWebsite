@@ -29,7 +29,7 @@ class ActionRepository extends EntityRepository
      */
     public function createAction($actionType, User $author = null, User $target = null, $photos = null, $visibility = Action::VISIBILITY_PUBLIC,
                                  $linkedObjectId = null, $linkedObjectType = null, $createNotification = true,
-                                 $message = null, $messageOptions = null, User $notificationOwner = null)
+                                 $message = null, $messageOptions = null, User $notificationOwner = null, Brand $brand = null)
     {
         $action = null;
         // Check if same action already exist
@@ -59,6 +59,8 @@ class ActionRepository extends EntityRepository
             case Action::TYPE_PHOTO_UPLOAD:
                 $action = null;
                 break;
+            case Action::TYPE_BRAND_FOLLOW:
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType, $brand);
         }
 
         // If action already exist, don't create it.
@@ -120,6 +122,12 @@ class ActionRepository extends EntityRepository
         if ($notificationOwner) {
             $notification->setOwner($notificationOwner);
         }
+        if ($brand) {
+            if ($action)
+                $action->setBrand($brand);
+            if ($notification)
+                $notification->setBrand($brand);
+        }
 
         if ($action) {
             $this->getEntityManager()->persist($action);
@@ -137,18 +145,19 @@ class ActionRepository extends EntityRepository
         );
     }
 
-    private function getExistingAction($actionType, $author, $target, $linkedObjectId = null, $linkedObjectType  = null)
+    private function getExistingAction($actionType, $author, $target, $linkedObjectId = null, $linkedObjectType  = null, $brand = null)
     {
         $parameters = array(
             'actionType' => $actionType,
             'author' => $author ? $author->getId() : 0,
             'target' => $target ? $target->getId() : 0,
-            'linkedObjectId' => $linkedObjectId ? $linkedObjectId : 0
+            'linkedObjectId' => $linkedObjectId ? $linkedObjectId : 0,
+            'brandId' => $brand ? $brand->getId() : 0
         );
 
         $sql = 'SELECT action FROM AdEntify\CoreBundle\Entity\Action action
                     WHERE action.type = :actionType AND action.author = :author AND action.target = :target
-                    AND action.linkedObjectId = :linkedObjectId';
+                    AND action.linkedObjectId = :linkedObjectId AND action.brand = :brandId';
 
         if ($linkedObjectType)
         {

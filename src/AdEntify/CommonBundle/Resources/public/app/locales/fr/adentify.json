@@ -371,7 +371,11 @@
       "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné(e) aux photos de <a href='__targetLink__'>__target__</a>",
       "photoUploaded": "<a href='__authorLink__'>__author__</a> a ajouté <a href='__photoLink__' data-bypass='' class='photo-link'>une nouvelle photo</a>",
       "photosUploaded": "<a href='__authorLink__'>__author__</a> a ajouté __count__ nouvelles photos",
-      "tagPhoto": "<a href='__authorLink__'>__author__</a> a taggué <a href='__photoLink__' data-bypass='' class='photo-link'>une photo</a>"
+      "tagPhoto": "<a href='__authorLink__'>__author__</a> a taggué <a href='__photoLink__' data-bypass='' class='photo-link'>une photo</a>",
+      "brandTagged": "<a href='__authorLink__'>__author__</a> a taggué la marque <a href='__brandLink__'>__brandName__</a> sur <a href='__photoLink__' data-bypass='' class='photo-link'>une photo</a>",
+      "followBrand": "<a href='__authorLink__'>__author__</a> est devenu un fan de <a href='__brandLink__'>__brandName__</a>",
+      "tagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour son tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>",
+      "publicTagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",

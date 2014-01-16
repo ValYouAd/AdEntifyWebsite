@@ -41,10 +41,14 @@ define([
                this.set('photo', model);
             }
          }
-         if (this.has('author') ) {
+         if (this.has('brand')) {
+            var brandModule = require('modules/brand');
+            this.set('brandModel', new brandModule.Model(this.get('brand')));
+         }
+         if (this.has('author')) {
             this.set('authorModel', new User.Model(this.get('author')));
          }
-         if (this.has('target') ) {
+         if (this.has('target')) {
             this.set('targetModel', new User.Model(this.get('target')));
          }
       },
@@ -65,7 +69,10 @@ define([
       tagName: "li class='action-item'",
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            getI18nMessage: this.getI18nMessage
+         };
       },
 
       afterRender: function() {
@@ -90,6 +97,29 @@ define([
          } else {
             Photos.Common.showPhoto(evt, this.model.get('photo'));
          }
+      },
+
+      getI18nMessage: function() {
+         var options = this.model.has('message_options') ? _.extend({}, this.model.get('message_options')) : {};
+
+         if (this.model.has('authorModel')) {
+            options.authorLink = this.model.get('authorModel').get('link');
+            options.author = this.model.get('authorModel').get('fullname');
+         }
+         if (this.model.has('targetModel')) {
+            options.targetLink = this.model.get('targetModel').get('link');
+            options.target = this.model.get('targetModel').get('fullname');
+         }
+         if (this.model.has('brandModel')) {
+            options.brandLink = this.model.get('brandModel').get('link');
+            options.brandName = this.model.get('brandModel').get('name');
+         }
+         if (this.model.has('photo')) {
+            options.photoLink = this.model.get('photo').get('link');
+         }
+
+         return $.t(this.model.get('message'), options);
+
       },
 
       events: {
@@ -122,8 +152,7 @@ define([
                      template = 'action/itemWithSmallPhoto';
                      tagName = 'action-item-with-small-photo';
                      break;
-                  case 'reward-new':
-                  case 'user-follow':
+                  default:
                      template = 'action/item';
                      tagName = 'action-item';
                      break;
