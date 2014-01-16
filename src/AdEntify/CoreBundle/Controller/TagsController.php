@@ -157,7 +157,7 @@ class TagsController extends FosRestController
                 $em = $this->getDoctrine()->getManager();
 
                 // Calculate tag points
-                $this->get('ad_entify_core.points')->calculateTagPoints($tag);
+                $this->get('ad_entify_core.points')->calculateTagPoints($user, $tag);
 
                 // Get friends list (id) array
                 $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);

@@ -192,6 +192,13 @@ class Brand
     private $costPerTag = 0;
 
     /**
+     * @var
+     *
+     * @ORM\Column(name="adentify_fees", type="decimal", scale=4, precision=15)
+     */
+    private $adentifyFees = 50;
+
+    /**
      * @Serializer\Exclude
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Category", inversedBy="brands")
      */
@@ -852,5 +859,22 @@ class Brand
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * @param mixed $adentifyFees
+     */
+    public function setAdentifyFees($adentifyFees)
+    {
+        $this->adentifyFees = $adentifyFees;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdentifyFees()
+    {
+        return $this->adentifyFees;
     }
 }

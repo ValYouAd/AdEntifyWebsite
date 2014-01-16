@@ -388,6 +388,14 @@ define([
       }
    });
 
+   User.Views.CreditsTable = Backbone.View.extend({
+      template: '',
+
+      initialize: function() {
+
+      }
+   });
+
    User.Dropdown = {
       openedDropdown: null,
       documentClickTimeout: null,

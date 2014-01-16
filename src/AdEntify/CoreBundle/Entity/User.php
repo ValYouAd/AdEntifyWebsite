@@ -250,6 +250,22 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagIncome", mappedBy="user", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $tagIncomes;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagPoint", mappedBy="user", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $tagPoints;
+
+    /**
+     * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="owner")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
@@ -319,6 +335,8 @@ class User extends BaseUser
         $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
         $this->followedBrands = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tagIncomes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tagPoints = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -1067,5 +1085,41 @@ class User extends BaseUser
     public function getPoints()
     {
         return $this->points;
+    }
+
+    public function addTagIncome(TagIncome $tagIncome)
+    {
+        $this->tagIncomes[] = $tagIncome;
+        $tagIncome->setUser($this);
+        return $this;
+    }
+
+    public function removeTagIncome(TagIncome $tagIncome)
+    {
+        $this->tagIncomes->removeElement($tagIncome);
+        $tagIncome->setUser(null);
+    }
+
+    public function getTagIncomes()
+    {
+        return $this->tagIncomes;
+    }
+
+    public function addTagPoint(TagPoint $tagPoint)
+    {
+        $this->tagPoints[] = $tagPoint;
+        $tagPoint->setUser($this);
+        return $this;
+    }
+
+    public function removeTagPoint(TagPoint $tagPoint)
+    {
+        $this->tagPoints->removeElement($tagPoint);
+        $tagPoint->setUser(null);
+    }
+
+    public function getTagPoints()
+    {
+        return $this->tagPoints;
     }
 }
