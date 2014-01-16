@@ -37,7 +37,7 @@ class TagIncome
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="incomes")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="incomes", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tag;

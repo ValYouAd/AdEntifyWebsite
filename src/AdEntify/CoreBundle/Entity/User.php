@@ -243,13 +243,6 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="user")
-     * @ORM\OrderBy({"createdAt" = "ASC"})
-     */
-    private $brandTags;
-
-    /**
-     * @Serializer\Exclude
      *
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagIncome", mappedBy="user", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt" = "ASC"})
@@ -330,7 +323,6 @@ class User extends BaseUser
         $this->friends = new \Doctrine\Common\Collections\ArrayCollection();
         $this->favoritesPhotos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->brandTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
         $this->followedBrands = new \Doctrine\Common\Collections\ArrayCollection();
@@ -809,24 +801,6 @@ class User extends BaseUser
     public function getTwitterAccessToken()
     {
         return $this->twitterAccessToken;
-    }
-
-    public function addBrandTag(BrandTag $brandTag)
-    {
-        $this->brandTags[] = $brandTag;
-        $brandTag->setUser($this);
-        return $this;
-    }
-
-    public function removeBrandTag(BrandTag $brandTag)
-    {
-        $this->brandTags->removeElement($brandTag);
-        $brandTag->setUser(null);
-    }
-
-    public function getBrandTags()
-    {
-        return $this->brandTags;
     }
 
     public function addTag(Tag $tag)

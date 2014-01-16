@@ -187,13 +187,6 @@ class Tag
     /**
      * @Serializer\Exclude
      *
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
-     */
-    private $brandTag;
-
-    /**
-     * @Serializer\Exclude
-     *
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagIncome", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
@@ -569,23 +562,6 @@ class Tag
     public function getOwner()
     {
         return $this->owner;
-    }
-
-    /**
-     * @param mixed $brandTag
-     */
-    public function setBrandTag($brandTag)
-    {
-        $this->brandTag = $brandTag;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBrandTag()
-    {
-        return $this->brandTag;
     }
 
     /**

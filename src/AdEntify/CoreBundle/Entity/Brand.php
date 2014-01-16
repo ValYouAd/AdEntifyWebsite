@@ -145,13 +145,6 @@ class Brand
     private $productsCount = 0;
 
     /**
-     * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="brand")
-     * @ORM\OrderBy({"createdAt" = "ASC"})
-     */
-    private $itemTags;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="tags_count", type="integer")
@@ -510,24 +503,6 @@ class Brand
     public function getCostPerTag()
     {
         return $this->costPerTag;
-    }
-
-    public function addItemTag(\AdEntify\CoreBundle\Entity\BrandTag $tag)
-    {
-        $this->itemTags[] = $tag;
-        $tag->setBrand($this);
-        return $this;
-    }
-
-    public function removeItemTag(\AdEntify\CoreBundle\Entity\BrandTag $tag)
-    {
-        $this->itemTags->removeElement($tag);
-        $tag->setBrand(null);
-    }
-
-    public function getItemTags()
-    {
-        return $this->itemTags;
     }
 
     /**

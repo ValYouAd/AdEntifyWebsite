@@ -211,7 +211,7 @@ class TagsController extends FosRestController
                 $em->persist($tag);
                 $em->flush();
 
-                $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
+                $this->container->get('ad_entify_core.income')->calculateIncome($tag, $user, $request);
 
                 return $tag;
             } else {
@@ -257,7 +257,7 @@ class TagsController extends FosRestController
                     $em->flush();
                 }
 
-                $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
+                $this->container->get('ad_entify_core.income')->calculateIncome($tag, $user, $request);
 
                 return $tag->getValidationStatus();
             } else
