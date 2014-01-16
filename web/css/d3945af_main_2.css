@@ -1720,12 +1720,8 @@ html,body {
     opacity: 1;
     text-decoration: none;
 }
-.brand-picture {
-    
-}
 /* End Brand
 ----------------------- */
-
 
 /* Common Templates
 ----------------------- */
@@ -3698,6 +3694,19 @@ ul.striped > li:nth-child(even) {
 }
 a[data-bypass] {
     cursor: pointer;
+}
+/*
+----------------------- */
+
+/* Animations
+----------------------- */
+.flash{
+    -webkit-animation-iteration-count: 8;
+    -ms-animation-iteration-count: 8;
+    -moz-animation-iteration-count: 8;
+    animation-iteration-count: 8;
+    -webkit-animation-duration: 2s;
+    animation-duration:2s
 }
 /*
 ----------------------- */

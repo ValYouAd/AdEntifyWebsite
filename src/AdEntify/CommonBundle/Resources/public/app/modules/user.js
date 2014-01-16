@@ -354,20 +354,25 @@ define([
    User.Views.Points = Backbone.View.extend({
       template: 'user/points',
       points: null,
+      animate: false,
 
       serialize: function() {
          return {
-            points: this.points
+            points: this.points,
+            animate: this.animate
          };
       },
 
       initialize: function() {
-         this.listenTo(app, 'tagMenuTools:tagAdded', this.updatePoints);
-         this.updatePoints();
+         this.listenTo(app, 'tagMenuTools:tagAdded', function() {
+            this.updatePoints(true);
+         });
+         this.updatePoints(false);
       },
 
-      updatePoints: function() {
+      updatePoints: function(animate) {
          var that = this;
+         this.animate = animate;
          app.oauth.loadAccessToken({
             success: function() {
                $.ajax({

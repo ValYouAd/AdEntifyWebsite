@@ -7,7 +7,7 @@
     <a href="<%= model.get('authorModel').get('link') %>"><img src="<%= model.get('authorModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('authorModel').get('fullname') %>" /></a>
 </div>
 <% } %>
-<% if (model.has('targetModel')) { %>
+<% if (model.has('targetModel') && (!model.has('authorModel') || model.get('authorModel').get('id') != model.get('targetModel').get('id'))) { %>
 <div class="pull-left">
     <a href="<%= model.get('targetModel').get('link') %>"><img src="<%= model.get('targetModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('targetModel').get('fullname') %>" /></a>
 </div>

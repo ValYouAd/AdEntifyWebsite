@@ -55,14 +55,14 @@ class PointService
             $user->setPoints($user->getPoints() + $tag->getPoints());
 
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
-                $user, null, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
+                $user, $user, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
                 get_class($tag->getPhoto()), true, 'tagPoints', array('count' => $tag->getPoints()));
         } else if ($tag->getValidationStatus() == Tag::VALIDATION_GRANTED) {
             $tag->getPhoto()->getOwner()->setPoints($tag->getPhoto()->getOwner() + 5);
             $user->setPoints($user->getPoints() + ($tag->getPoints() - 5));
 
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
-                $user, null, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
+                $user, $user, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
                 get_class($tag->getPhoto()), true, 'tagPoints', array('count' => ($tag->getPoints() - 5)));
 
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,

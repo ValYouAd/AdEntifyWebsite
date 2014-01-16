@@ -3697,3 +3697,16 @@ a[data-bypass] {
 }
 /*
 ----------------------- */
+
+/* Animations
+----------------------- */
+.flash{
+    -webkit-animation-iteration-count: 8;
+    -ms-animation-iteration-count: 8;
+    -moz-animation-iteration-count: 8;
+    animation-iteration-count: 8;
+    -webkit-animation-duration: 2s;
+    animation-duration:2s
+}
+/*
+----------------------- */
