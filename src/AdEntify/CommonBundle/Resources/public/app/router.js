@@ -123,6 +123,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "mes/marques/": "myBrands",
                "mon/profil/": "myProfile",
                "mon/dashboard/": "myDashboard",
+               "mon/dashboard/credits/:date/": "creditsDetail",
                "profil/:id/": "profile",
                "categorie/:slug/": "category",
                "recherche/": "search",
@@ -147,6 +148,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                "my/brands/": "myBrands",
                "my/profile/": "myProfile",
                "my/dashboard/": "myDashboard",
+               "my/dashboard/credits/:date/": "creditsDetail",
                "profile/:id/": "profile",
                "category/:slug/": "category",
                "my/photos/favorites/": "favoritesPhotos",
@@ -801,6 +803,51 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setViews({
             "#center-pane-content": new User.Views.Dashboard({
                actions: this.actions
+            }),
+            "#left-pane": new User.Views.MenuLeft({
+               user: new User.Model({
+                  id: app.appState().getCurrentUserId()
+               }),
+               followings: followings,
+               followers: followers,
+               photos: this.photos,
+               hashtags: this.hashtags,
+               showServices: false,
+               showFollowButton: false
+            })
+         }).render();
+
+         this.actions.fetch({
+            url: Routing.generate('api_v1_get_actions')
+         });
+         followings.fetch({
+            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
+         });
+         followers.fetch({
+            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
+         });
+         this.hashtags.fetch({
+            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
+         });
+      },
+
+      creditsDetail: function(date) {
+         if (!app.appState().isLogged()) {
+            Common.Tools.notLoggedModal(true);
+            return;
+         }
+
+         this.reset(true, false);
+         $('html, body').addClass('body-grey-background');
+
+         var followers = new User.Collection();
+         var followings = new User.Collection();
+         var credits = new User.Credits();
+
+         app.useLayout().setViews({
+            "#center-pane-content": new User.Views.CreditsDetail({
+               credits: credits,
+               date: date
             }),
             "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({

@@ -37,12 +37,16 @@ class TagIncome
     private $id;
 
     /**
+     * @Serializer\Exclude
+     *
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="incomes", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tag;
 
     /**
+     * @Serializer\Exclude
+     *
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tagIncomes")
      * @ORM\JoinColumn(nullable=false)
      */

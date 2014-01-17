@@ -53,6 +53,8 @@ doctrine:
                         regexp: AdEntify\CoreBundle\Dql\RegExp
                     datetime_functions:
                         date:   AdEntify\CoreBundle\Dql\DateFunction
+                    datetime_functions:
+                        day:   AdEntify\CoreBundle\Dql\DayFunction
                 auto_mapping: true
                 #metadata_cache_driver: apc
                 #result_cache_driver: apc

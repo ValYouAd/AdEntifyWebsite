@@ -46,12 +46,16 @@ class TagPoint
     private $id;
 
     /**
+     * @Serializer\Exclude
+     *
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="points", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tag;
 
     /**
+     * @Serializer\Exclude
+     *
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tagPoints")
      * @ORM\JoinColumn(nullable=false)
      */

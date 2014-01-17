@@ -197,7 +197,10 @@
       "placeLinkPlaceholder": "Site officiel, blog...",
       "placeMoreDetails": "Plus d'informations",
       "placeLessDetails": "Moins d'informations",
-      "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit"
+      "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit",
+      "place": "Lieu",
+      "person": "Personne",
+      "product": "Produit"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -271,7 +274,19 @@
       "labelTaggedPhotos": "<span class='large'>__count__</span><br> photo tagué",
       "labelTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos taguées",
       "labelUnTaggedPhotos": "<span class='large'>__count__</span><br> photo non tagué",
-      "labelUnTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos non taguées"
+      "labelUnTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos non taguées",
+      "points": "Points",
+      "cash": "Argent",
+      "creditsDetails": "Détails",
+      "tagType": "Type",
+      "photo": "Photo",
+      "hour": "Heure",
+      "brand": "Marque",
+      "noCreditsDetail": "Aucun crédit ce jour",
+      "backToDashboard": "Revenir au dashboard",
+      "detailsHeading": "Détails du __date__",
+      "viewPhoto": "Voir la photo",
+      "noCredits": "Aucun crédit, taguez vos photos ou celles de vos amis pour gagnez de l'argent et des points !"
    },
    "profile": {
       "follow": "Suivre",
@@ -447,7 +462,8 @@
       "search/keywords": "recherche/__keywords__",
       "my/profile/": "mon/profil/",
       "my/settings/": "mes/parametres/",
-      "my/dashboard/": "mon/dashboard/"
+      "my/dashboard/": "mon/dashboard/",
+      "my/dashboard/credits/date/": "mon/dashboard/credits/__date__/"
    },
    "error": {
       "tooYoung": "Vous êtes trop jeune pour taguer ce produit ou cette marque.",

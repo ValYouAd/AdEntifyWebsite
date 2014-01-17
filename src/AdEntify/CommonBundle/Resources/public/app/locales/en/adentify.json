@@ -196,7 +196,10 @@
       "errorPerson": "Can't get person data",
       "placeLinkPlaceholder": "Official website, blog...",
       "placeMoreDetails": "More details",
-      "tellUsMore": "You want to win more? Tell us more about this product"
+      "tellUsMore": "You want to win more? Tell us more about this product",
+      "place": "Place",
+      "person": "Person",
+      "product": "Product"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -266,7 +269,23 @@
       "dashboardTitle": "My dashboard",
       "history": "My history",
       "photos": "My AdEntify photos",
-      "credits": "My credits"
+      "credits": "My credits",
+      "labelTaggedPhotos": "<span class='large'>__count__</span><br> tagged photo",
+      "labelTaggedPhotos_plural": "<span class='large'>__count__</span><br> tagged photos",
+      "labelUnTaggedPhotos": "<span class='large'>__count__</span><br> untagged photo",
+      "labelUnTaggedPhotos_plural": "<span class='large'>__count__</span><br> untagged photos",
+      "points": "Points",
+      "cash": "Cash",
+      "creditsDetails": "Details",
+      "tagType": "Type",
+      "photo": "Photo",
+      "hour": "Hour",
+      "brand": "Brand",
+      "noCreditsDetail": "No credit this day",
+      "backToDashboard": "Back to dashboard",
+      "detailsHeading": "Details of __date__",
+      "viewPhoto": "View photo",
+      "noCredits": "No credit, tag your photos or others to get points and cash!"
    },
    "profile": {
       "follow": "Follow",
@@ -442,7 +461,8 @@
       "search/keywords": "search/__keywords__",
       "my/profile/": "my/profile/",
       "my/settings/": "my/settings/",
-      "my/dashboard/": "my/dashboard/"
+      "my/dashboard/": "my/dashboard/",
+      "my/dashboard/credits/date/": "mon/dashboard/credits/__date__/"
    },
    "error": {
       "tooYoung": "You are too young to tag this product or brand.",
