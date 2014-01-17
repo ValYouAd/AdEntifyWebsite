@@ -13,9 +13,12 @@ use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Tag;
+use AdEntify\CoreBundle\Entity\TagIncome;
+use AdEntify\CoreBundle\Entity\TagPoint;
 use AdEntify\CoreBundle\Entity\Task;
 use AdEntify\CoreBundle\Form\VenueType;
 use AdEntify\CoreBundle\Util\UserCacheManager;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use FOS\UserBundle\Form\Model\ChangePassword;
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
@@ -533,5 +536,201 @@ class UsersController extends FosRestController
         $this->getDoctrine()->getManager()->merge($currentUser);
         $this->getDoctrine()->getManager()->flush();
         return '';
+    }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function getBrandsAction()
+    {
+        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+        $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
+            LEFT JOIN b.followers as follower WHERE b.validated = 1 AND follower.id = :currentUserId')
+        ->setParameters(array(
+                'currentUserId' => $currentUser->getId()
+            ));
+    }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function getAnalyticsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+
+        $taggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
+            AND p.tags IS NOT EMPTY')
+            ->setParameters(array(
+                'currentUserId' => $currentUser->getId()
+            ))
+            ->getSingleScalarResult();
+
+        $untaggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
+            AND p.tags IS EMPTY')
+            ->setParameters(array(
+                'currentUserId' => $currentUser->getId()
+            ))
+            ->getSingleScalarResult();
+
+        $totalPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId')
+            ->setParameters(array(
+                'currentUserId' => $currentUser->getId()
+            ))
+            ->getSingleScalarResult();
+
+        return array(
+            'taggedPhotos' => $taggedPhotos,
+            'totalPhotos' => $totalPhotos,
+            'untaggedPhotos' => $untaggedPhotos
+        );
+    }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function getPointsAction()
+    {
+        return $this->container->get('security.context')->getToken()->getUser()->getPoints();
+    }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     *
+     * @QueryParam(name="begin")
+     * @QueryParam(name="end")
+     */
+    public function getCreditsByDateRangeAction($begin, $end)
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        // Get SQL query parameters
+        $parametersPoints = array(
+            'userId' => $user->getId(),
+            'status' => TagPoint::STATUS_CREDITED
+        );
+        $parametersIncomes = array(
+            'userId' => $user->getId(),
+            'status' => TagIncome::STATUS_PAID
+        );
+        $whereClausesPoints = array();
+        $whereClausesIncomes = array();
+        if ($begin) {
+            $parametersPoints['begin'] = new \DateTime($begin);
+            $parametersIncomes['begin'] = new \DateTime($begin);
+            $whereClausesPoints[] = ' AND DAY(credited_at) >= DAY(:begin) ';
+            $whereClausesIncomes[] = ' AND DAY(paid_at) >= DAY(:end) ';
+        }
+        if ($end) {
+            $parametersPoints['end'] = new \DateTime($end);
+            $parametersIncomes['end'] = new \DateTime($end);
+            $whereClausesPoints[] = ' AND DAY(credited_at) <= DAY(:end) ';
+            $whereClausesIncomes[] = ' AND DAY(paid_at) <= DAY(:end) ';
+        }
+
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('points', 'points', 'integer');
+        $rsm->addScalarResult('date', 'date', 'datetime');
+
+        $sql = 'SELECT SUM(points) AS points, credited_at AS date FROM tag_points
+            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesPoints) . ' GROUP BY DAY(credited_at)';
+        $tagPoints = $em->createNativeQuery($sql, $rsm)->setParameters($parametersPoints)->getResult();
+
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('income', 'income', 'decimal');
+        $rsm->addScalarResult('date', 'date', 'datetime');
+
+        $sql = 'SELECT SUM(income) AS income, paid_at AS date FROM tag_incomes
+            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesIncomes) . ' GROUP BY DAY(paid_at)';
+        $tagIncomes = $em->createNativeQuery($sql, $rsm)->setParameters($parametersIncomes)->getResult();
+
+        $credits = array();
+        foreach ($tagPoints as $tagPoint) {
+            $credits[] = $tagPoint;
+        }
+
+        foreach ($tagIncomes as $tagIncome) {
+            $found = false;
+            foreach($credits as &$credit) {
+                if ($credit['date']->format('Y-m-d') == $tagIncome['date']->format('Y-m-d')) {
+                    $credit['incomes'] = $tagIncome['income'];
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found)
+                $credits[] = $tagIncome;
+        }
+
+        return $credits;
+    }
+
+    /**
+     * @View()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
+     */
+    public function getCreditsByDateAction($date)
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $tagPoints = $em ->createQuery('SELECT tagPoint FROM AdEntifyCoreBundle:TagPoint tagPoint
+            where tagPoint.user = :userId AND tagPoint.status = :status AND DAY(tagPoint.creditedAt) = DAY(:date)')
+            ->setParameters(array(
+            'userId' => $user->getId(),
+            'status' => TagPoint::STATUS_CREDITED,
+            'date' => new \DateTime($date)
+        ))->getResult();
+
+        $tagIncomes = $em->createQuery('SELECT tagIncome FROM AdEntifyCoreBundle:TagIncome tagIncome
+            WHERE tagIncome = :userId AND tagIncome.status = :status AND DAY(tagIncome.paidAt) = DAY(:date)')
+            ->setParameters(array(
+            'userId' => $user->getId(),
+            'status' => TagIncome::STATUS_PAID,
+            'date' => new \DateTime($date)
+        ))->getResult();
+
+        $credits = array();
+        foreach ($tagPoints as $tagPoint) {
+            $credits[] = $this->formatCredit($tagPoint);
+        }
+
+        foreach ($tagIncomes as $tagIncome) {
+            $found = false;
+            foreach($credits as &$credit) {
+                if ($credit['tagId'] == $tagIncome->getTag()->getId()) {
+                    $credit['income'] = $tagIncome->getIncome();
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found)
+                $credits[] = $this->formatCredit(null, $tagIncome);
+        }
+
+        return $credits;
+    }
+
+    private function formatCredit(TagPoint $tagPoint = null, TagIncome $tagIncome = null)
+    {
+        $obj = $tagPoint ? $tagPoint : $tagIncome;
+
+        return array(
+            'type' => $obj->getTag()->getType(),
+            'tagId' => $obj->getTag()->getId(),
+            'photo' => $obj->getTag()->getPhoto()->getCaption(),
+            'photoId' => $obj->getTag()->getPhoto()->getId(),
+            'date' => $obj->getCreatedAt(),
+            'brand' => $obj->getTag()->getBrand() ? $obj->getTag()->getBrand()->getName() : '',
+            'brandSlug' => $obj->getTag()->getBrand() ? $obj->getTag()->getBrand()->getSlug() : '',
+            'points' => $tagPoint ? $tagPoint->getPoints() : 0,
+            'income' => $tagIncome ? $tagIncome->getIncome() : 0
+        );
     }
 }

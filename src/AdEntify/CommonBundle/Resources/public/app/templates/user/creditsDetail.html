@@ -1,0 +1,30 @@
+<div class="top-grey-title-container">
+    <div class="back-to-link">
+        <a href="<%= rootUrl %><%= $.t('routing.my/dashboard/') %>"><%= $.t('user.backToDashboard') %> <i class="glyphicon glyphicon-chevron-right"></i></a>
+    </div>
+    <h1><%= $.t('user.dashboardTitle') %></h1>
+    <div class="small-arrow-top"></div>
+</div>
+
+<div class="dashboard">
+
+    <h2><%= $.t('user.detailsHeading', { date: moment(date).format('L')}) %></h2>
+
+    <hr>
+
+    <table class="table table-condensed table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th><%= $.t('user.tagType') %></th>
+            <th><%= $.t('user.photo') %></th>
+            <th><%= $.t('user.hour') %></th>
+            <th><%= $.t('user.brand') %></th>
+            <th><%= $.t('user.points') %></th>
+            <th><%= $.t('user.cash') %></th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="alert-credits"></div>
+</div>

@@ -236,17 +236,26 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Action", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Action", mappedBy="target")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $actions;
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="user")
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagIncome", mappedBy="user", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
-    private $brandTags;
+    private $tagIncomes;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagPoint", mappedBy="user", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $tagPoints;
 
     /**
      * @Serializer\Exclude
@@ -293,6 +302,13 @@ class User extends BaseUser
      */
     private $brand;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="points", type="integer")
+     */
+    private $points = 0;
+
     public function __construct()
     {
         parent::__construct();
@@ -307,11 +323,12 @@ class User extends BaseUser
         $this->friends = new \Doctrine\Common\Collections\ArrayCollection();
         $this->favoritesPhotos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->brandTags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clients = new \Doctrine\Common\Collections\ArrayCollection();
         $this->followedBrands = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tagIncomes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tagPoints = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -786,24 +803,6 @@ class User extends BaseUser
         return $this->twitterAccessToken;
     }
 
-    public function addBrandTag(BrandTag $brandTag)
-    {
-        $this->brandTags[] = $brandTag;
-        $brandTag->setUser($this);
-        return $this;
-    }
-
-    public function removeBrandTag(BrandTag $brandTag)
-    {
-        $this->brandTags->removeElement($brandTag);
-        $brandTag->setUser(null);
-    }
-
-    public function getBrandTags()
-    {
-        return $this->brandTags;
-    }
-
     public function addTag(Tag $tag)
     {
         $this->tags[] = $tag;
@@ -1043,5 +1042,58 @@ class User extends BaseUser
     public function getBirthday()
     {
         return $this->birthday;
+    }
+
+    /**
+     * @param int $points
+     */
+    public function setPoints($points)
+    {
+        $this->points = $points;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPoints()
+    {
+        return $this->points;
+    }
+
+    public function addTagIncome(TagIncome $tagIncome)
+    {
+        $this->tagIncomes[] = $tagIncome;
+        $tagIncome->setUser($this);
+        return $this;
+    }
+
+    public function removeTagIncome(TagIncome $tagIncome)
+    {
+        $this->tagIncomes->removeElement($tagIncome);
+        $tagIncome->setUser(null);
+    }
+
+    public function getTagIncomes()
+    {
+        return $this->tagIncomes;
+    }
+
+    public function addTagPoint(TagPoint $tagPoint)
+    {
+        $this->tagPoints[] = $tagPoint;
+        $tagPoint->setUser($this);
+        return $this;
+    }
+
+    public function removeTagPoint(TagPoint $tagPoint)
+    {
+        $this->tagPoints->removeElement($tagPoint);
+        $tagPoint->setUser(null);
+    }
+
+    public function getTagPoints()
+    {
+        return $this->tagPoints;
     }
 }

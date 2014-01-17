@@ -5,6 +5,8 @@
     {% stylesheets
     '../app/Resources/public/css/select2.css'
     '../app/Resources/public/css/jquery.fileupload-ui.css'
+    '../app/Resources/public/css/animate.min.css'
+    '../app/Resources/public/css/daterangepicker-bs3.css'
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
     {% endstylesheets %}
@@ -36,7 +38,7 @@
 
                     <div class="row">
                         <div class="col-sm-8 col-md-9">
-                            <a href="{{ full_root_url }}" class="logo-nav pull-left hidden-sm hidden-xs"></a>
+                            <a href="{{ full_root_url }}" class="logo-nav pull-left"></a>
                             <div class="pull-right" id="search-bar"></div>
                             <div class="pull-right">
                                 <button type="button" class="navbar-toggle navbar-toggle-header-menu" data-toggle="collapse" data-target=".dropdown-header-menu">
@@ -69,6 +71,7 @@
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'My photos'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/dashboard/'|trans }}"><i class="icon dashboard-icon"></i> {{ 'My dashboard'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"><i class="icon favorites-icon"></i> {{ 'My favorites'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/brands/'|trans }}"><i class="icon brands-icon"></i> {{ 'My brands'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}"><i class="icon parameters-icon"></i> {{ 'My settings'|trans }}</a></li>
                                                     {% if is_granted('ROLE_TEAM') %}<li><a href="{{ path('brands') }}" data-bypass=""><i class="icon glyphicon glyphicon-wrench"></i> Backoffice</a></li>{% endif %}
                                                     {% if is_granted('ROLE_ANOUNCER') %}<li><a href="{{ full_root_url }}"><i class="icon glyphicon glyphicon-wrench"></i> {{ 'My brand'|trans }}</a></li>{% endif %}
@@ -83,9 +86,7 @@
                                                         {{ app.user.email }}
                                                     {% endif %}
                                                 </div>
-                                                <div class="user-points">
-                                                    <span class="user-points-value">0</span> <sup>Points</sup>
-                                                </div>
+                                                <div class="user-points"></div>
                                             </div>
 
                                         </div>

@@ -1,0 +1,43 @@
+<div class="top-grey-title-container">
+    <h1><%= $.t('user.dashboardTitle') %></h1>
+    <div class="small-arrow-top"></div>
+</div>
+
+<div class="dashboard">
+
+    <div class="form-inline">
+        <div class="period-picker form-group">
+            <span><%= $.t('user.period') %></span> <input type="text" class="form-control" name="daterange">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-7">
+            <h2><%= $.t('user.credits') %> <i class="icon curve-arrow-left"></i> <span class="user-points-red"></span></h2>
+            <div class="user-credits-table"></div>
+        </div>
+        <div class="col-md-5">
+            <h2><%= $.t('user.photos') %></h2>
+            <canvas class="userPhotosChart" style="width: 100%;"></canvas>
+            <% if (rawData) { %>
+            <div class="chart-legend">
+                <div class="legend-columns">
+                    <div class="legend-column">
+                        <span class="puce legend-grey">•</span> <label><%= $.t('user.labelUnTaggedPhotos', { 'count': parseInt(rawData.untaggedPhotos) }) %></label>
+                    </div>
+                    <div class="legend-column">
+                        <span class="puce legend-red">•</span> <label><%= $.t('user.labelTaggedPhotos', { 'count': parseInt(rawData.taggedPhotos) }) %></label>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="my-history">
+        <h2 class="border"><%= $.t('user.history') %></h2>
+        <div class="my-history-content actions-white"></div>
+    </div>
+</div>

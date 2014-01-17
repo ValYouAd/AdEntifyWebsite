@@ -1,21 +1,17 @@
-<% if (model.has('authorModel')) { %>
+<% if (model.has('brandModel')) { %>
+<div class="pull-left">
+    <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get('brandModel').get('profilePicRootUrl') %><%= model.get('brandModel').get('small_logo_url') %>" class="brand-picture" alt="<%= model.get('brandModel').get('name') %>" /></a>
+</div>
+<% } else if (model.has('authorModel')) { %>
 <div class="pull-left">
     <a href="<%= model.get('authorModel').get('link') %>"><img src="<%= model.get('authorModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('authorModel').get('fullname') %>" /></a>
 </div>
 <% } %>
-<% if (model.has('targetModel')) { %>
+<% if (model.has('targetModel') && (!model.has('authorModel') || model.get('authorModel').get('id') != model.get('targetModel').get('id'))) { %>
 <div class="pull-left">
     <a href="<%= model.get('targetModel').get('link') %>"><img src="<%= model.get('targetModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('targetModel').get('fullname') %>" /></a>
 </div>
 <% } %>
-<% if (!model.has('authorModel') && !model.has('targetModel')) { %>
-<%= model.has('message_options') ? $.t(model.get('message'), model.get('message_options')) : $.t(model.get('message')) %>
-<% } else if (model.has('authorModel') && !model.has('targetModel')) { %>
-<%= model.has('message_options') ? $.t(model.get('message'), model.get('message_options')) : $.t(model.get('message'), { 'authorLink' : model.get('authorModel').get('link'), 'author': model.get('authorModel').get('fullname') }) %>
-<% } else if (!model.has('authorModel') && model.has('targetModel')) { %>
-<%= model.has('message_options') ? $.t(model.get('message'), model.get('message_options')) : $.t(model.get('message'), { 'targetLink' : model.get('targetModel').get('link'), 'target': model.get('targetModel').get('fullname') }) %>
-<% } else { %>
-<%= model.has('message_options') ? $.t(model.get('message'), model.get('message_options')) : $.t(model.get('message'), { 'authorLink' : model.get('authorModel').get('link'), 'author': model.get('authorModel').get('fullname'), 'targetLink' : model.get('targetModel').get('link'), 'target': model.get('targetModel').get('fullname') }) %>
-<% } %>
+<%= getI18nMessage() %>
 <div class="clearfix"></div>
 <div class="ticker_separator"></div>

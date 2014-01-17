@@ -1065,6 +1065,14 @@ html,body {
 .dropdown-header-menu footer a:hover {
     color: #5b5756;
 }
+@media (max-width:768px) {
+    .navbar-collapse {
+        background: #313133;
+    }
+    .navbar-header {
+        padding-left: 10px;
+    }
+}
 /* END NAV
 ----------------------- */
 
@@ -1118,9 +1126,6 @@ html,body {
 #right-pane {
     background: url('../img/ticker_background.png') repeat;
     position: relative;
-    /*min-height: 100%;
-    height: 100%;*/
-    /*padding: 25px 4px 4px 4px;*/
     padding: 0px;
     padding-bottom: 500em;
     margin-bottom: -500em;
@@ -1128,15 +1133,6 @@ html,body {
     color: #c5c5c4;
     font-family: robotoregular, Arial, sans-serif;
 }
-/*#right-pane-scrollview {
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-height: 100%;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-}*/
 #right-pane .alert {
     margin-top: 20px;
 }
@@ -1903,6 +1899,9 @@ html,body {
 .actions-list img {
     max-width: 100%;
 }
+.actions-white .actions-list {
+    color: #505051;
+}
 .actions-list {
     margin: 7px 10px 0px 10px;
     font-size: 12px;
@@ -1912,6 +1911,10 @@ html,body {
 .actions-list .ticker_separator {
     margin: 7px 0px;
 }
+.actions-white .actions-list a,
+.actions-white .actions-list a:hover {
+    color: #505051;
+}
 .actions-list a,
 .actions-list a:hover {
     font-family: 'asapbold', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1920,6 +1923,13 @@ html,body {
 .actions-list .profile-picture {
     margin-right: 6px;
     max-height: 40px;
+}
+.actions-list .brand-picture {
+    margin-right: 6px;
+    max-height: 40px;
+}
+.actions-white .actions-list .small-photo {
+    max-width: 150px;
 }
 .actions-list .small-photo {
     max-width: 60px;
@@ -1943,6 +1953,11 @@ html,body {
 .action-photos .photo-2 {
     width: 33%;
     float:right;
+}
+.actions-white .ticker_separator {
+    background: none;
+    border-bottom: 1px solid #e1e0e0;
+    width: 100%;
 }
 /* END MODULE : Actions
 ----------------------- */
@@ -2206,26 +2221,31 @@ html,body {
     margin-top: 6px;
 }
     .search-bar .search-input {
-        background: url('../img/search_background.png') no-repeat;
-        width: 401px;
+        background-color: #3b3b3b;
+        border: 1px solid #262628;
+        border-radius: 16px;
         height: 37px;
-        border: 0px;
         padding: 0 40px 0px 18px;
         box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
         outline: none;
         color: #b1b4b9;
-        font-family: 'asapitalic', sans-serif;
+        font-family: 'asapitalic', "Helvetica Neue", "Arial", sans-serif;
+        width: 360px;
     }
-    .search-bar .search-button {
+    @media (min-width:768px) and (max-width:970px) {
+        .search-bar .search-input {
+            width: 300px;
+        }
+    }
+    .search-bar .search-icon {
         border: 0px;
         position: absolute;
         right: 28px;
         top: 18px;
         cursor: pointer;
         outline: none;
-        background: none;
     }
-    .search-button {
+    .search-icon {
         border: 0px;
     }
     .search-bar .dropdown-menu {
@@ -2378,7 +2398,8 @@ html,body {
 #notifications {
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
-#notifications a {
+#notifications a,
+#notifications strong {
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 }
 .notifications-button {
@@ -2552,7 +2573,6 @@ html,body {
 /* End Brand
 ----------------------- */
 
-
 /* Common Templates
 ----------------------- */
 
@@ -2697,7 +2717,7 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .small-facebook-grey-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-grey-circle-icon, .small-twitter-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-pinterest-circle-icon, .small-facebook-circle-icon, .small-twitter-circle-icon{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .small-facebook-grey-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-grey-circle-icon, .small-twitter-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-pinterest-circle-icon, .small-facebook-circle-icon, .small-twitter-circle-icon, .curve-arrow-left{
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
@@ -3267,6 +3287,20 @@ html,body {
     height: 15px;
 }
 
+.curve-arrow-left{
+    background-position: -188px -214px ;
+    width: 15px;
+    height: 8px;
+}
+
+
+
+
+
+
+
+
+
 /* DONT CHANGE IT */
 .grey-share-icon {
     height: 19px;
@@ -3793,7 +3827,7 @@ label,
 /* END Settings
 ----------------------- */
 
-/* Users
+/* MODULE : Users
 ----------------------- */
 .profile-aside {
     font-family: 'asapregular', sans-serif;
@@ -4078,6 +4112,31 @@ label,
     margin-left: 25px;
     margin-top: -4px;
 }
+
+.dashboard h2 {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 20px;
+    color: #9da0a4;
+}
+.dashboard h2.border {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e1e0e0;
+}
+.dashboard .user-points-red {
+    color: #ff3d3c;
+    font-size: 18px;
+    font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
+}
+.dashboard .period-picker span {
+    color: #2c2c2e;
+    font-size: 18px;
+    font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
+    padding-right: 10px;
+    display: inline-block;
+}
+.dashboard .period-picker input {
+    width: 200px;
+}
 /* END : Users
 ----------------------- */
 
@@ -4230,6 +4289,28 @@ label,
     color: #9da0a4;
 }
 @media (min-width:768px) and (max-width:991px) {.container{max-width: 100%;} }
+.table {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    border: 1px solid #e1e0e0;
+}
+.table tbody {
+    color: #2c2c2e;
+    font-size: 13px;
+}
+.table td,
+.table th {
+    border: 1px solid #e1e0e0;
+    padding-left: 16px!important;
+}
+.table a {
+    color: #2c2c2e;
+    text-decoration: underline;
+}
+.table thead {
+    color: #5b5756;
+    font-size: 11px;
+    background: #f4f6f8;
+}
 /* END : Bootstrap customs
 ----------------------- */
 
@@ -4285,6 +4366,47 @@ label,
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
 /* END : Commentaires
+----------------------- */
+
+/* Chart
+----------------------- */
+.chart-legend {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    color: #2c2c2e;
+    font-size: 10px;
+}
+.chart-legend .puce {
+    vertical-align: middle;
+    font-size: 50px;
+    line-height: 0px;
+}
+.chart-legend label {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    vertical-align: middle;
+    padding-left: 8px;
+}
+.chart-legend .large {
+    font-size: 26px;
+    line-height: 22px;
+}
+.legend-columns {
+    margin: auto;
+}
+.legend-columns .legend-column {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    margin-right: 15px;
+}
+.legend-red {
+    color: #ff4140;
+    font-size: 20px;
+}
+.legend-grey {
+    color: #e0e4ea;
+    font-size: 20px;
+}
+/* End chart
 ----------------------- */
 
 /* Headings
@@ -4473,6 +4595,19 @@ ul.striped > li:nth-child(even) {
 }
 a[data-bypass] {
     cursor: pointer;
+}
+/*
+----------------------- */
+
+/* Animations
+----------------------- */
+.flash{
+    -webkit-animation-iteration-count: 8;
+    -ms-animation-iteration-count: 8;
+    -moz-animation-iteration-count: 8;
+    animation-iteration-count: 8;
+    -webkit-animation-duration: 2s;
+    animation-duration:2s
 }
 /*
 ----------------------- */

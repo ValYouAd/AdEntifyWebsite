@@ -409,8 +409,22 @@ define([
       PhotoItemClickBehaviorDetail: 'detail',
       PhotoItemClickBehaviorAddTag: 'add-tag',
 
-      showPhoto: function(evt, photo) {
+      showPhoto: function(evt, photo, photoId) {
          evt.preventDefault();
+         if (!photo) {
+            var that = this;
+            photo = new Photo.Model({ 'id': photoId });
+            photo.fetch({
+               complete: function() {
+                  that.displayPhoto(evt, photo);
+               }
+            });
+         } else {
+            this.displayPhoto(evt,photo);
+         }
+      },
+
+      displayPhoto: function(evt, photo) {
          var photoView = new Photo.Views.Modal({
             photo: photo
          });

@@ -1,0 +1,4 @@
+<td><%= model.get('formatDate') %></td>
+<td><%= model.get('points') %></td>
+<td><% if (model.has('incomes')) { %><%= model.get('incomes') %><% } %></td>
+<td><a href="<%= model.get('link') %>"><%= $.t('user.creditsDetails') %></a></td>

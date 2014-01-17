@@ -10,6 +10,7 @@ Log in with Facebook: Log in with Facebook
 Log in with Twitter: Log in with Twitter
 My photos: My photos
 My settings: My settings
+My brands: My brands
 Categories: Categories
 All categories: All categories
 My AdEntify: My Adentify
@@ -139,6 +140,7 @@ photo/id/: photo/
 brands/: brands/
 brand/slug/: brand/
 'brand/%slug%/': brand/%slug%
+my/brands/: my/brands/
 my/settings/: my/settings/
 category/: category/
 my/adentify/: my/adentify/

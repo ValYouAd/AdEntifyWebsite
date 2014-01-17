@@ -10,7 +10,9 @@ define([
    'modules/hashtag',
    'modules/common',
    'modules/reward',
-   'modules/brand'
+   'modules/brand',
+   'Chart',
+   'daterangepicker'
 ], function(app, Hashtag, Common, Reward, Brand) {
 
    var User = app.module();
@@ -291,6 +293,269 @@ define([
       }
    });
 
+   User.Views.Dashboard = Backbone.View.extend({
+      template: 'user/dashboard',
+      chartData: null,
+      rawData: null,
+
+      serialize: function() {
+         return {
+            rawData: this.rawData
+         };
+      },
+
+      beforeRender: function() {
+         if (!this.getView('.my-history-content')) {
+            var Action = require('modules/action');
+            this.setView('.my-history-content', new Action.Views.List({
+               actions: this.options.actions
+            }));
+         }
+         if (!this.getView('.user-credits-table')) {
+            this.creditsTableView = new User.Views.CreditsTable();
+            this.setView('.user-credits-table', this.creditsTableView);
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         if (this.chartData) {
+            var ctx = this.$('.userPhotosChart').get(0).getContext('2d');
+            var chart = new Chart(ctx);
+            chart.Pie(this.chartData, {
+               animationEasing: 'easeInOutCubic'
+            });
+         }
+         if (app.useLayout().getView('.user-points').points) {
+            this.$('.user-points-red').html($.t('user.totalPoints', { points: app.useLayout().getView('.user-points').points}));
+         } else {
+            var that = this;
+            app.useLayout().getView('.user-points').on('pointsUpdated', function() {
+               that.$('.user-points-red').html($.t('user.totalPoints', { points: app.useLayout().getView('.user-points').points}));
+            });
+         }
+
+         var that = this;
+         this.$('input[name="daterange"]').daterangepicker(
+            {
+               ranges: Common.Tools.getDaterangepickerRanges(),
+               opens: 'right',
+               format: $.t('common.formatDateShort'),
+               startDate: moment().startOf('month'),
+               endDate: moment().endOf('month')
+            },
+            function(start, end) {
+               that.creditsTableView.credits.refresh(start, end);
+               //that.$('input[name="daterange"]').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+               //getMetrics(selected_tab, selected_goal, start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD"));
+            });
+      },
+
+      initialize: function() {
+         var that = this;
+         this.listenTo(this.options.actions, 'sync', function() {
+            if (this.getView('.my-history-content'))
+               this.getView('.my-history-content').render();
+         });
+         User.Tools.getAnalytics({
+            success: function(data) {
+               that.rawData = data;
+               that.chartData = [
+                  {
+                     value: parseInt(data.taggedPhotos),
+                     color: "#ff4140"
+                  },
+                  {
+                     value: parseInt(data.untaggedPhotos),
+                     color: "#e0e4ea"
+                  }
+               ];
+               that.render();
+            },
+            error: function() {
+
+            }
+         });
+      }
+   });
+
+   User.Views.CreditsTable = Backbone.View.extend({
+      template: 'user/creditsTable',
+
+      initialize: function() {
+         var that = this;
+         moment.lang(app.appState().getLocale());
+         this.credits = new User.Credits();
+         this.listenTo(this.credits, 'sync', this.render);
+         this.credits.fetch({
+            success: function(credits) {
+               if (credits.length == 0) {
+                  that.setView('.alert-credits', new Common.Views.Alert({
+                     cssClass: Common.alertInfo,
+                     message: $.t('user.noCredits')
+                  })).render();
+               }
+            }
+         });
+      },
+
+      beforeRender: function() {
+         this.credits.each(function(credit) {
+            this.insertView('tbody', new User.Views.CreditsRow({
+               model: credit
+            }));
+         }, this);
+      }
+   });
+
+   User.Views.CreditsRow = Backbone.View.extend({
+      template: 'user/creditsRow',
+      tagName: 'tr',
+
+      serialize: function() {
+         return {
+            model: this.model
+         };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, 'change', this.render);
+      }
+   });
+
+   User.Views.CreditsDetail = Backbone.View.extend({
+      template: 'user/creditsDetail',
+
+      serialize: function() {
+         return {
+            rootUrl: app.beginUrl + app.root,
+            date: this.options.date
+         };
+      },
+
+      initialize: function() {
+         var that = this;
+         moment.lang(app.appState().getLocale());
+         this.listenTo(this.options.credits, 'sync', this.render);
+         this.options.credits.fetch({
+            url: Routing.generate('api_v1_get_user_credits_by_date', { date: this.options.date }),
+            success: function(credits) {
+               if (credits.length == 0) {
+                  that.setView('.alert-credits', new Common.Views.Alert({
+                     cssClass: Common.alertInfo,
+                     message: $.t('user.noCreditsDetail')
+                  })).render();
+               }
+            }
+         });
+      },
+
+      beforeRender: function() {
+         this.options.credits.each(function(credit, i) {
+            this.insertView('tbody', new User.Views.CreditsDetailRow({
+               model: credit,
+               index: i + 1
+            }));
+         }, this);
+      }
+   });
+
+   User.Views.CreditsDetailRow = Backbone.View.extend({
+      template: 'user/creditsDetailRow',
+      tagName: 'tr',
+
+      serialize: function() {
+         return {
+            model: this.model,
+            index: this.options.index
+         };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, 'change', this.render);
+      },
+
+      viewPhoto: function(evt) {
+         var Photos = require('modules/photos');
+         Photos.Common.showPhoto(evt, null, this.model.get('photoId'));
+      },
+
+      events: {
+         'click .photo-link': 'viewPhoto'
+      }
+   });
+
+   User.Credit = Backbone.Model.extend({
+      initialize: function() {
+         this.listenTo(this, 'sync', this.setup);
+         this.setup();
+      },
+
+      setup: function() {
+         if (this.has('date')) {
+            this.set('formatDate', moment(this.get('date'), 'YYYY-MM-DD').format('L'));
+         }
+         this.set('link', app.beginUrl + app.root + $.t('routing.my/dashboard/credits/date/', { date: moment(this.get('date'), 'YYYY-MM-DD').format('YYYY-MM-DD') }));
+         if (this.has('photoId'))
+            this.set('photoLink', app.beginUrl + app.root + $.t('routing.photo/id/', { id: this.get('photoId') }));
+         if (this.has('brandSlug') && this.get('brandSlug'))
+            this.set('brandLink', app.beginUrl + app.root + $.t('routing.brand/slug/', { slug: this.get('brandSlug') }));
+      }
+   });
+
+   User.Credits = Backbone.Collection.extend({
+      model: User.Credit,
+      url: Routing.generate('api_v1_get_user_credits_by_date_range'),
+
+      refresh: function(start, end) {
+         var options = {};
+         if (start)
+            options.begin = moment(start).format('YYYY-MM-DD');
+         if (end)
+            options.end = moment(end).format('YYYY-MM-DD');
+         this.url = Routing.generate('api_v1_get_user_credits_by_date_range', options);
+         this.fetch();
+      }
+   });
+
+   User.Views.Points = Backbone.View.extend({
+      template: 'user/points',
+      points: null,
+      animate: false,
+
+      serialize: function() {
+         return {
+            points: this.points,
+            animate: this.animate
+         };
+      },
+
+      initialize: function() {
+         this.listenTo(app, 'tagMenuTools:tagAdded', function() {
+            this.updatePoints(true);
+         });
+         this.updatePoints(false);
+      },
+
+      updatePoints: function(animate) {
+         var that = this;
+         this.animate = animate;
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_get_user_points'),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  success: function(points) {
+                     that.points = points;
+                     that.render();
+                     that.trigger('pointsUpdated');
+                  }
+               });
+            }
+         });
+      }
+   });
+
    User.Dropdown = {
       openedDropdown: null,
       documentClickTimeout: null,
@@ -338,6 +603,25 @@ define([
          }
       }
    };
+
+   User.Tools = {
+      getAnalytics: function(options) {
+         app.oauth.loadAccessToken({
+            success: function() {
+               $.ajax({
+                  url: Routing.generate('api_v1_get_user_analytics'),
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  success: function(data) {
+                     options.success(data);
+                  },
+                  error: function(e, r) {
+                     options.error(e, r);
+                  }
+               });
+            }
+         });
+      }
+   }
 
    return User;
 });
