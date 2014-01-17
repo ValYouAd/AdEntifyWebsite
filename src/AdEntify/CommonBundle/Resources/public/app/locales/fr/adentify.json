@@ -286,7 +286,9 @@
       "backToDashboard": "Revenir au dashboard",
       "detailsHeading": "Détails du __date__",
       "viewPhoto": "Voir la photo",
-      "noCredits": "Aucun crédit, taguez vos photos ou celles de vos amis pour gagnez de l'argent et des points !"
+      "noCredits": "Aucun crédit, taguez vos photos ou celles de vos amis pour gagnez de l'argent et des points !",
+      "totalPoints": "__points__ pts",
+      "period": "Période"
    },
    "profile": {
       "follow": "Suivre",
@@ -427,6 +429,7 @@
       "cancel": "Annuler",
       "searchButton": "Rechercher",
       "formatDate": "__day__/__month__/__year__ à __hours__h__minutes__",
+      "formatDateShort": "DD-MM-YYYY",
       "close": "Fermer",
       "titlePageNotFound": "Page introuvable",
       "contentPageNotFound": "La page que vous avez demandé ne peut être trouvée.",

@@ -254,6 +254,28 @@ define([
          else {
             return $.t('error.generic');
          }
+      },
+
+      getDaterangepickerRanges: function() {
+         if (app.appState().getLocale() == 'fr') {
+            return {
+               'Aujourd\'hui': [new Date(), new Date()],
+               'Hier': [moment().subtract('days', 1), moment().subtract('days', 1)],
+               'Les 7 derniers jours': [moment().subtract('days', 6), new Date()],
+               'Les 30 derniers jours': [moment().subtract('days', 29), new Date()],
+               'Ce mois': [moment().startOf('month'), moment().endOf('month')],
+               'Le mois dernier': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+            }
+         } else {
+            return {
+               'Today': [new Date(), new Date()],
+               'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+               'Last 7 Days': [moment().subtract('days', 6), new Date()],
+               'Last 30 Days': [moment().subtract('days', 29), new Date()],
+               'This Month': [moment().startOf('month'), moment().endOf('month')],
+               'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+            }
+         }
       }
    }
 

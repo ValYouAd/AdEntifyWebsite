@@ -285,7 +285,9 @@
       "backToDashboard": "Back to dashboard",
       "detailsHeading": "Details of __date__",
       "viewPhoto": "View photo",
-      "noCredits": "No credit, tag your photos or others to get points and cash!"
+      "noCredits": "No credit, tag your photos or others to get points and cash!",
+      "totalPoints": "__points__ pts",
+      "period": "Period"
    },
    "profile": {
       "follow": "Follow",
@@ -426,6 +428,7 @@
       "cancel": "Cancel",
       "searchButton": "Search",
       "formatDate": "__month__/__day__/__year__ at __hours__h__minutes__",
+      "formatDateShort": "YYYY-MM-DD",
       "close": "Close",
       "titlePageNotFound": "Page not found",
       "contentPageNotFound": "Error loading the page.",

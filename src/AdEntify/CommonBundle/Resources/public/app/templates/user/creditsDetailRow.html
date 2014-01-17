@@ -1,6 +1,6 @@
 <td><%= index %></td>
 <td><%= $.t('tag.' + model.get('type')) %></td>
-<td><a href="<%= model.get('photoLink') %>"><% if (model.get('photo')) { %><%= model.get('photo') %><% } else { %><%= $.t('user.viewPhoto') %><% } %></a></td>
+<td><a href="<%= model.get('photoLink') %>" data-bypass="" class="photo-link"><% if (model.get('photo')) { %><%= model.get('photo') %><% } else { %><%= $.t('user.viewPhoto') %><% } %></a></td>
 <td><%= moment(model.get('date')).format('HH:mm') %></td>
 <% if (model.has('brandLink')) { %>
 <td><a href="<%= model.get('brandLink') %>"><%= model.get('brand') %></a></td>

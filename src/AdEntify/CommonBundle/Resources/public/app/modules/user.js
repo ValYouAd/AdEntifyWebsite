@@ -12,7 +12,7 @@ define([
    'modules/reward',
    'modules/brand',
    'Chart',
-   'moment'
+   'daterangepicker'
 ], function(app, Hashtag, Common, Reward, Brand) {
 
    var User = app.module();
@@ -312,7 +312,8 @@ define([
             }));
          }
          if (!this.getView('.user-credits-table')) {
-            this.setView('.user-credits-table', new User.Views.CreditsTable());
+            this.creditsTableView = new User.Views.CreditsTable();
+            this.setView('.user-credits-table', this.creditsTableView);
          }
       },
 
@@ -325,6 +326,29 @@ define([
                animationEasing: 'easeInOutCubic'
             });
          }
+         if (app.useLayout().getView('.user-points').points) {
+            this.$('.user-points-red').html($.t('user.totalPoints', { points: app.useLayout().getView('.user-points').points}));
+         } else {
+            var that = this;
+            app.useLayout().getView('.user-points').on('pointsUpdated', function() {
+               that.$('.user-points-red').html($.t('user.totalPoints', { points: app.useLayout().getView('.user-points').points}));
+            });
+         }
+
+         var that = this;
+         this.$('input[name="daterange"]').daterangepicker(
+            {
+               ranges: Common.Tools.getDaterangepickerRanges(),
+               opens: 'right',
+               format: $.t('common.formatDateShort'),
+               startDate: moment().startOf('month'),
+               endDate: moment().endOf('month')
+            },
+            function(start, end) {
+               that.creditsTableView.credits.refresh(start, end);
+               //that.$('input[name="daterange"]').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+               //getMetrics(selected_tab, selected_goal, start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD"));
+            });
       },
 
       initialize: function() {
@@ -390,7 +414,7 @@ define([
 
       serialize: function() {
          return {
-            model: this.model,
+            model: this.model
          };
       },
 
@@ -449,6 +473,15 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, 'change', this.render);
+      },
+
+      viewPhoto: function(evt) {
+         var Photos = require('modules/photos');
+         Photos.Common.showPhoto(evt, null, this.model.get('photoId'));
+      },
+
+      events: {
+         'click .photo-link': 'viewPhoto'
       }
    });
 
@@ -472,7 +505,17 @@ define([
 
    User.Credits = Backbone.Collection.extend({
       model: User.Credit,
-      url: Routing.generate('api_v1_get_user_credits_by_date_range')
+      url: Routing.generate('api_v1_get_user_credits_by_date_range'),
+
+      refresh: function(start, end) {
+         var options = {};
+         if (start)
+            options.begin = moment(start).format('YYYY-MM-DD');
+         if (end)
+            options.end = moment(end).format('YYYY-MM-DD');
+         this.url = Routing.generate('api_v1_get_user_credits_by_date_range', options);
+         this.fetch();
+      }
    });
 
    User.Views.Points = Backbone.View.extend({
@@ -505,6 +548,7 @@ define([
                   success: function(points) {
                      that.points = points;
                      that.render();
+                     that.trigger('pointsUpdated');
                   }
                });
             }

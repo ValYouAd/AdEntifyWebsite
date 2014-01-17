@@ -5,11 +5,17 @@
 
 <div class="dashboard">
 
+    <div class="form-inline">
+        <div class="period-picker form-group">
+            <span><%= $.t('user.period') %></span> <input type="text" class="form-control" name="daterange">
+        </div>
+    </div>
+
     <hr>
 
     <div class="row">
         <div class="col-md-7">
-            <h2><%= $.t('user.credits') %></h2>
+            <h2><%= $.t('user.credits') %> <i class="icon curve-arrow-left"></i> <span class="user-points-red"></span></h2>
             <div class="user-credits-table"></div>
         </div>
         <div class="col-md-5">
