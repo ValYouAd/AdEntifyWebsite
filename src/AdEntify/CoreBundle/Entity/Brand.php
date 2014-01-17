@@ -145,13 +145,6 @@ class Brand
     private $productsCount = 0;
 
     /**
-     * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="brand")
-     * @ORM\OrderBy({"createdAt" = "ASC"})
-     */
-    private $itemTags;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="tags_count", type="integer")
@@ -173,7 +166,7 @@ class Brand
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Venue", mappedBy="brand")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Venue", mappedBy="brands")
      */
     private $venues;
 
@@ -190,6 +183,13 @@ class Brand
      * @ORM\Column(name="cost_per_tag", type="decimal", scale=4, precision=15)
      */
     private $costPerTag = 0;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(name="adentify_fees", type="decimal", scale=4, precision=15)
+     */
+    private $adentifyFees = 50;
 
     /**
      * @Serializer\Exclude
@@ -246,6 +246,20 @@ class Brand
      */
     private $logoUrl;
 
+    /**
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Notification", mappedBy="brand")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    private $notifications;
+
+    /**
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Action", mappedBy="target")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    private $actions;
+
     public function __construct()
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
@@ -254,6 +268,8 @@ class Brand
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->followers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -487,24 +503,6 @@ class Brand
     public function getCostPerTag()
     {
         return $this->costPerTag;
-    }
-
-    public function addItemTag(\AdEntify\CoreBundle\Entity\BrandTag $tag)
-    {
-        $this->itemTags[] = $tag;
-        $tag->setBrand($this);
-        return $this;
-    }
-
-    public function removeItemTag(\AdEntify\CoreBundle\Entity\BrandTag $tag)
-    {
-        $this->itemTags->removeElement($tag);
-        $tag->setBrand(null);
-    }
-
-    public function getItemTags()
-    {
-        return $this->itemTags;
     }
 
     /**
@@ -797,5 +795,61 @@ class Brand
     public function getValidated()
     {
         return $this->validated;
+    }
+
+    public function addNotification(Notification $notification)
+    {
+        $this->notifications[] = $notification;
+        $notification->setBrand($this);
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification)
+    {
+        $this->notifications->removeElement($notification);
+        $notification->setBrand(null);
+    }
+
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    public function addAction(Action $action)
+    {
+        $this->actions[] = $action;
+        $action->setBrand($this);
+        return $this;
+    }
+
+    public function removeAction(Action $action)
+    {
+        $this->actions->removeElement($action);
+        $action->setBrand(null);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @param mixed $adentifyFees
+     */
+    public function setAdentifyFees($adentifyFees)
+    {
+        $this->adentifyFees = $adentifyFees;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdentifyFees()
+    {
+        return $this->adentifyFees;
     }
 }

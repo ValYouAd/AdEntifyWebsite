@@ -191,9 +191,9 @@ class Venue
     private $productsCount = 0;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="venues")
-     *
      * @Serializer\Exclude
+     *
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="venues")
      */
     private $brands;
 
@@ -203,6 +203,20 @@ class Venue
      * @ORM\Column(name="brands_count", type="integer")
      */
     private $brandsCount = 0;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(name="cost_per_tag", type="decimal", scale=4, precision=15)
+     */
+    private $costPerTag = 0;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(name="adentify_fees", type="decimal", scale=4, precision=15)
+     */
+    private $adentifyFees = 50;
 
     public function __construct()
     {
@@ -612,5 +626,39 @@ class Venue
     public function getShortUrl()
     {
         return $this->shortUrl;
+    }
+
+    /**
+     * @param mixed $costPerTag
+     */
+    public function setCostPerTag($costPerTag)
+    {
+        $this->costPerTag = $costPerTag;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCostPerTag()
+    {
+        return $this->costPerTag;
+    }
+
+    /**
+     * @param mixed $adentifyFees
+     */
+    public function setAdentifyFees($adentifyFees)
+    {
+        $this->adentifyFees = $adentifyFees;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdentifyFees()
+    {
+        return $this->adentifyFees;
     }
 }

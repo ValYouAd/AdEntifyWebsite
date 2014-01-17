@@ -139,6 +139,20 @@ class Product
      */
     private $legalNotice;
 
+    /**
+     * @var
+     *
+     * @ORM\Column(name="cost_per_tag", type="decimal", scale=4, precision=15)
+     */
+    private $costPerTag = 0;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(name="adentify_fees", type="decimal", scale=4, precision=15)
+     */
+    private $adentifyFees = 50;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
@@ -386,5 +400,39 @@ class Product
     public function getMinAge()
     {
         return $this->minAge;
+    }
+
+    /**
+     * @param mixed $costPerTag
+     */
+    public function setCostPerTag($costPerTag)
+    {
+        $this->costPerTag = $costPerTag;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCostPerTag()
+    {
+        return $this->costPerTag;
+    }
+
+    /**
+     * @param mixed $adentifyFees
+     */
+    public function setAdentifyFees($adentifyFees)
+    {
+        $this->adentifyFees = $adentifyFees;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdentifyFees()
+    {
+        return $this->adentifyFees;
     }
 }

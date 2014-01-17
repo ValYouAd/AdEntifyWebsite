@@ -1928,6 +1928,13 @@ html,body {
     margin-right: 6px;
     max-height: 40px;
 }
+.actions-list .brand-picture {
+    margin-right: 6px;
+    max-height: 40px;
+}
+.actions-white .actions-list .small-photo {
+    max-width: 150px;
+}
 .actions-list .small-photo {
     max-width: 60px;
     margin: -6px 0px -6px 5px;
@@ -2390,7 +2397,8 @@ html,body {
 #notifications {
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
-#notifications a {
+#notifications a,
+#notifications strong {
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 }
 .notifications-button {
@@ -2563,7 +2571,6 @@ html,body {
 }
 /* End Brand
 ----------------------- */
-
 
 /* Common Templates
 ----------------------- */
@@ -4252,6 +4259,28 @@ label,
     color: #9da0a4;
 }
 @media (min-width:768px) and (max-width:991px) {.container{max-width: 100%;} }
+.table {
+    font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
+    border: 1px solid #e1e0e0;
+}
+.table tbody {
+    color: #2c2c2e;
+    font-size: 13px;
+}
+.table td,
+.table th {
+    border: 1px solid #e1e0e0;
+    padding-left: 16px!important;
+}
+.table a {
+    color: #2c2c2e;
+    text-decoration: underline;
+}
+.table thead {
+    color: #5b5756;
+    font-size: 11px;
+    background: #f4f6f8;
+}
 /* END : Bootstrap customs
 ----------------------- */
 
@@ -4536,6 +4565,19 @@ ul.striped > li:nth-child(even) {
 }
 a[data-bypass] {
     cursor: pointer;
+}
+/*
+----------------------- */
+
+/* Animations
+----------------------- */
+.flash{
+    -webkit-animation-iteration-count: 8;
+    -ms-animation-iteration-count: 8;
+    -moz-animation-iteration-count: 8;
+    animation-iteration-count: 8;
+    -webkit-animation-duration: 2s;
+    animation-duration:2s
 }
 /*
 ----------------------- */

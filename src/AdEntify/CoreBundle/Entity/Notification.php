@@ -63,7 +63,7 @@ class Notification
     /**
      * @var string
      *
-     * @ORM\Column(name="message_options", type="text", nullable=true)
+     * @ORM\Column(name="message_options", type="array", nullable=true)
      */
     private $messageOptions;
 
@@ -104,6 +104,12 @@ class Notification
      * @ORM\Column(name="notification_type", type="string", length=100, nullable=true)
      */
     private $type;
+
+    /**
+     * @Serializer\Exclude
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="notifications")
+     */
+    private $brand;
 
     public function __construct()
     {
@@ -289,5 +295,22 @@ class Notification
     {
         $this->photos->removeElement($photo);
         return $this;
+    }
+
+    /**
+     * @param mixed $brand
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrand()
+    {
+        return $this->brand;
     }
 }

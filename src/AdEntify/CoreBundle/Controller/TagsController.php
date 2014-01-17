@@ -141,6 +141,7 @@ class TagsController extends FosRestController
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
 
+                // Check age
                 $ageObject = null;
                 if ($tag->getProduct())
                     $ageObject = $tag->getProduct();
@@ -154,6 +155,9 @@ class TagsController extends FosRestController
                 }
 
                 $em = $this->getDoctrine()->getManager();
+
+                // Calculate tag points
+                $this->get('ad_entify_core.points')->calculateTagPoints($user, $tag);
 
                 // Get friends list (id) array
                 $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
@@ -183,6 +187,15 @@ class TagsController extends FosRestController
                     $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
                         $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                         get_class($photo), false, 'tagPhoto');
+
+                    $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
+                }
+
+                if ($tag->getBrand())
+                {
+                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
+                        $user, null, array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
+                        get_class($photo), false, 'brandTagged', null, null, $tag->getBrand());
                 }
 
                 $tag->setOwner($user);
@@ -198,7 +211,7 @@ class TagsController extends FosRestController
                 $em->persist($tag);
                 $em->flush();
 
-                $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
+                $this->container->get('ad_entify_core.income')->calculateIncome($tag, $user, $request);
 
                 return $tag;
             } else {
@@ -235,6 +248,7 @@ class TagsController extends FosRestController
                 $status = $request->request->get('waiting_validation');
                 if ($status == Tag::VALIDATION_GRANTED) {
                     $tag->setValidationStatus(Tag::VALIDATION_GRANTED);
+                    $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
                     $em->merge($tag);
                     $em->flush();
                 } else if ($status == Tag::VALIDATION_DENIED) {
@@ -243,7 +257,7 @@ class TagsController extends FosRestController
                     $em->flush();
                 }
 
-                $this->container->get('ad_entify_core.tagRevenue')->calculateRevenueForBrandTagging($tag, $request);
+                $this->container->get('ad_entify_core.income')->calculateIncome($tag, $user, $request);
 
                 return $tag->getValidationStatus();
             } else

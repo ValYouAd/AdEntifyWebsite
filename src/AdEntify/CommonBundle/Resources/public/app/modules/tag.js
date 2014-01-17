@@ -139,7 +139,7 @@ define([
 
       setupPopover: function(popover, popoverArrow) {
          if (this.model) {
-            if (this.model.get('y_position') > 0.5) {
+            if (this.model.get('y_position') > 0.7) {
                popoverArrow.addClass('tag-popover-arrow-bottom');
                popoverArrow.css({bottom: '-10px'});
             } else {
@@ -151,7 +151,7 @@ define([
             } else {
                popoverArrow.css({left: '20px'});
             }
-            popover.css({top: this.model.get('y_position') > 0.5 ? '-'+(popover.height() + 18)+'px' : '46px'});
+            popover.css({top: this.model.get('y_position') > 0.7 ? '-'+(popover.height() + 18)+'px' : '46px'});
             popover.css({left: this.model.get('x_position') > 0.5 ? '-'+(popover.width() - 31)+'px' : '-8px'});
             popover.fadeIn(100);
          }
@@ -897,6 +897,7 @@ define([
                         });
                      });
                   } else if (currentProduct || currentProductType) {
+                     $submit.button('loading');
                      // Check if there is a venue for the current product
                      if (currentVenue && currentProduct) {
                         // POST currentVenue

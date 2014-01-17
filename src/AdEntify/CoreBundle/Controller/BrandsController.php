@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Form\BrandType;
 use AdEntify\CoreBundle\Model\Thumb;
@@ -81,10 +82,13 @@ class BrandsController extends FosRestController
      */
     public function getAction($slug)
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->findOneBy(array(
+        $brand = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->findOneBy(array(
             'slug' => $slug,
             'validated' => true
         ));
+        if (!$brand)
+            throw new HttpException(404);
+        return $brand;
     }
 
     /**
@@ -348,7 +352,7 @@ class BrandsController extends FosRestController
 
         $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner LEFT JOIN tag.brand tagBrand LEFT JOIN tag.product product LEFT JOIN product.brand brand
-                WHERE (brand.slug = :slug OR tagBrand.slug = :slug) AND photo.status = :status AND photo.tagsCount > 0
+                WHERE brand.validated = 1 AND (brand.slug = :slug OR tagBrand.slug = :slug) AND photo.status = :status AND photo.tagsCount > 0
                 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC')
             ->setParameters(array(
@@ -418,6 +422,11 @@ class BrandsController extends FosRestController
                 $follower->setFollowedBrandsCount($follower->getFollowedBrandsCount() + 1);
                 $em->merge($follower);
                 $em->merge($brand);
+
+                $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_BRAND_FOLLOW,
+                    $follower, null, null, Action::VISIBILITY_PUBLIC, null,
+                    null, false, 'followBrand', null, null, $brand);
+
                 $em->flush();
                 return $follower;
             } else {

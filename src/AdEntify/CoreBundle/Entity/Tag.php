@@ -187,18 +187,18 @@ class Tag
     /**
      * @Serializer\Exclude
      *
-     * @var integer
-     *
-     * @ORM\Column(name="points", type="integer")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagIncome", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
-    private $points = 0;
+    private $incomes;
 
     /**
      * @Serializer\Exclude
      *
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\BrandTag", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagPoint", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
      */
-    private $brandTag;
+    private $points;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tags")
@@ -208,6 +208,8 @@ class Tag
     public function __construct()
     {
         $this->stats = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->incomes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->points = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -563,23 +565,6 @@ class Tag
     }
 
     /**
-     * @param mixed $brandTag
-     */
-    public function setBrandTag($brandTag)
-    {
-        $this->brandTag = $brandTag;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBrandTag()
-    {
-        return $this->brandTag;
-    }
-
-    /**
      * @param mixed $productType
      */
     public function setProductType($productType)
@@ -596,17 +581,37 @@ class Tag
         return $this->productType;
     }
 
-    /**
-     * @param int $points
-     */
-    public function setPoints($points)
+    public function addIncome(TagIncome $tagIncome)
     {
-        $this->points = $points;
+        $this->incomes[] = $tagIncome;
+        $tagIncome->setTag($this);
+        return $this;
     }
 
-    /**
-     * @return int
-     */
+    public function removeIncome(TagIncome $tagIncome)
+    {
+        $this->incomes->removeElement($tagIncome);
+        $tagIncome->setTag(null);
+    }
+
+    public function getIncomes()
+    {
+        return $this->incomes;
+    }
+
+    public function addPoint(TagPoint $tagPoint)
+    {
+        $this->points[] = $tagPoint;
+        $tagPoint->setTag($this);
+        return $this;
+    }
+
+    public function removePoint(TagPoint $tagPoint)
+    {
+        $this->points->removeElement($tagPoint);
+        $tagPoint->setTag(null);
+    }
+
     public function getPoints()
     {
         return $this->points;

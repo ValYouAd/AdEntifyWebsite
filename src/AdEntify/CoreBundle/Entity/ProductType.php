@@ -57,7 +57,7 @@ class ProductType
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="productType")
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $tags;

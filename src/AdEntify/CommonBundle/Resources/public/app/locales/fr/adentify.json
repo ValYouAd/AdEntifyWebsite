@@ -197,7 +197,10 @@
       "placeLinkPlaceholder": "Site officiel, blog...",
       "placeMoreDetails": "Plus d'informations",
       "placeLessDetails": "Moins d'informations",
-      "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit"
+      "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit",
+      "place": "Lieu",
+      "person": "Personne",
+      "product": "Produit"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -271,7 +274,19 @@
       "labelTaggedPhotos": "<span class='large'>__count__</span><br> photo tagué",
       "labelTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos taguées",
       "labelUnTaggedPhotos": "<span class='large'>__count__</span><br> photo non tagué",
-      "labelUnTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos non taguées"
+      "labelUnTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos non taguées",
+      "points": "Points",
+      "cash": "Argent",
+      "creditsDetails": "Détails",
+      "tagType": "Type",
+      "photo": "Photo",
+      "hour": "Heure",
+      "brand": "Marque",
+      "noCreditsDetail": "Aucun crédit ce jour",
+      "backToDashboard": "Revenir au dashboard",
+      "detailsHeading": "Détails du __date__",
+      "viewPhoto": "Voir la photo",
+      "noCredits": "Aucun crédit, taguez vos photos ou celles de vos amis pour gagnez de l'argent et des points !"
    },
    "profile": {
       "follow": "Suivre",
@@ -356,7 +371,9 @@
       "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> a commenté <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
       "anonymousLikedPhoto": "Un membre a aimé <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
       "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
-      "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné(e) à vos photos"
+      "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné(e) à vos photos",
+      "tagPoints": "Vous venez de gagner <strong>__count__ points</strong> pour votre dernier tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
+      "publicTagPoints": "Vous venez de gagner <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>"
    },
    "action": {
       "errorLoading": "Une erreur est survenue lors de la récupération des actions.",
@@ -369,7 +386,11 @@
       "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné(e) aux photos de <a href='__targetLink__'>__target__</a>",
       "photoUploaded": "<a href='__authorLink__'>__author__</a> a ajouté <a href='__photoLink__' data-bypass='' class='photo-link'>une nouvelle photo</a>",
       "photosUploaded": "<a href='__authorLink__'>__author__</a> a ajouté __count__ nouvelles photos",
-      "tagPhoto": "<a href='__authorLink__'>__author__</a> a taggué <a href='__photoLink__' data-bypass='' class='photo-link'>une photo</a>"
+      "tagPhoto": "<a href='__authorLink__'>__author__</a> a taggué <a href='__photoLink__' data-bypass='' class='photo-link'>une photo</a>",
+      "brandTagged": "<a href='__authorLink__'>__author__</a> a taggué la marque <a href='__brandLink__'>__brandName__</a> sur <a href='__photoLink__' data-bypass='' class='photo-link'>une photo</a>",
+      "followBrand": "<a href='__authorLink__'>__author__</a> est devenu un fan de <a href='__brandLink__'>__brandName__</a>",
+      "tagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour son tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>",
+      "publicTagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",
@@ -441,7 +462,8 @@
       "search/keywords": "recherche/__keywords__",
       "my/profile/": "mon/profil/",
       "my/settings/": "mes/parametres/",
-      "my/dashboard/": "mon/dashboard/"
+      "my/dashboard/": "mon/dashboard/",
+      "my/dashboard/credits/date/": "mon/dashboard/credits/__date__/"
    },
    "error": {
       "tooYoung": "Vous êtes trop jeune pour taguer ce produit ou cette marque.",

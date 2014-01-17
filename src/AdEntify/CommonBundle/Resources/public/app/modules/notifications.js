@@ -44,6 +44,10 @@ define([
          if (this.get('object_type') === "AdEntify\\CoreBundle\\Entity\\Photo") {
             this.set('photoLink', app.beginUrl + app.root + $.t('routing.photo/id/', {id: this.get('object_id') }));
          }
+         if (this.has('brand')) {
+            var brandModule = require('modules/brand');
+            this.set('brandModel', new brandModule(this.get('brand')));
+         }
          if (this.has('photos') && this.get('photos').length > 0) {
             var photos = new Photos.Collection();
             photos.add(new Photo.Model(this.get('photos')[0]));
@@ -89,7 +93,10 @@ define([
       tagName: "li",
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            getI18nMessage: this.getI18nMessage
+         };
       },
 
       initialize: function() {
@@ -102,6 +109,29 @@ define([
 
       notificationRead: function() {
          this.model.read();
+      },
+
+      getI18nMessage: function() {
+         var options = this.model.has('message_options') ? _.extend({}, this.model.get('message_options')) : {};
+
+         if (this.model.has('authorModel')) {
+            options.authorLink = this.model.get('authorModel').get('link');
+            options.author = this.model.get('authorModel').get('fullname');
+         }
+         if (this.model.has('ownerModel')) {
+            options.ownerLink = this.model.get('ownerModel').get('link');
+            options.owner = this.model.get('ownerModel').get('fullname');
+         }
+         if (this.model.has('brandModel')) {
+            options.brandLink = this.model.get('brandModel').get('link');
+            options.brandName = this.model.get('brandModel').get('name');
+         }
+         if (this.model.has('photo')) {
+            options.photoLink = this.model.get('photo').get('link');
+         }
+
+         return $.t(this.model.get('message'), options);
+
       },
 
       events: {

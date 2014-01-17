@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
+ * Created by PhpStorm.
  * User: pierrickmartos
- * Date: 06/08/2013
- * Time: 15:53
- * To change this template use File | Settings | File Templates.
+ * Date: 16/01/2014
+ * Time: 17:20
  */
 
 namespace AdEntify\CoreBundle\Entity;
@@ -15,16 +14,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Brand
+ * TagIncone
  *
- * @Serializer\XmlRoot("brand-tag")
+ * @Serializer\XmlRoot("tag-income")
  * @Serializer\ExclusionPolicy("none")
  *
- * @ORM\Table(name="brand_tags", indexes={@ORM\Index(name="search_idx", columns={"ip_address"})})
+ * @ORM\Table(name="tag_incomes", indexes={@ORM\Index(name="search_idx", columns={"status"})})
  * @ORM\Entity
  */
-class BrandTag
+class TagIncome
 {
+    const STATUS_PAID = 'paid';
+    const STATUS_WAITING = 'waiting';
+
     /**
      * @var integer
      *
@@ -35,25 +37,17 @@ class BrandTag
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="productTags")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $brand;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $photo;
-
-    /**
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag")
+     * @Serializer\Exclude
+     *
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="incomes", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tag;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="itemTags")
+     * @Serializer\Exclude
+     *
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tagIncomes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -68,11 +62,26 @@ class BrandTag
     private $createdAt;
 
     /**
+     * @var datetime $paidAt
+
+     * @ORM\Column(name="paid_at", type="datetime", nullable=true)
+     * @Assert\DateTime()
+     */
+    private $paidAt;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="ip_address", type="string", length=50)
      */
     private $ipAddress;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=50)
+     */
+    private $status = self::STATUS_WAITING;
 
     /**
      * @var
@@ -82,20 +91,11 @@ class BrandTag
     private $income;
 
     /**
-     * @param mixed $brand
+     * @return int
      */
-    public function setBrand($brand)
+    public function getId()
     {
-        $this->brand = $brand;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBrand()
-    {
-        return $this->brand;
+        return $this->id;
     }
 
     /**
@@ -113,14 +113,6 @@ class BrandTag
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -158,20 +150,37 @@ class BrandTag
     }
 
     /**
-     * @param mixed $photo
+     * @param \AdEntify\CoreBundle\Entity\datetime $paidAt
      */
-    public function setPhoto($photo)
+    public function setPaidAt($paidAt)
     {
-        $this->photo = $photo;
+        $this->paidAt = $paidAt;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return \AdEntify\CoreBundle\Entity\datetime
      */
-    public function getPhoto()
+    public function getPaidAt()
     {
-        return $this->photo;
+        return $this->paidAt;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -209,4 +218,4 @@ class BrandTag
     }
 
 
-}
+} 
