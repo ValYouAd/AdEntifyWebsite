@@ -309,6 +309,13 @@ class User extends BaseUser
      */
     private $points = 0;
 
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
+     */
+    private $rewards;
+
     public function __construct()
     {
         parent::__construct();
@@ -329,6 +336,7 @@ class User extends BaseUser
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tagIncomes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tagPoints = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -1095,5 +1103,23 @@ class User extends BaseUser
     public function getTagPoints()
     {
         return $this->tagPoints;
+    }
+
+    public function addReward(Reward $reward)
+    {
+        $this->rewards[] = $reward;
+        $reward->setOwner($this);
+        return $this;
+    }
+
+    public function removeReward(Reward $reward)
+    {
+        $this->rewards->removeElement($reward);
+        $reward->setOwner(null);
+    }
+
+    public function getRewards()
+    {
+        return $this->rewards;
     }
 }

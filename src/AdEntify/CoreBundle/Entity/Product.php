@@ -153,11 +153,19 @@ class Product
      */
     private $adentifyFees = 50;
 
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
+     */
+    private $rewards;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->owners = new \Doctrine\Common\Collections\ArrayCollection();
         $this->purchaseVenues = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -434,5 +442,23 @@ class Product
     public function getAdentifyFees()
     {
         return $this->adentifyFees;
+    }
+
+    public function addReward(Reward $reward)
+    {
+        $this->rewards[] = $reward;
+        $reward->setProduct($this);
+        return $this;
+    }
+
+    public function removeReward(Reward $reward)
+    {
+        $this->rewards->removeElement($reward);
+        $reward->setProduct(null);
+    }
+
+    public function getRewards()
+    {
+        return $this->rewards;
     }
 }

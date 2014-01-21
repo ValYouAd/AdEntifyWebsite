@@ -69,11 +69,19 @@ class ProductType
      */
     private $tagsCount = 0;
 
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
+     */
+    private $rewards;
+
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -180,5 +188,23 @@ class ProductType
     public function getTags()
     {
         return $this->tags;
+    }
+
+    public function addReward(Reward $reward)
+    {
+        $this->rewards[] = $reward;
+        $reward->setProductType($this);
+        return $this;
+    }
+
+    public function removeReward(Reward $reward)
+    {
+        $this->rewards->removeElement($reward);
+        $reward->setProductType(null);
+    }
+
+    public function getRewards()
+    {
+        return $this->rewards;
     }
 }

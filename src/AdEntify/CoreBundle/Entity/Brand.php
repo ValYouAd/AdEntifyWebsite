@@ -260,6 +260,20 @@ class Brand
      */
     private $actions;
 
+    /**
+     * @var integer
+     *
+     * * @ORM\Column(name="tag_required_addict_reward", type="integer")
+     */
+    private $tagsRequiredAddictReward = 20;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
+     */
+    private $rewards;
+
     public function __construct()
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
@@ -270,6 +284,7 @@ class Brand
         $this->followers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -851,5 +866,40 @@ class Brand
     public function getAdentifyFees()
     {
         return $this->adentifyFees;
+    }
+
+    /**
+     * @param int $tagsRequiredAddictReward
+     */
+    public function setTagsRequiredAddictReward($tagsRequiredAddictReward)
+    {
+        $this->tagsRequiredAddictReward = $tagsRequiredAddictReward;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsRequiredAddictReward()
+    {
+        return $this->tagsRequiredAddictReward;
+    }
+
+    public function addReward(Reward $reward)
+    {
+        $this->rewards[] = $reward;
+        $reward->setBrand($this);
+        return $this;
+    }
+
+    public function removeReward(Reward $reward)
+    {
+        $this->rewards->removeElement($reward);
+        $reward->setBrand(null);
+    }
+
+    public function getRewards()
+    {
+        return $this->rewards;
     }
 }
