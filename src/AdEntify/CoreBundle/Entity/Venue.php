@@ -218,12 +218,27 @@ class Venue
      */
     private $adentifyFees = 50;
 
+    /**
+     * @var integer
+     *
+     * * @ORM\Column(name="tag_required_addict_reward", type="integer")
+     */
+    private $tagsRequiredAddictReward = 20;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
+     */
+    private $rewards;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
         $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->brands = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -660,5 +675,40 @@ class Venue
     public function getAdentifyFees()
     {
         return $this->adentifyFees;
+    }
+
+    /**
+     * @param int $tagsRequiredAddictReward
+     */
+    public function setTagsRequiredAddictReward($tagsRequiredAddictReward)
+    {
+        $this->tagsRequiredAddictReward = $tagsRequiredAddictReward;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsRequiredAddictReward()
+    {
+        return $this->tagsRequiredAddictReward;
+    }
+
+    public function addReward(Reward $reward)
+    {
+        $this->rewards[] = $reward;
+        $reward->setVenue($this);
+        return $this;
+    }
+
+    public function removeReward(Reward $reward)
+    {
+        $this->rewards->removeElement($reward);
+        $reward->setVenue(null);
+    }
+
+    public function getRewards()
+    {
+        return $this->rewards;
     }
 }
