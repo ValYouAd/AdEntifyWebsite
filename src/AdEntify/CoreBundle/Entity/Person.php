@@ -155,7 +155,7 @@ class Person
     /**
      * @Serializer\Exclude
      *
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="person")
      */
     private $rewards;
 

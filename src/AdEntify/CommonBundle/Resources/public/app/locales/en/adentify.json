@@ -374,7 +374,8 @@
       "friendTagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
       "followUser": "<a href='__authorLink__'>__author__</a> now follows you",
       "tagPoints": "You just win __count__ points for your last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "publicTagPoints": "You just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>"
+      "publicTagPoints": "You just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
+      "newReward": "You just win the reward <strong>__type__</strong> for <a href='__brandLink__'>__brandName__</a>"
    },
    "action": {
       "errorLoading": "Error loading actions.",
@@ -391,7 +392,8 @@
       "brandTagged": "<a href='__authorLink__'>__author__</a> tagged <a href='__brandLink__'>__brandName__</a> on <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
       "followBrand": "<a href='__authorLink__'>__author__</a> just became a <a href='__brandLink__'>__brandName__</a> fan",
       "tagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
-      "publicTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>his photo</a>"
+      "publicTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>his photo</a>",
+      "newReward": "<a href='__authorLink__'>__author__</a> just became an __type__ fan of <a href='__brandLink__'>__brandName__</a>"
    },
    "pagination": {
       "loadMore": "Load more",

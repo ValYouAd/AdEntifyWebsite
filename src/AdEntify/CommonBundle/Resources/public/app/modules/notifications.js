@@ -46,7 +46,7 @@ define([
          }
          if (this.has('brand')) {
             var brandModule = require('modules/brand');
-            this.set('brandModel', new brandModule(this.get('brand')));
+            this.set('brandModel', new brandModule.Model(this.get('brand')));
          }
          if (this.has('photos') && this.get('photos').length > 0) {
             var photos = new Photos.Collection();
