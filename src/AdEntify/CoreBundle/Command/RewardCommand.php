@@ -223,6 +223,10 @@ class RewardCommand extends ContainerAwareCommand
         $reward = new Reward();
         $reward->setBrand($brand)->setOwner($user)->setCanLoose($canLoose)->setType($rewardType);
         $this->em->persist($reward);
+
+        $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_REWARD_NEW,
+            $user, $user, null, Action::VISIBILITY_PUBLIC, null,
+            null, true, 'newReward', array('type' => $reward->getType()), null, $brand);
     }
 
     /**
