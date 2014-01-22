@@ -52,6 +52,10 @@ define([
             var User = require('modules/user');
             this.set('ownerModel', new User.Model(this.get('owner')));
          }
+         if (this.has('person') && !this.has('personModel')) {
+            var User = require('modules/user');
+            this.set('personModel', new User.Model(this.get('person')));
+         }
 
          this.listenTo(this, 'change', this.render);
       },

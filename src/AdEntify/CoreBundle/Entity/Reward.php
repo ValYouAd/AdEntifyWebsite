@@ -28,6 +28,10 @@ class Reward
     const TYPE_SILVER = 'silver';
     const TYPE_BRONZE = 'bronze';
 
+    const MAX_GOLD_FANS = 10;
+    const MAX_SILVER_FANS = 20;
+    const MAX_BRONZE_FANS = 30;
+
     /**
      * @var integer
      *

@@ -274,6 +274,27 @@ class Brand
      */
     private $rewards;
 
+    /**
+     * @var $goldFansPercentage
+     *
+     * @ORM\Column(name="gold_fans_percentage", type="decimal", scale=4, precision=15)
+     */
+    private $goldFansPercentage = 1;
+
+    /**
+     * @var $silverFansPercentage
+     *
+     * @ORM\Column(name="silver_fans_percentage", type="decimal", scale=4, precision=15)
+     */
+    private $silverFansPercentage = 2;
+
+    /**
+     * @var $bronzeFansPercentage
+     *
+     * @ORM\Column(name="bronze_fans_percentage", type="decimal", scale=4, precision=15)
+     */
+    private $bronzeFansPercentage = 3;
+
     public function __construct()
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
@@ -901,5 +922,56 @@ class Brand
     public function getRewards()
     {
         return $this->rewards;
+    }
+
+    /**
+     * @param mixed $bronzeFansPercentage
+     */
+    public function setBronzeFansPercentage($bronzeFansPercentage)
+    {
+        $this->bronzeFansPercentage = $bronzeFansPercentage;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBronzeFansPercentage()
+    {
+        return $this->bronzeFansPercentage;
+    }
+
+    /**
+     * @param mixed $goldFansPercentage
+     */
+    public function setGoldFansPercentage($goldFansPercentage)
+    {
+        $this->goldFansPercentage = $goldFansPercentage;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGoldFansPercentage()
+    {
+        return $this->goldFansPercentage;
+    }
+
+    /**
+     * @param mixed $silverFansPercentage
+     */
+    public function setSilverFansPercentage($silverFansPercentage)
+    {
+        $this->silverFansPercentage = $silverFansPercentage;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSilverFansPercentage()
+    {
+        return $this->silverFansPercentage;
     }
 }
