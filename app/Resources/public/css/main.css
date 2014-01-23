@@ -527,6 +527,24 @@ html,body {
     border-right: 1px solid #e5e7ea;
     border-bottom: 1px solid #e5e7ea;
     text-align: center;
+    color: #5b5756;
+    font-size: 14px;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+}
+.more-filters li {
+    height: 58px;
+    line-height: 58px;
+    vertical-align: middle;
+    padding: 0px 25px;
+}
+.more-filters .icon {
+    margin-right: 10px;
+}
+.more-filters .text-filter {
+    margin-right: 8px;
+}
+.more-filters .loading-gif-container {
+    margin: 8px 8px 0 0;
 }
 /* Photos
 ----------------------- */
@@ -3756,6 +3774,9 @@ ul.striped > li:nth-child(even) {
     color: #ff3434;
 }
 a[data-bypass] {
+    cursor: pointer;
+}
+.pointer {
     cursor: pointer;
 }
 /*

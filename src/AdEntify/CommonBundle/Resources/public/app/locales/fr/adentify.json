@@ -411,6 +411,8 @@
       "brands": "Marques",
       "places": "Lieux",
       "people": "Personnes",
+      "byDate": "Par date",
+      "byLikes": "Par nombre de j'aime",
       "mostRecentToOldest": "Du plus récent au plus vieux",
       "mostOldestToRecent": "Du plus vieux au plus récent",
       "mostLiked": "Les plus aimées",

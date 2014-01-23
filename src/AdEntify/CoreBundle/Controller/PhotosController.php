@@ -57,8 +57,9 @@ class PhotosController extends FosRestController
      * @QueryParam(name="places", requirements="\d+", default="null")
      * @QueryParam(name="people", requirements="\d+", default="null")
      * @QueryParam(name="orderBy", default="null")
+     * @QueryParam(name="way", default="DESC")
      */
-    public function cgetAction($tagged, $page, $limit, $brands, $places, $people, $orderBy)
+    public function cgetAction($tagged, $page, $limit, $brands, $places, $people, $orderBy, $way)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -134,22 +135,18 @@ class PhotosController extends FosRestController
                 AND photo.tagsCount = 0 ';
         }
 
-        // Order by
         if ($orderBy) {
             switch ($orderBy) {
-                case 'mostLiked':
-                    $sql .= ' ORDER BY photo.likesCount DESC';
+                case 'like':
+                    $sql .= sprintf(' ORDER BY photo.likesCount %s', $way);
                     break;
-                case 'oldest':
-                    $sql .= ' ORDER BY photo.createdAt ASC';
-                    break;
-                case 'mostRecent':
+                case 'date':
                 default:
-                    $sql .= ' ORDER BY photo.createdAt DESC';
+                $sql .= sprintf(' ORDER BY photo.createdAt %s', $way);
                     break;
             }
         } else {
-            $sql .= ' ORDER BY photo.createdAt DESC';
+            $sql .= sprintf(' ORDER BY photo.createdAt %s', $way);
         }
 
         $query = $em->createQuery($sql)
@@ -261,9 +258,10 @@ class PhotosController extends FosRestController
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @QueryParam(name="today", requirements="\d+", default="null")
      * @QueryParam(name="orderBy", default="null")
+     * @QueryParam(name="way", default="DESC")
      * @View()
      */
-    public function getSearchAction($query, $page = 1, $limit = 10, $today, $orderBy, Request $request)
+    public function getSearchAction($query, $page = 1, $limit = 10, $today = null, $orderBy = null, $way = 'DESC', Request $request)
     {
         if (!$query)
             return null;
@@ -310,19 +308,16 @@ class PhotosController extends FosRestController
         // Order by
         if ($orderBy) {
             switch ($orderBy) {
-                case 'mostLiked':
-                    $orderByQuery = ' ORDER BY photo.likesCount DESC';
+                case 'like':
+                    $orderByQuery = sprintf(' ORDER BY photo.likesCount %s', $way);
                     break;
-                case 'oldest':
-                    $orderByQuery = ' ORDER BY photo.createdAt ASC';
-                    break;
-                case 'mostRecent':
+                case 'date':
                 default:
-                    $orderByQuery = ' ORDER BY photo.createdAt DESC';
+                    $orderByQuery = sprintf(' ORDER BY photo.createdAt %s', $way);
                     break;
             }
         } else {
-            $orderByQuery = ' ORDER BY photo.createdAt DESC';
+            $orderByQuery = sprintf(' ORDER BY photo.createdAt %s', $way);
         }
 
         $whereClauses = array();

@@ -411,6 +411,8 @@
       "brands": "Brands",
       "places": "Places",
       "people": "People",
+      "byDate": "By date",
+      "byLikes": "By likes",
       "mostRecentToOldest": "Most recent to oldest",
       "mostOldestToRecent": "Oldest to most recent",
       "mostLiked": "Most likes",

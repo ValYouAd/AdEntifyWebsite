@@ -306,27 +306,26 @@ define([
          this.loadPhotos(activate ? '&people=1' : '');
       },
 
-      mostRecentFilter: function() {
-         var activate = this.activateFilter(this.$('.most-recent-filter').parent());
-         this.loadPhotos(activate ? '&orderBy=mostRecent' : '');
+      dateFilter: function(way) {
+         //var activate = this.activateFilter(this.$('.date-filter').parent());
+         this.loadPhotos('&orderBy=date&way=' + way);
       },
 
-      oldestFilter: function() {
-         var activate = this.activateFilter(this.$('.oldest-filter').parent());
-         this.loadPhotos(activate ? '&orderBy=oldest' : '');
-      },
-
-      mostLikedFilter: function() {
-         var activate = this.activateFilter(this.$('.most-liked-filter').parent());
-         this.loadPhotos(activate ? '&orderBy=mostLiked' : '');
+      likeFilter: function(way) {
+         //var activate = this.activateFilter(this.$('.like-filter').parent());
+         this.loadPhotos('&orderBy=likes&way=' + way);
       },
 
       loadPhotos: function(query) {
+         $('#loading-photos').fadeIn('fast');
          this.options.photos.fetch({
             url: this.getOriginalPhotosUrl() + query,
             reset: true,
             success: this.photosSuccess,
-            error: this.photosError
+            error: this.photosError,
+            complete: function() {
+               $('#loading-photos').fadeOut('fast')
+            }
          });
       },
 
@@ -353,9 +352,18 @@ define([
          'click .brands-filter': 'brandsFilter',
          'click .places-filter': 'placesFilter',
          'click .people-filter': 'peopleFilter',
-         'click .most-recent-filter': 'mostRecentFilter',
-         'click .oldest-filter': 'oldestFilter',
-         'click .most-liked-filter': 'mostLikedFilter'
+         'click .date-filter .glyphicon-chevron-down': function() {
+            this.dateFilter('DESC');
+         },
+         'click .date-filter .glyphicon-chevron-up': function() {
+            this.dateFilter('ASC');
+         },
+         'click .like-filter .glyphicon-chevron-down': function() {
+            this.likeFilter('DESC');
+         },
+         'click .like-filter .glyphicon-chevron-up': function() {
+            this.likeFilter('ASC');
+         }
       }
    });
 
