@@ -206,6 +206,7 @@
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
       "like": "J'aime",
+      "liked": "Aimé",
       "dislike": "Je n'aime plus",
       "likes": "J'aime",
       "comments": "Commentez",
@@ -293,6 +294,7 @@
    },
    "profile": {
       "follow": "Suivre",
+      "followed": "Suivi",
       "unfollow": "Ne plus suivre",
       "pageTitle": "__name__ - Profil AdEntify",
       "loadingProfile": "Chargement du profil en cours...",

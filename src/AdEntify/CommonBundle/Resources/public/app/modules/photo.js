@@ -737,6 +737,18 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+         var that = this;
+         this.$('button[data-liked]').hover(function() {
+            if (that.liked) {
+               $(this).html($.t('photo.dislike'));
+            }
+         }, function() {
+            if (that.liked) {
+               $(this).html($.t('photo.liked'));
+            } else {
+               $(this).html($.t('photo.like'));
+            }
+         });
       },
 
       initialize: function() {

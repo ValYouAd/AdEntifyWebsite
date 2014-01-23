@@ -239,6 +239,18 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+         var that = this;
+         this.$('button[data-followed]').hover(function() {
+            if (that.follow) {
+               $(this).html($.t('profile.unfollow'));
+            }
+         }, function() {
+            if (that.follow) {
+               $(this).html($.t('profile.followed'));
+            } else {
+               $(this).html($.t('profile.follow'));
+            }
+         });
       },
 
       initialize: function() {
