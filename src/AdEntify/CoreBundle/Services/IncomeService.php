@@ -37,7 +37,7 @@ class IncomeService
             switch ($tag->getType()) {
                 case Tag::TYPE_BRAND:
                 case Tag::TYPE_PRODUCT:
-                    if ($tag->getProduct()->getCostPerTag() > 0) {
+                    if ($tag->getProduct() && $tag->getProduct()->getCostPerTag() > 0) {
                         $income = $tag->getProduct()->getCostPerTag() - ($tag->getProduct()->getCostPerTag() * ($tag->getProduct()->getAdentifyFees() / 100));
                     } else if ($tag->getBrand()->getCostPerTag() > 0) {
                         $income = $tag->getBrand()->getCostPerTag() - ($tag->getBrand()->getCostPerTag() * ($tag->getBrand()->getAdentifyFees() / 100));

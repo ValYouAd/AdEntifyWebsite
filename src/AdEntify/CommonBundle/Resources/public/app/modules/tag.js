@@ -20,7 +20,6 @@ define([
 ], function(app, Venue, Person, Common, Product) {
 
    var Tag = app.module();
-   var currentPhotoOverlay = null;
    var currentTag = null;
    var tags = null;
    var currentBrands = {};
@@ -829,17 +828,78 @@ define([
 
       submit: function(e) {
          e.preventDefault();
-         $activePane = this.$('.tab-content .active');
-
          var that = this;
-
+         $activePane = this.$('.tab-content .active');
          switch ($activePane.attr('id')) {
             case 'product':
                $submit = $('#submit-product');
                if (currentTag) {
-                  if (newProduct) {
-                     $submit.button('loading');
-                     if (!currentBrand) {
+
+                  var tmpSubmitProduct = function() {
+                     if (newProduct) {
+                        $submit.button('loading');
+                        if (!$('#product-description').val() || !$('#product-name').val()) {
+                           $submit.button('reset');
+                           that.setView('.alert-product', new Common.Views.Alert({
+                              cssClass: Common.alertError,
+                              message: $.t('tag.errorProductEmptyFields'),
+                              showClose: true
+                           })).render();
+                           return;
+                        }
+                        that.submitNewProduct();
+                     } else if (currentProduct || currentProductType) {
+                        $submit.button('loading');
+                        // Check if there is a venue for the current product
+                        if (currentVenue && currentProduct) {
+                           // POST currentVenue
+                           venue = new Venue.Model();
+                           venue.entityToModel(currentVenue);
+                           venue.set('products', [ currentProduct.id ]);
+                           venue.url = Routing.generate('api_v1_post_venue');
+                           venue.getToken('venue_item', function() {
+                              venue.save(null, {
+                                 success: function() {
+                                    that.postProduct($submit);
+                                 },
+                                 error: function() {
+                                    $submit.button('reset');
+                                    that.setView('.alert-product', new Common.Views.Alert({
+                                       cssClass: Common.alertError,
+                                       message: $.t('tag.errorVenuePost'),
+                                       showClose: true
+                                    })).render();
+                                 }
+                              });
+                           });
+                        } else {
+                           that.postProduct($submit);
+                        }
+                     }
+                  };
+
+                  if (!currentBrand) {
+                     if (that.$('#brand-name').val()) {
+                        var brandModule = require('modules/brand');
+                        currentBrand = new brandModule.Model();
+                        currentBrand.set('name', that.$('#brand-name').val());
+                        currentBrand.url = Routing.generate('api_v1_post_brand');
+                        currentBrand.getToken('brand_item', function() {
+                           currentBrand.save(null, {
+                              success: function() {
+                                 tmpSubmitProduct();
+                              },
+                              error: function() {
+                                 $submit.button('reset');
+                                 that.setView('.alert-product', new Common.Views.Alert({
+                                    cssClass: Common.alertError,
+                                    message: $.t('tag.errorBrandPost'),
+                                    showClose: true
+                                 })).render();
+                              }
+                           });
+                        });
+                     } else {
                         $submit.button('reset');
                         that.setView('.alert-product', new Common.Views.Alert({
                            cssClass: Common.alertError,
@@ -848,86 +908,11 @@ define([
                         })).render();
                         return;
                      }
-                     if (!$('#product-description').val() || !$('#product-name').val()) {
-                        $submit.button('reset');
-                        that.setView('.alert-product', new Common.Views.Alert({
-                           cssClass: Common.alertError,
-                           message: $.t('tag.errorProductEmptyFields'),
-                           showClose: true
-                        })).render();
-                        return;
-                     }
-                     newProduct.url = Routing.generate('api_v1_post_product');
-                     newProduct.set('description', $('#product-description').val());
-                     newProduct.set('purchase_url', $('#product-purchase-url').val());
-                     newProduct.set('name', $('#product-name').val());
-                     newProduct.set('brand', currentBrand.id);
-                     newProduct.getToken('product_item', function() {
-                        newProduct.save(null, {
-                           success: function() {
-                              if (currentVenue) {
-                                 // POST currentVenue
-                                 venue = new Venue.Model();
-                                 venue.entityToModel(currentVenue);
-                                 venue.set('products', [ newProduct.get('id') ]);
-                                 venue.url = Routing.generate('api_v1_post_venue');
-                                 venue.getToken('venue_item', function() {
-                                    venue.save(null, {
-                                       success: function() {
-                                          that.postProduct($submit, newProduct);
-                                       },
-                                       error: function() {
-                                          $submit.button('reset');
-                                          that.setView('.alert-product', new Common.Views.Alert({
-                                             cssClass: Common.alertError,
-                                             message: $.t('tag.errorVenuePost'),
-                                             showClose: true
-                                          })).render();
-                                       }
-                                    });
-                                 });
-                              } else {
-                                 that.postProduct($submit, newProduct);
-                              }
-                           },
-                           error: function() {
-                              $submit.button('reset');
-                              that.setView('.alert-product', new Common.Views.Alert({
-                                 cssClass: Common.alertError,
-                                 message: $.t('tag.errorProductPost'),
-                                 showClose: true
-                              })).render();
-                           }
-                        });
-                     });
-                  } else if (currentProduct || currentProductType) {
-                     $submit.button('loading');
-                     // Check if there is a venue for the current product
-                     if (currentVenue && currentProduct) {
-                        // POST currentVenue
-                        venue = new Venue.Model();
-                        venue.entityToModel(currentVenue);
-                        venue.set('products', [ currentProduct.id ]);
-                        venue.url = Routing.generate('api_v1_post_venue');
-                        venue.getToken('venue_item', function() {
-                           venue.save(null, {
-                              success: function() {
-                                 that.postProduct($submit);
-                              },
-                              error: function() {
-                                 $submit.button('reset');
-                                 that.setView('.alert-product', new Common.Views.Alert({
-                                    cssClass: Common.alertError,
-                                    message: $.t('tag.errorVenuePost'),
-                                    showClose: true
-                                 })).render();
-                              }
-                           });
-                        });
-                     } else {
-                        this.postProduct($submit);
-                     }
+                  } else {
+                     tmpSubmitProduct();
                   }
+
+
                } else {
                   $submit.button('reset');
                   that.setView('.alert-product', new Common.Views.Alert({
@@ -1062,6 +1047,54 @@ define([
                }
                break;
          }
+      },
+
+      submitNewProduct: function() {
+         var that = this;
+
+         newProduct.url = Routing.generate('api_v1_post_product');
+         newProduct.set('description', $('#product-description').val());
+         newProduct.set('purchase_url', $('#product-purchase-url').val());
+         newProduct.set('name', $('#product-name').val());
+         newProduct.set('brand', currentBrand.id);
+         newProduct.getToken('product_item', function() {
+            newProduct.save(null, {
+               success: function() {
+                  if (currentVenue) {
+                     // POST currentVenue
+                     venue = new Venue.Model();
+                     venue.entityToModel(currentVenue);
+                     venue.set('products', [ newProduct.get('id') ]);
+                     venue.url = Routing.generate('api_v1_post_venue');
+                     venue.getToken('venue_item', function() {
+                        venue.save(null, {
+                           success: function() {
+                              that.postProduct($submit, newProduct);
+                           },
+                           error: function() {
+                              $submit.button('reset');
+                              that.setView('.alert-product', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.errorVenuePost'),
+                                 showClose: true
+                              })).render();
+                           }
+                        });
+                     });
+                  } else {
+                     that.postProduct($submit, newProduct);
+                  }
+               },
+               error: function() {
+                  $submit.button('reset');
+                  that.setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorProductPost'),
+                     showClose: true
+                  })).render();
+               }
+            });
+         });
       },
 
       postProduct: function($submit, newProduct) {

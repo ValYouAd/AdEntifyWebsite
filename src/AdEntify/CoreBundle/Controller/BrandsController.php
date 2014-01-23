@@ -112,8 +112,9 @@ class BrandsController extends FosRestController
             $form->bind($request);
             if ($form->isValid()) {
 
-                $found = $this->getAction($brand->getName());
-                if ($found) {
+                $found = $em->createQuery('SELECT COUNT(b.id) FROM AdEntifyCoreBundle:Brand b WHERE b.name = :name')
+                    ->setParameter('name', $brand->getName())->getSingleScalarResult();
+                if ($found > 0) {
                     $form->addError(new FormError('brand.alreadyExist'));
                     return $form;
                 }

@@ -511,210 +511,239 @@ class UsersController extends FosRestController
 
     /**
      * @View()
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      *
      * @param $id
      */
     public function taskProgressAction()
     {
-        $currentUser = $this->container->get('security.context')->getToken()->getUser();
-        $task = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Task')->findOneBy(array(
-            'user' => $currentUser->getId(),
-            'type' => Task::TYPE_UPLOAD
-        ));
-        return $task ? $task->getProgress() : null;
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $currentUser = $this->container->get('security.context')->getToken()->getUser();
+            $task = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Task')->findOneBy(array(
+                'user' => $currentUser->getId(),
+                'type' => Task::TYPE_UPLOAD
+            ));
+            return $task ? $task->getProgress() : null;
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
      * @View()
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function postBirthdayAction()
     {
-        $currentUser = $this->container->get('security.context')->getToken()->getUser();
-        $currentUser->setBirthday(new \DateTime($this->getRequest()->request->get('birthday')));
-        $this->getDoctrine()->getManager()->merge($currentUser);
-        $this->getDoctrine()->getManager()->flush();
-        return '';
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $currentUser = $this->container->get('security.context')->getToken()->getUser();
+            $currentUser->setBirthday(new \DateTime($this->getRequest()->request->get('birthday')));
+            $this->getDoctrine()->getManager()->merge($currentUser);
+            $this->getDoctrine()->getManager()->flush();
+            return '';
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
      * @View()
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function getBrandsAction()
     {
-        $currentUser = $this->container->get('security.context')->getToken()->getUser();
-        $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $currentUser = $this->container->get('security.context')->getToken()->getUser();
+            $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
             LEFT JOIN b.followers as follower WHERE b.validated = 1 AND follower.id = :currentUserId')
-        ->setParameters(array(
-                'currentUserId' => $currentUser->getId()
-            ));
+                ->setParameters(array(
+                    'currentUserId' => $currentUser->getId()
+                ));
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
      * @View()
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function getAnalyticsAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $currentUser = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $currentUser = $this->container->get('security.context')->getToken()->getUser();
 
-        $taggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
+            $taggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
             AND p.tags IS NOT EMPTY')
-            ->setParameters(array(
-                'currentUserId' => $currentUser->getId()
-            ))
-            ->getSingleScalarResult();
+                ->setParameters(array(
+                    'currentUserId' => $currentUser->getId()
+                ))
+                ->getSingleScalarResult();
 
-        $untaggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
+            $untaggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
             AND p.tags IS EMPTY')
-            ->setParameters(array(
-                'currentUserId' => $currentUser->getId()
-            ))
-            ->getSingleScalarResult();
+                ->setParameters(array(
+                    'currentUserId' => $currentUser->getId()
+                ))
+                ->getSingleScalarResult();
 
-        $totalPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId')
-            ->setParameters(array(
-                'currentUserId' => $currentUser->getId()
-            ))
-            ->getSingleScalarResult();
+            $totalPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId')
+                ->setParameters(array(
+                    'currentUserId' => $currentUser->getId()
+                ))
+                ->getSingleScalarResult();
 
-        return array(
-            'taggedPhotos' => $taggedPhotos,
-            'totalPhotos' => $totalPhotos,
-            'untaggedPhotos' => $untaggedPhotos
-        );
+            return array(
+                'taggedPhotos' => $taggedPhotos,
+                'totalPhotos' => $totalPhotos,
+                'untaggedPhotos' => $untaggedPhotos
+            );
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
      * @View()
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function getPointsAction()
     {
-        return $this->container->get('security.context')->getToken()->getUser()->getPoints();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->container->get('security.context')->getToken()->getUser()->getPoints();
+        } else {
+            throw new HttpException(401);
+        }
+
     }
 
     /**
      * @View()
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      *
      * @QueryParam(name="begin")
      * @QueryParam(name="end")
      */
     public function getCreditsByDateRangeAction($begin, $end)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 
-        // Get SQL query parameters
-        $parametersPoints = array(
-            'userId' => $user->getId(),
-            'status' => TagPoint::STATUS_CREDITED
-        );
-        $parametersIncomes = array(
-            'userId' => $user->getId(),
-            'status' => TagIncome::STATUS_PAID
-        );
-        $whereClausesPoints = array();
-        $whereClausesIncomes = array();
-        if ($begin) {
-            $parametersPoints['begin'] = new \DateTime($begin);
-            $parametersIncomes['begin'] = new \DateTime($begin);
-            $whereClausesPoints[] = ' AND DAY(credited_at) >= DAY(:begin) ';
-            $whereClausesIncomes[] = ' AND DAY(paid_at) >= DAY(:end) ';
-        }
-        if ($end) {
-            $parametersPoints['end'] = new \DateTime($end);
-            $parametersIncomes['end'] = new \DateTime($end);
-            $whereClausesPoints[] = ' AND DAY(credited_at) <= DAY(:end) ';
-            $whereClausesIncomes[] = ' AND DAY(paid_at) <= DAY(:end) ';
-        }
-
-        $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('points', 'points', 'integer');
-        $rsm->addScalarResult('date', 'date', 'datetime');
-
-        $sql = 'SELECT SUM(points) AS points, credited_at AS date FROM tag_points
-            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesPoints) . ' GROUP BY DAY(credited_at)';
-        $tagPoints = $em->createNativeQuery($sql, $rsm)->setParameters($parametersPoints)->getResult();
-
-        $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('income', 'income', 'decimal');
-        $rsm->addScalarResult('date', 'date', 'datetime');
-
-        $sql = 'SELECT SUM(income) AS income, paid_at AS date FROM tag_incomes
-            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesIncomes) . ' GROUP BY DAY(paid_at)';
-        $tagIncomes = $em->createNativeQuery($sql, $rsm)->setParameters($parametersIncomes)->getResult();
-
-        $credits = array();
-        foreach ($tagPoints as $tagPoint) {
-            $credits[] = $tagPoint;
-        }
-
-        foreach ($tagIncomes as $tagIncome) {
-            $found = false;
-            foreach($credits as &$credit) {
-                if ($credit['date']->format('Y-m-d') == $tagIncome['date']->format('Y-m-d')) {
-                    $credit['incomes'] = $tagIncome['income'];
-                    $found = true;
-                    break;
-                }
+            // Get SQL query parameters
+            $parametersPoints = array(
+                'userId' => $user->getId(),
+                'status' => TagPoint::STATUS_CREDITED
+            );
+            $parametersIncomes = array(
+                'userId' => $user->getId(),
+                'status' => TagIncome::STATUS_PAID
+            );
+            $whereClausesPoints = array();
+            $whereClausesIncomes = array();
+            if ($begin) {
+                $parametersPoints['begin'] = new \DateTime($begin);
+                $parametersIncomes['begin'] = new \DateTime($begin);
+                $whereClausesPoints[] = ' AND DAY(credited_at) >= DAY(:begin) ';
+                $whereClausesIncomes[] = ' AND DAY(paid_at) >= DAY(:end) ';
             }
-            if (!$found)
-                $credits[] = $tagIncome;
-        }
+            if ($end) {
+                $parametersPoints['end'] = new \DateTime($end);
+                $parametersIncomes['end'] = new \DateTime($end);
+                $whereClausesPoints[] = ' AND DAY(credited_at) <= DAY(:end) ';
+                $whereClausesIncomes[] = ' AND DAY(paid_at) <= DAY(:end) ';
+            }
 
-        return $credits;
+            $rsm = new ResultSetMapping();
+            $rsm->addScalarResult('points', 'points', 'integer');
+            $rsm->addScalarResult('date', 'date', 'datetime');
+
+            $sql = 'SELECT SUM(points) AS points, credited_at AS date FROM tag_points
+            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesPoints) . ' GROUP BY DAY(credited_at)';
+            $tagPoints = $em->createNativeQuery($sql, $rsm)->setParameters($parametersPoints)->getResult();
+
+            $rsm = new ResultSetMapping();
+            $rsm->addScalarResult('income', 'income', 'decimal');
+            $rsm->addScalarResult('date', 'date', 'datetime');
+
+            $sql = 'SELECT SUM(income) AS income, paid_at AS date FROM tag_incomes
+            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesIncomes) . ' GROUP BY DAY(paid_at)';
+            $tagIncomes = $em->createNativeQuery($sql, $rsm)->setParameters($parametersIncomes)->getResult();
+
+            $credits = array();
+            foreach ($tagPoints as $tagPoint) {
+                $credits[] = $tagPoint;
+            }
+
+            foreach ($tagIncomes as $tagIncome) {
+                $found = false;
+                foreach($credits as &$credit) {
+                    if ($credit['date']->format('Y-m-d') == $tagIncome['date']->format('Y-m-d')) {
+                        $credit['incomes'] = $tagIncome['income'];
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found)
+                    $credits[] = $tagIncome;
+            }
+
+            return $credits;
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     /**
      * @View()
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function getCreditsByDateAction($date)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $em = $this->getDoctrine()->getManager();
 
-        $tagPoints = $em ->createQuery('SELECT tagPoint FROM AdEntifyCoreBundle:TagPoint tagPoint
+            $tagPoints = $em ->createQuery('SELECT tagPoint FROM AdEntifyCoreBundle:TagPoint tagPoint
             where tagPoint.user = :userId AND tagPoint.status = :status AND DAY(tagPoint.creditedAt) = DAY(:date)')
-            ->setParameters(array(
-            'userId' => $user->getId(),
-            'status' => TagPoint::STATUS_CREDITED,
-            'date' => new \DateTime($date)
-        ))->getResult();
+                ->setParameters(array(
+                    'userId' => $user->getId(),
+                    'status' => TagPoint::STATUS_CREDITED,
+                    'date' => new \DateTime($date)
+                ))->getResult();
 
-        $tagIncomes = $em->createQuery('SELECT tagIncome FROM AdEntifyCoreBundle:TagIncome tagIncome
+            $tagIncomes = $em->createQuery('SELECT tagIncome FROM AdEntifyCoreBundle:TagIncome tagIncome
             WHERE tagIncome = :userId AND tagIncome.status = :status AND DAY(tagIncome.paidAt) = DAY(:date)')
-            ->setParameters(array(
-            'userId' => $user->getId(),
-            'status' => TagIncome::STATUS_PAID,
-            'date' => new \DateTime($date)
-        ))->getResult();
+                ->setParameters(array(
+                    'userId' => $user->getId(),
+                    'status' => TagIncome::STATUS_PAID,
+                    'date' => new \DateTime($date)
+                ))->getResult();
 
-        $credits = array();
-        foreach ($tagPoints as $tagPoint) {
-            $credits[] = $this->formatCredit($tagPoint);
-        }
-
-        foreach ($tagIncomes as $tagIncome) {
-            $found = false;
-            foreach($credits as &$credit) {
-                if ($credit['tagId'] == $tagIncome->getTag()->getId()) {
-                    $credit['income'] = $tagIncome->getIncome();
-                    $found = true;
-                    break;
-                }
+            $credits = array();
+            foreach ($tagPoints as $tagPoint) {
+                $credits[] = $this->formatCredit($tagPoint);
             }
-            if (!$found)
-                $credits[] = $this->formatCredit(null, $tagIncome);
-        }
 
-        return $credits;
+            foreach ($tagIncomes as $tagIncome) {
+                $found = false;
+                foreach($credits as &$credit) {
+                    if ($credit['tagId'] == $tagIncome->getTag()->getId()) {
+                        $credit['income'] = $tagIncome->getIncome();
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found)
+                    $credits[] = $this->formatCredit(null, $tagIncome);
+            }
+
+            return $credits;
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     private function formatCredit(TagPoint $tagPoint = null, TagIncome $tagIncome = null)

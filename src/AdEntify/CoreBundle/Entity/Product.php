@@ -140,6 +140,8 @@ class Product
     private $legalNotice;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var
      *
      * @ORM\Column(name="cost_per_tag", type="decimal", scale=4, precision=15)
@@ -147,6 +149,8 @@ class Product
     private $costPerTag = 0;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var
      *
      * @ORM\Column(name="adentify_fees", type="decimal", scale=4, precision=15)

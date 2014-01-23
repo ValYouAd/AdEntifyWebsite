@@ -1,4 +1,8 @@
-<a href="<%= model.get('link') %>" class="thumbnail">
-    <img src="<%= model.get('profilePicRootUrl') %><%= model.get("medium_logo_url") %>" alt="<%= model.get("name") %>" class="brand-logo" />
-    <div class="tagged-count text-center"><span data-i18n="[html]brand.tagged" data-i18n-options='{"count": <%= model.get("tags_count") %>}'></span></div>
-</a>
+<div class="table-center">
+    <div class="table-center-cell text-center">
+        <a href="<%= model.get('link') %>" class="thumbnail">
+            <img src="<%= model.get('profilePicRootUrl') %><%= model.get("medium_logo_url") %>" alt="<%= model.get("name") %>" class="brand-logo" />
+            <div class="tagged-count text-center"><span data-i18n="[html]brand.tagged" data-i18n-options='{"count": <%= model.get("tags_count") %>}'></span></div>
+        </a>
+    </div>
+</div>

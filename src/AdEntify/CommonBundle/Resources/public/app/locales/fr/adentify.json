@@ -182,6 +182,7 @@
       "productImageUploadLabel": "Photo du produit",
       "errorProductImageUpload": "Impossible de récupérer la photo du produit. Veuillez réessayer.",
       "errorProductPost": "Erreur lors de l'ajout du produit",
+      "errorBrandPost": "Erreur lors de l'ajout de la marque",
       "errorSelectBrand": "Veuillez sélectionner une marque avant d'ajouter un produit",
       "errorProductEmptyFields": "Vous devez remplir les champs nom et description",
       "deleteTag": "Supprimer ce tag",
@@ -394,7 +395,7 @@
       "followBrand": "<a href='__authorLink__'>__author__</a> est devenu un fan de <a href='__brandLink__'>__brandName__</a>",
       "tagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour son tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>",
       "publicTagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>",
-      "newReward": "<a href='__authorLink__'>__author__</a> vient de venir un fan __type__ de <a href='__brandLink__'>__brandName__</a>"
+      "newReward": "<a href='__authorLink__'>__author__</a> est maintenant un fan __type__ de <a href='__brandLink__'>__brandName__</a>"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",
