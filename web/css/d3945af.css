@@ -2585,7 +2585,7 @@ html,body {
 }
 
 /* Ticker */
-.ticker-item .photo {
+.ticker-item .photo-img-medium {
     max-width: 100%;
 }
 .ticker-item {

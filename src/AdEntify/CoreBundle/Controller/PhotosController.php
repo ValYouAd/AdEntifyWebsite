@@ -435,11 +435,16 @@ class PhotosController extends FosRestController
             }
         }
 
-        $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-            LEFT JOIN photo.categories category LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag
-            WHERE category.id IN (:categories) AND photo.id != :photoId AND photo.deletedAt IS NULL AND photo.status = :status
-                AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
-                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC')->setParameters(array(
+        $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
+                  AND tag.censored = false AND tag.waitingValidation = false
+                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
+                LEFT JOIN photo.owner owner LEFT JOIN photo.categories category
+                WHERE category.id IN (:categories) AND photo.id != :photoId AND photo.status = :status AND photo.deletedAt IS NULL
+                    AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                    OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC';
+
+        $query = $em->createQuery($sql)->setParameters(array(
                 'categories' => $categoriesId,
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
@@ -447,6 +452,8 @@ class PhotosController extends FosRestController
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
                 ':photoId' => $id,
+                ':none' => Tag::VALIDATION_NONE,
+                ':granted' => Tag::VALIDATION_GRANTED,
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);

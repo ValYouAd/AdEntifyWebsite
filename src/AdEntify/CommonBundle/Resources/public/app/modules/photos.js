@@ -38,6 +38,7 @@ define([
 
       initialize: function() {
          this.itemClickBehavior = typeof this.options.itemClickBehavior !== 'undefined' ? this.options.itemClickBehavior : Photos.Common.PhotoItemClickBehaviorDetail;
+         this.tagName = typeof this.options.tagName !== 'undefined' ? this.options.tagName : this.tagName;
          this.addTag = typeof this.options.addTag !== 'undefined' ? this.options.addTag : this.addTag;
       },
 
@@ -91,13 +92,15 @@ define([
          }
       },
 
-      showTags: function(evt) {
+      addTag: function(evt) {
          Tag.Common.addTag(evt, this.model);
       },
 
       events: {
          'click .photo-link': 'showPhoto',
-         'click .add-tag': 'showTags'
+         'click .add-tag': 'addTag',
+         'mouseenter .photo-container': 'showTags',
+         'mouseleave .photo-container': 'hideTags'
       }
    });
 
@@ -353,55 +356,6 @@ define([
          'click .most-recent-filter': 'mostRecentFilter',
          'click .oldest-filter': 'oldestFilter',
          'click .most-liked-filter': 'mostLikedFilter'
-      }
-   });
-
-   // Linked photos
-   Photos.Views.Ticker = Backbone.View.extend({
-      template: 'photos/tickerPhotoList',
-
-      serialize: function() {
-         return { collection: this.options.tickerPhotos };
-      },
-
-      beforeRender: function() {
-         this.options.tickerPhotos.each(function(photo) {
-            this.insertView('.ticker-photos', new Photos.Views.TickerItem({
-               model: photo
-            }));
-         }, this);
-      },
-
-      initialize: function() {
-         this.listenTo(this.options.tickerPhotos, {
-            'sync': this.render
-         });
-      }
-   });
-
-   // Linked photo item (Photo)
-   Photos.Views.TickerItem = Backbone.View.extend({
-      template: "photos/tickerPhotoItem",
-      tagName: 'li class="ticker-item"',
-
-      serialize: function() {
-         return { model: this.model };
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
-      },
-
-      showPhoto: function(evt) {
-         Photos.Common.showPhoto(evt, this.model);
-      },
-
-      events: {
-         'click .photo-link': 'showPhoto'
       }
    });
 

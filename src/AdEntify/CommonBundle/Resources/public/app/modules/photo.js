@@ -472,8 +472,11 @@ define([
          }
          var Photos = require('modules/photos');
          this.options.tickerPhotos.each(function(photo) {
-            this.insertView('.linked-photos-list', new Photos.Views.TickerItem({
-               model: photo
+            this.insertView('.linked-photos-list', new Photos.Views.Item({
+               model: photo,
+               tagName: 'li class="ticker-item"',
+               itemClickBehavior: Photos.Common.PhotoItemClickBehaviorDetail,
+               addTag: false
             }));
          }, this);
       },
