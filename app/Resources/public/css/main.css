@@ -99,10 +99,10 @@ body {
 
 html,body {
     height: 100%;
-    background: #eaedf1;
+    background: url('../img/graphik_background.png') repeat;
 }
 .body-grey-background {
-    background: url('../img/body-grey-background.jpg') repeat;
+    background: url('../img/graphik_background.png') repeat;
 }
 .body-grey-background #dashboard {
     margin-top: 20px;
