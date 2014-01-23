@@ -1221,9 +1221,7 @@ define([
             app.trigger('addTagModal:hide');
          });
 
-         Common.Tools.hideCurrentModalIfOpened(function() {
-            app.useLayout().setView('#modal-container', modal).render();
-         });
+         app.useLayout().setView('#front-modal-container', modal).render();
       },
 
       reportTag: function(tag) {
