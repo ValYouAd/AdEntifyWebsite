@@ -65,7 +65,7 @@ define([
          this.options.rewards.each(function(reward) {
             this.insertView('.rewards', new Reward.Views.Item({
                model: reward,
-               template: typeof this.options.template !== 'undefined' ? this.options.template : null
+               itemTemplate: typeof this.options.itemTemplate !== 'undefined' ? this.options.itemTemplate : null
             }));
          }, this);
       }
@@ -81,7 +81,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, 'change', this.render);
-         this.template = typeof this.options.template !== 'undefined' && this.options.template != null ? this.options.template : this.template;
+         this.template = typeof this.options.itemTemplate !== 'undefined' && this.options.itemTemplate != null ? this.options.itemTemplate : this.template;
       }
    });
 

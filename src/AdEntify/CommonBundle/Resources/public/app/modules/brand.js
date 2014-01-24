@@ -168,7 +168,7 @@ define([
             this.setView('.rewards', new Reward.Views.List({
                rewards: this.options.rewards,
                emptyMessage: $.t('brand.noRewards', { name: this.model.get('name') }),
-               template: 'reward/userItem'
+               itemTemplate: 'reward/userItem'
             }));
          }
       },
