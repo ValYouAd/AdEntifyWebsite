@@ -130,7 +130,7 @@ define([
          if (!this.getView('.rewards') && this.options.rewards) {
             this.setView('.rewards', new Reward.Views.List({
                rewards: this.options.rewards,
-               showAlert: true
+               emptyMessage: $.t('profile.noRewards')
             }));
          }
          if (this.showServices && !this.getView('.services')) {

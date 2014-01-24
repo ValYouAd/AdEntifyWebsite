@@ -64,7 +64,8 @@ define([
       beforeRender: function() {
          this.options.rewards.each(function(reward) {
             this.insertView('.rewards', new Reward.Views.Item({
-               model: reward
+               model: reward,
+               template: typeof this.options.template !== 'undefined' ? this.options.template : null
             }));
          }, this);
       }
@@ -80,7 +81,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, 'change', this.render);
-         this.template = typeof this.options.template !== 'undefined' ? this.options.template : this.template;
+         this.template = typeof this.options.template !== 'undefined' && this.options.template != null ? this.options.template : this.template;
       }
    });
 
