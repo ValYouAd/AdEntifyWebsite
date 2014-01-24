@@ -13,7 +13,7 @@
       "viewPhotos": "View photos",
       "followersTitle": "Followers",
       "moreFollowers": "View more followers",
-      "rewards": "Rewards",
+      "rewards": "Ambassadors",
       "noRewards": "No reward yet for __name__",
       "placeholderName": "Name",
       "placeholderDescription": "Description",
@@ -201,7 +201,8 @@
       "tellUsMore": "You want to win more? Tell us more about this product",
       "place": "Place",
       "person": "Person",
-      "product": "Product"
+      "product": "Product",
+      "tagSuccessfullyAdded": "Tag was successfully added"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -369,17 +370,17 @@
       "read": "read",
       "unread": "unread",
       "inProgress": "Loading notifications...",
-      "photosUploaded": "<a href='__link__' data-bypass='' class='photo-link'>Your photos</a> were successfully uploaded! You can now add tags.",
+      "photosUploaded": "<a href='__link__' data-bypass='' class='photo-link'>Your photos were successfully uploaded! You can now add tags.</a>",
       "noNotifications": "No new notification.",
-      "photoFav": "<a href='__authorLink__'>__author__</a> favorited <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> liked <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> commented on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "anonymousLikedPhoto": "Someone commented on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "friendTagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "followUser": "<a href='__authorLink__'>__author__</a> now follows you",
-      "tagPoints": "You just win __count__ points for your last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "publicTagPoints": "You just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>your photo</a>",
-      "newReward": "You just win the reward <strong>__type__</strong> for <a href='__brandLink__'>__brandName__</a>"
+      "photoFav": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ favorited <strong>your photo</strong></a>",
+      "memberLikedPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ liked <strong>your photo</strong></a>",
+      "memberCommentPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ commented on <strong>your photo</strong></a>",
+      "anonymousLikedPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>Someone commented on <strong>your photo</strong></a>",
+      "friendTagPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ tagged <strong>your photo</strong></a>",
+      "followUser": "<a href='__authorLink__'>__author__ now follows you</a>",
+      "tagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You just win __count__ points for your last tag on <strong>your photo</strong></a>",
+      "publicTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You just win __count__ points for the tag on <strong>your photo</strong></a>",
+      "newReward": "<a href='__brandLink__'>You just win the reward <strong>__type__</strong> for <strong>__brandName__</strong></a>"
    },
    "action": {
       "errorLoading": "Error loading actions.",

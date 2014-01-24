@@ -492,6 +492,14 @@ define([
          this.listenTo(app, 'tagMenuTools:tagAdded', function(photo) {
             if (typeof photo !== 'undefined' && typeof that.photo !== 'undefined' && that.photo.get('id') == photo.get('id')) {
                that.render();
+               this.setView('.alert-container', new Common.Views.Alert({
+                  cssClass: Common.alertSuccess,
+                  message: $.t('tag.tagSuccessfullyAdded'),
+                  showClose: true
+               })).render();
+               setTimeout(function() {
+                  that.removeView('.alert-container');
+               }, 3000);
             }
          });
       }
@@ -502,6 +510,7 @@ define([
 
       initialize: function() {
          this.photo = this.options.photo;
+         var that = this;
          this.listenTo(app, 'photo:tagAdded', function(tag) {
             var that = this;
             currentTag = tag;

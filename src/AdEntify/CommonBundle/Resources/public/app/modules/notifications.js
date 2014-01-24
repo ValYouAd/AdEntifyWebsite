@@ -126,8 +126,8 @@ define([
             options.brandLink = this.model.get('brandModel').get('link');
             options.brandName = this.model.get('brandModel').get('name');
          }
-         if (this.model.has('photo')) {
-            options.photoLink = this.model.get('photo').get('link');
+         if (this.model.has('photoLink')) {
+            options.photoLink = this.model.get('photoLink');
          }
 
          return $.t(this.model.get('message'), options);
