@@ -746,6 +746,42 @@ class UsersController extends FosRestController
         }
     }
 
+    /**
+     * @param $id
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     *
+     * @View()
+     */
+    public function getRewardsAction($id, $page = 1, $limit = 10)
+    {
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT reward FROM AdEntifyCoreBundle:Reward reward
+            WHERE reward.owner = :userId')
+            ->setParameters(array(
+                'userId'=> $id
+            ))
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
+
+        $rewards = null;
+        $pagination = null;
+        if ($count > 0) {
+            $rewards = array();
+            foreach ($paginator as $reward)
+                $rewards[] = $reward;
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
+                'api_v1_get_user_rewards', array(
+                    'id' => $id
+                ));
+        }
+        return PaginationTools::getPaginationArray($rewards, $pagination);
+    }
+
     private function formatCredit(TagPoint $tagPoint = null, TagIncome $tagIncome = null)
     {
         $obj = $tagPoint ? $tagPoint : $tagIncome;

@@ -22,7 +22,14 @@ define([
       },
 
       setup: function() {
-
+         if (!this.has('ownerModel')) {
+            var userModule = require('modules/user');
+            this.set('ownerModel', new userModule.Model(this.get('owner')));
+         }
+         if (!this.has('brandModel')) {
+            var brandModule = require('modules/brand');
+            this.set('brandModel', new brandModule.Model(this.get('brand')));
+         }
       }
    });
 
@@ -64,7 +71,7 @@ define([
    });
 
    Reward.Views.Item = Backbone.View.extend({
-      template: 'reward/item',
+      template: 'reward/brandItem',
       tagName: 'li class="reward-item"',
 
       serialize: function() {
@@ -73,6 +80,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, 'change', this.render);
+         this.template = typeof this.options.template !== 'undefined' ? this.options.template : this.template;
       }
    });
 

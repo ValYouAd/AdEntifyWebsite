@@ -127,6 +127,12 @@ define([
                showAlert: true
             }));
          }
+         if (!this.getView('.rewards') && this.options.rewards) {
+            this.setView('.rewards', new Reward.Views.List({
+               rewards: this.options.rewards,
+               showAlert: true
+            }));
+         }
          if (this.showServices && !this.getView('.services')) {
             var MySettings = require('modules/mySettings');
             this.setView(".services", new MySettings.Views.ServiceList());

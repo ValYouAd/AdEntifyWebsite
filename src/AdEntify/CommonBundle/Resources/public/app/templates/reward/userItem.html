@@ -1,0 +1,11 @@
+<a href="<%= model.get('ownerModel').get('link') %>">
+    <div class="pull-left reward-icon">
+        <div class="reward-<%= model.get('type') %>"></div>
+    </div>
+    <div class="pull-left">
+        <img src="<%= model.get('ownerModel').get('profilePicture') %>" alt="<%= model.get('ownerModel').get('fullname') %>" class="profile-picture" />
+        <span><%= model.get('ownerModel').get('fullname') %></span>
+    </div>
+    <div class="clearfix"></div>
+</a>
+<div class="clearfix"></div>

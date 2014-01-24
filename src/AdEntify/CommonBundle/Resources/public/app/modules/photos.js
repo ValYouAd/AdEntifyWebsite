@@ -307,12 +307,10 @@ define([
       },
 
       dateFilter: function(way) {
-         //var activate = this.activateFilter(this.$('.date-filter').parent());
          this.loadPhotos('&orderBy=date&way=' + way);
       },
 
       likeFilter: function(way) {
-         //var activate = this.activateFilter(this.$('.like-filter').parent());
          this.loadPhotos('&orderBy=likes&way=' + way);
       },
 
