@@ -22,7 +22,14 @@ define([
       },
 
       setup: function() {
-
+         if (!this.has('ownerModel')) {
+            var userModule = require('modules/user');
+            this.set('ownerModel', new userModule.Model(this.get('owner')));
+         }
+         if (!this.has('brandModel')) {
+            var brandModule = require('modules/brand');
+            this.set('brandModel', new brandModule.Model(this.get('brand')));
+         }
       }
    });
 
@@ -57,14 +64,15 @@ define([
       beforeRender: function() {
          this.options.rewards.each(function(reward) {
             this.insertView('.rewards', new Reward.Views.Item({
-               model: reward
+               model: reward,
+               itemTemplate: typeof this.options.itemTemplate !== 'undefined' ? this.options.itemTemplate : null
             }));
          }, this);
       }
    });
 
    Reward.Views.Item = Backbone.View.extend({
-      template: 'reward/item',
+      template: 'reward/brandItem',
       tagName: 'li class="reward-item"',
 
       serialize: function() {
@@ -73,6 +81,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, 'change', this.render);
+         this.template = typeof this.options.itemTemplate !== 'undefined' && this.options.itemTemplate != null ? this.options.itemTemplate : this.template;
       }
    });
 

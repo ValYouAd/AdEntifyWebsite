@@ -99,10 +99,10 @@ body {
 
 html,body {
     height: 100%;
-    background: #eaedf1;
+    background: url('../img/graphik_background.png') repeat;
 }
 .body-grey-background {
-    background: url('../img/body-grey-background.jpg') repeat;
+    background: url('../img/graphik_background.png') repeat;
 }
 .body-grey-background #dashboard {
     margin-top: 20px;
@@ -527,6 +527,24 @@ html,body {
     border-right: 1px solid #e5e7ea;
     border-bottom: 1px solid #e5e7ea;
     text-align: center;
+    color: #5b5756;
+    font-size: 14px;
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+}
+.more-filters li {
+    height: 58px;
+    line-height: 58px;
+    vertical-align: middle;
+    padding: 0px 25px;
+}
+.more-filters .icon {
+    margin-right: 10px;
+}
+.more-filters .text-filter {
+    margin-right: 8px;
+}
+.more-filters .loading-gif-container {
+    margin: 8px 8px 0 0;
 }
 /* Photos
 ----------------------- */
@@ -1552,7 +1570,6 @@ html,body {
 #notifications {
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
-#notifications a,
 #notifications strong {
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 }
@@ -1727,6 +1744,63 @@ html,body {
 /* End Brand
 ----------------------- */
 
+/* End Rewards
+----------------------- */
+.reward-item {
+    padding: 4px 10px;
+    color: #cecfd1;
+}
+.reward-item .user-info,
+.reward-item .user-info:hover {
+    font-family: 'robotobold', sans-serif;
+    font-size: 12px;
+    color: #2c2c2e;
+    text-decoration: none;
+    border-left: 1px solid #cdcfd1;
+    padding-left: 8px;
+    margin-left: 2px;
+}
+.reward-item .profile-picture {
+    max-height: 30px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.reward-item .glyphicon-info-sign {
+    color: #cecfd1;
+    font-size: 16px;
+    margin-top: 4px;
+}
+.reward-item span {
+    margin-top: 4px;
+}
+.reward-item a,
+.reward-item a:hover {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+}
+.reward-icon {
+    vertical-align: middle;
+    margin-right: 8px;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
+.reward-text-addict {
+    color: #fe3737;
+}
+.reward-text-bronze {
+    color: #dba47d;
+}
+.reward-text-silver {
+    color: #aaa8a8;
+}
+.reward-text-gold {
+    color: #d6b22a;
+}
+/* End Rewards
+----------------------- */
+
 /* Common Templates
 ----------------------- */
 
@@ -1739,7 +1813,7 @@ html,body {
 }
 
 /* Ticker */
-.ticker-item .photo {
+.ticker-item .photo-img-medium {
     max-width: 100%;
 }
 .ticker-item {
@@ -1871,10 +1945,11 @@ html,body {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .small-facebook-grey-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-grey-circle-icon, .small-twitter-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-pinterest-circle-icon, .small-facebook-circle-icon, .small-twitter-circle-icon, .curve-arrow-left{
+
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .small-facebook-grey-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-grey-circle-icon, .small-twitter-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-pinterest-circle-icon, .small-facebook-circle-icon, .small-twitter-circle-icon, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver{
     background-image: url('../img/sprites.png');
-    background-color: transparent;
     background-repeat: no-repeat;
+    background-color: transparent;
 }
 
 .brands-icon{
@@ -2447,6 +2522,30 @@ html,body {
     height: 8px;
 }
 
+.reward-addict{
+    background-position: -91px -288px ;
+    width: 30px;
+    height: 30px;
+}
+
+.reward-bronze{
+    background-position: -155px -255px ;
+    width: 30px;
+    height: 30px;
+}
+
+.reward-gold{
+    background-position: -123px -255px ;
+    width: 30px;
+    height: 30px;
+}
+
+.reward-silver{
+    background-position: -91px -255px ;
+    width: 30px;
+    height: 30px;
+}
+
 
 
 
@@ -2886,7 +2985,15 @@ label,
     font-size: 11px;
 }
 .btn-grey-white-border:hover {
-    border: 3px solid #e2e2e2!important;
+    background: rgb(255,70,70);
+    background: -moz-linear-gradient(top,  rgba(255,70,70,1) 0%, rgba(255,45,45,1) 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,70,70,1)), color-stop(50%,rgba(255,45,45,1)));
+    background: -webkit-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: -o-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: -ms-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: linear-gradient(to bottom,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4646', endColorstr='#ff2d2d',GradientType=0 );
+    border: 3px solid #eaedf1!important;
     color: #FFFFFF;
     text-decoration: none;
 }
@@ -3748,6 +3855,9 @@ ul.striped > li:nth-child(even) {
     color: #ff3434;
 }
 a[data-bypass] {
+    cursor: pointer;
+}
+.pointer {
     cursor: pointer;
 }
 /*

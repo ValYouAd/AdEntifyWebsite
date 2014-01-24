@@ -46,7 +46,7 @@ define([
          }
          if (this.has('brand')) {
             var brandModule = require('modules/brand');
-            this.set('brandModel', new brandModule(this.get('brand')));
+            this.set('brandModel', new brandModule.Model(this.get('brand')));
          }
          if (this.has('photos') && this.get('photos').length > 0) {
             var photos = new Photos.Collection();
@@ -126,8 +126,8 @@ define([
             options.brandLink = this.model.get('brandModel').get('link');
             options.brandName = this.model.get('brandModel').get('name');
          }
-         if (this.model.has('photo')) {
-            options.photoLink = this.model.get('photo').get('link');
+         if (this.model.has('photoLink')) {
+            options.photoLink = this.model.get('photoLink');
          }
 
          return $.t(this.model.get('message'), options);

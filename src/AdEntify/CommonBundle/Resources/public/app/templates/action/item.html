@@ -12,6 +12,11 @@
     <a href="<%= model.get('targetModel').get('link') %>"><img src="<%= model.get('targetModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('targetModel').get('fullname') %>" /></a>
 </div>
 <% } %>
+<% if (model.get('type') == 'reward-new') { %>
+<div class="pull-right">
+    <div class="reward-<%= model.get('message_options').type %>"></div>
+</div>
+<% } %>
 <%= getI18nMessage() %>
 <div class="clearfix"></div>
 <div class="ticker_separator"></div>

@@ -205,6 +205,8 @@ class Venue
     private $brandsCount = 0;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var
      *
      * @ORM\Column(name="cost_per_tag", type="decimal", scale=4, precision=15)
@@ -212,6 +214,8 @@ class Venue
     private $costPerTag = 0;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var
      *
      * @ORM\Column(name="adentify_fees", type="decimal", scale=4, precision=15)
@@ -219,6 +223,8 @@ class Venue
     private $adentifyFees = 50;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var integer
      *
      * * @ORM\Column(name="tag_required_addict_reward", type="integer")
@@ -228,7 +234,7 @@ class Venue
     /**
      * @Serializer\Exclude
      *
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
      */
     private $rewards;
 

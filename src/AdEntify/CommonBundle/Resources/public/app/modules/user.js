@@ -127,6 +127,12 @@ define([
                showAlert: true
             }));
          }
+         if (!this.getView('.rewards') && this.options.rewards) {
+            this.setView('.rewards', new Reward.Views.List({
+               rewards: this.options.rewards,
+               emptyMessage: $.t('profile.noRewards')
+            }));
+         }
          if (this.showServices && !this.getView('.services')) {
             var MySettings = require('modules/mySettings');
             this.setView(".services", new MySettings.Views.ServiceList());
@@ -239,6 +245,18 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+         var that = this;
+         this.$('button[data-followed]').hover(function() {
+            if (that.follow) {
+               $(this).html($.t('profile.unfollow'));
+            }
+         }, function() {
+            if (that.follow) {
+               $(this).html($.t('profile.followed'));
+            } else {
+               $(this).html($.t('profile.follow'));
+            }
+         });
       },
 
       initialize: function() {

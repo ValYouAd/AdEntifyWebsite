@@ -20,7 +20,6 @@ define([
 ], function(app, Venue, Person, Common, Product) {
 
    var Tag = app.module();
-   var currentPhotoOverlay = null;
    var currentTag = null;
    var tags = null;
    var currentBrands = {};
@@ -51,6 +50,10 @@ define([
          if (this.has('owner') && !this.has('ownerModel')) {
             var User = require('modules/user');
             this.set('ownerModel', new User.Model(this.get('owner')));
+         }
+         if (this.has('person') && !this.has('personModel')) {
+            var User = require('modules/user');
+            this.set('personModel', new User.Model(this.get('person')));
          }
 
          this.listenTo(this, 'change', this.render);
@@ -489,6 +492,14 @@ define([
          this.listenTo(app, 'tagMenuTools:tagAdded', function(photo) {
             if (typeof photo !== 'undefined' && typeof that.photo !== 'undefined' && that.photo.get('id') == photo.get('id')) {
                that.render();
+               this.setView('.alert-container', new Common.Views.Alert({
+                  cssClass: Common.alertSuccess,
+                  message: $.t('tag.tagSuccessfullyAdded'),
+                  showClose: true
+               })).render();
+               setTimeout(function() {
+                  that.removeView('.alert-container');
+               }, 3000);
             }
          });
       }
@@ -499,6 +510,7 @@ define([
 
       initialize: function() {
          this.photo = this.options.photo;
+         var that = this;
          this.listenTo(app, 'photo:tagAdded', function(tag) {
             var that = this;
             currentTag = tag;
@@ -825,17 +837,78 @@ define([
 
       submit: function(e) {
          e.preventDefault();
-         $activePane = this.$('.tab-content .active');
-
          var that = this;
-
+         $activePane = this.$('.tab-content .active');
          switch ($activePane.attr('id')) {
             case 'product':
                $submit = $('#submit-product');
                if (currentTag) {
-                  if (newProduct) {
-                     $submit.button('loading');
-                     if (!currentBrand) {
+
+                  var tmpSubmitProduct = function() {
+                     if (newProduct) {
+                        $submit.button('loading');
+                        if (!$('#product-description').val() || !$('#product-name').val()) {
+                           $submit.button('reset');
+                           that.setView('.alert-product', new Common.Views.Alert({
+                              cssClass: Common.alertError,
+                              message: $.t('tag.errorProductEmptyFields'),
+                              showClose: true
+                           })).render();
+                           return;
+                        }
+                        that.submitNewProduct();
+                     } else if (currentProduct || currentProductType) {
+                        $submit.button('loading');
+                        // Check if there is a venue for the current product
+                        if (currentVenue && currentProduct) {
+                           // POST currentVenue
+                           venue = new Venue.Model();
+                           venue.entityToModel(currentVenue);
+                           venue.set('products', [ currentProduct.id ]);
+                           venue.url = Routing.generate('api_v1_post_venue');
+                           venue.getToken('venue_item', function() {
+                              venue.save(null, {
+                                 success: function() {
+                                    that.postProduct($submit);
+                                 },
+                                 error: function() {
+                                    $submit.button('reset');
+                                    that.setView('.alert-product', new Common.Views.Alert({
+                                       cssClass: Common.alertError,
+                                       message: $.t('tag.errorVenuePost'),
+                                       showClose: true
+                                    })).render();
+                                 }
+                              });
+                           });
+                        } else {
+                           that.postProduct($submit);
+                        }
+                     }
+                  };
+
+                  if (!currentBrand) {
+                     if (that.$('#brand-name').val()) {
+                        var brandModule = require('modules/brand');
+                        currentBrand = new brandModule.Model();
+                        currentBrand.set('name', that.$('#brand-name').val());
+                        currentBrand.url = Routing.generate('api_v1_post_brand');
+                        currentBrand.getToken('brand_item', function() {
+                           currentBrand.save(null, {
+                              success: function() {
+                                 tmpSubmitProduct();
+                              },
+                              error: function() {
+                                 $submit.button('reset');
+                                 that.setView('.alert-product', new Common.Views.Alert({
+                                    cssClass: Common.alertError,
+                                    message: $.t('tag.errorBrandPost'),
+                                    showClose: true
+                                 })).render();
+                              }
+                           });
+                        });
+                     } else {
                         $submit.button('reset');
                         that.setView('.alert-product', new Common.Views.Alert({
                            cssClass: Common.alertError,
@@ -844,86 +917,11 @@ define([
                         })).render();
                         return;
                      }
-                     if (!$('#product-description').val() || !$('#product-name').val()) {
-                        $submit.button('reset');
-                        that.setView('.alert-product', new Common.Views.Alert({
-                           cssClass: Common.alertError,
-                           message: $.t('tag.errorProductEmptyFields'),
-                           showClose: true
-                        })).render();
-                        return;
-                     }
-                     newProduct.url = Routing.generate('api_v1_post_product');
-                     newProduct.set('description', $('#product-description').val());
-                     newProduct.set('purchase_url', $('#product-purchase-url').val());
-                     newProduct.set('name', $('#product-name').val());
-                     newProduct.set('brand', currentBrand.id);
-                     newProduct.getToken('product_item', function() {
-                        newProduct.save(null, {
-                           success: function() {
-                              if (currentVenue) {
-                                 // POST currentVenue
-                                 venue = new Venue.Model();
-                                 venue.entityToModel(currentVenue);
-                                 venue.set('products', [ newProduct.get('id') ]);
-                                 venue.url = Routing.generate('api_v1_post_venue');
-                                 venue.getToken('venue_item', function() {
-                                    venue.save(null, {
-                                       success: function() {
-                                          that.postProduct($submit, newProduct);
-                                       },
-                                       error: function() {
-                                          $submit.button('reset');
-                                          that.setView('.alert-product', new Common.Views.Alert({
-                                             cssClass: Common.alertError,
-                                             message: $.t('tag.errorVenuePost'),
-                                             showClose: true
-                                          })).render();
-                                       }
-                                    });
-                                 });
-                              } else {
-                                 that.postProduct($submit, newProduct);
-                              }
-                           },
-                           error: function() {
-                              $submit.button('reset');
-                              that.setView('.alert-product', new Common.Views.Alert({
-                                 cssClass: Common.alertError,
-                                 message: $.t('tag.errorProductPost'),
-                                 showClose: true
-                              })).render();
-                           }
-                        });
-                     });
-                  } else if (currentProduct || currentProductType) {
-                     $submit.button('loading');
-                     // Check if there is a venue for the current product
-                     if (currentVenue && currentProduct) {
-                        // POST currentVenue
-                        venue = new Venue.Model();
-                        venue.entityToModel(currentVenue);
-                        venue.set('products', [ currentProduct.id ]);
-                        venue.url = Routing.generate('api_v1_post_venue');
-                        venue.getToken('venue_item', function() {
-                           venue.save(null, {
-                              success: function() {
-                                 that.postProduct($submit);
-                              },
-                              error: function() {
-                                 $submit.button('reset');
-                                 that.setView('.alert-product', new Common.Views.Alert({
-                                    cssClass: Common.alertError,
-                                    message: $.t('tag.errorVenuePost'),
-                                    showClose: true
-                                 })).render();
-                              }
-                           });
-                        });
-                     } else {
-                        this.postProduct($submit);
-                     }
+                  } else {
+                     tmpSubmitProduct();
                   }
+
+
                } else {
                   $submit.button('reset');
                   that.setView('.alert-product', new Common.Views.Alert({
@@ -1060,6 +1058,54 @@ define([
          }
       },
 
+      submitNewProduct: function() {
+         var that = this;
+
+         newProduct.url = Routing.generate('api_v1_post_product');
+         newProduct.set('description', $('#product-description').val());
+         newProduct.set('purchase_url', $('#product-purchase-url').val());
+         newProduct.set('name', $('#product-name').val());
+         newProduct.set('brand', currentBrand.id);
+         newProduct.getToken('product_item', function() {
+            newProduct.save(null, {
+               success: function() {
+                  if (currentVenue) {
+                     // POST currentVenue
+                     venue = new Venue.Model();
+                     venue.entityToModel(currentVenue);
+                     venue.set('products', [ newProduct.get('id') ]);
+                     venue.url = Routing.generate('api_v1_post_venue');
+                     venue.getToken('venue_item', function() {
+                        venue.save(null, {
+                           success: function() {
+                              that.postProduct($submit, newProduct);
+                           },
+                           error: function() {
+                              $submit.button('reset');
+                              that.setView('.alert-product', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.errorVenuePost'),
+                                 showClose: true
+                              })).render();
+                           }
+                        });
+                     });
+                  } else {
+                     that.postProduct($submit, newProduct);
+                  }
+               },
+               error: function() {
+                  $submit.button('reset');
+                  that.setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorProductPost'),
+                     showClose: true
+                  })).render();
+               }
+            });
+         });
+      },
+
       postProduct: function($submit, newProduct) {
          var that = this;
 
@@ -1184,9 +1230,7 @@ define([
             app.trigger('addTagModal:hide');
          });
 
-         Common.Tools.hideCurrentModalIfOpened(function() {
-            app.useLayout().setView('#modal-container', modal).render();
-         });
+         app.useLayout().setView('#front-modal-container', modal).render();
       },
 
       reportTag: function(tag) {

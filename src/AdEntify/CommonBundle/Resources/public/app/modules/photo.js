@@ -472,8 +472,11 @@ define([
          }
          var Photos = require('modules/photos');
          this.options.tickerPhotos.each(function(photo) {
-            this.insertView('.linked-photos-list', new Photos.Views.TickerItem({
-               model: photo
+            this.insertView('.linked-photos-list', new Photos.Views.Item({
+               model: photo,
+               tagName: 'li class="ticker-item"',
+               itemClickBehavior: Photos.Common.PhotoItemClickBehaviorDetail,
+               addTag: false
             }));
          }, this);
       },
@@ -737,6 +740,18 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
+         var that = this;
+         this.$('button[data-liked]').hover(function() {
+            if (that.liked) {
+               $(this).html($.t('photo.dislike'));
+            }
+         }, function() {
+            if (that.liked) {
+               $(this).html($.t('photo.liked'));
+            } else {
+               $(this).html($.t('photo.like'));
+            }
+         });
       },
 
       initialize: function() {

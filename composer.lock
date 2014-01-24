@@ -3605,16 +3605,16 @@
         },
         {
             "name": "willdurand/jsonp-callback-validator",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/JsonpCallbackValidator.git",
-                "reference": "58c0a6c76718794856f7049cf066fdda4e984c49"
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/58c0a6c76718794856f7049cf066fdda4e984c49",
-                "reference": "58c0a6c76718794856f7049cf066fdda4e984c49",
+                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/1a7d388bb521959e612ef50c5c7b1691b097e909",
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909",
                 "shasum": ""
             },
             "require": {
@@ -3641,7 +3641,7 @@
                 }
             ],
             "description": "JSONP callback validator.",
-            "time": "2013-10-21 12:01:32"
+            "time": "2014-01-20 22:35:06"
         },
         {
             "name": "willdurand/negotiation",

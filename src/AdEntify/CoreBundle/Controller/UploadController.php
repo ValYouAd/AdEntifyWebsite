@@ -30,158 +30,174 @@ class UploadController extends Controller
 {
     /**
      * @Route("/upload/load-external-photos", methods="POST", name="upload_load_external_photos")
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function uploadExternalPhotos(Request $request)
     {
-        $response = null;
-        $post = $request->request;
-        if ($post->has('images')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $em = $this->getDoctrine()->getManager();
-            $images = array(
-                'images' => $post->get('images')
-            );
-            if ($post->has('source'))
-                $images['source'] = $post->get('source');
-            $images = json_encode($images);
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $response = null;
+            $post = $request->request;
+            if ($post->has('images')) {
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                $em = $this->getDoctrine()->getManager();
+                $images = array(
+                    'images' => $post->get('images')
+                );
+                if ($post->has('source'))
+                    $images['source'] = $post->get('source');
+                $images = json_encode($images);
 
-            // Create task
-            $task = new Task();
-            $task->setUser($user)->setMessage($images)->setNotifyCompleted(true)->setType(Task::TYPE_UPLOAD);
-            $em->persist($task);
-            $em->flush();
+                // Create task
+                $task = new Task();
+                $task->setUser($user)->setMessage($images)->setNotifyCompleted(true)->setType(Task::TYPE_UPLOAD);
+                $em->persist($task);
+                $em->flush();
 
-            $response = new Response('Upload started.');
-            return $response;
+                $response = new Response('Upload started.');
+                return $response;
+            } else {
+                throw new NotFoundHttpException('No images to upload.');
+            }
         } else {
-            throw new NotFoundHttpException('No images to upload.');
+            throw new HttpException(401);
         }
     }
 
     /**
      * @Route("/upload/product-photo", methods="POST", name="upload_product_photo")
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function uploadProductPhoto()
     {
-        if (isset($_FILES['files'])) {
-            $uploadedFile = $_FILES['files'];
-            $path = FileTools::getProductPhotoPath();
-            $filename = uniqid().$uploadedFile['name'][0];
-            $file = $this->getRequest()->files->get('files');
-            $url = $this->getFileUploader()->upload($file[0], $path, $filename);
-            if ($url) {
-                $thumb = new Thumb();
-                $thumb->setOriginalPath($url);
-                $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if (isset($_FILES['files'])) {
+                $uploadedFile = $_FILES['files'];
+                $path = FileTools::getProductPhotoPath();
+                $filename = uniqid().$uploadedFile['name'][0];
+                $file = $this->getRequest()->files->get('files');
+                $url = $this->getFileUploader()->upload($file[0], $path, $filename);
+                if ($url) {
+                    $thumb = new Thumb();
+                    $thumb->setOriginalPath($url);
+                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
+                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
 
-                $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $filename);
-                $thumbs['original'] = $url;
-                $response = new JsonResponse();
-                $response->setData($thumbs);
-                return $response;
+                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $filename);
+                    $thumbs['original'] = $url;
+                    $response = new JsonResponse();
+                    $response->setData($thumbs);
+                    return $response;
+                } else {
+                    throw new HttpException(500);
+                }
             } else {
-                throw new HttpException(500);
+                throw new NotFoundHttpException('No images to upload.');
             }
         } else {
-            throw new NotFoundHttpException('No images to upload.');
+            throw new HttpException(401);
         }
     }
 
     /**
      * @Route("/upload/profile-picture", methods="POST", name="upload_profile_picture")
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function uploadProfilePicture()
     {
-        if (isset($_FILES['profilepicture'])) {
-            $uploadedFile = $_FILES['profilepicture'];
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $path = FileTools::getUserProfilePicturePath($user);
-            $filename = uniqid().$uploadedFile['name'][0];
-            $url = $this->getFileUploader()->upload($this->getRequest()->files->get('profilepicture'), $path, $filename);
-            if ($url) {
-                $thumb = new Thumb();
-                $thumb->setOriginalPath($url);
-                $thumb->addThumbSize(FileTools::PROFILE_PICTURE_TYPE);
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if (isset($_FILES['profilepicture'])) {
+                $uploadedFile = $_FILES['profilepicture'];
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                $path = FileTools::getUserProfilePicturePath($user);
+                $filename = uniqid().$uploadedFile['name'][0];
+                $url = $this->getFileUploader()->upload($this->getRequest()->files->get('profilepicture'), $path, $filename);
+                if ($url) {
+                    $thumb = new Thumb();
+                    $thumb->setOriginalPath($url);
+                    $thumb->addThumbSize(FileTools::PROFILE_PICTURE_TYPE);
 
-                $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $user, $filename);
-                $thumbs['original'] = $url;
-                $response = new JsonResponse();
-                $response->setData($thumbs);
+                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $user, $filename);
+                    $thumbs['original'] = $url;
+                    $response = new JsonResponse();
+                    $response->setData($thumbs);
 
-                $user->setProfilePicture($thumbs['profile-picture']['filename']);
-                $this->getDoctrine()->getManager()->merge($user);
-                $this->getDoctrine()->getManager()->flush();
+                    $user->setProfilePicture($thumbs['profile-picture']['filename']);
+                    $this->getDoctrine()->getManager()->merge($user);
+                    $this->getDoctrine()->getManager()->flush();
 
-                return $response;
+                    return $response;
+                } else {
+                    throw new HttpException(500);
+                }
             } else {
-                throw new HttpException(500);
+                throw new NotFoundHttpException('No profile picture to upload.');
             }
         } else {
-            throw new NotFoundHttpException('No profile picture to upload.');
+            throw new HttpException(401);
         }
     }
 
     /**
      * @Route("/upload/local-photo", methods="POST", name="upload_local_photo")
-     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function uploadLocalPhoto()
     {
-        if (isset($_FILES['files'])) {
-            $uploadedFile = $_FILES['files'];
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $path = FileTools::getUserPhotosPath($user);
-            $filename = uniqid().$uploadedFile['name'][0];
-            $file = $this->getRequest()->files->get('files');
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if (isset($_FILES['files'])) {
+                $uploadedFile = $_FILES['files'];
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                $path = FileTools::getUserPhotosPath($user);
+                $filename = uniqid().$uploadedFile['name'][0];
+                $file = $this->getRequest()->files->get('files');
 
-            $url = $this->getFileUploader()->upload($file[0], $path, $filename);
-            if ($url) {
-                $em = $this->getDoctrine()->getManager();
-                $userLocalUpload = $em->getRepository('AdEntifyCoreBundle:LocalUpload')->findOneBy(array(
-                    'owner' => $user->getId()
-                ));
+                $url = $this->getFileUploader()->upload($file[0], $path, $filename);
+                if ($url) {
+                    $em = $this->getDoctrine()->getManager();
+                    $userLocalUpload = $em->getRepository('AdEntifyCoreBundle:LocalUpload')->findOneBy(array(
+                        'owner' => $user->getId()
+                    ));
 
-                if (!$userLocalUpload) {
-                    $userLocalUpload = new LocalUpload();
-                    $userLocalUpload->setOwner($user)->setUploadedPhotos(json_encode(array(
-                        $filename
-                    )));
-                    $em->persist($userLocalUpload);
+                    if (!$userLocalUpload) {
+                        $userLocalUpload = new LocalUpload();
+                        $userLocalUpload->setOwner($user)->setUploadedPhotos(json_encode(array(
+                            $filename
+                        )));
+                        $em->persist($userLocalUpload);
+                    } else {
+                        $uploadedPhotos = json_decode($userLocalUpload->getUploadedPhotos());
+                        $uploadedPhotos[] = $filename;
+                        $userLocalUpload->setUploadedPhotos(json_encode($uploadedPhotos));
+                        $em->merge($userLocalUpload);
+                    }
+                    $em->flush();
+
+                    $thumb = new Thumb();
+                    $thumb->setOriginalPath($url);
+                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_LARGE);
+                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
+                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
+                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
+
+                    // Add original
+                    $originalImageSize = getimagesize($url);
+                    $thumbs['original'] = array(
+                        'filename' => $url,
+                        'width' => $originalImageSize[0],
+                        'height' => $originalImageSize[1],
+                    );
+
+                    $response = new JsonResponse();
+                    $response->setData($thumbs);
+                    return $response;
                 } else {
-                    $uploadedPhotos = json_decode($userLocalUpload->getUploadedPhotos());
-                    $uploadedPhotos[] = $filename;
-                    $userLocalUpload->setUploadedPhotos(json_encode($uploadedPhotos));
-                    $em->merge($userLocalUpload);
+                    throw new HttpException(500);
                 }
-                $em->flush();
-
-                $thumb = new Thumb();
-                $thumb->setOriginalPath($url);
-                $thumb->addThumbSize(FileTools::PHOTO_TYPE_LARGE);
-                $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
-                $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
-
-                // Add original
-                $originalImageSize = getimagesize($url);
-                $thumbs['original'] = array(
-                    'filename' => $url,
-                    'width' => $originalImageSize[0],
-                    'height' => $originalImageSize[1],
-                );
-
-                $response = new JsonResponse();
-                $response->setData($thumbs);
-                return $response;
             } else {
-                throw new HttpException(500);
+                throw new NotFoundHttpException('No images to upload.');
             }
         } else {
-            throw new NotFoundHttpException('No images to upload.');
+            throw new HttpException(401);
         }
     }
 

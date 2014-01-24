@@ -28,6 +28,10 @@ class Reward
     const TYPE_SILVER = 'silver';
     const TYPE_BRONZE = 'bronze';
 
+    const MAX_GOLD_FANS = 10;
+    const MAX_SILVER_FANS = 20;
+    const MAX_BRONZE_FANS = 30;
+
     /**
      * @var integer
      *
@@ -38,9 +42,17 @@ class Reward
     private $id;
 
     /**
+     * @var datetime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="win_at", type="datetime")
+     */
+    private $winAt;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="type", type="string", length=255)
      */
     private $type = self::TYPE_ADDICT;
 
@@ -223,5 +235,22 @@ class Reward
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * @param \AdEntify\CoreBundle\Entity\datetime $winAt
+     */
+    public function setWinAt($winAt)
+    {
+        $this->winAt = $winAt;
+        return $this;
+    }
+
+    /**
+     * @return \AdEntify\CoreBundle\Entity\datetime
+     */
+    public function getWinAt()
+    {
+        return $this->winAt;
     }
 } 

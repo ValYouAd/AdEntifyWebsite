@@ -13,7 +13,7 @@
       "viewPhotos": "Voir les photos",
       "followersTitle": "Ses abonnés",
       "moreFollowers": "Voir tous les abonnés",
-      "rewards": "Récompenses",
+      "rewards": "Ambassadeurs",
       "noRewards": "__name__ n'a pas encore de récompense",
       "placeholderName": "Nom",
       "placeholderDescription": "Description",
@@ -182,6 +182,7 @@
       "productImageUploadLabel": "Photo du produit",
       "errorProductImageUpload": "Impossible de récupérer la photo du produit. Veuillez réessayer.",
       "errorProductPost": "Erreur lors de l'ajout du produit",
+      "errorBrandPost": "Erreur lors de l'ajout de la marque",
       "errorSelectBrand": "Veuillez sélectionner une marque avant d'ajouter un produit",
       "errorProductEmptyFields": "Vous devez remplir les champs nom et description",
       "deleteTag": "Supprimer ce tag",
@@ -200,11 +201,13 @@
       "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit",
       "place": "Lieu",
       "person": "Personne",
-      "product": "Produit"
+      "product": "Produit",
+      "tagSuccessfullyAdded": "Le tag a été ajouté avec succès"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
       "like": "J'aime",
+      "liked": "Aimé",
       "dislike": "Je n'aime plus",
       "likes": "J'aime",
       "comments": "Commentez",
@@ -292,6 +295,7 @@
    },
    "profile": {
       "follow": "Suivre",
+      "followed": "Suivi",
       "unfollow": "Ne plus suivre",
       "pageTitle": "__name__ - Profil AdEntify",
       "loadingProfile": "Chargement du profil en cours...",
@@ -366,16 +370,17 @@
       "read": "lu",
       "unread": "non lu",
       "inProgress": "Récupération des notifications en cours...",
-      "photosUploaded": "Le traitement de <a href='__link__' data-bypass='' class='photo-link'>vos photos</a> est terminé, vous pouvez dès à présent les taguer !",
+      "photosUploaded": "<a href='__link__' data-bypass='' class='photo-link'>Le traitement de vos photos est terminé, vous pouvez dès à présent les taguer !</a>",
       "noNotifications": "Aucune notification pour le moment",
-      "photoFav": "<a href='__authorLink__'>__author__</a> a mis en favoris <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
-      "memberLikedPhoto": "<a href='__authorLink__'>__author__</a> a aimé <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
-      "memberCommentPhoto": "<a href='__authorLink__'>__author__</a> a commenté <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
-      "anonymousLikedPhoto": "Un membre a aimé <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
-      "friendTagPhoto": "<a href='__authorLink__'>__author__</a> a tagué <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
-      "followUser": "<a href='__authorLink__'>__author__</a> s'est abonné(e) à vos photos",
-      "tagPoints": "Vous venez de gagner <strong>__count__ points</strong> pour votre dernier tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>",
-      "publicTagPoints": "Vous venez de gagner <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>votre photo</a>"
+      "photoFav": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ a mis en favoris <strong>votre photo</strong></a>",
+      "memberLikedPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ a aimé <strong>votre photo</strong></a>",
+      "memberCommentPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ a commenté <strong>votre photo</strong></a>",
+      "anonymousLikedPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>Un membre a aimé <strong>votre photo</strong></a>",
+      "friendTagPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ a tagué <strong>votre photo</strong></a>",
+      "followUser": "<a href='__authorLink__'><strong>__author__</strong> s'est abonné(e) à vos photos</a>",
+      "tagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>Vous venez de gagner <strong>__count__ points</strong> pour votre dernier tag sur votre photo</a>",
+      "publicTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>Vous venez de gagner <strong>__count__ points</strong> pour un tag sur votre photo</a>",
+      "newReward": "<a href='__brandLink__'>Vous venez de gagner la récompense <strong>__type__</strong> pour la marque <strong>__brandName__</strong></a>"
    },
    "action": {
       "errorLoading": "Une erreur est survenue lors de la récupération des actions.",
@@ -392,7 +397,8 @@
       "brandTagged": "<a href='__authorLink__'>__author__</a> a taggué la marque <a href='__brandLink__'>__brandName__</a> sur <a href='__photoLink__' data-bypass='' class='photo-link'>une photo</a>",
       "followBrand": "<a href='__authorLink__'>__author__</a> est devenu un fan de <a href='__brandLink__'>__brandName__</a>",
       "tagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour son tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>",
-      "publicTagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>"
+      "publicTagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>",
+      "newReward": "<a href='__authorLink__'>__author__</a> est maintenant un fan __type__ de <a href='__brandLink__'>__brandName__</a>"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",
@@ -406,6 +412,8 @@
       "brands": "Marques",
       "places": "Lieux",
       "people": "Personnes",
+      "byDate": "Par date",
+      "byLikes": "Par nombre de j'aime",
       "mostRecentToOldest": "Du plus récent au plus vieux",
       "mostOldestToRecent": "Du plus vieux au plus récent",
       "mostLiked": "Les plus aimées",

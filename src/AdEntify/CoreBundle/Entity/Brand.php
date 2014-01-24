@@ -178,6 +178,8 @@ class Brand
     private $venuesCount = 0;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var
      *
      * @ORM\Column(name="cost_per_tag", type="decimal", scale=4, precision=15)
@@ -185,6 +187,8 @@ class Brand
     private $costPerTag = 0;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var
      *
      * @ORM\Column(name="adentify_fees", type="decimal", scale=4, precision=15)
@@ -237,16 +241,6 @@ class Brand
     private $validated = false;
 
     /**
-     * @var int
-     */
-    private $photosCount = 0;
-
-    /**
-     * @var string
-     */
-    private $logoUrl;
-
-    /**
      * @Serializer\Exclude
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Notification", mappedBy="brand")
      * @ORM\OrderBy({"createdAt" = "DESC"})
@@ -261,6 +255,8 @@ class Brand
     private $actions;
 
     /**
+     * @Serializer\Exclude
+     *
      * @var integer
      *
      * * @ORM\Column(name="tag_required_addict_reward", type="integer")
@@ -270,9 +266,46 @@ class Brand
     /**
      * @Serializer\Exclude
      *
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="venue")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="brand")
      */
     private $rewards;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @var $goldFansPercentage
+     *
+     * @ORM\Column(name="gold_fans_percentage", type="decimal", scale=4, precision=15)
+     */
+    private $goldFansPercentage = 1;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @var $silverFansPercentage
+     *
+     * @ORM\Column(name="silver_fans_percentage", type="decimal", scale=4, precision=15)
+     */
+    private $silverFansPercentage = 2;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @var $bronzeFansPercentage
+     *
+     * @ORM\Column(name="bronze_fans_percentage", type="decimal", scale=4, precision=15)
+     */
+    private $bronzeFansPercentage = 3;
+
+    /**
+     * @var int
+     */
+    private $photosCount = 0;
+
+    /**
+     * @var string
+     */
+    private $logoUrl;
 
     public function __construct()
     {
@@ -901,5 +934,56 @@ class Brand
     public function getRewards()
     {
         return $this->rewards;
+    }
+
+    /**
+     * @param mixed $bronzeFansPercentage
+     */
+    public function setBronzeFansPercentage($bronzeFansPercentage)
+    {
+        $this->bronzeFansPercentage = $bronzeFansPercentage;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBronzeFansPercentage()
+    {
+        return $this->bronzeFansPercentage;
+    }
+
+    /**
+     * @param mixed $goldFansPercentage
+     */
+    public function setGoldFansPercentage($goldFansPercentage)
+    {
+        $this->goldFansPercentage = $goldFansPercentage;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGoldFansPercentage()
+    {
+        return $this->goldFansPercentage;
+    }
+
+    /**
+     * @param mixed $silverFansPercentage
+     */
+    public function setSilverFansPercentage($silverFansPercentage)
+    {
+        $this->silverFansPercentage = $silverFansPercentage;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSilverFansPercentage()
+    {
+        return $this->silverFansPercentage;
     }
 }

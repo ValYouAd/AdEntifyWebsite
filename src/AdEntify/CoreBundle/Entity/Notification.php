@@ -106,7 +106,6 @@ class Notification
     private $type;
 
     /**
-     * @Serializer\Exclude
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="notifications")
      */
     private $brand;

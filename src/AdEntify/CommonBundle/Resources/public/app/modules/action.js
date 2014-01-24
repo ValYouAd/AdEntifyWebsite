@@ -139,10 +139,10 @@ define([
                   case 'photo-upload':
                      if (action.get('photos').length > 1) {
                         template = 'action/itemWithPhotos';
-                        tagName = 'action-item-with-photos';
+                        tagName = 'li class="action-item-with-photos"';
                      } else {
                         template = 'action/itemWithLargePhoto';
-                        tagName = 'action-item-with-large-photo';
+                        tagName = 'li class="action-item-with-large-photo"';
                      }
                      break;
                   case 'photo-like':
@@ -150,11 +150,11 @@ define([
                   case 'photo-tag':
                   case 'photo-comment':
                      template = 'action/itemWithSmallPhoto';
-                     tagName = 'action-item-with-small-photo';
+                     tagName = 'li class="action-item-with-small-photo"';
                      break;
                   default:
                      template = 'action/item';
-                     tagName = 'action-item';
+                     tagName = 'li class="action-item"';
                      break;
                }
                this.insertView(".actions-list", new Action.Views.Item({

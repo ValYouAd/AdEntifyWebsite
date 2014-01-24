@@ -24,12 +24,13 @@ define([
    "modules/comment",
    "modules/notifications",
    'modules/action',
-   'modules/hashtag'
+   'modules/hashtag',
+   'modules/reward'
 ],
 
 function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos, InstagramPhotos,
          AdEntifyOAuth, FlickrSets, FlickrPhotos, ExternalServicePhotos, Photo, Brand, MySettings, User,
-         Common, Category, Search, Comment, Notifications, Action, Hashtag) {
+         Common, Category, Search, Comment, Notifications, Action, Hashtag, Reward) {
 
    var searchSetup = false;
    var notificationsSetup = false;
@@ -87,7 +88,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             notifications: new Notifications.Collection(),
             users: new User.Collection(),
             actions: new Action.Collection(),
-            hashtags: new Hashtag.Collection()
+            hashtags: new Hashtag.Collection(),
+            rewards: new Reward.Collection()
          };
          _.extend(this, collections);
 
@@ -543,7 +545,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followers: followers,
                followings: followings,
                photos: this.photos,
-               categories: this.categories
+               categories: this.categories,
+               rewards: this.rewards
             })
          }).render();
 
@@ -578,6 +581,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          followers.fetch();
          followings.fetch();
+         this.rewards.fetch({
+            url: Routing.generate('api_v1_get_brand_rewards', { slug: slug })
+         });
       },
 
       mySettings: function() {
@@ -640,7 +646,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followings: followings,
                followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
+               rewards: this.rewards
             })
          }).render();
 
@@ -653,6 +660,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          followers.fetch();
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_user_hashtags', { id: id })
+         });
+         this.rewards.fetch({
+            url: Routing.generate('api_v1_get_user_rewards', { id: id })
          });
       },
 
@@ -792,8 +802,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             return;
          }
 
-         var that = this;
-
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
@@ -927,6 +935,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }
          if (this.hashtags.length) {
             this.hashtags.fullReset();
+         }
+         if (this.rewards.length) {
+            this.rewards.fullReset();
          }
          /*if (this.searchBrands.length) {
             this.searchBrands.fullReset();
