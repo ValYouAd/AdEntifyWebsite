@@ -41,6 +41,7 @@ class Tag
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -48,6 +49,7 @@ class Tag
      * @var string
      *
      * @ORM\Column(name="tag_type", type="string", length=25)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $type = self::TYPE_PRODUCT;
 
@@ -56,6 +58,7 @@ class Tag
      *
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\NotBlank(message="tag.title.notblank")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $title;
 
@@ -63,6 +66,7 @@ class Tag
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $description;
 
@@ -70,6 +74,7 @@ class Tag
      * @var string
      *
      * @ORM\Column(name="link", type="text", nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $link;
 
@@ -84,6 +89,7 @@ class Tag
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
@@ -91,6 +97,7 @@ class Tag
      * @var datetime
      *
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $deletedAt;
 
@@ -98,6 +105,7 @@ class Tag
      * @var boolean
      *
      * @ORM\Column(name="visible", type="boolean")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $visible = true;
 
@@ -105,6 +113,7 @@ class Tag
      * @var boolean
      *
      * @ORM\Column(name="censored", type="boolean")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $censored = false;
 
@@ -112,6 +121,7 @@ class Tag
      * @var boolean
      *
      * @ORM\Column(name="waiting_validation", type="boolean")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $waitingValidation = false;
 
@@ -119,6 +129,7 @@ class Tag
      * @var string
      *
      * @ORM\Column(name="validation_status", type="string", length=25)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $validationStatus = self::VALIDATION_NONE;
 
@@ -126,6 +137,7 @@ class Tag
      * @var decimal
      *
      * @ORM\Column(name="x_position", type="decimal", scale=8)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $xPosition;
 
@@ -133,37 +145,44 @@ class Tag
      * @var decimal
      *
      * @ORM\Column(name="y_position", type="decimal", scale=8)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $yPosition;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="tags", cascade={"persist"})
+     * @Serializer\Exclude()
      */
     private $photo;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Venue", inversedBy="tags")
      * @ORM\JoinColumn(nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $venue;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Product", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
      */
     private $product;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductType", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
      */
     private $productType;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
      */
     private $person;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
      */
     private $brand;
 
@@ -202,6 +221,7 @@ class Tag
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tags")
+     * @Serializer\Groups({"details"})
      */
     private $owner;
 

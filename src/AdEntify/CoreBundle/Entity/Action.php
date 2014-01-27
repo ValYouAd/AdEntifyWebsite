@@ -39,6 +39,7 @@ class Action
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -47,6 +48,7 @@ class Action
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
@@ -54,6 +56,7 @@ class Action
      * @var string
      *
      * @ORM\Column(name="message", type="text")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $message;
 
@@ -61,6 +64,7 @@ class Action
      * @var string
      *
      * @ORM\Column(name="message_options", type="array", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $messageOptions;
 
@@ -68,6 +72,7 @@ class Action
      * @var integer
      *
      * @ORM\Column(name="linked_object_id", type="integer", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $linkedObjectId;
 
@@ -75,6 +80,7 @@ class Action
      * @var string
      *
      * @ORM\Column(name="linked_object_type", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $linkedObjectType;
 
@@ -82,22 +88,26 @@ class Action
      * @var string
      *
      * @ORM\Column(name="action_type", type="string", length=255)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="actions")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $target;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $author;
 
     /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $photos;
 
@@ -105,11 +115,13 @@ class Action
      * @var string
      *
      * @ORM\Column(name="visibility", type="string", length=255)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $visibility = self::VISIBILITY_PUBLIC;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="notifications")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $brand;
 

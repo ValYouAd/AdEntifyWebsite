@@ -1084,7 +1084,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                cssClass: Common.alertInfo,
                message: $.t(translationKey)
             });
-            app.useLayout().setView(target, this.successView, true).render();
+            app.useLayout().insertView(target, this.successView).render();
          }
       },
 

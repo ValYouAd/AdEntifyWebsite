@@ -34,6 +34,7 @@ class Notification
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -43,6 +44,7 @@ class Notification
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
@@ -50,6 +52,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=50)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $status = self::STATUS_UNREAD;
 
@@ -57,6 +60,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="message", type="text")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $message;
 
@@ -64,6 +68,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="message_options", type="array", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $messageOptions;
 
@@ -76,11 +81,13 @@ class Notification
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $author;
 
     /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $photos;
 
@@ -88,6 +95,7 @@ class Notification
      * @var int
      *
      * @ORM\Column(name="object_id", type="bigint", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $objectId;
 
@@ -95,6 +103,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="object_type", type="string", length=100, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $objectType;
 
@@ -102,11 +111,13 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="notification_type", type="string", length=100, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="notifications")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $brand;
 
