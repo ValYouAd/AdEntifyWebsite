@@ -1237,9 +1237,6 @@ html,body {
     #photos-grid .photo-container:hover .tags {
         opacity: 1;
     }
-    /*#photos-grid .photo-container:hover .photo-info {
-        opacity: 0;
-    }*/
     #photos-grid .photo-info {
         background: url('../img/red_transparent.png') repeat;
         padding: 2px 5px;
@@ -1248,11 +1245,6 @@ html,body {
         bottom: 0;
         left: 0;
         opacity: 1;
-        -webkit-transition: opacity 0.2s ease-out;
-        -moz-transition: opacity 0.2s ease-out;
-        -ms-transition: opacity 0.2s ease-out;
-        -o-transition: opacity 0.2s ease-out;
-        transition: opacity 0.2s ease-out;
     }
     #photos-grid .photo-info,
     #photos-grid .photo-info a,
@@ -2414,6 +2406,9 @@ html,body {
     .search-fulllist .search-title {
         font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
         font-size: 20px;
+    }
+    .search-fulllist .search-button {
+        border: 0px;
     }
 
 .results-count {
