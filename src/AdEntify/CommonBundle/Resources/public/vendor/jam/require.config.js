@@ -13,7 +13,7 @@ var jam = {
         {
             "name": "i18next2",
             "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
+            "main": "dist/i18next.amd.withJQuery-1.7.1.min.js"
         },
         {
             "name": "isotope",
@@ -60,11 +60,6 @@ var jam = {
             ],
             "exports": "Backbone"
         },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
-        },
         "isotope": {
             "deps": [
                 "jquery"
@@ -89,7 +84,7 @@ if (typeof require !== "undefined" && require.config) {
         {
             "name": "i18next2",
             "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
+            "main": "dist/i18next.amd.withJQuery-1.7.1.min.js"
         },
         {
             "name": "isotope",
@@ -134,11 +129,6 @@ if (typeof require !== "undefined" && require.config) {
                 "jquery"
             ],
             "exports": "Backbone"
-        },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
         },
         "isotope": {
             "deps": [
@@ -164,7 +154,7 @@ else {
         {
             "name": "i18next2",
             "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
+            "main": "dist/i18next.amd.withJQuery-1.7.1.min.js"
         },
         {
             "name": "isotope",
@@ -209,11 +199,6 @@ else {
                 "jquery"
             ],
             "exports": "Backbone"
-        },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
         },
         "isotope": {
             "deps": [

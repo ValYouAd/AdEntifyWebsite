@@ -23,6 +23,20 @@
             <div class="tags-container"></div>
         </a>
         <img src="<%= model.get("medium_url") %>" class="photo-img-medium" />
+        <% if (showPhotoInfo) { %>
+        <div class="photo-info">
+            <div class="pull-left">
+                <a href="<%= model.get('ownerModel').get('link') %>">
+                    <img src="<%= model.get('ownerModel').get('profilePicture') %>" class="profile-picture" alt="<%= model.get('ownerModel').get('fullname') %>" />
+                    <span><%= model.get('ownerModel').get('fullname') %></span>
+                </a>
+            </div>
+            <div class="pull-right">
+                <i class="white-heart-icon icon"></i> <%= model.get('likes_count') %> <i class="white-comment-icon icon"></i> <%= model.get('comments_count') %>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <% } %>
     </div>
 </div>
 <% } %>

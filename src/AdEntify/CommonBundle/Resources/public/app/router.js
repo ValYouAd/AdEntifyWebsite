@@ -186,7 +186,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                },
                tagged: true,
                filters: true,
-               listenToEnable: true
+               listenToEnable: true,
+               showPhotoInfo: true
             }),
             "#right-pane-content": new Action.Views.List({
                actions: this.actions
@@ -243,6 +244,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followers: followers,
                photos: this.photos,
                hashtags: this.hashtags,
+               rewards: this.rewards,
                showServices: true
             })
          }).render();
@@ -266,6 +268,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
          });
+         this.rewards.fetch({
+            url: Routing.generate('api_v1_get_user_rewards', { id: app.appState().getCurrentUserId() })
+         });
       },
 
       upload: function() {
@@ -276,9 +281,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
-
-         var followers = new User.Collection();
-         var followings = new User.Collection();
 
          app.useLayout().setViews({
             "#center-pane-content": new Upload.Views.Content(),
@@ -459,7 +461,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                comments: this.comments,
                photoId: id,
                categories: this.categories,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
             }),
             "#right-pane-content": new Photo.Views.RightMenu({
                photo: photo,
@@ -684,7 +686,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                category: category,
                listenToEnable: true,
                filters: true,
-               photosUrl: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: true })
+               photosUrl: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: true }),
+               showPhotoInfo: true
             }),
             "#right-pane-content": new Action.Views.List({
                actions: this.actions
@@ -743,7 +746,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             "#center-pane-content": new Photos.Views.Content({
                photos: this.myPhotos,
                tagged: true,
-               title: $.t('myPhotos.titleFavorites')
+               title: $.t('myPhotos.titleFavorites'),
+               showPhotoInfo: true
             }),
             "#right-pane-content": new Action.Views.List({
                actions: this.actions
@@ -927,9 +931,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.users.length) {
             this.users.fullReset();
          }
-         if (this.actions.length) {
-            this.actions.fullReset();
-         }
          if (this.comments.length) {
             this.comments.fullReset();
          }
@@ -939,6 +940,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          if (this.rewards.length) {
             this.rewards.fullReset();
          }
+         app.trigger('stop:polling');
          /*if (this.searchBrands.length) {
             this.searchBrands.fullReset();
          }

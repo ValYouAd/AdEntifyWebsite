@@ -5,9 +5,8 @@ define([
    'app',
    'modules/user',
    'modules/photo',
-   'modules/photos',
-   'modules/common'
-], function(app, User, Photo, Photos, Common) {
+   'modules/photos'
+], function(app, User, Photo, Photos) {
 
    var Action = app.module();
 
@@ -172,6 +171,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.actions, 'sync', this.render);
+         this.listenTo(app, 'stop:polling', this.stopPolling);
          this.pollActions(this.options.actions);
       },
 
@@ -194,6 +194,11 @@ define([
                }
             });
          }
+      },
+
+      stopPolling: function() {
+         if (typeof this.pollTimeout !== 'undefined' && this.pollTimeout)
+            clearTimeout(this.pollTimeout);
       }
    });
 
