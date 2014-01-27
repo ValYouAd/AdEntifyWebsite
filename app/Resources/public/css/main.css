@@ -382,14 +382,45 @@ html,body {
     #photos-grid .tags {
         opacity: 0;
         display: block;
-        -webkit-transition: opacity 0.3s ease-out;
-        -moz-transition: opacity 0.3s ease-out;
-        -ms-transition: opacity 0.3s ease-out;
-        -o-transition: opacity 0.3s ease-out;
-        transition: opacity 0.3s ease-out;
+        -webkit-transition: opacity 0.3s ease-in;
+        -moz-transition: opacity 0.3s ease-in;
+        -ms-transition: opacity 0.3s ease-in;
+        -o-transition: opacity 0.3s ease-in;
+        transition: opacity 0.3s ease-in;
     }
     #photos-grid .photo-container:hover .tags {
         opacity: 1;
+    }
+    /*#photos-grid .photo-container:hover .photo-info {
+        opacity: 0;
+    }*/
+    #photos-grid .photo-info {
+        background: url('../img/red_transparent.png') repeat;
+        padding: 2px 5px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        opacity: 1;
+        -webkit-transition: opacity 0.2s ease-out;
+        -moz-transition: opacity 0.2s ease-out;
+        -ms-transition: opacity 0.2s ease-out;
+        -o-transition: opacity 0.2s ease-out;
+        transition: opacity 0.2s ease-out;
+    }
+    #photos-grid .photo-info,
+    #photos-grid .photo-info a,
+    #photos-grid .photo-info a:hover {
+        color: #ffffff;
+        font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+        font-size: 12px;
+        text-decoration: none;
+    }
+    #photos-grid .photo-info .profile-picture {
+        max-height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 20px;
     }
     #photos-grid .photo-overlay {
         /*background: url('../img/red_transparent.png') repeat;
@@ -411,7 +442,7 @@ html,body {
     }*/
     .photo-overlay .caption {
         color: #FFFFFF;
-        font-family: 'robotolight';
+        font-family: 'robotolight', "Helvetica Neue", "Arial", sans-serif;
         font-size: 30px;
         text-align: left;
         margin-top: 25%;
@@ -419,7 +450,7 @@ html,body {
     }
     .photo-overlay .counters {
         color: #ffffff;
-        font-family: 'asapbold';
+        font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
         font-size: 12px;
         padding: 4px 15px;
         text-align: left;

@@ -28,11 +28,13 @@ define([
       template: "photos/item",
       tagName: "li class='isotope-li'",
       addTag: false,
+      showPhotoInfo: false,
 
       serialize: function() {
          return {
             model: this.model,
-            addTag: this.addTag
+            addTag: this.addTag,
+            showPhotoInfo: this.showPhotoInfo
          };
       },
 
@@ -40,6 +42,7 @@ define([
          this.itemClickBehavior = typeof this.options.itemClickBehavior !== 'undefined' ? this.options.itemClickBehavior : Photos.Common.PhotoItemClickBehaviorDetail;
          this.tagName = typeof this.options.tagName !== 'undefined' ? this.options.tagName : this.tagName;
          this.addTag = typeof this.options.addTag !== 'undefined' ? this.options.addTag : this.addTag;
+         this.showPhotoInfo = typeof this.options.showPhotoInfo !== 'undefined' ? this.options.showPhotoInfo : this.showPhotoInfo;
       },
 
       beforeRender: function() {
@@ -87,18 +90,18 @@ define([
                Photos.Common.showPhoto(evt, this.model);
                break;
             case Photos.Common.PhotoItemClickBehaviorAddTag:
-               Tag.Common.addTag(evt, this.model);
+               Tag.Common.addTagForm(evt, this.model);
                break;
          }
       },
 
-      addTag: function(evt) {
+      addTagForm: function(evt) {
          Tag.Common.addTag(evt, this.model);
       },
 
       events: {
          'click .photo-link': 'showPhoto',
-         'click .add-tag': 'addTag',
+         'click .add-tag': 'addTagForm',
          'mouseenter .photo-container': 'showTags',
          'mouseleave .photo-container': 'hideTags'
       }
@@ -160,7 +163,8 @@ define([
                photosSuccess: this.photosSuccess,
                photosError: this.photosError,
                listenToEnable: this.options.listenToEnable,
-               addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false
+               addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false,
+               showPhotoInfo: typeof this.options.showPhotoInfo !== 'undefined' ? this.options.showPhotoInfo : this.showPhotoInfo
             }));
          }
 
@@ -202,7 +206,8 @@ define([
             this.insertView("#photos-grid", new Photos.Views.Item({
                model: photo,
                itemClickBehavior: typeof this.options.itemClickBehavior !== 'undefined' ? this.options.itemClickBehavior : Photos.Common.PhotoItemClickBehaviorDetail,
-               addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false
+               addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false,
+               showPhotoInfo: typeof this.options.showPhotoInfo !== 'undefined' ? this.options.showPhotoInfo : this.showPhotoInfo
             }));
          }, this);
 
