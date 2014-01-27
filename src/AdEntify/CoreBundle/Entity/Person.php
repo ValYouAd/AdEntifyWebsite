@@ -31,6 +31,7 @@ class Person
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -38,6 +39,7 @@ class Person
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $firstname;
 
@@ -45,6 +47,7 @@ class Person
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $lastname;
 
@@ -52,6 +55,7 @@ class Person
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $name;
 
@@ -59,6 +63,7 @@ class Person
      * @var string
      *
      * @ORM\Column(name="profile_picture_url", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $profilePictureUrl;
 
@@ -69,6 +74,7 @@ class Person
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
@@ -76,6 +82,7 @@ class Person
      * @var integer
      *
      * @ORM\Column(name="facebook_id", type="bigint", nullable=true, unique=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $facebookId;
 
@@ -83,11 +90,13 @@ class Person
      * @var integer
      *
      * @ORM\Column(name="instagram_id", type="bigint", nullable=true, unique=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $instagramId;
 
     /**
      * @ORM\Column(name="gender", type="string", length=20, nullable=false)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $gender = User::GENDER_UNKNOWN;
 
@@ -95,6 +104,7 @@ class Person
      * @var User
      *
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="person")
+     * @Serializer\Groups({"details"})
      */
     private $user;
 
@@ -109,6 +119,7 @@ class Person
      * @var integer
      *
      * @ORM\Column(name="tags_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $tagsCount = 0;
 
@@ -123,11 +134,13 @@ class Person
      * @var integer
      *
      * @ORM\Column(name="products_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $productsCount = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="friends")
+     * @Serializer\Groups({"details"})
      */
     private $friends;
 

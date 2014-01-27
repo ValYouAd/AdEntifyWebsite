@@ -43,7 +43,7 @@ class ActionsController extends FosRestController
     /**
      * Get actions for logged user
      *
-     * @View()
+     * @View(serializerGroups={"slight-list"})
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
      */

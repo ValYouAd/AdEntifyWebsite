@@ -31,6 +31,7 @@ class Venue
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -38,6 +39,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="foursquare_id", type="string", length=255, unique=true, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $foursquareId;
 
@@ -45,6 +47,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="facebook_id", type="bigint", unique=true, nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $facebookId;
 
@@ -52,6 +55,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="foursquare_short_link", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $foursquareShortLink;
 
@@ -60,6 +64,7 @@ class Venue
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotBlank(message="venue.name.notblank")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $name;
 
@@ -67,6 +72,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $description;
 
@@ -74,12 +80,14 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="link", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $link;
 
     /**
      * @Serializer\Exclude
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ShortUrl")
+     * @Serializer\Groups({"details", "list"})
      */
     private $shortUrl;
 
@@ -89,6 +97,7 @@ class Venue
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
@@ -96,6 +105,7 @@ class Venue
      * @var float
      *
      * @ORM\Column(name="latitude", type="float", length=10, scale=6)
+     * @Serializer\Groups({"details", "list"})
      */
     private $lat;
 
@@ -103,6 +113,7 @@ class Venue
      * @var float
      *
      * @ORM\Column(name="longitude", type="float", length=10, scale=6)
+     * @Serializer\Groups({"details", "list"})
      */
     private $lng;
 
@@ -110,6 +121,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="address", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $address;
 
@@ -117,6 +129,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="postal_code", type="string", length=5, nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $postalCode;
 
@@ -124,6 +137,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="city", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $city;
 
@@ -131,6 +145,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="state", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $state;
 
@@ -138,6 +153,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="country", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $country;
 
@@ -145,6 +161,7 @@ class Venue
      * @var string
      *
      * @ORM\Column(name="cc", type="string", length=4, nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $cc;
 
@@ -159,6 +176,7 @@ class Venue
      * @var integer
      *
      * @ORM\Column(name="tags_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $tagsCount = 0;
 
@@ -173,6 +191,7 @@ class Venue
      * @var integer
      *
      * @ORM\Column(name="photos_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $photosCount = 0;
 
@@ -187,6 +206,7 @@ class Venue
      * @var integer
      *
      * @ORM\Column(name="products_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $productsCount = 0;
 
@@ -201,6 +221,7 @@ class Venue
      * @var integer
      *
      * @ORM\Column(name="brands_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $brandsCount = 0;
 

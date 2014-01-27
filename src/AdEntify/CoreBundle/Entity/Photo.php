@@ -41,6 +41,8 @@ class Photo
     const SCOPE_PRIVATE = 'private';
 
     /**
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     *
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -50,6 +52,8 @@ class Photo
     private $id;
 
     /**
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     *
      * @var datetime
      *
      * @Gedmo\Timestampable(on="create")
@@ -58,6 +62,8 @@ class Photo
     private $createdAt;
 
     /**
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     *
      * @var datetime
      *
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
@@ -65,6 +71,8 @@ class Photo
     private $deletedAt;
 
     /**
+     * @Serializer\Exclude()
+     *
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=50)
@@ -72,6 +80,8 @@ class Photo
     private $status = self::STATUS_UNPROCESSED;
 
     /**
+     * @Serializer\Groups({"details"})
+     *
      * @var string
      *
      * @ORM\Column(name="source", type="string", length=50, nullable=true)
@@ -79,6 +89,8 @@ class Photo
     private $source;
 
     /**
+     * @Serializer\Groups({"details"})
+     *
      * @var string
      *
      * @ORM\Column(name="photo_source_id", type="string", length=100, nullable=true)
@@ -86,6 +98,8 @@ class Photo
     private $photoSourceId;
 
     /**
+     * @Serializer\Groups({"details"})
+     *
      * @var string
      *
      * @ORM\Column(name="caption", type="string", length=255, nullable=true)
@@ -93,6 +107,8 @@ class Photo
     private $caption;
 
     /**
+     * @Serializer\Groups({"details"})
+     *
      * @var string
      *
      * @ORM\Column(name="original_url", type="text")
@@ -101,6 +117,8 @@ class Photo
     private $originalUrl;
 
     /**
+     * @Serializer\Groups({"details"})
+     *
      * @var integer
      *
      * @ORM\Column(name="original_width", type="smallint", nullable=true)
@@ -108,6 +126,8 @@ class Photo
     private $originalWidth;
 
     /**
+     * @Serializer\Groups({"details"})
+     *
      * @var integer
      *
      * @ORM\Column(name="original_height", type="smallint", nullable=true)
@@ -118,6 +138,7 @@ class Photo
      * @var string
      *
      * @ORM\Column(name="large_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $largeUrl;
 
@@ -125,6 +146,7 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="large_width", type="smallint", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $largeWidth;
 
@@ -132,6 +154,7 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="large_height", type="smallint", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $largeHeight;
 
@@ -139,6 +162,7 @@ class Photo
      * @var string
      *
      * @ORM\Column(name="medium_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $mediumUrl;
 
@@ -146,6 +170,7 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="medium_width", type="smallint", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $mediumWidth;
 
@@ -153,6 +178,7 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="medium_height", type="smallint", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $mediumHeight;
 
@@ -160,6 +186,7 @@ class Photo
      * @var string
      *
      * @ORM\Column(name="small_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $smallUrl;
 
@@ -167,6 +194,7 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="small_width", type="smallint", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $smallWidth;
 
@@ -174,11 +202,13 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="small_height", type="smallint", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $smallHeight;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="photos")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $owner;
 
@@ -193,6 +223,7 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="comments_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $commentsCount = 0;
 
@@ -207,12 +238,14 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="likes_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $likesCount = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="photo")
      * @ORM\OrderBy({"createdAt" = "ASC"})
+     * @Serializer\Groups({"details", "list"})
      */
     private $tags;
 
@@ -220,12 +253,12 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="tags_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $tagsCount = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Category", inversedBy="photos")
-     *
      * @Serializer\Exclude
      */
     private $categories;
@@ -234,12 +267,14 @@ class Photo
      * @var string
      *
      * @ORM\Column(name="visibility_scope", length=100, type="string")
+     * @Serializer\Exclude
      */
     private $visibilityScope = self::SCOPE_PUBLIC;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Venue", inversedBy="photos")
      * @ORM\JoinColumn(nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $venue;
 
@@ -247,6 +282,7 @@ class Photo
      * @var float
      *
      * @ORM\Column(name="latitude", type="float", length=10, scale=6, nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $latitude;
 
@@ -254,6 +290,7 @@ class Photo
      * @var float
      *
      * @ORM\Column(name="longitude", type="float", length=10, scale=6, nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $longitude;
 
@@ -265,7 +302,6 @@ class Photo
 
     /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Hashtag", inversedBy="photos")
-     *
      * @Serializer\Exclude
      */
     private $hashtags;

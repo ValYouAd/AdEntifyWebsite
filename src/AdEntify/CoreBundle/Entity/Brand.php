@@ -32,6 +32,7 @@ class Brand
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -40,6 +41,7 @@ class Brand
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\NotBlank(message="brand.name.notblank")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $name;
 
@@ -47,6 +49,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $description;
 
@@ -54,6 +57,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="website_url", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $websiteUrl;
 
@@ -61,6 +65,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="facebook_url", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $facebookUrl;
 
@@ -68,6 +73,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="twitter_url", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $twitterUrl;
 
@@ -75,6 +81,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="pinterest_url", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $pinterestUrl;
 
@@ -82,6 +89,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="instagram_url", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $instagramUrl;
 
@@ -89,6 +97,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="tumblr_url", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $tumblrUrl;
 
@@ -104,6 +113,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="large_logo_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $largeLogoUrl;
 
@@ -111,6 +121,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="medium_logo_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $mediumLogoUrl;
 
@@ -118,6 +129,7 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="small_logo_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $smallLogoUrl;
 
@@ -127,6 +139,7 @@ class Brand
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="added_at", type="datetime")
      * @Assert\DateTime()
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $added_at;
 
@@ -141,6 +154,7 @@ class Brand
      * @var integer
      *
      * @ORM\Column(name="products_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $productsCount = 0;
 
@@ -148,6 +162,7 @@ class Brand
      * @var integer
      *
      * @ORM\Column(name="tags_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $tagsCount = 0;
 
@@ -161,6 +176,7 @@ class Brand
     /**
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(length=128, unique=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $slug;
 
@@ -174,6 +190,7 @@ class Brand
      * @var integer
      *
      * @ORM\Column(name="venues_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $venuesCount = 0;
 
@@ -211,13 +228,15 @@ class Brand
      * @var integer
      *
      * @ORM\Column(name="followers_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $followersCount = 0;
 
     /**
      * @var integer
      *
-     * * @ORM\Column(name="min_age", type="integer")
+     * @ORM\Column(name="min_age", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $minAge = 13;
 
@@ -225,11 +244,13 @@ class Brand
      * @var string
      *
      * @ORM\Column(name="legal_notice", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $legalNotice;
 
     /**
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="brand")
+     * @Serializer\Exclude
      */
     private $admin;
 
@@ -237,6 +258,7 @@ class Brand
      * @var boolean
      *
      * @ORM\Column(name="validated", type="boolean")
+     * @Serializer\Groups({"details", "list"})
      */
     private $validated = false;
 

@@ -31,6 +31,7 @@ class Product
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -39,6 +40,7 @@ class Product
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotBlank
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $name;
 
@@ -47,6 +49,7 @@ class Product
      *
      * @ORM\Column(name="description", type="text")
      * @Assert\NotBlank
+     * @Serializer\Groups({"details", "list"})
      */
     private $description;
 
@@ -56,12 +59,14 @@ class Product
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups({"details", "list"})
      */
     private $brand;
 
@@ -76,6 +81,7 @@ class Product
      * @var integer
      *
      * @ORM\Column(name="tags_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $tagsCount = 0;
 
@@ -89,6 +95,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="purchase_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $purchaseUrl;
 
@@ -108,6 +115,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="medium_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $mediumUrl;
 
@@ -115,6 +123,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="small_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $smallUrl;
 
@@ -122,6 +131,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="original_url", type="text")
+     * @Serializer\Groups({"details", "list"})
      */
     private $originalUrl;
 
@@ -129,6 +139,7 @@ class Product
      * @var integer
      *
      * * @ORM\Column(name="min_age", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $minAge = 13;
 
@@ -136,6 +147,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="legal_notice", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
      */
     private $legalNotice;
 

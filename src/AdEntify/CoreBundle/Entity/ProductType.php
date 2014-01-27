@@ -25,6 +25,7 @@ class ProductType
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -33,16 +34,19 @@ class ProductType
      *
      * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProductType", inversedBy="children")
+     * @Serializer\Groups({"details", "list"})
      */
     private $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductType", mappedBy="parent")
+     * @Serializer\Groups({"details", "list"})
      */
     private $children;
 
@@ -66,6 +70,7 @@ class ProductType
      * @var integer
      *
      * @ORM\Column(name="tags_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
      */
     private $tagsCount = 0;
 
