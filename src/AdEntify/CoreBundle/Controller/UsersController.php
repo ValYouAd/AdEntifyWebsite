@@ -397,7 +397,7 @@ class UsersController extends FosRestController
     /**
      * @param $id
      *
-     * @View()
+     * @View(serializerGroups={"slight-list"})
      */
     public function getNotificationsAction($id)
     {

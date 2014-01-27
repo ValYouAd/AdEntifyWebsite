@@ -49,7 +49,7 @@ class PhotosController extends FosRestController
     /**
      * GET all public or friends photos
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
@@ -183,7 +183,7 @@ class PhotosController extends FosRestController
      * )
      *
      * @param integer $id photo id
-     * @View()
+     * @View(serializerGroups={"details"})
      * @return Photo
      */
     public function getAction($id)
@@ -259,7 +259,7 @@ class PhotosController extends FosRestController
      * @QueryParam(name="today", requirements="\d+", default="null")
      * @QueryParam(name="orderBy", default="null")
      * @QueryParam(name="way", default="DESC")
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getSearchAction($query, $page = 1, $limit = 10, $today = null, $orderBy = null, $way = 'DESC', Request $request)
     {
@@ -386,7 +386,7 @@ class PhotosController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
@@ -608,7 +608,7 @@ class PhotosController extends FosRestController
     /**
      * GET all tags by photo ID
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      * @param $id
      * @return ArrayCollection|null
      */
@@ -626,7 +626,7 @@ class PhotosController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
