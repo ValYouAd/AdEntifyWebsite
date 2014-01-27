@@ -281,11 +281,20 @@ html,body {
     background: url('../img/ticker_background.png') repeat;
     position: relative;
     padding: 0px;
-    padding-bottom: 500em;
-    margin-bottom: -500em;
     word-wrap: break-word;
     color: #c5c5c4;
     font-family: robotoregular, Arial, sans-serif;
+}
+#right-pane-content {
+    position: fixed;
+    overflow-y: scroll;
+    top: 65px;
+    overflow-x: hidden;
+    bottom: 0px;
+    width: inherit;
+    background: url('../img/ticker_background.png') repeat;
+    margin-right: 240px;
+    max-width: 292px;
 }
 #right-pane .alert {
     margin-top: 20px;
