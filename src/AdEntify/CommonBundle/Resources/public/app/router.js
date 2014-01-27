@@ -970,7 +970,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                brands: this.searchBrands
             })).render();
          }
-         if (!notificationsSetup) {
+         if (!notificationsSetup && app.appState().isLogged()) {
             notificationsSetup = true;
             app.useLayout().setView('#notifications', new Notifications.Views.List({
                notifications: this.notifications
@@ -983,7 +983,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             dropdownMenusSetup = true;
             User.Dropdown.listenClick();
          }
-         if (!app.useLayout().getView('.user-points')) {
+         if (!app.useLayout().getView('.user-points') && app.appState().isLogged()) {
             app.useLayout().setView('.user-points', new User.Views.Points()).render();
          }
          $('.add-brand-link').click(function() {

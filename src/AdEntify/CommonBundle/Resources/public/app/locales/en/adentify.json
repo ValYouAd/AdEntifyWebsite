@@ -474,7 +474,7 @@
       "my/profile/": "my/profile/",
       "my/settings/": "my/settings/",
       "my/dashboard/": "my/dashboard/",
-      "my/dashboard/credits/date/": "mon/dashboard/credits/__date__/"
+      "my/dashboard/credits/date/": "my/dashboard/credits/__date__/"
    },
    "error": {
       "tooYoung": "You are too young to tag this product or brand.",
