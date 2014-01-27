@@ -277,9 +277,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
-         var followers = new User.Collection();
-         var followings = new User.Collection();
-
          app.useLayout().setViews({
             "#center-pane-content": new Upload.Views.Content(),
             "#left-pane": new User.Views.MenuLeft({
@@ -926,9 +923,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }
          if (this.users.length) {
             this.users.fullReset();
-         }
-         if (this.actions.length) {
-            this.actions.fullReset();
          }
          if (this.comments.length) {
             this.comments.fullReset();
