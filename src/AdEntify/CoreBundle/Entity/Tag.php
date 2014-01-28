@@ -220,6 +220,15 @@ class Tag
     private $points;
 
     /**
+     * @Serializer\Exclude
+     *
+     * @var
+     *
+     * @ORM\Column(name="total_points", type="decimal", scale=4, precision=15)
+     */
+    private $totalPoints = 0;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tags")
      * @Serializer\Groups({"details"})
      */
@@ -635,5 +644,22 @@ class Tag
     public function getPoints()
     {
         return $this->points;
+    }
+
+    /**
+     * @param mixed $totalPoints
+     */
+    public function setTotalPoints($totalPoints)
+    {
+        $this->totalPoints = $totalPoints;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalPoints()
+    {
+        return $this->totalPoints;
     }
 }

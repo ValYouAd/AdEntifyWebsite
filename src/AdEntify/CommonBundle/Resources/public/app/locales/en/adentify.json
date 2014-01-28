@@ -418,7 +418,8 @@
       "mostOldestToRecent": "Oldest to most recent",
       "mostLiked": "Most likes",
       "today": "Today",
-      "taggedPhotos": "Tagged photos"
+      "taggedPhotos": "Tagged photos",
+      "byPoints": "By points"
    },
    "notLogged": {
       "like": "You can't like when you aren't logged. Please connect or sign up.",

@@ -1393,6 +1393,9 @@ html,body {
 .filters-wrapper button .icon {
     margin-right: 10px;
 }
+.filters-wrapper .icon {
+    color: #acaeb0;
+}
 .filters-wrapper .collapsed {
     background-color: #fcfcfc;
 }
