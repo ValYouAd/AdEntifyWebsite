@@ -396,7 +396,7 @@ html,body {
         padding: 2px 5px;
         width: 100%;
         position: absolute;
-        bottom: 0;
+        bottom: -1px;
         left: 0;
         opacity: 1;
     }
