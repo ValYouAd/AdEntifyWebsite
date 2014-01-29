@@ -111,9 +111,13 @@ class PointService
         }
 
         foreach ($tag->getPoints() as $tagPoint) {
+            $tag->setTotalPoints($tag->getTotalPoints() + $tagPoint->getPoints());
             $tagPoint->setCreditedAt(new \DateTime())->setStatus(TagPoint::STATUS_CREDITED);
             $this->em->merge($tagPoint);
         }
+
+        $tag->getPhoto()->setTotalTagsPoints($tag->getPhoto()->getTotalTagsPoints() + $tag->getTotalPoints());
+        $this->em->merge($tag->getPhoto);
 
         $this->em->merge($user);
     }

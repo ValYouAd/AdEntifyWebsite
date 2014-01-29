@@ -9,8 +9,9 @@ define([
    "app",
    "modules/externalServicePhotos",
    "modules/flickrPhotos",
+   'modules/upload',
    "hmacsha1"
-], function(app, ExternalServicePhotos, FlickrPhotos) {
+], function(app, ExternalServicePhotos, FlickrPhotos, Upload) {
 
    var FlickrSets = app.module();
    var error = '';
@@ -188,7 +189,7 @@ define([
                   type: 'POST',
                   data: { 'images': flickrImages, 'source': 'Flickr' },
                   success: function() {
-                     ExternalServicePhotos.Common.showUploadInProgressModal();
+                     Upload.Common.showUploadInProgressModal();
                   },
                   error: function(e) {
                      // Hide loader

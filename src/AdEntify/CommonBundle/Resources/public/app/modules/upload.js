@@ -126,7 +126,7 @@ define([
                type: 'POST',
                data: { 'images': this.photos.toJSON(), 'source': 'local' },
                success: function() {
-                  ExternalServicePhotos.Common.showUploadInProgressModal();
+                  Upload.Common.showUploadInProgressModal();
                },
                error: function() {
                   // Hide loader
@@ -274,6 +274,28 @@ define([
       }
    });
 
+   Upload.Views.UploadInProgress = Backbone.View.extend({
+      template: 'upload/uploadInProgress',
+
+      beforeRender: function() {
+         var that = this;
+         if (!this.getView('.progress-bar-container')) {
+            var progressBarView = Upload.Common.getProgressBarView();
+            progressBarView.on('completed', function() {
+               that.removeView('.progress-bar-container');
+               Common.Tools.hideCurrentModalIfOpened(function() {
+                  Backbone.history.navigate($.t('routing.my/photos/'), true);
+               });
+            });
+            this.setView('.progress-bar-container', progressBarView);
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      }
+   });
+
    Upload.Common = {
       getInstagramUrl: function(connected) {
          connected = typeof connected !== 'undefined' ? connected : false;
@@ -283,6 +305,29 @@ define([
       getFlickrUrl: function(connected) {
          connected = typeof connected !== 'undefined' ? connected : false;
          return connected ? $.t('routing.flickr/sets/') : Routing.generate('flickr_request_token');
+      },
+
+      getProgressBarView: function() {
+         return new Common.Views.ProgressBar();
+      },
+
+      showUploadInProgressModal: function() {
+         // Top progressbar
+         var progressBar = new Common.Views.ProgressBar();
+         app.useLayout().setView('.top-progress-bar', progressBar).render();
+
+         // Modal upload in progress
+         var uploadInProgressView = new Upload.Views.UploadInProgress();
+
+         var modal = new Common.Views.Modal({
+            view: uploadInProgressView,
+            showFooter: false,
+            showHeader: false,
+            modalDialogClasses: 'upload-dialog'
+         });
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
+         });
       }
    }
 

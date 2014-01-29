@@ -8,8 +8,9 @@
 define([
    "app",
    "bootstrap",
-   "modules/externalServicePhotos"
-], function(app, bootstrap, ExternalServicePhotos) {
+   "modules/externalServicePhotos",
+   'modules/upload'
+], function(app, bootstrap, ExternalServicePhotos, Upload) {
 
    var FlickrPhotos = app.module();
    var error = '';
@@ -202,7 +203,7 @@ define([
                   type: 'POST',
                   data: { 'images': images, 'source': 'Flickr' },
                   success: function() {
-                     ExternalServicePhotos.Common.showUploadInProgressModal();
+                     Upload.Common.showUploadInProgressModal();
                   },
                   error: function() {
                      // Hide loader

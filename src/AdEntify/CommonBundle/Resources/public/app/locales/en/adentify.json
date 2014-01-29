@@ -115,7 +115,8 @@
       "or": "or",
       "backToServices": "Back to services",
       "myComputer": "My computer",
-      "hashtags": "Add one or more hashtags"
+      "hashtags": "Add one or more hashtags",
+      "inProgress": "Photos upload in progress, you will be notified as soon as the operation is completed."
    },
    "hashtag": {
       "usedCount": "__count__ time",
@@ -418,7 +419,8 @@
       "mostOldestToRecent": "Oldest to most recent",
       "mostLiked": "Most likes",
       "today": "Today",
-      "taggedPhotos": "Tagged photos"
+      "taggedPhotos": "Tagged photos",
+      "byPoints": "By points"
    },
    "notLogged": {
       "like": "You can't like when you aren't logged. Please connect or sign up.",
@@ -474,7 +476,7 @@
       "my/profile/": "my/profile/",
       "my/settings/": "my/settings/",
       "my/dashboard/": "my/dashboard/",
-      "my/dashboard/credits/date/": "mon/dashboard/credits/__date__/"
+      "my/dashboard/credits/date/": "my/dashboard/credits/__date__/"
    },
    "error": {
       "tooYoung": "You are too young to tag this product or brand.",

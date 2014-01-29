@@ -391,22 +391,14 @@ html,body {
     #photos-grid .photo-container:hover .tags {
         opacity: 1;
     }
-    /*#photos-grid .photo-container:hover .photo-info {
-        opacity: 0;
-    }*/
     #photos-grid .photo-info {
         background: url('../img/red_transparent.png') repeat;
         padding: 2px 5px;
         width: 100%;
         position: absolute;
-        bottom: 0;
+        bottom: -1px;
         left: 0;
         opacity: 1;
-        -webkit-transition: opacity 0.2s ease-out;
-        -moz-transition: opacity 0.2s ease-out;
-        -ms-transition: opacity 0.2s ease-out;
-        -o-transition: opacity 0.2s ease-out;
-        transition: opacity 0.2s ease-out;
     }
     #photos-grid .photo-info,
     #photos-grid .photo-info a,
@@ -555,6 +547,9 @@ html,body {
 .filters-wrapper button .icon {
     margin-right: 10px;
 }
+.filters-wrapper .icon {
+    color: #acaeb0;
+}
 .filters-wrapper .collapsed {
     background-color: #fcfcfc;
 }
@@ -675,6 +670,25 @@ html,body {
 
 /* Upload
 ----------------------- */
+
+.upload-dialog {
+    max-width: 480px!important;
+    padding-top: 15%;
+}
+.upload-dialog .progress {
+    margin: 0px auto;
+    width: 100%;
+    border-radius: 0px;
+    height: 8px;
+    background: none;
+}
+.upload-dialog .modal-body-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.upload-dialog p {
+    margin-top: 20px;
+}
 
 /* Albums */
 .upload-details {
@@ -1568,6 +1582,9 @@ html,body {
     .search-fulllist .search-title {
         font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
         font-size: 20px;
+    }
+    .search-fulllist .search-button {
+        border: 0px;
     }
 
 .results-count {

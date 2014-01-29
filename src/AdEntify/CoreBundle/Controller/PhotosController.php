@@ -92,6 +92,8 @@ class PhotosController extends FosRestController
         $parameters = null;
         $countQuery = null;
         $dataQuery = null;
+        $joinClause = null;
+
         if ($tagged == 'true') {
             $parameters = array(
                 ':status' => Photo::STATUS_READY,
@@ -113,14 +115,14 @@ class PhotosController extends FosRestController
                 $tagClause = ' AND tag.person IS NOT NULL';
             }
 
-            $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+            $sql = sprintf('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 INNER JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
                   AND tag.censored = false AND tag.waitingValidation = false
-                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' . $tagClause .')
-                INNER JOIN photo.owner owner
+                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
+                INNER JOIN photo.owner owner %s
                 WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                AND photo.tagsCount > 0';
+                AND photo.tagsCount > 0', $tagClause, $joinClause);
         } else {
             $parameters = array(
                 ':status' => Photo::STATUS_READY,
@@ -128,17 +130,20 @@ class PhotosController extends FosRestController
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings
             );
-            $sql = 'SELECT DISTINCT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner
+            $sql = sprintf('SELECT DISTINCT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.owner owner %s
                 WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                   OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                AND photo.tagsCount = 0 ';
+                AND photo.tagsCount = 0 ', $joinClause);
         }
 
         if ($orderBy) {
             switch ($orderBy) {
                 case 'like':
                     $sql .= sprintf(' ORDER BY photo.likesCount %s', $way);
+                    break;
+                case 'points':
+                    $sql .= sprintf(' ORDER BY photo.totalTagsPoints %s', $way);
                     break;
                 case 'date':
                 default:

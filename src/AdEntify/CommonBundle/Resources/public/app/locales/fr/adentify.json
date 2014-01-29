@@ -115,7 +115,8 @@
       "or": "ou",
       "backToServices": "Revenir aux services",
       "myComputer": "Mon ordinateur",
-      "hashtags": "Ajouter un ou plusieurs hashtags"
+      "hashtags": "Ajouter un ou plusieurs hashtags",
+      "inProgress": "L'envoi de vos photos est en cours, vous serez notifié dès que le traitement sera complété."
    },
    "hashtag": {
       "usedCount": "__count__ fois",
@@ -418,7 +419,8 @@
       "mostOldestToRecent": "Du plus vieux au plus récent",
       "mostLiked": "Les plus aimées",
       "today": "Aujourd'hui",
-      "taggedPhotos": "Photos taguées"
+      "taggedPhotos": "Photos taguées",
+      "byPoints": "Par points"
    },
    "notLogged": {
       "like": "Vous ne pouvez pas aimer lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",

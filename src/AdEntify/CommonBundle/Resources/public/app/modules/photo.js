@@ -890,26 +890,28 @@ define([
 
       initialize: function() {
          var that = this;
-         app.oauth.loadAccessToken({
-            success: function() {
-               $.ajax({
-                  url: Routing.generate('api_v1_get_photo_is_favorites', { 'id': that.options.photo.get('id') }),
-                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  success: function(response) {
-                     that.isFavorite = response;
-                     that.render();
-                  }
-               });
-               $.ajax({
-                  url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
-                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                  success: function(response) {
-                     that.liked = response;
-                     that.render();
-                  }
-               });
-            }
-         });
+         if (app.appState().isLogged()) {
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_photo_is_favorites', { 'id': that.options.photo.get('id') }),
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     success: function(response) {
+                        that.isFavorite = response;
+                        that.render();
+                     }
+                  });
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
+                     headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                     success: function(response) {
+                        that.liked = response;
+                        that.render();
+                     }
+                  });
+               }
+            });
+         }
       },
 
       afterRender: function() {

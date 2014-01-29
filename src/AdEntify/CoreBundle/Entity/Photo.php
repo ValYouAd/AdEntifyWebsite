@@ -258,6 +258,15 @@ class Photo
     private $tagsCount = 0;
 
     /**
+     * @Serializer\Exclude
+     *
+     * @var
+     *
+     * @ORM\Column(name="total_tags_points", type="decimal", scale=4, precision=15)
+     */
+    private $totalTagsPoints = 0;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Category", inversedBy="photos")
      * @Serializer\Exclude
      */
@@ -840,5 +849,22 @@ class Photo
     public function getHashtags()
     {
         return $this->hashtags;
+    }
+
+    /**
+     * @param mixed $totalTagsPoints
+     */
+    public function setTotalTagsPoints($totalTagsPoints)
+    {
+        $this->totalTagsPoints = $totalTagsPoints;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalTagsPoints()
+    {
+        return $this->totalTagsPoints;
     }
 }
