@@ -396,7 +396,7 @@ html,body {
         padding: 2px 5px;
         width: 100%;
         position: absolute;
-        bottom: 0;
+        bottom: -1px;
         left: 0;
         opacity: 1;
     }
@@ -670,6 +670,23 @@ html,body {
 
 /* Upload
 ----------------------- */
+
+.upload-dialog {
+    max-width: 480px!important;
+    padding-top: 15%;
+}
+.upload-dialog .progress {
+    margin: 0px auto;
+    width: 100%;
+    border-radius: 0px;
+    height: 8px;
+    background: none;
+}
+.upload-dialog .modal-body-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.upload
 
 /* Albums */
 .upload-details {

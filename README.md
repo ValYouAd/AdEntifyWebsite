@@ -8,6 +8,11 @@ php app/console adentify:oauth:client:create --name "Plugin Wordpress DEV" --red
 - MAJ des compteurs, une fois par jour
 php app/console adentify:update-counters
 
+- Récompenses - Toutes les heures
+php app/console adentify:reward
+
 3) Triggers
 
 Voir triggers.sql
+
+4) Page contact

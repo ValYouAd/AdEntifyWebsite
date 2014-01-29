@@ -7,8 +7,9 @@
  */
 define([
    "app",
-   "modules/externalServicePhotos"
-], function(app, ExternalServicePhotos) {
+   "modules/externalServicePhotos",
+   'modules/upload'
+], function(app, ExternalServicePhotos, Upload) {
 
    var FacebookPhotos = app.module();
    var error = '';
@@ -206,7 +207,7 @@ define([
                type: 'POST',
                data: { 'images': fbImages, 'source': 'facebook' },
                success: function() {
-                  ExternalServicePhotos.Common.showUploadInProgressModal();
+                  Upload.Common.showUploadInProgressModal();
                },
                error: function(e) {
                   // Hide loader

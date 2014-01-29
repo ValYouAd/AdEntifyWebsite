@@ -671,6 +671,25 @@ html,body {
 /* Upload
 ----------------------- */
 
+.upload-dialog {
+    max-width: 480px!important;
+    padding-top: 15%;
+}
+.upload-dialog .progress {
+    margin: 0px auto;
+    width: 100%;
+    border-radius: 0px;
+    height: 8px;
+    background: none;
+}
+.upload-dialog .modal-body-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.upload-dialog p {
+    margin-top: 20px;
+}
+
 /* Albums */
 .upload-details {
     padding: 10px;

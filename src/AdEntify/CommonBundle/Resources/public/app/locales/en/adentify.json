@@ -115,7 +115,8 @@
       "or": "or",
       "backToServices": "Back to services",
       "myComputer": "My computer",
-      "hashtags": "Add one or more hashtags"
+      "hashtags": "Add one or more hashtags",
+      "inProgress": "Photos upload in progress, you will be notified as soon as the operation is completed."
    },
    "hashtag": {
       "usedCount": "__count__ time",

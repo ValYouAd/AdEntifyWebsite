@@ -267,19 +267,5 @@ define([
       }
    });
 
-   ExternalServicePhotos.Common = {
-      showUploadInProgressModal: function() {
-         Common.Tools.showUploadProgressBar();
-         Backbone.history.navigate($.t('routing.my/photos/'), true);
-         /*$('#uploadInProgressModal').appendTo("body").modal({
-            backdrop: true,
-            show: true
-         });
-         $('#uploadInProgressModal').on('hidden.bs.modal', function() {
-            Backbone.history.navigate($.t('routing.my/photos/'), true);
-         });*/
-      }
-   }
-
    return ExternalServicePhotos;
 });

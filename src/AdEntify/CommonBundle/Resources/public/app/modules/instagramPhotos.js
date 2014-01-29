@@ -6,10 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app",
-   "bootstrap",
-   "modules/externalServicePhotos"
-], function(app, bootstrap, ExternalServicePhotos) {
+   'app',
+   'bootstrap',
+   'modules/externalServicePhotos',
+   'modules/upload'
+], function(app, bootstrap, ExternalServicePhotos, Upload) {
 
    var InstagramPhotos = app.module();
    var error = '';
@@ -216,7 +217,7 @@ define([
                type: 'POST',
                data: { 'images': images, 'source': 'instagram' },
                success: function() {
-                  ExternalServicePhotos.Common.showUploadInProgressModal();
+                  Upload.Common.showUploadInProgressModal();
                },
                error: function() {
                   // Hide loader

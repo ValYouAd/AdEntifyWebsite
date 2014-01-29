@@ -143,7 +143,7 @@ class DefaultController extends Controller
     /**
      * @Route("/lang/{locale}", requirements={"locale" = "en|fr"}, name="change_lang")
      */
-    public function langAction($locale, Request $request)
+    public function langAction($locale)
     {
         $this->getRequest()->getSession()->set('_locale', $locale);
         $this->setUserLocale($locale);

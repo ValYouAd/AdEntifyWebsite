@@ -51,59 +51,61 @@ class TaskWorkerCommand extends ContainerAwareCommand
             ->getSingleScalarResult();
 
         if ($currentTasks < self::PARALLEL_TASKS) {
-            $task = $this->em->createQuery('SELECT task FROM AdEntify\CoreBundle\Entity\Task task
+            $tasks = $this->em->createQuery('SELECT task FROM AdEntify\CoreBundle\Entity\Task task
                 WHERE (task.status = :status1 OR task.status = :status2) AND task.attempt <= 3')
                 ->setParameters(array(
                     'status1' => Task::STATUS_WAITING,
                     'status2' => Task::STATUS_ERROR
-                ))->setMaxResults(1)
-                ->getOneOrNullResult();
+                ))->setMaxResults(self::PARALLEL_TASKS - $currentTasks)
+                ->getResult();
 
-            if ($task) {
-                // Update task status
-                $task->setStatus(Task::STATUS_INPROGRESS);
-                $this->em->merge($task);
-                $this->em->flush();
-                $output->writeln('Task status updated');
+            if (count($tasks) > 0) {
+                foreach ($tasks as $task) {
+                    // Update task status
+                    $task->setStatus(Task::STATUS_INPROGRESS);
+                    $this->em->merge($task);
+                    $this->em->flush();
+                    $output->writeln('Task status updated');
 
-                // Do job
-                $response = array();
-                switch ($task->getType()) {
-                    case Task::TYPE_UPLOAD:
-                        $error = false;
-                        try {
-                            $response = $this->uploadService->uploadPhotos($task->getUser(), json_decode($task->getMessage()), $task);
-                        } catch (\Exception $ex) {
-                            $error = $ex->getMessage();
-                        }
-                        if (array_key_exists('error', $response)) {
-                            $task->setErrorMessage($response['error']);
-                            $task->setAttempt($task->getAttempt() + 1);
-                            $task->setStatus(Task::STATUS_ERROR);
-                            $this->em->merge($task);
-                        } else if ($error) {
-                            $task->setErrorMessage($error);
-                            $task->setAttempt($task->getAttempt() + 1);
-                            $task->setStatus(Task::STATUS_ERROR);
-                            $this->em->merge($task);
-                        } else {
-                            $task->setErrorMessage(null);
-                        }
-                        break;
-                }
-
-                // Check if notification is required
-                if (!$task->getErrorMessage()) {
-                    if ($task->getType() == Task::TYPE_UPLOAD) {
-                        // UPLOAD PHOTO Action & notification
-                        $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_UPLOAD,
-                            $task->getUser(), null, $response['photos'], Action::VISIBILITY_PUBLIC, null, null,
-                            $task->getNotifyCompleted(), 'photosUploaded', null, $task->getUser());
+                    // Do job
+                    $response = array();
+                    switch ($task->getType()) {
+                        case Task::TYPE_UPLOAD:
+                            $error = false;
+                            try {
+                                $response = $this->uploadService->uploadPhotos($task->getUser(), json_decode($task->getMessage()), $task);
+                            } catch (\Exception $ex) {
+                                $error = $ex->getMessage();
+                            }
+                            if (array_key_exists('error', $response)) {
+                                $task->setErrorMessage($response['error']);
+                                $task->setAttempt($task->getAttempt() + 1);
+                                $task->setStatus(Task::STATUS_ERROR);
+                                $this->em->merge($task);
+                            } else if ($error) {
+                                $task->setErrorMessage($error);
+                                $task->setAttempt($task->getAttempt() + 1);
+                                $task->setStatus(Task::STATUS_ERROR);
+                                $this->em->merge($task);
+                            } else {
+                                $task->setErrorMessage(null);
+                            }
+                            break;
                     }
-                    // Task completed, remove it
-                    $this->em->remove($task);
-                } else {
-                    $output->writeln('<error>'.$task->getErrorMessage().'</error>');
+
+                    // Check if notification is required
+                    if (!$task->getErrorMessage()) {
+                        if ($task->getType() == Task::TYPE_UPLOAD) {
+                            // UPLOAD PHOTO Action & notification
+                            $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_UPLOAD,
+                                $task->getUser(), null, $response['photos'], Action::VISIBILITY_PUBLIC, null, null,
+                                $task->getNotifyCompleted(), 'photosUploaded', null, $task->getUser());
+                        }
+                        // Task completed, remove it
+                        $this->em->remove($task);
+                    } else {
+                        $output->writeln('<error>'.$task->getErrorMessage().'</error>');
+                    }
                 }
 
                 $this->em->flush();

@@ -115,7 +115,8 @@
       "or": "ou",
       "backToServices": "Revenir aux services",
       "myComputer": "Mon ordinateur",
-      "hashtags": "Ajouter un ou plusieurs hashtags"
+      "hashtags": "Ajouter un ou plusieurs hashtags",
+      "inProgress": "L'envoi de vos photos est en cours, vous serez notifié dès que le traitement sera complété."
    },
    "hashtag": {
       "usedCount": "__count__ fois",

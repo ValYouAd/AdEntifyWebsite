@@ -6,13 +6,14 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app",
-   "modules/externalServicePhotos",
-   "modules/facebookPhotos",
-   "modules/common",
-   "facebook",
-   "select2"
-], function(app, ExternalServicePhotos, FacebookPhotos, Common) {
+   'app',
+   'modules/externalServicePhotos',
+   'modules/facebookPhotos',
+   'modules/common',
+   'modules/upload',
+   'facebook',
+   'select2'
+], function(app, ExternalServicePhotos, FacebookPhotos, Common, Upload) {
 
    var FacebookAlbums = app.module();
 
@@ -195,7 +196,7 @@ define([
                   type: 'POST',
                   data: { 'images': fbImages, 'source': 'facebook' },
                   success: function() {
-                     ExternalServicePhotos.Common.showUploadInProgressModal();
+                     Upload.Common.showUploadInProgressModal();
                   },
                   error: function(e) {
                      // Hide loader
