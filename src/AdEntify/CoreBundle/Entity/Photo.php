@@ -80,7 +80,7 @@ class Photo
     private $status = self::STATUS_UNPROCESSED;
 
     /**
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"details", "list", "slight-list"})
      *
      * @var string
      *
@@ -98,7 +98,7 @@ class Photo
     private $photoSourceId;
 
     /**
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"details", "list", "slight-list"})
      *
      * @var string
      *
@@ -138,7 +138,7 @@ class Photo
      * @var string
      *
      * @ORM\Column(name="large_url", type="text", nullable=true)
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $largeUrl;
 
@@ -146,7 +146,7 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="large_width", type="smallint", nullable=true)
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $largeWidth;
 
@@ -154,7 +154,7 @@ class Photo
      * @var integer
      *
      * @ORM\Column(name="large_height", type="smallint", nullable=true)
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $largeHeight;
 
@@ -276,7 +276,7 @@ class Photo
      * @var string
      *
      * @ORM\Column(name="visibility_scope", length=100, type="string")
-     * @Serializer\Exclude
+     * @Serializer\Groups({"details", "list"})
      */
     private $visibilityScope = self::SCOPE_PUBLIC;
 
