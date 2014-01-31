@@ -5,7 +5,7 @@
     <div class="block-white-background">
         <div class="profile-details text-center">
             <div class="profile-picture-wrapper">
-                <img src="<%= model.get('profilePicRootUrl') %><%= model.get('small_logo_url') %>" alt="<%= model.get('name') %>" class="profile-picture brand-profile-picture" />
+                <img src="<%= model.get('small_logo_url') %>" alt="<%= model.get('name') %>" class="profile-picture brand-profile-picture" />
             </div>
             <h1><%= model.get('name') %></h1>
             <% if (categories && categories.length > 0) { %>

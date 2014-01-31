@@ -1,6 +1,6 @@
 <% if (model.has('brandModel')) { %>
 <div class="pull-left">
-    <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get('brandModel').get('profilePicRootUrl') %><%= model.get('brandModel').get('small_logo_url') %>" class="brand-picture" alt="<%= model.get('brandModel').get('name') %>" /></a>
+    <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get('brandModel').get('small_logo_url') %>" class="brand-picture" alt="<%= model.get('brandModel').get('name') %>" /></a>
 </div>
 <% } else if (model.has('authorModel')) { %>
 <div class="pull-left">

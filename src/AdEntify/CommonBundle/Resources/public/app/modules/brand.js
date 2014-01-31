@@ -27,13 +27,11 @@ define([
       toJSON: function() {
          var jsonAttributes = jQuery.extend(true, {}, this.attributes);
          delete jsonAttributes.link;
-         delete jsonAttributes.profilePicRootUrl;
          return { brand: jsonAttributes }
       },
 
       setup: function() {
          this.set('link', app.beginUrl + app.root + $.t('routing.brand/slug/', { slug: this.get('slug') }));
-         this.set('profilePicRootUrl', '');
       },
 
       urlRoot: Routing.generate('api_v1_get_brands'),
