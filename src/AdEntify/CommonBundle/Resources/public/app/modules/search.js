@@ -150,22 +150,29 @@ define([
       },
 
       events : {
-         'keydown .search-query': 'search',
+         'keydown .search-query': 'keyDown',
+         'keyup .search-query': 'search',
          'click .search-button': 'search',
          'blur .search-query': 'closeSearchResults',
          'focus .search-query': 'showSearchResults'
       },
 
-      search: function(e) {
-         if (e.keyCode == 13 || $(e.currentTarget).hasClass('search-button')) {
-            Backbone.history.navigate($.t('routing.search/keywords', { 'keywords': encodeURI(this.$('.search-query').val()) }), { trigger: true });
+      keyDown: function(e) {
+         if (e.keyCode == 13)
             e.preventDefault();
+      },
+
+      search: function(e) {
+         this.terms = this.$('.search-query').val();
+
+         if (e.keyCode == 13 || $(e.currentTarget).hasClass('search-button')) {
+            Backbone.history.navigate($.t('routing.search/keywords', { 'keywords': encodeURI(this.terms) }), { trigger: true });
          } else {
             if (this.searchTimeout)
                clearTimeout(this.searchTimeout);
             var that = this;
             this.searchTimeout = setTimeout(function() {
-               that.startSearch(this.$('.search-query').val());
+               that.startSearch(that.terms);
             }, 500);
          }
       },

@@ -943,12 +943,9 @@ body {
     margin-right: auto !important;
 }
 
-html,body {
+html,body,.body-grey-background {
     height: 100%;
-    background: url('../img/graphik_background.png') repeat;
-}
-.body-grey-background {
-    background: url('../img/graphik_background.png') repeat;
+    background: url('../img/graphik_background.png') repeat fixed;
 }
 .body-grey-background #dashboard {
     margin-top: 20px;
