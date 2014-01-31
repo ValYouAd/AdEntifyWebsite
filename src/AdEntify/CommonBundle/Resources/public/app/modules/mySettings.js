@@ -82,7 +82,10 @@ define([
 
       events: {
          "click .deletelink": "deleteLink",
-         'click .connect-instagram': 'connectInstagram'
+         'click .connect-instagram': 'connectInstagram',
+         'click .service-icon': function() {
+            require('modules/upload').Common.goToServiceUploadPage(this.model.get('service_name'), this.model.get('linked'));
+         }
       }
    });
 

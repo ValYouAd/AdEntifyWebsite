@@ -3127,6 +3127,7 @@ label,
     display: inline-block;
     margin-right: 15px;
     vertical-align: middle;
+    cursor: pointer;
 }
 .service-item .service-icon-tooltip,
 .service-item .service-name-label {
