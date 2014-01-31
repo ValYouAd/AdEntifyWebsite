@@ -159,7 +159,7 @@
                                 for (var i = 0; i < data.data.length; i++) {
                                     var model = data.data[i];
                                     $('.search-brands-results').append('<li class="col-xs-4 col-sm-2 brand"><div class="table-center"><div class="table-center-cell text-center"><a href="app/' + '{{ 'brand/slug/'|trans }}' + model.slug + '" class="thumbnail">\
-                                    <img src="../' + model.medium_logo_url + '" alt="' + model.name + '" class="brand-logo" /></a></div></div></li>');
+                                    <img src="' + model.medium_logo_url + '" alt="' + model.name + '" class="brand-logo" /></a></div></div></li>');
                                 }
 
                                 if (data.data.length > 0) {

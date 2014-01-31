@@ -1158,8 +1158,15 @@ html,body {
     max-width: 150px;
 }
 .actions-list .small-photo {
-    max-width: 60px;
-    margin: -6px 0px -6px 5px;
+    width: 60px;
+    height: 50px;
+    margin: -8px 0px -6px 5px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 .actions-list .action-photo,
 .actions-list .action-photos {
