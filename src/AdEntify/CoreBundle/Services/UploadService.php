@@ -146,91 +146,9 @@ class UploadService
                         $uploadedPhotos[] = $photo;
                         $countUploadedPhotos++;
 
-                        // GET SMALL IMAGE
-                        /*if (array_key_exists('smallSource', $image)) {
-                            $smallPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_SMALLL);
-                            $smalllUrl = $this->fileUploader->uploadFromUrl($image->smallSource, $smallPath, 30);
-
-                            if ($smalllUrl) {
-                                $photo->setSmallUrl($smalllUrl);
-                                // Set image size
-                                if (empty($image->smallWidth) || empty($image->smallHeight)) {
-                                    $size = getimagesize($smalllUrl);
-                                    $photo->setSmallWidth($size[0]);
-                                    $photo->setSmallHeight($size[1]);
-                                } else {
-                                    // Check if width is right
-                                    if ($image->smallWidth != self::SMALL_SIZE) {
-                                        $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                                    } else {
-                                        $photo->setSmallWidth($image->smallWidth);
-                                        $photo->setSmallHeight($image->smallHeight);
-                                    }
-                                }
-                            } else {
-                                // Unable to load image, we have to generate it
-                                $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                            }
-                        } else {*/
-                            $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                        //}
-
-                        /*if (isset($taskProgressHelper))
-                            $taskProgressHelper->advance();*/
-
-                        // MEDIUM IMAGE
-                        /*if (array_key_exists('mediumSource', $image)) {
-                            $mediumPath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_MEDIUM);
-                            $mediumUrl = $this->fileUploader->uploadFromUrl($image->mediumSource, $mediumPath, 30);
-
-                            if ($mediumUrl) {
-                                $photo->setMediumUrl($mediumUrl);
-                                // Set image size
-                                if (empty($image->mediumWidth) || empty($image->mediumHeight)) {
-                                    $size = getimagesize($mediumUrl);
-                                    $photo->setMediumWidth($size[0]);
-                                    $photo->setMediumHeight($size[1]);
-                                } else {
-                                    // Check if width is right
-                                    if ($image->mediumWidth != self::MEDIUM_SIZE) {
-                                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
-                                    } else {
-                                        $photo->setMediumWidth($image->mediumWidth);
-                                        $photo->setMediumHeight($image->mediumHeight);
-                                    }
-                                }
-                            } else {
-                                $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
-                            }
-                        } else {*/
-                            $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
-                        //}
-
-                        /*if (isset($taskProgressHelper))
-                            $taskProgressHelper->advance();*/
-
-                        // LARGE IMAGE
-                        /*if (array_key_exists('largeSource', $image)) {
-                            $largePath = $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_LARGE);
-                            $largeUrl = $this->fileUploader->uploadFromUrl($image->largeSource, $largePath, 30);
-
-                            if ($largeUrl) {
-                                $photo->setLargeUrl($largeUrl);
-                                // Set image size
-                                if (empty($image->largeWidth) || empty($image->largeHeight)) {
-                                    $size = getimagesize($largeUrl);
-                                    $photo->setLargeWidth($size[0]);
-                                    $photo->setLargeHeight($size[1]);
-                                } else {
-                                    $photo->setLargeWidth($image->largeWidth);
-                                    $photo->setLargeHeight($image->largeHeight);
-                                }
-                            } else {
-                                $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
-                            }
-                        } else {*/
-                            $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
-                        //}
+                        $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
+                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
+                        $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
 
                         // Thumb generation
                         if ($thumb->IsThumbGenerationNeeded()) {

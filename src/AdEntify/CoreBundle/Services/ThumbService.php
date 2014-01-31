@@ -72,7 +72,7 @@ class ThumbService
     public function generateProfilePictureThumb(Thumb $thumb, User $user, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, true);
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, false);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getUserProfilePicturePath($user);
 
@@ -88,7 +88,7 @@ class ThumbService
     public function generateBrandLogoThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, true);
+        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, false);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getBrandLogoPath($size);
             // Generate thumb

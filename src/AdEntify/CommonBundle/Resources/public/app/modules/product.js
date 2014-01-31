@@ -21,10 +21,10 @@ define([
       },
 
       setup: function() {
-         if (this.has('medium_url'))
-            this.set('fullMediumUrl', app.rootUrl + 'uploads/photos/products/medium/' + this.get('medium_url'));
+         /*if (this.has('medium_url'))
+            this.set('fullMediumUrl', this.get('medium_url'));
          if (this.has('small_url'))
-            this.set('fullSmallUrl', app.rootUrl + 'uploads/photos/products/small/' + this.get('small_url'));
+            this.set('fullSmallUrl', 'uploads/photos/products/small/' + this.get('small_url'));*/
          if (this.has('brand')) {
             var Brand = require('modules/brand');
             this.set('brandModel', new Brand.Model(this.get('brand')));
