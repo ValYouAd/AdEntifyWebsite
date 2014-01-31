@@ -33,7 +33,7 @@ define([
 
       setup: function() {
          this.set('link', app.beginUrl + app.root + $.t('routing.brand/slug/', { slug: this.get('slug') }));
-         this.set('profilePicRootUrl', app.beginUrl + '/');
+         this.set('profilePicRootUrl', '');
       },
 
       urlRoot: Routing.generate('api_v1_get_brands'),

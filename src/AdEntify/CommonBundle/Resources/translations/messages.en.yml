@@ -139,7 +139,7 @@ photo/%id%/: photo/%id%/
 photo/id/: photo/
 brands/: brands/
 brand/slug/: brand/
-'brand/%slug%/': brand/%slug%
+'brand/%slug%/': brand/%slug%/
 my/brands/: my/brands/
 my/settings/: my/settings/
 category/: category/
