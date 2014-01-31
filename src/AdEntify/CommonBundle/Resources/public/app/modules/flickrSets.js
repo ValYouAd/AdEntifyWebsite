@@ -16,6 +16,7 @@ define([
    var FlickrSets = app.module();
    var error = '';
    var loaded = false;
+   var flickrOAuthInfos = null;
 
    FlickrSets.Model = Backbone.Model.extend({
       defaults: {
@@ -31,6 +32,21 @@ define([
       },
 
       setup: function() {
+         if (flickrOAuthInfos && this.get('id') && !this.has('picture')) {
+            var that = this;
+            $.ajax({
+               url: 'https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&photoset_id=' + that.get("id") + '&format=json&api_key=' + flickrClientId
+                  + '&user_id='+ flickrOAuthInfos.service_user_id + '&per_page=1&extras=url_m&jsoncallback=?',
+               dataType: 'jsonp',
+               success: function(response) {
+                  if (response.photoset.photo.length > 0) {
+                     that.set('picture', response.photoset.photo[0].url_m);
+                  }
+               },
+               error : function() {
+               }
+            });
+         }
          this.set('url', app.beginUrl + app.root + $.t('routing.flickr/sets/id/photos/', { id: this.get("id") }));
       }
    });
@@ -66,7 +82,7 @@ define([
                      if (!data || data.error) {
                         error = data.error;
                      } else {
-                        var flickrOAuthInfos = _.find(data, function(service) {
+                        flickrOAuthInfos = _.find(data, function(service) {
                            if (service.service_name == 'Flickr') {
                               return true;
                            } else { return false; }
@@ -78,7 +94,6 @@ define([
                                  + '&user_id='+ flickrOAuthInfos.service_user_id + '&jsoncallback=?',
                               dataType: 'jsonp',
                               success: function(response) {
-                                 var sets = [];
                                  for (var i= 0, l=response.photosets.photoset.length; i<l; i++) {
                                     var model = new FlickrSets.Model();
                                     var album = response.photosets.photoset[i];
