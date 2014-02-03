@@ -254,9 +254,11 @@
     {{ facebook_initialize({'xfbml': true }) }}
 
     <header>
-        <a href="{{ path('about') }}" class="start-button">
-            {{ 'Start'|trans }}
-        </a>
+        <div class="top-fixed">
+            <a href="{{ path('about') }}" class="start-button">
+                {{ 'Start'|trans }}
+            </a>
+        </div>
         <div class="carousel"></div>
 
         <h1 class="pastille-adentify">AdEntify</h1>

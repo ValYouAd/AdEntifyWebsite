@@ -22,7 +22,7 @@ parameters:
     aws_secret_key:               BhdfP+cxOvAgHkHGhg7cQQu4HguG4ua6SzpfHkW1
     aws_region:                   eu-west-1
     adentify_bucket_name:         cdn.adentify.com
-    adentify_base_url:            http://cdn.adentify.com/
+    adentify_base_url:            https://s3-eu-west-1.amazonaws.com/cdn.adentify.com/
 
     from_email:                   no-reply@adentify.com
     instagram_client_id:          db51217592cf490aab08224763fc6cea
