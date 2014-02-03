@@ -32,7 +32,9 @@
                 </a>
             </div>
             <div class="pull-right">
-                <i class="white-heart-icon icon"></i> <%= model.get('likes_count') %> <i class="white-comment-icon icon"></i> <%= model.get('comments_count') %>
+                <a href="<%= model.get('link') %>" data-bypass="" class="photo-link">
+                    <i class="white-heart-icon icon"></i> <%= model.get('likes_count') %> <i class="white-comment-icon icon"></i> <%= model.get('comments_count') %>
+                </a>
             </div>
             <div class="clearfix"></div>
         </div>

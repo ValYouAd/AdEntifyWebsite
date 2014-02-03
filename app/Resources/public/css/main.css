@@ -389,7 +389,7 @@ html,body,.body-grey-background {
         opacity: 1;
     }
     #photos-grid .photo-info {
-        background: url('../img/red_transparent.png') repeat;
+        background: rgba(169,171,174,0.7);
         padding: 2px 5px;
         width: 100%;
         position: absolute;
