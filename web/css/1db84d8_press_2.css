@@ -13,6 +13,17 @@
     margin-top: 30px;
     text-align: justify;
 }
+.story .quote {
+    font-size: 50px;
+    max-width: 600px;
+    margin: 100px auto 0 auto;
+    text-align: center;
+}
+@media (max-width:767px){
+    .story .quote {
+        font-size: 30px;
+    }
+}
 
 /* Team */
 .team h2 {

@@ -33,11 +33,11 @@
 
     <div class="story red-patchwork">
         <div class="container">
-            <div class="text-center">
-                <h2>{{ 'Story'|trans }}</h2>
-            </div>
+            {#<div class="text-center">
+                <h2>{{ '« sharing economy isn’t about you earning less, it’s about us sharing more »' }}</h2>
+            </div>#}
             <div class="story-text">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula dapibus vitae. Quisque convallis massa sit amet risus accumsan mollis. Nam laoreet erat at sapien vehicula, at pretium nunc pulvinar. Pellentesque suscipit scelerisque enim a volutpat. Maecenas auctor posuere imperdiet. Morbi sagittis sapien erat, et aliquet massa ullamcorper eu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse dictum mauris gravida, convallis eros at, laoreet purus. Nulla erat ipsum, pellentesque eu tellus at, lacinia blandit justo. Morbi tortor nulla, eleifend id feugiat nec, blandit nec lacus. Fusce ut laoreet sem, iaculis vehicula diam. Ut ullamcorper dui at leo sollicitudin, bibendum rutrum arcu eleifend. Morbi porta facilisis diam, in pretium arcu aliquet a. Nunc in vulputate lacus, ac rhoncus ligula.</p>
+                <p class="quote">{{ 'press.quote'|trans }}</p>
             </div>
         </div>
     </div>
@@ -51,26 +51,27 @@
                 <div class="col-sm-4 text-center">
                     <img src="https://graph.facebook.com/jeremie.lf/picture?width=140&height=140" class="profile-picture" />
                     <h3>Jérémie Le Febvre</h3>
-                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                    {#<p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>#}
                 </div>
                 <div class="col-sm-4 text-center">
                     <img src="https://graph.facebook.com/matthieu.dordolo/picture?width=140&height=140" class="profile-picture" />
                     <h3>Matthieu Dordolo</h3>
-                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                    {#<p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>#}
                 </div>
                 <div class="col-sm-4 text-center">
                     <img src="https://graph.facebook.com/pierrick.martos/picture?width=140&height=140" class="profile-picture" />
                     <h3>Pierrick Martos</h3>
-                    <p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>
+                    {#<p class="resume">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula.</p>#}
                 </div>
             </div>
+            <p class="text-center mt3"><a class="btn-around-corner btn-red-grey-border" href="{{ path('jobs') }}">{{ 'Join the team'|trans }}</a></p>
         </div>
     </div>
 
     <div class="resources">
         <div class="container">
             <div class="text-center">
-                <h2>{{ 'Logos and press kit' }}</h2>
+                <h2>{{ 'Logos and press kit'|trans }}</h2>
             </div>
 
             <div class="row resources-list">
@@ -140,7 +141,7 @@
                     <h2>{{ 'Contact us!'|trans }}</h2>
                 </div>
                 <div class="mail-wrapper text-center">
-                    <a href="mailto:presse@adentify.com" class="btn signup"><i class="glyphicon glyphicon-envelope"></i> presse@adentify.com</a>
+                    <a href="mailto:contact@adentify.com" class="btn signup"><i class="glyphicon glyphicon-envelope"></i> contact@adentify.com</a>
                 </div>
             </div>
         </div>

@@ -31,7 +31,7 @@ People to follow: People to follow
 Already: Already
 Most tagged Brands: Most tagged brands
 Advertisers: Advertisers
-Press: Press
+Who we are: Who we are?
 Contact: Contact
 Legal notice: Legal
 How it works: How it works?
@@ -94,6 +94,7 @@ jobs:
 press:
     pageTitle: Press - AdEntify.com
     pageDescription: Story, team, logos & press release of AdEntify
+    quote: « Sharing economy isn’t about you earning less, it’s about us sharing more »
 Contact us!: Contact us!
 Download press kit: Download press kit
 Download: Download
@@ -102,6 +103,7 @@ Screenshots: Screenshots
 Communiqué de presse: Press release
 Story: Story
 Team: Team
+Logos and press kit: Logos and press kit
 
 #HP Offline
 tags: '[0,1]%count% tag|]1,Inf[%count% tags'

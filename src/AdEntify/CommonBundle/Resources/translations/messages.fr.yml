@@ -20,7 +20,7 @@ My profile: Mon profil
 My brand: Ma marque
 Tag my photos: Taguer mes photos
 Log out: Déconnexion
-Press: Presse
+Who we are: Qui sommes-nous ?
 Credits: Crédits
 FAQ: FAQ
 About Us: Qui sommes-nous ?
@@ -90,6 +90,7 @@ Follow us!: Nous suivre !
 
 #Jobs
 Jobs: Emplois
+Join the team: Rejoignez-nous
 jobs:
     pageTitle: Emplois - AdEntify.com
     pageDescription: Postes à pourvoir au sein de la team AdEntify
@@ -98,6 +99,7 @@ jobs:
 press:
     pageTitle: Presse - AdEntify.com
     pageDescription: Histoire, équipe, logos et communiqué de presse d'AdEntify
+    quote: « L’économie collaborative, ce n’est pas toi qui gagne moins, c’est nous qui partageons plus »
 Contact us!: Contactez-nous !
 Download press kit: Télécharger le dossier de presse
 Download: Télécharger
