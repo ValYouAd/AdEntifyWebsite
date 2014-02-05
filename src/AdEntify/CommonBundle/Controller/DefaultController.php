@@ -167,7 +167,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{_locale}/about", name="about")
+     * @Route("/{_locale}/how-it-works", name="about")
      * @Template()
      */
     public function aboutAction()
