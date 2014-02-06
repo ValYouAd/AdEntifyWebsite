@@ -41,7 +41,8 @@ class RegistrationFormType extends BaseType
                 )
             ))
             ->add('birthday', 'birthday', array(
-                'label' => 'Birthday'
+                'label' => 'Birthday',
+                'data' => new \DateTime()
             ))
             ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
