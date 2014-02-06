@@ -76,38 +76,25 @@ class PointService
     {
         $taggerIsPhotoOwner = $user->getId() == $tag->getPhoto()->getOwner()->getId();
         if ($taggerIsPhotoOwner) {
-            $points = 0;
-            foreach($tag->getPoints() as $tagPoint) {
-                if ($tagPoint->getType() == TagPoint::TYPE_TAG_AND_PHOTO_OWNER) {
-                    $points = $tagPoint->getPoints();
-                    break;
-                }
-            }
+            $points = $this->getPoints($tag, $taggerIsPhotoOwner);
             $user->setPoints($user->getPoints() + $points);
 
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
                 $user, $user, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
-                get_class($tag->getPhoto()), true, 'tagPoints', array('count' => $points));
+                $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'tagPoints', array('count' => $points));
         } else if ($tag->getValidationStatus() == Tag::VALIDATION_GRANTED) {
-            $tagPointTagger = null;
-            $tagPointOwner = null;
-            foreach ($tag->getPoints() as $tagPoint) {
-                if ($tagPoint->getType() == TagPoint::TYPE_TAG_OWNER)
-                    $tagPointTagger = $tagPoint;
-                else if($tagPoint->getType() == TagPoint::TYPE_PHOTO_OWNER)
-                    $tagPointOwner = $tagPoint;
-            }
+            $result = $this->getPoints($tag, false);
 
-            $tag->getPhoto()->getOwner()->setPoints($tag->getPhoto()->getOwner()->getPoints() + $tagPointOwner->getPoints());
-            $user->setPoints($user->getPoints() + $tagPointTagger->getPoints());
+            $tag->getPhoto()->getOwner()->setPoints($tag->getPhoto()->getOwner()->getPoints() + $result['tagPointOwner']->getPoints());
+            $user->setPoints($user->getPoints() + $result['tagPointTagger']->getPoints());
 
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
                 $user, $user, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
-                get_class($tag->getPhoto()), true, 'tagPoints', array('count' => $tagPointTagger->getPoints()));
+                $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'tagPoints', array('count' => $result['tagPointTagger']->getPoints()));
 
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
                 $user, $tag->getPhoto()->getOwner(), array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
-                get_class($tag->getPhoto()), true, 'tagPoints', array('count' => $tagPointOwner->getPoints()));
+                $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'tagPoints', array('count' => $result['tagPointOwner']->getPoints()));
         }
 
         foreach ($tag->getPoints() as $tagPoint) {
@@ -117,8 +104,76 @@ class PointService
         }
 
         $tag->getPhoto()->setTotalTagsPoints($tag->getPhoto()->getTotalTagsPoints() + $tag->getTotalPoints());
-        $this->em->merge($tag->getPhoto);
+        $this->em->merge($tag->getPhoto());
 
         $this->em->merge($user);
+    }
+
+    /**
+     * Remove user points on tag removing
+     *
+     * @param User $user
+     * @param Tag $tag
+     */
+    public function removeUserPoints(User $user, Tag $tag)
+    {
+        $taggerIsPhotoOwner = $user->getId() == $tag->getPhoto()->getOwner()->getId();
+        if ($taggerIsPhotoOwner) {
+            $user->setPoints($user->getPoints() - $this->getPoints($tag, $taggerIsPhotoOwner));
+
+            $this->em->getRepository('AdEntifyCoreBundle:Action')->removeAction(Action::TYPE_USER_POINTS, $user, $user,
+                $tag->getPhoto()->getId(), $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName());
+        } else if ($tag->getValidationStatus() == Tag::VALIDATION_GRANTED) {
+            $result = $this->getPoints($tag, false);
+
+            $tag->getPhoto()->getOwner()->setPoints($tag->getPhoto()->getOwner()->getPoints() - $result['tagPointOwner']->getPoints());
+            $user->setPoints($user->getPoints() - $result['tagPointTagger']->getPoints());
+
+            $this->em->getRepository('AdEntifyCoreBundle:Action')->removeAction(Action::TYPE_USER_POINTS, $user, $user,
+                $tag->getPhoto()->getId(), $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName());
+
+            $this->em->getRepository('AdEntifyCoreBundle:Action')->removeAction(Action::TYPE_USER_POINTS, $user,
+                $tag->getPhoto()->getOwner(), $tag->getPhoto()->getId(), $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName());
+        }
+
+        foreach ($tag->getPoints() as $tagPoint) {
+            $this->em->remove($tagPoint);
+        }
+
+        $this->em->merge($user);
+    }
+
+    /**
+     * Get points for the tag
+     *
+     * @param $tag
+     * @param $isPhotoOwner
+     * @return array|int
+     */
+    private function getPoints($tag, $isPhotoOwner)
+    {
+        if ($isPhotoOwner) {
+            $points = 0;
+            foreach($tag->getPoints() as $tagPoint) {
+                if ($tagPoint->getType() == TagPoint::TYPE_TAG_AND_PHOTO_OWNER) {
+                    $points = $tagPoint->getPoints();
+                    break;
+                }
+            }
+            return $points;
+        } else {
+            $tagPointTagger = null;
+            $tagPointOwner = null;
+            foreach ($tag->getPoints() as $tagPoint) {
+                if ($tagPoint->getType() == TagPoint::TYPE_TAG_OWNER)
+                    $tagPointTagger = $tagPoint;
+                else if($tagPoint->getType() == TagPoint::TYPE_PHOTO_OWNER)
+                    $tagPointOwner = $tagPoint;
+            }
+            return array(
+                'tagPointTagger' => $tagPointTagger,
+                'tagPointOwner' => $tagPointOwner
+            );
+        }
     }
 } 

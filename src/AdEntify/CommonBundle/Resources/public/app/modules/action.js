@@ -92,9 +92,9 @@ define([
                   return p;
                }
             });
-            Photos.Common.showPhoto(evt, photo);
+            Photos.Common.showPhoto(evt, photo, 0, true);
          } else {
-            Photos.Common.showPhoto(evt, this.model.get('photo'));
+            Photos.Common.showPhoto(evt, this.model.get('photo'), 0, true);
          }
       },
 
@@ -148,6 +148,7 @@ define([
                   case 'photo-fav':
                   case 'photo-tag':
                   case 'photo-comment':
+                  case 'photo-brand-tag':
                      template = 'action/itemWithSmallPhoto';
                      tagName = 'li class="action-item-with-small-photo"';
                      break;

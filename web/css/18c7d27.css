@@ -102,6 +102,18 @@ header {
     text-transform: uppercase;
     padding-top: 30px;
 }
+.bottom-footer .container {
+    position: relative;
+}
+.bottom-footer .circle-social-icons {
+    position: absolute;
+    right: 0px;
+    top: -25px;
+}
+.bottom-footer .circle-social-icons a,
+.bottom-footer .circle-social-icons a:hover {
+    margin: 0px;
+}
 .bottom-footer a:hover,
 .bottom-footer a {
     color: #ffffff;
@@ -226,11 +238,17 @@ html, body {
 /* Header
 ----------------------- */
 header {
-    border-top: 10px solid white;
     position: relative;
     z-index: 10;
     width: 100%;
 }
+    .top-fixed {
+        border-top: 10px solid white;
+        width: 100%;
+        position: fixed;
+        top: 0px;
+        z-index: 10;
+    }
     .start-button {
         background: url('../../bundles/adentifycommon/images/start_button.png') no-repeat top center;
         width: 111px;

@@ -20,7 +20,7 @@ My profile: My profile
 My brand: My brand
 Tag my photos: Tag my photos
 Log out: Log out
-Press: Press
+Press: Who we are?
 Credits: Credits
 FAQ: FAQ
 About Us: About us
@@ -31,10 +31,10 @@ People to follow: People to follow
 Already: Already
 Most tagged Brands: Most tagged brands
 Advertisers: Advertisers
-Press: Press
+Who we are: Who we are?
 Contact: Contact
-Legal notice: Legal notice
-About: About
+Legal notice: Legal
+How it works: How it works?
 More brands: More brands
 More members: More members
 Login: Login
@@ -66,12 +66,12 @@ about:
     pageTitle: About - AdEntify.com
     pageDescription: AdEntify is a service that gives you ability to enhence your photos with tags : brands, products, places, people...
 How it works?: How it works?
-HowItWorksStep1: <strong>Add</strong> your photos via Facebook, Twitter, Pinterest or flickr
-HowItWorksStep2: <strong>Enrich</strong> your tags and share them with friends
-HowItWorksStep3: <strong>Get</strong> discounts on your favorites brands
+HowItWorksStep1: <strong>Add</strong> your photos via Facebook, Instagram, Flickr, etc
+HowItWorksStep2: <strong>Enrich</strong> your photos with tags and share them
+HowItWorksStep3: <strong>Discover</strong> photos with your favorite brands
 Win points: Win points
 Win cash: Win cash
-RewardsEarningsText: Tag your prefered brands and ...
+RewardsEarningsText: Tag your favorite brands ...
 Ready? Go!: Ready? Go!
 
 #Contact
@@ -89,11 +89,13 @@ Jobs: Jobs
 jobs:
     pageTitle: Jobs - AdEntify.com
     pageDescription: Jobs in AdEntify Team
+    mail: Contact us at jobs@adentify.com
 
 #Press
 press:
     pageTitle: Press - AdEntify.com
     pageDescription: Story, team, logos & press release of AdEntify
+    quote: « Sharing economy isn’t about you earning less, it’s about us sharing more »
 Contact us!: Contact us!
 Download press kit: Download press kit
 Download: Download
@@ -102,6 +104,7 @@ Screenshots: Screenshots
 Communiqué de presse: Press release
 Story: Story
 Team: Team
+Logos and press kit: Logos and press kit
 
 #HP Offline
 tags: '[0,1]%count% tag|]1,Inf[%count% tags'
@@ -139,7 +142,7 @@ photo/%id%/: photo/%id%/
 photo/id/: photo/
 brands/: brands/
 brand/slug/: brand/
-'brand/%slug%/': brand/%slug%
+'brand/%slug%/': brand/%slug%/
 my/brands/: my/brands/
 my/settings/: my/settings/
 category/: category/

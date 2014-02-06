@@ -552,7 +552,14 @@ define([
          this.listenTo(app, 'tagMenuTools:tagAdded', function() {
             this.updatePoints(true);
          });
+         this.listenTo(app, 'tag:deleted', function() {
+            this.updatePoints(false);
+         });
          this.updatePoints(false);
+      },
+
+      afterRender: function() {
+         this.animate = false;
       },
 
       updatePoints: function(animate) {

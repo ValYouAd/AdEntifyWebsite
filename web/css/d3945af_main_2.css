@@ -97,12 +97,9 @@ body {
     margin-right: auto !important;
 }
 
-html,body {
+html,body,.body-grey-background {
     height: 100%;
-    background: url('../img/graphik_background.png') repeat;
-}
-.body-grey-background {
-    background: url('../img/graphik_background.png') repeat;
+    background: url('../img/graphik_background.png') repeat fixed;
 }
 .body-grey-background #dashboard {
     margin-top: 20px;
@@ -392,7 +389,7 @@ html,body {
         opacity: 1;
     }
     #photos-grid .photo-info {
-        background: url('../img/red_transparent.png') repeat;
+        background: rgba(169,171,174,0.7);
         padding: 2px 5px;
         width: 100%;
         position: absolute;
@@ -686,7 +683,9 @@ html,body {
     padding-top: 20px;
     padding-bottom: 20px;
 }
-.upload
+.upload-dialog p {
+    margin-top: 20px;
+}
 
 /* Albums */
 .upload-details {
@@ -1156,8 +1155,15 @@ html,body {
     max-width: 150px;
 }
 .actions-list .small-photo {
-    max-width: 60px;
-    margin: -6px 0px -6px 5px;
+    width: 60px;
+    height: 50px;
+    margin: -8px 0px -6px 5px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 .actions-list .action-photo,
 .actions-list .action-photos {
@@ -1242,7 +1248,7 @@ html,body {
     border-radius: 0px;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
     max-width: none;
-    min-width: 270px;
+    min-width: 350px;
     
     -webkit-transition: opacity 0.3s ease-out;
     -moz-transition: opacity 0.3s ease-out;
@@ -1286,7 +1292,7 @@ html,body {
     max-height: 50px;
 }
 .tag .map {
-    width: 270px;
+    width: 350px;
     height: 260px;
 }
 .brand-logo,
@@ -3121,6 +3127,7 @@ label,
     display: inline-block;
     margin-right: 15px;
     vertical-align: middle;
+    cursor: pointer;
 }
 .service-item .service-icon-tooltip,
 .service-item .service-name-label {
@@ -3207,6 +3214,7 @@ label,
     -webkit-box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.3) inset;
     -moz-box-shadow:    0px 0px 7px rgba(0, 0, 0, 0.3) inset;
     box-shadow:         0px 0px 7px rgba(0, 0, 0, 0.3) inset;
+    min-width: 100px;
 }
 .profile-infos .user-names {
     color: #898989;

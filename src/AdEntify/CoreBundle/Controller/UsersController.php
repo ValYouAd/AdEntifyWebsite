@@ -274,7 +274,7 @@ class UsersController extends FosRestController
                 // FOLLOW Action & notification
                 $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_FOLLOW,
                     $follower, $following, null, Action::VISIBILITY_PUBLIC, $following->getId(),
-                    get_class($following), true, 'followUser');
+                    $em->getClassMetadata(get_class($following))->getName(), true, 'followUser');
 
                 $follower->addFollowing($following);
                 $follower->setFollowingsCount($follower->getFollowingsCount() + 1);

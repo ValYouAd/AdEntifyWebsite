@@ -50,7 +50,7 @@ class DefaultController extends Controller
             ->setMaxResults(12)->getResult();
         $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
             WHERE photo.visibilityScope = :visibilityScope AND photo.deletedAt IS NULL AND photo.status = :status AND photo.tagsCount > 0
-            ORDER BY photo.createdAt DESC')
+            ORDER BY photo.likesCount DESC')
             ->setParameters(array(
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':status' => Photo::STATUS_READY,
@@ -167,7 +167,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{_locale}/about", name="about")
+     * @Route("/{_locale}/how-it-works", name="about")
      * @Template()
      */
     public function aboutAction()

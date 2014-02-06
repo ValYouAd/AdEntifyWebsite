@@ -36,7 +36,7 @@
 
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
 
-    <header>
+    {#<header>
         <a href="{{ path('home_logoff') }}"><h1 class="pastille-adentify">AdEntify</h1></a>
 
         <div class="account-buttons">
@@ -48,7 +48,7 @@
             <img src="{{ asset('bundles/adentifycommon/images/about-capture-homepage.jpg') }}" />
         </div>
 
-    </header>
+    </header>#}
 
     <div class="polygon-background">
         <div class="text-center">
@@ -93,6 +93,7 @@
                     <h2>{{ 'Ready? Go!'|trans }}</h2>
                 </div>
                 <div class="signup-wrapper text-center">
+                    <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> <span class="text">{{ 'Login'|trans }}</span></button>
                     <button data-toggle="modal" data-target="#signupModal" type="button" class="btn signup"><i class="icon signup-icon"></i> <span class="text">{{ 'Sign Up'|trans }}</span></button>
                 </div>
             </div>

@@ -8,15 +8,15 @@
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
     {% endstylesheets %}
-{% endblock %}
+{% endblock %}1.352083
 
 {% block javascripts %}
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&v=3&sensor=false"></script>
     <script type="text/javascript">
         function initialize() {
-            var myLatLng = new google.maps.LatLng(48.856468,2.325538);
+            var myLatLng = new google.maps.LatLng(,103.819836);
             var mapOptions = {
-                zoom: 16,
+                zoom: 2,
                 center: myLatLng,
                 scrollwheel: false,
                 navigationControl: false,
@@ -27,12 +27,12 @@
             };
             var map = new google.maps.Map(document.getElementById("map-canvas"),
                     mapOptions);
-            var marker = new google.maps.Marker({
+            /*var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
                 animation: google.maps.Animation.DROP,
                 title: 'AdEntify'
-            });
+            });*/
         }
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
@@ -69,11 +69,7 @@
         </div>
 
         <div class="row mb3">
-            <div class="col-sm-4 text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales tempor mauris, non ornare ligula dapibus vitae. Quisque convallis massa sit amet risus accumsan mollis. Nam laoreet erat at sapien vehicula, at pretium nunc pulvinar. Pellentesque suscipit scelerisque enim a volutpat. Maecenas auctor posuere imperdiet. Morbi sagittis sapien erat, et aliquet massa ullamcorper eu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-                Suspendisse dictum mauris gravida, convallis eros at, laoreet purus. Nulla erat ipsum, pellentesque eu tellus at, lacinia blandit justo. Morbi tortor nulla, eleifend id feugiat nec, blandit nec lacus. Fusce ut laoreet sem, iaculis vehicula diam. Ut ullamcorper dui at leo sollicitudin.
-
-                , bibendum rutrum arcu eleifend. Morbi porta facilisis diam, in pretium arcu aliquet a. Nunc in vulputate lacus, ac rhoncus ligula.</div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 {% for flashMessage in app.session.flashbag.get('notice') %}
                     <div class="alert alert-success">
                         {{ flashMessage|trans }}
@@ -81,11 +77,11 @@
                 {% endfor %}
                 {{ form(form) }}
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <h2>{{ 'Follow us!'|trans }}</h2>
-                <a href="https://www.facebook.com/pages/AdEntify/167935029970678"><img src="{{ asset('bundles/adentifycommon/images/contact-facebook.jpg') }}" /></a>
-                <a href="https://twitter.com/adentify"><img src="{{ asset('bundles/adentifycommon/images/contact-twitter.jpg') }}" /></a>
-                <a href="http://instagram.com/adentify"><img src="{{ asset('bundles/adentifycommon/images/contact-instagram.jpg') }}" /></a>
+                <a target="_blank" href="https://www.facebook.com/pages/AdEntify/167935029970678"><img src="{{ asset('bundles/adentifycommon/images/contact-facebook.jpg') }}" /></a>
+                <a target="_blank" href="https://twitter.com/adentify"><img src="{{ asset('bundles/adentifycommon/images/contact-twitter.jpg') }}" /></a>
+                <a target="_blank" href="http://instagram.com/adentify"><img src="{{ asset('bundles/adentifycommon/images/contact-instagram.jpg') }}" /></a>
             </div>
         </div>
     </div>

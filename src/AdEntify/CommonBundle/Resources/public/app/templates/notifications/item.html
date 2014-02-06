@@ -5,7 +5,7 @@
 <% } %>
 <% if (model.has('brandModel')) { %>
 <div class="notification-photos pull-right">
-    <a href="<%= model.get('brandModel').get('link') %>"><div style="background-image: url('<%= model.get('brandModel').get('profilePicRootUrl') %><%= model.get('brandModel').get('medium_logo_url') %>');" class="notification-photo"></div></a>
+    <a href="<%= model.get('brandModel').get('link') %>"><div style="background-image: url('<%= model.get('brandModel').get('medium_logo_url') %>');" class="notification-photo"></div></a>
 </div>
 <% } else if (model.has('photosCollection') && model.get('photosCollection').length > 0) { %>
 <div class="notification-photos pull-right">

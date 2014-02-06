@@ -254,19 +254,7 @@ define([
 
       showServicePhotos: function(evt) {
          evt.preventDefault();
-         switch(this.model.get('service_name')) {
-            case 'Facebook':
-               Backbone.history.navigate($.t('facebook/albums/'), { trigger: true });
-               break;
-            case 'instagram':
-               var url = Upload.Common.getInstagramUrl(this.model.get('linked'));
-               this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
-               break;
-            case 'Flickr':
-               var url = Upload.Common.getFlickrUrl(this.model.get('linked'));
-               this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
-               break;
-         }
+         Upload.Common.goToServiceUploadPage(this.model.get('service_name'), this.model.get('linked'));
       },
 
       events: {
@@ -328,6 +316,22 @@ define([
          Common.Tools.hideCurrentModalIfOpened(function() {
             app.useLayout().setView('#modal-container', modal).render();
          });
+      },
+
+      goToServiceUploadPage: function(serviceName, linked) {
+         switch(serviceName) {
+            case 'Facebook':
+               Backbone.history.navigate($.t('facebook/albums/'), { trigger: true });
+               break;
+            case 'instagram':
+               var url = Upload.Common.getInstagramUrl(linked);
+               this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
+               break;
+            case 'Flickr':
+               var url = Upload.Common.getFlickrUrl(linked);
+               this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
+               break;
+         }
       }
    }
 

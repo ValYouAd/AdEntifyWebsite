@@ -18,9 +18,9 @@
                 <% if (model.has('description') && model.get("description")) { %>
                 <p><%= model.get("description") %></p>
                 <% } %>
-                <% if (model.has("product") && model.get("product").has("brandModel")) { %>
+                <% if (model.has("brandModel")) { %>
                 <div class="brand pull-right">
-                    <a href="<%= model.get('product').get('brandModel').get('link') %>"><img src="<%= model.get('product').get("brandModel").get('profilePicRootUrl') %><%= model.get('product').get("brandModel").get('small_logo_url') %>" alt="<%= model.get("product").get("brand")["name"] %>" class="brand-logo" /></a>
+                    <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get("brandModel").get('small_logo_url') %>" alt="<%= model.get("brand")["name"] %>" class="brand-logo" /></a>
                 </div>
                 <% } %>
             </div>
@@ -31,8 +31,8 @@
                 <% if (model.get('product').get('legal_notice')) { %>
                 <br><small><em><%= $.t('legalNotice.' + model.get('product').get('legal_notice')) %></em></small>
                 <% } %>
-                <% if (model.get("product").has("brandModel") && model.get("product").get("brandModel").get('legal_notice')) { %>
-                <br><small><em><%= $.t('legalNotice.' + model.get("product").get("brandModel").get('legal_notice')) %></em></small>
+                <% if (model.has("brandModel") && model.get("brandModel").get('legal_notice')) { %>
+                <br><small><em><%= $.t('legalNotice.' + model.get("brandModel").get('legal_notice')) %></em></small>
                 <% } %>
             </div>
             <% } %>

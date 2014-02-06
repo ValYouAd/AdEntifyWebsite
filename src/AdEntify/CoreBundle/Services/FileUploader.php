@@ -34,13 +34,10 @@ class FileUploader
      */
     public function upload(UploadedFile $file, $path, $filename)
     {
-        // Format filename with path
-        $uploadedFilename = $path.$filename;
-
         // Upload
-        $this->write($uploadedFilename, file_get_contents($file->getPathname()), $file->getClientMimeType());
+        $this->write($this->getPath($path, $filename), file_get_contents($file->getPathname()), $file->getClientMimeType());
 
-        return $this->baseUrl . $uploadedFilename;
+        return $this->baseUrl . $this->getPath($path, $filename, true);
     }
 
     /**
@@ -54,13 +51,10 @@ class FileUploader
      */
     public function uploadFromContent($content, $contentType, $path, $filename)
     {
-        // Format filename with path
-        $uploadedFilename = $path.$filename;
-
         // Upload
-        $this->write($uploadedFilename, $content, $contentType);
+        $this->write($this->getPath($path, $filename), $content, $contentType);
 
-        return $this->baseUrl . $uploadedFilename;
+        return $this->baseUrl . $this->getPath($path, $filename, true);
     }
 
     /**
@@ -96,5 +90,10 @@ class FileUploader
         $adapter = $this->filesystem->getAdapter();
         $adapter->setMetadata($filename, array('contentType' => $contentType));
         $adapter->write($filename, $content);
+    }
+
+    private function getPath($path, $filename, $encode = false)
+    {
+        return $encode ? $path.rawurlencode($filename) : $path.$filename;
     }
 } 

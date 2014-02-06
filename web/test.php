@@ -1,2 +1,1 @@
-jQuery('html, body').css({ background: '#000000 url("http://www.gtanf.com/images/body-new.jpg") no-repeat top center fixed'});
-jQuery('html, body').css({ background: '#000000 url("http://www.gtanf.com/images/body-noel-2013.jpg") no-repeat top center fixed'});
+<?php echo rawurlencode('52ebb2ffbdbf0Screen Shot 2014-01-30 at 17.42.29.png'); ?>

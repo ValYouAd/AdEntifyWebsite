@@ -20,7 +20,7 @@ class HashtagRepository extends EntityRepository
      */
     public function createIfNotExist($name)
     {
-        $name = trim($name);
+        $name = str_replace(' ', '', trim($name));
         $hashtag = $this->findOneBy(array(
             'name' => strtolower($name)
         ));

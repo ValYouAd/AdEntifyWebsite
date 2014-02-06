@@ -21,7 +21,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("none")
  *
  * @ORM\Table(name="notifications", indexes={@ORM\Index(name="search_idx", columns={"status","object_id","object_type"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AdEntify\CoreBundle\Entity\NotificationRepository")
  */
 class Notification
 {

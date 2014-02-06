@@ -55,6 +55,10 @@ define([
             var User = require('modules/user');
             this.set('personModel', new User.Model(this.get('person')));
          }
+         if (this.has('brand') && !this.has('brandModel')) {
+            var Brand = require('modules/brand');
+            this.set('brandModel', new Brand.Model(this.get('brand')));
+         }
 
          this.listenTo(this, 'change', this.render);
       },
@@ -114,6 +118,7 @@ define([
                url: Routing.generate('api_v1_delete_tag', { id : this.get('id') } ),
                success: function() {
                   that.trigger('delete:success');
+                  app.trigger('tag:deleted', that);
                },
                error: function() {
                   that.trigger('delete:error');
@@ -571,12 +576,12 @@ define([
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                if (currentBrand) {
-                  $('#brand-logo').html('<img src="' + app.rootUrl + '/' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
+                  $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                }
                return selectedItem;
             },
             highlighter: function(item) {
-               return '<div><img style="height: 20px;" src="' + app.rootUrl + '/' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
+               return '<div><img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
             }
          });
 
@@ -629,7 +634,7 @@ define([
                   if (currentProduct.brand) {
                      currentBrand = currentProduct.brand;
                      $('#brand-name').val(currentBrand.name);
-                     $('#brand-logo').html('<img src="' + app.rootUrl + '/' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
+                     $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                   }
                } else {
                   currentProductType = currentProductTypes[selectedItem];
@@ -651,7 +656,7 @@ define([
             dataType: 'json',
             done: function (e, data) {
                if (data.result) {
-                  $('#product-image').html('<img src="' + app.rootUrl + 'uploads/products/small/' + data.result.small.filename + '" style="margin: 10px 0px;" class="product-image" />');
+                  $('#product-image').html('<img src="' + data.result.small.filename + '" style="margin: 10px 0px;" class="product-image" />');
                   if (!newProduct)
                      newProduct = new Product.Model();
                   newProduct.set('small_url', data.result.small.filename);
