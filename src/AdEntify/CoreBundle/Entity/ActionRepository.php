@@ -31,37 +31,7 @@ class ActionRepository extends EntityRepository
                                  $linkedObjectId = null, $linkedObjectType = null, $createNotification = true,
                                  $message = null, $messageOptions = null, User $notificationOwner = null, Brand $brand = null)
     {
-        $action = null;
-        // Check if same action already exist
-        switch ($actionType) {
-            case Action::TYPE_PHOTO_COMMENT:
-                $action = null;
-                break;
-            case Action::TYPE_PHOTO_TAG:
-                $linkedObjectType = get_class(new Tag());
-                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
-                break;
-            case Action::TYPE_PHOTO_FAVORITE:
-                $linkedObjectType = get_class(new Photo());
-                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
-                break;
-            case Action::TYPE_PHOTO_LIKE:
-                $linkedObjectType = get_class(new Photo());
-                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
-                break;
-            case Action::TYPE_USER_FOLLOW:
-                $linkedObjectType = get_class(new User());
-                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
-                break;
-            case Action::TYPE_REWARD_NEW:
-                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
-                break;
-            case Action::TYPE_PHOTO_UPLOAD:
-                $action = null;
-                break;
-            case Action::TYPE_BRAND_FOLLOW:
-                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType, $brand);
-        }
+        $action = $this->getActionByActionType($actionType, $author, $target, $linkedObjectId, $linkedObjectType, $brand);
 
         // If action already exist, don't create it.
         if ($action)
@@ -145,27 +115,121 @@ class ActionRepository extends EntityRepository
         );
     }
 
+    /**
+     * Remove action
+     *
+     * @param $actionType
+     * @param User $author
+     * @param User $target
+     * @param null $linkedObjectId
+     * @param null $linkedObjectType
+     * @param Brand $brand
+     */
+    public function removeAction($actionType, User $author = null, User $target = null, $linkedObjectId = null,
+                                 $linkedObjectType = null, Brand $brand = null, $deleteNotification = true)
+    {
+        $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType, $brand);
+        if ($action) {
+            $this->getEntityManager()->remove($action);
+        }
+        if ($deleteNotification) {
+            $this->getEntityManager()->getRepository('AdEntifyCoreBundle:Notification')->removeNotification($author, $target,
+                $linkedObjectId, $linkedObjectType, $brand);
+        }
+    }
+
+    /**
+     * Get existing action by action type
+     *
+     * @param $actionType
+     * @param $author
+     * @param $target
+     * @param null $linkedObjectId
+     * @param null $linkedObjectType
+     * @param null $brand
+     * @return mixed|null
+     */
+    private function getActionByActionType($actionType, $author, $target, $linkedObjectId = null, $linkedObjectType  = null, $brand = null)
+    {
+        $action = null;
+        // Check if same action already exist
+        switch ($actionType) {
+            case Action::TYPE_PHOTO_COMMENT:
+                $action = null;
+                break;
+            case Action::TYPE_PHOTO_TAG:
+                $linkedObjectType = $this->getEntityManager()->getClassMetadata(get_class(new Tag()))->getName();
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
+                break;
+            case Action::TYPE_PHOTO_FAVORITE:
+            case Action::TYPE_PHOTO_LIKE:
+                $linkedObjectType = $this->getEntityManager()->getClassMetadata(get_class(new Photo()))->getName();
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
+                break;
+            case Action::TYPE_USER_FOLLOW:
+                $linkedObjectType = $this->getEntityManager()->getClassMetadata(get_class(new User()))->getName();
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
+                break;
+            case Action::TYPE_REWARD_NEW:
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType);
+                break;
+            case Action::TYPE_PHOTO_UPLOAD:
+                $action = null;
+                break;
+            case Action::TYPE_BRAND_FOLLOW:
+            case Action::TYPE_PHOTO_BRAND_TAG:
+                $action = $this->getExistingAction($actionType, $author, $target, $linkedObjectId, $linkedObjectType, $brand);
+                break;
+        }
+        return $action;
+    }
+
+    /**
+     * Get existing action
+     *
+     * @param $actionType
+     * @param $author
+     * @param $target
+     * @param null $linkedObjectId
+     * @param null $linkedObjectType
+     * @param null $brand
+     * @return mixed
+     */
     private function getExistingAction($actionType, $author, $target, $linkedObjectId = null, $linkedObjectType  = null, $brand = null)
     {
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $parameters = array(
             'actionType' => $actionType,
-            'author' => $author ? $author->getId() : 0,
-            'target' => $target ? $target->getId() : 0,
-            'linkedObjectId' => $linkedObjectId ? $linkedObjectId : 0,
-            'brandId' => $brand ? $brand->getId() : 0
         );
 
-        $sql = 'SELECT action FROM AdEntify\CoreBundle\Entity\Action action
-                    WHERE action.type = :actionType AND action.author = :author AND action.target = :target
-                    AND action.linkedObjectId = :linkedObjectId AND action.brand = :brandId';
+        $qb->select('Action')
+            ->from('AdEntifyCoreBundle:Action', 'Action')
+            ->where($qb->expr()->eq('Action.type', ':actionType'))
+            ->orderBy('Action.id', 'DESC');
 
-        if ($linkedObjectType)
-        {
+        if ($author) {
+            $qb->andWhere($qb->expr()->eq('Action.author', ':author'));
+            $parameters['author'] = $author->getId();
+        }
+        if ($target) {
+            $qb->andWhere($qb->expr()->eq('Action.target', ':target'));
+            $parameters['target'] = $target->getId();
+        }
+        if ($linkedObjectId) {
+            $qb->andWhere($qb->expr()->eq('Action.linkedObjectId', ':linkedObjectId'));
+            $parameters['linkedObjectId'] = $linkedObjectId;
+        }
+        if ($linkedObjectType) {
+            $qb->andWhere($qb->expr()->eq('Action.linkedObjectType', ':linkedObjectType'));
             $parameters['linkedObjectType'] = $linkedObjectType;
-            $sql .= ' AND action.linkedObjectType = :linkedObjectType';
+        }
+        if ($brand) {
+            $qb->andWhere($qb->expr()->eq('Action.brand', ':brand'));
+            $parameters['brand'] = $brand->getId();
         }
 
-        return $this->getEntityManager()->createQuery($sql)
-            ->setParameters($parameters)->getOneOrNullResult();
+        $qb->setParameters($parameters)->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

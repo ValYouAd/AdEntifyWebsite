@@ -81,7 +81,7 @@ class CommentsController extends FosRestController
             $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_COMMENT,
                 $user, $comment->getPhoto()->getOwner(), array($comment->getPhoto()),
                 Action::getVisibilityWithPhotoVisibility($comment->getPhoto()->getVisibilityScope()), $comment->getPhoto()->getId(),
-                get_class($comment->getPhoto()), $sendNotification, 'memberCommentPhoto');
+                $em->getClassMetadata(get_class($comment->getPhoto()))->getName(), $sendNotification, 'memberCommentPhoto');
 
             $em->persist($comment);
             $em->flush();

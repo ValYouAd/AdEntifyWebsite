@@ -587,6 +587,7 @@ class PhotosController extends FosRestController
                         $em->remove($action);
                     }
                 }
+
                 // Delete notifications
                 $notifications = $em->createQuery('SELECT notif FROM AdEntify\CoreBundle\Entity\Notification notif
                     LEFT JOIN notif.photos photo WHERE photo.id = :photoId OR (notif.objectId = :photoId AND notif.objectType = :linkedObjectType)')
@@ -871,7 +872,7 @@ class PhotosController extends FosRestController
                         $sendNotification = $user->getId() != $photo->getOwner()->getId();
                         $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
                             $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
-                            get_class($photo), $sendNotification, 'photoFav');
+                            $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, 'photoFav');
                     } else {
                         $user->removeFavoritePhoto($photo);
                     }
