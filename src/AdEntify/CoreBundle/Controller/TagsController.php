@@ -180,6 +180,11 @@ class TagsController extends FosRestController
                     UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
                 }
 
+                // Set brand
+                if ($tag->getProduct() && !$tag->getBrand() && $tag->getProduct()->getBrand()) {
+                    $tag->setBrand($tag->getProduct()->getBrand());
+                }
+
                 // Check if user is the owner of the photo
                 $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($tag->getPhoto()->getId());
                 if ($photo->getOwner()->getId() !== $user->getId()) {
@@ -193,27 +198,35 @@ class TagsController extends FosRestController
                             ->setObjectType($em->getClassMetadata(get_class($photo))->getName())->setOwner($photo->getOwner())
                             ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                         $em->persist($notification);
+
+                        if ($tag->getBrand())
+                        {
+                            $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
+                                $user, null, array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
+                                $em->getClassMetadata(get_class($photo))->getName(), false, 'brandTagged', null, null, $tag->getBrand());
+                        } else {
+                            // TAG Action
+                            $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
+                                $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
+                                $em->getClassMetadata(get_class($photo))->getName(), false, 'tagPhoto');
+                        }
                     } else {
                         throw new HttpException(403, 'You can\t add a tag to this photo');
                     }
                 } else {
-                    // TAG Action
-                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
-                        $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
-                        $em->getClassMetadata(get_class($photo))->getName(), false, 'tagPhoto');
+                    if ($tag->getBrand())
+                    {
+                        $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
+                            $user, null, array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
+                            $em->getClassMetadata(get_class($photo))->getName(), false, 'brandTagged', null, null, $tag->getBrand());
+                    } else {
+                        // TAG Action
+                        $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
+                            $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
+                            $em->getClassMetadata(get_class($photo))->getName(), false, 'tagPhoto');
+                    }
 
                     $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
-                }
-
-                if ($tag->getProduct() && !$tag->getBrand() && $tag->getProduct()->getBrand()) {
-                    $tag->setBrand($tag->getProduct()->getBrand());
-                }
-
-                if ($tag->getBrand())
-                {
-                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
-                        $user, null, array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
-                        $em->getClassMetadata(get_class($photo))->getName(), false, 'brandTagged', null, null, $tag->getBrand());
                 }
 
                 $tag->setOwner($user);

@@ -148,6 +148,7 @@ define([
                   case 'photo-fav':
                   case 'photo-tag':
                   case 'photo-comment':
+                  case 'photo-brand-tag':
                      template = 'action/itemWithSmallPhoto';
                      tagName = 'li class="action-item-with-small-photo"';
                      break;

@@ -396,7 +396,7 @@
       "photosUploaded": "<a href='__authorLink__'>__author__</a> added __count__ new photos",
       "tagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
       "brandTagged": "<a href='__authorLink__'>__author__</a> tagged <a href='__brandLink__'>__brandName__</a> on <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
-      "followBrand": "<a href='__authorLink__'>__author__</a> just became a <a href='__brandLink__'>__brandName__</a> fan",
+      "followBrand": "<a href='__authorLink__'>__author__</a> just followed <a href='__brandLink__'>__brandName__</a>",
       "tagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
       "publicTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>his photo</a>",
       "newReward": "<a href='__authorLink__'>__author__</a> just became an __type__ fan of <a href='__brandLink__'>__brandName__</a>"
