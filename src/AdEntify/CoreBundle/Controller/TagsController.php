@@ -205,6 +205,10 @@ class TagsController extends FosRestController
                     $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
                 }
 
+                if ($tag->getProduct() && !$tag->getBrand() && $tag->getProduct()->getBrand()) {
+                    $tag->setBrand($tag->getProduct()->getBrand());
+                }
+
                 if ($tag->getBrand())
                 {
                     $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
