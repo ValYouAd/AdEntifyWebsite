@@ -374,9 +374,10 @@ define([
       PhotoItemClickBehaviorDetail: 'detail',
       PhotoItemClickBehaviorAddTag: 'add-tag',
 
-      showPhoto: function(evt, photo, photoId) {
+      showPhoto: function(evt, photo, photoId, reload) {
+         reload = reload || false;
          evt.preventDefault();
-         if (!photo) {
+         if (!photo || reload) {
             var that = this;
             photo = new Photo.Model({ 'id': photoId });
             photo.fetch({

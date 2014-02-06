@@ -136,6 +136,10 @@ class PointService
                 $tag->getPhoto()->getOwner(), $tag->getPhoto()->getId(), $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName());
         }
 
+        foreach ($tag->getPoints() as $tagPoint) {
+            $this->em->remove($tagPoint);
+        }
+
         $this->em->merge($user);
     }
 

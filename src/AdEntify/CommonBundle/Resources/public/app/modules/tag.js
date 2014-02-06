@@ -114,6 +114,7 @@ define([
                url: Routing.generate('api_v1_delete_tag', { id : this.get('id') } ),
                success: function() {
                   that.trigger('delete:success');
+                  app.trigger('tag:deleted', that);
                },
                error: function() {
                   that.trigger('delete:error');

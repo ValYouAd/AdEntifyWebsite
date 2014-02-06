@@ -2094,7 +2094,7 @@ html,body,.body-grey-background {
     border-radius: 0px;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
     max-width: none;
-    min-width: 270px;
+    min-width: 350px;
     
     -webkit-transition: opacity 0.3s ease-out;
     -moz-transition: opacity 0.3s ease-out;
@@ -2138,7 +2138,7 @@ html,body,.body-grey-background {
     max-height: 50px;
 }
 .tag .map {
-    width: 270px;
+    width: 350px;
     height: 260px;
 }
 .brand-logo,
