@@ -134,9 +134,14 @@ define([
 
       },
 
+      showPhoto: function(evt) {
+         Photos.Common.showPhoto(evt, null, this.model.get('object_id'));
+      },
+
       events: {
          "click .button-read": "notificationRead",
-         "click a[href]": "notificationRead"
+         "click a[href]": "notificationRead",
+         'click a[data-photo-link]': 'showPhoto'
       }
    });
 

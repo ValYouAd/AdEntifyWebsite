@@ -379,7 +379,7 @@ define([
          evt.preventDefault();
          if (!photo || reload) {
             var that = this;
-            photo = new Photo.Model({ 'id': photoId });
+            photo = new Photo.Model({ 'id': photo ? photo.get('id') : photoId });
             photo.fetch({
                complete: function() {
                   that.displayPhoto(evt, photo);
