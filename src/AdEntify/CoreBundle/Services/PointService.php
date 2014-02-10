@@ -140,6 +140,9 @@ class PointService
             $this->em->remove($tagPoint);
         }
 
+        $tag->getPhoto()->setTotalTagsPoints($tag->getPhoto()->getTotalTagsPoints() - $tag->getTotalPoints());
+        $this->em->merge($tag->getPhoto());
+
         $this->em->merge($user);
     }
 

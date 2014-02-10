@@ -630,6 +630,14 @@ class Photo
     }
 
     /**
+     * @param int $commentsCount
+     */
+    public function setCommentsCount($commentsCount)
+    {
+        $this->commentsCount = $commentsCount;
+    }
+
+    /**
      * @return int
      */
     public function getCommentsCount()
@@ -658,6 +666,15 @@ class Photo
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * @param int $tagsCount
+     */
+    public function setTagsCount($tagsCount)
+    {
+        $this->tagsCount = $tagsCount;
+        return $this;
     }
 
     /**

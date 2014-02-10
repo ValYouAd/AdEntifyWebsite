@@ -104,7 +104,7 @@ class TagsController extends FosRestController
                 throw new HttpException(404);
 
             $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getId() == $tag->getOwner()->getId()) {
+            if ($user->getId() == $tag->getOwner()->getId() && !$tag->getDeletedAt()) {
                 $em = $this->getDoctrine()->getManager();
 
                 // Remove points
@@ -122,6 +122,8 @@ class TagsController extends FosRestController
 
                 $tag->setDeletedAt(new \DateTime());
                 $em->merge($tag);
+                $tag->getPhoto()->setTagsCount($tag->getPhoto()->getTagsCount() - 1);
+                $em->merge($tag->getPhoto());
                 $em->flush();
             } else {
                 throw new HttpException(403, 'You are not authorized to delete this tag');

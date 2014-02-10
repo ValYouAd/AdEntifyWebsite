@@ -120,10 +120,14 @@ class CommentsController extends FosRestController
                 throw new HttpException(404);
 
             $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getId() == $comment->getAuthor()->getId()) {
+            if ($user->getId() == $comment->getAuthor()->getId() && !$comment->getDeletedAt()) {
                 $em = $this->getDoctrine()->getManager();
                 $comment->setDeletedAt(new \DateTime());
                 $em->merge($comment);
+
+                $comment->getPhoto()->setCommentsCount($comment->getPhoto()->getCommentsCount() - 1);
+                $em->merge($comment->getPhoto());
+
                 $em->flush();
             } else {
                 throw new HttpException(403, 'You are not authorized to delete this comment');
