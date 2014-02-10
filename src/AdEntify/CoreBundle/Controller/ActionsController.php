@@ -101,5 +101,5 @@ class ActionsController extends FosRestController
         }
 
         return PaginationTools::getPaginationArray($actions, $pagination);
-}
+    }
 } 

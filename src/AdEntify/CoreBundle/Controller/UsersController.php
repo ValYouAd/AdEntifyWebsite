@@ -782,6 +782,49 @@ class UsersController extends FosRestController
         return PaginationTools::getPaginationArray($rewards, $pagination);
     }
 
+    /**
+     * @param $id
+     * @return array
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="20")
+     */
+    public function getActionsAction($id, $page, $limit)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+
+            $query = $em->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
+            LEFT JOIN action.target target LEFT JOIN action.author author
+            WHERE author.id = :userId
+            ORDER BY action.createdAt DESC')
+                ->setParameters(array(
+                    'userId' => $id
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+
+            $paginator = new Paginator($query, $fetchJoinCollection = true);
+            $count = count($paginator);
+
+            $actions = null;
+            $pagination = null;
+            if ($count > 0) {
+                $actions = array();
+                foreach($paginator as $action) {
+                    $actions[] = $action;
+                }
+
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_actions');
+            }
+
+            return PaginationTools::getPaginationArray($actions, $pagination);
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
     private function formatCredit(TagPoint $tagPoint = null, TagIncome $tagIncome = null)
     {
         $obj = $tagPoint ? $tagPoint : $tagIncome;

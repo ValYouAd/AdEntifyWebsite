@@ -805,13 +805,14 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followers: followers,
                photos: this.photos,
                hashtags: this.hashtags,
+               rewards: this.rewards,
                showServices: false,
                showFollowButton: false
             })
          }).render();
 
          this.actions.fetch({
-            url: Routing.generate('api_v1_get_actions')
+            url: Routing.generate('api_v1_get_user_actions', { id: app.appState().getCurrentUserId() })
          });
          followings.fetch({
             url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
@@ -821,6 +822,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
+         });
+         this.rewards.fetch({
+            url: Routing.generate('api_v1_get_user_rewards', { id: app.appState().getCurrentUserId() })
          });
       },
 
