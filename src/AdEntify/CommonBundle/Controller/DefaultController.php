@@ -75,7 +75,7 @@ class DefaultController extends Controller
     public function appAllAction($slug)
     {
         $categories = $this->getDoctrine()->getManager()
-            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.name")
             ->useQueryCache(false)
             ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
@@ -96,7 +96,7 @@ class DefaultController extends Controller
     public function appIndexAction()
     {
         $categories = $this->getDoctrine()->getManager()
-            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.name")
             ->useQueryCache(false)
             ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
@@ -173,7 +173,7 @@ class DefaultController extends Controller
     public function aboutAction()
     {
         $categories = $this->getDoctrine()->getManager()
-            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category")
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.name")
             ->useQueryCache(false)
             ->useResultCache(true, null, 'categories'.$this->getRequest()->getLocale())
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')

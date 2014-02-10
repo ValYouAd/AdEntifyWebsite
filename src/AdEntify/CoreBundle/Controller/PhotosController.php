@@ -686,10 +686,11 @@ class PhotosController extends FosRestController
      */
     public function getCommentsAction($id)
     {
-        $photo = $this->getAction($id);
-        if (!$photo)
-            return null;
-        return $photo->getComments();
+        return $this->getDoctrine()->getManager()->createQuery('SELECT comment FROM AdEntifyCoreBundle:Comment comment
+            WHERE comment.deletedAt IS NULL AND comment.photo = :photoId')
+            ->setParameters(array(
+                'photoId' => $id
+            ))->getResult();
     }
 
     /**

@@ -25,6 +25,8 @@ use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 
 use AdEntify\CoreBundle\Entity\Comment;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class CommentsController
@@ -42,7 +44,8 @@ class CommentsController extends FosRestController
      */
     public function cgetAction()
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Comment')->findAll();
+        return $this->getDoctrine()->getManager()->createQuery('SELECT comment FROM AdEntifyCoreBundle:Comment comment
+            WHERE comment.deletedAt IS NULL')->getResult();
     }
 
     /**
@@ -52,7 +55,8 @@ class CommentsController extends FosRestController
      */
     public function getAction($id)
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Comment')->find($id);
+        return $this->getDoctrine()->getManager()->createQuery('SELECT comment FROM AdEntifyCoreBundle:Comment comment
+            WHERE comment.deletedAt IS NULL and comment.id = :id')->setParameter('id', $id)->getOneOrNullResult();
     }
 
     /**
@@ -89,6 +93,43 @@ class CommentsController extends FosRestController
             return $comment;
         } else {
             return $form;
+        }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Delete a comment",
+     *  statusCodes={
+     *      204="Returned if the comment is deleted",
+     *      403="Returned if the user is not authorized to delete the comment"
+     *  },
+     *  section="Tag"
+     * )
+     *
+     * @View()
+     *
+     * @param $id
+     */
+    public function deleteAction($id)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $comment = $this->getAction($id);
+            if (!$comment)
+                throw new HttpException(404);
+
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            if ($user->getId() == $comment->getAuthor()->getId()) {
+                $em = $this->getDoctrine()->getManager();
+                $comment->setDeletedAt(new \DateTime());
+                $em->merge($comment);
+                $em->flush();
+            } else {
+                throw new HttpException(403, 'You are not authorized to delete this comment');
+            }
+        } else {
+            throw new HttpException(401);
         }
     }
 

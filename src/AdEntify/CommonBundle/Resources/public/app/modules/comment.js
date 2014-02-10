@@ -30,6 +30,10 @@ define([
          });
       },
 
+      isAuthor: function() {
+         return this && this.has('author') ? currentUserId === this.get('author')['id'] : false;
+      },
+
       setup: function() {
          if (this.has('author')) {
             this.set('authorModel', new User.Model(this.get('author')));
@@ -56,6 +60,20 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+      },
+
+      delete: function() {
+         var that = this;
+         this.model.destroy({
+            url: Routing.generate('api_v1_delete_comment', { 'id': this.model.get('id')}),
+            success: function() {
+               that.remove();
+            }
+         });
+      },
+
+      events: {
+         'click .close': 'delete'
       }
    });
 

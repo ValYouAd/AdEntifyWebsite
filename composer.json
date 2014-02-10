@@ -22,7 +22,7 @@
         "jms/serializer-bundle": "0.12.*@dev",
         "jms/debugging-bundle": "dev-master",
         "friendsofsymfony/rest-bundle": "0.13.*@dev",
-        "friendsofsymfony/facebook-bundle": "1.2.*@dev",
+        "friendsofsymfony/facebook-bundle": "1.2.*",
         "friendsofsymfony/user-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "~1.1",
         "friendsofsymfony/twitter-bundle": "dev-master",

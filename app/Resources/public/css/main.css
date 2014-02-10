@@ -211,6 +211,9 @@ html,body,.body-grey-background {
     padding: 15px;
     margin: 0px -15px;
 }
+.dropdown-header-menu footer .pull-left {
+    margin-left: 15px;
+}
 .dropdown-header-menu footer,
 .dropdown-header-menu footer a,
 .dropdown-header-menu footer a:hover {

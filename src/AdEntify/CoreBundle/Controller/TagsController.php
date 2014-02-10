@@ -100,6 +100,9 @@ class TagsController extends FosRestController
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $tag = $this->getAction($id);
+            if (!$tag)
+                throw new HttpException(404);
+
             $user = $this->container->get('security.context')->getToken()->getUser();
             if ($user->getId() == $tag->getOwner()->getId()) {
                 $em = $this->getDoctrine()->getManager();
