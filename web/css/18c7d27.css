@@ -250,9 +250,9 @@ header {
         z-index: 10;
     }
     .start-button {
-        background: url('../../bundles/adentifycommon/images/start_button.png') no-repeat top center;
-        width: 111px;
-        height: 65px;
+        background: url('../../bundles/adentifycommon/images/start-button.png') no-repeat top center;
+        width: 171px;
+        height: 101px;
         display: block;
         margin: -10px auto 0 auto;
         position: relative;
@@ -261,7 +261,8 @@ header {
         padding-top: 8px;
         color: #FFFFFF;
         text-transform: uppercase;
-        font-size: 14px;
+        font-size: 22px;
+        letter-spacing: 1px;
         font-family: 'asapbold', sans-serif;
     }
     .start-button:hover {
@@ -271,7 +272,7 @@ header {
     .carousel {
         width: 100%;
         height: 638px;
-        margin-top: -55px;
+        margin-top: -25px;
         position: relative;
         z-index: 0;
         background: url('../../bundles/adentifycommon/images/carousel.jpg') no-repeat top center fixed;
