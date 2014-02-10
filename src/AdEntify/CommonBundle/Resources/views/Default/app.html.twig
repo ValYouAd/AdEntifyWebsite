@@ -118,6 +118,7 @@
                                 <div class="col-sm-12"><a data-bypass="" class="add-brand-link">{{ 'Add a brand'|trans }}</a></div>
                             </div>
                             <div class="col-sm-9">
+                                <div class="col-sm-4 text-red"><a href="{{ full_root_url }}">{{ 'Everything'|trans }}</a></div>
                                 {% for category in categories %}
                                     <div class="col-sm-4"><a href="{{ full_root_url }}{{ 'category/'|trans }}{{ category.slug }}/">{{ category.name }}</a></div>
                                 {% endfor %}
