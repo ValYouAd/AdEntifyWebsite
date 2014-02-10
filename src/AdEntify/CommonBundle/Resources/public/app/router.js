@@ -223,9 +223,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
-         var followers = new User.Collection();
-         var followings = new User.Collection();
-
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.myPhotos,
@@ -240,11 +237,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                user: new User.Model({
                   id: app.appState().getCurrentUserId()
                }),
-               followings: followings,
-               followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags,
-               rewards: this.rewards,
                showServices: true
             })
          }).render();
@@ -258,18 +251,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             error: function() {
                that.errorCallback('myPhotos.errorPhotosLoading');
             }
-         });
-         followings.fetch({
-            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
-         });
-         followers.fetch({
-            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
-         });
-         this.hashtags.fetch({
-            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
-         });
-         this.rewards.fetch({
-            url: Routing.generate('api_v1_get_user_rewards', { id: app.appState().getCurrentUserId() })
          });
       },
 

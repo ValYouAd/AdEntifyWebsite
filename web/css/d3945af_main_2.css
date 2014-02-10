@@ -1873,7 +1873,7 @@ html,body,.body-grey-background {
 .top-progress-bar .progress {
     margin: 0;
     border-radius: 0px;
-    height: 4px;
+    height: 6px;
     background: none;
 }
 
@@ -3297,7 +3297,6 @@ label,
     -webkit-border-radius: 99em;
     -moz-border-radius: 99em;
     border-radius: 99em;
-    background: #FFFFFF;
 }
 
 .profile-details {
