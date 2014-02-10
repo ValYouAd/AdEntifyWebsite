@@ -254,7 +254,7 @@ define([
 
       showServicePhotos: function(evt) {
          evt.preventDefault();
-         Upload.Common.goToServiceUploadPage(this.model.get('service_name'), this.model.get('linked'));
+         Upload.Common.goToServiceUploadPage(this.model);
       },
 
       events: {
@@ -318,18 +318,18 @@ define([
          });
       },
 
-      goToServiceUploadPage: function(serviceName, linked) {
-         switch(serviceName) {
+      goToServiceUploadPage: function(model) {
+         switch(model.get('service_name')) {
             case 'Facebook':
                Backbone.history.navigate($.t('facebook/albums/'), { trigger: true });
                break;
             case 'instagram':
-               var url = Upload.Common.getInstagramUrl(linked);
-               this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
+               var url = Upload.Common.getInstagramUrl(model.get('linked'));
+               model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
                break;
             case 'Flickr':
-               var url = Upload.Common.getFlickrUrl(linked);
-               this.model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
+               var url = Upload.Common.getFlickrUrl(model.get('linked'));
+               model.get('linked') ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
                break;
          }
       }

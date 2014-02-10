@@ -21,13 +21,13 @@ define([
          var images = this.get('images');
          if (images && images.length > 0) {
             var smallImage = _.find(images, function(image) {
-               return image['width'] == 180;
+               return image['width'] <= 200;
             });
             var mediumImage = _.find(images, function(image) {
-               return image['width'] == 320;
+               return image['width'] <= 500 && image['width'] > 300;
             });
             var largeImage = _.find(images, function(image) {
-               return image['width'] == 960;
+               return image['width'] <= 1600 && image['width'] > 700;
             });
             if (smallImage) {
                this.set('smallUrl', smallImage['source']);

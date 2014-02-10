@@ -6,13 +6,13 @@ php app/console adentify:oauth:client:create --name "Plugin Wordpress DEV" --red
 2) Cron
 
 - MAJ des compteurs, une fois par jour
-0 2 * * * php /var/www/adentify.com/htdocs/app/console adentify:update-counters
+0 2 * * * php /var/www/adentify.com/htdocs/app/console adentify:update-counters --env=prod > /var/www/adentify.com/htdocs/app/logs/cron-updatecounters.log
 
 - Récompenses - Toutes les heures
-0 * * * * php /var/www/adentify.com/htdocs/app/console adentify:reward
+0 * * * * php /var/www/adentify.com/htdocs/app/console adentify:reward --env=prod > /var/www/adentify.com/htdocs/app/logs/cron-reward.log
 
 - Tasks
-* * * * * php /var/www/adentify.com/htdocs/app/console adentify:task:check
+* * * * * php /var/www/adentify.com/htdocs/app/console adentify:task:check --env=prod > /var/www/adentify.com/htdocs/app/logs/cron-taskcheck.log
 
 3) Triggers
 
