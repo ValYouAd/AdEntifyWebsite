@@ -93,7 +93,7 @@
                                     {% else %}
                                         <div class="account-buttons pull-left">
                                             <button data-toggle="modal" data-target="#signinModal" type="button" class="btn btn-sm signin"><i class="glyphicon glyphicon-user"></i> {{ 'Login'|trans }}</button>
-                                            <button data-toggle="modal" data-target="#signupModal" type="button" class="btn btn-sm signup"><i class="glyphicon glyphicon-pencil"></i> {{ 'Sign Up'|trans }}</button>
+                                            <button data-toggle="modal" data-target="#loginModal" type="button" class="btn btn-sm signup"><i class="glyphicon glyphicon-pencil"></i> {{ 'Sign Up'|trans }}</button>
                                         </div>
                                     {% endif %}
                                 </div>
@@ -130,7 +130,8 @@
                                     <a href="https://www.facebook.com/pages/AdEntify/167935029970678?fref=ts"><i class="small-facebook-grey-circle-icon icon"></i></a>
                                     <a href="https://twitter.com/adentify"><i class="small-twitter-grey-circle-icon icon"></i></a>
                                     <a href="https://plus.google.com/u/0/b/115776105780658726605/+Adentify/posts"><i class="small-google-grey-circle-icon icon"></i></a>
-                                    <a href="http://instagram.com/adentify"><i class="small-pinterest-grey-circle-icon icon"></i></a>
+                                    <a href="http://pinterest.com/adentify"><i class="small-pinterest-grey-circle-icon icon"></i></a>
+                                    <a href="http://instagram.com/adentify"><i class="small-instagram-grey-circle-icon icon"></i></a>
                                     <a href="http://adentify.tumblr.com"><i class="small-tumblr-grey-circle-icon icon"></i></a>
                                 </div>
                             </div>
@@ -211,6 +212,27 @@
                                 </div>
                             </div>
                             {% render controller('FOSUserBundle:Security:login') %}
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+                <div class="modal-dialog login-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="loginModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="headline">{{ 'modal.fbOrTwitterConnect'|trans }}</p>
+                            <div class="text-center mt3 mb2">
+                                <a class="btn btn-facebook-large" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> {{ 'modal.facebookConnect'|trans }}</a>
+                            </div>
+                            <div class="text-center mb3">
+                                <a class="btn btn-twitter-large" href="../login/twitter"><i class="twitter-icon icon"></i> {{ 'modal.twitterConnect'|trans }}</a>
+                            </div>
+                            <p><button type="button" class="btn btn-link no-account-button">{{ 'modal.noAccount'|trans }}</button></p>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->

@@ -981,6 +981,15 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                view: createBrandView
             })).render();
          });
+
+         if (!app.appState().isLogged()) {
+            $('.no-account-button').click(function() {
+               $('#loginModal').modal('hide');
+               setTimeout(function() {
+                  $('#signupModal').modal('show');
+               }, 500);
+            });
+         }
       },
 
       // Shortcut for building a url.

@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
-{% if form is defined %}{% form_theme form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
+{% if form is defined %}{% form_theme form 'AdEntifyCommonBundle:Form:contactFields.html.twig' %}{% endif %}
+
+{% block bodyAttr %} class="body-grey-background"{% endblock %}
 
 {% block stylesheets %}
     {% stylesheets filter='cssrewrite'
