@@ -24,6 +24,7 @@ class CategoryType extends AbstractType
                     ),
                 )*/
             ))
+            ->add('displayOrder')
             ->add('visible', 'checkbox');
     }
     

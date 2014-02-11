@@ -87,6 +87,13 @@ class Category
      */
     private $translations;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="display_order", type="integer")
+     */
+    private $displayOrder = 0;
+
     public function __construct()
     {
         $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
@@ -220,5 +227,22 @@ class Category
     public function getTranslations()
     {
         return $this->translations;
+    }
+
+    /**
+     * @param int $displayOrder
+     */
+    public function setDisplayOrder($displayOrder)
+    {
+        $this->displayOrder = $displayOrder;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDisplayOrder()
+    {
+        return $this->displayOrder;
     }
 }
