@@ -30,6 +30,7 @@ category:
     visible: Activé
     createdAt: Créée le
     slug:      Slug
+    displayOrder: Ordre
 
 #Users
 Users: Users

@@ -254,6 +254,7 @@ define([
             var that = this;
             likeButtonView.on('like', function(liked) {
                that.updateLikedCount(liked);
+               that.getView('.popover-wrapper').updateLike(liked);
             });
             this.setView('.like-button', likeButtonView);
          }
@@ -268,7 +269,8 @@ define([
                that.addNewTag(null);
                that.hidePastillePopover();
             });
-            pastillePopoverView.on('like', function() {
+            pastillePopoverView.on('like', function(liked) {
+               that.updateLikedCount(liked);
                that.getView('.like-button').likeButtonClick();
                that.hidePastillePopover();
             });
@@ -779,14 +781,16 @@ define([
          'click .like-button': 'likeButtonClick'
       },
 
-      likeButtonClick: function() {
+      likeButtonClick: function(trigger) {
+         trigger = trigger || false;
          if (app.appState().isLogged()) {
             // Like photo
             Photo.Common.like(this.photo);
             this.liked = !this.liked;
 
             this.render();
-            this.trigger('like', this.liked);
+            if (trigger)
+               this.trigger('like', this.liked);
          } else {
             Common.Tools.notLoggedModal(false, 'notLogged.like');
          }
@@ -866,12 +870,16 @@ define([
 
       like: function() {
          if (app.appState().isLogged()) {
-            this.trigger('like', this.options.photo);
-            this.liked = !this.liked;
-            this.render();
+            this.trigger('like', !this.liked);
+            this.updateLike(!this.liked);
          } else {
             Common.Tools.notLoggedModal(false, 'notLogged.like');
          }
+      },
+
+      updateLike: function(liked) {
+         this.liked = liked;
+         this.render();
       },
 
       share: function() {
