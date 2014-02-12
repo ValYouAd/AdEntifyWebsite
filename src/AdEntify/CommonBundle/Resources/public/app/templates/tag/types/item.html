@@ -1,3 +1,4 @@
+<% if (model) { %>
 <div class="tag <%= model.get("cssClass") %>" style="left: <%= model.get("x_position") * 100 %>%; top: <%= model.get("y_position") * 100 %>%">
     <div class="tag-text-icon tag-icon"></div>
     <div class="popover">
@@ -29,3 +30,4 @@
         <% } %>
     </div>
 </div>
+<% } %>

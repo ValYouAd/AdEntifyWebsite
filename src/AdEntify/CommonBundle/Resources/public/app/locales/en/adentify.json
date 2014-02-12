@@ -203,7 +203,8 @@
       "place": "Place",
       "person": "Person",
       "product": "Product",
-      "tagSuccessfullyAdded": "Tag was successfully added"
+      "tagSuccessfullyAdded": "Tag was successfully added",
+      "buy": "Buy"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",

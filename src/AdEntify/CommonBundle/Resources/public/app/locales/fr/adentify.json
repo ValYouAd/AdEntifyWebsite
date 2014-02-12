@@ -203,7 +203,8 @@
       "place": "Lieu",
       "person": "Personne",
       "product": "Produit",
-      "tagSuccessfullyAdded": "Le tag a été ajouté avec succès"
+      "tagSuccessfullyAdded": "Le tag a été ajouté avec succès",
+      "buy": "Acheter"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",

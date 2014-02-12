@@ -2140,7 +2140,12 @@ html,body,.body-grey-background {
     min-width: 250px;
 }
 .popover-product .brand-logo {
-    max-height: 50px;
+    max-height: 100px;
+    max-width: 150px;
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+    padding: 10px;
 }
 .tag .map {
     width: 350px;

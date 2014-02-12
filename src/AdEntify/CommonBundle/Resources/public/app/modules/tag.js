@@ -41,6 +41,16 @@ define([
       },
 
       initialize: function() {
+         this.setup();
+         this.listenTo(this, {
+            'sync': this.setup,
+            'add': this.setup
+         });
+
+         this.listenTo(this, 'change', this.render);
+      },
+
+      setup: function() {
          if (this.has('waiting_validation') && this.get('waiting_validation')) {
             if (this.has('validation_status') && this.get('validation_status') == 'waiting')
                this.set('cssClass', 'unvalidateTag');
@@ -59,8 +69,6 @@ define([
             var Brand = require('modules/brand');
             this.set('brandModel', new Brand.Model(this.get('brand')));
          }
-
-         this.listenTo(this, 'change', this.render);
       },
 
       urlRoot: function() {
@@ -431,7 +439,7 @@ define([
                   model: tag,
                   desactivatePopover: this.desactivatePopover
                }));
-            } else if (tag.get('type')  == 'product') {
+            } else if (tag.get('type')  == 'product' || tag.get('type') == 'brand') {
                this.insertView(".tags", new Tag.Views.ProductItem({
                   model: tag,
                   desactivatePopover: this.desactivatePopover
@@ -889,6 +897,9 @@ define([
                         } else {
                            that.postProduct($submit);
                         }
+                     } else {
+                        $submit.button('loading');
+                        that.submitBrandTag($submit);
                      }
                   };
 
@@ -925,8 +936,6 @@ define([
                   } else {
                      tmpSubmitProduct();
                   }
-
-
                } else {
                   $submit.button('reset');
                   that.setView('.alert-product', new Common.Views.Alert({
@@ -1026,6 +1035,7 @@ define([
                               currentTag.save(null, {
                                  success: function() {
                                     currentTag.set('persisted', '');
+                                    currentTag.setup();
                                     app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
                                     app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                                  },
@@ -1106,6 +1116,55 @@ define([
                      message: $.t('tag.errorProductPost'),
                      showClose: true
                   })).render();
+               }
+            });
+         });
+      },
+
+      submitBrandTag: function($submit) {
+         var that = this;
+
+         // Link tag to photo
+         currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+         // Set tag info
+         currentTag.set('type', 'brand');
+         currentTag.set('brand', currentBrand.id);
+         currentTag.set('title', currentBrand.name);
+
+         currentTag.url = Routing.generate('api_v1_post_tag');
+         currentTag.getToken('tag_item', function() {
+            currentTag.save(null, {
+               success: function() {
+                  currentTag.set('persisted', '');
+                  if (currentBrand)
+                     app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
+                  app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
+               },
+               error: function(e, r) {
+                  delete currentTag.id;
+                  $submit.button('reset');
+                  if (r.status === 403) {
+                     that.setView('.alert-product', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.forbiddenTagPost'),
+                        showClose: true
+                     })).render();
+                  } else {
+                     var json = $.parseJSON(r.responseText);
+                     if (json && typeof json.errors !== 'undefined') {
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: Common.Tools.getHtmlErrors(json.errors),
+                           showClose: true
+                        })).render();
+                     } else {
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorTagPost'),
+                           showClose: true
+                        })).render();
+                     }
+                  }
                }
             });
          });
