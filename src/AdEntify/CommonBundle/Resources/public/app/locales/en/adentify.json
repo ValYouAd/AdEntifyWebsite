@@ -204,7 +204,7 @@
       "person": "Person",
       "product": "Product",
       "tagSuccessfullyAdded": "Tag was successfully added",
-      "buy": "Buy"
+      "buy": "Buy product"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
