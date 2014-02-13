@@ -133,6 +133,11 @@ addBrand:
     pageTitle: Add a brand - AdEntify.com
     pageDescription: Add you brand or a new brand with this form.
 
+#Legal
+legal:
+    pageTitle: Legal - AdEntify.com
+    pageDescription: Terms of Use, Privacy and Legal notices of www.adentify.com
+
 #Routing
 photos/untagged/: photos/untagged/
 my/photos/: my/photos/

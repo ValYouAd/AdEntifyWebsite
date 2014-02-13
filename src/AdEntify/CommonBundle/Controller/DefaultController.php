@@ -288,6 +288,15 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/{_locale}/legal", name="legal")
+     * @Template()
+     */
+    public function legalAction()
+    {
+        return array();
+    }
+
+    /**
      * Get current locale from user if logged and set, instead, get from request
      *
      * @return string
