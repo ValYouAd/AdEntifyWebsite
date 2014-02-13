@@ -1,7 +1,7 @@
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 <h1 class="text-center search-infos"><%= terms ? terms : $.t('search.noSearch') %> <button class="search-button"></button></h1>
 <div class="results-count text-center" data-i18n="[html]search.resultsCount" data-i18n-options='{"count": <%= resultsCount %>}'></div>
-<div class="photos-container results-container fadeOut">
+<div class="photos-container results-container">
     <div class="search-title" data-i18n="search.photos"></div>
     <div class="alert-search-tags-results"></div>
     <div class="search-filters"></div>

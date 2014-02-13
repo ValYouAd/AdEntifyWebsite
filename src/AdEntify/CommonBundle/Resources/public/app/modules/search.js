@@ -187,7 +187,9 @@ define([
                url: Routing.generate('api_v1_get_photo_search'),
                data: { 'query': terms },
                complete: function() {
-                  that.requests.pop().resolve();
+                  var deferred = that.requests.pop();
+                  if (deferred)
+                     deferred.resolve();
                },
                error: function() {
                   that.setView('.alert-search-tags-results', new Common.Views.Alert({
@@ -202,7 +204,9 @@ define([
                url: Routing.generate('api_v1_get_hashtag_search'),
                data: { 'query': terms },
                complete: function() {
-                  that.requests.pop().resolve();
+                  var deferred = that.requests.pop();
+                  if (deferred)
+                     deferred.resolve();
                },
                error: function() {
                   that.setView('.alert-search-feeds-results', new Common.Views.Alert({
@@ -217,7 +221,9 @@ define([
                url: Routing.generate('api_v1_get_user_search'),
                data: { 'query': terms },
                complete: function() {
-                  that.requests.pop().resolve();
+                  var deferred = that.requests.pop();
+                  if (deferred)
+                     deferred.resolve();
                },
                error: function() {
                   that.setView('.alert-search-users-results', new Common.Views.Alert({
@@ -232,7 +238,9 @@ define([
                url: Routing.generate('api_v1_get_brand_search'),
                data: { query: terms },
                complete: function() {
-                  that.requests.pop().resolve();
+                  var deferred = that.requests.pop();
+                  if (deferred)
+                     deferred.resolve();
                },
                error: function() {
                   that.setView('.alert-search-brands-results', new Common.Views.Alert({
@@ -337,6 +345,19 @@ define([
          } else {
             this.resultsCount = this.options.photos.length + this.options.users.length + this.options.hashtags.length + this.options.brands.length;
          }
+
+         if (this.options.photos.length == 0) {
+            this.setView('.alert-search-tags-results', new Common.Views.Alert({
+               cssClass: Common.alertInfo,
+               message: $.t('search.noPhoto'),
+               showClose: true
+            })).render();
+         } else {
+            if (this.getView('.alert-search-tags-results')) {
+               this.removeView('.alert-search-tags-results');
+            }
+         }
+
          if (!this.getView('.search-photos-results')) {
             var Photos = require('modules/photos');
             this.setView('.search-photos-results', new Photos.Views.Content({
@@ -412,7 +433,7 @@ define([
 
       mostOldestFilter: function(e) {
          var activate = this.activateFilter($(e.currentTarget).parent());
-         this.loadPhotos(activate ? '&orderBy=oldest' : '');
+         this.loadPhotos(activate ? '&orderBy=date&way=asc' : '');
       },
 
       taggedPhotosFilter: function(e) {
@@ -420,9 +441,9 @@ define([
          this.loadPhotos(activate ? '&tagged=1' : '');
       },
 
-      todayFilter: function(e) {
+      mostRecentFilter: function(e) {
          var activate = this.activateFilter($(e.currentTarget).parent());
-         this.loadPhotos(activate ? '&today=1' : '');
+         this.loadPhotos(activate ? '&orderBy=date' : '');
       },
 
       mostLikedFilter: function(e) {
@@ -446,7 +467,7 @@ define([
       events: {
          'click .mostOldest-filter': 'mostOldestFilter',
          'click .taggedPhotos-filter': 'taggedPhotosFilter',
-         'click .today-filter': 'todayFilter',
+         'click .mostRecent-filter': 'mostRecentFilter',
          'click .mostLiked-filter': 'mostLikedFilter'
       }
    });
@@ -483,10 +504,10 @@ define([
                context.$('.feeds-container').stop().fadeIn();
          }
          if (context.options.photos.length == 0) {
-            context.$('.photos-container').fadeOut();
+            context.$('.search-filters').fadeOut();
          } else {
-            if (context.$('.photos-container:visible').length == 0)
-               context.$('.photos-container').stop().fadeIn();
+            if (context.$('.search-filters:visible').length == 0)
+               context.$('.search-filters').stop().fadeIn();
          }
          if (context.options.brands.length == 0 || feed) {
             context.$('.brands-container').fadeOut();
