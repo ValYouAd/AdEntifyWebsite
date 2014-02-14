@@ -69,7 +69,7 @@ define([
 
       afterRender: function() {
          this.$('.photo-img-medium').load(function() {
-            $(this).animate({'ohoto-acity': '1.0'});
+            $(this).animate({'opacity': '1.0'});
          });
          $(this.el).i18n();
       },

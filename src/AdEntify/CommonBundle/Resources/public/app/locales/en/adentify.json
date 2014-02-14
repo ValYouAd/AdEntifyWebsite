@@ -293,7 +293,9 @@
       "viewPhoto": "View photo",
       "noCredits": "No credit, tag your photos or others to get points and cash!",
       "totalPoints": "__points__ pts",
-      "period": "Period"
+      "period": "Period",
+      "modalFollowersTitle": "Followers",
+      "modalFollowingsTitle": "Followings"
    },
    "profile": {
       "follow": "Follow",

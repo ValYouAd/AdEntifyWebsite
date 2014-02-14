@@ -293,7 +293,9 @@
       "viewPhoto": "Voir la photo",
       "noCredits": "Aucun crédit, taguez vos photos ou celles de vos amis pour gagnez de l'argent et des points !",
       "totalPoints": "__points__ pts",
-      "period": "Période"
+      "period": "Période",
+      "modalFollowersTitle": "Abonnés",
+      "modalFollowingsTitle": "Abonnements"
    },
    "profile": {
       "follow": "Suivre",

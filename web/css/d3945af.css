@@ -4116,6 +4116,7 @@ label,
     color: #9da0a4;
     margin: 10px 0px;
 }
+.followers-link, .followings-link { cursor: pointer; }
 .menu-left-hr {
     background: url('../img/horizontal-menu-left-separator.png') repeat-x;
     height: 2px;
@@ -4305,20 +4306,16 @@ label,
 .user-item .more-profile {
     margin-top: 10px;
 }
-.followers .user-item,
-.followings .user-item {
+.user-item {
     padding: 4px 10px;
 }
-.followers .user-item .profile-picture,
-.followings .user-item .profile-picture {
+.user-item .profile-picture {
     max-height: 40px;
     vertical-align: middle;
     margin-right: 10px;
 }
-.followers .user-item a,
-.followers .user-item a:hover,
-.followings .user-item a,
-.followings .user-item a:hover {
+.user-item a,
+.user-item a:hover {
     font-family: 'robotobold', sans-serif;
     font-size: 14px;
     color: #2c2c2e;

@@ -184,6 +184,15 @@ define([
                });
             }
          });
+      },
+
+      events: {
+         'click .followings-link': function() {
+            User.Common.showModalFollowings(this.options.user);
+         },
+         'click .followers-link': function() {
+            User.Common.showModalFollowers(this.options.user);
+         }
       }
    });
 
@@ -629,6 +638,42 @@ define([
       }
    };
 
+   User.Views.ModalList = Backbone.View.extend({
+      template: 'user/modalList'
+   });
+
+   User.Common = {
+      showModalFollowings: function(user) {
+         var users = new User.Collection();
+         users.url = Routing.generate('api_v1_get_user_followings', { id: user.get('id') })
+         this.showModal(users, 'user.modalFollowingsTitle', 'profile.noFollowings');
+      },
+
+      showModalFollowers: function(user) {
+         var users = new User.Collection();
+         users.url = Routing.generate('api_v1_get_user_followers', { id: user.get('id') });
+         this.showModal(users, 'user.modalFollowersTitle', 'profile.noFollowers');
+      },
+
+      showModal: function(users, title, noUsersMessage) {
+         var userListView = new User.Views.List({
+            users: users,
+            noUsersMessage: noUsersMessage
+         });
+         users.fetch();
+         var modal = new Common.Views.Modal({
+            view: userListView,
+            showFooter: false,
+            showHeader: true,
+            title: title,
+            modalDialogClasses: 'small-modal-dialog'
+         });
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
+         });
+      }
+   };
+
    User.Tools = {
       getAnalytics: function(options) {
          app.oauth.loadAccessToken({
@@ -646,7 +691,7 @@ define([
             }
          });
       }
-   }
+   };
 
    return User;
 });

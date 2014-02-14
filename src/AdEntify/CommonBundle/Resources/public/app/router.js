@@ -620,7 +620,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                photos: this.photos,
                userId: id,
                tagged: true,
-               title: $.t('profile.pageHeading')
+               title: $.t('profile.pageHeading'),
+               showPhotoInfo: true
             }),
             "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({

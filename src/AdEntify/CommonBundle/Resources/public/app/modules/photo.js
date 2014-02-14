@@ -1034,7 +1034,7 @@ define([
             view: reportView,
             showFooter: false,
             showHeader: true,
-            title: $.t('photo.reportTitle'),
+            title: 'photo.reportTitle',
             modalDialogClasses: 'report-dialog'
          });
          reportView.on('report:submit', function(reason, option) {
