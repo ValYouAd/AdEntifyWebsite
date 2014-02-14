@@ -282,6 +282,10 @@ class UsersController extends FosRestController
                 $em->merge($follower);
                 $em->merge($following);
                 $em->flush();
+
+                // Empty followings cache
+                UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+
                 return $follower;
             } else {
                 $follower->removeFollowing($following);
@@ -290,6 +294,9 @@ class UsersController extends FosRestController
                 $em->merge($follower);
                 $em->merge($following);
                 $em->flush();
+
+                // Empty followings cache
+                UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
             }
         } else {
             throw new HttpException(401);

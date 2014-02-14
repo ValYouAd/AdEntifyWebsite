@@ -72,16 +72,24 @@ class ActionsController extends FosRestController
                 $followings = $user->getFollowingsIds();
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
+            }
         }
 
         $query = $em->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
-            LEFT JOIN action.target target LEFT JOIN action.author author
-            WHERE action.visibility = :publicVisibility OR (author.id IN (:facebookFriendsIds) OR author.id IN (:followings))
+            LEFT JOIN action.target target LEFT JOIN action.author author LEFT JOIN action.brand brand
+            WHERE author.id != :userId AND (author.id IN (:facebookFriendsIds) OR author.id IN (:followings) OR brand.id IN (:followedBrands))
             ORDER BY action.createdAt DESC')
             ->setParameters(array(
-                'publicVisibility' => Action::VISIBILITY_PUBLIC,
+                'userId' => $user->getId(),
                 'facebookFriendsIds' => $facebookFriendsIds,
-                'followings' => $followings
+                'followings' => $followings,
+                'followedBrands' => $followedBrands
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);

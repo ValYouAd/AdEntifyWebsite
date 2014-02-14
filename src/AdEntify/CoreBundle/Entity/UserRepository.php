@@ -119,6 +119,14 @@ class UserRepository  extends EntityRepository
         }
     }
 
+    public function getFollowedBrandsIds($user)
+    {
+        return $this->getEntityManager()->createQuery('SELECT brand.id FROM AdEntifyCoreBundle:User u LEFT JOIN u.followedBrands brand
+            WHERE u.id = :userId')->setParameters(array(
+                'userId' => $user->getId(),
+            ))->getArrayResult();
+    }
+
     /**
      * Get array of facebook friends id
      *

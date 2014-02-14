@@ -15,10 +15,12 @@ use AdEntify\CoreBundle\Entity\User;
 class UserCacheManager extends CacheManager
 {
     const USER_CACHE_KEY_FB_FRIENDS = 'facebook.friends';
-    const USER_CACHE_KEY_FOLLOWINGS = 'following';
+    const USER_CACHE_KEY_FOLLOWINGS = 'followings';
+    const USER_CACHE_KEY_BRAND_FOLLOWINGS = 'brand.followings';
 
     const USER_CACHE_TTL_FOLLOWING = 172800; // in seconds, 48h
     const USER_CACHE_TTL_FB_FRIENDS = 172800; // in seconds, 48h
+    const USER_CACHE_TTL_BRAND_FOLLOWINGS = 172800; // in seconds, 48h
 
     public function getUserObject(User $user, $key)
     {
