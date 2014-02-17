@@ -382,10 +382,11 @@ define([
          evt.preventDefault();
          if (!photo || reload) {
             var that = this;
-            photo = new Photo.Model({ 'id': photo ? photo.get('id') : photoId });
-            photo.fetch({
+            var model = new Photo.Model({ id: photo ? photo.get('id') : photoId });
+            model.fetch({
+               url: Routing.generate('api_v1_get_photo', { id: model.get('id')}),
                complete: function() {
-                  that.displayPhoto(evt, photo);
+                  that.displayPhoto(evt, model);
                }
             });
          } else {

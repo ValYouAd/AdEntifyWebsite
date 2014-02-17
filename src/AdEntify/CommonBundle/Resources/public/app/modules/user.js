@@ -656,7 +656,8 @@ define([
          this.showModal(users, 'user.modalFollowersTitle', 'profile.noFollowers');
       },
 
-      showModal: function(users, title, noUsersMessage) {
+      showModal: function(users, title, noUsersMessage, stack) {
+         stack = stack || false;
          var userListView = new User.Views.List({
             users: users,
             noUsersMessage: noUsersMessage
@@ -669,9 +670,13 @@ define([
             title: title,
             modalDialogClasses: 'small-modal-dialog'
          });
-         Common.Tools.hideCurrentModalIfOpened(function() {
-            app.useLayout().setView('#modal-container', modal).render();
-         });
+         if (stack) {
+            app.useLayout().setView('#front-modal-container', modal).render();
+         } else {
+            Common.Tools.hideCurrentModalIfOpened(function() {
+               app.useLayout().setView('#modal-container', modal).render();
+            });
+         }
       }
    };
 

@@ -135,7 +135,7 @@ define([
       },
 
       showPhoto: function(evt) {
-         Photos.Common.showPhoto(evt, null, this.model.get('object_id'));
+         Photos.Common.showPhoto(evt, null, this.model.has('photosCollection') ? this.model.get('photosCollection').first().get('id') : 0, true);
       },
 
       events: {

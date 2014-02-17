@@ -444,7 +444,7 @@ define([
          var User = require('modules/user');
          var users = new User.Collection();
          users.url = Routing.generate('api_v1_get_photo_likers', { id: this.model.get('id')} );
-         User.Common.showModal(users, 'photo.likers', 'photo.noLiker');
+         User.Common.showModal(users, 'photo.likers', 'photo.noLiker', true);
       },
 
       events: {
