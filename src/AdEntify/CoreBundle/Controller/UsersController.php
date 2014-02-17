@@ -560,12 +560,11 @@ class UsersController extends FosRestController
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $currentUser = $this->container->get('security.context')->getToken()->getUser();
-            $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
+            return $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
             LEFT JOIN b.followers as follower WHERE b.validated = 1 AND follower.id = :currentUserId')
                 ->setParameters(array(
-                    'currentUserId' => $currentUser->getId()
-                ));
+                    'currentUserId' => $securityContext->getToken()->getUser()->getId()
+                ))->getResult();
         } else {
             throw new HttpException(401);
         }
@@ -650,17 +649,18 @@ class UsersController extends FosRestController
             );
             $whereClausesPoints = array();
             $whereClausesIncomes = array();
+
             if ($begin) {
                 $parametersPoints['begin'] = new \DateTime($begin);
                 $parametersIncomes['begin'] = new \DateTime($begin);
-                $whereClausesPoints[] = ' AND DAY(credited_at) >= DAY(:begin) ';
-                $whereClausesIncomes[] = ' AND DAY(paid_at) >= DAY(:end) ';
+                $whereClausesPoints[] = ' AND DATE(credited_at) >= DATE(:begin) ';
+                $whereClausesIncomes[] = ' AND DATE(paid_at) >= DATE(:begin) ';
             }
             if ($end) {
                 $parametersPoints['end'] = new \DateTime($end);
                 $parametersIncomes['end'] = new \DateTime($end);
-                $whereClausesPoints[] = ' AND DAY(credited_at) <= DAY(:end) ';
-                $whereClausesIncomes[] = ' AND DAY(paid_at) <= DAY(:end) ';
+                $whereClausesPoints[] = ' AND DATE(credited_at) <= DATE(:end) ';
+                $whereClausesIncomes[] = ' AND DATE(paid_at) <= DATE(:end) ';
             }
 
             $rsm = new ResultSetMapping();
@@ -668,7 +668,7 @@ class UsersController extends FosRestController
             $rsm->addScalarResult('date', 'date', 'datetime');
 
             $sql = 'SELECT SUM(points) AS points, credited_at AS date FROM tag_points
-            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesPoints) . ' GROUP BY DAY(credited_at)';
+            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesPoints) . ' GROUP BY DATE(credited_at) ORDER BY credited_at';
             $tagPoints = $em->createNativeQuery($sql, $rsm)->setParameters($parametersPoints)->getResult();
 
             $rsm = new ResultSetMapping();
@@ -676,7 +676,7 @@ class UsersController extends FosRestController
             $rsm->addScalarResult('date', 'date', 'datetime');
 
             $sql = 'SELECT SUM(income) AS income, paid_at AS date FROM tag_incomes
-            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesIncomes) . ' GROUP BY DAY(paid_at)';
+            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesIncomes) . ' GROUP BY DATE(paid_at) ORDER BY paid_at';
             $tagIncomes = $em->createNativeQuery($sql, $rsm)->setParameters($parametersIncomes)->getResult();
 
             $credits = array();

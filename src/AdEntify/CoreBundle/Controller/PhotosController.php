@@ -17,6 +17,7 @@ use AdEntify\CoreBundle\Form\PhotoType;
 use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -231,11 +232,9 @@ class PhotosController extends FosRestController
             }
         }
 
-        $photo = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag
-                WHERE photo.id = :id AND photo.deletedAt IS NULL AND photo.status = :status AND (tag IS NULL OR tag.visible = true
-                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
-                AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
+        $photo = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.owner owner
+                WHERE photo.id = :id AND photo.deletedAt IS NULL AND photo.status = :status
                 AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
                 ORDER BY photo.createdAt DESC')
@@ -246,10 +245,21 @@ class PhotosController extends FosRestController
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
                 ':currentUserId' => $user ? $user->getId() : 0,
-                ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED
             ))
             ->getOneOrNullResult();
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->isNull('deletedAt'))
+            ->andWhere(Criteria::expr()->eq('censored', false))
+            ->andWhere(Criteria::expr()->eq('waitingValidation', false))
+            ->andWhere(Criteria::expr()->eq('censored', false))
+            ->andWhere(Criteria::expr()->eq('visible', true))
+            ->andWhere(Criteria::expr()->orX(
+                Criteria::expr()->eq('validationStatus', Tag::VALIDATION_NONE),
+                Criteria::expr()->eq('validationStatus', Tag::VALIDATION_GRANTED)
+            ));
+
+        $photo->setTags($photo->getTags()->matching($criteria));
 
         if ($photo)
             return $photo;

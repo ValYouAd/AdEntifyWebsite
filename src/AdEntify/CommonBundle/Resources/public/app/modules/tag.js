@@ -115,7 +115,7 @@ define([
       },
 
       isPhotoOwner: function() {
-         return this && this.has('photo') && typeof this.get('photo')['owner']['id'] !== 'undefined' ? currentUserId === this.get('photo')['owner']['id'] : false;
+         return app.appState().getCurrentPhotoModel() !== 'undefined' ? app.appState().getCurrentPhotoModel().isOwner() : false;
       },
 
       delete: function() {
@@ -1303,7 +1303,7 @@ define([
             view: reportView,
             showFooter: false,
             showHeader: true,
-            title: $.t('tag.reportTitle'),
+            title: 'tag.reportTitle',
             modalDialogClasses: 'report-dialog'
          });
          reportView.on('report:submit', function(reason) {

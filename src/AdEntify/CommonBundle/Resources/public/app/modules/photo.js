@@ -164,6 +164,7 @@ define([
       initialize: function() {
          var that = this;
          this.model = this.options.photo;
+         app.appState().set('currentPhotoModel', this.model);
          this.modal = typeof this.options.modal !== 'undefined' ? this.options.modal : false;
          this.listenTo(this.options.photo, {
             'error': function(model, resp) {

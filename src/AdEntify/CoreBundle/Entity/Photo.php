@@ -704,6 +704,15 @@ class Photo
     }
 
     /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+
+    /**
      * @param string $source
      */
     public function setSource($source)

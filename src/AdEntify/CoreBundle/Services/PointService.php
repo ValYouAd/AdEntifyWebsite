@@ -56,14 +56,16 @@ class PointService
             $tagPoint->setUser($user)->setPoints($points)->setType(TagPoint::TYPE_TAG_AND_PHOTO_OWNER);
             $this->em->persist($tagPoint);
         } else {
-            $tagPointTagger = new TagPoint();
-            $tag->addPoint($tagPointTagger);
-            $tagPointTagger->setUser($user)->setPoints($points - self::PHOTO_OWNER_POINTS)->setType(TagPoint::TYPE_TAG_OWNER);
-            $this->em->persist($tagPointTagger);
+            // Photo owner points
+            $tagPointPhotoOwner = new TagPoint();
+            $tag->addPoint($tagPointPhotoOwner);
+            $tagPointPhotoOwner->setUser($user)->setPoints(self::PHOTO_OWNER_POINTS)->setType(TagPoint::TYPE_PHOTO_OWNER);
+            $this->em->persist($tagPointPhotoOwner);
 
+            // Tag owner points
             $tagPointOwner = new TagPoint();
             $tag->addPoint($tagPointOwner);
-            $tagPointOwner->setUser($tag->getOwner())->setPoints(self::PHOTO_OWNER_POINTS)->setType(TagPoint::TYPE_PHOTO_OWNER);
+            $tagPointOwner->setUser($tag->getOwner())->setPoints($points - self::PHOTO_OWNER_POINTS)->setType(TagPoint::TYPE_TAG_OWNER);
             $this->em->persist($tagPointOwner);
         }
     }
@@ -90,11 +92,11 @@ class PointService
 
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
                 $user, $user, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
-                $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'tagPoints', array('count' => $result['tagPointTagger']->getPoints()));
+                $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'publicTaggerTagPoints', array('count' => $result['tagPointTagger']->getPoints()));
 
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
-                $user, $tag->getPhoto()->getOwner(), array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
-                $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'tagPoints', array('count' => $result['tagPointOwner']->getPoints()));
+                $tag->getPhoto()->getOwner(), $tag->getPhoto()->getOwner(), array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
+                $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'publicTagPoints', array('count' => $result['tagPointOwner']->getPoints()));
         }
 
         foreach ($tag->getPoints() as $tagPoint) {
