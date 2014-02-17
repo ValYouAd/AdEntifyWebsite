@@ -239,7 +239,9 @@
       "reportHarassing": "Harcelement contre ma personne ou une personne que je connais",
       "reportShouldntBe": "Je pense que cette photo ne devrait pas être sur AdEntify",
       "reportSpam": "C'est du spam",
-      "reportOther": "Autre"
+      "reportOther": "Autre",
+      "likers": "Personnes ayant aimées",
+      "noLiker": "Soyez le premier à aimer cette photo."
    },
    "externalServicePhotos": {
       "select": "Sélectionner",

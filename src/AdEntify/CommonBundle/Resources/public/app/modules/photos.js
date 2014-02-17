@@ -240,7 +240,10 @@ define([
       newRender: true,
       renderNew: function(photo) {
          view = new Photos.Views.Item({
-            model: photo
+            model: photo,
+            itemClickBehavior: typeof this.options.itemClickBehavior !== 'undefined' ? this.options.itemClickBehavior : Photos.Common.PhotoItemClickBehaviorDetail,
+            addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false,
+            showPhotoInfo: typeof this.options.showPhotoInfo !== 'undefined' ? this.options.showPhotoInfo : this.showPhotoInfo
          });
          if (this.newRender) {
             this.newRender = false;

@@ -68,8 +68,8 @@ class ActionsController extends FosRestController
 
             // Get followings ids
             $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
-            if (!$followings) {
-                $followings = $user->getFollowingsIds();
+                if (!$followings) {
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 1);
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
 
@@ -86,7 +86,7 @@ class ActionsController extends FosRestController
             WHERE author.id != :userId AND (author.id IN (:facebookFriendsIds) OR author.id IN (:followings) OR brand.id IN (:followedBrands))
             ORDER BY action.createdAt DESC')
             ->setParameters(array(
-                'userId' => $user->getId(),
+                'userId' => $user ? $user->getId() : 0,
                 'facebookFriendsIds' => $facebookFriendsIds,
                 'followings' => $followings,
                 'followedBrands' => $followedBrands

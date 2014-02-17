@@ -440,18 +440,26 @@ define([
          }
       },
 
+      showLikers: function() {
+         var User = require('modules/user');
+         var users = new User.Collection();
+         users.url = Routing.generate('api_v1_get_photo_likers', { id: this.model.get('id')} );
+         User.Common.showModal(users, 'photo.likers', 'photo.noLiker');
+      },
+
       events: {
          'click .adentify-pastille': 'clickPastille',
          'mouseenter .photo-container': 'showTags',
          'mouseleave .photo-container': 'hideTags',
-         "click .showTagsCheckbox": "checkboxShowTags",
-         "click .showLikesCheckbox": "checkboxShowLikes",
-         "mouseup .selectOnFocus": "selectTextOnFocus",
-         "click #photo-tabs a": "changeTab",
-         'click .add-new-tag': "addNewTag",
+         'click .showTagsCheckbox': 'checkboxShowTags',
+         'click .showLikesCheckbox': 'checkboxShowLikes',
+         'mouseup .selectOnFocus': 'selectTextOnFocus',
+         'click #photo-tabs a': 'changeTab',
+         'click .add-new-tag': 'addNewTag',
          'mouseenter .adentify-pastille-wrapper': 'showPastillePopover',
          'mouseleave .adentify-pastille-wrapper': 'hidePastillePopover',
-         'click .report-button': 'report'
+         'click .report-button': 'report',
+         'click .likes-count': 'showLikers'
       }
    });
 

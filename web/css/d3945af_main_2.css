@@ -920,6 +920,9 @@ html,body,.body-grey-background {
     padding-right: 8px;
     margin-top: 8px;
 }
+.likes-count {
+    cursor: pointer;
+}
 .adentify-pastille-wrapper {
     position: absolute;
     top: 10px;

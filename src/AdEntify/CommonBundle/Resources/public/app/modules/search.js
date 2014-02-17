@@ -363,7 +363,8 @@ define([
             this.setView('.search-photos-results', new Photos.Views.Content({
                photos: this.options.photos,
                listenToEnable: true,
-               pageTitle: $.t('search.pageTitle', { title: this.terms })
+               pageTitle: $.t('search.pageTitle', { title: this.terms }),
+               showPhotoInfo: true
             }));
          }
          if (!this.getView('.search-users-results')) {

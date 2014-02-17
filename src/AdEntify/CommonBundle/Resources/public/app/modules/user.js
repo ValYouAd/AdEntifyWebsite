@@ -335,7 +335,8 @@ define([
          if (!this.getView('.my-history-content')) {
             var Action = require('modules/action');
             this.setView('.my-history-content', new Action.Views.List({
-               actions: this.options.actions
+               actions: this.options.actions,
+               routeName: 'api_v1_get_user_actions'
             }));
          }
          if (!this.getView('.user-credits-table')) {

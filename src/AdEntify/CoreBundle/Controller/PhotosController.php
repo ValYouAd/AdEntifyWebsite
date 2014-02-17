@@ -128,7 +128,7 @@ class PhotosController extends FosRestController
                 INNER JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
                   AND tag.censored = false AND tag.waitingValidation = false
                   AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
-                INNER JOIN photo.owner owner INNER JOIN photo.brand brand %s
+                INNER JOIN photo.owner owner LEFT JOIN tag.brand brand %s
                 WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
                 AND photo.tagsCount > 0', $tagClause, $joinClause);
@@ -141,7 +141,7 @@ class PhotosController extends FosRestController
                 ':followedBrands' => $followedBrands
             );
             $sql = sprintf('SELECT DISTINCT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner LEFT JOIN photo.brand brand %s
+                LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag LEFT JOIN tag.brand brand %s
                 WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                   OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
                 AND photo.tagsCount = 0 ', $joinClause);
@@ -149,7 +149,7 @@ class PhotosController extends FosRestController
 
         if ($orderBy) {
             switch ($orderBy) {
-                case 'like':
+                case 'likes':
                     $sql .= sprintf(' ORDER BY photo.likesCount %s', $way);
                     break;
                 case 'points':
@@ -331,7 +331,7 @@ class PhotosController extends FosRestController
         // Order by
         if ($orderBy) {
             switch ($orderBy) {
-                case 'like':
+                case 'likes':
                     $orderByQuery = sprintf(' ORDER BY photo.likesCount %s', $way);
                     break;
                 case 'date':
@@ -353,7 +353,7 @@ class PhotosController extends FosRestController
         // If hashtags found, search photo with this hashtag(s)
         if (count($hashtags) > 0) {
             $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-            INNER JOIN photo.owner owner LEFT JOIN photo.hashtags hashtag LEFT JOIN photo.brand brand
+            INNER JOIN photo.owner owner LEFT JOIN photo.hashtags hashtag LEFT JOIN photo.tags tag LEFT JOIN tag.brand brand
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) or brand.id IN (:followedBrands))
             AND hashtag.name IN (:hashtags)' . implode('', $whereClauses) . $orderByQuery)
@@ -370,7 +370,7 @@ class PhotosController extends FosRestController
         } else {
             $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
             LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.venue venue LEFT JOIN tag.person person
-            LEFT JOIN tag.product product LEFT JOIN product.brand brand LEFT JOIN photo.hashtags hashtag LEFT JOIN photo.brand brand
+            LEFT JOIN tag.product product LEFT JOIN photo.hashtags hashtag LEFT JOIN tag.brand brand
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
             AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
@@ -708,6 +708,23 @@ class PhotosController extends FosRestController
     {
         return $this->getDoctrine()->getManager()->createQuery('SELECT comment FROM AdEntifyCoreBundle:Comment comment
             WHERE comment.deletedAt IS NULL AND comment.photo = :photoId')
+            ->setParameters(array(
+                'photoId' => $id
+            ))->getResult();
+    }
+
+    /**
+     * GET all likers by photo ID
+     *
+     * @View()
+     *
+     * @param $id
+     * @return ArrayCollection|null
+     */
+    public function getLikersAction($id)
+    {
+        return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntifyCoreBundle:User user
+            LEFT JOIN user.likes l WHERE l.photo = :photoId')
             ->setParameters(array(
                 'photoId' => $id
             ))->getResult();

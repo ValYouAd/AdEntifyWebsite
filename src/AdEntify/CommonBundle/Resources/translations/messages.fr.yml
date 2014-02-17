@@ -100,7 +100,7 @@ jobs:
 
 #Press
 press:
-    pageTitle: Presse - AdEntify.com
+    pageTitle: Qui sommes-nous ? - AdEntify.com
     pageDescription: Histoire, équipe, logos et communiqué de presse d'AdEntify
     quote: « L’économie collaborative, ce n’est pas toi qui gagne moins, c’est nous qui partageons plus »
 Contact us!: Contactez-nous !
@@ -110,7 +110,7 @@ Logos HD: Logos HD
 Screenshots: Screenshots
 Communiqué de presse: Communiqué de presse
 Story: Histoire
-Team: Equipe
+Team: Qui sommes-nous ?
 Photos & videos: Photos & vidéos
 
 # HP offline

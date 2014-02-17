@@ -173,14 +173,18 @@ define([
       initialize: function() {
          this.listenTo(this.options.actions, 'sync', this.render);
          this.listenTo(app, 'stop:polling', this.stopPolling);
-         this.pollActions(this.options.actions);
+         this.pollActions(this.options.actions,
+            typeof this.options.routeName !== 'undefined' ? this.options.routeName : null,
+            typeof this.options.routeParameters !== 'undefined' ? this.options.routeParameters : null);
       },
 
-      pollActions: function(actions) {
+      pollActions: function(actions, routeName, routeParameters) {
+         routeName = routeName || 'api_v1_get_actions';
+         routeParameters = routeParameters || {};
          var that = this;
          if (app.appState().getCurrentUserId() > 0) {
             actions.fetch({
-               url: Routing.generate('api_v1_get_actions'),
+               url: Routing.generate(routeName, routeParameters),
                success: function() {
                   // Set a new timeout
                   that.pollTimeout = setTimeout(function() {

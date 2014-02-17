@@ -791,12 +791,13 @@ class UsersController extends FosRestController
 
     /**
      * @param $id
-     * @return array
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
+     *
+     * @View()
      */
-    public function getActionsAction($id, $page, $limit)
+    public function getActionsAction($page = 1, $limit = 20)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -807,7 +808,7 @@ class UsersController extends FosRestController
             WHERE author.id = :userId
             ORDER BY action.createdAt DESC')
                 ->setParameters(array(
-                    'userId' => $id
+                    'userId' => $securityContext->getToken()->getUser()->getId()
                 ))
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit);

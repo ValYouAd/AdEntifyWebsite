@@ -107,7 +107,7 @@ class UserRepository  extends EntityRepository
 
                         return $facebookIds;
                     }
-                } catch (FacebookApiException $e) {
+                } catch (\FacebookApiException $e) {
                     return $this->getFacebookFriendsIds($user->getFriends());
                 }
             }
@@ -119,7 +119,41 @@ class UserRepository  extends EntityRepository
         }
     }
 
-    public function getFollowedBrandsIds($user)
+    /**
+     * Get user followings
+     *
+     * @param User $user
+     * @param int $depth
+     */
+    public function getFollowingsIds(User $user, $depth = 1)
+    {
+        $followings = $this->getEntityManager()->createQuery('SELECT following.id FROM AdEntifyCoreBundle:User u
+            LEFT JOIN u.followings following
+            WHERE u.id = :userId')->setParameters(array(
+                'userId' => $user->getId(),
+            ))->getArrayResult();
+
+        do {
+            $newFollowings = $this->getEntityManager()->createQuery('SELECT following.id FROM AdEntifyCoreBundle:User u
+            LEFT JOIN u.followings following
+            WHERE u.id IN (:followings) AND following.id != :userId')->setParameters(array(
+                    'followings' => $followings,
+                    'userId' => $user->getId()
+                ))->getArrayResult();
+            $depth--;
+            $followings = array_merge($followings, $newFollowings);
+        } while ($depth > 0);
+
+        return $followings;
+    }
+
+    /**
+     * Get brand followed by user
+     *
+     * @param $user
+     * @return array
+     */
+    public function getFollowedBrandsIds(User $user)
     {
         return $this->getEntityManager()->createQuery('SELECT brand.id FROM AdEntifyCoreBundle:User u LEFT JOIN u.followedBrands brand
             WHERE u.id = :userId')->setParameters(array(

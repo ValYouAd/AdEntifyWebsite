@@ -70,7 +70,7 @@ HowItWorksStep1: <strong>Add</strong> your photos via Facebook, Instagram, Flick
 HowItWorksStep2: <strong>Enrich</strong> your photos with tags and share them
 HowItWorksStep3: <strong>Discover</strong> photos with your favorite brands
 Win points: Win points
-Win cash: Win cash
+Win cash: Earn cash
 RewardsEarningsText: Tag your favorite brands ...
 Ready? Go!: Ready? Go!
 
@@ -93,7 +93,7 @@ jobs:
 
 #Press
 press:
-    pageTitle: Press - AdEntify.com
+    pageTitle: Who we are? - AdEntify.com
     pageDescription: Story, team, logos & press release of AdEntify
     quote: « Sharing economy isn’t about you earning less, it’s about us sharing more »
 Contact us!: Contact us!
@@ -103,7 +103,7 @@ Logos HD: HD Logos
 Screenshots: Screenshots
 Communiqué de presse: Press release
 Story: Story
-Team: Team
+Team: Who we are?
 Logos and press kit: Logos and press kit
 
 #HP Offline
