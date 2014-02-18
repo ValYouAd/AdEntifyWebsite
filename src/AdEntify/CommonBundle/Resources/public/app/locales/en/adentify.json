@@ -90,7 +90,9 @@
       "linkMyAccount": "Link my account",
       "profilePicture": "Profile picture",
       "profilePictureUpload": "Upload my profile picture",
-      "labelBirthday": "Birthday"
+      "labelBirthday": "Birthday",
+      "shareDataAdvertisers": "Accept to share advertising data with AdEntify",
+      "partnersNewsletters": "I do not wish to receive advertising from our Partner"
    },
    "upload": {
       "pageTitle": "Upload my photos - AdEntify",

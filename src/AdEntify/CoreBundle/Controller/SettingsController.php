@@ -9,7 +9,9 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -84,6 +86,26 @@ class SettingsController extends FosRestController
             }
 
             return $connectedServices;
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * @View()
+     */
+    public function postSettingsAction() {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $securityContext->getToken()->getUser();
+
+            $user->setShareDataWithAdvertisers($this->getRequest()->request->has('shareDataAdvertisers'));
+            $user->setPartnersNewsletters($this->getRequest()->request->has('partnersNewsletters'));
+
+            $this->getDoctrine()->getManager()->merge($user);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $user;
         } else {
             throw new HttpException(401);
         }

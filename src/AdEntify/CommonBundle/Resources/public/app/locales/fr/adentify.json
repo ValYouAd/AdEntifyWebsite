@@ -90,7 +90,9 @@
       "linkMyAccount": "Lier mon compte",
       "profilePicture": "Photo de profil",
       "profilePictureUpload": "Envoyer ma photo de profil",
-      "labelBirthday": "Date de naissance"
+      "labelBirthday": "Date de naissance",
+      "shareDataAdvertisers": "J’accepte de partager des données publicitaires avec AdEntify",
+      "partnersNewsletters": "Je ne souhaite pas recevoir toutes informations publicitaires émanant de nos Partenaires"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",
