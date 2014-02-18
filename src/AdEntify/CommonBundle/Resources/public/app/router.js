@@ -205,9 +205,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.actions.fetch({
             url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
             error: function() {
                that.errorCallback('action.errorLoading', '#right-pane-content');
             }
@@ -708,9 +705,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.actions.fetch({
             url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
             error: function() {
                that.errorCallback('action.errorLoading', '#right-pane-content');
             }
@@ -749,9 +743,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.actions.fetch({
             url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
             error: function() {
                that.errorCallback('action.errorLoading', '#right-pane-content');
             }

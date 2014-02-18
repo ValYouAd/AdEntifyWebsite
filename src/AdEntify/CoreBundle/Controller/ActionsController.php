@@ -59,6 +59,8 @@ class ActionsController extends FosRestController
         // Get friends list (id) array
         $facebookFriendsIds = array(0);
         $followings = array(0);
+        $followedBrands = array(0);
+
         if ($user) {
             $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
             if (!$facebookFriendsIds) {

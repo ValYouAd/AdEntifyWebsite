@@ -994,6 +994,11 @@ html,body,.body-grey-background {
     border: 4px solid #424244;
     max-height: 50px;
 }
+#dropdown-header-menu {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+}
 .navbar-inverse .navbar-toggle-header-menu {
     display: block;
     border: 2px solid #252526;
@@ -2045,6 +2050,15 @@ html,body,.body-grey-background {
     border-bottom: 1px solid #e1e0e0;
     width: 100%;
 }
+.no-action-container {
+    padding: 30px 15px 15px 15px;
+}
+.no-action-container .text {
+    font-family: 'pacificoregular', Helvetica Neue, Helvetica, Arial;
+    font-size: 22px;
+    text-align: center;
+    color: white;
+}
 /* END MODULE : Actions
 ----------------------- */
 
@@ -2326,6 +2340,9 @@ html,body,.body-grey-background {
 #search-bar {
     max-width: 431px;
     margin-right: -35px;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
 }
 .search-bar {
     position: relative;
@@ -2449,16 +2466,22 @@ html,body,.body-grey-background {
     }
     .search-infos .fb-share {
         display: inline-block;
+        zoom: 1;
+        *display: inline;
         vertical-align: middle;
         margin-right: 5px;
     }
     .search-infos .tweet {
         display: inline-block;
+        zoom: 1;
+        *display: inline;
         margin-right: 5px;
         vertical-align: middle;
     }
     .search-infos .g-plus {
         display: inline-block;
+        zoom: 1;
+        *display: inline;
         vertical-align: middle;
     }
     .results-container {

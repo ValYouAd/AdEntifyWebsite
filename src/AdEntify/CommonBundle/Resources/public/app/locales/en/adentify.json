@@ -409,7 +409,10 @@
       "tagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
       "publicTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>his photo</a>",
       "publicTaggerTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
-      "newReward": "<a href='__authorLink__'>__author__</a> just became an __type__ fan of <a href='__brandLink__'>__brandName__</a>"
+      "newReward": "<a href='__authorLink__'>__author__</a> just became an __type__ fan of <a href='__brandLink__'>__brandName__</a>",
+      "noAction": "We haven't activities from your followers, follow new user to get updates!",
+      "loggedOff": "You have to be logged to view your followers activities.",
+      "followNewUsers": "Follow new users"
    },
    "pagination": {
       "loadMore": "Load more",
