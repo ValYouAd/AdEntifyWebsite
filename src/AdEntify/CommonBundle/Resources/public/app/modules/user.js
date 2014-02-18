@@ -656,13 +656,25 @@ define([
          this.showModal(users, 'user.modalFollowersTitle', 'profile.noFollowers');
       },
 
-      showModal: function(users, title, noUsersMessage, stack) {
+      showModalTopFollowers: function() {
+         var users = new User.Collection();
+         users.url = Routing.generate('api_v1_get_user_top_followers');
+         this.showModal(users, 'user.modalTopFollowersTitle', 'profile.noFollowers', false, true);
+      },
+
+      showModal: function(users, title, noUsersMessage, stack, forceRender) {
          stack = stack || false;
+         forceRender = forceRender || false;
          var userListView = new User.Views.List({
             users: users,
             noUsersMessage: noUsersMessage
          });
-         users.fetch();
+         users.fetch({
+            success: function() {
+               if (forceRender)
+                  userListView.render();
+            }
+         });
          var modal = new Common.Views.Modal({
             view: userListView,
             showFooter: false,
@@ -671,7 +683,12 @@ define([
             modalDialogClasses: 'small-modal-dialog'
          });
          if (stack) {
-            app.useLayout().setView('#front-modal-container', modal).render();
+            modal.on('hide', function() {
+               app.useLayout().getView('#modal-container').$('.modal-dialog').removeClass('slideOutLeft').addClass('animated slideInLeft');
+            });
+            app.useLayout().getView('#modal-container').$('.modal-dialog').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+               app.useLayout().setView('#front-modal-container', modal).render();
+            }).addClass('animated slideOutLeft');
          } else {
             Common.Tools.hideCurrentModalIfOpened(function() {
                app.useLayout().setView('#modal-container', modal).render();

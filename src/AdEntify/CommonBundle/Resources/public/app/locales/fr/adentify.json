@@ -297,7 +297,9 @@
       "totalPoints": "__points__ pts",
       "period": "Période",
       "modalFollowersTitle": "Abonnés",
-      "modalFollowingsTitle": "Abonnements"
+      "modalFollowingsTitle": "Abonnements",
+      "modalTopFollowersTitle": "Les utilisateurs les plus suivis",
+      "dateHeading": "Date (jj/mm/aaaa)"
    },
    "profile": {
       "follow": "Suivre",

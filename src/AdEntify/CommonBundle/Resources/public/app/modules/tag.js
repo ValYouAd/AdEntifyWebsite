@@ -1292,9 +1292,11 @@ define([
 
          modal.on('hide', function() {
             app.trigger('addTagModal:hide');
+            app.useLayout().getView('#modal-container').$('.modal-dialog').removeClass('slideOutLeft').addClass('animated slideInLeft');
          });
-
-         app.useLayout().setView('#front-modal-container', modal).render();
+         app.useLayout().getView('#modal-container').$('.modal-dialog').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+            app.useLayout().setView('#front-modal-container', modal).render();
+         }).addClass('animated slideOutLeft');
       },
 
       reportTag: function(tag) {

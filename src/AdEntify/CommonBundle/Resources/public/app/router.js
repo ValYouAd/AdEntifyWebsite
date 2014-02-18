@@ -1131,6 +1131,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                modalDialogClasses: 'linkedaccount-dialog'
             })).render();
          }
+         if (Common.Tools.getParameterByName('showTopUsers') && app.appState().isLogged()) {
+            User.Common.showModalTopFollowers();
+         }
       }
    });
 
