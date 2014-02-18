@@ -76,16 +76,14 @@ define([
          });
       },
 
-      connectInstagram: function() {
-         window.location.href = Upload.Common.getInstagramUrl();
+      connectService: function() {
+         require('modules/upload').Common.goToServiceUploadPage(this.model);
       },
 
       events: {
          "click .deletelink": "deleteLink",
-         'click .connect-instagram': 'connectInstagram',
-         'click .service-icon': function() {
-            require('modules/upload').Common.goToServiceUploadPage(this.model);
-         }
+         'click .service-action button': 'connectService',
+         'click .service-icon': 'connectService'
       }
    });
 
