@@ -18,11 +18,11 @@ class DefaultController extends Controller
     const SESSION_REQUEST_TOKEN_SECRET = 'flickr-request-token-secret';
 
     /**
-     * @Route("/flickr/request-token", name="flickr_request_token")
+     * @Route("/flickr/request-token/{locale}", defaults={"locale" = "en"}, name="flickr_request_token")
      * @Template()
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
-    public function getRequestTokenAction() {
+    public function getRequestTokenAction($locale) {
         $loggedInUser = $this->container->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -32,10 +32,10 @@ class DefaultController extends Controller
         ));
 
         if ($oAuthUserInfo)
-            return $this->redirect($this->generateUrl('flickr_sets', array('_locale' => $this->getRequest()->getLocale())));
+            return $this->redirect($this->generateUrl('flickr_sets', array('_locale' => $locale)));
 
         $flickrUrl = 'http://www.flickr.com/services/oauth/request_token';
-        $callbackUrl = $this->generateUrl('flickr_authent', array(), true);
+        $callbackUrl = $this->generateUrl('flickr_authent', array('locale' => $locale), true);
 
         // Sign request
         $flickrRequestSigner = new FlickrRequestSigner();
@@ -82,11 +82,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/flickr/authentication", name="flickr_authent")
+     * @Route("/flickr/authentication/{locale}", defaults={"locale" = "en"}, name="flickr_authent")
      * @Template()
      * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
-    public function indexAction()
+    public function indexAction($locale)
     {
         if ($this->getRequest()->query->has('error')) {
             throw new AuthenticationException($this->getRequest()->query->get('error_reason'));
@@ -164,7 +164,9 @@ class DefaultController extends Controller
                         $em->persist($oAuthUserInfo);
                     $em->flush();
 
-                    return $this->redirect($this->generateUrl('flickr_sets', array('_locale' => $this->getRequest()->getLocale())));
+                    $this->getRequest()->setLocale($locale);
+
+                    return $this->redirect($this->generateUrl('loggedInHome', array('_locale' => $locale)).$this->get('translator')->trans('flickr/sets/'));
                 } else {
                     throw new AuthenticationException('Can\'t get Flickr feed');
                 }

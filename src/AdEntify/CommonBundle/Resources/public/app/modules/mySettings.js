@@ -82,7 +82,7 @@ define([
 
       events: {
          "click .deletelink": "deleteLink",
-         'click .service-action button': 'connectService',
+         'click .connect-button': 'connectService',
          'click .service-icon': 'connectService'
       }
    });

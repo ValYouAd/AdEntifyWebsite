@@ -292,7 +292,7 @@ define([
 
       getFlickrUrl: function(connected) {
          connected = typeof connected !== 'undefined' ? connected : false;
-         return connected ? $.t('routing.flickr/sets/') : Routing.generate('flickr_request_token');
+         return connected ? $.t('routing.flickr/sets/') : Routing.generate('flickr_request_token', { 'locale': currentLocale });
       },
 
       getProgressBarView: function() {
