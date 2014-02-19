@@ -206,7 +206,8 @@
       "person": "Personne",
       "product": "Produit",
       "tagSuccessfullyAdded": "Le tag a été ajouté avec succès",
-      "buy": "Acheter le produit"
+      "buy": "Acheter le produit",
+      "errorDifferentBrand": "La marque choisit est différente de la marque associée au produit."
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",

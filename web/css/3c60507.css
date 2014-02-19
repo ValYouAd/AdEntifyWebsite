@@ -4777,7 +4777,7 @@ ul.striped > li:nth-child(even) {
 .icon {
     position:relative;top:1px;display:inline-block;font-style:normal;font-weight:normal;line-height:1;
 }
-.fadeOut {
+.fade-out {
     display: none;
 }
 .hide {

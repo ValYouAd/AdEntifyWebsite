@@ -9,7 +9,7 @@
 <div class="loading-gif-container">
     <div class="loader rotate"></div>
 </div>
-<div class="full-photo text-center fadeOut">
+<div class="full-photo text-center fade-out">
     <div class="photo-container">
         <div class="adentify-pastille-wrapper">
             <% if (model.get("tags_count") > 0) { %>
@@ -22,7 +22,7 @@
         <div class="photo-overlay">
             <div class="tags-container"></div>
         </div>
-        <div class="share-overlay fadeOut"></div>
+        <div class="share-overlay fade-out"></div>
         <img src="<%= model.get("large_url") %>" alt="<%= model.get("caption") %>" class="photo-full" />
     </div>
 </div>
