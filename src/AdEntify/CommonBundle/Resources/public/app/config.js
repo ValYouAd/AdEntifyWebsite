@@ -30,7 +30,8 @@ require.config({
      "bday-picker": "../vendor/js/bday-picker.min",
      "jquery.serializeJSON": "../vendor/js/jquery.serializeJSON.min",
      "Chart": "../vendor/js/Chart.min",
-     "daterangepicker": "../vendor/js/daterangepicker"
+     "daterangepicker": "../vendor/js/daterangepicker",
+     "introjs": "../vendor/js/intro.min"
   },
 
    map: {

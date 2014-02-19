@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app"
-], function(app) {
+   "app",
+   'introjs'
+], function(app, introJs) {
 
    var Common = app.module();
    Common.alertError = 'alert-danger';
@@ -276,6 +277,25 @@ define([
                'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
             }
          }
+      },
+
+      launchDidacticiel: function(user) {
+         introJs().setOptions({
+            'scrollToElement': false,
+            'showStepNumbers': false,
+            'showBullets': false,
+            nextLabel: $.t('didacticiel.next'),
+            prevLabel: $.t('didacticiel.prev'),
+            skipLabel: $.t('didacticiel.skip'),
+            doneLabel: $.t('didacticiel.done')
+         }).start();
+         $.ajax({
+            url: Routing.generate('api_v1_post_user_intro_played'),
+            type: 'POST',
+            headers: {
+               "Authorization": app.oauth.getAuthorizationHeader()
+            }
+         });
       }
    }
 

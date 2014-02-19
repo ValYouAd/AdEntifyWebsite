@@ -983,6 +983,23 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                   $('#signupModal').modal('show');
                }, 500);
             });
+         } else {
+            // Get current user
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_user', { id: currentUserId }),
+                     headers: {
+                        "Authorization": app.oauth.getAuthorizationHeader()
+                     },
+                     success: function(user) {
+                        if (user && !user.intro_played) {
+                           Common.Tools.launchDidacticiel(user);
+                        }
+                     }
+                  });
+               }
+            });
          }
       },
 

@@ -138,6 +138,15 @@ legal:
     pageTitle: Legal - AdEntify.com
     pageDescription: Terms of Use, Privacy and Legal notices of www.adentify.com
 
+didacticiel:
+    search: 'Search photos, users, brands, tags, hashtags...'
+    dropdown: 'Discover photos by categories or browse brands'
+    tag: 'Tag or upload new photos to AdEntify'
+    notifications: 'Click on your profile picture to view your last notifications '
+    userInfos: 'Click on your name or your points to display the drop-down menu with to access your content'
+    photos: 'View last tagged photos from all users'
+    ticker: 'And here, last activities from your followings'
+
 #Routing
 photos/untagged/: photos/untagged/
 my/photos/: my/photos/

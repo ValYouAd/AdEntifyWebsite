@@ -149,6 +149,15 @@ Terms of Use: Conditions Générales d'utilisation
 Privacy: Politique de Confidentialité
 Legal notices: Mentions légales
 
+didacticiel:
+    search: 'Recherchez des photos, utilisateurs, marques, tags, hashtags...'
+    dropdown: 'Triez les photos par catégories ou parcourez nos marques'
+    tag: 'Tagguez ou ajoutez de nouvelles photos sur AdEntify'
+    notifications: 'Cliquez sur votre photo pour voir vos dernières notifications'
+    userInfos: 'Un simple clic pour accéder à tout votre contenu'
+    photos: 'Ce flux de photos regroupe les photos tagguées de tous les utilisateurs'
+    ticker: 'Et ici, les dernières activités des personnes que vous suivez'
+
 #Routing
 photos/untagged/: photos/non-taguees/
 my/photos/: mes/photos/

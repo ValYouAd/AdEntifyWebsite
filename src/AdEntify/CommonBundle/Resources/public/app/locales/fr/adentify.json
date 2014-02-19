@@ -449,6 +449,12 @@
    "legalNotice": {
       "alcool": "L'abus d'alcool est dangereux pour la santé"
    },
+   "didacticiel": {
+      "next": "Suivant",
+      "prev": "Précédent",
+      "skip": "Passer",
+      "done": "Terminer"
+   },
    "common": {
       "viewPhoto": "voir la photo",
       "submit": "Valider",

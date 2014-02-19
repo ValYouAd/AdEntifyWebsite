@@ -844,6 +844,24 @@ class UsersController extends FosRestController
         }
     }
 
+    /**
+     * @View()
+     */
+    public function postIntroPlayedAction()
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $securityContext->getToken()->getUser();
+            $user->setIntroPlayed(true);
+            $em = $this->getDoctrine()->getManager();
+            $em->merge($user);
+            $em->flush();
+            return $user;
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
     private function formatCredit(TagPoint $tagPoint = null, TagIncome $tagIncome = null)
     {
         $obj = $tagPoint ? $tagPoint : $tagIncome;

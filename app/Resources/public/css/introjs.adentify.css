@@ -1,0 +1,101 @@
+.introjs-tooltip {
+    background: none;
+    box-shadow: none;
+    padding: 0px;
+    min-width: 300px;
+    max-width: 500px;
+}
+.introjs-fixParent {
+    z-index: auto !important;
+    opacity: 1.0 !important;
+    position: absolute;
+}
+.introjs-tooltiptext {
+    color: white;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 30px;
+}
+.introjs-arrow {
+    border: 0px;
+}
+.introjs-arrow.left {
+    left: -60px;
+    top: -20px;
+    background: url('../img/didacticiel-arrow-left.png') no-repeat;
+    width: 49px;
+    height: 29px;
+}
+.introjs-arrow.right {
+    right: -60px;
+    top: -20px;
+    background: url('../img/didacticiel-arrow-right.png') no-repeat;
+    width: 49px;
+    height: 29px;
+}
+.introjs-arrow.top {
+    top: -50px;
+    background: url('../img/didacticiel-arrow-top.png') no-repeat;
+    width: 29px;
+    height: 49px;
+}
+.introjs-arrow.bottom {
+    bottom: -50px;
+    background: url('../img/didacticiel-arrow-bottom.png') no-repeat;
+    width: 29px;
+    height: 49px;
+}
+.introjs-helperNumberLayer {
+    width: 25px;
+    height: 25px;
+    line-height: 18px;
+}
+.introjs-helperLayer {
+    background: none;
+    border: 0px;
+    box-shadow: none;
+}
+.introjs-button {
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    border-radius: 22px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    outline: none;
+    background-image: none;
+    background: rgb(255,70,70);
+    background: -moz-linear-gradient(top,  rgba(255,70,70,1) 0%, rgba(255,45,45,1) 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,70,70,1)), color-stop(50%,rgba(255,45,45,1)));
+    background: -webkit-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: -o-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: -ms-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: linear-gradient(to bottom,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4646', endColorstr='#ff2d2d',GradientType=0 );
+    border: 3px solid #eaedf1!important;
+    padding: 7px 20px!important;
+    color: #FFFFFF!important;
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+    text-transform: uppercase;
+    font-size: 11px;
+    text-shadow: none;
+}
+.introjs-button:hover,
+.introjs-button:focus,
+.introjs-button:active {
+    border: 3px solid #cbced2!important;
+    color: #FFFFFF!important;
+    text-decoration: none;
+    background-image: none;
+    background: rgb(255,70,70);
+    background: -moz-linear-gradient(top,  rgba(255,70,70,1) 0%, rgba(255,45,45,1) 50%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,70,70,1)), color-stop(50%,rgba(255,45,45,1)));
+    background: -webkit-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: -o-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: -ms-linear-gradient(top,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    background: linear-gradient(to bottom,  rgba(255,70,70,1) 0%,rgba(255,45,45,1) 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff4646', endColorstr='#ff2d2d',GradientType=0 );
+    outline: none;
+}
+.introjs-overlay {
+    background: #000!important;
+}

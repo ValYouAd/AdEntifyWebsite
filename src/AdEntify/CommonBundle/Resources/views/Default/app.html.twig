@@ -6,6 +6,8 @@
     '../app/Resources/public/css/select2.css'
     '../app/Resources/public/css/jquery.fileupload-ui.css'
     '../app/Resources/public/css/animate.min.css'
+    '../app/Resources/public/css/introjs.min.css'
+    '../app/Resources/public/css/introjs.adentify.css'
     '../app/Resources/public/css/daterangepicker-bs3.css'
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
@@ -41,21 +43,21 @@
                             <a href="{{ full_root_url }}" class="logo-nav pull-left"></a>
                             <div class="text-center">
                                  <div id="dropdown-header-menu">
-                                    <button type="button" class="navbar-toggle navbar-toggle-header-menu" data-toggle="collapse" data-target=".dropdown-header-menu">
+                                    <button type="button" class="navbar-toggle navbar-toggle-header-menu" data-toggle="collapse" data-target=".dropdown-header-menu" data-intro="{{ 'didacticiel.dropdown'|trans }}" data-position="left">
                                         <span class="sr-only">Toggle header menu</span>
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </button>
                                 </div>
-                                <div id="search-bar"></div>
+                                <div id="search-bar" data-intro="{{ 'didacticiel.search'|trans }}" data-position="right"></div>
                             </div>
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="pull-left user-bar">
                                 <div class="user-information" class="pull-right">
                                     {% if app.user %}
-                                        <div class="profile-picture-wrapper pull-left">
+                                        <div class="profile-picture-wrapper pull-left" data-intro="{{ 'didacticiel.notifications'|trans }}" data-position="left">
                                             <div id="notifications" class="pull-right"></div>
                                             {% if app.user.profilePicture %}
                                                 <img class="profile-picture" src="{{ app.user.profilePicture }}" />
@@ -80,7 +82,7 @@
                                                     <li class="grey-background-item"><a href="{{ url('fos_user_security_logout') }}"><i class="icon cross-icon"></i> {{ 'Log out'|trans }}</a></li>
                                                 </ul>
                                             </div>
-                                            <div class="user-infos-wrapper">
+                                            <div class="user-infos-wrapper" data-intro="{{ 'didacticiel.userInfos'|trans }}" data-position="left">
                                                 <div class="user-names">
                                                     {% if app.user.firstname or app.user.lastname %}
                                                         {% if app.user.firstname %}{{ app.user.firstname }}{% endif %}
@@ -100,7 +102,7 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="sprites tag-button pull-right">
+                            <div class="sprites tag-button pull-right" data-intro="{{ 'didacticiel.tag'|trans }}" data-position="left">
                                 <div class="dropdown-menu">
                                     <div class="white-arrow-top"></div>
                                     <ul class="list-unstyled">
@@ -157,7 +159,7 @@
 
                 <section id="left-pane" class="col-sm-3 col-md-3 hide"></section>
 
-                <section id="center-pane" class="col-sm-12 col-md-9">
+                <section id="center-pane" class="col-sm-12 col-md-9" data-intro="{{ 'didacticiel.photos'|trans }}" data-position="right">
                     <section id="center-pane-content">
                         <div class="loading-gif-container">
                             <div class="loader rotate"></div>
@@ -167,7 +169,7 @@
                 </section>
 
                 <section id="right-pane" class="hidden-xs hidden-sm col-md-3">
-                    <section id="right-pane-content"></section>
+                    <section id="right-pane-content" data-intro="{{ 'didacticiel.ticker'|trans }}" data-position="left"></section>
                     <div class="push"></div>
                 </section>
             </div>

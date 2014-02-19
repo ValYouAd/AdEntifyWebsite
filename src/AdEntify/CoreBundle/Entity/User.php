@@ -351,6 +351,14 @@ class User extends BaseUser
      */
     protected $partnersNewsletters = false;
 
+    /**
+     * @Serializer\Groups({"details", "list"})
+     * @ORM\Column(name="intro_played", type="boolean")
+     *
+     * @var bool
+     */
+    protected $introPlayed = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -1190,5 +1198,22 @@ class User extends BaseUser
     public function getShareDataWithAdvertisers()
     {
         return $this->shareDataWithAdvertisers;
+    }
+
+    /**
+     * @param boolean $introPlayed
+     */
+    public function setIntroPlayed($introPlayed)
+    {
+        $this->introPlayed = $introPlayed;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIntroPlayed()
+    {
+        return $this->introPlayed;
     }
 }
