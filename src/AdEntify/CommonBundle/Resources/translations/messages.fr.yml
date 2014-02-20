@@ -151,12 +151,13 @@ Legal notices: Mentions légales
 
 didacticiel:
     search: 'Recherchez des photos, utilisateurs, marques, tags, hashtags...'
-    dropdown: 'Triez les photos par catégories ou parcourez nos marques'
-    tag: 'Tagguez ou ajoutez de nouvelles photos sur AdEntify'
-    notifications: 'Cliquez sur votre photo pour voir vos dernières notifications'
+    dropdown: 'Découvrez des photos par marques ou par catégories'
+    upload : 'Ajoutez des nouvelles photos à partir de vos réseaux sociaux ou de votre appareil'
+    tag: 'Tagguez vos photos aussi bien que celles des autres afin de gagner des récompenses'
+    notifications: 'Cliquez sur votre photo de profil pour voir vos dernières notifications'
     userInfos: 'Un simple clic pour accéder à tout votre contenu'
-    photos: 'Ce flux de photos regroupe les photos tagguées de tous les utilisateurs'
-    ticker: 'Et ici, les dernières activités des personnes que vous suivez'
+    photos: 'Découvrez les dernières photos tagguées par les utilisateurs AdEntify'
+    ticker: 'Reste informé des dernières activités des personnes que tu suis'
     show: Voir le didacticiel
 
 #Routing

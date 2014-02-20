@@ -69,7 +69,7 @@ How it works?: How it works?
 HowItWorksStep1: <strong>Add</strong> your photos via Facebook, Instagram, Flickr, etc
 HowItWorksStep2: <strong>Enrich</strong> your photos with tags and share them
 HowItWorksStep3: <strong>Discover</strong> photos with your favorite brands
-Win points: Win points
+Win points: Ean points
 Win cash: Earn cash
 RewardsEarningsText: Tag your favorite brands ...
 Ready? Go!: Ready? Go!
@@ -140,12 +140,13 @@ legal:
 
 didacticiel:
     search: 'Search photos, users, brands, tags, hashtags...'
-    dropdown: 'Discover photos by categories or browse brands'
-    tag: 'Tag or upload new photos to AdEntify'
-    notifications: 'Click on your profile picture to view your last notifications '
-    userInfos: 'Click on your name or your points to display the drop-down menu with to access your content'
-    photos: 'View last tagged photos from all users'
-    ticker: 'And here, last activities from your followings'
+    dropdown: 'Discover photos by brands or by categories'
+    upload : 'Upload new photos from your social networks or your computer'
+    tag: 'Tag your photos as well as other users to earn rewards'
+    notifications: 'Click on your profile picture to view your latest notifications'
+    userInfos: 'Click here to access all your information'
+    photos: 'View the latest tagged photos from AdEntify users'
+    ticker: ' Check out what’s going on with the people you follow'
     show: Show step-by-step introduction
 
 #Routing

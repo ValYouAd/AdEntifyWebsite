@@ -1213,8 +1213,8 @@ html,body,.body-grey-background {
     padding: 30px 15px 15px 15px;
 }
 .no-action-container .text {
-    font-family: 'pacificoregular', Helvetica Neue, Helvetica, Arial;
-    font-size: 22px;
+    font-family: 'asapregular', Helvetica Neue, Helvetica, Arial;
+    font-size: 16px;
     text-align: center;
     color: white;
 }
@@ -1795,6 +1795,7 @@ html,body,.body-grey-background {
     -webkit-border-radius: 0px!important;
     -moz-border-radius: 0px!important;
     border-radius: 0px!important;
+    margin-top: 20px;
 }
 .brand-heading h1 {
     font-family: 'pacificoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
