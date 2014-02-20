@@ -9,10 +9,11 @@ require([
 
    // App State
    "modules/appState",
-   "modules/tagStats"
+   "modules/tagStats",
+   'modules/common'
 ],
 
-function(app, Router, i18n, AppState, TagStats) {
+function(app, Router, i18n, AppState, TagStats, Common) {
 
    // Extend App
    _.extend(app, {
@@ -194,15 +195,9 @@ function(app, Router, i18n, AppState, TagStats) {
        evt.preventDefault();
 
        // Check if modal opened
-       var modalView = app.useLayout().getView('#modal-container');
-       if (modalView) {
-          app.once('modal:removed', function() {
-             loadPage(href, root);
-          });
-          modalView.close();
-       } else {
+       Common.Tools.hideCurrentModalIfOpened(function() {
           loadPage(href, root);
-       }
+       });
     }
   });
 

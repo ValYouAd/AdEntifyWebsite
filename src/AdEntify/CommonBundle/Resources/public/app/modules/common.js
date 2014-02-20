@@ -178,6 +178,11 @@ define([
       hideCurrentModalIfOpened: function(callback, changeHistoryOnClose) {
          changeHistoryOnClose = typeof changeHistoryOnClose !== 'undefined' ? changeHistoryOnClose : true;
 
+         var currentFrontModal = app.useLayout().getView('#front-modal-container');
+         if (currentFrontModal) {
+            currentFrontModal.close();
+         }
+
          var currentModal = app.useLayout().getView('#modal-container');
          if (currentModal) {
             currentModal.changeHistoryOnClose = changeHistoryOnClose;
