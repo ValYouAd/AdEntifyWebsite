@@ -1,7 +1,8 @@
-<div class="tag <%= model.get("cssClass") %>" style="left: <%= model.get("x_position") * 100 %>%; top: <%= model.get("y_position") * 100 %>%">
+<% if (model) { %>
+<div class="tag product-tag-container <%= model.get("cssClass") %>" style="left: <%= model.get("x_position") * 100 %>%; top: <%= model.get("y_position") * 100 %>%">
     <div class="tag-brand-icon tag-icon"></div>
     <% if (!popoverDesactivated) { %>
-        <div class="popover popover-product">
+        <div class="popover">
             <div class="tag-popover-arrow"></div>
             <div class="tag-top-buttons">
                 <% if (model.isOwner()) { %>
@@ -10,7 +11,7 @@
             </div>
             <div class="popover-inner">
                 <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.has('product') && model.get("product").get("brand")) { %> - <%= model.get("product").get("brand")["name"] %><% } %></a></span>
-                <% if (model.has("product")) { %>
+                <% if (model.has("product") && model.get("product").get("small_url")) { %>
                 <div class="pull-left">
                     <img src="<%= model.get("product").get("small_url") %>" class="product-photo" />
                 </div>
@@ -27,7 +28,9 @@
             <div class="clearfix"></div>
             <% if (model.has("product")) { %>
             <div class="popover-details">
-                <a href="<%= model.get("product").get("purchase_url") %>" class="buy-link"><i class="icon-shopping-cart icon-white"></i> Acheter</a>
+                <% if (model.get('product').get('purchase_url')) { %>
+                <a href="<%= model.get("product").get("purchase_url") %>" class="buy-link"><i class="icon-shopping-cart icon-white"></i> <%= $.t('tag.buy') %></a>
+                <% } %>
                 <% if (model.get('product').get('legal_notice')) { %>
                 <br><small><em><%= $.t('legalNotice.' + model.get('product').get('legal_notice')) %></em></small>
                 <% } %>
@@ -59,3 +62,4 @@
         </div>
     <% } %>
 </div>
+<% } %>

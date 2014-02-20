@@ -100,8 +100,11 @@ class TagsController extends FosRestController
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $tag = $this->getAction($id);
+            if (!$tag)
+                throw new HttpException(404);
+
             $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getId() == $tag->getOwner()->getId()) {
+            if ($user->getId() == $tag->getOwner()->getId() && !$tag->getDeletedAt()) {
                 $em = $this->getDoctrine()->getManager();
 
                 // Remove points
@@ -119,6 +122,8 @@ class TagsController extends FosRestController
 
                 $tag->setDeletedAt(new \DateTime());
                 $em->merge($tag);
+                $tag->getPhoto()->setTagsCount($tag->getPhoto()->getTagsCount() - 1);
+                $em->merge($tag->getPhoto());
                 $em->flush();
             } else {
                 throw new HttpException(403, 'You are not authorized to delete this tag');
@@ -154,6 +159,7 @@ class TagsController extends FosRestController
             if ($form->isValid()) {
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
+                $tag->setOwner($user);
 
                 // Check age
                 $ageObject = null;
@@ -199,8 +205,7 @@ class TagsController extends FosRestController
                             ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                         $em->persist($notification);
 
-                        if ($tag->getBrand())
-                        {
+                        if ($tag->getBrand()) {
                             $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
                                 $user, null, array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                                 $em->getClassMetadata(get_class($photo))->getName(), false, 'brandTagged', null, null, $tag->getBrand());
@@ -214,8 +219,7 @@ class TagsController extends FosRestController
                         throw new HttpException(403, 'You can\t add a tag to this photo');
                     }
                 } else {
-                    if ($tag->getBrand())
-                    {
+                    if ($tag->getBrand()) {
                         $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
                             $user, null, array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                             $em->getClassMetadata(get_class($photo))->getName(), false, 'brandTagged', null, null, $tag->getBrand());
@@ -228,8 +232,6 @@ class TagsController extends FosRestController
 
                     $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
                 }
-
-                $tag->setOwner($user);
 
                 if ($tag->getLink()) {
                     $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($tag->getLink());
@@ -272,14 +274,14 @@ class TagsController extends FosRestController
                 throw new HttpException(403, 'Access forbidden');
             }
 
-            if ($request->request->has('waiting_validation')) {
+            if ($request->request->has('waiting_validation') && $request->request->get('waiting_validation') != Tag::VALIDATION_GRANTED) {
                 $em = $this->getDoctrine()->getManager();
                 $tag->setWaitingValidation(false);
 
                 $status = $request->request->get('waiting_validation');
                 if ($status == Tag::VALIDATION_GRANTED) {
                     $tag->setValidationStatus(Tag::VALIDATION_GRANTED);
-                    $this->get('ad_entify_core.points')->calculateUserPoints($user, $tag);
+                    $this->get('ad_entify_core.points')->calculateUserPoints($tag->getOwner(), $tag);
                     $em->merge($tag);
                     $em->flush();
                 } else if ($status == Tag::VALIDATION_DENIED) {

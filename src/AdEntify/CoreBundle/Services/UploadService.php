@@ -305,7 +305,7 @@ class UploadService
                 // Photo hashtags
                 if (isset($image->hashtags) && is_array($image->hashtags) && count($image->hashtags) > 0) {
                     $hashtagRepository = $this->em->getRepository('AdEntifyCoreBundle:Hashtag');
-                    foreach($image->hashtags as $hashtagName) {
+                    foreach(array_unique($image->hashtags) as $hashtagName) {
                         $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
                         if ($hashtag) {
                             $found = false;
@@ -382,7 +382,7 @@ class UploadService
                 $photo->setLargeHeight($photo->getOriginalHeight());
             }
         } else {
-            // Unable to load image so add we generate it
+            // Original larger, add it to generate the thumb
             $thumb->addThumbSize($photoType);
         }
     }

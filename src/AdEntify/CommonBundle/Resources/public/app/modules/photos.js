@@ -69,7 +69,7 @@ define([
 
       afterRender: function() {
          this.$('.photo-img-medium').load(function() {
-            $(this).animate({'ohoto-acity': '1.0'});
+            $(this).animate({'opacity': '1.0'});
          });
          $(this.el).i18n();
       },
@@ -240,7 +240,10 @@ define([
       newRender: true,
       renderNew: function(photo) {
          view = new Photos.Views.Item({
-            model: photo
+            model: photo,
+            itemClickBehavior: typeof this.options.itemClickBehavior !== 'undefined' ? this.options.itemClickBehavior : Photos.Common.PhotoItemClickBehaviorDetail,
+            addTag: typeof this.options.addTag !== 'undefined' ? this.options.addTag : false,
+            showPhotoInfo: typeof this.options.showPhotoInfo !== 'undefined' ? this.options.showPhotoInfo : this.showPhotoInfo
          });
          if (this.newRender) {
             this.newRender = false;
@@ -379,10 +382,11 @@ define([
          evt.preventDefault();
          if (!photo || reload) {
             var that = this;
-            photo = new Photo.Model({ 'id': photoId });
-            photo.fetch({
+            var model = new Photo.Model({ id: photo ? photo.get('id') : photoId });
+            model.fetch({
+               url: Routing.generate('api_v1_get_photo', { id: model.get('id')}),
                complete: function() {
-                  that.displayPhoto(evt, photo);
+                  that.displayPhoto(evt, model);
                }
             });
          } else {

@@ -5,12 +5,12 @@
 <% } %>
 <% if (model.has('brandModel')) { %>
 <div class="notification-photos pull-right">
-    <a href="<%= model.get('brandModel').get('link') %>"><div style="background-image: url('<%= model.get('brandModel').get('medium_logo_url') %>');" class="notification-photo"></div></a>
+    <a href="<%= model.get('brandModel').get('link') %>" data-photo-link="" data-bypass=""><div style="background-image: url('<%= model.get('brandModel').get('medium_logo_url') %>');" class="notification-photo"></div></a>
 </div>
 <% } else if (model.has('photosCollection') && model.get('photosCollection').length > 0) { %>
 <div class="notification-photos pull-right">
     <% model.get('photosCollection').each(function(photo) { %>
-    <a href="<%= photo.get('link') %>"><div style="background-image: url('<%= photo.get('small_url') %>');" class="notification-photo"></div></a>
+    <a href="<%= photo.get('link') %>" data-photo-link="" data-bypass=""><div style="background-image: url('<%= photo.get('small_url') %>');" class="notification-photo"></div></a>
     <% }); %>
 </div>
 <% } %>

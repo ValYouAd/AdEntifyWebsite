@@ -134,9 +134,14 @@ define([
 
       },
 
+      showPhoto: function(evt) {
+         Photos.Common.showPhoto(evt, null, this.model.has('photosCollection') ? this.model.get('photosCollection').first().get('id') : 0, true);
+      },
+
       events: {
          "click .button-read": "notificationRead",
-         "click a[href]": "notificationRead"
+         "click a[href]": "notificationRead",
+         'click a[data-photo-link]': 'showPhoto'
       }
    });
 

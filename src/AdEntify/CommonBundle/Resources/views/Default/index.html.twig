@@ -261,7 +261,9 @@
         </div>
         <div class="carousel"></div>
 
-        <h1 class="pastille-adentify">AdEntify</h1>
+        <a href="{{ path('about') }}">
+            <h1 class="pastille-adentify">AdEntify</h1>
+        </a>
 
         <div class="account-buttons">
             <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
@@ -386,7 +388,7 @@
 
                 <div class="row photos">
                     {% for photo in photos %}
-                        <div class="col-xs-6 col-sm-4 col-md-4 photo-wrapper">
+                        <div class="col-sm-4 col-md-4 photo-wrapper">
                             <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="photo" style="background-image: url({{ photo.mediumUrl }})">
                                 <div class="adentify-pastille-wrapper">
                                     <div class="adentify-pastille-small"></div>

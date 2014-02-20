@@ -630,6 +630,14 @@ class Photo
     }
 
     /**
+     * @param int $commentsCount
+     */
+    public function setCommentsCount($commentsCount)
+    {
+        $this->commentsCount = $commentsCount;
+    }
+
+    /**
      * @return int
      */
     public function getCommentsCount()
@@ -661,6 +669,15 @@ class Photo
     }
 
     /**
+     * @param int $tagsCount
+     */
+    public function setTagsCount($tagsCount)
+    {
+        $this->tagsCount = $tagsCount;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getTagsCount()
@@ -684,6 +701,15 @@ class Photo
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+        return $this;
     }
 
     /**

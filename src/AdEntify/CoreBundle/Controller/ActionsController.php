@@ -59,6 +59,8 @@ class ActionsController extends FosRestController
         // Get friends list (id) array
         $facebookFriendsIds = array(0);
         $followings = array(0);
+        $followedBrands = array(0);
+
         if ($user) {
             $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
             if (!$facebookFriendsIds) {
@@ -68,20 +70,28 @@ class ActionsController extends FosRestController
 
             // Get followings ids
             $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
-            if (!$followings) {
-                $followings = $user->getFollowingsIds();
+                if (!$followings) {
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 1);
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
             }
         }
 
         $query = $em->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
-            LEFT JOIN action.target target LEFT JOIN action.author author
-            WHERE action.visibility = :publicVisibility OR (author.id IN (:facebookFriendsIds) OR author.id IN (:followings))
+            LEFT JOIN action.target target LEFT JOIN action.author author LEFT JOIN action.brand brand
+            WHERE author.id != :userId AND (author.id IN (:facebookFriendsIds) OR author.id IN (:followings) OR brand.id IN (:followedBrands))
             ORDER BY action.createdAt DESC')
             ->setParameters(array(
-                'publicVisibility' => Action::VISIBILITY_PUBLIC,
+                'userId' => $user ? $user->getId() : 0,
                 'facebookFriendsIds' => $facebookFriendsIds,
-                'followings' => $followings
+                'followings' => $followings,
+                'followedBrands' => $followedBrands
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
@@ -101,5 +111,5 @@ class ActionsController extends FosRestController
         }
 
         return PaginationTools::getPaginationArray($actions, $pagination);
-}
+    }
 } 

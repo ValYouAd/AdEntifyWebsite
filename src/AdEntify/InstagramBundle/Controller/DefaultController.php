@@ -66,7 +66,10 @@ class DefaultController extends Controller
             }
             $em->flush();
 
-            return $this->redirect($this->generateUrl('instagram_photos', array('_locale' => $this->getRequest()->getLocale())));
+            return $this->redirect($this->generateUrl('instagram_photos', array(
+                '_locale' => $loggedInUser->getLocale() ? $loggedInUser->getLocale() : 'en'
+                )
+            ));
         }
         else {
             throw new AuthenticationException('Can\'t get Instagram feed');

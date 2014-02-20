@@ -49,6 +49,8 @@ Lastname: Nom
 All brands: Toutes les marques
 Add a brand: Ajouter une marque
 My brands: Mes marques
+Everything: Toutes
+Legal: Légal
 
 #Login
 modal:
@@ -98,7 +100,7 @@ jobs:
 
 #Press
 press:
-    pageTitle: Presse - AdEntify.com
+    pageTitle: Qui sommes-nous ? - AdEntify.com
     pageDescription: Histoire, équipe, logos et communiqué de presse d'AdEntify
     quote: « L’économie collaborative, ce n’est pas toi qui gagne moins, c’est nous qui partageons plus »
 Contact us!: Contactez-nous !
@@ -108,7 +110,7 @@ Logos HD: Logos HD
 Screenshots: Screenshots
 Communiqué de presse: Communiqué de presse
 Story: Histoire
-Team: Equipe
+Team: Qui sommes-nous ?
 Photos & videos: Photos & vidéos
 
 # HP offline
@@ -137,6 +139,26 @@ Congrats, brand was successfully added !: Félicitations, la marque a été ajou
 addBrand:
     pageTitle: Ajouter une marque - AdEntify.com
     pageDescription: Ajouter votre marque ou une marque encore non présente sur AdEntify avec ce formulaire.
+
+
+#Legal
+legal:
+    pageTitle: Légal - AdEntify.com
+    pageDescription: CGU, politique de confidentialité et mentions légales du site www.adentify.com
+Terms of Use: Conditions Générales d'utilisation
+Privacy: Politique de Confidentialité
+Legal notices: Mentions légales
+
+didacticiel:
+    search: 'Recherchez des photos, utilisateurs, marques, tags, hashtags...'
+    dropdown: 'Découvrez des photos par marques ou par catégories'
+    upload : 'Ajoutez des nouvelles photos à partir de vos réseaux sociaux ou de votre appareil'
+    tag: 'Tagguez vos photos aussi bien que celles des autres afin de gagner des récompenses'
+    notifications: 'Cliquez sur votre photo de profil pour voir vos dernières notifications'
+    userInfos: 'Un simple clic pour accéder à tout votre contenu'
+    photos: 'Découvrez les dernières photos tagguées par les utilisateurs AdEntify'
+    ticker: 'Reste informé des dernières activités des personnes que tu suis'
+    show: Voir le didacticiel
 
 #Routing
 photos/untagged/: photos/non-taguees/

@@ -64,23 +64,24 @@ class DefaultController extends Controller
                         $token = new UsernamePasswordToken($user, $user->getPassword(), 'secured_area', $user->getRoles());
                         $this->container->get('security.context')->setToken($token);
                     }
-                } catch(\FacebookApiExceptionion $e) {
+                } catch(\FacebookApiException $e) {
                     return $this->redirect($this->generateUrl("root_url"));
                 }
 
-            }
-
-            if ($user->isEnabled()) {
-                if ($request->getSession()->has('_security.main.target_path')) {
-                    return $this->redirect($request->getSession()->get('_security.main.target_path'));
+                if ($user->isEnabled()) {
+                    if ($request->getSession()->has('_security.main.target_path')) {
+                        return $this->redirect($request->getSession()->get('_security.main.target_path'));
+                    } else {
+                        return $this->redirect($this->generateUrl("root_url"));
+                    }
                 } else {
-                    return $this->redirect($this->generateUrl("root_url"));
+                    return $this->redirect($this->generateUrl('loggedInHome', array(
+                        'accountDisabled' => true
+                    )));
                 }
-            } else {
-                return $this->redirect($this->generateUrl('loggedInHome', array(
-                    'accountDisabled' => true
-                )));
             }
+
+            return $this->redirect($this->generateUrl("root_url"));
         }
     }
 

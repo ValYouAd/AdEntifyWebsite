@@ -4,6 +4,11 @@
 </a>
 <% } %>
 <div class="media-body">
+    <% if (model.isAuthor()) { %>
+    <div class="pull-right">
+        <button type="button" class="close" aria-hidden="true">&times;</button>
+    </div>
+    <% } %>
     <h4 class="media-heading"><span class="fullname"><%= model.get('authorModel').get('fullname') %></span> <span class="date"><%= model.get("date") %></span></h4>
     <p><%= model.get("body") %></p>
 </div>

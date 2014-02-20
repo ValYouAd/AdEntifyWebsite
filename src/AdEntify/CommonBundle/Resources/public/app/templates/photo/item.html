@@ -1,6 +1,6 @@
 <div class="top-photo-buttons pull-right">
     <div class="like-button pull-right"></div>
-    <div class="pull-right photo-counters"><i class="icon red-heart-icon"></i> <span id="like-count" class="red-count"><%= model.get("likes_count") %></span></div>
+    <div class="pull-right photo-counters"><span class="likes-count"><i class="icon red-heart-icon"></i> <span class="red-count"><%= model.get("likes_count") %></span></span></div>
     <div class="pull-right mr2">
         <button class="btn-around-corner btn-red-grey-border add-new-tag"><%= $.t('tag.addNewTag') %></button>
     </div>
@@ -9,7 +9,7 @@
 <div class="loading-gif-container">
     <div class="loader rotate"></div>
 </div>
-<div class="full-photo text-center fadeOut">
+<div class="full-photo text-center fade-out">
     <div class="photo-container">
         <div class="adentify-pastille-wrapper">
             <% if (model.get("tags_count") > 0) { %>
@@ -22,7 +22,7 @@
         <div class="photo-overlay">
             <div class="tags-container"></div>
         </div>
-        <div class="share-overlay fadeOut"></div>
+        <div class="share-overlay fade-out"></div>
         <img src="<%= model.get("large_url") %>" alt="<%= model.get("caption") %>" class="photo-full" />
     </div>
 </div>

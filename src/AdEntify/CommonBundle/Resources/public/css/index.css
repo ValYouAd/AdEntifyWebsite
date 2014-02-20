@@ -16,9 +16,9 @@ header {
         z-index: 10;
     }
     .start-button {
-        background: url('../images/start_button.png') no-repeat top center;
-        width: 111px;
-        height: 65px;
+        background: url('../images/start-button.png') no-repeat top center;
+        width: 135px;
+        height: 77px;
         display: block;
         margin: -10px auto 0 auto;
         position: relative;
@@ -27,8 +27,9 @@ header {
         padding-top: 8px;
         color: #FFFFFF;
         text-transform: uppercase;
-        font-size: 14px;
-        font-family: 'asapbold', sans-serif;
+        font-size: 16px;
+        letter-spacing: 1px;
+        font-family: 'asapbold', Helvetica Neue, Helvetica, Arial;
     }
     .start-button:hover {
         color: #FFFFFF;
@@ -37,7 +38,7 @@ header {
     .carousel {
         width: 100%;
         height: 638px;
-        margin-top: -55px;
+        margin-top: -25px;
         position: relative;
         z-index: 0;
         background: url('../images/carousel.jpg') no-repeat top center fixed;

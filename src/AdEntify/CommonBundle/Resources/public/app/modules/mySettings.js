@@ -76,16 +76,14 @@ define([
          });
       },
 
-      connectInstagram: function() {
-         window.location.href = Upload.Common.getInstagramUrl();
+      connectService: function() {
+         require('modules/upload').Common.goToServiceUploadPage(this.model);
       },
 
       events: {
          "click .deletelink": "deleteLink",
-         'click .connect-instagram': 'connectInstagram',
-         'click .service-icon': function() {
-            require('modules/upload').Common.goToServiceUploadPage(this.model.get('service_name'), this.model.get('linked'));
-         }
+         'click .connect-button': 'connectService',
+         'click .service-icon': 'connectService'
       }
    });
 
@@ -169,6 +167,7 @@ define([
       },
 
       initialize: function() {
+         var that = this;
          // Get current user
          app.oauth.loadAccessToken({
             success: function() {
@@ -178,9 +177,15 @@ define([
                      "Authorization": app.oauth.getAuthorizationHeader()
                   },
                   success: function(user) {
-                       if (user && typeof user.facebook_id === 'undefined' && typeof user.twitter_id === 'undefined') {
-                          $('.changePasswordForm').fadeIn('fast');
-                       }
+                     if (user && typeof user.facebook_id === 'undefined' && typeof user.twitter_id === 'undefined') {
+                       $('.changePasswordForm').fadeIn('fast');
+                     }
+                     if (user) {
+                        if (!user.share_data_with_advertisers) {
+                           that.$('#shareDataAdvertisers').attr('checked', false);
+                        }
+                        that.$('#partnersNewsletters').attr('checked', user.partners_newsletters);
+                     }
                   }
                });
             }
@@ -192,12 +197,14 @@ define([
          var redirect = function() {
             window.location.href = Routing.generate('change_lang', { 'locale' : $('#lang').val() });
          };
-         var that = this;
 
          e.preventDefault();
-         if (this.$('#birthdate').val()) {
-            app.oauth.loadAccessToken({
-               success: function() {
+         var deferreds = [];
+         var that = this;
+         app.oauth.loadAccessToken({
+            success: function() {
+               if (that.$('#birthdate').val()) {
+                  deferreds.push(new $.Deferred());
                   $.ajax({
                      url: Routing.generate('api_v1_post_user_birthday'),
                      type: 'POST',
@@ -206,14 +213,30 @@ define([
                         'birthday': that.$('#birthdate').val()
                      },
                      complete: function() {
-                        redirect();
+                        var deferred = deferreds.pop();
+                        if (deferred)
+                           deferred.resolve();
                      }
                   });
                }
-            });
-         } else {
+               deferreds.push(new $.Deferred());
+               $.ajax({
+                  url: Routing.generate('api_v1_post_settings'),
+                  type: 'POST',
+                  headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
+                  data: that.$('.settingsForm').serialize(),
+                  complete: function() {
+                     var deferred = deferreds.pop();
+                     if (deferred)
+                        deferred.resolve();
+                  }
+               });
+            }
+         });
+
+         $.when.apply(null, deferreds).done(function() {
             redirect();
-         }
+         });
       },
 
       submitChangePassword: function(e) {

@@ -6,6 +6,8 @@
     '../app/Resources/public/css/select2.css'
     '../app/Resources/public/css/jquery.fileupload-ui.css'
     '../app/Resources/public/css/animate.min.css'
+    '../app/Resources/public/css/introjs.min.css'
+    '../app/Resources/public/css/introjs.adentify.css'
     '../app/Resources/public/css/daterangepicker-bs3.css'
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
@@ -39,21 +41,23 @@
                     <div class="row">
                         <div class="col-sm-8 col-md-9">
                             <a href="{{ full_root_url }}" class="logo-nav pull-left"></a>
-                            <div class="pull-right" id="search-bar"></div>
-                            <div class="pull-right">
-                                <button type="button" class="navbar-toggle navbar-toggle-header-menu" data-toggle="collapse" data-target=".dropdown-header-menu">
-                                    <span class="sr-only">Toggle header menu</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
+                            <div class="text-center">
+                                 <div id="dropdown-header-menu">
+                                    <button type="button" class="navbar-toggle navbar-toggle-header-menu" data-toggle="collapse" data-target=".dropdown-header-menu" data-intro="{{ 'didacticiel.dropdown'|trans }}" data-position="left">
+                                        <span class="sr-only">Toggle header menu</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                                <div id="search-bar" data-intro="{{ 'didacticiel.search'|trans }}" data-position="right"></div>
                             </div>
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="pull-left user-bar">
                                 <div class="user-information" class="pull-right">
                                     {% if app.user %}
-                                        <div class="profile-picture-wrapper pull-left">
+                                        <div class="profile-picture-wrapper pull-left" data-intro="{{ 'didacticiel.notifications'|trans }}" data-position="left">
                                             <div id="notifications" class="pull-right"></div>
                                             {% if app.user.profilePicture %}
                                                 <img class="profile-picture" src="{{ app.user.profilePicture }}" />
@@ -67,7 +71,7 @@
                                             <div class="dropdown-menu">
                                                 <div class="white-arrow-top"></div>
                                                 <ul class="list-unstyled">
-                                                    <li><a href="{{ full_root_url }}{{ 'profile/%id%/'|trans({ '%id%': app.user.id }) }}"><i class="icon dashboard-icon"></i> {{ 'My profile'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'profile/%id%/'|trans({ '%id%': app.user.id }) }}"><i class="icon people-icon"></i> {{ 'My profile'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'My photos'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/dashboard/'|trans }}"><i class="icon dashboard-icon"></i> {{ 'My dashboard'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"><i class="icon favorites-icon"></i> {{ 'My favorites'|trans }}</a></li>
@@ -78,7 +82,7 @@
                                                     <li class="grey-background-item"><a href="{{ url('fos_user_security_logout') }}"><i class="icon cross-icon"></i> {{ 'Log out'|trans }}</a></li>
                                                 </ul>
                                             </div>
-                                            <div class="user-infos-wrapper">
+                                            <div class="user-infos-wrapper" data-intro="{{ 'didacticiel.userInfos'|trans }}" data-position="left">
                                                 <div class="user-names">
                                                     {% if app.user.firstname or app.user.lastname %}
                                                         {% if app.user.firstname %}{{ app.user.firstname }}{% endif %}
@@ -93,12 +97,12 @@
                                     {% else %}
                                         <div class="account-buttons pull-left">
                                             <button data-toggle="modal" data-target="#signinModal" type="button" class="btn btn-sm signin"><i class="glyphicon glyphicon-user"></i> {{ 'Login'|trans }}</button>
-                                            <button data-toggle="modal" data-target="#signupModal" type="button" class="btn btn-sm signup"><i class="glyphicon glyphicon-pencil"></i> {{ 'Sign Up'|trans }}</button>
+                                            <button data-toggle="modal" data-target="#loginModal" type="button" class="btn btn-sm signup"><i class="glyphicon glyphicon-pencil"></i> {{ 'Sign Up'|trans }}</button>
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="sprites tag-button pull-right">
+                            <div class="sprites tag-button pull-right" data-intro="{{ 'didacticiel.tag'|trans }}" data-position="left">
                                 <div class="dropdown-menu">
                                     <div class="white-arrow-top"></div>
                                     <ul class="list-unstyled">
@@ -118,6 +122,7 @@
                                 <div class="col-sm-12"><a data-bypass="" class="add-brand-link">{{ 'Add a brand'|trans }}</a></div>
                             </div>
                             <div class="col-sm-9">
+                                <div class="col-sm-4 text-red"><a href="{{ full_root_url }}">{{ 'Everything'|trans }}</a></div>
                                 {% for category in categories %}
                                     <div class="col-sm-4"><a href="{{ full_root_url }}{{ 'category/'|trans }}{{ category.slug }}/">{{ category.name }}</a></div>
                                 {% endfor %}
@@ -126,11 +131,17 @@
                         <footer>
                             <div class="pull-left">
                                 <div class="circle-social-icons">
-                                    <a href="https://www.facebook.com/pages/AdEntify/167935029970678?fref=ts"><i class="small-facebook-grey-circle-icon icon"></i></a> <a href="https://twitter.com/adentify"><i class="small-twitter-grey-circle-icon icon"></i></a> <a href="https://plus.google.com/u/0/b/115776105780658726605/+Adentify/posts"><i class="small-google-grey-circle-icon icon"></i></a> <a href="http://instagram.com/adentify"><i class="small-pinterest-grey-circle-icon icon"></i></a>
+                                    <a target="_blank" href="https://www.facebook.com/pages/AdEntify/167935029970678?fref=ts"><i class="small-facebook-grey-circle-icon icon"></i></a>
+                                    <a target="_blank" href="https://twitter.com/adentify"><i class="small-twitter-grey-circle-icon icon"></i></a>
+                                    <a target="_blank" href="https://plus.google.com/u/0/b/115776105780658726605/+Adentify/posts"><i class="small-google-grey-circle-icon icon"></i></a>
+                                    <a target="_blank" href="http://pinterest.com/adentify"><i class="small-pinterest-grey-circle-icon icon"></i></a>
+                                    <a target="_blank" href="http://instagram.com/adentify"><i class="small-instagram-grey-circle-icon icon"></i></a>
+                                    <a target="_blank" href="http://adentify.tumblr.com"><i class="small-tumblr-grey-circle-icon icon"></i></a>
                                 </div>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ path('about') }}">{{ 'About'|trans }}</a> • <a href="">{{ 'FAQ'|trans }}</a> • <a href="{{ path('press') }}">{{ 'Press'|trans }}</a> • <a href="{{ path('contact') }}">Contact</a> • <a href="">{{ 'Credits'|trans }}</a>
+                                <i class="pull-left glyphicon glyphicon-question-sign showDidacticiel" data-toggle="tooltip" title="{{ 'didacticiel.show'|trans }}"></i>
+                                <a href="{{ path('contact') }}">{{ 'Advertisers'|trans }}</a> • <a href="{{ path('about') }}">{{ 'How it works'|trans }}</a> • <a href="{{ path('press') }}">{{ 'Who we are'|trans }}</a> • <a href="{{ path('jobs') }}">{{ 'Jobs'|trans }}</a> • <a href="{{ path('contact') }}">Contact</a> • <a href="{{ path('legal') }}">{{ 'Legal notice'|trans }}</a>
                                 <span class="copyright"> © {{ date|date('Y') }} AdEntify</span>
                             </div>
                             <div class="clearfix"></div>
@@ -149,7 +160,7 @@
 
                 <section id="left-pane" class="col-sm-3 col-md-3 hide"></section>
 
-                <section id="center-pane" class="col-sm-12 col-md-9">
+                <section id="center-pane" class="col-sm-12 col-md-9" data-intro="{{ 'didacticiel.photos'|trans }}" data-position="right">
                     <section id="center-pane-content">
                         <div class="loading-gif-container">
                             <div class="loader rotate"></div>
@@ -159,7 +170,7 @@
                 </section>
 
                 <section id="right-pane" class="hidden-xs hidden-sm col-md-3">
-                    <section id="right-pane-content"></section>
+                    <section id="right-pane-content" data-intro="{{ 'didacticiel.ticker'|trans }}" data-position="left"></section>
                     <div class="push"></div>
                 </section>
             </div>
@@ -211,6 +222,27 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
+            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+                <div class="modal-dialog login-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="loginModalLabel"><div class="signup_badge pull-left modal-badge"></div> {{ 'modal.signup'|trans }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="headline">{{ 'modal.fbOrTwitterConnect'|trans }}</p>
+                            <div class="text-center mt3 mb2">
+                                <a class="btn btn-facebook-large" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> {{ 'modal.facebookConnect'|trans }}</a>
+                            </div>
+                            <div class="text-center mb3">
+                                <a class="btn btn-twitter-large" href="../login/twitter"><i class="twitter-icon icon"></i> {{ 'modal.twitterConnect'|trans }}</a>
+                            </div>
+                            <p><button type="button" class="btn btn-link no-account-button">{{ 'modal.noAccount'|trans }}</button></p>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
             <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
                 <div class="modal-dialog account-dialog">
                     <div class="modal-content">
@@ -240,7 +272,7 @@
         var facebookPermissions = '{{ facebook_permissions }}';
         var currentLocale = '{{ app.request.locale }}';
         var currentUserId = {{ app.user ? app.user.id : 0 }};
-        var currentUserBirthday = '{{ app.user.birthday ? app.user.birthday|date('m/d/Y') : '' }}';
+        var currentUserBirthday = '{{ app.user and app.user.birthday ? app.user.birthday|date('m/d/Y') : '' }}';
         var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&v=3&sensor=false"></script>

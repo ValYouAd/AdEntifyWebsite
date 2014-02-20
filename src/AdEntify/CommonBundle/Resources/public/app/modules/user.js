@@ -184,6 +184,15 @@ define([
                });
             }
          });
+      },
+
+      events: {
+         'click .followings-link': function() {
+            User.Common.showModalFollowings(this.options.user);
+         },
+         'click .followers-link': function() {
+            User.Common.showModalFollowers(this.options.user);
+         }
       }
    });
 
@@ -326,7 +335,8 @@ define([
          if (!this.getView('.my-history-content')) {
             var Action = require('modules/action');
             this.setView('.my-history-content', new Action.Views.List({
-               actions: this.options.actions
+               actions: this.options.actions,
+               routeName: 'api_v1_get_user_actions'
             }));
          }
          if (!this.getView('.user-credits-table')) {
@@ -629,6 +639,64 @@ define([
       }
    };
 
+   User.Views.ModalList = Backbone.View.extend({
+      template: 'user/modalList'
+   });
+
+   User.Common = {
+      showModalFollowings: function(user) {
+         var users = new User.Collection();
+         users.url = Routing.generate('api_v1_get_user_followings', { id: user.get('id') })
+         this.showModal(users, 'user.modalFollowingsTitle', 'profile.noFollowings');
+      },
+
+      showModalFollowers: function(user) {
+         var users = new User.Collection();
+         users.url = Routing.generate('api_v1_get_user_followers', { id: user.get('id') });
+         this.showModal(users, 'user.modalFollowersTitle', 'profile.noFollowers');
+      },
+
+      showModalTopFollowers: function() {
+         var users = new User.Collection();
+         users.url = Routing.generate('api_v1_get_user_top_followers');
+         this.showModal(users, 'user.modalTopFollowersTitle', 'profile.noFollowers', false, true);
+      },
+
+      showModal: function(users, title, noUsersMessage, stack, forceRender) {
+         stack = stack || false;
+         forceRender = forceRender || false;
+         var userListView = new User.Views.List({
+            users: users,
+            noUsersMessage: noUsersMessage
+         });
+         users.fetch({
+            success: function() {
+               if (forceRender)
+                  userListView.render();
+            }
+         });
+         var modal = new Common.Views.Modal({
+            view: userListView,
+            showFooter: false,
+            showHeader: true,
+            title: title,
+            modalDialogClasses: 'small-modal-dialog'
+         });
+         if (stack) {
+            modal.on('hide', function() {
+               app.useLayout().getView('#modal-container').$('.modal-dialog').removeClass('slideOutLeft').addClass('animated slideInLeft');
+            });
+            app.useLayout().getView('#modal-container').$('.modal-dialog').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+               app.useLayout().setView('#front-modal-container', modal).render();
+            }).addClass('animated slideOutLeft');
+         } else {
+            Common.Tools.hideCurrentModalIfOpened(function() {
+               app.useLayout().setView('#modal-container', modal).render();
+            });
+         }
+      }
+   };
+
    User.Tools = {
       getAnalytics: function(options) {
          app.oauth.loadAccessToken({
@@ -646,7 +714,7 @@ define([
             }
          });
       }
-   }
+   };
 
    return User;
 });

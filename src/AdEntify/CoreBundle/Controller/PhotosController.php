@@ -17,6 +17,7 @@ use AdEntify\CoreBundle\Form\PhotoType;
 use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -72,6 +73,7 @@ class PhotosController extends FosRestController
         // If no user connected, 0 is default
         $facebookFriendsIds = array(0);
         $followings = array(0);
+        $followedBrands = array(0);
 
         if ($user) {
             // Get friends list (id) array
@@ -87,6 +89,13 @@ class PhotosController extends FosRestController
                 $followings = $user->getFollowingsIds();
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
+            }
         }
 
         $parameters = null;
@@ -100,6 +109,7 @@ class PhotosController extends FosRestController
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
+                ':followedBrands' => $followedBrands,
                 ':none' => Tag::VALIDATION_NONE,
                 ':granted' => Tag::VALIDATION_GRANTED
             );
@@ -119,27 +129,28 @@ class PhotosController extends FosRestController
                 INNER JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
                   AND tag.censored = false AND tag.waitingValidation = false
                   AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
-                INNER JOIN photo.owner owner %s
+                INNER JOIN photo.owner owner LEFT JOIN tag.brand brand %s
                 WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
-                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
                 AND photo.tagsCount > 0', $tagClause, $joinClause);
         } else {
             $parameters = array(
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
-                ':followings' => $followings
+                ':followings' => $followings,
+                ':followedBrands' => $followedBrands
             );
             $sql = sprintf('SELECT DISTINCT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner %s
+                LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag LEFT JOIN tag.brand brand %s
                 WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
-                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
                 AND photo.tagsCount = 0 ', $joinClause);
         }
 
         if ($orderBy) {
             switch ($orderBy) {
-                case 'like':
+                case 'likes':
                     $sql .= sprintf(' ORDER BY photo.likesCount %s', $way);
                     break;
                 case 'points':
@@ -221,11 +232,9 @@ class PhotosController extends FosRestController
             }
         }
 
-        $photo = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag
-                WHERE photo.id = :id AND photo.deletedAt IS NULL AND photo.status = :status AND (tag IS NULL OR tag.visible = true
-                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
-                AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
+        $photo = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.owner owner
+                WHERE photo.id = :id AND photo.deletedAt IS NULL AND photo.status = :status
                 AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
                 ORDER BY photo.createdAt DESC')
@@ -236,10 +245,21 @@ class PhotosController extends FosRestController
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
                 ':currentUserId' => $user ? $user->getId() : 0,
-                ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED
             ))
             ->getOneOrNullResult();
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->isNull('deletedAt'))
+            ->andWhere(Criteria::expr()->eq('censored', false))
+            ->andWhere(Criteria::expr()->eq('waitingValidation', false))
+            ->andWhere(Criteria::expr()->eq('censored', false))
+            ->andWhere(Criteria::expr()->eq('visible', true))
+            ->andWhere(Criteria::expr()->orX(
+                Criteria::expr()->eq('validationStatus', Tag::VALIDATION_NONE),
+                Criteria::expr()->eq('validationStatus', Tag::VALIDATION_GRANTED)
+            ));
+
+        $photo->setTags($photo->getTags()->matching($criteria));
 
         if ($photo)
             return $photo;
@@ -293,6 +313,7 @@ class PhotosController extends FosRestController
         // If no user connected, 0 is default
         $facebookFriendsIds = array(0);
         $followings = array(0);
+        $followedBrands = array(0);
 
         if ($user) {
             // Get friends list (id) array
@@ -308,12 +329,19 @@ class PhotosController extends FosRestController
                 $followings = $user->getFollowingsIds();
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
+            }
         }
 
         // Order by
         if ($orderBy) {
             switch ($orderBy) {
-                case 'like':
+                case 'likes':
                     $orderByQuery = sprintf(' ORDER BY photo.likesCount %s', $way);
                     break;
                 case 'date':
@@ -335,15 +363,16 @@ class PhotosController extends FosRestController
         // If hashtags found, search photo with this hashtag(s)
         if (count($hashtags) > 0) {
             $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-            INNER JOIN photo.owner owner LEFT JOIN photo.hashtags hashtag
+            INNER JOIN photo.owner owner LEFT JOIN photo.hashtags hashtag LEFT JOIN photo.tags tag LEFT JOIN tag.brand brand
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
-                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) or brand.id IN (:followedBrands))
             AND hashtag.name IN (:hashtags)' . implode('', $whereClauses) . $orderByQuery)
                 ->setParameters(array_merge(array(
                     ':status' => Photo::STATUS_READY,
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
                     ':facebookFriendsIds' => $facebookFriendsIds,
                     ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
                     ':hashtags' => $hashtags
                 ), $parameters))
                 ->setFirstResult(($page - 1) * $limit)
@@ -351,9 +380,9 @@ class PhotosController extends FosRestController
         } else {
             $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
             LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.venue venue LEFT JOIN tag.person person
-            LEFT JOIN tag.product product LEFT JOIN product.brand brand LEFT JOIN photo.hashtags hashtag
+            LEFT JOIN tag.product product LEFT JOIN photo.hashtags hashtag LEFT JOIN tag.brand brand
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
-                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
             AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
             (LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
@@ -365,7 +394,8 @@ class PhotosController extends FosRestController
                     ':status' => Photo::STATUS_READY,
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
                     ':facebookFriendsIds' => $facebookFriendsIds,
-                    ':followings' => $followings
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands
                 ), $parameters))
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit);
@@ -686,10 +716,28 @@ class PhotosController extends FosRestController
      */
     public function getCommentsAction($id)
     {
-        $photo = $this->getAction($id);
-        if (!$photo)
-            return null;
-        return $photo->getComments();
+        return $this->getDoctrine()->getManager()->createQuery('SELECT comment FROM AdEntifyCoreBundle:Comment comment
+            WHERE comment.deletedAt IS NULL AND comment.photo = :photoId')
+            ->setParameters(array(
+                'photoId' => $id
+            ))->getResult();
+    }
+
+    /**
+     * GET all likers by photo ID
+     *
+     * @View()
+     *
+     * @param $id
+     * @return ArrayCollection|null
+     */
+    public function getLikersAction($id)
+    {
+        return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntifyCoreBundle:User user
+            LEFT JOIN user.likes l WHERE l.photo = :photoId')
+            ->setParameters(array(
+                'photoId' => $id
+            ))->getResult();
     }
 
     /**

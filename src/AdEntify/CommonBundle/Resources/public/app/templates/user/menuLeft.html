@@ -1,7 +1,7 @@
 <div class="loading-gif-container">
     <div class="loader rotate"></div>
 </div>
-<aside class="profile-aside fadeOut">
+<aside class="profile-aside fade-out">
     <div class="block-white-background">
         <div class="profile-details text-center">
             <% if (lastPhoto) { %>
@@ -22,6 +22,7 @@
             <% } %>
 
             <div class="indicators-container text-center">
+                <a href="<%= rootUrl %><%= $.t('routing.my/photos/') %>">
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="separator-sm-vertical"></div>
@@ -33,14 +34,15 @@
                         <div class="indicator-label"><%= $.t('profile.tagsIndicator') %></div>
                     </div>
                 </div>
+                </a>
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6 followings-link">
                         <div class="separator-sm-horizontal"></div>
                         <div class="separator-sm-vertical"></div>
                         <div class="indicator-value"><%= model.get("followings_count") %></div>
                         <div class="indicator-label"><%= $.t('profile.followingIndicator') %></div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6 followers-link">
                         <div class="separator-sm-horizontal"></div>
                         <div class="indicator-value"><%= model.get("followers_count") %></div>
                         <div class="indicator-label"><%= $.t('profile.followersIndicator') %></div>

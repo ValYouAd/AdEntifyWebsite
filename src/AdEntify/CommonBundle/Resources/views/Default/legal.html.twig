@@ -1,0 +1,920 @@
+{% extends "::base.html.twig" %}
+
+{% block bodyAttr %} class="body-grey-background"{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    'bundles/adentifycommon/css/contact.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var channelUrl = '{{ asset('channel.html') }}';
+        var facebookPermissions = '{{ facebook_permissions }}';
+    </script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% javascripts
+    '@AdEntifyCommonBundle/Resources/public/vendor/jam/jquery/dist/jquery.js'
+    '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block title %}{{ 'legal.pageTitle'|trans }}{% endblock %}
+{% block metadescription %}{{ 'legal.pageDescription'|trans }}{% endblock %}
+
+
+{% block body %}
+
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+
+    <div class="container grey-border">
+
+        <div class="text-center title">
+            <h1>{{ 'Legal'|trans }}</h1>
+        </div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#terms-of-use" data-toggle="tab">{{ 'Terms of Use'|trans }}</a></li>
+            <li><a href="#privacy" data-toggle="tab">{{ 'Privacy'|trans }}</a></li>
+            <li><a href="#legal-notices" data-toggle="tab">{{ 'Legal notices'|trans }}</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+                <div class="tab-pane active" id="terms-of-use">
+                <p><strong>La soci&eacute;t&eacute; </strong><strong>ValYouAd</strong>,</p>
+
+                <p>Soci&eacute;t&eacute; par actions simplifi&eacute;e &agrave; associ&eacute; unique, au capital de 15 000 euros,</p>
+
+                <p>Immatricul&eacute;e au registre du commerce et des soci&eacute;t&eacute;s de Paris sous le n&deg; 749&nbsp;971 768,</p>
+
+                <p>Dont le si&egrave;ge social sis 105 avenue Raymond Poincar&eacute; &agrave; Paris (75116) - France&nbsp;;</p>
+
+                <p>Repr&eacute;sent&eacute;e par son Pr&eacute;sident, Monsieur J&eacute;r&eacute;mie Le Febvre</p>
+
+                <p>E-mail&nbsp;: contact@valyouad.com</p>
+
+                <p>Tel&nbsp;: +33 6 89 13 69 03</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation du site Internet <a href="http://www.adentify.com">www.adentify.com</a></strong></p>
+
+                <p><strong>en vigueur au 01 janvier 2014</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p>La soci&eacute;t&eacute; ValYouAd exerce une activit&eacute; de r&eacute;gie publicitaire de m&eacute;dia. Elle exploite le r&eacute;seau social AdEntify <em>via</em> le Site Internet <a href="http://www.Adentify.com">www.adentify.com</a> (ci-apr&egrave;s le &laquo; Site &raquo;) qui propose une plate-forme d&rsquo;&eacute;changes de donn&eacute;es &agrave; caract&egrave;re publicitaire (Ci-apr&egrave;s le &laquo;&nbsp;Service&nbsp;&raquo;).</p>
+
+                <p>&nbsp;</p>
+
+                <p>En sa qualit&eacute; de simple interm&eacute;diaire, la soci&eacute;t&eacute; ValYouAd n&rsquo;intervient d&rsquo;aucune mani&egrave;re dans les &eacute;changes de donn&eacute;es entre les utilisateurs du Service et ne saurait &ecirc;tre responsable de quelque mani&egrave;re que ce soit des agissements des utilisateurs du Services r&eacute;alis&eacute;s par l&rsquo;interm&eacute;diaire du Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>L&rsquo;Utilisateur est invit&eacute; &agrave; prendre connaissance des pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation et &agrave; les accepter sans restriction ni r&eacute;serve.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 1 &ndash; D&eacute;finitions</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme<strong> &laquo;&nbsp;AdEntify&nbsp;&raquo;&nbsp; </strong>d&eacute;signe la soci&eacute;t&eacute; qui exploite le pr&eacute;sent Site dont l&rsquo;activit&eacute; est d&eacute;finie dans le pr&eacute;ambule des pr&eacute;sentes conditions g&eacute;n&eacute;rales d&rsquo;utilisation.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme <strong>&laquo;&nbsp;Site&nbsp;&raquo;&nbsp;</strong>d&eacute;signe le site Internet accessible &agrave; l&rsquo;adresse URL <a href="http://www.Adentify.com">www.adentify.com</a> d&eacute;velopp&eacute; par la soci&eacute;t&eacute; ValYouAd selon les formats informatiques utilisables sur Internet comprenant des donn&eacute;es de diff&eacute;rentes natures et notamment, des textes, sons, images fixes ou anim&eacute;es, vid&eacute;os, bases de donn&eacute;es, destin&eacute;s &agrave; &ecirc;tre consult&eacute;s par l&rsquo;utilisateur et sur lequel ce dernier peut effectuer des marquages.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Terme &laquo;&nbsp;<strong>Service&nbsp;</strong>&raquo; ou &laquo;&nbsp;<strong>les Services</strong>&nbsp;&raquo; d&eacute;signe l&rsquo;ensemble des fonctionnalit&eacute;s de la plate-forme exploit&eacute;e par la soci&eacute;t&eacute; ValYouAd accessible &agrave; l&rsquo;adresse URL <a href="http://www.Adentify.com">www.adentify.com</a>.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme<strong> &laquo;&nbsp;Partenaire&nbsp;&raquo;&nbsp;&nbsp;</strong>d&eacute;signe les partenaires commerciaux de la soci&eacute;t&eacute; ValYouAd et plus largement toute entit&eacute;, fran&ccedil;aise ou &eacute;trang&egrave;re, souhaitant promouvoir ses produits et services <em>via</em> le Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme<strong> &laquo;&nbsp;Utilisateur&nbsp;&raquo; </strong>d&eacute;signe toute personne physique navigant sur le Site et prenant connaissance des services propos&eacute;s sur ledit Site, sans appartenir &agrave; la communaut&eacute;.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme<strong> &laquo;&nbsp;Membre&nbsp;&raquo;&nbsp;</strong>d&eacute;signe toute personne physique inscrite sur le Site, qui y publie tout type de contenu et notamment des photographies afin d&rsquo;effectuer sur lesdits contenus ou bien sur les contenus publi&eacute;s par les autres Membres de la communaut&eacute; des Marquages.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme &laquo;&nbsp;<strong>Communaut&eacute;</strong>&nbsp;&raquo; d&eacute;signe l&rsquo;ensemble des Membres inscrits sur le Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme &laquo;&nbsp;<strong>Marquage</strong>&nbsp;&raquo; d&eacute;signe le fait pour un Membre d&rsquo;identifier un produit, un service, une marque, une personne ou bien un lieu sur un contenu publi&eacute; sur le Site. Le Marquage peut &ecirc;tre de nature commerciale ou publicitaire.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme &laquo;&nbsp;<strong>R&eacute;compense</strong>&nbsp;&raquo; d&eacute;signe les points et/ou la somme d&rsquo;argent vers&eacute;e par AdEntify au Membre r&eacute;sultant de Marquages effectu&eacute;s sur les Contenus lui appartenant et/ou sur les Contenus d&rsquo;autres Membres de la Communaut&eacute;.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le terme <strong>&laquo;&nbsp;Contenu&nbsp;&raquo;</strong> d&eacute;signe les donn&eacute;es textuelles, images, photographies, dessins, graphiques et plus largement toutes donn&eacute;es publi&eacute;es sur le Site par un Membre et dont ce dernier reconnait express&eacute;ment d&eacute;tenir l&rsquo;ensemble des droits y aff&eacute;rents.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 2 &ndash; Acceptation et Modifications des Conditions g&eacute;n&eacute;rales d&rsquo;Utilisation</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>L&rsquo;utilisation du site par l&rsquo;Utilisateur/Membre vaut acceptation des pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify se r&eacute;serve le droit de refuser l&rsquo;acc&egrave;s au site, sans pr&eacute;avis et sans notification pr&eacute;alable, &agrave; tout Utilisateur / Membre ne respectant pas les pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify conseille &agrave; l&rsquo;Utilisateur/Membre de conserver une copie des Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation en vigueur sur le site &agrave; la date de son inscription.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify se r&eacute;serve le droit de modifier &agrave; tout moment, et sans pr&eacute;avis, tout ou partie des pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation. L&rsquo;utilisation du Site par l&rsquo;Utilisateur / Membre apr&egrave;s modification des pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation vaut acceptation pure et simple de sa part aux nouvelles Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation en vigueur.</p>
+
+                <p>En cas de non respect des clauses des pr&eacute;sentes Conditions g&eacute;n&eacute;rales d&rsquo;Utilisation, la direction du Site proc&eacute;derait imm&eacute;diatement et sans avertissement pr&eacute;alable, &agrave; la suppression du compte du Membre contrevenant.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 3 &ndash; Inscription</strong></p>
+
+                <p><strong><em>3.1. Acc&egrave;s au Service</em></strong></p>
+
+                <p>Tous les co&ucirc;ts aff&eacute;rents &agrave; l&#39;acc&egrave;s au Service, que ce soient les frais mat&eacute;riels, logiciels ou d&#39;acc&egrave;s &agrave; internet sont exclusivement &agrave; la charge de l&#39;Utilisateur. Il est seul responsable du bon fonctionnement de son &eacute;quipement informatique ainsi que de son acc&egrave;s &agrave; internet.</p>
+
+                <p><strong><em>3.2. Conditions d&rsquo;inscription</em></strong><strong>&nbsp;:</strong></p>
+
+                <p>L&rsquo;inscription du Membre est gratuite. Elle est nominative et r&eacute;serv&eacute;e &agrave; des personnes physiques de plus de 13 ans.</p>
+
+                <p>Toutefois seuls les Membres majeurs, &acirc;g&eacute;s de plus de 18 ans, pourront recevoir une somme d&rsquo;argent en contrepartie des Marquages qu&rsquo;ils auront effectu&eacute;s.</p>
+
+                <p>Les Membres mineurs ne pourront percevoir aucune r&eacute;mun&eacute;ration &nbsp;en contrepartie de Marquage. Toutefois, les Membres mineurs non &eacute;mancip&eacute;s ayant re&ccedil;u l&rsquo;autorisation de leur repr&eacute;sentant l&eacute;gal pourront, le cas &eacute;ch&eacute;ant et conform&eacute;ment &agrave; la proc&eacute;dure pr&eacute;vue aux pr&eacute;sentes, cumuler des points sur le Site et &ecirc;tre b&eacute;n&eacute;ficiaires de ch&egrave;ques cadeaux.&nbsp;</p>
+
+                <p>Pour devenir Membre du Site, l&rsquo;Utilisateur doit se conformer &agrave; la proc&eacute;dure d&rsquo;inscription et accepter au pr&eacute;alable et sans r&eacute;serve les pr&eacute;sentes Conditions en cochant la case pr&eacute;vue &agrave; cet effet.</p>
+
+                <p><strong><em>3.3. Proc&eacute;dure d&rsquo;inscription - Renseignements</em></strong></p>
+
+                <p>Pour devenir membre, l&rsquo;utilisateur doit cr&eacute;er un compte en renseignant le formulaire d&rsquo;inscription accessible sur le Site.</p>
+
+                <p>Il sera demand&eacute; au Membre de cr&eacute;er un identifiant et de choisir un mot de passe. Tous les champs obligatoires doivent &ecirc;tre renseign&eacute;s (nom, pr&eacute;nom, adresse e-mail, &acirc;ge, etc.)</p>
+
+                <p>L&rsquo;Utilisateur s&rsquo;engage &agrave; fournir des renseignements exacts et pr&eacute;cis. L&rsquo;Utilisateur s&rsquo;engage &agrave; ce que l&rsquo;adresse e-mail fournie dans le formulaire soit valide et non erron&eacute;e.</p>
+
+                <p>L&rsquo;Utilisateur s&rsquo;engage &agrave; ne pas usurper l&rsquo;identit&eacute; d&rsquo;un tiers et &agrave; ne pas se d&eacute;clarer sous une fausse identit&eacute;. L&rsquo;Utilisateur s&rsquo;engage &agrave; modifier ses donn&eacute;es personnelles en cas de changement (adresse, t&eacute;l&eacute;phone, adresse email, etc.).</p>
+
+                <p>Le Membre est seul responsable des informations personnelles qu&rsquo;il fournit &agrave; AdEntify lors de la cr&eacute;ation de son compte.</p>
+
+                <p>La responsabilit&eacute; de AdEntify ne pourra pas &ecirc;tre engag&eacute;e en cas d&rsquo;utilisation frauduleuse par un tiers du compte du Membre. Le Membre s&rsquo;engage &agrave; signaler &agrave; AdEntify le plus rapidement possible toute utilisation abusive et/ou non autoris&eacute;e de son compte.</p>
+
+                <p><strong>Article 4 &ndash; Confidentialit&eacute; et utilisation des donn&eacute;es personnelles</strong></p>
+
+                <p><strong><em>4.1. Confidentialit&eacute;</em></strong></p>
+
+                <p>Tous les Contenus que le Membre publie sur le Site sont soumis &agrave; la Politique de confidentialit&eacute; d&rsquo;AdEntify r&eacute;gissant la collecte et la conservation des donn&eacute;es personnelles du Membre.</p>
+
+                <p>Le mot de passe, donnant acc&egrave;s au compte personnel, est strictement confidentiel, il a pour fonction de prot&eacute;ger vos donn&eacute;es personnelles. Le Membre s&rsquo;engage &agrave; ne le communiquer &agrave; aucun tiers et &agrave; le conserver dans un endroit connu de lui seul en cas d&rsquo;oubli.</p>
+
+                <p>En cas de difficult&eacute;s r&eacute;currentes de connexion &agrave; son compte, ou en cas d&rsquo;oubli de son mot de passe, le Membre pourra solliciter aupr&egrave;s de AdEntify la r&eacute;initialisation de son mot de passe en cliquant sur le lien intitul&eacute; &laquo;&nbsp;Mot de passe oubli&eacute;&nbsp;&raquo;.</p>
+
+                <p><strong><em>4.2. Utilisation des donn&eacute;es personnelles</em></strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>Afin de respecter la vie priv&eacute;e de ses Utilisateurs, AdEntify s&#39;engage &agrave; ce que la collecte et le traitement d&#39;informations personnelles, effectu&eacute;s au sein du pr&eacute;sent site, soient effectu&eacute;s conform&eacute;ment aux dispositions de la loi n&deg;78-17 du 6 janvier 1978 relative &agrave; l&#39;informatique, aux fichiers et aux libert&eacute;s, dite Loi &laquo; Informatique et Libert&eacute;s &raquo;. A ce titre, le Site fait l&#39;objet d&#39;une d&eacute;claration &agrave; la CNIL sous le num&eacute;ro <strong>_______.</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Membre s&rsquo;engage &agrave;&nbsp;fournir des donn&eacute;es personnelles d&rsquo;identification actualis&eacute;es et valides, dans le cadre des informations requises sur le Site et garantit ne faire aucune fausse d&eacute;claration.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Les informations communiqu&eacute;es par le Membre dans le formulaire d&rsquo;inscription, ou par tout autre moyen, pourront faire l&#39;objet de traitements informatis&eacute;s afin de permettre le traitement du dossier du Membre et la mise en place d&#39;actions commerciales. AdEntify s&rsquo;engage &agrave; prendre toutes pr&eacute;cautions utiles afin de prot&eacute;ger les donn&eacute;es &agrave; caract&egrave;re personnel trait&eacute;es par ses services, et notamment d&rsquo;emp&ecirc;cher qu&rsquo;elles ne soient d&eacute;form&eacute;es, endommag&eacute;es ou communiqu&eacute;es &agrave; des tiers non autoris&eacute;s.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Ces informations pourront, par cons&eacute;quent et exclusivement aux fins d&rsquo;actions commerciales, &ecirc;tre communiqu&eacute;es, en France et &agrave; l&#39;&eacute;tranger, &agrave; des organismes publics ou des soci&eacute;t&eacute;s priv&eacute;es.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le membre autorise express&eacute;ment AdEntify &agrave; communiquer &agrave; ses Partenaires, les donn&eacute;es &agrave; caract&egrave;re personnel le concernant et ce, &agrave; des fins publicitaires.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Conform&eacute;ment &agrave; la loi dite &laquo;&nbsp;informatique et libert&eacute;s&nbsp;&raquo; pr&eacute;cit&eacute;e, le Membre pourra acc&eacute;der aux informations personnelles le concernant, en demander leur modification ou leur rectification ou exiger &agrave; ne plus figurer dans la base de donn&eacute;es AdEntify. Le Membre peut &agrave; tout moment s&rsquo;opposer &agrave; la communication &agrave; des tiers des informations personnelles le concernant.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Ces demandes peuvent &ecirc;tre exerc&eacute;es en envoyant un courrier &eacute;lectronique &agrave; l&#39;adresse suivante&nbsp;: <strong>contact@adentify.com</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 5 &ndash; Compte du Membre </strong></p>
+
+                <p>&nbsp;</p>
+
+                <p><strong><em>5.1. Validation et fonctionnement du Compte du Membre</em></strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>Une fois son inscription valid&eacute;e, et son compte activ&eacute;, le Membre peut y t&eacute;l&eacute;charger tout type de Contenu en sa possession dont il reconnait express&eacute;ment avoir l&rsquo;ensemble des droits. Le Membre peut, &agrave; tout moment, utiliser le Service et notamment publier des photographies, effectuer des Marquages sur tout type de Contenu publi&eacute; sur le Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Tous les contenus publi&eacute;s ou communiqu&eacute;s &agrave; titre priv&eacute; ou public sur le Site sont exclusivement plac&eacute;s sous la seule responsabilit&eacute; du Membre &agrave; l&rsquo;origine de la publication du Contenu.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Membre est responsable de l&#39;utilisation qu&rsquo;il fait des services propos&eacute;s sur le Site, des Contenus qu&rsquo;il communique, et de toutes leurs cons&eacute;quences, y compris de l&#39;utilisation desdits Contenus par d&#39;autres Utilisateurs et par les Partenaires tiers d&rsquo;AdEntify.</p>
+
+                <p>AdEntify ne peut &ecirc;tre tenue pour responsable du Contenu (textes et photographies), notamment en cas d&rsquo;erreur ou d&rsquo;omission dans les Contenus ou de d&eacute;faut de mises &agrave; jour des Contenus publi&eacute;s sur le Site, seule la responsabilit&eacute; du Membre est engag&eacute;e, d&eacute;gageant express&eacute;ment AdEntify de toute responsabilit&eacute;. Le Membre garantit AdEntify contre toute condamnation qui pourrait &ecirc;tre prononc&eacute;e contre elle et la d&eacute;gage de toute responsabilit&eacute; concernant l&rsquo;utilisation du Service par le Membre.</p>
+
+                <p><strong><em>5.2. Engagements du Membre</em></strong></p>
+
+                <p>Il est rappel&eacute; que les espaces publics d&#39;expression du Site sont r&eacute;serv&eacute;s &agrave; l&#39;usage personnel des Utilisateurs / Membres.</p>
+
+                <p>Le Membre s&rsquo;interdit&nbsp; de revendre ou de communiquer &agrave; des tiers les informations contenues dans les publications accessibles sur le Site.</p>
+
+                <p>Plus g&eacute;n&eacute;ralement, les Membres s&rsquo;engagent &agrave; ne pas agir de mani&egrave;re &agrave; perturber le bon fonctionnement du Site par l&rsquo;utilisation de dispositifs, de logiciels ou de moyens quelconques susceptibles de nuire au Site, &agrave; ses Utilisateurs/ Membres ou &agrave; son contenu, y compris les donn&eacute;es enregistr&eacute;es.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Tout manquement &agrave; ces engagements entra&icirc;ne l&rsquo;exclusion du Membre.</p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 6 &ndash; Droits du Membre - Partage de Contenu </strong></p>
+
+                <p>Le membre est responsable du contenu de son annonce (informations textuelles et visuelles) et garantit l&rsquo;exactitude du Contenu propos&eacute; au sein de son annonce. Le Membre conserve l&rsquo;ensemble de ses droits sur tous les Contenus publi&eacute;s, post&eacute;s, soumis sur le Site ou par l&rsquo;interm&eacute;diaire du Site dont il est propri&eacute;taire.</p>
+
+                <p>En soumettant, postant ou publiant des Contenus prot&eacute;g&eacute;s par des droits de propri&eacute;t&eacute; intellectuelle, sur ou par l&rsquo;interm&eacute;diaire du Site, le Membre accorde &agrave; AdEntify &nbsp;une licence mondiale, non-exclusive, gratuite, incluant le droit d&#39;accorder une sous-licence, d&#39;utiliser, de copier, de reproduire, de traiter, d&#39;adapter, de modifier, de publier, de transmettre, d&#39;afficher et de distribuer lesdits Contenus sur tout support, par toute m&eacute;thode de distribution, connus ou amen&eacute;s &agrave; exister.</p>
+
+                <p>Le Membre autorise AdEntify &agrave; mettre les Contenus &agrave; la disposition du public et permet aux Membres de la Communaut&eacute; d&#39;en faire de m&ecirc;me.</p>
+
+                <p>Le Membre accepte que cette licence comprenne le droit pour AdEntify de fournir, de promouvoir et d&#39;am&eacute;liorer les services propos&eacute;s sur le Site et de mettre les Contenus publi&eacute;s ou transmis <em>via</em> le Site &agrave; disposition d&#39;autres soci&eacute;t&eacute;s, organisations ou individus Partenaires pour l&#39;agr&eacute;gation, la diffusion, la distribution ou la publication de ces Contenus sur d&#39;autres supports, m&eacute;dias et services, dans la limite des termes des pr&eacute;sentes Conditions g&eacute;n&eacute;rales d&rsquo;utilisation.</p>
+
+                <p>Ces usages suppl&eacute;mentaires par AdEntify ou ses Partenaires, peuvent &ecirc;tre faits sans compensation financi&egrave;re au profit du Membre qui aura soumis, post&eacute;, transmis ou rendu disponible sur le Site ledit Contenu.</p>
+
+                <p>Le Membre accepte que AdEntify &nbsp;modifie ou adapte les Contenus afin de les transmettre, afficher ou distribuer sur des r&eacute;seaux informatiques et sur diff&eacute;rents m&eacute;dias et / ou apporte des changements n&eacute;cessaires auxdits Contenus afin de les rendre conformes aux exigences ou limitations de tous r&eacute;seaux, &eacute;quipements, services ou m&eacute;dias.</p>
+
+                <p>Le Membre accepte que ses Contenus puissent faire l&#39;objet d&#39;une agr&eacute;gation, d&#39;une diffusion, d&#39;une distribution ou d&#39;une publication par nos Partenaires. Par cons&eacute;quent le Membre comprend que s&rsquo;il ne dispose pas des droits n&eacute;cessaires &agrave; la communication de ces Contenus pour une telle utilisation, il engage sa responsabilit&eacute; &agrave; l&rsquo;exclusion de celle d&rsquo;AdEntify.</p>
+
+                <p>AdEntify&nbsp; ne saurait &ecirc;tre tenue responsable des dommages r&eacute;sultant de l&#39;utilisation des Contenus par AdEntify faite en conformit&eacute; avec les pr&eacute;sentes Conditions g&eacute;n&eacute;rales d&rsquo;utilisation. Le Membre d&eacute;clare et garantit disposer des droits, des pouvoirs et des autorisations n&eacute;cessaires pour conc&eacute;der les droits accord&eacute;s en vertu des pr&eacute;sentes sur les Contenus qu&rsquo;il soumet.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 7 &ndash; Engagements du Membre</strong></p>
+
+                <p><strong><em>7.1. Nature du Contenu</em></strong></p>
+
+                <p>Le Membre s&rsquo;engage &agrave; ne diffuser aucun Contenu qui porterait atteinte aux droits des tiers ou qui contreviendrait de quelque mani&egrave;re que ce soit &agrave; la l&eacute;gislation fran&ccedil;aise, &agrave; la morale ou aux bonnes m&oelig;urs.</p>
+
+                <p>Le membre s&rsquo;interdit notamment de publier un Contenu contenant&nbsp;:</p>
+
+                <ul>
+                    <li>des &eacute;l&eacute;ments ne respectant pas les pr&eacute;sentes Conditions g&eacute;n&eacute;rales d&rsquo;Utilisation&nbsp;;</li>
+                    <li>tout propos incitant au non respect des pr&eacute;sentes conditions d&rsquo;utilisation&nbsp;;</li>
+                    <li>des &eacute;l&eacute;ments portant atteinte aux droits de propri&eacute;t&eacute; intellectuelle de tiers&nbsp;;</li>
+                    <li>des &eacute;l&eacute;ments diffamatoires ou injurieux &agrave; l&rsquo;&eacute;gard de tiers&nbsp;;</li>
+                    <li>des &eacute;l&eacute;ments dirigeant les utilisateurs vers un site, une soci&eacute;t&eacute;, un organisme concurrent ou contrevenant aux lois fran&ccedil;aises&nbsp;;</li>
+                    <li>un contenu trompeur et/ou de fausses informations&nbsp;;</li>
+                    <li>un contenu &agrave; caract&egrave;re politique, sexiste ou religieux&nbsp;;</li>
+                    <li>un contenu &agrave; caract&egrave;re raciste ou incitant &agrave; la haine raciale&nbsp;;</li>
+                    <li>un contenu &agrave; caract&egrave;re discriminatoire ou d&eacute;gradant&nbsp;;</li>
+                    <li>un contenu &agrave; connotation &eacute;rotique, sexuelle, pornographique ou violente,</li>
+                    <li>un contenu portant atteinte &agrave; la protection des mineurs.</li>
+                </ul>
+
+                <p><strong><em>7.2. Acceptation, commentaires et &eacute;valuation d&rsquo;un Contenu </em></strong></p>
+
+                <p>Le Membre &agrave; la possibilit&eacute; de faire part &agrave; la soci&eacute;t&eacute; ValYouAd de toute fausse information publi&eacute;e sur le Site dont il aurait connaissance.</p>
+
+                <p>Pour ce faire, le Membre peut adresser un e-mail &agrave; l&rsquo;adresse suivante&nbsp;:<strong> contact@adentify.com</strong></p>
+
+                <p><strong><em>7.3. Suppression d&rsquo;un Contenu</em></strong></p>
+
+                <p>Le Membre peut, &agrave; tout moment, retirer les Contenus qu&rsquo;il a publi&eacute;s sur le Site, en se rendant dans l&rsquo;onglet &laquo; Mon compte&nbsp;&raquo; et en cliquant sur &laquo; Supprimer mon compte &raquo;.</p>
+
+                <p>AdEntify se r&eacute;serve le droit de supprimer un Contenu dont les termes ne respecteraient pas les pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation et notamment dont le contenu aurait &eacute;t&eacute; reconnu ou signal&eacute; comme illicite, ou contrevenant aux pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation et/ou aux r&egrave;glementations en vigueur ainsi qu&rsquo;aux droits des tiers.</p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 8 &ndash; Marquage</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p><strong><em>8.1. Nature du Marquage des Contenus publi&eacute;s par le Membre ou par la Communaut&eacute;</em></strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Contenu publi&eacute; par le Membre sur le Site peut &ecirc;tre de nature publique, c&#39;est-&agrave;-dire accessible par l&rsquo;ensemble des Membres de la Communaut&eacute; ainsi que par tout Utilisateur du Site ou bien de nature priv&eacute;e, c&#39;est-&agrave;-dire accessible qu&rsquo;&agrave; un nombre restreint de Membres choisis par le Membre ayant publi&eacute; ledit Contenu.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Membre a la facult&eacute; d&rsquo;effectuer des Marquages sur&nbsp;les Contenus qu&rsquo;il publie ainsi que sur tout Contenu publi&eacute; par un autre Membre de la communaut&eacute;.</p>
+
+                <p>&nbsp;</p>
+
+                <p>En effectuant des Marquages, le Membre s&rsquo;engage &agrave; respecter les droits des tiers et notamment leur droit de la personnalit&eacute; et leur droit de propri&eacute;t&eacute; intellectuelle et plus largement &agrave; respecter les dispositions des pr&eacute;sentes conditions g&eacute;n&eacute;rales d&rsquo;utilisation.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Membre accepte que le Marquage de Contenu appartenant &agrave; des tiers Membres soit soumis &agrave; leur validation pr&eacute;alable.&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong><em>8.2. R&eacute;compenses </em></strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>Chaque Marquage effectu&eacute; par un Membre donne lieu &agrave; l&rsquo;attribution de points.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Tout Marquage par un Membre sur un Contenu dont il est propri&eacute;taire peut engendrer l&rsquo;attribution de R&eacute;compense. Seule la Soci&eacute;t&eacute; d&eacute;cidera de la nature de la R&eacute;compense.</p>
+
+                <p>Tout Marquage effectu&eacute; par un Membre sur un Contenu dont il n&rsquo;est pas propri&eacute;taire pourra engendrer l&rsquo;attribution de r&eacute;compense uniquement sous r&eacute;serve de la validation pr&eacute;alable du Marquage par le propri&eacute;taire du Contenu.</p>
+
+                <p>Il est rappel&eacute; que seuls les Membres majeurs et capables pourront recevoir une somme d&rsquo;argent en contrepartie des Marquages qu&rsquo;ils auront effectu&eacute;s, les Membres mineurs ne pouvant percevoir de somme d&rsquo;argent en contrepartie de Marquage. Les Membres mineurs sont toutefois habilit&eacute;s &agrave; cumuler des points.</p>
+
+                <p><strong>Article 9 &ndash; Paiement</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p><strong><em>9.1.</em></strong> Certains Marquages donnent droit &agrave; une R&eacute;compense qui repr&eacute;sente une partie des commissions que AdEntify per&ccedil;oit des Partenaires. La valeur de la commission est n&eacute;goci&eacute;e par AdEntify et est sp&eacute;cifique pour chaque Partenaire.</p>
+
+                <p><strong><em>9.2.</em></strong> Le premier versement de R&eacute;compense sous forme de sommes d&rsquo;argent interviendra sur le Compte du Membre d&egrave;s lors que son montant atteindra un minimum fix&eacute; par la Soci&eacute;t&eacute;, puis, chaque fois que le montant des R&eacute;compenses atteindra diff&eacute;rents paliers fix&eacute;s par la Soci&eacute;t&eacute;.</p>
+
+                <p><strong><em>9.3. Disponibilit&eacute; des R&eacute;compenses :</em></strong></p>
+
+                <p><strong><em>9.3.1.</em></strong> &laquo;&nbsp;En attente&nbsp;&raquo; : d&eacute;signe une R&eacute;compense en attente de validation de AdEntify ou du &nbsp;Partenaire.</p>
+
+                <p><strong><em>9.3.2.</em></strong> &laquo;&nbsp;Accept&eacute;e&nbsp;&raquo; : d&eacute;signe une R&eacute;compense li&eacute;e &agrave; un Marquage valid&eacute; par AdEntify et le Partenaire, dont le Membre peut demander le paiement.</p>
+
+                <p><strong><em>9.3.3.</em></strong> &laquo;&nbsp;Refus&eacute;e&nbsp;&raquo;: d&eacute;signe une R&eacute;compense qui n&#39;est pas &eacute;ligible et qui ne sera pas vers&eacute;e sur le Compte du Membre. Une R&eacute;compense peut &ecirc;tre refus&eacute;e notamment lorsqu&rsquo;elle est li&eacute;e &agrave; une action frauduleuse du Membre ou d&rsquo;un tiers.</p>
+
+                <p><strong><em>9.3.4.</em></strong> &laquo;&nbsp;Pay&eacute;e&nbsp;&raquo; : d&eacute;signe une r&eacute;compense qui vous &eacute;t&eacute; pay&eacute;e.</p>
+
+                <p><strong><em>9.4. Modalit&eacute;s de paiement</em></strong> :</p>
+
+                <p><strong><em>9.4.1.</em></strong> Le versement des R&eacute;compenses sous forme de r&eacute;mun&eacute;ration s&rsquo;effectuera <em>via</em> Paypal.</p>
+
+                <p><strong><em>9.4.2.</em></strong> <strong><em>Ch&egrave;ques cadeaux ou bons d&rsquo;achat </em></strong><em>:</em></p>
+
+                <p>Sous r&eacute;serve des partenariats conclus par la Soci&eacute;t&eacute;, les Membres disposeront de la possibilit&eacute; de percevoir leur R&eacute;compense sous forme de bons d&rsquo;achat.</p>
+
+                <p>Les Membres mineurs&nbsp;ayant cumul&eacute; suffisamment de points en effectuant des Marquages, pourront &ecirc;tre b&eacute;n&eacute;ficiaires de ch&egrave;ques cadeaux. Pour cela ils devront adresser &agrave; la Soci&eacute;t&eacute; l&rsquo;autorisation &eacute;crite de leur repr&eacute;sentant l&eacute;gal &agrave; l&rsquo;adresse e-mail suivante&nbsp;: <strong><a href="mailto:contact@adentify.com">contact@adentify.com</a></strong>.</p>
+
+                <p><strong><em>9.5.</em></strong> Toute violation ou tentative de violation des pr&eacute;sentes Conditions constitue une violation manifeste du Contrat et AdEntify sera en droit de suspendre le Compte du Membre et sa participation au Programme ainsi que ses R&eacute;compenses.</p>
+
+                <p><strong><em>9.6.</em></strong> Le Membre est seul responsable de la fourniture et de la mise &agrave; jour des adresses et autres coordonn&eacute;es ainsi que des informations de paiement associ&eacute;es &agrave; son Compte. AdEntify pourra d&eacute;duire des R&eacute;compenses des Membres les frais bancaires relatifs &agrave; un paiement renvoy&eacute; ou annul&eacute; en raison d&rsquo;une erreur ou d&rsquo;une omission dans les coordonn&eacute;es ou les informations de paiement que le Membre a fournies.</p>
+
+                <p><strong>Article 10 &ndash; Mobiles et autres appareils</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify proposant des services mobiles gratuits, il est pr&eacute;cis&eacute; que les tarifs appliqu&eacute;s par l&rsquo;op&eacute;rateur du Membre, comme pour l&rsquo;envoi de textos, restent &agrave; sa charge.</p>
+
+                <p>Dans l&rsquo;hypoth&egrave;se ou le Membre change de num&eacute;ro de t&eacute;l&eacute;phone mobile ou d&eacute;sactive son Compte de t&eacute;l&eacute;phonie mobile, il appartient au Membre d&rsquo;actualiser lesdites donn&eacute;es aupr&egrave;s de AdEntify dans un d&eacute;lai maximum de quarante-huit (48) heures, et ce, afin d&rsquo;assurer que les messages qui lui sont destin&eacute;s ne soient pas envoy&eacute;s &agrave; la personne &agrave; qui&nbsp; son ancien num&eacute;ro de t&eacute;l&eacute;phone serait affect&eacute;.</p>
+
+                <p>Le Membre donne express&eacute;ment son accord &agrave; AdEntify pour synchroniser (y compris via une application) sur leur mobile les informations auxquelles ils ont acc&egrave;s sur le Site.</p>
+
+                <p><strong>Article 11 &ndash; Limitations de responsabilit&eacute; d&rsquo;AdEntify et de ses Partenaires</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong><em>11.1. Limitations techniques</em></strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>Le pr&eacute;sent site est accessible 7j/7 et 24h/24 &agrave; tout Utilisateur/Membre disposant d&rsquo;un acc&egrave;s &agrave; Internet sous r&eacute;serve des cas de force majeure et des p&eacute;riodes de maintenance.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify se r&eacute;serve le droit d&rsquo;interrompre l&rsquo;acc&egrave;s au Site afin d&rsquo;en assurer la maintenance ou pour tout autre raison qu&rsquo;elle jugera utile, sans que cette suspension n&rsquo;engage sa responsabilit&eacute; ni ouvre droit &agrave; une indemnisation de l&rsquo;utilisateur/Membre.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify met en &oelig;uvre tous les moyens raisonnables mis &agrave; sa disposition pour assurer &agrave; l&rsquo;Utilisateur/Membre un acc&egrave;s de qualit&eacute; au Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Si un probl&egrave;me technique rendait impossible l&rsquo;acc&egrave;s aux services, AdEntify s&rsquo;engage &agrave; faire ses meilleurs efforts pour mettre en &oelig;uvre toutes les solutions techniques possibles afin que l&rsquo;acc&egrave;s aux services soit r&eacute;tabli.</p>
+
+                <p>&nbsp;</p>
+
+                <p>La responsabilit&eacute; d&rsquo;AdEntify et de ses Partenaires ne pourra pas &ecirc;tre engag&eacute;e du fait de la survenance d&rsquo;un dommage direct ou indirect li&eacute; &agrave; un dysfonctionnement technique du Site de nature &agrave; en emp&ecirc;cher l&rsquo;acc&egrave;s &agrave; l&rsquo;Utilisateur/Membre.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Les co&ucirc;ts engendr&eacute;s par l&rsquo;utilisation du Site (comme par exemple l&rsquo;&eacute;quipement informatique ou le logiciel d&rsquo;acc&egrave;s &agrave; Internet) sont &agrave; la charge exclusive de l&rsquo;Utilisateur/Membre.</p>
+
+                <p>&nbsp;</p>
+
+                <p>L&rsquo;utilisateur/Membre est seul responsable du bon fonctionnement du mat&eacute;riel informatique qui lui permet l&rsquo;acc&egrave;s au pr&eacute;sent Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify ne pourra pas &ecirc;tre tenue responsable du fait des &eacute;ventuelles difficult&eacute;s des Membres &agrave; acc&eacute;der au site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>En outre, les Utilisateurs/ Membres engagent leur seule responsabilit&eacute; en cas d&#39;inex&eacute;cution ou de mauvaise ex&eacute;cution des pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&#39;Utilisation.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong><em>11.2. Limitations l&eacute;gales </em></strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify et ses Partenaires ne peuvent &ecirc;tre tenus pour responsables, de quelques mani&egrave;res que ce soit, en cas d&#39;&eacute;ventuels dommages accidentels ou volontaires, caus&eacute;s aux biens ou aux personnes dont un Membre pourrait se plaindre ou subir du fait du comportement d&#39;un autre Membre avec lequel il serait entr&eacute; en contact par l&#39;interm&eacute;diaire du service propos&eacute; sur le Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 12 &ndash; Suppression du Compte du Membre</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>12.1. Cas de suppression</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Membre a la possibilit&eacute; de supprimer son Compte &agrave; tout moment. Pour ce faire, il lui suffit de cliquer sur l&rsquo;onglet <strong>&laquo;&nbsp;Supprimer mon Compte&nbsp;&raquo;</strong> accessible depuis son espace priv&eacute;.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify se r&eacute;serve la possibilit&eacute; de supprimer le compte du Membre en cas de manquement aux pr&eacute;sentes conditions g&eacute;n&eacute;rales d&rsquo;utilisation.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>12.2. Cons&eacute;quences de la suppression du Compte</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>La suppression du Compte du Membre emp&ecirc;chera ce dernier d&rsquo;utiliser les services propos&eacute;s sur le Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>La suppression du compte g&eacute;n&egrave;re la perte des R&eacute;compenses non-vers&eacute;es.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify se r&eacute;serve le droit de modifier, suspendre ou mettre fin au Programme (ou toute partie ou contenu du Programme) &agrave; tout moment, sans que la responsabilit&eacute; de AdEntify ne puisse &ecirc;tre engag&eacute;e envers le Membre ou envers tout tiers de ce fait. Dans la mesure du possible, AdEntify avertira le Membre par avance de toute modification, suspension ou fin du Service.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify s&rsquo;engage &agrave; d&eacute;truire toutes les donn&eacute;es personnelles relatives au Membre dans le d&eacute;lai de trente (30) jours conform&eacute;ment &agrave; sa Politique de confidentialit&eacute;.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 13 &ndash; Publicit&eacute; - Promotion</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>La soci&eacute;t&eacute; AdEtify est autoris&eacute;e &agrave; diffuser les banni&egrave;res publicitaires de son choix sur le Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Membre accepte de recevoir toutes informations publicitaires et newsletters &eacute;manant de AdEntify ou de ses Partenaires.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Site peut contenir des publicit&eacute;s cibl&eacute;es en fonction des Contenus ou de l&#39;information disponibles sur le Service, des requ&ecirc;tes effectu&eacute;es au moyen des Services, ou sur la base de toute autre information. Les types de publicit&eacute;s diffus&eacute;es par AdEntify sur le Site, ainsi que leur &eacute;tendue, sont susceptibles d&#39;&eacute;voluer. En contrepartie de l&#39;acc&egrave;s au Site qui est offert au Membre et de l&#39;utilisation du Site, le Membre accepte que AdEntify et/ou ses Partenaires puissent placer des publicit&eacute;s sur le Site en relation avec l&#39;affichage de Contenus ou avec des informations issues de l&#39;utilisation des Services par le Membre ou bien plus largement par tour Membre de la communaut&eacute;.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Toutefois, La d&eacute;sinscription des newsletters peut s&#39;effectuer de mani&egrave;re automatique par chaque Membre en suivant les consignes donn&eacute;es sur le Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>En outre, le Membre a la possibilit&eacute; de refuser que lui soient adress&eacute;es des informations publicitaires en cliquant sur le bouton d&eacute;di&eacute; accessible depuis son espace priv&eacute;.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Membre reconnait &ecirc;tre inform&eacute; que les Contenus publi&eacute;s pourront &ecirc;tre visibles par l&rsquo;ensemble des Utilisateurs et des Membres du Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 14 &ndash; Propri&eacute;t&eacute; Intellectuelle</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p>Sauf mention contraire, l&rsquo;ensemble des &eacute;l&eacute;ments du Site, &agrave; l&rsquo;exception des Contenus publi&eacute;s par les Membres, qui restent la propri&eacute;t&eacute; exclusive des Membres, qu&#39;ils soient visuels ou sonores, y compris la technologie sous-jacente, sont la propri&eacute;t&eacute; exclusive de AdEntify, ou de ses Partenaires.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Les droits de propri&eacute;t&eacute; intellectuelle attach&eacute;s au Site et chacun des &eacute;l&eacute;ments cr&eacute;&eacute;s pour ce site sont la propri&eacute;t&eacute; exclusive de AdEntify. AdEntify accorde un droit gratuit, personnel, non-exclusif et non- transf&eacute;rable d&#39;acc&egrave;s et d&#39;utilisation du Site, tout autre droit, notamment de reproduction ou de repr&eacute;sentation, &eacute;tant express&eacute;ment interdit et susceptible de sanctions civiles et p&eacute;nales au titre de la contrefa&ccedil;on.</p>
+
+                <p>Le contenu du Site ne peut en aucun cas &ecirc;tre t&eacute;l&eacute;charg&eacute;, copi&eacute;, reproduit, distribu&eacute;, transmis, diffus&eacute;, affich&eacute;, vendu, alt&eacute;r&eacute;, conc&eacute;d&eacute; sous licence ou exploit&eacute; de toute autre mani&egrave;re et &agrave; quelque finalit&eacute; que ce soit.</p>
+
+                <p>La reproduction de toute page ou contenu de ce Site est soumise &agrave; l&rsquo;autorisation pr&eacute;alable &eacute;crite de AdEntify.</p>
+
+                <p>&nbsp;</p>
+
+                <p>La reproduction de tous documents publi&eacute;s sur le Site est seulement autoris&eacute;e aux fins exclusives d&#39;information pour un usage personnel et priv&eacute;, toute reproduction et toute utilisation de copies r&eacute;alis&eacute;es &agrave; d&#39;autres fins &eacute;tant express&eacute;ment interdites.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Le Membre qui dispose d&#39;un site Internet &agrave; titre personnel et qui d&eacute;sire placer sur ce site, pour un usage personnel, un lien simple renvoyant directement au pr&eacute;sent site, doit obligatoirement en demander l&#39;autorisation &eacute;crite et pr&eacute;alable &agrave; AdEntify. Dans tous les cas, tout lien non autoris&eacute; devra &ecirc;tre retir&eacute; sur simple demande de AdEntify.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Est &eacute;galement interdit sans autorisation pr&eacute;alable &eacute;crite de AdEntify tout lien hypertexte renvoyant au Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p>AdEntify se r&eacute;serve le droit de poursuivre en justice tout acte de contrefa&ccedil;on de ses droits de propri&eacute;t&eacute; intellectuelle.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 15 &ndash; R&eacute;clamations</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p>Il est rappel&eacute; qu&rsquo;en sa qualit&eacute; d&rsquo;interm&eacute;diaire, AdEntify a pour seule mission de diffuser les Contenus publi&eacute;s par ses Membres et n&rsquo;est aucunement responsable de leur contenu.</p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p>Les Utilisateurs / Membres sont invit&eacute;s &agrave; signaler &agrave; AdEntify tout manquement aux pr&eacute;sentes conditions G&eacute;n&eacute;rales d&rsquo;utilisation et notamment aux dispositions de l&rsquo;article 7.1. des pr&eacute;sentes et/ou aux r&egrave;glementations en vigueur en France du fait d&rsquo;un autre Utilisateur / Membre dont ils auraient connaissance, par l&rsquo;envoi d&rsquo;un e-mail &agrave; l&rsquo;adresse suivante&nbsp;: <a href="mailto:contact@adentify.com">contact@adentify.com</a>.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Par ailleurs, les Membres peuvent faire part de leurs r&eacute;clamations, demandes et questions en cliquant sur l&rsquo;onglet &laquo;&nbsp;<strong>Contactez-nous&nbsp;&raquo;</strong> reproduits sur toutes les pages du Site.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 16&nbsp; &ndash; Nullit&eacute; partielle des Conditions g&eacute;n&eacute;rales d&rsquo;Utilisation </strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p>La nullit&eacute; d&rsquo;une ou plusieurs clauses des pr&eacute;sentes Conditions g&eacute;n&eacute;rales d&rsquo;Utilisation n&rsquo;entra&icirc;ne pas leur nullit&eacute;.</p>
+
+                <p>&nbsp;</p>
+
+                <p><strong>Article 17 &ndash; R&egrave;glement des litiges et droit applicable</strong></p>
+
+                <p>&nbsp;</p>
+
+                <p>&nbsp;</p>
+
+                <p>Les pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation sont r&eacute;gies par le droit fran&ccedil;ais.</p>
+
+                <p>&nbsp;</p>
+
+                <p>Tout litige relatif &agrave; l&rsquo;interpr&eacute;tation et &agrave; l&rsquo;ex&eacute;cution des pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation sera soumis aux juridictions fran&ccedil;aises comp&eacute;tentes.</p>
+
+
+                </div>
+                <div class="tab-pane" id="privacy">
+                    <p><strong>Politique de confidentialit&eacute; AdEntify</strong></p>
+
+                    <p>La protection de votre vie priv&eacute;e est importante pour AdEntify. Nous reconnaissons que les informations &agrave; caract&egrave;re personnel que vous nous communiquez doivent &ecirc;tre prot&eacute;g&eacute;es et g&eacute;r&eacute;es de fa&ccedil;on appropri&eacute;e. La pr&eacute;sente Politique de confidentialit&eacute; d&eacute;finit les conditions dans lesquelles AdEntify collecte, utilise, exploite et partage les informations personnelles vous concernant, et que vous lui avez communiqu&eacute;es dans le cadre du Service.</p>
+
+                    <p>Notre charte de confidentialit&eacute; d&eacute;crit:</p>
+
+                    <ul>
+                        <li>les donn&eacute;es collect&eacute;es par AdEntify et les raisons de cette collecte.</li>
+                        <li>la fa&ccedil;on dont AdEntfy traite ces donn&eacute;es.</li>
+                    </ul>
+
+                    <p>Quand vous utilisez un de nos Services, vous consentez &agrave; ce que nous collections, transf&eacute;rions, manipulions, conservions, divulguions et que nous proc&eacute;dions aux autres traitements de vos informations conform&eacute;ment aux dispositions de la pr&eacute;sente Politique de Vie Priv&eacute;e. Quel que soit votre pays de r&eacute;sidence ou depuis lequel vous fournissez des informations, vous autorisez AdEntify &agrave; utiliser celles-ci dans tous pays o&ugrave; la soci&eacute;t&eacute; est active.</p>
+
+                    <p>Veuillez prendre le temps de vous familiariser avec nos pratiques en mati&egrave;re de protection des donn&eacute;es &agrave; caract&egrave;re personnel et n&rsquo;h&eacute;sitez pas &agrave; nous contacter si vous avez des questions &agrave; l&rsquo;adresse e-mail suivante&nbsp;: <a href="mailto:contact@adentify.com">contact@adentify.com</a>.</p>
+
+                    <p><strong>I.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong><strong>Quelles donn&eacute;es collectons-nous&nbsp;?</strong></p>
+
+                    <p><strong>1.1. Informations collect&eacute;es au moment de l&#39;inscription&nbsp;:</strong> quand vous cr&eacute;ez ou reconfigurez un compte sur la plate-forme AdEntify, vous nous fournissez des informations personnelles telles que votre nom, votre nom d&#39;utilisateur, votre mot de passe et votre adresse de courrier &eacute;lectronique. Certaines de ces informations, par exemple votre nom et votre nom d&#39;utilisateur, sont list&eacute;es publiquement dans nos Services, notamment sur votre page de profil et dans les r&eacute;sultats de recherche. Certains Services, tels que les services de recherche, les profils des Membres ne requi&egrave;rent pas d&#39;enregistrement pr&eacute;alable.</p>
+
+                    <p><strong>1.2. Informations collect&eacute;es lors de votre utilisation de nos services</strong></p>
+
+                    <ul>
+                        <li>Vous pouvez nous fournir des informations de profil que nous rendrons publiques, notamment des photographies. Vous pouvez fournir des informations afin de personnaliser votre compte, comme votre num&eacute;ro de t&eacute;l&eacute;phone portable. Nous pourrons utiliser vos coordonn&eacute;es pour vous envoyer des informations sur nos Services ou vous proposer des offres. Vous pouvez utiliser vos &laquo;&nbsp;Param&egrave;tre de Compte&nbsp;&raquo; pour ne plus recevoir nos notifications. Vous avez &eacute;galement la possibilit&eacute; de vous d&eacute;sinscrire en suivant les instructions fournies sur notre Site. Nous pourrons utiliser vos informations de contact pour permettre aux tiers de trouver votre compte AdEntify, incluant au travers des services de tiers et des applications clientes. Vos &laquo;&nbsp;Param&egrave;tres de comptes&nbsp;&raquo; d&eacute;terminent si des tiers peuvent vous trouver par votre adresse de courrier &eacute;lectronique ou par votre num&eacute;ro de t&eacute;l&eacute;phone portable. Si vous nous adressez un courrier &eacute;lectronique, nous pourrons garder votre message, l&#39;adresse de courrier &eacute;lectronique et les informations pour vous contacter pour r&eacute;pondre &agrave; votre demande. Si vous connectez votre compte AdEntify &agrave; un compte d&#39;un autre service afin de faire des envois crois&eacute;s (cross posting) entre AdEntify et cet autre service, cet autre service pourra nous adresser les informations vous concernant relatives &agrave; votre profil et votre enregistrement &agrave; ce service ainsi que d&#39;autres informations que vous avez autoris&eacute;es. Ces informations nous permettent d&rsquo;am&eacute;liorer nos Services et sont effac&eacute;es de AdEntify quelques semaines apr&egrave;s que vous ayez d&eacute;connect&eacute; votre compte AdEntify du service tiers.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li><strong>L&rsquo;authentification avec d&rsquo;autres r&eacute;seaux sociaux au sein desquels vous &ecirc;tes Membre. </strong>Nous collectons les informations de base de vos profils au sein des diff&eacute;rents r&eacute;seaux sociaux auxquels vous appartenez et notamment mais non exclusivement de vos profils Facebook ou Twitter (&agrave; savoir votre nom, votre adresse e-mail, votre sexe, votre date de naissance et votre nombre d&rsquo;amis) ce que vous autorisez.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li><strong>Cookies et identifiants anonymes</strong>. Nous utilisons diff&eacute;rentes technologies pour collecter et pour stocker des donn&eacute;es lors de votre visite sur le Site, par exemple en envoyant un ou plusieurs cookies ou identifiants anonymes sur votre appareil. Nous utilisons &eacute;galement des cookies et des identifiants anonymes lorsque vous interagissez avec les services que nous proposons &agrave; nos partenaires.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li><strong>Liens&nbsp;:</strong> AdEntify pourra suivre et conserver la fa&ccedil;on dont vous interagissez avec les liens dans les Services, incluant nos notifications par courrier &eacute;lectronique et les services de tiers en redirigeant les clics ou par d&#39;autres moyens. Nous faisons cela afin d&#39;am&eacute;liorer nos Services, vous fournir des publicit&eacute;s plus adapt&eacute;es et pouvoir partager des statistiques agr&eacute;g&eacute;es sur les clics comme par exemple afin de d&eacute;terminer combien de fois il a &eacute;t&eacute; cliqu&eacute; sur un lien.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li><strong>Donn&eacute;es d&rsquo;utilisation:</strong> Nos serveurs enregistrent automatiquement les informations li&eacute;es &agrave; votre utilisation des Services. Les Donn&eacute;es de Log peuvent contenir des informations telles que votre adresse IP, le type de votre navigateur, votre syst&egrave;me d&#39;exploitation, la page web dont vous venez, les pages visit&eacute;es, votre localisation, votre op&eacute;rateur t&eacute;l&eacute;phonique, les termes de vos recherches et des informations sur les cookies. Nous enregistrons des Donn&eacute;es de Log quand vous interagissez avec nos Services, par exemple, quand vous visitez nos sites web, vous vous authentifiez sur nos Services, interagissez avec nos notifications par courrier &eacute;lectronique. AdEntify utilise les Donn&eacute;es de Log pour fournir les Services et les mesurer, les personnaliser et les am&eacute;liorer. Si cela n&#39;est pas d&eacute;j&agrave; fait, nous supprimerons les Donn&eacute;es de Log ou retirerons tous les identifiants communs, tels que votre nom d&#39;utilisateur, l&#39;adresse IP compl&egrave;te ou votre adresse de courrier &eacute;lectronique apr&egrave;s 12 mois.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li><strong>Tiers&nbsp;:</strong> AdEntify utilise les services de prestataires tiers pour l&#39;aider &agrave; fournir le Service propos&eacute; et l&rsquo;aider &agrave; comprendre l&#39;utilisation qui est fa&icirc;te de nos Services comme Google Analytics. Ces prestataires de service tiers peuvent collecter des informations envoy&eacute;es par votre navigateur parmi la requ&ecirc;te d&#39;une page web, comme les cookies et votre adresse IP. Les partenaires annonceurs tiers peuvent partager des informations avec nous, comme un identifiant de cookie relatif &agrave; un navigateur ou un identifiant de compte (tel qu&#39;une adresse e-mail) sous forme crypt&eacute;e, afin de nous aider &agrave; mesurer la qualit&eacute; des annonces et &agrave; les personnaliser. Cela nous permet notamment d&#39;afficher des publicit&eacute;s relatives &agrave; des domaines pour lesquels vous avez d&eacute;j&agrave; port&eacute; un int&eacute;r&ecirc;t. Si vous pr&eacute;f&eacute;rez, vous pouvez d&eacute;sactiver les publicit&eacute;s personnalis&eacute;es dans les param&egrave;tres de compte AdEntify pour que votre compte ne soit pas rapproch&eacute; avec des informations partag&eacute;es par des partenaires annonceurs en vue de la personnalisation de publicit&eacute;s. Pour en savoir plus sur ce param&egrave;tre et votre option de navigateur permettant de d&eacute;sactiver le suivi, cliquez sur l&rsquo;onglet &laquo;&nbsp;Mes param&egrave;tres&nbsp;&raquo;.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>II.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong><strong>Comment utilisons-nous les donn&eacute;es que nous collectons&nbsp;?</strong></p>
+
+                    <p><strong>2.1.</strong> <strong>Finalit&eacute; des donn&eacute;es personnelles </strong></p>
+
+                    <p>Les donn&eacute;es que nous collectons par le biais de nos services nous permettent de les fournir, les entretenir, les prot&eacute;ger et les am&eacute;liorer, tout en d&eacute;veloppant de nouveaux services et en prot&eacute;geant AdEntify ainsi que nos Membres.</p>
+
+                    <p>Nous allons notamment utiliser vos donn&eacute;es pour les finalit&eacute;s g&eacute;n&eacute;rales suivantes tant que vous y consentez :</p>
+
+                    <ul>
+                        <li>pour cr&eacute;er votre compte. Nous utiliserons les donn&eacute;es que vous publierez ainsi que les donn&eacute;es collect&eacute;es <em>via</em> les r&eacute;seaux sociaux dont vous &ecirc;tes Membre pour cr&eacute;er, personnaliser et maintenir votre compte.</li>
+                        <li>pour le versement de vos r&eacute;compenses. Nous utiliserons vos donn&eacute;es personnelles pour la livraison des ch&egrave;ques cadeaux et l&rsquo;utilisation de votre compte Paypal.</li>
+                        <li>pour vous contacter, &agrave; votre demande ;</li>
+                        <li>dans des buts statistiques ;</li>
+                        <li>pour vous envoyer des newsletters et/ou des notifications, uniquement en format &eacute;lectronique.</li>
+                    </ul>
+
+                    <p>Les cookies sont anonymes. Nous utilisons les informations collect&eacute;es <em>via</em> les cookies et d&rsquo;autres technologies pour comptabiliser les actions enregistr&eacute;es afin de pouvoir calculer la valeur de vos r&eacute;compenses.</p>
+
+                    <p><strong>2.2. Partage de vos donn&eacute;es personnelles</strong></p>
+
+                    <p>Nous nous engageons &agrave; ne pas communiquer les donn&eacute;es personnelles vous concernant &agrave; une entit&eacute; tierce, sauf dans les cas suivants :</p>
+
+                    <ul>
+                        <li>avec votre consentement. Nous divulguons et/ou partageons les informations que vous avez accept&eacute; de partager et notamment lorsque vous avez autoris&eacute; une entit&eacute; &agrave; acc&eacute;der &agrave; vote compte AdEntify.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li>pour des raisons juridiques. Nous ne partagerons des donn&eacute;es personnelles avec des entit&eacute;s tierces que si nous pensons en toute bonne foi que l&rsquo;acc&egrave;s, l&rsquo;utilisation, la protection ou la divulgation de ces donn&eacute;es est raisonnablement justifi&eacute;e pour :</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <p>(i) se conformer &agrave; toute obligations l&eacute;gales, r&eacute;glementaires, judiciaires ou administratives&nbsp;;</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>(ii) faire appliquer les conditions d&rsquo;utilisation en vigueur, y compris pour constater d&rsquo;&eacute;ventuels manquements &agrave; celles-ci&nbsp;;</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>(iii) identifier, &eacute;viter ou traiter toute activit&eacute; frauduleuse, atteinte aux droits des tiers, atteinte &agrave; la s&eacute;curit&eacute; ou tout probl&egrave;me d&rsquo;ordre technique.</p>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li>Nous pouvons &ecirc;tre amen&eacute;s &agrave; partager des donn&eacute;es qui ne sont pas priv&eacute;es, telles que, notamment et non exclusivement, les informations contenues sur votre profil public.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li>Nous pouvons &ecirc;tre amen&eacute;s &agrave; partager avec nos Partenaires des donn&eacute;es agr&eacute;g&eacute;es, ne permettant pas une identification personnelle. Nous pouvons, par exemple, partager ouvertement des donn&eacute;es relatives aux tendances d&rsquo;utilisation de nos services dans le cadre de l&rsquo;&eacute;laboration de statistiques.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li>Dans le cas o&ugrave; AdEntify prendrait part &agrave; une op&eacute;ration de fusion, d&rsquo;acquisition ou &agrave; toute autre forme de cession d&rsquo;actifs, nous nous engageons &agrave; vous en informer avant que vos informations personnelles ne soient transf&eacute;r&eacute;es ou soumises &agrave; toute nouvelle entit&eacute; et &agrave; ce que la pr&eacute;sente Politique de Confidentialit&eacute; s&rsquo;applique &agrave; vos donn&eacute;es.</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>2.3. S&eacute;curit&eacute; des donn&eacute;es</strong></p>
+
+                    <p>Nous mettons en &oelig;uvre toutes les mesures de s&eacute;curit&eacute; n&eacute;cessaires pour prot&eacute;ger AdEntify ainsi que nos utilisateurs contre tout acc&egrave;s et toute modification, divulgation ou destruction non autoris&eacute;s des donn&eacute;es que nous d&eacute;tenons.</p>
+
+                    <p><strong>2.4. Champs d&rsquo;application</strong></p>
+
+                    <p>La pr&eacute;sente Charte de confidentialit&eacute; s&rsquo;applique &agrave; tous les services propos&eacute;s par AdEntify.</p>
+
+                    <p><strong>2.5. Modifications</strong></p>
+
+                    <p><strong><em>(i) Vos Donn&eacute;es Personnelles</em></strong></p>
+
+                    <p>Vous pouvez &agrave; tout moment acc&eacute;der et modifier sur notre Site les informations associ&eacute;es &agrave; votre compte. Pour ce faire, il vous suffit de cliquer sur l&rsquo;onglet &laquo;&nbsp;Mon Compte&nbsp;&raquo;. Vous pouvez &eacute;galement exercer votre demande d&#39;acc&egrave;s, de modification ou de suppression de vos Donn&eacute;es par courrier en nous adressant une demande en ce sens.</p>
+
+                    <p>N&rsquo;h&eacute;sitez pas &agrave; prendre contact avec AdEntiy si vous avez toute question relative au traitement de vos donn&eacute;es personnelles en adressant votre demande &agrave; l&rsquo;adresse suivante&nbsp;: <a href="mailto:contact@adentify.com">contact@adentify.com</a></p>
+
+                    <p>Afin d&rsquo;acc&eacute;der ou de modifier les informations personnelles associ&eacute;es &agrave; votre compte, nous vous invitions &agrave; vous rendre sur l&rsquo;onglet &laquo;&nbsp;<a href="https://twitter.com/settings/account">param&eacute;trages de compte</a>&nbsp;&raquo;.</p>
+
+                    <p>Si vous souhaitez supprimer votre compte AdEntify de mani&egrave;re permanente, il vous suffit de cliquer sur l&rsquo;onglet &laquo;&nbsp;supprimer mon compte&nbsp;&raquo; et de suivre les instructions qui y sont fournies.</p>
+
+                    <p>Une fois votre compte d&eacute;sactiv&eacute;, il n&#39;est plus visible sur le Site. Pendant les trente (30)&nbsp;jours suivants la d&eacute;sactivation, il est toujours possible de restaurer votre compte. Pass&eacute; ce d&eacute;lai, le processus de suppression dans nos syst&egrave;mes sera initi&eacute; et l&rsquo;ensemble des donn&eacute;es personnelles de votre compte sera effac&eacute;. Le processus de suppression peut prendre jusqu&#39;&agrave; une semaine.</p>
+
+                    <p>&nbsp;<strong>(ii) <em>La pr&eacute;sente politique de confidentialit&eacute;</em></strong></p>
+
+                    <p>La pr&eacute;sente politique de confidentialit&eacute; peut faire l&rsquo;objet de modifications. Nous publierons toute modification des r&egrave;gles de confidentialit&eacute; sur cette page et, dans le cas o&ugrave; il s&rsquo;agirait de modifications que AdEntify jugerait substantielles, nous publierons un avertissement mis en &eacute;vidence sur le Site et nous r&eacute;servons la possibilit&eacute; de faire part de la nouvelle Politique de confidentialit&eacute; par l&rsquo;envoi d&rsquo;e-mails &agrave; l&rsquo;attention du Membre &agrave; l&rsquo;adresse que celui-ci nous aura communiqu&eacute;e ou bien <em>via</em> le compte du Membre.</p>
+
+                    <p>L&rsquo;utilisation du Site par le Membre apr&egrave;s que les dispositions de la nouvelle politique de confidentialit&eacute; soient entr&eacute;es en vigueur, vaut acceptation desdites dispositions par le Membre.</p>
+
+                    <p>Les versions ant&eacute;rieures des pr&eacute;c&eacute;dentes politiques de confidentialit&eacute; seront archiv&eacute;es et mises &agrave; la disposition des Membres &agrave; leur demande. Il vous suffit d&rsquo;en faire la demande &agrave; l&rsquo;adresse suivante&nbsp;: &nbsp;</p>
+
+                    <p><a href="mailto:contact@adentify.com">contact@adentify.com</a></p>
+
+                    <p><strong>2.6. Droit applicable et r&egrave;glement des litiges</strong></p>
+
+                    <p>La pr&eacute;sente Politique de confidentialit&eacute; est r&eacute;gie par le droit fran&ccedil;ais.</p>
+
+                    <p>Tout litige relatif &agrave; l&rsquo;interpr&eacute;tation et &agrave; l&rsquo;ex&eacute;cution des pr&eacute;sentes Conditions G&eacute;n&eacute;rales d&rsquo;Utilisation sera soumis aux juridictions fran&ccedil;aises comp&eacute;tentes.</p>
+
+                </div>
+                <div class="tab-pane" id="legal-notices">
+                    <p><strong>www.adentify.com</strong></p>
+
+                    <p>&nbsp;</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>Mentions l&eacute;gales :</strong></p>
+
+                    <p>&nbsp;</p>
+
+                    <p>1. La soci&eacute;t&eacute; ValYouAd exerce une activit&eacute; de r&eacute;gie publicitaire de m&eacute;dia.</p>
+
+                    <p>Elle propose via le site Internet <a href="http://www.AdEntify.com">www.AdEntify.com</a> (Ci-apr&egrave;s le &laquo;&nbsp;Site&nbsp;&raquo;) une plateforme gratuite d&rsquo;&eacute;changes de donn&eacute;es &agrave; caract&egrave;re publicitaire.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>2. </strong>Conform&eacute;ment aux dispositions des articles 6-III-1&deg; et 19 de la loi n&deg; 2004-575 du 21 juin 2004 pour la confiance dans l&rsquo;&eacute;conomie num&eacute;rique entr&eacute;e en vigueur le 23 juin 2004, les coordonn&eacute;es de l&rsquo;&eacute;diteur et de l&rsquo;h&eacute;bergeur du Site sont indiqu&eacute;es ci-dessous.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><em>2.1. Coordonn&eacute;es de l&rsquo;&eacute;diteur </em></p>
+
+                    <p>&nbsp;</p>
+
+                    <p>Le pr&eacute;sent site est &eacute;dit&eacute; par ValYouAd, Soci&eacute;t&eacute; par actions simplifi&eacute;e &agrave; associ&eacute; unique, au capital de 15 000 euros, immatricul&eacute;e au registre du commerce et des soci&eacute;t&eacute;s de Paris sous le n&deg; 749&nbsp;971 768, dont le si&egrave;ge social sis 105 avenue Raymond Poincar&eacute; &agrave; Paris (75116) - France, repr&eacute;sent&eacute;e par son Pr&eacute;sident, Monsieur J&eacute;r&eacute;mie Le Febvre.</p>
+
+                    <p>E-mail&nbsp;: contact@valyouad.com</p>
+
+                    <p>Tel&nbsp;: +33 6 89 13 69 03</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><em>2.2. Coordonn&eacute;es de l&rsquo;h&eacute;bergeur&nbsp; du site: </em></p>
+
+                    <p>&nbsp;</p>
+
+                    <p>Amazon Web Services, Inc.</p>
+
+                    <p>P.O. Box 81226</p>
+
+                    <p>Seattle, WA 98108-1226</p>
+
+                    <p>http://aws.amazon.com</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>3.</strong> Le Site et la base de donn&eacute;es ont &eacute;t&eacute; d&eacute;clar&eacute;s aupr&egrave;s de la Commission Nationale de l&rsquo;Informatique et des Libert&eacute;s &nbsp;(Ci-apr&egrave;s la CNIL&nbsp;&raquo;) &nbsp;sous le n&deg; <strong>____.</strong></p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>4</strong>. &laquo;&nbsp;AdEntify&raquo; est une marque fran&ccedil;aise d&eacute;pos&eacute;e aupr&egrave;s de l&rsquo;INPI de Paris sous le num&eacute;ro 11 3&nbsp;875&nbsp;866 et une marque communautaire d&eacute;pos&eacute;e aupr&egrave;s de l&rsquo;OHMI sous le num&eacute;ro 011674181 ainsi qu&rsquo;une marque d&eacute;pos&eacute;e aux Etats-Unis aupr&egrave;s de l&rsquo;USPTO sous le num&eacute;ro 85478765.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>5. </strong>Propri&eacute;t&eacute; intellectuelle</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>L&rsquo;ensemble des donn&eacute;es, textes, images, photographies et plus largement tout contenu diffus&eacute; sur le Site &nbsp;font l&rsquo;objet d&rsquo;une protection au titre du droit de la propri&eacute;t&eacute; intellectuelle.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>AdEntify est seule propri&eacute;taire de l&rsquo;ensemble des droits de propri&eacute;t&eacute; intellectuelle attach&eacute;s au pr&eacute;sent Site.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>Aux termes de l&rsquo;article L.122-5-2&deg; et L.122-5-3&deg; du Code la propri&eacute;t&eacute; intellectuelle seules sont autoris&eacute;es&nbsp;:&nbsp;</p>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li>les &laquo;&nbsp;copies ou reproductions strictement r&eacute;serv&eacute;es &agrave; l&rsquo;usage priv&eacute; du copiste et non destin&eacute;es &agrave; une utilisation collective&nbsp;&raquo; et&nbsp;;</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <ul>
+                        <li>sous r&eacute;serve que soient mentionn&eacute;s le nom de l&rsquo;auteur et de la source&nbsp;:</li>
+                    </ul>
+
+                    <p>&nbsp;</p>
+
+                    <p>&laquo;&nbsp;les&nbsp;analyses et les courtes citations justifi&eacute;es par le caract&egrave;re critique, pol&eacute;mique, p&eacute;dagogique, scientifique ou d&rsquo;information&nbsp;&raquo;.</p>
+
+                    <p>D&egrave;s lors, hors des exceptions pr&eacute;cit&eacute;es, toute repr&eacute;sentation, mise &agrave; disposition, reproduction int&eacute;grale ou partielle de tout ou partie du Site sans le consentement &eacute;crit et pr&eacute;alable de AdEntify est illicite (article L.122-4 du Code de la propri&eacute;t&eacute; intellectuelle).</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>6. </strong>Rappel sur le droit des bases de donn&eacute;es&nbsp;:</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>En sa qualit&eacute; de producteur de la base de donn&eacute;es reproduite sur le Site (ci-apr&egrave;s &laquo;&nbsp;la Base&nbsp;&raquo;), AdEntify a, en vertu de l&rsquo;article L.342-1 du Code de la propri&eacute;t&eacute; intellectuelle, le droit d&rsquo;interdire&nbsp;:</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>1&deg; </strong>L&rsquo;extraction par transfert permanent ou temporaire de la totalit&eacute; ou d&rsquo;une partie qualitativement ou quantitativement substantielle du contenu de la Base sur un autre support, par tout moyen et sous toute forme que ce soit&nbsp;;</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>2&deg;</strong> La r&eacute;utilisation, par la mise &agrave; disposition du public de la totalit&eacute; ou d&rsquo;une partie qualitativement ou quantitativement substantielle du contenue de la base, quelle qu&rsquo;en soit la forme.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>AdEntify ne peut, conform&eacute;ment &agrave; l&rsquo;article L.342-3 du Code de la propri&eacute;t&eacute; intellectuelle interdire&nbsp;<em>&laquo;&nbsp;</em>L&rsquo;extraction ou la r&eacute;utilisation d&rsquo;une partie non substantielle, appr&eacute;ci&eacute;e de fa&ccedil;on qualitative ou quantitative, du contenu de la base, par la personne qui y a librement acc&egrave;s<em>&nbsp;&raquo;.</em></p>
+
+                    <p>&nbsp;</p>
+
+                    <p>Pour une parfaite compr&eacute;hension des droits, par la &laquo;&nbsp;Base&nbsp;&raquo;, il convient d&rsquo;entendre la base de donn&eacute;es <a href="http://www.AdEntify.com">www.AdEntify.com</a> regroupant les informations stock&eacute;es et accessibles par des moyens &eacute;lectroniques, ainsi que les &eacute;l&eacute;ments et moyens &eacute;lectroniques n&eacute;cessaires &agrave; son fonctionnement.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>7. </strong>Cookies</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>L&#39;utilisateur est inform&eacute; que lors de ses visites sur le Site des cookies peuvent s&#39;installer automatiquement sur le logiciel de navigation.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>Les cookies sont des blocs de donn&eacute;es qui ne permettent pas d&#39;identifier l&#39;utilisateur mais servent &agrave; enregistrer des informations relatives &agrave; la navigation de celui-ci sur le Site.</p>
+
+                    <p>&nbsp;</p>
+
+                    <p>L&rsquo;utilisateur peut d&eacute;sactiver l&rsquo;utilisation de cookies en s&eacute;lectionnant les param&egrave;tres appropri&eacute;s de son navigateur. Cependant, une telle d&eacute;sactivation pourrait emp&ecirc;cher l&rsquo;utilisation de certaines fonctionnalit&eacute;s de ce site.</p>
+
+                    <p><strong>&copy; 2014 </strong><strong>AdEntify</strong></p>
+
+                    <p>&nbsp;</p>
+
+                    <p>Cr&eacute;dits</p>
+
+                    <p>&nbsp;</p>
+
+                    <p><strong>&Eacute;dition et conception&nbsp;du Site</strong>&nbsp;:</p>
+
+                    <p>ValYouAd</p>
+
+                    <p><strong>Suivi technique</strong> : ValYouAd</p>
+
+                    <p><strong>Suivi &eacute;ditorial</strong> : ValYouAd</p>
+
+                    <p><strong>R&eacute;alisation </strong>: ValYouAd</p>
+
+                    <p><strong>Conception graphique</strong>&nbsp;: <a href="http://www.colorz.fr/">Colorz</a></p>
+
+                </div>
+            </div>
+
+    </div>
+
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+
+{% endblock %}

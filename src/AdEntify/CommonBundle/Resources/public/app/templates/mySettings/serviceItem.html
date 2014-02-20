@@ -5,7 +5,7 @@
     <% if (model.has('cant_delete') && model.get('cant_delete')) { %>
     <%= $.t('mySettings.serviceCannotBeDeleted') %>
     <% } else if (model.has('linked') && !model.get('linked')) { %>
-    <button class="btn-around-corner btn-dark-grey connect-<%= model.get('service_name').toLowerCase() %>"> <%= $.t('mySettings.linkMyAccount') %></button>
+    <button class="btn-around-corner btn-dark-grey connect-button connect-<%= model.get('service_name').toLowerCase() %>"> <%= $.t('mySettings.linkMyAccount') %></button>
     <% } else { %>
     <button class="btn-around-corner btn-white-grey deletelink"><i class="glyphicon glyphicon-remove"></i> <%= $.t('mySettings.deleteLink') %></button>
     <% } %>

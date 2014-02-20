@@ -335,6 +335,30 @@ class User extends BaseUser
      */
     private $rewards;
 
+    /**
+     * @Serializer\Groups({"details", "list"})
+     * @ORM\Column(name="share_data_with_advertisers", type="boolean")
+     *
+     * @var bool
+     */
+    protected $shareDataWithAdvertisers = true;
+
+    /**
+     * @Serializer\Groups({"details", "list"})
+     * @ORM\Column(name="partners_newsletters", type="boolean")
+     *
+     * @var bool
+     */
+    protected $partnersNewsletters = false;
+
+    /**
+     * @Serializer\Groups({"details", "list"})
+     * @ORM\Column(name="intro_played", type="boolean")
+     *
+     * @var bool
+     */
+    protected $introPlayed = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -1140,5 +1164,56 @@ class User extends BaseUser
     public function getRewards()
     {
         return $this->rewards;
+    }
+
+    /**
+     * @param boolean $partnersNewsletters
+     */
+    public function setPartnersNewsletters($partnersNewsletters)
+    {
+        $this->partnersNewsletters = $partnersNewsletters;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getPartnersNewsletters()
+    {
+        return $this->partnersNewsletters;
+    }
+
+    /**
+     * @param boolean $shareDataWithAdvertisers
+     */
+    public function setShareDataWithAdvertisers($shareDataWithAdvertisers)
+    {
+        $this->shareDataWithAdvertisers = $shareDataWithAdvertisers;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getShareDataWithAdvertisers()
+    {
+        return $this->shareDataWithAdvertisers;
+    }
+
+    /**
+     * @param boolean $introPlayed
+     */
+    public function setIntroPlayed($introPlayed)
+    {
+        $this->introPlayed = $introPlayed;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getIntroPlayed()
+    {
+        return $this->introPlayed;
     }
 }

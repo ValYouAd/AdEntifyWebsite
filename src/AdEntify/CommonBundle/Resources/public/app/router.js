@@ -205,9 +205,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.actions.fetch({
             url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
             error: function() {
                that.errorCallback('action.errorLoading', '#right-pane-content');
             }
@@ -223,9 +220,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.reset(true, false);
          $('html, body').addClass('body-grey-background');
 
-         var followers = new User.Collection();
-         var followings = new User.Collection();
-
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.myPhotos,
@@ -240,11 +234,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                user: new User.Model({
                   id: app.appState().getCurrentUserId()
                }),
-               followings: followings,
-               followers: followers,
                photos: this.photos,
-               hashtags: this.hashtags,
-               rewards: this.rewards,
                showServices: true
             })
          }).render();
@@ -258,18 +248,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             error: function() {
                that.errorCallback('myPhotos.errorPhotosLoading');
             }
-         });
-         followings.fetch({
-            url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
-         });
-         followers.fetch({
-            url: Routing.generate('api_v1_get_user_followers', { id: app.appState().getCurrentUserId() })
-         });
-         this.hashtags.fetch({
-            url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
-         });
-         this.rewards.fetch({
-            url: Routing.generate('api_v1_get_user_rewards', { id: app.appState().getCurrentUserId() })
          });
       },
 
@@ -539,7 +517,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setViews({
             "#center-pane-content": new Photos.Views.Content({
                photos: this.photos,
-               title: $.t('brand.titleViewBrand')
+               title: $.t('brand.titleViewBrand'),
+               showPhotoInfo: true
             }),
             "#left-pane": new Brand.Views.MenuLeft({
                model: brand,
@@ -639,7 +618,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                photos: this.photos,
                userId: id,
                tagged: true,
-               title: $.t('profile.pageHeading')
+               title: $.t('profile.pageHeading'),
+               showPhotoInfo: true
             }),
             "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({
@@ -725,9 +705,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.actions.fetch({
             url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
             error: function() {
                that.errorCallback('action.errorLoading', '#right-pane-content');
             }
@@ -766,9 +743,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.actions.fetch({
             url: Routing.generate('api_v1_get_actions'),
-            success: function(collection) {
-               that.successCallback(collection, 'action.noActions', '#right-pane-content');
-            },
             error: function() {
                that.errorCallback('action.errorLoading', '#right-pane-content');
             }
@@ -811,10 +785,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          var followers = new User.Collection();
          var followings = new User.Collection();
+         var actions = new Action.Collection();
 
          app.useLayout().setViews({
             "#center-pane-content": new User.Views.Dashboard({
-               actions: this.actions
+               actions: actions
             }),
             "#left-pane": new User.Views.MenuLeft({
                user: new User.Model({
@@ -824,13 +799,14 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followers: followers,
                photos: this.photos,
                hashtags: this.hashtags,
+               rewards: this.rewards,
                showServices: false,
                showFollowButton: false
             })
          }).render();
 
-         this.actions.fetch({
-            url: Routing.generate('api_v1_get_actions')
+         actions.fetch({
+            url: Routing.generate('api_v1_get_user_actions')
          });
          followings.fetch({
             url: Routing.generate('api_v1_get_user_followings', { id: app.appState().getCurrentUserId() })
@@ -840,6 +816,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_user_hashtags', { id: app.appState().getCurrentUserId() })
+         });
+         this.rewards.fetch({
+            url: Routing.generate('api_v1_get_user_rewards', { id: app.appState().getCurrentUserId() })
          });
       },
 
@@ -996,6 +975,36 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                view: createBrandView
             })).render();
          });
+
+         if (!app.appState().isLogged()) {
+            $('.no-account-button').click(function() {
+               $('#loginModal').modal('hide');
+               setTimeout(function() {
+                  $('#signupModal').modal('show');
+               }, 500);
+            });
+         } else {
+            $('.showDidacticiel').tooltip();
+            // Get current user
+            app.oauth.loadAccessToken({
+               success: function() {
+                  $.ajax({
+                     url: Routing.generate('api_v1_get_user', { id: currentUserId }),
+                     headers: {
+                        "Authorization": app.oauth.getAuthorizationHeader()
+                     },
+                     success: function(user) {
+                        $('.showDidacticiel').click(function() {
+                           Common.Tools.launchDidacticiel(user);
+                        });
+                        if (user && !user.intro_played) {
+                           Common.Tools.launchDidacticiel(user);
+                        }
+                     }
+                  });
+               }
+            });
+         }
       },
 
       // Shortcut for building a url.
@@ -1133,6 +1142,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                showConfirmButton: false,
                modalDialogClasses: 'linkedaccount-dialog'
             })).render();
+         }
+         if (Common.Tools.getParameterByName('showTopUsers') && app.appState().isLogged()) {
+            User.Common.showModalTopFollowers();
          }
       }
    });

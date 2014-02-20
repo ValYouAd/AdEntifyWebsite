@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 define([
-   "app"
-], function(app) {
+   "app",
+   'introjs'
+], function(app, introJs) {
 
    var Common = app.module();
    Common.alertError = 'alert-danger';
@@ -177,6 +178,11 @@ define([
       hideCurrentModalIfOpened: function(callback, changeHistoryOnClose) {
          changeHistoryOnClose = typeof changeHistoryOnClose !== 'undefined' ? changeHistoryOnClose : true;
 
+         var currentFrontModal = app.useLayout().getView('#front-modal-container');
+         if (currentFrontModal) {
+            currentFrontModal.close();
+         }
+
          var currentModal = app.useLayout().getView('#modal-container');
          if (currentModal) {
             currentModal.changeHistoryOnClose = changeHistoryOnClose;
@@ -276,6 +282,25 @@ define([
                'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
             }
          }
+      },
+
+      launchDidacticiel: function(user) {
+         introJs().setOptions({
+            'scrollToElement': false,
+            'showStepNumbers': false,
+            'showBullets': false,
+            nextLabel: $.t('didacticiel.next'),
+            prevLabel: $.t('didacticiel.prev'),
+            skipLabel: $.t('didacticiel.skip'),
+            doneLabel: $.t('didacticiel.done')
+         }).start();
+         $.ajax({
+            url: Routing.generate('api_v1_post_user_intro_played'),
+            type: 'POST',
+            headers: {
+               "Authorization": app.oauth.getAuthorizationHeader()
+            }
+         });
       }
    }
 

@@ -429,6 +429,10 @@ class BrandsController extends FosRestController
                     null, false, 'followBrand', null, null, $brand);
 
                 $em->flush();
+
+                // Empty followings cache
+                UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+
                 return $follower;
             } else {
                 $brand->removeFollower($follower);
@@ -437,6 +441,9 @@ class BrandsController extends FosRestController
                 $em->merge($follower);
                 $em->merge($brand);
                 $em->flush();
+
+                // Empty followings cache
+                UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
             }
         } else {
             throw new HttpException(401);

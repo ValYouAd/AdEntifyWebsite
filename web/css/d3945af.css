@@ -1038,6 +1038,7 @@ html,body,.body-grey-background {
 }
 .dropdown-header-menu .copyright {
     vertical-align: middle;
+    margin-left: 20px;
 }
 .circle-social-icons .icon {
     vertical-align: middle;
@@ -1056,6 +1057,10 @@ html,body,.body-grey-background {
     font-size: 11px;
     padding: 15px;
     margin: 0px -15px;
+}
+.dropdown-header-menu footer .pull-left {
+    margin-left: 15px;
+    margin-top: -4px;
 }
 .dropdown-header-menu footer,
 .dropdown-header-menu footer a,
@@ -1761,6 +1766,9 @@ html,body,.body-grey-background {
     padding-right: 8px;
     margin-top: 8px;
 }
+.likes-count {
+    cursor: pointer;
+}
 .adentify-pastille-wrapper {
     position: absolute;
     top: 10px;
@@ -2094,7 +2102,7 @@ html,body,.body-grey-background {
     border-radius: 0px;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
     max-width: none;
-    min-width: 350px;
+    width: 200px;
     
     -webkit-transition: opacity 0.3s ease-out;
     -moz-transition: opacity 0.3s ease-out;
@@ -2131,11 +2139,40 @@ html,body,.body-grey-background {
     font-size: 16px;
     color: #4e4e50;
 }
-.popover-product {
-    min-width: 250px;
+.person-tag-container .popover {
+    width: 250px;
 }
-.popover-product .brand-logo {
-    max-height: 50px;
+.person-tag-container .person-picture {
+    display: inline-block;
+    vertical-align: middle;
+    zoom: 1;
+    *display: inline;
+}
+.person-tag-container .person-picture img {
+    -webkit-border-radius: 99em;
+    -moz-border-radius: 99em;
+    border-radius: 99em;
+    margin: 8px 10px;
+    max-height: 60px;
+}
+.product-tag-container .popover {
+    width: 400px;
+}
+.product-tag-container .brand-logo {
+    max-height: 100px;
+    max-width: 150px;
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+    padding: 10px;
+}
+.product-photo {
+    max-width: 180px;
+    max-height: 180px;
+    padding: 10px 15px;
+}
+.venue-tag-container .popover {
+    width: 350px;
 }
 .tag .map {
     width: 350px;
@@ -2153,10 +2190,6 @@ html,body,.body-grey-background {
     font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
     font-size: 16px;
     padding: 10px;
-}
-.product-photo {
-    max-width: 100%;
-    max-height: 200px;
 }
 .tag-buttons {
     background: url('../img/dark-grey-tag-background.jpg') repeat;
@@ -2715,7 +2748,7 @@ html,body,.body-grey-background {
 .top-progress-bar .progress {
     margin: 0;
     border-radius: 0px;
-    height: 4px;
+    height: 6px;
     background: none;
 }
 
@@ -2853,7 +2886,7 @@ html,body,.body-grey-background {
 /* S P R I T E S
 ----------------------- */
 
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .small-facebook-grey-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-grey-circle-icon, .small-twitter-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-pinterest-circle-icon, .small-facebook-circle-icon, .small-twitter-circle-icon, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .tag-button, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille-small, .adentify-pastille, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver, .tumblr-circle-icon, .tumblr-grey-circle-icon, .small-facebook-circle-icon, .small-facebook-grey-circle-icon, .small-flickr-circle-icon, .small-flickr-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-circle-icon, .small-pinterest-grey-circle-icon, .small-tumblr-circle-icon, .small-tumblr-grey-circle-icon, .small-twitter-circle-icon, .small-twitter-grey-circle-icon{
     background-image: url('../img/sprites.png');
     background-repeat: no-repeat;
     background-color: transparent;
@@ -3352,7 +3385,7 @@ html,body,.body-grey-background {
 }
 
 .grey-tagged-icon{
-    background-position: -1px -251px ;
+    background-position: 0 -251px ;
     width: 23px;
     height: 22px;
 }
@@ -3363,66 +3396,6 @@ html,body,.body-grey-background {
     height: 32px;
 }
 
-.small-facebook-grey-circle-icon{
-    background-position: -53px -253px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-instagram-grey-circle-icon{
-    background-position: -35px -253px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-pinterest-grey-circle-icon{
-    background-position: -35px -235px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-twitter-grey-circle-icon{
-    background-position: -35px -218px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-google-circle-icon{
-    background-position: -71px -270px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-google-grey-circle-icon{
-    background-position: -53px -270px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-instagram-circle-icon{
-    background-position: -18px -275px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-pinterest-circle-icon{
-    background-position: -1px -275px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-facebook-circle-icon{
-    background-position: -36px -270px ;
-    width: 15px;
-    height: 15px;
-}
-
-.small-twitter-circle-icon{
-    background-position: -71px -253px ;
-    width: 15px;
-    height: 15px;
-}
-
 .curve-arrow-left{
     background-position: -188px -214px ;
     width: 15px;
@@ -3430,7 +3403,7 @@ html,body,.body-grey-background {
 }
 
 .reward-addict{
-    background-position: -91px -288px ;
+    background-position: -92px -288px ;
     width: 30px;
     height: 30px;
 }
@@ -3448,13 +3421,106 @@ html,body,.body-grey-background {
 }
 
 .reward-silver{
-    background-position: -91px -255px ;
+    background-position: -92px -255px ;
     width: 30px;
     height: 30px;
 }
 
+.tumblr-circle-icon{
+    background-position: -314px -290px ;
+    width: 31px;
+    height: 32px;
+}
 
+.tumblr-grey-circle-icon{
+    background-position: -277px -291px ;
+    width: 31px;
+    height: 32px;
+}
 
+.small-facebook-circle-icon{
+    background-position: -69px -323px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-facebook-grey-circle-icon{
+    background-position: -46px -323px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-flickr-circle-icon{
+    background-position: -23px -323px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-flickr-grey-circle-icon{
+    background-position: 0 -323px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-google-circle-icon{
+    background-position: -69px -299px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-google-grey-circle-icon{
+    background-position: -46px -299px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-instagram-circle-icon{
+    background-position: -23px -299px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-instagram-grey-circle-icon{
+    background-position: 0 -299px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-pinterest-circle-icon{
+    background-position: -69px -275px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-pinterest-grey-circle-icon{
+    background-position: -46px -275px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-tumblr-circle-icon{
+    background-position: -23px -275px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-tumblr-grey-circle-icon{
+    background-position: 0 -275px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-twitter-circle-icon{
+    background-position: -48px -251px ;
+    width: 21px;
+    height: 22px;
+}
+
+.small-twitter-grey-circle-icon{
+    background-position: -25px -251px ;
+    width: 21px;
+    height: 22px;
+}
 
 
 
@@ -3496,30 +3562,45 @@ html,body,.body-grey-background {
     width: 31px;
     height: 32px;
 }
-.small-google-grey-circle-icon:hover{
-    background-position: -71px -270px ;
-    width: 15px;
-    height: 15px;
+.tumblr-grey-circle-icon:hover {
+    background-position: -314px -290px ;
+    width: 31px;
+    height: 32px;
 }
-.small-instagram-grey-circle-icon:hover{
-    background-position: -18px -275px ;
-    width: 15px;
-    height: 15px;
+.small-facebook-grey-circle-icon:hover {
+    background-position: -69px -323px ;
+    width: 21px;
+    height: 22px;
 }
-.small-pinterest-grey-circle-icon:hover{
-    background-position: -1px -275px ;
-    width: 15px;
-    height: 15px;
+.small-flickr-grey-circle-icon:hover{
+    background-position: -23px -323px ;
+    width: 21px;
+    height: 22px;
 }
-.small-facebook-grey-circle-icon:hover{
-    background-position: -36px -270px ;
-    width: 15px;
-    height: 15px;
+.small-google-grey-circle-icon:hover {
+    background-position: -69px -299px ;
+    width: 21px;
+    height: 22px;
 }
-.small-twitter-grey-circle-icon:hover{
-    background-position: -71px -253px ;
-    width: 15px;
-    height: 15px;
+.small-instagram-grey-circle-icon:hover {
+    background-position: -23px -299px ;
+    width: 21px;
+    height: 22px;
+}
+.small-pinterest-grey-circle-icon:hover {
+    background-position: -69px -275px ;
+    width: 21px;
+    height: 22px;
+}
+.small-tumblr-grey-circle-icon:hover {
+    background-position: -23px -275px ;
+    width: 21px;
+    height: 22px;
+}
+.small-twitter-grey-circle-icon:hover {
+    background-position: -48px -251px ;
+    width: 21px;
+    height: 22px;
 }
 
 /*
@@ -3564,6 +3645,31 @@ html,body,.body-grey-background {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+.login-dialog .btn {
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    border-radius: 22px;
+    color: #FFFFFF;
+    border: 0px;
+    padding: 4px 30px;
+    font-family: 'asapbold', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 1);
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    outline: none;
+}
+.login-dialog .btn:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.login-dialog .btn-link,
+.login-dialog .btn-link:hover {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    text-shadow:  none;
+    color: #9da0a4!important;
 }
 .btn-facebook,
 .btn-facebook:hover,
@@ -3699,6 +3805,7 @@ label,
     opacity: 1;
 }
 .login-dialog {
+    padding-top: 15%;
     max-width: 310px!important;
 }
 .lost-password a {
@@ -4012,6 +4119,7 @@ label,
     color: #9da0a4;
     margin: 10px 0px;
 }
+.followers-link, .followings-link { cursor: pointer; }
 .menu-left-hr {
     background: url('../img/horizontal-menu-left-separator.png') repeat-x;
     height: 2px;
@@ -4091,7 +4199,6 @@ label,
     -webkit-border-radius: 99em;
     -moz-border-radius: 99em;
     border-radius: 99em;
-    background: #FFFFFF;
 }
 
 .profile-details {
@@ -4202,20 +4309,16 @@ label,
 .user-item .more-profile {
     margin-top: 10px;
 }
-.followers .user-item,
-.followings .user-item {
+.user-item {
     padding: 4px 10px;
 }
-.followers .user-item .profile-picture,
-.followings .user-item .profile-picture {
+.user-item .profile-picture {
     max-height: 40px;
     vertical-align: middle;
     margin-right: 10px;
 }
-.followers .user-item a,
-.followers .user-item a:hover,
-.followings .user-item a,
-.followings .user-item a:hover {
+.user-item a,
+.user-item a:hover {
     font-family: 'robotobold', sans-serif;
     font-size: 14px;
     color: #2c2c2e;
@@ -4272,14 +4375,12 @@ label,
     background: url('../img/signin-icon.png');
     width: 30px;
     height: 22px;
-    margin-left: 10px;
     margin-top: -4px;
 }
 .signup-icon {
     background: url('../img/signup-icon.png');
     width: 25px;
     height: 27px;
-    margin-left: 25px;
     margin-top: -4px;
 }
 
@@ -4482,6 +4583,14 @@ label,
     background: #f4f6f8;
 }
 /* END : Bootstrap customs
+----------------------- */
+
+/* Modal
+----------------------- */
+.small-modal-dialog {
+    width: 260px;
+}
+/* END : Modal
 ----------------------- */
 
 /* Text

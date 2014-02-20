@@ -28,15 +28,32 @@ class UpdateCountersCommand extends ContainerAwareCommand
     {
         $this->setup();
 
-        $output->writeln('Load users');
-        $users = $this->em->getRepository('AdEntifyCoreBundle:User')->findAll();
+        $output->writeln('Update users');
+        $sql = 'UPDATE users as u SET tags_count = (SELECT COUNT(t.id) FROM tags as t WHERE t.owner_id = u.id AND t.deleted_at IS NULL),
+                    photos_count = (SELECT COUNT(p.id) FROM photos as p WHERE p.owner_id = u.id AND p.deleted_at IS NULL),
+                    followers_count = (SELECT COUNT(f.following_id) FROM users_followings as f WHERE f.following_id = u.id),
+                    followings_count = (SELECT COUNT(f.follower_id) FROM users_followings as f WHERE f.follower_id = u.id)';
+        $this->em->getConnection()->executeUpdate($sql);
+
+        $output->writeln('Update brands');
+        $sql = 'UPDATE brands as b SET tags_count = (SELECT COUNT(t.id) FROM tags as t WHERE t.brand_id = b.id AND t.deleted_at IS NULL),
+                    followers_count = (SELECT COUNT(bu.user_id) FROM brand_user as bu WHERE bu.brand_id = b.id)';
+        $this->em->getConnection()->executeUpdate($sql);
+
+        /*$users = $this->em->getRepository('AdEntifyCoreBundle:User')->findAll();
         foreach($users as $user) {
-            $user->setFollowersCount(count($user->getFollowers()));
-            $user->setFollowingsCount(count($user->getFollowings()));
-            $user->setTagsCount(count($user->getTags()));
-            $user->setPhotosCount(count($user->getPhotos()));
+            $user->setFollowersCount(count($user->getFollowers()))
+                ->setFollowingsCount(count($user->getFollowings()))
+                ->setTagsCount(count($user->getTags()))
+                ->setPhotosCount(count($user->getPhotos()));
             $this->em->merge($user);
-        }
+        }*/
+
+        /*$brands = $this->em->getRepository('AdEntifyCoreBundle:Brand')->findAll();
+        foreach($brands as $brand) {
+            $brand->setTagsCount(count($brand->getTags()))->setFollowersCount(count($brand->getFollowers()));
+            $this->em->merge($brand);
+        }*/
 
         $output->writeln('Flush modifications');
         $this->em->flush();

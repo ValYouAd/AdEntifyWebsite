@@ -31,11 +31,13 @@
                     <span><%= model.get('ownerModel').get('fullname') %></span>
                 </a>
             </div>
+            <% if (model.get('likes_count') > 0 || model.get('comments_count') > 0) { %>
             <div class="pull-right">
                 <a href="<%= model.get('link') %>" data-bypass="" class="photo-link">
                     <i class="white-heart-icon icon"></i> <%= model.get('likes_count') %> <i class="white-comment-icon icon"></i> <%= model.get('comments_count') %>
                 </a>
             </div>
+            <% } %>
             <div class="clearfix"></div>
         </div>
         <% } %>

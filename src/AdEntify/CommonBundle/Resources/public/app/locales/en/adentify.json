@@ -90,7 +90,9 @@
       "linkMyAccount": "Link my account",
       "profilePicture": "Profile picture",
       "profilePictureUpload": "Upload my profile picture",
-      "labelBirthday": "Birthday"
+      "labelBirthday": "Birthday",
+      "shareDataAdvertisers": "Accept to share advertising data with AdEntify",
+      "partnersNewsletters": "I do not wish to receive advertising from our Partner"
    },
    "upload": {
       "pageTitle": "Upload my photos - AdEntify",
@@ -184,7 +186,7 @@
       "errorProductImageUpload": "Error uploading product photo. Please try again.",
       "errorProductPost": "Error adding product",
       "errorBrandPost": "Error adding brand",
-      "errorSelectBrand": "You must select a brand before adding a product",
+      "errorSelectBrand": "You have to enter a brand before submitting tag",
       "errorProductEmptyFields": "You must fill in name and description fields",
       "deleteTag": "Delete tag",
       "addNewTag": "Add tag",
@@ -203,7 +205,10 @@
       "place": "Place",
       "person": "Person",
       "product": "Product",
-      "tagSuccessfullyAdded": "Tag was successfully added"
+      "tagSuccessfullyAdded": "Tag was successfully added",
+      "buy": "Buy product",
+      "errorDifferentBrand": "Chosen brand is different from product brand.",
+      "errorProductEmpty": "You have to enteer a product before submitting tag"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -292,7 +297,11 @@
       "viewPhoto": "View photo",
       "noCredits": "No credit, tag your photos or others to get points and cash!",
       "totalPoints": "__points__ pts",
-      "period": "Period"
+      "period": "Period",
+      "modalFollowersTitle": "Followers",
+      "modalFollowingsTitle": "Followings",
+      "modalTopFollowersTitle": "Most followed users",
+      "dateHeading": "Date (mm/dd/yyyy)"
    },
    "profile": {
       "follow": "Follow",
@@ -349,6 +358,7 @@
       "tagsBlockTitle": "Tags",
       "usersBlockTitle": "Users",
       "noSearch": "No search available at the moment",
+      "noPhoto": "No photo for this keyword",
       "photos": "Photos",
       "users": "Users",
       "feeds": "Feeds",
@@ -381,6 +391,7 @@
       "followUser": "<a href='__authorLink__'>__author__ now follows you</a>",
       "tagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You just win __count__ points for your last tag on <strong>your photo</strong></a>",
       "publicTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You just win __count__ points for the tag on <strong>your photo</strong></a>",
+      "publicTaggerTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You just win __count__ points for the tag on <strong>this photo</strong></a>",
       "newReward": "<a href='__brandLink__'>You just win the reward <strong>__type__</strong> for <strong>__brandName__</strong></a>"
    },
    "action": {
@@ -399,7 +410,11 @@
       "followBrand": "<a href='__authorLink__'>__author__</a> just followed <a href='__brandLink__'>__brandName__</a>",
       "tagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
       "publicTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>his photo</a>",
-      "newReward": "<a href='__authorLink__'>__author__</a> just became an __type__ fan of <a href='__brandLink__'>__brandName__</a>"
+      "publicTaggerTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
+      "newReward": "<a href='__authorLink__'>__author__</a> just became an __type__ fan of <a href='__brandLink__'>__brandName__</a>",
+      "noAction": "Start following other users to keep up with their latest activities",
+      "loggedOff": "Login or Signup to check out what’s going on with the people you follow",
+      "followNewUsers": "Who to follow"
    },
    "pagination": {
       "loadMore": "Load more",
@@ -417,7 +432,7 @@
       "byLikes": "By likes",
       "mostRecentToOldest": "Most recent to oldest",
       "mostOldestToRecent": "Oldest to most recent",
-      "mostLiked": "Most likes",
+      "mostLiked": "Most liked",
       "today": "Today",
       "taggedPhotos": "Tagged photos",
       "byPoints": "By points"
@@ -432,6 +447,12 @@
    },
    "legalNotice": {
       "alcool": "L'abus d'alcool est dangereux pour la santé"
+   },
+   "didacticiel": {
+      "next": "Next",
+      "prev": "Prev",
+      "skip": "Skip",
+      "done": "Done"
    },
    "common": {
       "viewPhoto": "View photo",

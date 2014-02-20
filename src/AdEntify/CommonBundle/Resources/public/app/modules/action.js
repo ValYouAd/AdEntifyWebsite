@@ -171,16 +171,27 @@ define([
       },
 
       initialize: function() {
-         this.listenTo(this.options.actions, 'sync', this.render);
+         this.listenTo(this.options.actions, 'sync', function() {
+            if (this.options.actions.length == 0) {
+               this.setView('.alert-actions', new Action.Views.NoAction());
+            } else {
+               this.removeView('.alert-actions');
+            }
+            this.render();
+         });
          this.listenTo(app, 'stop:polling', this.stopPolling);
-         this.pollActions(this.options.actions);
+         this.pollActions(this.options.actions,
+            typeof this.options.routeName !== 'undefined' ? this.options.routeName : null,
+            typeof this.options.routeParameters !== 'undefined' ? this.options.routeParameters : null);
       },
 
-      pollActions: function(actions) {
+      pollActions: function(actions, routeName, routeParameters) {
+         routeName = routeName || 'api_v1_get_actions';
+         routeParameters = routeParameters || {};
          var that = this;
          if (app.appState().getCurrentUserId() > 0) {
             actions.fetch({
-               url: Routing.generate('api_v1_get_actions'),
+               url: Routing.generate(routeName, routeParameters),
                success: function() {
                   // Set a new timeout
                   that.pollTimeout = setTimeout(function() {
@@ -200,6 +211,32 @@ define([
       stopPolling: function() {
          if (typeof this.pollTimeout !== 'undefined' && this.pollTimeout)
             clearTimeout(this.pollTimeout);
+      }
+   });
+
+   Action.Views.NoAction = Backbone.View.extend({
+      template: 'action/noAction',
+      alertText: 'action.noAction',
+      isLogged: false,
+
+      serialize: function() {
+         return {
+            alertText: this.alertText,
+            isLogged: this.isLogged
+         };
+      },
+
+      initialize: function() {
+         this.isLogged = app.appState().isLogged();
+         this.alertText = this.isLogged ? 'action.noAction' : 'action.loggedOff';
+      },
+
+      followNewUsers: function() {
+         User.Common.showModalTopFollowers();
+      },
+
+      events: {
+         'click .followNewUsers': 'followNewUsers'
       }
    });
 

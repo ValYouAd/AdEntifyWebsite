@@ -90,7 +90,9 @@
       "linkMyAccount": "Lier mon compte",
       "profilePicture": "Photo de profil",
       "profilePictureUpload": "Envoyer ma photo de profil",
-      "labelBirthday": "Date de naissance"
+      "labelBirthday": "Date de naissance",
+      "shareDataAdvertisers": "J’accepte de partager des données publicitaires avec AdEntify",
+      "partnersNewsletters": "Je ne souhaite pas recevoir toutes informations publicitaires émanant de nos Partenaires"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",
@@ -184,7 +186,7 @@
       "errorProductImageUpload": "Impossible de récupérer la photo du produit. Veuillez réessayer.",
       "errorProductPost": "Erreur lors de l'ajout du produit",
       "errorBrandPost": "Erreur lors de l'ajout de la marque",
-      "errorSelectBrand": "Veuillez sélectionner une marque avant d'ajouter un produit",
+      "errorSelectBrand": "Vous devez entrer une marque avant de valider l'ajout du tag.",
       "errorProductEmptyFields": "Vous devez remplir les champs nom et description",
       "deleteTag": "Supprimer ce tag",
       "addNewTag": "Ajouter un tag",
@@ -203,7 +205,10 @@
       "place": "Lieu",
       "person": "Personne",
       "product": "Produit",
-      "tagSuccessfullyAdded": "Le tag a été ajouté avec succès"
+      "tagSuccessfullyAdded": "Le tag a été ajouté avec succès",
+      "buy": "Acheter le produit",
+      "errorDifferentBrand": "La marque choisit est différente de la marque associée au produit.",
+      "errorProductEmpty": "Vous devez entrer un produit avant de valider l'ajout du tag"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -238,7 +243,9 @@
       "reportHarassing": "Harcelement contre ma personne ou une personne que je connais",
       "reportShouldntBe": "Je pense que cette photo ne devrait pas être sur AdEntify",
       "reportSpam": "C'est du spam",
-      "reportOther": "Autre"
+      "reportOther": "Autre",
+      "likers": "Personnes ayant aimées",
+      "noLiker": "Soyez le premier à aimer cette photo."
    },
    "externalServicePhotos": {
       "select": "Sélectionner",
@@ -292,7 +299,11 @@
       "viewPhoto": "Voir la photo",
       "noCredits": "Aucun crédit, taguez vos photos ou celles de vos amis pour gagnez de l'argent et des points !",
       "totalPoints": "__points__ pts",
-      "period": "Période"
+      "period": "Période",
+      "modalFollowersTitle": "Abonnés",
+      "modalFollowingsTitle": "Abonnements",
+      "modalTopFollowersTitle": "Les utilisateurs les plus suivis",
+      "dateHeading": "Date (jj/mm/aaaa)"
    },
    "profile": {
       "follow": "Suivre",
@@ -349,6 +360,7 @@
       "tagsBlockTitle": "Tags",
       "usersBlockTitle": "Membres",
       "noSearch": "Aucune recherche pour le moment",
+      "noPhoto": "Aucune photo pour cette recherche",
       "photos": "Photos",
       "users": "Utilisateurs",
       "feeds": "Flux",
@@ -381,6 +393,7 @@
       "followUser": "<a href='__authorLink__'><strong>__author__</strong> s'est abonné(e) à vos photos</a>",
       "tagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>Vous venez de gagner <strong>__count__ points</strong> pour votre dernier tag sur votre photo</a>",
       "publicTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>Vous venez de gagner <strong>__count__ points</strong> pour un tag sur votre photo</a>",
+      "publicTaggerTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>Vous venez de gagner <strong>__count__ points</strong> pour un tag sur cette photo</a>",
       "newReward": "<a href='__brandLink__'>Vous venez de gagner la récompense <strong>__type__</strong> pour la marque <strong>__brandName__</strong></a>"
    },
    "action": {
@@ -399,7 +412,11 @@
       "followBrand": "<a href='__authorLink__'>__author__</a> vient de suivre la marque <a href='__brandLink__'>__brandName__</a>",
       "tagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour son tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>",
       "publicTagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour un tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>sa photo</a>",
-      "newReward": "<a href='__authorLink__'>__author__</a> est maintenant un fan __type__ de <a href='__brandLink__'>__brandName__</a>"
+      "publicTaggerTagPoints": "<a href='__authorLink__'>__author__</a> a gagné <strong>__count__ points</strong> pour son tag sur <a href='__photoLink__' data-bypass='' class='photo-link'>une photo</a>",
+      "newReward": "<a href='__authorLink__'>__author__</a> est maintenant un fan __type__ de <a href='__brandLink__'>__brandName__</a>",
+      "noAction": "Commencez à suivre d’autres utilisateurs pour voir leurs dernières activités",
+      "loggedOff": "Connecte toi ou inscris toi pour suivre les dernières activités des personnes que tu suis",
+      "followNewUsers": "Suggestions"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",
@@ -432,6 +449,12 @@
    },
    "legalNotice": {
       "alcool": "L'abus d'alcool est dangereux pour la santé"
+   },
+   "didacticiel": {
+      "next": "Suivant",
+      "prev": "Précédent",
+      "skip": "Passer",
+      "done": "Terminer"
    },
    "common": {
       "viewPhoto": "voir la photo",

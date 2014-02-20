@@ -41,6 +41,16 @@ define([
       },
 
       initialize: function() {
+         this.setup();
+         this.listenTo(this, {
+            'sync': this.setup,
+            'add': this.setup
+         });
+
+         this.listenTo(this, 'change', this.render);
+      },
+
+      setup: function() {
          if (this.has('waiting_validation') && this.get('waiting_validation')) {
             if (this.has('validation_status') && this.get('validation_status') == 'waiting')
                this.set('cssClass', 'unvalidateTag');
@@ -59,8 +69,6 @@ define([
             var Brand = require('modules/brand');
             this.set('brandModel', new Brand.Model(this.get('brand')));
          }
-
-         this.listenTo(this, 'change', this.render);
       },
 
       urlRoot: function() {
@@ -107,7 +115,7 @@ define([
       },
 
       isPhotoOwner: function() {
-         return this && this.has('photo') && typeof this.get('photo')['owner']['id'] !== 'undefined' ? currentUserId === this.get('photo')['owner']['id'] : false;
+         return app.appState().getCurrentPhotoModel() !== 'undefined' ? app.appState().getCurrentPhotoModel().isOwner() : false;
       },
 
       delete: function() {
@@ -431,7 +439,7 @@ define([
                   model: tag,
                   desactivatePopover: this.desactivatePopover
                }));
-            } else if (tag.get('type')  == 'product') {
+            } else if (tag.get('type')  == 'product' || tag.get('type') == 'brand') {
                this.insertView(".tags", new Tag.Views.ProductItem({
                   model: tag,
                   desactivatePopover: this.desactivatePopover
@@ -541,6 +549,8 @@ define([
             app.trigger('tagform:changetab', $(this).attr('href'));
          });
 
+         var that = this;
+
          // Brand/Product
          $('#brand-name').typeahead({
             source: function(query, process) {
@@ -575,6 +585,7 @@ define([
             items: 15,
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
+               that.checkBrand();
                if (currentBrand) {
                   $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                }
@@ -585,7 +596,7 @@ define([
             }
          });
 
-         $('#product-name').typeahead({
+         this.$('#product-name').typeahead({
             source: function(query, process) {
                $('#loading-product').css({'display': 'inline-block'});
                app.oauth.loadAccessToken({
@@ -626,6 +637,7 @@ define([
             items: 15,
             updater: function(selectedItem) {
                currentProduct = currentProducts[selectedItem];
+               that.checkBrand();
                if (currentProduct) {
                   $('#product-image').html('<img src="' + currentProduct.medium_url + '" style="margin: 10px 0px;" class="product-image" />');
                   $('#product-description').html(currentProduct.description);
@@ -651,8 +663,8 @@ define([
             }
          });
 
-         $('#fileupload').attr("data-url", Routing.generate('upload_product_photo'));
-         $('#fileupload').fileupload({
+         this.$('#fileupload').attr("data-url", Routing.generate('upload_product_photo'));
+         this.$('#fileupload').fileupload({
             dataType: 'json',
             done: function (e, data) {
                if (data.result) {
@@ -678,8 +690,8 @@ define([
                $('.not-support-geolocation').fadeIn('fast');
             });
          }
-         var that = this;
-         $('#venue-name').typeahead({
+
+         this.$('#venue-name').typeahead({
             source: function(query, process) {
                return that.venueSource(query, process, 'loading-venue');
             },
@@ -690,7 +702,7 @@ define([
             },
             highlighter: that.venueHighlighter
          });
-         $('#product-venue-name').typeahead({
+         this.$('#product-venue-name').typeahead({
             source: function(query, process) {
                return that.venueSource(query, process, 'product-loading-venue');
             },
@@ -710,7 +722,7 @@ define([
             $('.tab-pane .fb-loggedout').fadeOut('fast');
             $('.tab-pane .fb-loggedin').fadeIn('fast');
          }
-         $('#person-text').typeahead({
+         this.$('#person-text').typeahead({
             source: function(query, process) {
                $('#loading-person').css({'display': 'inline-block'});
                app.fb.loadFriends({
@@ -847,11 +859,12 @@ define([
          switch ($activePane.attr('id')) {
             case 'product':
                $submit = $('#submit-product');
+               that.removeView('.alert-product');
                if (currentTag) {
+                  $submit.button('loading');
 
                   var tmpSubmitProduct = function() {
                      if (newProduct) {
-                        $submit.button('loading');
                         if (!$('#product-description').val() || !$('#product-name').val()) {
                            $submit.button('reset');
                            that.setView('.alert-product', new Common.Views.Alert({
@@ -889,6 +902,13 @@ define([
                         } else {
                            that.postProduct($submit);
                         }
+                     } else {
+                        $submit.button('reset');
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorProductEmpty'),
+                           showClose: true
+                        })).render();
                      }
                   };
 
@@ -925,8 +945,6 @@ define([
                   } else {
                      tmpSubmitProduct();
                   }
-
-
                } else {
                   $submit.button('reset');
                   that.setView('.alert-product', new Common.Views.Alert({
@@ -938,6 +956,7 @@ define([
                break;
             case 'venue':
                $submit = $('#submit-venue');
+               that.removeView('.alert-venue');
                if (currentVenue && currentTag) {
                   $submit.button('loading');
                   // Set venue info
@@ -1006,6 +1025,7 @@ define([
                break;
             case 'person':
                $submit = $('#submit-person');
+               that.removeView('.alert-person');
                if (currentPerson) {
                   $submit.button('loading');
                   person = new Person.Model();
@@ -1026,6 +1046,7 @@ define([
                               currentTag.save(null, {
                                  success: function() {
                                     currentTag.set('persisted', '');
+                                    currentTag.setup();
                                     app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
                                     app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                                  },
@@ -1106,6 +1127,55 @@ define([
                      message: $.t('tag.errorProductPost'),
                      showClose: true
                   })).render();
+               }
+            });
+         });
+      },
+
+      submitBrandTag: function($submit) {
+         var that = this;
+
+         // Link tag to photo
+         currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+         // Set tag info
+         currentTag.set('type', 'brand');
+         currentTag.set('brand', currentBrand.id);
+         currentTag.set('title', currentBrand.name);
+
+         currentTag.url = Routing.generate('api_v1_post_tag');
+         currentTag.getToken('tag_item', function() {
+            currentTag.save(null, {
+               success: function() {
+                  currentTag.set('persisted', '');
+                  if (currentBrand)
+                     app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
+                  app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
+               },
+               error: function(e, r) {
+                  delete currentTag.id;
+                  $submit.button('reset');
+                  if (r.status === 403) {
+                     that.setView('.alert-product', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.forbiddenTagPost'),
+                        showClose: true
+                     })).render();
+                  } else {
+                     var json = $.parseJSON(r.responseText);
+                     if (json && typeof json.errors !== 'undefined') {
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: Common.Tools.getHtmlErrors(json.errors),
+                           showClose: true
+                        })).render();
+                     } else {
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorTagPost'),
+                           showClose: true
+                        })).render();
+                     }
+                  }
                }
             });
          });
@@ -1193,6 +1263,20 @@ define([
          e.preventDefault();
       },
 
+      checkBrand: function() {
+         if (currentProduct && currentBrand && typeof currentProduct.brand !== 'undefined') {
+            if (currentProduct.brand.id != currentBrand.id) {
+               currentProduct = null;
+               this.$('#product-name').val('');
+               this.setView('.alert-product', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('tag.errorDifferentBrand'),
+                  showClose: true
+               })).render();
+            }
+         }
+      },
+
       events: {
          "click .cancel-add-tag": "cancel",
          "click .btn-geolocation": "geolocation",
@@ -1230,12 +1314,21 @@ define([
             showHeader: false,
             modalContentClasses: 'photoModal'
          });
-
          modal.on('hide', function() {
             app.trigger('addTagModal:hide');
+            var currentModalView = app.useLayout().getView('#modal-container');
+            if (currentModalView)
+               currentModalView.$('.modal-dialog').removeClass('slideOutLeft').addClass('animated slideInLeft');
          });
-
-         app.useLayout().setView('#front-modal-container', modal).render();
+         // Check if there is current modal
+         var currentModalView = app.useLayout().getView('#modal-container');
+         if (currentModalView) {
+            app.useLayout().getView('#modal-container').$('.modal-dialog').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+               app.useLayout().setView('#front-modal-container', modal).render();
+            }).addClass('animated slideOutLeft');
+         } else {
+            app.useLayout().setView('#front-modal-container', modal).render();
+         }
       },
 
       reportTag: function(tag) {
@@ -1244,7 +1337,7 @@ define([
             view: reportView,
             showFooter: false,
             showHeader: true,
-            title: $.t('tag.reportTitle'),
+            title: 'tag.reportTitle',
             modalDialogClasses: 'report-dialog'
          });
          reportView.on('report:submit', function(reason) {

@@ -57,7 +57,7 @@ class Comment
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      * @Assert\DateTime()
      */
-    private $deleted_at;
+    private $deletedAt;
 
     /**
      * @Serializer\Exclude
@@ -116,11 +116,11 @@ class Comment
     }
 
     /**
-     * @param \AdEntify\CoreBundle\Entity\datetime $deleted_at
+     * @param \AdEntify\CoreBundle\Entity\datetime $deletedAt
      */
-    public function setDeletedAt($deleted_at)
+    public function setDeletedAt($deletedAt)
     {
-        $this->deleted_at = $deleted_at;
+        $this->deletedAt = $deletedAt;
         return $this;
     }
 
@@ -129,7 +129,7 @@ class Comment
      */
     public function getDeletedAt()
     {
-        return $this->deleted_at;
+        return $this->deletedAt;
     }
 
     public function setPhoto($photo)

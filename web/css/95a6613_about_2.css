@@ -121,11 +121,9 @@ header {
         font-size: 14px;
     }
     .launch .icon {
-        float: left;
+        display: inline-block;
+        vertical-align: middle;
         margin-right: 10px;
-    }
-    .launch .text {
-        float: left;
     }
     .signup-wrapper {
         margin-bottom: 120px;

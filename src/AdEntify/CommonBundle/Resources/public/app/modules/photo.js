@@ -164,6 +164,7 @@ define([
       initialize: function() {
          var that = this;
          this.model = this.options.photo;
+         app.appState().set('currentPhotoModel', this.model);
          this.modal = typeof this.options.modal !== 'undefined' ? this.options.modal : false;
          this.listenTo(this.options.photo, {
             'error': function(model, resp) {
@@ -254,6 +255,7 @@ define([
             var that = this;
             likeButtonView.on('like', function(liked) {
                that.updateLikedCount(liked);
+               that.getView('.popover-wrapper').updateLike(liked);
             });
             this.setView('.like-button', likeButtonView);
          }
@@ -268,7 +270,8 @@ define([
                that.addNewTag(null);
                that.hidePastillePopover();
             });
-            pastillePopoverView.on('like', function() {
+            pastillePopoverView.on('like', function(liked) {
+               that.updateLikedCount(liked);
                that.getView('.like-button').likeButtonClick();
                that.hidePastillePopover();
             });
@@ -438,18 +441,26 @@ define([
          }
       },
 
+      showLikers: function() {
+         var User = require('modules/user');
+         var users = new User.Collection();
+         users.url = Routing.generate('api_v1_get_photo_likers', { id: this.model.get('id')} );
+         User.Common.showModal(users, 'photo.likers', 'photo.noLiker', true);
+      },
+
       events: {
          'click .adentify-pastille': 'clickPastille',
          'mouseenter .photo-container': 'showTags',
          'mouseleave .photo-container': 'hideTags',
-         "click .showTagsCheckbox": "checkboxShowTags",
-         "click .showLikesCheckbox": "checkboxShowLikes",
-         "mouseup .selectOnFocus": "selectTextOnFocus",
-         "click #photo-tabs a": "changeTab",
-         'click .add-new-tag': "addNewTag",
+         'click .showTagsCheckbox': 'checkboxShowTags',
+         'click .showLikesCheckbox': 'checkboxShowLikes',
+         'mouseup .selectOnFocus': 'selectTextOnFocus',
+         'click #photo-tabs a': 'changeTab',
+         'click .add-new-tag': 'addNewTag',
          'mouseenter .adentify-pastille-wrapper': 'showPastillePopover',
          'mouseleave .adentify-pastille-wrapper': 'hidePastillePopover',
-         'click .report-button': 'report'
+         'click .report-button': 'report',
+         'click .likes-count': 'showLikers'
       }
    });
 
@@ -779,14 +790,16 @@ define([
          'click .like-button': 'likeButtonClick'
       },
 
-      likeButtonClick: function() {
+      likeButtonClick: function(trigger) {
+         trigger = trigger || false;
          if (app.appState().isLogged()) {
             // Like photo
             Photo.Common.like(this.photo);
             this.liked = !this.liked;
 
             this.render();
-            this.trigger('like', this.liked);
+            if (trigger)
+               this.trigger('like', this.liked);
          } else {
             Common.Tools.notLoggedModal(false, 'notLogged.like');
          }
@@ -866,12 +879,16 @@ define([
 
       like: function() {
          if (app.appState().isLogged()) {
-            this.trigger('like', this.options.photo);
-            this.liked = !this.liked;
-            this.render();
+            this.trigger('like', !this.liked);
+            this.updateLike(!this.liked);
          } else {
             Common.Tools.notLoggedModal(false, 'notLogged.like');
          }
+      },
+
+      updateLike: function(liked) {
+         this.liked = liked;
+         this.render();
       },
 
       share: function() {
@@ -1026,7 +1043,7 @@ define([
             view: reportView,
             showFooter: false,
             showHeader: true,
-            title: $.t('photo.reportTitle'),
+            title: 'photo.reportTitle',
             modalDialogClasses: 'report-dialog'
          });
          reportView.on('report:submit', function(reason, option) {

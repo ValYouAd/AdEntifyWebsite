@@ -1,5 +1,7 @@
 {% extends "::base.html.twig" %}
-{% if form is defined %}{% form_theme form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
+{% if form is defined %}{% form_theme form 'AdEntifyCommonBundle:Form:contactFields.html.twig' %}{% endif %}
+
+{% block bodyAttr %} class="body-grey-background"{% endblock %}
 
 {% block stylesheets %}
     {% stylesheets filter='cssrewrite'
@@ -8,13 +10,13 @@
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
     {% endstylesheets %}
-{% endblock %}1.352083
+{% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&v=3&sensor=false"></script>
     <script type="text/javascript">
         function initialize() {
-            var myLatLng = new google.maps.LatLng(,103.819836);
+            var myLatLng = new google.maps.LatLng(1.352083,103.819836);
             var mapOptions = {
                 zoom: 2,
                 center: myLatLng,
@@ -53,7 +55,6 @@
 {% block title %}{{ 'contact.pageTitle'|trans }}{% endblock %}
 {% block metadescription %}{{ 'contact.pageDescription'|trans }}{% endblock %}
 
-
 {% block body %}
 
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
@@ -81,7 +82,10 @@
                 <h2>{{ 'Follow us!'|trans }}</h2>
                 <a target="_blank" href="https://www.facebook.com/pages/AdEntify/167935029970678"><img src="{{ asset('bundles/adentifycommon/images/contact-facebook.jpg') }}" /></a>
                 <a target="_blank" href="https://twitter.com/adentify"><img src="{{ asset('bundles/adentifycommon/images/contact-twitter.jpg') }}" /></a>
+                <a target="_blank" href="https://plus.google.com/u/0/b/115776105780658726605/+Adentify/posts"><img src="{{ asset('bundles/adentifycommon/images/contact-google.png') }}" /></a>
+                <a target="_blank" href="https://pinterest.com/adentify"><img src="{{ asset('bundles/adentifycommon/images/contact-pinterest.png') }}" /></a>
                 <a target="_blank" href="http://instagram.com/adentify"><img src="{{ asset('bundles/adentifycommon/images/contact-instagram.jpg') }}" /></a>
+                <a target="_blank" href="http://adentify.tumblr.com/"><img src="{{ asset('bundles/adentifycommon/images/contact-tumblr.png') }}" /></a>
             </div>
         </div>
     </div>

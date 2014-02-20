@@ -17,8 +17,7 @@
                 <th>Id</th>
                 <th>{{ 'category.name'|trans }}</th>
                 <th>{{ 'category.visible'|trans }}</th>
-                <th>{{ 'category.createdAt'|trans }}</th>
-                <th>Slug</th>
+                <th>{{ 'category.displayOrder'|trans }}</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,8 +27,7 @@
                 <td><a href="{{ path('category_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.name }}</td>
                 <td>{% if entity.visible %}<i class="glyphicon glyphicon-ok text-success"></i>{% else %}<i class="glyphicon glyphicon-ban-circle text-danger"></i>{% endif %}</td>
-                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ entity.slug }}</td>
+                <td>{{ entity.displayOrder }}</td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-default" href="{{ path('category_show', { 'id': entity.id }) }}">{{ 'show'|trans }}</a>

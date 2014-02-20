@@ -282,6 +282,10 @@ class UsersController extends FosRestController
                 $em->merge($follower);
                 $em->merge($following);
                 $em->flush();
+
+                // Empty followings cache
+                UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+
                 return $follower;
             } else {
                 $follower->removeFollowing($following);
@@ -290,6 +294,9 @@ class UsersController extends FosRestController
                 $em->merge($follower);
                 $em->merge($following);
                 $em->flush();
+
+                // Empty followings cache
+                UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
             }
         } else {
             throw new HttpException(401);
@@ -489,6 +496,17 @@ class UsersController extends FosRestController
 
     /**
      * @View()
+     */
+    public function getTopFollowersAction()
+    {
+        return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+              ORDER BY user.followersCount')
+            ->setMaxResults(10)
+            ->getResult();
+    }
+
+    /**
+     * @View()
      *
      * @param $id
      */
@@ -553,12 +571,11 @@ class UsersController extends FosRestController
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $currentUser = $this->container->get('security.context')->getToken()->getUser();
-            $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
+            return $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
             LEFT JOIN b.followers as follower WHERE b.validated = 1 AND follower.id = :currentUserId')
                 ->setParameters(array(
-                    'currentUserId' => $currentUser->getId()
-                ));
+                    'currentUserId' => $securityContext->getToken()->getUser()->getId()
+                ))->getResult();
         } else {
             throw new HttpException(401);
         }
@@ -643,17 +660,18 @@ class UsersController extends FosRestController
             );
             $whereClausesPoints = array();
             $whereClausesIncomes = array();
+
             if ($begin) {
                 $parametersPoints['begin'] = new \DateTime($begin);
                 $parametersIncomes['begin'] = new \DateTime($begin);
-                $whereClausesPoints[] = ' AND DAY(credited_at) >= DAY(:begin) ';
-                $whereClausesIncomes[] = ' AND DAY(paid_at) >= DAY(:end) ';
+                $whereClausesPoints[] = ' AND DATE(credited_at) >= DATE(:begin) ';
+                $whereClausesIncomes[] = ' AND DATE(paid_at) >= DATE(:begin) ';
             }
             if ($end) {
                 $parametersPoints['end'] = new \DateTime($end);
                 $parametersIncomes['end'] = new \DateTime($end);
-                $whereClausesPoints[] = ' AND DAY(credited_at) <= DAY(:end) ';
-                $whereClausesIncomes[] = ' AND DAY(paid_at) <= DAY(:end) ';
+                $whereClausesPoints[] = ' AND DATE(credited_at) <= DATE(:end) ';
+                $whereClausesIncomes[] = ' AND DATE(paid_at) <= DATE(:end) ';
             }
 
             $rsm = new ResultSetMapping();
@@ -661,7 +679,7 @@ class UsersController extends FosRestController
             $rsm->addScalarResult('date', 'date', 'datetime');
 
             $sql = 'SELECT SUM(points) AS points, credited_at AS date FROM tag_points
-            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesPoints) . ' GROUP BY DAY(credited_at)';
+            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesPoints) . ' GROUP BY DATE(credited_at) ORDER BY credited_at';
             $tagPoints = $em->createNativeQuery($sql, $rsm)->setParameters($parametersPoints)->getResult();
 
             $rsm = new ResultSetMapping();
@@ -669,7 +687,7 @@ class UsersController extends FosRestController
             $rsm->addScalarResult('date', 'date', 'datetime');
 
             $sql = 'SELECT SUM(income) AS income, paid_at AS date FROM tag_incomes
-            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesIncomes) . ' GROUP BY DAY(paid_at)';
+            WHERE user_id = :userId AND status = :status ' . implode('', $whereClausesIncomes) . ' GROUP BY DATE(paid_at) ORDER BY paid_at';
             $tagIncomes = $em->createNativeQuery($sql, $rsm)->setParameters($parametersIncomes)->getResult();
 
             $credits = array();
@@ -780,6 +798,68 @@ class UsersController extends FosRestController
                 ));
         }
         return PaginationTools::getPaginationArray($rewards, $pagination);
+    }
+
+    /**
+     * @param $id
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="20")
+     *
+     * @View()
+     */
+    public function getActionsAction($page = 1, $limit = 20)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+
+            $query = $em->createQuery('SELECT action FROM AdEntify\CoreBundle\Entity\Action action
+            LEFT JOIN action.target target LEFT JOIN action.author author
+            WHERE author.id = :userId
+            ORDER BY action.createdAt DESC')
+                ->setParameters(array(
+                    'userId' => $securityContext->getToken()->getUser()->getId()
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+
+            $paginator = new Paginator($query, $fetchJoinCollection = true);
+            $count = count($paginator);
+
+            $actions = null;
+            $pagination = null;
+            if ($count > 0) {
+                $actions = array();
+                foreach($paginator as $action) {
+                    $actions[] = $action;
+                }
+
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_actions');
+            }
+
+            return PaginationTools::getPaginationArray($actions, $pagination);
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * @View()
+     */
+    public function postIntroPlayedAction()
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $securityContext->getToken()->getUser();
+            $user->setIntroPlayed(true);
+            $em = $this->getDoctrine()->getManager();
+            $em->merge($user);
+            $em->flush();
+            return $user;
+        } else {
+            throw new HttpException(401);
+        }
     }
 
     private function formatCredit(TagPoint $tagPoint = null, TagIncome $tagIncome = null)
