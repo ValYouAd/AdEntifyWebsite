@@ -157,6 +157,7 @@ didacticiel:
     userInfos: 'Un simple clic pour accéder à tout votre contenu'
     photos: 'Ce flux de photos regroupe les photos tagguées de tous les utilisateurs'
     ticker: 'Et ici, les dernières activités des personnes que vous suivez'
+    show: Voir le didacticiel
 
 #Routing
 photos/untagged/: photos/non-taguees/

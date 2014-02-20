@@ -984,6 +984,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                }, 500);
             });
          } else {
+            $('.showDidacticiel').tooltip();
             // Get current user
             app.oauth.loadAccessToken({
                success: function() {
@@ -993,6 +994,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                         "Authorization": app.oauth.getAuthorizationHeader()
                      },
                      success: function(user) {
+                        $('.showDidacticiel').click(function() {
+                           Common.Tools.launchDidacticiel(user);
+                        });
                         if (user && !user.intro_played) {
                            Common.Tools.launchDidacticiel(user);
                         }

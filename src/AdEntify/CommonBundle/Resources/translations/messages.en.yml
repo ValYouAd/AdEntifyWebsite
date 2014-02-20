@@ -146,6 +146,7 @@ didacticiel:
     userInfos: 'Click on your name or your points to display the drop-down menu with to access your content'
     photos: 'View last tagged photos from all users'
     ticker: 'And here, last activities from your followings'
+    show: Show step-by-step introduction
 
 #Routing
 photos/untagged/: photos/untagged/
