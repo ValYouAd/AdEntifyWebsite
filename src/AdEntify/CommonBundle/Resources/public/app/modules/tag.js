@@ -861,9 +861,10 @@ define([
                $submit = $('#submit-product');
                that.removeView('.alert-product');
                if (currentTag) {
+                  $submit.button('loading');
+
                   var tmpSubmitProduct = function() {
                      if (newProduct) {
-                        $submit.button('loading');
                         if (!$('#product-description').val() || !$('#product-name').val()) {
                            $submit.button('reset');
                            that.setView('.alert-product', new Common.Views.Alert({
@@ -902,8 +903,12 @@ define([
                            that.postProduct($submit);
                         }
                      } else {
-                        $submit.button('loading');
-                        that.submitBrandTag($submit);
+                        $submit.button('reset');
+                        that.setView('.alert-product', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorProductEmpty'),
+                           showClose: true
+                        })).render();
                      }
                   };
 

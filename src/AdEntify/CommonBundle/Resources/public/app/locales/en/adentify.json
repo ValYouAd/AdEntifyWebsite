@@ -186,7 +186,7 @@
       "errorProductImageUpload": "Error uploading product photo. Please try again.",
       "errorProductPost": "Error adding product",
       "errorBrandPost": "Error adding brand",
-      "errorSelectBrand": "You must select a brand before adding a product",
+      "errorSelectBrand": "You have to enter a brand before submitting tag",
       "errorProductEmptyFields": "You must fill in name and description fields",
       "deleteTag": "Delete tag",
       "addNewTag": "Add tag",
@@ -207,7 +207,8 @@
       "product": "Product",
       "tagSuccessfullyAdded": "Tag was successfully added",
       "buy": "Buy product",
-      "errorDifferentBrand": "Chosen brand is different from product brand."
+      "errorDifferentBrand": "Chosen brand is different from product brand.",
+      "errorProductEmpty": "You have to enteer a product before submitting tag"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",

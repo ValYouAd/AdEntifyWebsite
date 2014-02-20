@@ -186,7 +186,7 @@
       "errorProductImageUpload": "Impossible de récupérer la photo du produit. Veuillez réessayer.",
       "errorProductPost": "Erreur lors de l'ajout du produit",
       "errorBrandPost": "Erreur lors de l'ajout de la marque",
-      "errorSelectBrand": "Veuillez sélectionner une marque avant d'ajouter un produit",
+      "errorSelectBrand": "Vous devez entrer une marque avant de valider l'ajout du tag.",
       "errorProductEmptyFields": "Vous devez remplir les champs nom et description",
       "deleteTag": "Supprimer ce tag",
       "addNewTag": "Ajouter un tag",
@@ -207,7 +207,8 @@
       "product": "Produit",
       "tagSuccessfullyAdded": "Le tag a été ajouté avec succès",
       "buy": "Acheter le produit",
-      "errorDifferentBrand": "La marque choisit est différente de la marque associée au produit."
+      "errorDifferentBrand": "La marque choisit est différente de la marque associée au produit.",
+      "errorProductEmpty": "Vous devez entrer un produit avant de valider l'ajout du tag"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
