@@ -100,7 +100,7 @@ class Action
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $author;

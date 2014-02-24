@@ -234,11 +234,19 @@ class Tag
      */
     private $owner;
 
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Report", mappedBy="tag", cascade={"remove"})
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->stats = new \Doctrine\Common\Collections\ArrayCollection();
         $this->incomes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->points = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -661,5 +669,23 @@ class Tag
     public function getTotalPoints()
     {
         return $this->totalPoints;
+    }
+
+    public function addReport(Report $report)
+    {
+        $this->reports[] = $report;
+        $report->setTag($this);
+        return $this;
+    }
+
+    public function removeReport(Report $report)
+    {
+        $this->reports->removeElement($report);
+        $report->setTag(null);
+    }
+
+    public function getReports()
+    {
+        return $this->reports;
     }
 }

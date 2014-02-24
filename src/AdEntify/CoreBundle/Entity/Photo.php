@@ -243,7 +243,7 @@ class Photo
     private $likesCount = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="photo")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="photo", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      * @Serializer\Groups({"details", "list"})
      */
@@ -315,6 +315,13 @@ class Photo
      */
     private $hashtags;
 
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Report", mappedBy="photo", cascade={"remove"})
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -323,6 +330,7 @@ class Photo
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->favoritesUsers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->hashtags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -892,5 +900,23 @@ class Photo
     public function getTotalTagsPoints()
     {
         return $this->totalTagsPoints;
+    }
+
+    public function addReport(Report $report)
+    {
+        $this->reports[] = $report;
+        $report->setPhoto($this);
+        return $this;
+    }
+
+    public function removeReport(Report $report)
+    {
+        $this->reports->removeElement($report);
+        $report->setPhoto(null);
+    }
+
+    public function getReports()
+    {
+        return $this->reports;
     }
 }
