@@ -102,12 +102,12 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="sprites tag-button pull-right" data-intro="{{ 'didacticiel.tag'|trans }}" data-position="left">
+                            <div class="sprites tag-button pull-right" data-intro="{{ 'didacticiel.tagButton'|trans }}" data-position="left">
                                 <div class="dropdown-menu">
                                     <div class="white-arrow-top"></div>
                                     <ul class="list-unstyled">
-                                        <li><a href="{{ full_root_url }}{{ 'upload/'|trans }}"><i class="icon my-pictures"></i> {{ 'Upload photos'|trans }}</a></li>
-                                        <li><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'Tag my photos'|trans }}</a></li>
+                                        <li data-intro-param="dropdown" data-intro="{{ 'didacticiel.upload'|trans }}" data-position="left"><a href="{{ full_root_url }}{{ 'upload/'|trans }}"><i class="icon my-pictures"></i> {{ 'Upload photos'|trans }}</a></li>
+                                        <li data-intro-param="dropdown" data-intro="{{ 'didacticiel.tag'|trans }}" data-position="left"><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'Tag my photos'|trans }}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                                 </div>
                             </div>
                             <div class="pull-right">
-                                <i class="pull-left glyphicon glyphicon-question-sign showDidacticiel" data-toggle="tooltip" title="{{ 'didacticiel.show'|trans }}"></i>
+                                <i class="pull-right glyphicon glyphicon-question-sign showDidacticiel" data-toggle="tooltip" title="{{ 'didacticiel.show'|trans }}"></i>
                                 <a href="{{ path('contact') }}">{{ 'Advertisers'|trans }}</a> • <a href="{{ path('about') }}">{{ 'How it works'|trans }}</a> • <a href="{{ path('press') }}">{{ 'Who we are'|trans }}</a> • <a href="{{ path('jobs') }}">{{ 'Jobs'|trans }}</a> • <a href="{{ path('contact') }}">Contact</a> • <a href="{{ path('legal') }}">{{ 'Legal notice'|trans }}</a>
                                 <span class="copyright"> © {{ date|date('Y') }} AdEntify</span>
                             </div>

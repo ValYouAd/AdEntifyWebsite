@@ -173,7 +173,9 @@ define([
       initialize: function() {
          this.listenTo(this.options.actions, 'sync', function() {
             if (this.options.actions.length == 0) {
-               this.setView('.alert-actions', new Action.Views.NoAction());
+               this.setView('.alert-actions', new Action.Views.NoAction({
+                  emptyMessage: typeof this.options.emptyMessage ? this.options.emptyMessage : null
+               }));
             } else {
                this.removeView('.alert-actions');
             }
@@ -195,13 +197,13 @@ define([
                success: function() {
                   // Set a new timeout
                   that.pollTimeout = setTimeout(function() {
-                     that.pollActions(actions);
+                     that.pollActions(actions, routeName, routeParameters);
                   }, app.secondsBetweenPoll * 1000);
                },
                error: function() {
                   // Error, set a new timeout for 5 seconds
                   that.pollTimeout = setTimeout(function() {
-                     that.pollActions(actions);
+                     that.pollActions(actions, routeName, routeParameters);
                   }, 5000);
                }
             });
@@ -218,17 +220,21 @@ define([
       template: 'action/noAction',
       alertText: 'action.noAction',
       isLogged: false,
+      emptyMessage: null,
 
       serialize: function() {
          return {
             alertText: this.alertText,
-            isLogged: this.isLogged
+            isLogged: this.isLogged,
+            emptyMessage: this.emptyMessage,
+            rootUrl: app.beginUrl + app.root
          };
       },
 
       initialize: function() {
          this.isLogged = app.appState().isLogged();
          this.alertText = this.isLogged ? 'action.noAction' : 'action.loggedOff';
+         this.emptyMessage = typeof this.options.emptyMessage ? this.options.emptyMessage : this.emptyMessage;
       },
 
       followNewUsers: function() {

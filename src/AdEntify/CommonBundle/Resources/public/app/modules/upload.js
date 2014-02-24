@@ -126,7 +126,7 @@ define([
                type: 'POST',
                data: { 'images': this.photos.toJSON(), 'source': 'local' },
                success: function() {
-                  Upload.Common.showUploadInProgressModal();
+                  Upload.Common.showUploadInProgressModal(true);
                },
                error: function() {
                   // Hide loader
@@ -299,7 +299,8 @@ define([
          return new Common.Views.ProgressBar();
       },
 
-      showUploadInProgressModal: function() {
+      showUploadInProgressModal: function(redirectOnClose) {
+         redirectOnClose = redirectOnClose || false;
          // Top progressbar
          var progressBar = new Common.Views.ProgressBar();
          app.useLayout().setView('.top-progress-bar', progressBar).render();
@@ -313,6 +314,11 @@ define([
             showHeader: false,
             modalDialogClasses: 'upload-dialog'
          });
+         if (redirectOnClose) {
+            modal.on('hide', function() {
+               Backbone.history.navigate($.t('routing.my/photos/'), true);
+            });
+         }
          Common.Tools.hideCurrentModalIfOpened(function() {
             app.useLayout().setView('#modal-container', modal).render();
          });

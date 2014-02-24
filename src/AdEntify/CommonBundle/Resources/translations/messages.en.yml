@@ -147,6 +147,7 @@ didacticiel:
     userInfos: 'Click here to access all your information'
     photos: 'View the latest tagged photos from AdEntify users'
     ticker: ' Check out what’s going on with the people you follow'
+    tagButton: 'Add new content in few clicks'
     show: Show step-by-step introduction
 
 #Routing

@@ -284,7 +284,8 @@ define([
          }
       },
 
-      launchDidacticiel: function(user) {
+      launchDidacticiel: function() {
+         var dropdownOpened = false;
          introJs().setOptions({
             'scrollToElement': false,
             'showStepNumbers': false,
@@ -293,14 +294,26 @@ define([
             prevLabel: $.t('didacticiel.prev'),
             skipLabel: $.t('didacticiel.skip'),
             doneLabel: $.t('didacticiel.done')
-         }).start();
-         $.ajax({
-            url: Routing.generate('api_v1_post_user_intro_played'),
-            type: 'POST',
-            headers: {
-               "Authorization": app.oauth.getAuthorizationHeader()
+         }).onbeforechange(function(targetElement) {
+            if ($(targetElement).data('intro-param') && $(targetElement).data('intro-param') == 'dropdown') {
+               if (!dropdownOpened) {
+                  dropdownOpened = $(targetElement).parents('.dropdown-menu');
+                  dropdownOpened.fadeIn('fast');
+               }
+            } else if (dropdownOpened) {
+               dropdownOpened.fadeOut('fast');
+               dropdownOpened = false;
             }
-         });
+         }).start();
+         if (app.appState().isLogged()) {
+            $.ajax({
+               url: Routing.generate('api_v1_post_user_intro_played'),
+               type: 'POST',
+               headers: {
+                  "Authorization": app.oauth.getAuthorizationHeader()
+               }
+            });
+         }
       }
    }
 

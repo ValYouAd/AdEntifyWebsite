@@ -634,7 +634,7 @@ class PhotosController extends FosRestController
                 $em->merge($photo);
                 $em->flush();
             } else {
-                throw new HttpException(403, 'You are not authorized to delete this tag');
+                throw new HttpException(403, 'You are not authorized to delete this photo');
             }
         } else {
             throw new HttpException(401);

@@ -243,7 +243,9 @@
       "reportHarassing": "It's harassing me or someone I know",
       "reportShouldntBe": "I think it shouldn't be on AdEntify",
       "reportSpam": "It's spam",
-      "reportOther": "Other"
+      "reportOther": "Other",
+      "likers": "People who liked",
+      "noLiker": "Be the first to like this photo."
    },
    "externalServicePhotos": {
       "select": "Select",
@@ -300,7 +302,7 @@
       "period": "Period",
       "modalFollowersTitle": "Followers",
       "modalFollowingsTitle": "Followings",
-      "modalTopFollowersTitle": "Most followed users",
+      "modalTopFollowersTitle": "Most popular users",
       "dateHeading": "Date (mm/dd/yyyy)"
    },
    "profile": {
@@ -413,8 +415,9 @@
       "publicTaggerTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
       "newReward": "<a href='__authorLink__'>__author__</a> just became an __type__ fan of <a href='__brandLink__'>__brandName__</a>",
       "noAction": "Start following other users to keep up with their latest activities",
-      "loggedOff": "Login or Signup to check out what’s going on with the people you follow",
-      "followNewUsers": "Who to follow"
+      "loggedOff": "Login or Sign Up to check out what’s going on with the people you follow",
+      "followNewUsers": "Who to follow",
+      "startTagging": "Start tagging!"
    },
    "pagination": {
       "loadMore": "Load more",

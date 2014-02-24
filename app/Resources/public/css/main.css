@@ -236,8 +236,9 @@ html,body,.body-grey-background {
 }
 .showDidacticiel {
     font-size: 20px;
-    color: #a9abae;
-    margin-right: 20px;
+    color: #cdcccc;
+    margin-left: 20px;
+    margin-top: -5px;
     cursor: pointer;
 }
 /* END NAV
@@ -1218,6 +1219,9 @@ html,body,.body-grey-background {
     text-align: center;
     color: white;
 }
+.actions-white .no-action-container .text {
+    color: #505051;
+}
 /* END MODULE : Actions
 ----------------------- */
 
@@ -1790,12 +1794,16 @@ html,body,.body-grey-background {
 
 /* Brand
 ----------------------- */
+.brand-menu {
+    padding-top: 40px!important;
+}
 .brand-profile-picture {
     border: 0px!important;
     -webkit-border-radius: 0px!important;
     -moz-border-radius: 0px!important;
     border-radius: 0px!important;
-    margin-top: 20px;
+    margin: 0 auto 30px auto!important;
+    max-width: 90%;
 }
 .brand-heading h1 {
     font-family: 'pacificoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -3326,6 +3334,9 @@ label,
 .navbar .tag-button .icon {
     margin-right: 18px;
 }
+.tag-button .introjs-showElement {
+    background: white;
+}
 .user-information {
     margin-top: 8px;
 }
@@ -3769,7 +3780,10 @@ label,
 /* Modal
 ----------------------- */
 .small-modal-dialog {
-    width: 260px;
+    width: 360px;
+}
+.medium-modal-dialog {
+    width: 560px;
 }
 /* END : Modal
 ----------------------- */

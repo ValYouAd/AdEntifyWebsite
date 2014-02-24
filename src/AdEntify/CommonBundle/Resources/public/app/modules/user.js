@@ -336,7 +336,8 @@ define([
             var Action = require('modules/action');
             this.setView('.my-history-content', new Action.Views.List({
                actions: this.options.actions,
-               routeName: 'api_v1_get_user_actions'
+               routeName: 'api_v1_get_user_actions',
+               emptyMessage: 'startTagging'
             }));
          }
          if (!this.getView('.user-credits-table')) {
@@ -662,9 +663,10 @@ define([
          this.showModal(users, 'user.modalTopFollowersTitle', 'profile.noFollowers', false, true);
       },
 
-      showModal: function(users, title, noUsersMessage, stack, forceRender) {
+      showModal: function(users, title, noUsersMessage, stack, forceRender, modalDialogClass) {
          stack = stack || false;
          forceRender = forceRender || false;
+         modalDialogClass= modalDialogClass || 'small-modal-dialog';
          var userListView = new User.Views.List({
             users: users,
             noUsersMessage: noUsersMessage
@@ -680,7 +682,7 @@ define([
             showFooter: false,
             showHeader: true,
             title: title,
-            modalDialogClasses: 'small-modal-dialog'
+            modalDialogClasses: modalDialogClass
          });
          if (stack) {
             modal.on('hide', function() {
