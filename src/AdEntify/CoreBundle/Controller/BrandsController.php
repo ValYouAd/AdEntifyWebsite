@@ -352,9 +352,9 @@ class BrandsController extends FosRestController
         }
 
         $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner LEFT JOIN tag.brand tagBrand LEFT JOIN tag.product product LEFT JOIN product.brand brand
-                WHERE brand.validated = 1 AND (brand.slug = :slug OR tagBrand.slug = :slug) AND photo.status = :status AND photo.tagsCount > 0
-                AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
+                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner LEFT JOIN tag.brand tagBrand LEFT JOIN tag.brand brand
+                WHERE brand.validated = 1 AND (brand.slug = :slug OR tagBrand.slug = :slug) AND photo.status = :status
+                AND photo.tagsCount > 0 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC')
             ->setParameters(array(
                 ':status' => Photo::STATUS_READY,
