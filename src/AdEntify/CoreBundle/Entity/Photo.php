@@ -112,7 +112,6 @@ class Photo
      * @var string
      *
      * @ORM\Column(name="original_url", type="text")
-     * @Assert\NotBlank()
      */
     private $originalUrl;
 
@@ -756,6 +755,15 @@ class Photo
     }
 
     /**
+     * @param mixed $categories
+     */
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
+        return $this;
+    }
+
+    /**
      * @param int $visibilityScope
      */
     public function setVisibilityScope($visibilityScope)
@@ -883,6 +891,15 @@ class Photo
     public function getHashtags()
     {
         return $this->hashtags;
+    }
+
+    /**
+     * @param mixed $hashtags
+     */
+    public function setHashtags($hashtags)
+    {
+        $this->hashtags = $hashtags;
+        return $this;
     }
 
     /**
