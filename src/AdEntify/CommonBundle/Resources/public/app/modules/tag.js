@@ -605,7 +605,7 @@ define([
                      currentProducts = {};
                      currentProductTypes = {};
                      $.when($.ajax({
-                        url: Routing.generate('api_v1_get_product_search', { query: query }),
+                        url: Routing.generate('api_v1_get_product_search', { query: query, brandId: currentBrand ? currentBrand.id : 0 }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
                            if (typeof response !== 'undefined' && response.length > 0) {
