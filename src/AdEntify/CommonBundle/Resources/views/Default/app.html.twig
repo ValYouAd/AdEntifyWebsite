@@ -87,7 +87,7 @@
                                                     {% if app.user.firstname or app.user.lastname %}
                                                         {% if app.user.firstname %}{{ app.user.firstname }}{% endif %}
                                                     {% else %}
-                                                        {{ app.user.email }}
+                                                        {{ app.user.username }}
                                                     {% endif %}
                                                 </div>
                                                 <div class="user-points"></div>

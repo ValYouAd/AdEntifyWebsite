@@ -172,13 +172,6 @@ services:
             facebook: "@fos_facebook.api"
             userManager: "@fos_user.user_manager"
             validator: "@validator"
-    my.twitter.user:
-        class: AdEntify\UserBundle\Security\User\Provider\TwitterProvider
-        arguments:
-            twitter_oauth: "@fos_twitter.api"
-            userManager: "@fos_user.user_manager"
-            validator: "@validator"
-            session: "@session"
     oauth_event_listener:
         class:  AdEntify\CoreBundle\EventListener\OAuthEventListener
         arguments:

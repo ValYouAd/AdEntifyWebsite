@@ -17,8 +17,6 @@ security:
             id: fos_user.user_provider.username_email
         my_fos_facebook_provider:
             id: my.facebook.user
-        my_fos_twitter_provider:
-            id: my.twitter.user
 
     firewalls:
         api:
