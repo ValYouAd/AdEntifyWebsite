@@ -202,7 +202,7 @@ define([
       notLoggedModal: function(redirect, content) {
          redirect = typeof redirect !== 'undefined' ? redirect : false;
          content = typeof content !== 'undefined' ? content : 'common.contentNotLogged';
-         app.useLayout().setView('#center-pane-content', new Common.Views.Modal({
+         app.useLayout().setView('#front-modal-container', new Common.Views.Modal({
             title: 'common.titleNotLogged',
             content: content,
             redirect: redirect,

@@ -24,21 +24,21 @@ class FOSUBUserProvider extends BaseClass
         $property = $this->getProperty($response);
         $username = $response->getUsername();
 
-        //on connect - get the access token and the user ID
+        // on connect - get the access token and the user ID
         $service = $response->getResourceOwner()->getName();
 
         $setter = 'set'.ucfirst($service);
         $setter_id = $setter.'Id';
         $setter_token = $setter.'AccessToken';
 
-        //we "disconnect" previously connected users
+        // we "disconnect" previously connected users
         if (null !== $previousUser = $this->userManager->findUserBy(array($property => $username))) {
             $previousUser->$setter_id(null);
             $previousUser->$setter_token(null);
             $this->userManager->updateUser($previousUser);
         }
 
-        //we connect current user
+        // we connect current user
         $user->$setter_id($username);
         $user->$setter_token($response->getAccessToken());
 
@@ -50,10 +50,11 @@ class FOSUBUserProvider extends BaseClass
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-        $username = $response->getNickname();
-        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $username));
+        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $response->getUsername()));
+
         //when the user is registrating
         if (null === $user) {
+            $username = $response->getNickname();
             $service = $response->getResourceOwner()->getName();
             $setter = 'set'.ucfirst($service);
             $setter_id = $setter.'Id';
@@ -62,9 +63,16 @@ class FOSUBUserProvider extends BaseClass
             $user = $this->userManager->createUser();
             $user->$setter_id($response->getUsername());
             $user->$setter_token($response->getAccessToken());
+            if ($response->getRealName()) {
+                $parts = explode(' ', $response->getRealName());
+                $user->setFirstname(array_shift($parts));
+                $user->setLastname(implode(' ', $parts));
+            }
             //I have set all requested data with the user's username
             //modify here with relevant data
             $resp = $response->getResponse();
+            if (array_key_exists('profile_image_url', $resp))
+                $user->setProfilePicture($resp['profile_image_url']);
             if (array_key_exists('first_name', $resp))
                 $user->setFirstname($resp['first_name']);
             if (array_key_exists('last_name', $resp))
