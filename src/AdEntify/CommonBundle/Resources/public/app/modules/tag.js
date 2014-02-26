@@ -864,18 +864,7 @@ define([
                   $submit.button('loading');
 
                   var tmpSubmitProduct = function() {
-                     if (newProduct) {
-                        if (!$('#product-description').val() || !$('#product-name').val()) {
-                           $submit.button('reset');
-                           that.setView('.alert-product', new Common.Views.Alert({
-                              cssClass: Common.alertError,
-                              message: $.t('tag.errorProductEmptyFields'),
-                              showClose: true
-                           })).render();
-                           return;
-                        }
-                        that.submitNewProduct();
-                     } else if (currentProduct || currentProductType) {
+                     if (currentProduct || currentProductType) {
                         $submit.button('loading');
                         // Check if there is a venue for the current product
                         if (currentVenue && currentProduct) {
@@ -902,6 +891,9 @@ define([
                         } else {
                            that.postProduct($submit);
                         }
+                     } else if ($('#product-name').val()) {
+                        that.createProduct();
+                        that.submitNewProduct();
                      } else {
                         $submit.button('reset');
                         that.setView('.alert-product', new Common.Views.Alert({
@@ -1242,11 +1234,6 @@ define([
       },
 
       createProduct: function(e) {
-         e.preventDefault();
-         var that = this;
-         this.$('.createProductButtonContainer').fadeOut('fast', function() {
-            $(that.el).find('.createProductContainer').fadeIn('fast');
-         });
          newProduct = new Product.Model();
       },
 
@@ -1281,7 +1268,6 @@ define([
          "click .cancel-add-tag": "cancel",
          "click .btn-geolocation": "geolocation",
          "click .submitTagButton": "submit",
-         "click .createProductButton": "createProduct",
          'click .more-details-button': 'moreDetailsPlace'
       }
    });

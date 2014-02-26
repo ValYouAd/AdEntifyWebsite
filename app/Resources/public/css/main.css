@@ -1255,9 +1255,10 @@ html,body,.body-grey-background {
     top: 9px;
     left: 11px;
 }
-.tag .gift-icon{
-    top: 9px;
-    left: 10px;
+.tag .glyphicon-tag {
+    top: 10px;
+    left: 11px;
+    color: #606366;
 }
 .tag .tag-place-icon{
     left: 12px;
@@ -1400,8 +1401,10 @@ html,body,.body-grey-background {
     right: 5px;
     top: 5px;
 }
-.add-tag-form {
-
+.add-tag-form .brand-logo {
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
 }
 .add-tag-form label {
     color: #5b5756;
@@ -3360,6 +3363,9 @@ label,
     margin-top: 0px;
     cursor: pointer;
     position: relative;
+}
+.profile-infos .glyphicon {
+    color: #acaeb0;
 }
 .profile-infos .user-infos-wrapper {
     border: 1px solid #29292b;

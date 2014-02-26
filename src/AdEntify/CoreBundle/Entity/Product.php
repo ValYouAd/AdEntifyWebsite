@@ -47,8 +47,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
-     * @Assert\NotBlank
+     * @ORM\Column(name="description", type="text", nullable=true)
      * @Serializer\Groups({"details", "list"})
      */
     private $description;
@@ -130,7 +129,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="original_url", type="text")
+     * @ORM\Column(name="original_url", type="text", nullable=true)
      * @Serializer\Groups({"details", "list"})
      */
     private $originalUrl;

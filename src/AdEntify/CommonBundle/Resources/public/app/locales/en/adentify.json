@@ -145,7 +145,7 @@
       "product": "Brand",
       "place": "Place",
       "person": "Person",
-      "labelProductName": "Enter the brand of the product",
+      "labelProductName": "Enter the name of the product",
       "labelProductDescription": "Describe the product",
       "placeholderProductName": "Name of the product",
       "buttonAddProduct": "Add product",
@@ -208,7 +208,7 @@
       "tagSuccessfullyAdded": "Tag was successfully added",
       "buy": "Buy product",
       "errorDifferentBrand": "Chosen brand is different from product brand.",
-      "errorProductEmpty": "You have to enteer a product before submitting tag"
+      "errorProductEmpty": "You have to enter a product name before submiting tag"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
