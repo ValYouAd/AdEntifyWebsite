@@ -75,7 +75,7 @@
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'My photos'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/dashboard/'|trans }}"><i class="icon dashboard-icon"></i> {{ 'My dashboard'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"><i class="icon favorites-icon"></i> {{ 'My favorites'|trans }}</a></li>
-                                                    <li><a href="{{ full_root_url }}{{ 'my/brands/'|trans }}"><i class="icon brands-icon"></i> {{ 'My brands'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/brands/'|trans }}"><i class="icon glyphicon glyphicon-tag"></i> {{ 'My brands'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}"><i class="icon parameters-icon"></i> {{ 'My settings'|trans }}</a></li>
                                                     {% if is_granted('ROLE_TEAM') %}<li><a href="{{ path('brands') }}" data-bypass=""><i class="icon glyphicon glyphicon-wrench"></i> Backoffice</a></li>{% endif %}
                                                     {% if is_granted('ROLE_ANOUNCER') %}<li><a href="{{ full_root_url }}"><i class="icon glyphicon glyphicon-wrench"></i> {{ 'My brand'|trans }}</a></li>{% endif %}
@@ -87,7 +87,7 @@
                                                     {% if app.user.firstname or app.user.lastname %}
                                                         {% if app.user.firstname %}{{ app.user.firstname }}{% endif %}
                                                     {% else %}
-                                                        {{ app.user.email }}
+                                                        {{ app.user.username }}
                                                     {% endif %}
                                                 </div>
                                                 <div class="user-points"></div>
@@ -102,12 +102,12 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="sprites tag-button pull-right" data-intro="{{ 'didacticiel.tag'|trans }}" data-position="left">
+                            <div class="sprites tag-button pull-right animated flash" data-intro="{{ 'didacticiel.tagButton'|trans }}" data-position="left">
                                 <div class="dropdown-menu">
                                     <div class="white-arrow-top"></div>
                                     <ul class="list-unstyled">
-                                        <li><a href="{{ full_root_url }}{{ 'upload/'|trans }}"><i class="icon my-pictures"></i> {{ 'Upload photos'|trans }}</a></li>
-                                        <li><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'Tag my photos'|trans }}</a></li>
+                                        <li data-intro-param="dropdown" data-intro="{{ 'didacticiel.upload'|trans }}" data-position="left"><a href="{{ full_root_url }}{{ 'upload/'|trans }}"><i class="icon my-pictures"></i> {{ 'Upload photos'|trans }}</a></li>
+                                        <li data-intro-param="dropdown" data-intro="{{ 'didacticiel.tag'|trans }}" data-position="left"><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon glyphicon glyphicon-tags"></i> {{ 'Tag my photos'|trans }}</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                                 </div>
                             </div>
                             <div class="pull-right">
-                                <i class="pull-left glyphicon glyphicon-question-sign showDidacticiel" data-toggle="tooltip" title="{{ 'didacticiel.show'|trans }}"></i>
+                                <i class="pull-right glyphicon glyphicon-question-sign showDidacticiel" data-toggle="tooltip" title="{{ 'didacticiel.show'|trans }}"></i>
                                 <a href="{{ path('contact') }}">{{ 'Advertisers'|trans }}</a> • <a href="{{ path('about') }}">{{ 'How it works'|trans }}</a> • <a href="{{ path('press') }}">{{ 'Who we are'|trans }}</a> • <a href="{{ path('jobs') }}">{{ 'Jobs'|trans }}</a> • <a href="{{ path('contact') }}">Contact</a> • <a href="{{ path('legal') }}">{{ 'Legal notice'|trans }}</a>
                                 <span class="copyright"> © {{ date|date('Y') }} AdEntify</span>
                             </div>

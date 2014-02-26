@@ -236,8 +236,9 @@ html,body,.body-grey-background {
 }
 .showDidacticiel {
     font-size: 20px;
-    color: #a9abae;
-    margin-right: 20px;
+    color: #cdcccc;
+    margin-left: 20px;
+    margin-top: -5px;
     cursor: pointer;
 }
 /* END NAV
@@ -1218,6 +1219,9 @@ html,body,.body-grey-background {
     text-align: center;
     color: white;
 }
+.actions-white .no-action-container .text {
+    color: #505051;
+}
 /* END MODULE : Actions
 ----------------------- */
 
@@ -1250,6 +1254,11 @@ html,body,.body-grey-background {
 .tag .tag-brand-icon{
     top: 9px;
     left: 11px;
+}
+.tag .glyphicon-tag {
+    top: 10px;
+    left: 11px;
+    color: #606366;
 }
 .tag .tag-place-icon{
     left: 12px;
@@ -1392,8 +1401,10 @@ html,body,.body-grey-background {
     right: 5px;
     top: 5px;
 }
-.add-tag-form {
-
+.add-tag-form .brand-logo {
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
 }
 .add-tag-form label {
     color: #5b5756;
@@ -1790,12 +1801,16 @@ html,body,.body-grey-background {
 
 /* Brand
 ----------------------- */
+.brand-menu {
+    padding-top: 40px!important;
+}
 .brand-profile-picture {
     border: 0px!important;
     -webkit-border-radius: 0px!important;
     -moz-border-radius: 0px!important;
     border-radius: 0px!important;
-    margin-top: 20px;
+    margin: 0 auto 30px auto!important;
+    max-width: 90%;
 }
 .brand-heading h1 {
     font-family: 'pacificoregular', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -2070,12 +2085,11 @@ html,body,.body-grey-background {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .logo-nav, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver, .tumblr-circle-icon, .tumblr-grey-circle-icon, .small-facebook-circle-icon, .small-facebook-grey-circle-icon, .small-flickr-circle-icon, .small-flickr-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-circle-icon, .small-pinterest-grey-circle-icon, .small-tumblr-circle-icon, .small-tumblr-grey-circle-icon, .small-twitter-circle-icon, .small-twitter-grey-circle-icon, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille, .tag-button, .adentify-pastille-small{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver, .tumblr-circle-icon, .tumblr-grey-circle-icon, .small-facebook-circle-icon, .small-facebook-grey-circle-icon, .small-flickr-circle-icon, .small-flickr-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-circle-icon, .small-pinterest-grey-circle-icon, .small-tumblr-circle-icon, .small-tumblr-grey-circle-icon, .small-twitter-circle-icon, .small-twitter-grey-circle-icon, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille, .tag-button, .adentify-pastille-small, .logo-nav, .gift-icon{
     background-image: url('../img/sprites.png');
     background-repeat: no-repeat;
     background-color: transparent;
 }
-
 .brands-icon{
     background-position: -110px -51px ;
     width: 17px;
@@ -2098,12 +2112,6 @@ html,body,.body-grey-background {
     background-position: -151px -3px ;
     width: 37px;
     height: 37px;
-}
-
-.logo-nav{
-    background-position: -193px -6px ;
-    width: 116px;
-    height: 42px;
 }
 
 .people-icon{
@@ -2699,10 +2707,23 @@ html,body,.body-grey-background {
     width: 52px;
     height: 52px;
 }
+
 .adentify-pastille-small{
     background-position: -261px -103px ;
     width: 35px;
     height: 35px;
+}
+
+.logo-nav{
+    background-position: -193px -6px ;
+    width: 116px;
+    height: 42px;
+}
+
+.gift-icon{
+    background-position: -92px -323px ;
+    width: 15px;
+    height: 17px;
 }
 
 
@@ -3326,6 +3347,9 @@ label,
 .navbar .tag-button .icon {
     margin-right: 18px;
 }
+.tag-button .introjs-showElement {
+    background: white;
+}
 .user-information {
     margin-top: 8px;
 }
@@ -3339,6 +3363,10 @@ label,
     margin-top: 0px;
     cursor: pointer;
     position: relative;
+}
+.profile-infos .glyphicon,
+.tag-button .glyphicon{
+    color: #acaeb0;
 }
 .profile-infos .user-infos-wrapper {
     border: 1px solid #29292b;
@@ -3769,7 +3797,10 @@ label,
 /* Modal
 ----------------------- */
 .small-modal-dialog {
-    width: 260px;
+    width: 360px;
+}
+.medium-modal-dialog {
+    width: 560px;
 }
 /* END : Modal
 ----------------------- */
@@ -4065,12 +4096,12 @@ a[data-bypass] {
 /* Animations
 ----------------------- */
 .flash{
-    -webkit-animation-iteration-count: 8;
-    -ms-animation-iteration-count: 8;
-    -moz-animation-iteration-count: 8;
-    animation-iteration-count: 8;
-    -webkit-animation-duration: 2s;
-    animation-duration:2s
+    -webkit-animation-iteration-count: 2;
+    -ms-animation-iteration-count: 2;
+    -moz-animation-iteration-count: 2;
+    animation-iteration-count: 2;
+    -webkit-animation-duration: 3s;
+    animation-duration:3s
 }
 /*
 ----------------------- */

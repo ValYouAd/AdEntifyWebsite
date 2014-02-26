@@ -129,7 +129,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", mappedBy="owner", cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $photos;
@@ -144,14 +144,14 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Like", mappedBy="liker")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Like", mappedBy="liker", cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $likes;
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Comment", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Comment", mappedBy="author", cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
@@ -159,7 +159,7 @@ class User extends BaseUser
     /**
      * @var Person
      *
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="user")
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="user", orphanRemoval=true)
      * @Serializer\Exclude()
      */
     private $person;
@@ -167,24 +167,24 @@ class User extends BaseUser
     /**
      * @var OAuthUserInfo
      *
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\OAuthUserInfo", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\OAuthUserInfo", mappedBy="user", cascade={"remove"})
      * @Serializer\Exclude
      */
     private $oAuthUserInfos;
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagStats", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagStats", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $stats;
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="followers")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="followers", orphanRemoval=true)
      * @ORM\JoinTable(name="users_followings",
      *      joinColumns={@ORM\JoinColumn(name="follower_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="following_id", referencedColumnName="id", unique=true)})
+     *      inverseJoinColumns={@ORM\JoinColumn(name="following_id", referencedColumnName="id")})
      */
     private $followings;
 
@@ -198,7 +198,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="followings")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="followings", orphanRemoval=true)
      */
     private $followers;
 
@@ -220,7 +220,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="friends")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="friends", orphanRemoval=true)
      * @ORM\JoinTable(name="user_friends")
      */
     private $friends;
@@ -235,7 +235,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="favoritesUsers")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="favoritesUsers", orphanRemoval=true)
      * @ORM\JoinTable(name="user_favorites_photos")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
@@ -243,14 +243,14 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Notification", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Notification", mappedBy="owner", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $notifications;
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Action", mappedBy="target")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Action", mappedBy="target", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $actions;
@@ -273,7 +273,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Tag", mappedBy="owner", cascade={"remove"})
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $tags;
@@ -288,7 +288,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\OAuth\Client", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\OAuth\Client", inversedBy="users", cascade={"remove"})
      */
     private $clients;
 
@@ -331,7 +331,7 @@ class User extends BaseUser
     /**
      * @Serializer\Exclude
      *
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Reward", mappedBy="owner", cascade={"remove"})
      */
     private $rewards;
 

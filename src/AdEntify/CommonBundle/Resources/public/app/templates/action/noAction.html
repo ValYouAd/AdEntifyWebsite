@@ -2,7 +2,11 @@
     <p class="text"><%= $.t(alertText) %></p>
     <% if (isLogged) { %>
     <p class="text-center mt2">
+        <% if (!emptyMessage) { %>
         <button class="followNewUsers btn-around-corner btn-red-grey-border"><%= $.t('action.followNewUsers') %></button>
+        <% } else if (emptyMessage == 'startTagging') { %>
+        <a class="btn-arround-corner btn-red-grey-border" href="<%= rootUrl %><%= $.t('routing.my/photos/') %>"><%= $.t('action.startTagging') %></a>
+        <% } %>
     </p>
     <% } %>
 </div>

@@ -302,7 +302,7 @@
       "period": "Période",
       "modalFollowersTitle": "Abonnés",
       "modalFollowingsTitle": "Abonnements",
-      "modalTopFollowersTitle": "Les utilisateurs les plus suivis",
+      "modalTopFollowersTitle": "Utilisateurs les plus populaires",
       "dateHeading": "Date (jj/mm/aaaa)"
    },
    "profile": {
@@ -416,7 +416,8 @@
       "newReward": "<a href='__authorLink__'>__author__</a> est maintenant un fan __type__ de <a href='__brandLink__'>__brandName__</a>",
       "noAction": "Commencez à suivre d’autres utilisateurs pour voir leurs dernières activités",
       "loggedOff": "Connecte toi ou inscris toi pour suivre les dernières activités des personnes que tu suis",
-      "followNewUsers": "Suggestions"
+      "followNewUsers": "Suggestions",
+      "startTagging": "Commencez à tagguer !"
    },
    "pagination": {
       "loadMore": "Charger plus d'éléments",

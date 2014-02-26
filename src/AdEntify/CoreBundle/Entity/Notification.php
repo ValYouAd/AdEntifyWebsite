@@ -81,6 +81,7 @@ class Notification
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $author;

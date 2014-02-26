@@ -172,13 +172,6 @@ services:
             facebook: "@fos_facebook.api"
             userManager: "@fos_user.user_manager"
             validator: "@validator"
-    my.twitter.user:
-        class: AdEntify\UserBundle\Security\User\Provider\TwitterProvider
-        arguments:
-            twitter_oauth: "@fos_twitter.api"
-            userManager: "@fos_user.user_manager"
-            validator: "@validator"
-            session: "@session"
     oauth_event_listener:
         class:  AdEntify\CoreBundle\EventListener\OAuthEventListener
         arguments:
@@ -309,8 +302,8 @@ nelmio_cors:
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
             max_age: 3600
 
-nelmio_api_doc:
-    name: AdEntify API v1
+#nelmio_api_doc:
+#    name: AdEntify API v1
 
 a2lix_translation_form:
     locales: [en, fr]       # [1]

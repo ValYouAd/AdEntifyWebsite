@@ -976,6 +976,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             })).render();
          });
 
+         $('.showDidacticiel').tooltip();
+
          if (!app.appState().isLogged()) {
             $('.no-account-button').click(function() {
                $('#loginModal').modal('hide');
@@ -983,8 +985,11 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                   $('#signupModal').modal('show');
                }, 500);
             });
+
+            $('.showDidacticiel').click(function() {
+               Common.Tools.launchDidacticiel();
+            });
          } else {
-            $('.showDidacticiel').tooltip();
             // Get current user
             app.oauth.loadAccessToken({
                success: function() {
@@ -995,10 +1000,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                      },
                      success: function(user) {
                         $('.showDidacticiel').click(function() {
-                           Common.Tools.launchDidacticiel(user);
+                           Common.Tools.launchDidacticiel();
                         });
                         if (user && !user.intro_played) {
-                           Common.Tools.launchDidacticiel(user);
+                           Common.Tools.launchDidacticiel();
                         }
                      }
                   });

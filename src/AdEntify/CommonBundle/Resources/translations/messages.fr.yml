@@ -158,6 +158,7 @@ didacticiel:
     userInfos: 'Un simple clic pour accéder à tout votre contenu'
     photos: 'Découvrez les dernières photos tagguées par les utilisateurs AdEntify'
     ticker: 'Reste informé des dernières activités des personnes que tu suis'
+    tagButton: 'Ajoutez du contenu en quelques clics'
     show: Voir le didacticiel
 
 #Routing

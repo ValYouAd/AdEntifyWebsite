@@ -72,18 +72,27 @@ class ProductsController extends FosRestController
      *  section="Product"
      * )
      *
+     * @QueryParam(name="brandId", requirements="\d+", default="0")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View()
      */
-    public function getSearchAction($query, $page, $limit)
+    public function getSearchAction($query, $page, $limit, $brandId = 0)
     {
-        return $this->getDoctrine()->getManager()->createQuery('SELECT product FROM AdEntify\CoreBundle\Entity\Product product
-            WHERE product.name LIKE :query')
-            ->setParameter(':query', '%'.$query.'%')
-            ->setMaxResults($limit)
-            ->setFirstResult(($page - 1) * $limit)
-            ->getResult();
+        $qb = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Product')->createQueryBuilder('p');
+        $qb->where('p.name LIKE :query');
+
+        $parameters = array(
+            ':query' => '%'.$query.'%'
+        );
+
+        if ($brandId > 0) {
+            $qb->andWhere('p.brand = :brandId');
+            $parameters['brandId'] = $brandId;
+        }
+        $qb->setParameters($parameters);
+
+        return $qb->setMaxResults($limit)->setFirstResult(($page - 1) * $limit)->getQuery()->getResult();
     }
 
     /**

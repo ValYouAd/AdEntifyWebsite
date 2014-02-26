@@ -40,21 +40,6 @@ class UpdateCountersCommand extends ContainerAwareCommand
                     followers_count = (SELECT COUNT(bu.user_id) FROM brand_user as bu WHERE bu.brand_id = b.id)';
         $this->em->getConnection()->executeUpdate($sql);
 
-        /*$users = $this->em->getRepository('AdEntifyCoreBundle:User')->findAll();
-        foreach($users as $user) {
-            $user->setFollowersCount(count($user->getFollowers()))
-                ->setFollowingsCount(count($user->getFollowings()))
-                ->setTagsCount(count($user->getTags()))
-                ->setPhotosCount(count($user->getPhotos()));
-            $this->em->merge($user);
-        }*/
-
-        /*$brands = $this->em->getRepository('AdEntifyCoreBundle:Brand')->findAll();
-        foreach($brands as $brand) {
-            $brand->setTagsCount(count($brand->getTags()))->setFollowersCount(count($brand->getFollowers()));
-            $this->em->merge($brand);
-        }*/
-
         $output->writeln('Flush modifications');
         $this->em->flush();
         $output->writeln('Done!');

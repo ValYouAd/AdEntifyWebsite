@@ -565,16 +565,24 @@ class PhotosController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $photo = $this->getAction($id);
             if ($photo) {
+                $em = $this->getDoctrine()->getManager();
+                $oldPhoto = $em->getRepository('AdEntifyCoreBundle:Photo')->find($id);
                 $user = $this->container->get('security.context')->getToken()->getUser();
-                if ($photo->getOwner()->getId() == $user->getId()) {
+                if ($oldPhoto->getOwner()->getId() == $user->getId()) {
                     $form = $this->getForm($photo);
                     $form->bind($request);
                     if ($form->isValid()) {
-                        $em = $this->getDoctrine()->getManager();
-                        echo count($photo->getHashtags());
-                        $em->merge($photo);
+                        $oldPhoto->setCaption($photo->getCaption());
+                        if ($photo->getCategories()) {
+                            $oldPhoto->setCategories($photo->getCategories());
+                        }
+                        if ($photo->getHashtags()) {
+                            $oldPhoto->setHashtags($photo->getHashtags());
+                        }
+
+                        $em->merge($oldPhoto);
                         $em->flush();
-                        return $photo;
+                        return $oldPhoto;
                     } else {
                         return $form;
                     }
@@ -634,7 +642,7 @@ class PhotosController extends FosRestController
                 $em->merge($photo);
                 $em->flush();
             } else {
-                throw new HttpException(403, 'You are not authorized to delete this tag');
+                throw new HttpException(403, 'You are not authorized to delete this photo');
             }
         } else {
             throw new HttpException(401);

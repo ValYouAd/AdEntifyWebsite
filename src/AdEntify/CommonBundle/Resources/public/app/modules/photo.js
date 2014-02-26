@@ -316,6 +316,8 @@ define([
                showAlert: true
             }));
          }
+
+         this.listenTo(app, 'addTagModal:hide', this.update);
       },
 
       afterRender: function() {
@@ -446,6 +448,15 @@ define([
          var users = new User.Collection();
          users.url = Routing.generate('api_v1_get_photo_likers', { id: this.model.get('id')} );
          User.Common.showModal(users, 'photo.likers', 'photo.noLiker', true);
+      },
+
+      update: function() {
+         this.options.categories.fetch({
+            url: Routing.generate('api_v1_get_photo_categories', { id: this.model.get('id') })
+         });
+         this.options.hashtags.fetch({
+            url: Routing.generate('api_v1_get_photo_hashtags', { id: this.model.get('id') })
+         });
       },
 
       events: {
@@ -630,6 +641,7 @@ define([
             });
          if (this.photoHashtags && this.photoHashtags.length > 0) {
             this.$('.selectHashtags').select2('val', this.photoHashtags.map(function(model) { return model.get('name'); }));
+            this.model.set('hashtags', this.$('.selectHashtags').select2('val'));
          }
       },
 
@@ -691,10 +703,9 @@ define([
          evt.preventDefault();
          // Validate
          var caption = $(this.el).find('#photo-caption').val();
+         var btn = $('#form-details button[type="submit"]');
+         btn.button('loading');
          if (caption) {
-            var btn = $('#form-details button[type="submit"]');
-            btn.button('loading');
-
             this.model.set('caption', caption);
 
             var that = this;
@@ -721,7 +732,8 @@ define([
                });
             } else
                that.save(btn);
-         }
+         } else
+            this.save(btn);
       },
 
       save: function(btn) {

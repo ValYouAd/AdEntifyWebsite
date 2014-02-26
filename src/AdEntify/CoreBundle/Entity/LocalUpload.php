@@ -36,6 +36,7 @@ class LocalUpload
 
     /**
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $owner;
 
