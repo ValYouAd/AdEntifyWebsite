@@ -679,7 +679,7 @@ define([
          tag.set('x_position', xPosition);
          tag.set('y_position', yPosition);
          tag.set('cssClass', 'new-tag');
-         tag.set('tagIcon', 'tag-brand-icon')
+         tag.set('tagIcon', this.currentTag ? this.currentTag.get('tagIcon') : 'glyphicon glyphicon-tag')
          tag.set('tempTag', true);
          this.model.get('tags').add(tag);
          this.currentTag = tag;
@@ -690,7 +690,7 @@ define([
       tagFormFabChanged: function(tabName) {
          if (this.currentTag) {
             if (tabName == '#product') {
-               this.currentTag.set('tagIcon', 'tag-brand-icon');
+               this.currentTag.set('tagIcon', 'glyphicon glyphicon-tag');
             } else if (tabName == '#venue') {
                this.currentTag.set('tagIcon', 'tag-place-icon');
             } else if (tabName == '#person') {

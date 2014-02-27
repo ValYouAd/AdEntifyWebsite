@@ -298,7 +298,7 @@ define([
             if ($(targetElement).data('intro-param') && $(targetElement).data('intro-param') == 'dropdown') {
                if (!dropdownOpened) {
                   dropdownOpened = $(targetElement).parents('.dropdown-menu');
-                  dropdownOpened.fadeIn('fast');
+                  dropdownOpened.stop().fadeIn('fast');
                }
             } else if (dropdownOpened) {
                dropdownOpened.fadeOut('fast');
