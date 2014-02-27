@@ -213,7 +213,7 @@
                             <div class="grey-transparent-background social-buttons">
                                 <div class="text-center">
                                     <a class="btn btn-facebook" href="https://www.facebook.com/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ url('_security_check_facebook')|url_encode }}&scope={{ facebook_permissions }}&response_type=code"><i class="facebook-icon icon"></i> Facebook</a>
-                                    <a class="btn btn-twitter" href="../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
+                                    <a class="btn btn-twitter" href="../../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
                                 </div>
                             </div>
                             {% render controller('FOSUserBundle:Security:login') %}
