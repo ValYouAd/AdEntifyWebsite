@@ -18,14 +18,16 @@ class ThumbService
     protected $filterManager;
     protected $imagine;
     protected $fileUploader;
+    protected $rootUrl;
 
     /**
      * @param $avalancheService
      */
-    public function __construct($filterManager, $imagine, $fileUploader) {
+    public function __construct($filterManager, $imagine, $fileUploader, $rootUrl) {
         $this->filterManager = $filterManager;
         $this->imagine = $imagine;
         $this->fileUploader = $fileUploader;
+        $this->rootUrl = $rootUrl;
     }
 
     /**
@@ -88,7 +90,7 @@ class ThumbService
     public function generateBrandLogoThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, false);
+        $fileInfo = FileTools::loadFile($this->rootUrl . $thumb->getOriginalPath(), 10, false);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getBrandLogoPath($size);
             // Generate thumb
