@@ -12,10 +12,19 @@ php app/console adentify:oauth:client:create --name "Plugin Wordpress DEV" --red
 0 * * * * php /var/www/adentify.com/htdocs/app/console adentify:reward --env=prod > /var/www/adentify.com/htdocs/app/logs/cron-reward.log
 
 - Tasks
-* * * * * php /var/www/adentify.com/htdocs/app/console adentify:task:check --env=prod > /var/www/adentify.com/htdocs/app/logs/cron-taskcheck.log
+@reboot /var/www/adentify.com/dev/upload-loop.sh
+
 
 3) Triggers
 
 Voir triggers.sql
 
 4) Page contact
+
+
+5) Deployment queries
+
+Lancer deployment-queries.sql
+
+6) Launch upload loop in background
+
