@@ -200,6 +200,12 @@ define([
             }
          });
 
+         this.listenTo(app, 'tagMenuTools:tagAdded', function(photo) {
+            if (typeof photo !== 'undefined' && typeof this.options.photo !== 'undefined' && this.options.photo.get('id') == photo.get('id')) {
+               this.render();
+            }
+         });
+
          if (this.modal) {
             app.oauth.loadAccessToken({
                success: function() {
