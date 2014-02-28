@@ -94,16 +94,20 @@ define([
                                  + '&user_id='+ flickrOAuthInfos.service_user_id + '&jsoncallback=?',
                               dataType: 'jsonp',
                               success: function(response) {
-                                 for (var i= 0, l=response.photosets.photoset.length; i<l; i++) {
-                                    var model = new FlickrSets.Model();
-                                    var album = response.photosets.photoset[i];
-                                    model.set('name', album.title._content);
-                                    model.set('id', album.id);
-                                    model.set('description', album.description._content);
-                                    model.setup();
-                                    that.options.sets.add(model);
+                                 if (typeof response.photosets === 'undefined') {
+                                    window.location.href = Upload.Common.getFlickrUrl(false);
+                                 } else {
+                                    for (var i= 0, l=response.photosets.photoset.length; i<l; i++) {
+                                       var model = new FlickrSets.Model();
+                                       var album = response.photosets.photoset[i];
+                                       model.set('name', album.title._content);
+                                       model.set('id', album.id);
+                                       model.set('description', album.description._content);
+                                       model.setup();
+                                       that.options.sets.add(model);
+                                    }
+                                    loaded = true;
                                  }
-                                 loaded = true;
                               },
                               error : function() {
                                  // TODO : error

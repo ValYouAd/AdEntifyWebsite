@@ -134,12 +134,20 @@ define([
                                  + instagramOAuthInfos.service_access_token,
                               dataType: 'jsonp',
                               success: function(response) {
-                                 var photos = [];
-                                 for (var i= 0, l=response.data.length; i<l; i++) {
-                                    photos[i] = response.data[i];
+                                 if (typeof response.data === 'undefined') {
+                                    if (response.meta && response.meta.error_type && response.meta.error_type == 'OAuthAccessTokenException') {
+                                       window.location.href = Upload.Common.getInstagramUrl(false);
+                                    } else {
+                                       console.log('impossible de récupérer les photos instagram');
+                                    }
+                                 } else {
+                                    var photos = [];
+                                    for (var i= 0, l=response.data.length; i<l; i++) {
+                                       photos[i] = response.data[i];
+                                    }
+                                    that.options.photos.add(photos);
+                                    that.options.photos.trigger('sync');
                                  }
-                                 that.options.photos.add(photos);
-                                 that.options.photos.trigger('sync');
                               },
                               error : function() {
                                  console.log('impossible de récupérer les photos instagram');

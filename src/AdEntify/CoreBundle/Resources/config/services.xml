@@ -21,6 +21,7 @@
             <argument type="service" id="imagine.filter.manager" />
             <argument type="service" id="imagine" />
             <argument type="service" id="adentify_storage.file_uploader" />
+            <argument>%root_url%</argument>
         </service>
         <service id="ad_entify_core.email" class="%ad_entify_core.emailService%">
             <argument type="service" id="templating" />

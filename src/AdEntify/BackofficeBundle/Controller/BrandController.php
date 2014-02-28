@@ -264,9 +264,9 @@ class BrandController extends Controller
                 $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);
                 $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
 
-                $entity->setSmallLogoUrl(FileTools::getBrandLogoPath(FileTools::LOGO_TYPE_SMALLL, false).$thumbs[FileTools::LOGO_TYPE_SMALLL]['filename']);
-                $entity->setMediumLogoUrl(FileTools::getBrandLogoPath(FileTools::LOGO_TYPE_MEDIUM, false).$thumbs[FileTools::LOGO_TYPE_MEDIUM]['filename']);
-                $entity->setLargeLogoUrl(FileTools::getBrandLogoPath(FileTools::LOGO_TYPE_LARGE, false).$thumbs[FileTools::LOGO_TYPE_LARGE]['filename']);
+                $entity->setSmallLogoUrl($thumbs[FileTools::LOGO_TYPE_SMALLL]['filename']);
+                $entity->setMediumLogoUrl($thumbs[FileTools::LOGO_TYPE_MEDIUM]['filename']);
+                $entity->setLargeLogoUrl($thumbs[FileTools::LOGO_TYPE_LARGE]['filename']);
 
                 $em->merge($entity);
             } else {
