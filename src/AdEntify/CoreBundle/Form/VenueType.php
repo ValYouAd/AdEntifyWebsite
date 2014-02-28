@@ -20,13 +20,13 @@ class VenueType extends AbstractType
         $builder->add('foursquareId', 'hidden')
             ->add('foursquareShortLink', 'text')
             ->add('name', 'text')
-            ->add('description', 'textarea',array(
+            ->add('description', 'textarea', array(
                 'required' => false
             ))
             ->add('link', 'text')
             ->add('lat', 'text')
             ->add('lng', 'text')
-            ->add('address', 'text',array(
+            ->add('address', 'text', array(
                 'required' => false
             ))
             ->add('cc', 'text',array(
