@@ -286,6 +286,7 @@ define([
 
       launchDidacticiel: function() {
          var dropdownOpened = false;
+         $('.tag-button').removeClass('animated flash');
          introJs().setOptions({
             'scrollToElement': false,
             'showStepNumbers': false,

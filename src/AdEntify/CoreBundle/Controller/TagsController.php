@@ -306,7 +306,7 @@ class TagsController extends FosRestController
      * @param $id
      * @return Venue|null
      */
-    public function getVenue($id)
+    public function getVenueAction($id)
     {
         $tag = $this->getAction($id);
         if (!$tag)
@@ -320,7 +320,7 @@ class TagsController extends FosRestController
      * @param $id
      * @return Product|null
      */
-    public function getProduct($id)
+    public function getProductAction($id)
     {
         $tag = $this->getAction($id);
         if (!$tag)
@@ -334,7 +334,7 @@ class TagsController extends FosRestController
      * @param $id
      * @return Person|null
      */
-    public function getPerson($id)
+    public function getPersonAction($id)
     {
         $tag = $this->getAction($id);
         if (!$tag)
