@@ -524,7 +524,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                model: brand,
                slug: slug,
                followers: followers,
-               followings: followings,
                photos: this.photos,
                categories: this.categories,
                rewards: this.rewards
@@ -561,7 +560,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
 
          followers.fetch();
-         followings.fetch();
          this.rewards.fetch({
             url: Routing.generate('api_v1_get_brand_rewards', { slug: slug })
          });

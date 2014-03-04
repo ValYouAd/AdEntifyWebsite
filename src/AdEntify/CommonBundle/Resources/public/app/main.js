@@ -202,7 +202,8 @@ function(app, Router, i18n, AppState, TagStats, Common) {
   });
 
    function loadPage(href, root) {
-      if (href.attr.replace(root, '') != window.location.href.replace(root, '')) {
+      var currentLocation = document.location.protocol + "//" + document.location.hostname + document.location.pathname;
+      if (href.attr.replace(root, '') != currentLocation.replace(root, '')) {
          app.startLoading(function() {
             // `Backbone.history.navigate` is sufficient for all Routers and will
             // trigger the correct events. The Router's internal `navigate` method

@@ -1,1 +1,1 @@
-<?php echo rawurlencode('52ebb2ffbdbf0Screen Shot 2014-01-30 at 17.42.29.png'); ?>
+<iframe src="https://adentify.com/iframe/photo-3.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:612px; height:612px;" allowTransparency="true"></iframe>

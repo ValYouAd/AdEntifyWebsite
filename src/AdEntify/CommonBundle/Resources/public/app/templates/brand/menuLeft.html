@@ -37,8 +37,8 @@
                     </div>
                     <div class="col-xs-6">
                         <div class="separator-sm-horizontal"></div>
-                        <div class="indicator-value"><%= model.has('user') ? model.get("user")['followings_count'] : 0 %></div>
-                        <div class="indicator-label"><%= $.t('profile.followingIndicator') %></div>
+                        <div class="indicator-value"></div>
+                        <div class="indicator-label"></div>
                     </div>
                 </div>
             </div>
@@ -54,9 +54,4 @@
 
     <h2><%= $.t('brand.followersTitle') %></h2>
     <div class="followers"></div>
-
-    <hr class="menu-left-hr">
-
-    <h2><%= $.t('profile.followingsTitle') %></h2>
-    <div class="followings"></div>
 </aside>

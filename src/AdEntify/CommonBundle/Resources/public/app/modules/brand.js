@@ -142,12 +142,6 @@ define([
                noUsersMessage: 'profile.noFollowers'
             }));
          }
-         if (!this.getView('.followings')) {
-            this.setView('.followings', new User.Views.List({
-               users: this.followings,
-               noUsersMessage: 'profile.noFollowings'
-            }));
-         }
          if (!this.getView('.follow-button')) {
             var followButtonView = new Brand.Views.FollowButton({
                brand: this.model,
@@ -184,7 +178,6 @@ define([
       initialize: function() {
          this.lastPhoto = null;
          this.followers = this.options.followers;
-         this.followings = this.options.followings;
          this.categories = this.options.categories;
          this.slug = this.options.slug;
          this.listenTo(this.model, 'sync', function() {

@@ -230,13 +230,20 @@ class PhotosController extends FosRestController
                 $followings = $user->getFollowingsIds();
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
+            }
         }
 
         $photo = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner
+                LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag LEFT JOIN tag.brand brand
                 WHERE photo.id = :id AND photo.deletedAt IS NULL AND photo.status = :status
                 AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
-                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
+                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
                 ORDER BY photo.createdAt DESC')
             ->setParameters(array(
                 ':status' => Photo::STATUS_READY,
@@ -244,6 +251,7 @@ class PhotosController extends FosRestController
                 ':id' => $id,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
+                ':followedBrands' => $followedBrands,
                 ':currentUserId' => $user ? $user->getId() : 0,
             ))
             ->getOneOrNullResult();
