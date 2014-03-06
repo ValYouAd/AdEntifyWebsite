@@ -78,6 +78,7 @@ class TaskWorkerCommand extends ContainerAwareCommand
                                 } catch (\Exception $ex) {
                                     $error = $ex->getMessage();
                                 }
+
                                 if (array_key_exists('error', $response)) {
                                     $task->setErrorMessage($response['error']);
                                     $task->setAttempt($task->getAttempt() + 1);

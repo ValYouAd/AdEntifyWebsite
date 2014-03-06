@@ -33,14 +33,15 @@ class PersonRepository extends EntityRepository
                 'facebookId' => $person->getFacebookId()
             ));
         }
-        else if ($source == 'instagram' && !empty($serviceId)) {
+        else if ($source == 'instagram' && $serviceId && !empty($serviceId)) {
             $person->setInstagramId($serviceId);
             $user = $this->getEntityManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
                 LEFT JOIN user.oAuthUserInfos oauthUserInfo
-                WHERE oauthUserInfo.serviceName = "instagram" AND oauthUserInfo.serviceUserId = :instagramUserId')
+                WHERE oauthUserInfo.serviceName = :serviceName AND oauthUserInfo.serviceUserId = :instagramUserId')
                 ->setMaxResults(1)
                 ->setParameters(array(
-                    ':instagramUserId' => $person->getInstagramId()
+                    ':instagramUserId' => $person->getInstagramId(),
+                    ':serviceName' => 'instagram'
                 ))
                 ->getOneOrNullResult();
         }
