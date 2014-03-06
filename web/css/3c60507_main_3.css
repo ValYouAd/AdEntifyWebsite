@@ -241,7 +241,7 @@ html,body,.body-grey-background {
     margin-top: -5px;
     cursor: pointer;
 }
-.introjs-disabled {display: none;}
+.introjs-disabled { display: none!important; }
 /* END NAV
 ----------------------- */
 

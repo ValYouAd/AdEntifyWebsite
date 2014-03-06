@@ -78,13 +78,9 @@ class PhotoType extends AbstractType
                 'multiple' => true,
                 'description' => 'Category ID. Get the right id with the GET operations of categories endpoint'
             ))
-            ->add('hashtags', 'entity', array(
-                'class' => 'AdEntifyCoreBundle:Hashtag',
-                'property' => 'name',
-                'required' => false,
-                'multiple' => true,
-                'description' => 'Hashtag ID. Get the right id with the GET operations of hashtags endpoint'
-            ));
+            ->add('hashtags', 'text', array(
+                'required' => false
+            ));;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

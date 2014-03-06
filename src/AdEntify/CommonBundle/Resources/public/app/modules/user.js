@@ -173,8 +173,21 @@ define([
                this.render();
             }
          }, this);
-         var that = this;
+         this.listenTo(app, 'photo:removed', function() {
+            this.loadData(true);
+         });
          this.model = this.options.user;
+         this.loadData();
+      },
+
+      loadData: function(reload) {
+         var that = this;
+         reload = reload || false;
+         if (reload) {
+            this.options.hashtags.fetch({
+               url: Routing.generate('api_v1_get_user_hashtags', { id: this.options.user.get('id') })
+            });
+         }
          this.options.user.fetch({
             url: Routing.generate('api_v1_get_user', { id: this.options.user.get('id') }),
             success: function() {

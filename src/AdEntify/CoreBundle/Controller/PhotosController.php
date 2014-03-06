@@ -584,8 +584,30 @@ class PhotosController extends FosRestController
                         if ($photo->getCategories()) {
                             $oldPhoto->setCategories($photo->getCategories());
                         }
-                        if ($photo->getHashtags()) {
-                            $oldPhoto->setHashtags($photo->getHashtags());
+                        if (array_key_exists('hashtags', $request->request->get('photo'))) {
+                            $oldPhoto->setHashtags($oldPhoto->getHashtags()->clear());
+                            $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
+                            foreach (array_unique($request->request->get('photo')['hashtags']) as $hashtagName) {
+                                if (is_numeric($hashtagName)) {
+                                    $hashtag = $hashtagRepository->find($hashtagName);
+                                    if ($hashtag) {
+                                        $oldPhoto->addHashtag($hashtag);
+                                    }
+                                } else {
+                                    $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
+                                    if ($hashtag) {
+                                        $found = false;
+                                        foreach($photo->getHashtags() as $ht) {
+                                            if ($ht->getId() == $hashtag->getId()) {
+                                                $found = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!$found)
+                                            $oldPhoto->addHashtag($hashtag);
+                                    }
+                                }
+                            }
                         }
 
                         $em->merge($oldPhoto);

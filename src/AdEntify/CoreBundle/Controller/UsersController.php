@@ -368,15 +368,15 @@ class UsersController extends FosRestController
      * @param $id
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="20")
      *
      * @View()
      */
-    public function getHashtagsAction($id, $page = 1, $limit = 10)
+    public function getHashtagsAction($id, $page = 1, $limit = 20)
     {
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
             LEFT JOIN hashtag.photos photo LEFT JOIN photo.owner owner
-            WHERE owner.id = :userId')
+            WHERE owner.id = :userId AND photo.deletedAt IS NULL ORDER BY photo.createdAt DESC')
         ->setParameters(array(
                 'userId'=> $id
             ))

@@ -9,8 +9,8 @@ parameters:
     mailer_transport:             smtp
     mailer_host:                  smtp.office365.com
     mailer_port:                  587
-    mailer_user:                  pierrick@adentify.com
-    mailer_password:              P8m9ADcomBR@
+    mailer_user:                  no-reply@adentify.com
+    mailer_password:              Adentify75$
     mailer_encryption:            tls
 
     contact_email:                pierrick@adentify.com

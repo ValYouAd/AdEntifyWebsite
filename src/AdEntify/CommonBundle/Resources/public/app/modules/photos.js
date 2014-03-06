@@ -192,7 +192,10 @@ define([
          } else {
             this.options.photos.once('sync', this.render, this);
          }
-         this.listenTo(this.options.photos, 'remove', this.render);
+         this.listenTo(this.options.photos, 'remove', function() {
+            app.trigger('photo:removed');
+            this.render();
+         });
          this.listenTo(app, 'photos:submitPhotoDetails', this.submitPhotoDetails);
          this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
 
