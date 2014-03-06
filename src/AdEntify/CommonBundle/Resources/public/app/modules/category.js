@@ -12,7 +12,7 @@ define([
    var Category = app.module();
 
    Category.Model = Backbone.Model.extend({
-      urlRoot: Routing.generate('api_v1_get_category'),
+      urlRoot: Routing.generate('api_v1_get_category', { locale: currentLocale }),
 
       initialize: function() {
          this.listenTo(this, {

@@ -142,7 +142,7 @@
    },
    "tag": {
       "legendAddTag": "Add tag",
-      "product": "Brand",
+      "product": "Product",
       "place": "Place",
       "person": "Person",
       "labelProductName": "Enter the name of the product",
@@ -202,13 +202,11 @@
       "placeMoreDetails": "More details",
       "placeLessDetails": "Less details",
       "tellUsMore": "You want to win more? Tell us more about this product",
-      "place": "Place",
-      "person": "Person",
-      "product": "Product",
       "tagSuccessfullyAdded": "Tag was successfully added",
       "buy": "Buy product",
       "errorDifferentBrand": "Chosen brand is different from product brand.",
-      "errorProductEmpty": "You have to enter a product name before submiting tag"
+      "errorProductEmpty": "You have to enter a product name before submiting tag",
+      "poweredByFoursquare": "Propulsé par Foursquare"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
