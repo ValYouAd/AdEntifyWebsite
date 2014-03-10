@@ -1,0 +1,7 @@
+{% extends "AdEntifyCoreBundle:Email:layout.html.twig" %}
+
+{% block title %}{{ 'email.register_validation.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ 'email.register_validation.content'|trans({'%user%': user })|raw }}
+{% endblock %}

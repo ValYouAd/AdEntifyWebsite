@@ -698,12 +698,18 @@ define([
             modalDialogClasses: modalDialogClass
          });
          if (stack) {
-            modal.on('hide', function() {
-               app.useLayout().getView('#modal-container').$('.modal-dialog').removeClass('slideOutLeft').addClass('animated slideInLeft');
-            });
-            app.useLayout().getView('#modal-container').$('.modal-dialog').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+            var currentModal = app.useLayout().getView('#modal-container');
+            // if a modal is opened, slide out to left before rendering the new one
+            if (currentModal) {
+               modal.on('hide', function() {
+                  app.useLayout().getView('#modal-container').$('.modal-dialog').removeClass('slideOutLeft').addClass('animated slideInLeft');
+               });
+               currentModal.$('.modal-dialog').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                  app.useLayout().setView('#front-modal-container', modal).render();
+               }).addClass('animated slideOutLeft');
+            } else {
                app.useLayout().setView('#front-modal-container', modal).render();
-            }).addClass('animated slideOutLeft');
+            }
          } else {
             Common.Tools.hideCurrentModalIfOpened(function() {
                app.useLayout().setView('#modal-container', modal).render();

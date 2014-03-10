@@ -8,6 +8,7 @@
 
 namespace AdEntify\UserBundle\EventListener;
 
+use AdEntify\CoreBundle\Services\EmailService;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -21,12 +22,14 @@ class RegistrationListener implements EventSubscriberInterface
     private $router;
     private $loginManager;
     private $firewallName;
+    protected $emailer;
 
-    public function __construct(UrlGeneratorInterface $router, LoginManagerInterface $loginManager, $firewallName)
+    public function __construct(UrlGeneratorInterface $router, LoginManagerInterface $loginManager, $firewallName, EmailService $emailer)
     {
         $this->router = $router;
         $this->loginManager = $loginManager;
         $this->firewallName = $firewallName;
+        $this->emailer = $emailer;
     }
 
     /**
@@ -44,6 +47,12 @@ class RegistrationListener implements EventSubscriberInterface
     {
         $user = $event->getForm()->getData();
         $user->setEnabled(false);
+
+        if ($user->getEnabled()) {
+            $this->emailer->register($user);
+        } else {
+            $this->emailer->registerWithValidation($user);
+        }
 
         $url = $this->router->generate('loggedInHome', array(
             'accountDisabled' => true

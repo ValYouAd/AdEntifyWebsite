@@ -206,7 +206,7 @@
       "buy": "Buy product",
       "errorDifferentBrand": "Chosen brand is different from product brand.",
       "errorProductEmpty": "You have to enter a product name before submiting tag",
-      "poweredByFoursquare": "Propulsé par Foursquare"
+      "poweredByFoursquare": "Powered by Foursquare"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",

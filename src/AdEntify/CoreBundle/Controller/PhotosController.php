@@ -215,6 +215,7 @@ class PhotosController extends FosRestController
         // If no user connected, 0 is default
         $facebookFriendsIds = array(0);
         $followings = array(0);
+        $followedBrands = array(0);
 
         if ($user) {
             // Get friends list (id) array
@@ -587,7 +588,8 @@ class PhotosController extends FosRestController
                         if (array_key_exists('hashtags', $request->request->get('photo'))) {
                             $oldPhoto->setHashtags($oldPhoto->getHashtags()->clear());
                             $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
-                            foreach (array_unique($request->request->get('photo')['hashtags']) as $hashtagName) {
+                            $photo = $request->request->get('photo');
+                            foreach (array_unique($photo['hashtags']) as $hashtagName) {
                                 if (is_numeric($hashtagName)) {
                                     $hashtag = $hashtagRepository->find($hashtagName);
                                     if ($hashtag) {

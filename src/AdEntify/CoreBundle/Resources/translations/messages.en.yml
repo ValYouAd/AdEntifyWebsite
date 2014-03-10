@@ -1,0 +1,4 @@
+email:
+    register_validation:
+        title: 'Thanks for your registration on AdEntify, pending validation'
+        content: '<p>Hello <strong>%user%</strong>,</p><p>You are now a member of <a href="https://adentify.com">AdEntify</a>. You will received an email when your account will be valided.</p>'
