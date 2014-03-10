@@ -1089,6 +1089,7 @@ html,body,.body-grey-background {
     cursor: pointer;
 }
 .introjs-disabled { display: none!important; }
+.introjs-skipbutton { float: right; margin-left: 2px; }
 /* END NAV
 ----------------------- */
 

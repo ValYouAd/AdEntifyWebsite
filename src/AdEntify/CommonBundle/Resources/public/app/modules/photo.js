@@ -376,7 +376,7 @@ define([
       },
 
       updateLikedCount: function(liked) {
-         $likeCount = $(this.el).find('#like-count');
+         $likeCount = this.$('.likes-count-value')
          var currentLikeCount = $likeCount.html() ? parseInt($likeCount.html()) : 0;
          if (liked) {
             $likeCount.html(currentLikeCount + 1);
