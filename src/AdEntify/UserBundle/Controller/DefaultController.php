@@ -50,6 +50,12 @@ class DefaultController extends Controller
                         $user = $userManager->createUser();
                         $user->setEnabled(false);
                         $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
+
+                        if ($user->isEnabled()) {
+                            $this->get('ad_entify_core.email')->register($user);
+                        } else {
+                            $this->get('ad_entify_core.email')->registerWithValidation($user);
+                        }
                     }
 
                     $user->setFacebookAccessToken($fb->getAccessToken());

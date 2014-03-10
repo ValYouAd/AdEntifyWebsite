@@ -86,6 +86,13 @@ class FOSUBUserProvider extends BaseClass
             $user->setUsername($username);
             $user->setPlainPassword($this->randomPassword());
             $user->setEnabled(false);
+
+            if ($user->isEnabled()) {
+                $this->get('ad_entify_core.email')->register($user);
+            } else {
+                $this->get('ad_entify_core.email')->registerWithValidation($user);
+            }
+
             $this->userManager->updateUser($user);
             return $user;
         }

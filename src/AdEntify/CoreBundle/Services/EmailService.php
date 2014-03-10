@@ -59,6 +59,21 @@ class EmailService
     }
 
     /**
+     * Validate user account
+     *
+     * @param $user
+     * @return bool|int
+     */
+    public function validateAccount($user)
+    {
+        $template = $this->template->render('AdEntifyCoreBundle:Email:validate_account.html.twig', array (
+            'user' => $user->getFullname()
+        ));
+
+        return $this->sendEmail($this->translator->trans('email.validate_account.title'), $template, $user->getEmail());
+    }
+
+    /**
      * Send email
      *
      * @param $subject
