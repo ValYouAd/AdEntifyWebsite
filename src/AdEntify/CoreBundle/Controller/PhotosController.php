@@ -58,7 +58,7 @@ class PhotosController extends FosRestController
      * @QueryParam(name="places", requirements="\d+", default="null")
      * @QueryParam(name="people", requirements="\d+", default="null")
      * @QueryParam(name="orderBy", default="null")
-     * @QueryParam(name="way", default="DESC")
+     * @QueryParam(name="way", requirements="DESC|ASC", default="DESC")
      */
     public function cgetAction($tagged, $page, $limit, $brands, $places, $people, $orderBy, $way)
     {
@@ -292,7 +292,7 @@ class PhotosController extends FosRestController
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @QueryParam(name="today", requirements="\d+", default="null")
      * @QueryParam(name="orderBy", default="null")
-     * @QueryParam(name="way", default="DESC")
+     * @QueryParam(name="way", requirements="DESC|ASC", default="DESC")
      * @View(serializerGroups={"list"})
      */
     public function getSearchAction($query, $page = 1, $limit = 10, $today = null, $orderBy = null, $way = 'DESC', Request $request)

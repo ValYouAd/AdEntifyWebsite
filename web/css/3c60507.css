@@ -2682,6 +2682,9 @@ html,body,.body-grey-background {
     -moz-filter: none;
     filter: none;
 }
+.brands-wrapper {
+    margin-top: 30px;
+}
 #brands,
 .brands {
    border-top: 1px solid #e0dfdf;

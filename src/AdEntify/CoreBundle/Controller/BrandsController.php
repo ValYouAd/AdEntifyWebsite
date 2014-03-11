@@ -59,12 +59,28 @@ class BrandsController extends FosRestController
      * )
      *
      * @View()
+     * @QueryParam(name="orderBy", default="null")
+     * @QueryParam(name="way", requirements="DESC|ASC", default="ASC")
      */
-    public function cgetAction()
+    public function cgetAction($orderBy = null, $way = 'ASC')
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->findBy(array(
-            'validated' => true
-        ));
+        $qb = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->createQueryBuilder('b');
+        $qb->where('b.validated = :validated')
+            ->setParameters(array(
+                ':validated' => true
+            ));
+
+        switch ($orderBy) {
+            case 'number-of-tags':
+                $qb->orderBy('b.tagsCount', $way);
+                break;
+            case 'name':
+            default:
+                $qb->orderBy('b.name', $way);
+                break;
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     /**

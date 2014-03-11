@@ -436,7 +436,9 @@
       "mostLiked": "Most liked",
       "today": "Today",
       "taggedPhotos": "Tagged photos",
-      "byPoints": "By points"
+      "byPoints": "By points",
+      "az": "A-Z",
+      "numberOfTags": "# of tags"
    },
    "notLogged": {
       "like": "You can't like when you aren't logged. Please connect or sign up.",

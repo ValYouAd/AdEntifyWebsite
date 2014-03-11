@@ -69,6 +69,59 @@ define([
       }
    });
 
+   Brand.Views.Content = Backbone.View.extend({
+      template: 'brand/content',
+
+      serialize: function() {
+         return {
+            collection: this.options.brands,
+            brandsCount: typeof this.options.brands !== 'undefined' ? this.options.brands.length : 0,
+            title: typeof this.options.title !== 'undefined' ? this.options.title : $.t('brand.pageTitle'),
+            hasData: this.loaded && this.options.brands.length > 0,
+            loaded: this.loaded
+         };
+      },
+
+      beforeRender: function() {
+         if (this.showFilters && !this.getView('.filters-wrapper')) {
+            var brandFiltersView = new Brand.Views.Filter({
+               brands: this.options.brands,
+               brandsSuccess: this.options.brandsSuccess,
+               brandsError: this.options.brandsError
+            });
+            this.setView('.filters-wrapper', brandFiltersView);
+            var that = this;
+            brandFiltersView.on('loading', function() {
+               that.$('#loading-brands').fadeIn('fast');
+            }).on('loaded', function() {
+               that.$('#loading-brands').fadeOut('fast');
+            });
+         }
+
+         if (!this.getView('.brands-wrapper')) {
+            this.setView('.brands-wrapper', new Brand.Views.List({
+               brands: this.options.brands,
+               emptyDataMessage: this.options.emptyDataMessage
+            }));
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      initialize: function() {
+         this.listenTo(this.options.brands, {
+            'sync': function() {
+               this.$('#loading-brands').fadeOut('fast');
+            }
+         });
+         this.showFilters = typeof this.options.showFilters !== 'undefined' ? this.options.showFilters : true;
+         app.trigger('domchange:title', $.t('brand.pageTitle'));
+         app.trigger('domchange:description', $.t('brand.pageDescription'))
+      }
+   });
+
    Brand.Views.List = Backbone.View.extend({
       template: "brand/list",
       loaded: false,
@@ -84,6 +137,21 @@ define([
       },
 
       beforeRender: function() {
+         if (this.showFilters && !this.getView('.filters-wrapper')) {
+            var brandFiltersView = new Brand.Views.Filter({
+               brands: this.options.brands,
+               brandsSuccess: this.options.brandsSuccess,
+               brandsError: this.options.brandsError
+            });
+            this.setView('.filters-wrapper', brandFiltersView);
+            var that = this;
+            brandFiltersView.on('loading', function() {
+               that.$('#loading-brands').fadeIn('fast');
+            }).on('loaded', function() {
+               that.$('#loading-brands').fadeOut('fast');
+            });
+         }
+
          this.options.brands.each(function(brand) {
             this.insertView("#brands", new Brand.Views.Item({
                model: brand
@@ -105,12 +173,11 @@ define([
       initialize: function() {
          this.listenTo(this.options.brands, {
             'sync': function() {
+               this.$('#loading-brands').fadeOut('fast');
                this.loaded = true;
                this.render();
             }
          });
-         app.trigger('domchange:title', $.t('brand.pageTitle'));
-         app.trigger('domchange:description', $.t('brand.pageDescription'))
       }
    });
 
@@ -342,6 +409,68 @@ define([
       events: {
          'click button[type="submit"]': 'formSubmit',
          'click .facebookButton': 'loadFacebookData'
+      }
+   });
+
+   Brand.Views.Filter = Backbone.View.extend({
+      template: 'brand/filters',
+      currentFilter: null,
+
+      initialize: function() {
+         this.brandsSuccess = this.options.brandsSuccess;
+         this.brandsError = this.options.brandsError;
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      nameFilter: function() {
+         var activate = this.activateFilter(this.$('.name-filter').parent());
+         this.loadBrands(activate ? '?orderBy=name&way=DESC' : '?orderBy=name&way=ASC');
+      },
+
+      numberOfTags: function() {
+         var activate = this.activateFilter(this.$('.number-of-tags-filter').parent());
+         this.loadBrands(activate ? '?orderBy=number-of-tags&way=DESC' : '');
+      },
+
+      loadBrands: function(query) {
+         this.trigger('loading');
+         var that = this;
+         this.options.brands.fetch({
+            url: this.getOriginalCollectionUrl() + query,
+            reset: true,
+            success: this.brandsSuccess,
+            error: this.brandsError,
+            complete: function() {
+               that.trigger('loaded');
+            }
+         });
+      },
+
+      activateFilter: function(newFilter) {
+         if (newFilter.hasClass('active')) {
+            this.activeFilter = null;
+            newFilter.removeClass('active');
+            return false;
+         }
+
+         if (this.activeFilter) {
+            this.activeFilter.removeClass('active');
+         }
+         this.activeFilter = newFilter;
+         this.activeFilter.addClass('active');
+         return true;
+      },
+
+      getOriginalCollectionUrl: function() {
+         return Routing.generate('api_v1_get_brands');
+      },
+
+      events: {
+         'click .name-filter': 'nameFilter',
+         'click .number-of-tags-filter': 'numberOfTags'
       }
    });
 
