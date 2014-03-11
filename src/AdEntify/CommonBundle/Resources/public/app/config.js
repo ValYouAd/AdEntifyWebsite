@@ -96,6 +96,6 @@ require.config({
      }
   }
 
-   //,urlArgs: "bust=" + Number(new Date())
+   ,urlArgs: "v=1.1.1"//"bust=" + Number(new Date())
 
 });

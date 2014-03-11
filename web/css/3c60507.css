@@ -4606,8 +4606,9 @@ label,
 .photo-modal #center-modal,
 .linked-photos,
 .photoModal #right-modal {
-    padding-bottom: 500em;
-    margin-bottom: -500em;
+    /*padding-bottom: 500em;
+    margin-bottom: -500em;*/
+    padding-bottom: 10px;
 }
 .photoModal #right-modal {
     padding-left: 0px;

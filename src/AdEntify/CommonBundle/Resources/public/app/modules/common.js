@@ -284,7 +284,7 @@ define([
          }
       },
 
-      launchDidacticiel: function() {
+      launchDidacticiel: function(onExit) {
          var dropdownOpened = false;
          $('.tag-button').removeClass('animated flash');
          introJs().setOptions({
@@ -304,6 +304,10 @@ define([
             } else if (dropdownOpened) {
                dropdownOpened.fadeOut('fast');
                dropdownOpened = false;
+            }
+         }).onexit(function() {
+            if (typeof onExit !== 'undefined') {
+               onExit();
             }
          }).start();
          if (app.appState().isLogged()) {
