@@ -5,7 +5,7 @@ require.config({
   // generated configuration file.
   deps: ["../vendor/jam/require.config", "main"],
 
-  waitSeconds: 5,
+  waitSeconds: 30,
 
   paths: {
      facebook: [
@@ -94,8 +94,8 @@ require.config({
      "daterangepicker": {
         "deps": ["jquery", "moment"]
      }
-  }
+  },
 
-   ,urlArgs: "v=1.1.1"//"bust=" + Number(new Date())
+  urlArgs: "v=1.1.2"
 
 });

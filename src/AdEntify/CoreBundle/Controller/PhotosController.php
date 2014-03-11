@@ -86,7 +86,7 @@ class PhotosController extends FosRestController
             // Get followings ids
             $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
             if (!$followings) {
-                $followings = $user->getFollowingsIds();
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 0);
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
 
@@ -228,7 +228,7 @@ class PhotosController extends FosRestController
             // Get followings ids
             $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
             if (!$followings) {
-                $followings = $user->getFollowingsIds();
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 1);
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
 
@@ -335,7 +335,7 @@ class PhotosController extends FosRestController
             // Get followings ids
             $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
             if (!$followings) {
-                $followings = $user->getFollowingsIds();
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 0);
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
 
@@ -459,6 +459,8 @@ class PhotosController extends FosRestController
         // Get friends list (id) array
         $facebookFriendsIds = array(0);
         $followings = array(0);
+        $followedBrands = array(0);
+
         if ($user) {
             $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
             if (!$facebookFriendsIds) {
@@ -469,8 +471,15 @@ class PhotosController extends FosRestController
             // Get followings ids
             $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
             if (!$followings) {
-                $followings = $user->getFollowingsIds();
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 1);
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
             }
         }
 
@@ -478,10 +487,10 @@ class PhotosController extends FosRestController
                 LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
                   AND tag.censored = false AND tag.waitingValidation = false
                   AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
-                LEFT JOIN photo.owner owner LEFT JOIN photo.categories category
+                LEFT JOIN photo.owner owner LEFT JOIN photo.categories category LEFT JOIN tag.brand brand
                 WHERE category.id IN (:categories) AND photo.id != :photoId AND photo.status = :status AND photo.deletedAt IS NULL
                     AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
-                    OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC';
+                    OR owner.id IN (:followings) OR brand.id IN (:followedBrands)) ORDER BY photo.createdAt DESC';
 
         $query = $em->createQuery($sql)->setParameters(array(
                 'categories' => $categoriesId,
@@ -493,6 +502,7 @@ class PhotosController extends FosRestController
                 ':photoId' => $id,
                 ':none' => Tag::VALIDATION_NONE,
                 ':granted' => Tag::VALIDATION_GRANTED,
+                ':followedBrands' => $followedBrands
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
