@@ -40,7 +40,7 @@
             })();
         </script>
         <div class="fblike"><div class="fb-like" data-href="<%= pageUrl %>" data-send="true" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div></div>
-        <div class="pinterest"><a target="_blank" href="//pinterest.com/pin/create/button/?url=<%= encodeURIComponent(pageUrl) %>&media=<%= encodeURIComponent(model.get("large_url")) %>&description=<%= encodeURIComponent(model.get("caption")) %>" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div>
+        <div class="pinterest"><a target="_blank" href="//pinterest.com/pin/create/button/?url=<%= encodeURIComponent(pageUrl) %>&media=<%= encodeURIComponent(model.get("large_url")) %>&description=<%= encodeURIComponent(model.getShareText()) %>" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a></div>
     </div>
     <div class="pull-right">
         <span class="source">Source :</span> <span class="source-name"><%= model.get("source") %></span> <button class="btn btn-link report-button" data-toggle="tooltip" data-original-title="<%= $.t('photo.report') %>"><i class="glyphicon glyphicon-warning-sign"></i></button>
