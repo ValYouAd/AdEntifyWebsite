@@ -319,6 +319,28 @@ define([
                }
             });
          }
+      },
+
+      setMeta: function(key, content, isProperty) {
+         isProperty = typeof isProperty !== 'undefined' ? isProperty : true;
+         var attributeName = isProperty ? 'property' : 'name';
+
+         var meta = $('meta[' + attributeName + '="' + key + '"]');
+         if (meta.length > 0)
+            meta.attr('content', content);
+         else {
+            $('head').append('<meta ' + attributeName + '="' + key + '" content="' + content + '">');
+         }
+      },
+
+      setPhotoMetas: function(photoModel) {
+         if (photoModel) {
+            this.setMeta('og:image', photoModel.get('large_url'));
+            this.setMeta('og:image:width', photoModel.get('large_width'));
+            this.setMeta('og:image:height', photoModel.get('large_height'));
+            this.setMeta('og:title', photoModel.get('caption'));
+            this.setMeta('og:url', photoModel.get('link'));
+         }
       }
    }
 

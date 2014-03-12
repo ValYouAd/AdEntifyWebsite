@@ -1091,7 +1091,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
       onDomChangeDescription: function(description) {
          if (typeof description !== 'undefined' && description != '') {
-            $('meta[name=description]').attr('content', description);
+            Common.Tools.setMeta('description', description, false);
+            Common.Tools.setMeta('og:description', description);
          }
       },
 

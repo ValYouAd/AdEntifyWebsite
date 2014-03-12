@@ -225,6 +225,8 @@
       "deletePhoto": "Delete photo",
       "linkedPhotos": "Related photos",
       "noLinkedPhotos": "No related photo",
+      "shareTextWithTags": " Check out on AdEntify the __brands__ tags on this photo &rarr; ",
+      "shareTextWithoutTags": "Tag this photo on AdEntify &rarr; ",
       "tweetShare": "Check out my interactive image on %23AdEntify &rarr; ",
       "addTagTooltip": "Add new tag",
       "likeTooltip": "Like photo",

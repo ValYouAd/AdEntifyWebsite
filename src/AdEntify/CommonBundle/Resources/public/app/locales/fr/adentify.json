@@ -225,6 +225,8 @@
       "deletePhoto": "Supprimer la photo",
       "linkedPhotos": "Photos liées",
       "noLinkedPhotos": "Aucune photo liée",
+      "shareTextWithTags": "Découvrez sur AdEntify les tags de __brands__ sur cette photo &rarr; ",
+      "shareTextWithoutTags": "Tagguez cette photo sur AdEntify &rarr; ",
       "tweetShare": "Découvrez mon image intéractive sur %23AdEntify &rarr; ",
       "addTagTooltip": "Ajouter un tag",
       "likeTooltip": "Aimer la photo",

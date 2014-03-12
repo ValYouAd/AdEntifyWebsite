@@ -4886,6 +4886,9 @@ ul.striped > li:nth-child(even) {
 .fblike {
     display: inline-block;
 }
+.fb-like {
+    top: -5px;
+}
 .pinterest {
     display: inline-block;
     height: 20px;
