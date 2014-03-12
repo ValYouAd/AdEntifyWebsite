@@ -377,6 +377,7 @@ define([
          }, 3000);
          $(this.el).i18n();
          FB.XFBML.parse();
+         gapi.plusone.go();
          this.$('.report-button').tooltip();
       },
 
