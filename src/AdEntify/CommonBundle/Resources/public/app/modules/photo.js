@@ -84,7 +84,7 @@ define([
          if (query.length > 0)
             query = '?' + query.join('&');
 
-         return '&lt;iframe src="' + app.rootUrl +'iframe/photo-' + this.get('id') + '.html' + query + '" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:' + this.get("large_width") + 'px; height:' + this.get("large_height") + 'px;" width="' + this.get("large_width") + '" height="' + this.get("large_height") + '" allowTransparency="true"&gt;&lt;/iframe&gt;';
+         return '&lt;iframe src="' + app.rootUrl +'iframe/photo-' + this.get('id') + '.html' + query + '" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="' + this.get("large_width") + '" height="' + this.get("large_height") + '" allowTransparency="true"&gt;&lt;/iframe&gt;';
       },
 
       getBrands: function() {
