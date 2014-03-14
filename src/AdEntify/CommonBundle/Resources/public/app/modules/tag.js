@@ -972,6 +972,7 @@ define([
                                  success: function() {
                                     currentTag.set('persisted', '');
                                     app.fb.createVenueStory(venue, app.appState().getCurrentPhotoModel());
+                                    currentVenue = null;
                                     app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                                  },
                                  error: function() {
@@ -1037,6 +1038,7 @@ define([
                                     currentTag.set('persisted', '');
                                     currentTag.setup();
                                     app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
+                                    currentPerson = null;
                                     app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                                  },
                                  error: function(e, r) {
@@ -1198,6 +1200,8 @@ define([
                   currentTag.set('persisted', '');
                   if (currentBrand)
                      app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
+                  currentBrand = null;
+                  currentProduct = null;
                   app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                },
                error: function(e, r) {

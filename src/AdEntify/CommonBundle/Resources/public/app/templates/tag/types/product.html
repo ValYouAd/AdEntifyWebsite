@@ -19,7 +19,7 @@
                 <% if (model.has('description') && model.get("description")) { %>
                 <p><%= model.get("description") %></p>
                 <% } %>
-                <% if (model.has("brandModel")) { %>
+                <% if (model.has("brandModel") && model.get('brandModel').has('small_logo_url')) { %>
                 <div class="brand pull-right">
                     <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get("brandModel").get('small_logo_url') %>" alt="<%= model.get("brand")["name"] %>" class="brand-logo" /></a>
                 </div>
