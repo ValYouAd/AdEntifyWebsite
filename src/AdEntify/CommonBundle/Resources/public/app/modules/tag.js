@@ -696,7 +696,7 @@ define([
                return that.venueSource(query, process, 'loading-venue');
             },
             minLength: 2,
-            items: 10,
+            items: 30,
             updater: function(selectedItem) {
                return that.venueUpdater(selectedItem, 'previsualisation-tag-map', 'venue-informations', 'venue-link');
             },
@@ -766,12 +766,9 @@ define([
                   $.ajax({
                      url: url,
                      headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
-                     data: {
-                        radius: 3000
-                     },
                      success: function(data) {
                         if (typeof data !== 'undefined' && data.length > 0) {
-                           var venues = []
+                           var venues = [];
                            currentVenues = {};
                            _.each(data, function(venue) {
                               venues.push(venue.name + ' |{' + venue.foursquare_id);
@@ -806,7 +803,7 @@ define([
             'margin': '10px 0px'
          });
          if (currentVenue.address) {
-            $('#'+venueInformationDiv).html('<span class="muted">' + currentVenue.address + (currentVenue.postal_code ? ' ' + currentVenue.postal_code : '') + (currentVenue.city ? ' ' + currentVenue.city : '') + '</span>').css({
+            $('#'+venueInformationDiv).html('<span class="muted">' + (currentVenue.address + ' ' ? currentVenue.address : '') + (currentVenue.postal_code ? ' ' + currentVenue.postal_code : '') + (currentVenue.city ? ' ' + currentVenue.city : '') + '</span>').css({
                'margin': '10px 0px'
             });
          }
@@ -822,7 +819,7 @@ define([
       },
 
       venueHighlighter: function(item) {
-         return '<div>' + currentVenues[item].name + ' <small class="muted">' + currentVenues[item].address + (currentVenues[item].postal_code ? ' ' + currentVenues[item].postal_code : '') + (currentVenues[item].city ? ' ' + currentVenues[item].city : '') + '</small></div>'
+         return '<div>' + currentVenues[item].name + ' <small class="muted">' + (currentVenues[item].address ? currentVenues[item].address : '') + (currentVenues[item].postal_code ? ' ' + currentVenues[item].postal_code : '') + (currentVenues[item].city ? ' ' + currentVenues[item].city : '') + '</small></div>'
       },
 
       geolocation: function(e) {
