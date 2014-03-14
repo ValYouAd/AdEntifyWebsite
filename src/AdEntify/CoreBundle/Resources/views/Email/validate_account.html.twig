@@ -1,0 +1,7 @@
+{% extends "AdEntifyCoreBundle:Email:layout.html.twig" %}
+
+{% block title %}{{ 'email.validate_account.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ 'email.validate_account.content'|trans({'%user%': user })|raw }}
+{% endblock %}

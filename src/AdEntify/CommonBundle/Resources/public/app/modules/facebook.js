@@ -49,7 +49,6 @@ define([
       connected: function(response) {
          this.setFacebookResponse(response);
          app.trigger('global:facebook:connected');
-         //$("#user-information").html('<img src="https://graph.facebook.com/' + app.fb.get('userId') + '/picture?width=40&height=40" class="profile-picture" />');
       },
 
       isConnected: function() {
@@ -78,22 +77,22 @@ define([
 
       createBrandTagStory: function(brand, photo) {
          FB.api(
-            'me/objects/testkeitboor:brand',
+            'me/objects/adentifywww:brand',
             'post',
             {
                object: {
                   app_id: facebookAppId,
-                  type: "testkeitboor:brand",
+                  type: "adentifywww:brand",
                   title: brand.name,
                   url: app.beginUrl + app.root + $.t('routing.brands/')
                }
             }, function(response) {
                if (typeof response.error === "undefined") {
                   FB.api(
-                     'me/testkeitboor:tag',
+                     'me/adentifywww:tag',
                      'post',
                      {
-                        image : app.rootUrl + 'uploads/photos/users/' + photo.get('owner')['id'] + '/large/' + photo.get('large_url'),
+                        image : photo.get('large_url'),
                         url: app.beginUrl + app.root + $.t('routing.photo/id/', { id: photo.get('id')}),
                         brand: response.id
                      },
@@ -107,12 +106,12 @@ define([
 
       createVenueStory: function(venue, photo) {
          FB.api(
-            'me/objects/testkeitboor:venue',
+            'me/objects/adentifywww:venue',
             'post',
             {
                object: {
                   app_id: facebookAppId,
-                  type: "testkeitboor:venue",
+                  type: "adentifywww:venue",
                   title: venue.get('name'),
                   description: venue.get('description'),
                   url: app.beginUrl + app.root + $.t('routing.photo/id/', { id: photo.get('id')}),
@@ -127,10 +126,10 @@ define([
             }, function(response) {
                if (typeof response.error === "undefined") {
                   FB.api(
-                     'me/testkeitboor:tag',
+                     'me/adentifywww:tag',
                      'post',
                      {
-                        image : app.rootUrl + 'uploads/photos/users/' + photo.get('owner')['id'] + '/large/' + photo.get('large_url'),
+                        image : photo.get('large_url'),
                         url: app.beginUrl + app.root + $.t('routing.photo/id/', { id: photo.get('id')}),
                         venue: response.id
                      },
@@ -162,10 +161,10 @@ define([
             }, function(response) {
                if (typeof response.error === "undefined") {
                   FB.api(
-                     'me/testkeitboor:tag',
+                     'me/adentifywww:tag',
                      'post',
                      {
-                        image : app.rootUrl + 'uploads/photos/users/' + photo.get('owner')['id'] + '/large/' + photo.get('large_url'),
+                        image : photo.get('large_url'),
                         url: app.beginUrl + app.root + $.t('routing.photo/id/', { id: photo.get('id')}),
                         profile: response.id
                      },

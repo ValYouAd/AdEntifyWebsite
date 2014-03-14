@@ -17,3 +17,9 @@ h2 {
 .jobs {
     padding: 120px 0px 150px 0px;
 }
+.signup {
+    height: 50px;
+    line-height: 45px;
+    vertical-align: middle;
+    font-size: 14px;
+}

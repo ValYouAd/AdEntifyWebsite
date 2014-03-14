@@ -271,6 +271,11 @@ class UserController extends Controller
         }
 
         $entity->setEnabled($active == 1 ? true : false);
+
+        if ($entity->isEnabled()) {
+            $this->get('ad_entify_core.email')->validateAccount($entity);
+        }
+
         $em->merge($entity);
         $em->flush();
 

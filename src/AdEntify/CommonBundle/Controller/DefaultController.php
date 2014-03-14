@@ -31,8 +31,7 @@ class DefaultController extends Controller
      * @Route("{_locale}/", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"}, name="home_logoff")
      * @Template
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         // Automatic redirect
         $securityContext = $this->container->get('security.context');
         if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){

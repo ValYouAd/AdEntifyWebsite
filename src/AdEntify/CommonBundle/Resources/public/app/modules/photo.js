@@ -46,7 +46,7 @@ define([
 
       defaults: {
          caption: '',
-         showTags: false,
+         showTags: true,
          showLikes: false
       },
 
@@ -84,7 +84,38 @@ define([
          if (query.length > 0)
             query = '?' + query.join('&');
 
-         return '&lt;iframe src="' + app.rootUrl +'iframe/photo-' + this.get('id') + '.html' + query + '" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:' + this.get("large_width") + 'px; height:' + this.get("large_height") + 'px;" allowTransparency="true"&gt;&lt;/iframe&gt;';
+         return '&lt;iframe src="' + app.rootUrl +'iframe/photo-' + this.get('id') + '.html' + query + '" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="' + this.get("large_width") + '" height="' + this.get("large_height") + '" allowTransparency="true"&gt;&lt;/iframe&gt;';
+      },
+
+      getBrands: function() {
+         var hasBrands = false;
+         var brands = [];
+         if (this.has('tags') && this.get('tags').length > 0) {
+            this.get('tags').each(function(tag) {
+               if (tag.has('brandModel')) {
+                  hasBrands = true;
+                  var found = false;
+                  brands.forEach(function(brand) {
+                     if (brand == tag.get('brandModel').get('name')) {
+                        found = true;
+                     }
+                  });
+                  if (!found)
+                     brands.push(tag.get('brandModel').get('name'));
+               }
+            });
+         }
+
+         return hasBrands ? brands.join(', ') : hasBrands;
+      },
+
+      getShareText: function() {
+         var brands = this.getBrands();
+         if (brands != false) {
+            return $.t('photo.shareTextWithTags', { 'brands': brands });
+         } else {
+            return $.t('photo.shareTextWithoutTags');
+         }
       },
 
       changeTagsCount: function(value) {
@@ -126,7 +157,8 @@ define([
                photoId: this.options.photo.get('id'),
                modal: true,
                categories: this.categories,
-               hashtags: this.hashtags
+               hashtags: this.hashtags,
+               updateMetas: this.options.updateMetas
             }),
             "#right-modal-content": new Photo.Views.RightMenu({
                photo: this.options.photo,
@@ -186,14 +218,7 @@ define([
                      showClose: true
                   })).render();
                } else {
-                  app.trigger('domchange:title', $.t('photo.pageTitle', {caption: this.options.photo.get('caption')}));
-                  if (this.options.photo.get('caption'))
-                     app.trigger('domchange:description', $.t('photo.pageDescription', {caption: this.options.photo.get('caption')}));
-                  app.oauth.loadAccessToken({
-                     success: function() {
-                        that.loadUnvalidateTags();
-                     }
-                  });
+                  this.updateMetas();
                   this.render();
                   this.$el.fadeIn();
                }
@@ -218,6 +243,22 @@ define([
          this.listenTo(app, 'tag:removeTag', function(tag) {
             this.model.get('tags').remove(tag);
             this.render();
+         });
+
+         if (this.options.updateMetas)
+            this.updateMetas();
+      },
+
+      updateMetas: function() {
+         var that = this;
+         Common.Tools.setPhotoMetas(this.options.photo);
+         app.trigger('domchange:title', $.t('photo.pageTitle', {caption: this.options.photo.get('caption')}));
+         if (this.options.photo.get('caption'))
+            app.trigger('domchange:description', $.t('photo.pageDescription', {caption: this.options.photo.get('caption')}));
+         app.oauth.loadAccessToken({
+            success: function() {
+               that.loadUnvalidateTags();
+            }
          });
       },
 
@@ -336,6 +377,7 @@ define([
          }, 3000);
          $(this.el).i18n();
          FB.XFBML.parse();
+         gapi.plusone.go();
          this.$('.report-button').tooltip();
       },
 
@@ -376,7 +418,7 @@ define([
       },
 
       updateLikedCount: function(liked) {
-         $likeCount = $(this.el).find('#like-count');
+         $likeCount = this.$('.likes-count-value')
          var currentLikeCount = $likeCount.html() ? parseInt($likeCount.html()) : 0;
          if (liked) {
             $likeCount.html(currentLikeCount + 1);

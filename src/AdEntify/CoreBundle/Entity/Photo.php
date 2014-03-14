@@ -875,14 +875,17 @@ class Photo
         return $this->deletedAt;
     }
 
-    public function addHashtag(\AdEntify\CoreBundle\Entity\Hashtag $hashtag)
+    public function addHashtag($hashtag)
     {
+        if (!is_object($hashtag))
+            return $this;
+
         $hashtag->addPhoto($this);
         $this->hashtags[] = $hashtag;
         return $this;
     }
 
-    public function removeHashtag(\AdEntify\CoreBundle\Entity\Hashtag $hashtag)
+    public function removeHashtag($hashtag)
     {
         $hashtag->removePhoto($this);
         $this->hashtags->removeElement($hashtag);

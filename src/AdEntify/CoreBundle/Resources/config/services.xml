@@ -28,6 +28,7 @@
             <argument type="service" id="mailer" />
             <argument>%contact_email%</argument>
             <argument>%from_email%</argument>
+            <argument type="service" id="translator" />
         </service>
         <service id="ad_entify_core.upload" class="%ad_entify_core.uploadService%">
             <argument type="service" id="doctrine.orm.entity_manager" />

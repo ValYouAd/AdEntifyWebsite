@@ -468,7 +468,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          $('html, body').addClass('body-grey-background');
 
          app.useLayout().setViews({
-            "#center-pane-content": new Brand.Views.List({
+            "#center-pane-content": new Brand.Views.Content({
                brands: this.brands,
                emptyDataMessage: $.t('brand.noBrands')
             })
@@ -524,7 +524,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                model: brand,
                slug: slug,
                followers: followers,
-               followings: followings,
                photos: this.photos,
                categories: this.categories,
                rewards: this.rewards
@@ -561,7 +560,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
 
          followers.fetch();
-         followings.fetch();
          this.rewards.fetch({
             url: Routing.generate('api_v1_get_brand_rewards', { slug: slug })
          });
@@ -977,6 +975,20 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
 
          $('.showDidacticiel').tooltip();
+         $('.showDidacticiel').click(function() {
+            Common.Tools.launchDidacticiel(function() {
+               // Show linked account when didacticiel ended
+               app.useLayout().setView('#modal-container', new Common.Views.Modal({
+                  title: 'profile.myLinkedServices',
+                  view: new MySettings.Views.ServiceList({
+                     showLabel: true
+                  }),
+                  redirect: true,
+                  showConfirmButton: false,
+                  modalDialogClasses: 'linkedaccount-dialog'
+               })).render();
+            });
+         });
 
          if (!app.appState().isLogged()) {
             $('.no-account-button').click(function() {
@@ -984,10 +996,6 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                setTimeout(function() {
                   $('#signupModal').modal('show');
                }, 500);
-            });
-
-            $('.showDidacticiel').click(function() {
-               Common.Tools.launchDidacticiel();
             });
          } else {
             // Get current user
@@ -999,11 +1007,19 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                         "Authorization": app.oauth.getAuthorizationHeader()
                      },
                      success: function(user) {
-                        $('.showDidacticiel').click(function() {
-                           Common.Tools.launchDidacticiel();
-                        });
                         if (user && !user.intro_played) {
-                           Common.Tools.launchDidacticiel();
+                           Common.Tools.launchDidacticiel(function() {
+                              // Show linked account when didacticiel ended
+                              app.useLayout().setView('#modal-container', new Common.Views.Modal({
+                                 title: 'profile.myLinkedServices',
+                                 view: new MySettings.Views.ServiceList({
+                                    showLabel: true
+                                 }),
+                                 redirect: true,
+                                 showConfirmButton: false,
+                                 modalDialogClasses: 'linkedaccount-dialog'
+                              })).render();
+                           });
                         }
                      }
                   });
@@ -1075,7 +1091,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
       onDomChangeDescription: function(description) {
          if (typeof description !== 'undefined' && description != '') {
-            $('meta[name=description]').attr('content', description);
+            Common.Tools.setMeta('description', description, false);
+            Common.Tools.setMeta('og:description', description);
          }
       },
 

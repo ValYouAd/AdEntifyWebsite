@@ -192,7 +192,10 @@ define([
          } else {
             this.options.photos.once('sync', this.render, this);
          }
-         this.listenTo(this.options.photos, 'remove', this.render);
+         this.listenTo(this.options.photos, 'remove', function() {
+            app.trigger('photo:removed');
+            this.render();
+         });
          this.listenTo(app, 'photos:submitPhotoDetails', this.submitPhotoDetails);
          this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
 
@@ -386,17 +389,18 @@ define([
             model.fetch({
                url: Routing.generate('api_v1_get_photo', { id: model.get('id')}),
                complete: function() {
-                  that.displayPhoto(evt, model);
+                  that.displayPhoto(evt, model, false);
                }
             });
          } else {
-            this.displayPhoto(evt,photo);
+            this.displayPhoto(evt,photo, true);
          }
       },
 
-      displayPhoto: function(evt, photo) {
+      displayPhoto: function(evt, photo, updateMetas) {
          var photoView = new Photo.Views.Modal({
-            photo: photo
+            photo: photo,
+            updateMetas: updateMetas
          });
          var modal = new Common.Views.Modal({
             view: photoView,

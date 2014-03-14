@@ -59,12 +59,28 @@ class BrandsController extends FosRestController
      * )
      *
      * @View()
+     * @QueryParam(name="orderBy", default="null")
+     * @QueryParam(name="way", requirements="DESC|ASC", default="ASC")
      */
-    public function cgetAction()
+    public function cgetAction($orderBy = null, $way = 'ASC')
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->findBy(array(
-            'validated' => true
-        ));
+        $qb = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->createQueryBuilder('b');
+        $qb->where('b.validated = :validated')
+            ->setParameters(array(
+                ':validated' => true
+            ));
+
+        switch ($orderBy) {
+            case 'number-of-tags':
+                $qb->orderBy('b.tagsCount', $way);
+                break;
+            case 'name':
+            default:
+                $qb->orderBy('b.name', $way);
+                break;
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -346,7 +362,7 @@ class BrandsController extends FosRestController
             // Get brands ids
             $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
             if (!$followings) {
-                $followings = $user->getFollowingsIds();
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 0);
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
         }

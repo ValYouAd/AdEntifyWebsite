@@ -37,6 +37,7 @@
             <argument type="service" id="router" />
             <argument type="service" id="fos_user.security.login_manager" />
             <argument>%fos_user.firewall_name%</argument>
+            <argument type="service" id="ad_entify_core.email" />
         </service>
 
         <service id="adentify_authentication_handler" class="AdEntify\UserBundle\Security\AuthenticationHandler">

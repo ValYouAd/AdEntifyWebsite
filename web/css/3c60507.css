@@ -1088,6 +1088,8 @@ html,body,.body-grey-background {
     margin-top: -5px;
     cursor: pointer;
 }
+.introjs-disabled { display: none!important; }
+.introjs-skipbutton { float: right; margin-left: 2px; }
 /* END NAV
 ----------------------- */
 
@@ -2266,6 +2268,10 @@ html,body,.body-grey-background {
 .add-tag-form .dropdown-menu a:hover {
     padding: 3px 20px;
 }
+.add-tag-form .help-block {
+    font-size: 10px;
+    font-style: italic;
+}
 /*
 ----------------------- */
 
@@ -2675,6 +2681,9 @@ html,body,.body-grey-background {
     -webkit-filter: none;
     -moz-filter: none;
     filter: none;
+}
+.brands-wrapper {
+    margin-top: 30px;
 }
 #brands,
 .brands {
@@ -4600,8 +4609,9 @@ label,
 .photo-modal #center-modal,
 .linked-photos,
 .photoModal #right-modal {
-    padding-bottom: 500em;
-    margin-bottom: -500em;
+    /*padding-bottom: 500em;
+    margin-bottom: -500em;*/
+    padding-bottom: 10px;
 }
 .photoModal #right-modal {
     padding-left: 0px;
@@ -4875,6 +4885,9 @@ ul.striped > li:nth-child(even) {
 .g-plusone,
 .fblike {
     display: inline-block;
+}
+.fb-like {
+    top: -5px;
 }
 .pinterest {
     display: inline-block;

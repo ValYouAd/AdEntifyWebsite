@@ -115,10 +115,10 @@ define([
             that.trigger('hide');
          });
          this.$('#commonModal').on('hidden.bs.modal', function() {
+            that.remove();
             if (that.options.redirect) {
                Backbone.history.navigate('', true);
             }
-            that.remove();
             app.trigger('modal:hidden');
             app.trigger('modal:removed');
          });
@@ -284,7 +284,7 @@ define([
          }
       },
 
-      launchDidacticiel: function() {
+      launchDidacticiel: function(onExit) {
          var dropdownOpened = false;
          $('.tag-button').removeClass('animated flash');
          introJs().setOptions({
@@ -305,6 +305,10 @@ define([
                dropdownOpened.fadeOut('fast');
                dropdownOpened = false;
             }
+         }).onexit(function() {
+            if (typeof onExit !== 'undefined') {
+               onExit();
+            }
          }).start();
          if (app.appState().isLogged()) {
             $.ajax({
@@ -314,6 +318,28 @@ define([
                   "Authorization": app.oauth.getAuthorizationHeader()
                }
             });
+         }
+      },
+
+      setMeta: function(key, content, isProperty) {
+         isProperty = typeof isProperty !== 'undefined' ? isProperty : true;
+         var attributeName = isProperty ? 'property' : 'name';
+
+         var meta = $('meta[' + attributeName + '="' + key + '"]');
+         if (meta.length > 0)
+            meta.attr('content', content);
+         else {
+            $('head').append('<meta ' + attributeName + '="' + key + '" content="' + content + '">');
+         }
+      },
+
+      setPhotoMetas: function(photoModel) {
+         if (photoModel) {
+            this.setMeta('og:image', photoModel.get('large_url'));
+            this.setMeta('og:image:width', photoModel.get('large_width'));
+            this.setMeta('og:image:height', photoModel.get('large_height'));
+            this.setMeta('og:title', photoModel.get('caption'));
+            this.setMeta('og:url', photoModel.get('link'));
          }
       }
    }

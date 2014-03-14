@@ -142,7 +142,7 @@
    },
    "tag": {
       "legendAddTag": "Add tag",
-      "product": "Brand",
+      "product": "Product",
       "place": "Place",
       "person": "Person",
       "labelProductName": "Enter the name of the product",
@@ -202,13 +202,11 @@
       "placeMoreDetails": "More details",
       "placeLessDetails": "Less details",
       "tellUsMore": "You want to win more? Tell us more about this product",
-      "place": "Place",
-      "person": "Person",
-      "product": "Product",
       "tagSuccessfullyAdded": "Tag was successfully added",
       "buy": "Buy product",
       "errorDifferentBrand": "Chosen brand is different from product brand.",
-      "errorProductEmpty": "You have to enter a product name before submiting tag"
+      "errorProductEmpty": "You have to enter a product name before submiting tag",
+      "poweredByFoursquare": "Powered by Foursquare"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
@@ -227,6 +225,8 @@
       "deletePhoto": "Delete photo",
       "linkedPhotos": "Related photos",
       "noLinkedPhotos": "No related photo",
+      "shareTextWithTags": " Check out on AdEntify the __brands__ tags on this photo #consumerpower #tagsformoney",
+      "shareTextWithoutTags": "Tag this photo on AdEntify #consumerpower #tagsformoney",
       "tweetShare": "Check out my interactive image on %23AdEntify &rarr; ",
       "addTagTooltip": "Add new tag",
       "likeTooltip": "Like photo",
@@ -438,7 +438,9 @@
       "mostLiked": "Most liked",
       "today": "Today",
       "taggedPhotos": "Tagged photos",
-      "byPoints": "By points"
+      "byPoints": "By points",
+      "az": "A-Z",
+      "numberOfTags": "# of tags"
    },
    "notLogged": {
       "like": "You can't like when you aren't logged. Please connect or sign up.",
@@ -455,7 +457,7 @@
       "next": "Next",
       "prev": "Prev",
       "skip": "Skip",
-      "done": "Done"
+      "done": "Start tagging!"
    },
    "common": {
       "viewPhoto": "View photo",

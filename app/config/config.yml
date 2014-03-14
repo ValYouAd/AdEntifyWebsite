@@ -29,7 +29,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ 'AdEntifyCommonBundle', 'FOSUserBundle' ]
+    bundles:        [ 'AdEntifyCommonBundle', 'FOSUserBundle', 'TwigBundle' ]
     filters:
         cssrewrite: ~
 

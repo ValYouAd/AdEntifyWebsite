@@ -1,0 +1,10 @@
+error:
+    404PageTitle: 'Page not found'
+    404Heading: 'We can''t find your page'
+    404Content: 'Oops the page requested was not found.'
+    500PageTitle: 'An internal server error occured'
+    500Heading: 'Internal server error occured'
+    500Content: 'Oops, we can''t get the page you requested, an internal server error occured, please try again or contact us.'
+    commonPageTitle: 'An unknown error occured'
+    commonHeading: 'Unknown error'
+    commonContent: 'Oops, we can''t get the page you requested right now, an unknown error occured, please try again or contact us.'

@@ -202,13 +202,11 @@
       "placeMoreDetails": "Plus d'informations",
       "placeLessDetails": "Moins d'informations",
       "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit",
-      "place": "Lieu",
-      "person": "Personne",
-      "product": "Produit",
       "tagSuccessfullyAdded": "Le tag a été ajouté avec succès",
       "buy": "Acheter le produit",
       "errorDifferentBrand": "La marque choisit est différente de la marque associée au produit.",
-      "errorProductEmpty": "Vous devez entrer un produit avant de valider l'ajout du tag"
+      "errorProductEmpty": "Vous devez entrer un produit avant de valider l'ajout du tag",
+      "poweredByFoursquare": "Propulsé par Foursquare"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -227,6 +225,8 @@
       "deletePhoto": "Supprimer la photo",
       "linkedPhotos": "Photos liées",
       "noLinkedPhotos": "Aucune photo liée",
+      "shareTextWithTags": "Découvrez sur AdEntify les tags de __brands__ sur cette photo #consumerpower #tagsformoney",
+      "shareTextWithoutTags": "Tagguez cette photo sur AdEntify #consumerpower #tagsformoney",
       "tweetShare": "Découvrez mon image intéractive sur %23AdEntify &rarr; ",
       "addTagTooltip": "Ajouter un tag",
       "likeTooltip": "Aimer la photo",
@@ -438,7 +438,9 @@
       "mostLiked": "Les plus aimées",
       "today": "Aujourd'hui",
       "taggedPhotos": "Photos taguées",
-      "byPoints": "Par points"
+      "byPoints": "Par points",
+      "az": "A-Z",
+      "numberOfTags": "# de tags"
    },
    "notLogged": {
       "like": "Vous ne pouvez pas aimer lorsque vous êtes déconnecté. Veuillez vous connecter ou vous inscrire.",
@@ -455,7 +457,7 @@
       "next": "Suivant",
       "prev": "Précédent",
       "skip": "Passer",
-      "done": "Terminer"
+      "done": "Commence à tagguer !"
    },
    "common": {
       "viewPhoto": "voir la photo",

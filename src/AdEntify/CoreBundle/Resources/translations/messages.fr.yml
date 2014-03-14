@@ -1,0 +1,13 @@
+Firstname: Prénom
+Lastname: Nom
+Password: Mot de passe
+Email: E-mail
+Confirm password: Confirmation du mot de passe
+
+email:
+    register_validation:
+        title: 'Félicitations, vous êtes inscrit sur AdEntify, compte en attente de validation'
+        content: '<p>Bonjour <strong>%user%</strong>,</p><p>Vous êtes maintenant un membre d''<a href="https://adentify.com">AdEntify</a>. Vous recevrez un e-mail lorsque votre compte sera validé.</p>'
+    validate_account:
+        title: 'Félicitations, votre compte AdEntify vient d''être validé'
+        content: '<p>Bonjour <strong>%user%</strong>,</p><p>Votre compte AdEntify est maintenant actif, vous pouvez dès maintenant vous connecter et taguer vos premières photos sur <a href="https://adentify.com">adentify.com</a>.</p>'

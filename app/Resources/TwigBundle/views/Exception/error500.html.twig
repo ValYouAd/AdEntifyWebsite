@@ -1,0 +1,31 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ 'error.500PageTitle'|trans }}{% endblock %}
+{% block meta %}<meta name="robots" content="noindex,nofollow" />{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    'bundles/adentifycommon/css/error.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+
+{% block body %}
+
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+
+    <div class="error polygon-background">
+        <div class="container">
+            <div class="text-center">
+                <h1>{{ 'error.500Heading'|trans }}</h1>
+            </div>
+            <p class="error-message">{{ 'error.500Content'|trans }}</p>
+        </div>
+    </div>
+
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+
+{% endblock %}

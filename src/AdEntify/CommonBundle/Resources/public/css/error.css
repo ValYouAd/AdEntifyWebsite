@@ -1,0 +1,19 @@
+html, body {
+    font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 14px;
+    color: #828081;
+}
+h1 {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 44px;
+    color: #828081;
+    margin-bottom: 50px;
+}
+.error-message {
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 20px;
+    color: #9da0a4;
+}
+.error {
+    padding: 120px 0px 150px 0px;
+}
