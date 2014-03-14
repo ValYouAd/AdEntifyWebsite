@@ -115,10 +115,10 @@ define([
             that.trigger('hide');
          });
          this.$('#commonModal').on('hidden.bs.modal', function() {
+            that.remove();
             if (that.options.redirect) {
                Backbone.history.navigate('', true);
             }
-            that.remove();
             app.trigger('modal:hidden');
             app.trigger('modal:removed');
          });

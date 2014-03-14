@@ -13,7 +13,7 @@ parameters:
     mailer_password:              Adentify75$
     mailer_encryption:            tls
 
-    contact_email:                pierrick@adentify.com
+    contact_email:                contact@adentify.com
 
     locale:                       en
     secret:                       AdEntify@SecretKey!2013--@D

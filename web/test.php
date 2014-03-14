@@ -1,1 +1,1 @@
-<iframe src="https://adentify.com/iframe/photo-3.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:612px; height:612px;" allowTransparency="true"></iframe>
+<?php phpinfo(); ?>

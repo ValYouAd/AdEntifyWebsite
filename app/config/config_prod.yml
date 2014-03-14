@@ -35,7 +35,7 @@ monolog:
             handler: swift
         swift:
             type:       swift_mailer
-            from_email: pierrick@valyouad.com
+            from_email: no-reply@adentify.com
             to_email:   pierrick@valyouad.com
             subject:    An Error Occurred!
             level:      debug
