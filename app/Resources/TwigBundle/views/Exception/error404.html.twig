@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ 'error.404PageTitle'|trans }}{% endblock %}
+{% block title %}{{ 'error.notFoundPageTitle'|trans }}{% endblock %}
 {% block meta %}<meta name="robots" content="noindex,nofollow" />{% endblock %}
 
 {% block stylesheets %}
@@ -20,9 +20,9 @@
     <div class="error polygon-background">
         <div class="container">
             <div class="text-center">
-                <h1>{{ 'error.404Heading'|trans }}</h1>
+                <h1>{{ 'error.notFoundHeading'|trans }}</h1>
             </div>
-            <p class="error-message">{{ 'error.404Content'|trans }}</p>
+            <p class="error-message">{{ 'error.notFoundContent'|trans }}</p>
         </div>
     </div>
 

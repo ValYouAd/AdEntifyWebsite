@@ -49,7 +49,9 @@ define([
       tagName: 'span class="categories-inner"',
 
       serialize: function() {
-         return {categories: this.options.categories};
+         return {
+            categories: this.options.categories
+         };
       },
 
       initialize: function() {
