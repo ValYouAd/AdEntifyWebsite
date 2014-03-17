@@ -57,7 +57,7 @@ class BrandController extends Controller
             if ($entity->getOriginalLogoUrl()) {
                 $thumb = new Thumb();
                 $filename = basename($entity->getOriginalLogoUrl());
-                $thumb->setOriginalPath(FileTools::getBrandLogoPath().$filename);
+                $thumb->setOriginalPath($entity->getOriginalLogoUrl());
                 $thumb->addThumbSize(FileTools::LOGO_TYPE_LARGE);
                 $thumb->addThumbSize(FileTools::LOGO_TYPE_MEDIUM);
                 $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);
