@@ -120,43 +120,38 @@ class BrandsController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $em = $this->getDoctrine()->getManager();
-            $brand = new Brand();
-            $form = $this->getForm($brand);
-            $form->bind($request);
-            if ($form->isValid()) {
+        $em = $this->getDoctrine()->getManager();
+        $brand = new Brand();
+        $form = $this->getForm($brand);
+        $form->bind($request);
+        if ($form->isValid()) {
 
-                $found = $em->createQuery('SELECT COUNT(b.id) FROM AdEntifyCoreBundle:Brand b WHERE b.name = :name')
-                    ->setParameter('name', $brand->getName())->getSingleScalarResult();
-                if ($found > 0) {
-                    $form->addError(new FormError('brand.alreadyExist'));
-                    return $form;
-                }
-
-                if ($brand->getOriginalLogoUrl()) {
-                    $thumb = new Thumb();
-                    $filename = urlencode($brand->getName()).'.jpg';
-                    $thumb->setOriginalPath($brand->getOriginalLogoUrl());
-                    $thumb->addThumbSize(FileTools::LOGO_TYPE_LARGE);
-                    $thumb->addThumbSize(FileTools::LOGO_TYPE_MEDIUM);
-                    $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);
-                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
-                    $brand->setSmallLogoUrl($thumbs[FileTools::LOGO_TYPE_SMALLL]['filename']);
-                    $brand->setMediumLogoUrl($thumbs[FileTools::LOGO_TYPE_MEDIUM]['filename']);
-                    $brand->setLargeLogoUrl($thumbs[FileTools::LOGO_TYPE_LARGE]['filename']);
-                }
-
-                $em->persist($brand);
-                $em->flush();
-
-                return $brand;
-            } else {
+            $found = $em->createQuery('SELECT COUNT(b.id) FROM AdEntifyCoreBundle:Brand b WHERE b.name = :name')
+                ->setParameter('name', $brand->getName())->getSingleScalarResult();
+            if ($found > 0) {
+                $form->addError(new FormError('brand.alreadyExist'));
                 return $form;
             }
+
+            if ($brand->getOriginalLogoUrl()) {
+                $thumb = new Thumb();
+                $filename = urlencode($brand->getName()).'.jpg';
+                $thumb->setOriginalPath($brand->getOriginalLogoUrl());
+                $thumb->addThumbSize(FileTools::LOGO_TYPE_LARGE);
+                $thumb->addThumbSize(FileTools::LOGO_TYPE_MEDIUM);
+                $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);
+                $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
+                $brand->setSmallLogoUrl($thumbs[FileTools::LOGO_TYPE_SMALLL]['filename']);
+                $brand->setMediumLogoUrl($thumbs[FileTools::LOGO_TYPE_MEDIUM]['filename']);
+                $brand->setLargeLogoUrl($thumbs[FileTools::LOGO_TYPE_LARGE]['filename']);
+            }
+
+            $em->persist($brand);
+            $em->flush();
+
+            return $brand;
         } else {
-            throw new HttpException(401);
+            return $form;
         }
     }
 

@@ -523,7 +523,6 @@ define([
 
       initialize: function() {
          this.photo = this.options.photo;
-         var that = this;
          this.listenTo(app, 'photo:tagAdded', function(tag) {
             var that = this;
             currentTag = tag;
@@ -586,13 +585,13 @@ define([
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                that.checkBrand();
-               if (currentBrand) {
+               if (currentBrand && currentBrand.medium_logo_url) {
                   $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                }
                return selectedItem;
             },
             highlighter: function(item) {
-               return '<div><img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
+               return '<div>' + (currentBrands[item].small_logo_url ? '<img style="height: 20px;" src="' + currentBrands[item].small_logo_url : '') + '"> ' + item + '</div>'
             }
          });
 

@@ -976,18 +976,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          $('.showDidacticiel').tooltip();
          $('.showDidacticiel').click(function() {
-            Common.Tools.launchDidacticiel(function() {
-               // Show linked account when didacticiel ended
-               app.useLayout().setView('#modal-container', new Common.Views.Modal({
-                  title: 'profile.myLinkedServices',
-                  view: new MySettings.Views.ServiceList({
-                     showLabel: true
-                  }),
-                  redirect: true,
-                  showConfirmButton: false,
-                  modalDialogClasses: 'linkedaccount-dialog'
-               })).render();
-            });
+            Common.Tools.launchDidacticiel();
          });
 
          if (!app.appState().isLogged()) {
