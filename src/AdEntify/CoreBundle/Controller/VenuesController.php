@@ -87,11 +87,15 @@ class VenuesController extends FosRestController
             $em = $this->getDoctrine()->getManager();
             $venueRequest = $request->request->get('venue');
 
-            // Check if existing foursquare id exist
             if ($request->request->has('venue')) {
-                $venue = $em->getRepository('AdEntifyCoreBundle:Venue')->findOneBy(array(
-                    'foursquareId' => $venueRequest['foursquareId']
-                ));
+                // Check if existing foursquare id exist
+                if (array_key_exists('foursquareId', $venueRequest)) {
+                    $venue = $em->getRepository('AdEntifyCoreBundle:Venue')->findOneBy(array(
+                        'foursquareId' => $venueRequest['foursquareId']
+                    ));
+                } else {
+                    $venue = null;
+                }
 
                 // Update venue products
                 if ($venue && is_array($venueRequest) && array_key_exists('products', $venueRequest) && count($venueRequest['products']) > 0) {
@@ -104,6 +108,7 @@ class VenuesController extends FosRestController
                     return $venue;
                 }
             }
+
             $venue = new Venue();
             $form = $this->getForm($venue);
             $form->bind($request);
@@ -166,8 +171,17 @@ class VenuesController extends FosRestController
         $response = curl_exec($ch);
         curl_close($ch);
 
-        if ($response !== false) {
+        $venues = $this->getDoctrine()->getManager()->createQuery('SELECT v FROM AdEntifyCoreBundle:Venue v WHERE v.name LIKE :query')
+            ->setMaxResults($limit)
+            ->setParameters(array(
+                'query' => '%'.$query.'%'
+            ))
+            ->getResult();
+
+        if (!$venues)
             $venues = array();
+
+        if ($response !== false) {
             $response = json_decode($response);
             if ($response->response->venues && count($response->response->venues) > 0) {
                 foreach($response->response->venues as $val) {

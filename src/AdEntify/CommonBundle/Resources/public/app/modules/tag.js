@@ -945,67 +945,34 @@ define([
             case 'venue':
                $submit = $('#submit-venue');
                that.removeView('.alert-venue');
-               if (currentVenue && currentTag) {
-                  $submit.button('loading');
-                  // Set venue info
-                  currentVenue.link = $('#venue-link').val();
-                  currentVenue.description = $('#venue-description').val();
-                  // POST currentVenue
-                  venue = new Venue.Model();
-                  venue.entityToModel(currentVenue);
-                  venue.url = Routing.generate('api_v1_post_venue');
-                  venue.getToken('venue_item', function() {
-                     venue.save(null, {
-                        success: function() {
-                           // Link tag to photo
-                           currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
-                           // Set tag info
-                           currentTag.set('type', 'place');
-                           currentTag.set('venue', venue.get('id'));
-                           currentTag.set('title', currentVenue.name);
-                           currentTag.set('description', currentVenue.description);
-                           currentTag.set('link', currentVenue.link);
-                           currentTag.url = Routing.generate('api_v1_post_tag');
-                           currentTag.getToken('tag_item', function() {
-                              currentTag.save(null, {
-                                 success: function() {
-                                    currentTag.set('persisted', '');
-                                    app.fb.createVenueStory(venue, app.appState().getCurrentPhotoModel());
-                                    currentVenue = null;
-                                    app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
-                                 },
-                                 error: function() {
-                                    $submit.button('reset');
-                                    that.setView('.alert-venue', new Common.Views.Alert({
-                                       cssClass: Common.alertError,
-                                       message: $.t('tag.errorTagPost'),
-                                       showClose: true
-                                    })).render();
-                                 }
-                              });
-                           });
-                        },
-                        error: function(e, r) {
-                           $submit.button('reset');
-                           if (r.status === 403) {
-                              that.setView('.alert-person', new Common.Views.Alert({
-                                 cssClass: Common.alertError,
-                                 message: $.t('tag.forbiddenTagPost'),
-                                 showClose: true
-                              })).render();
-                           } else {
-                              that.setView('.alert-venue', new Common.Views.Alert({
-                                 cssClass: Common.alertError,
-                                 message: $.t('tag.errorVenuePost'),
-                                 showClose: true
-                              })).render();
-                           }
-                        }
-                     });
-                  });
+               if (currentTag) {
+                  if (!currentVenue && !this.$('#venue-name').val()) {
+                     that.setView('.alert-venue', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.noVenueSelected'),
+                        showClose: true
+                     })).render();
+                     return;
+                  } else if (!currentVenue && this.$('#venue-name').val()) {
+                     $submit.button('loading');
+                     venue = new Venue.Model();
+                     venue.set('name', this.$('#venue-name').val());
+                     venue.set('link', $('#venue-link').val());
+                     venue.set('description', $('#venue-description').val());
+                     that.postVenue(venue, $submit);
+                  } else {
+                     $submit.button('loading');
+                     // Set venue info
+                     currentVenue.link = $('#venue-link').val();
+                     currentVenue.description = $('#venue-description').val();
+                     // POST currentVenue
+                     venue = new Venue.Model();
+                     venue.entityToModel(currentVenue);
+                     that.postVenue(venue, $submit);
+                  }
                } else {
                   $submit.button('reset');
-                  that.setView('.alert-product', new Common.Views.Alert({
+                  that.setView('.alert-venue', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('tag.noVenueSelected'),
                      showClose: true
@@ -1233,6 +1200,60 @@ define([
          });
       },
 
+      postVenue: function(venue, $submit) {
+         var that = this;
+         venue.url = Routing.generate('api_v1_post_venue');
+         venue.getToken('venue_item', function() {
+            venue.save(null, {
+               success: function() {
+                  // Link tag to photo
+                  currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+                  // Set tag info
+                  currentTag.set('type', 'place');
+                  currentTag.set('venue', venue.get('id'));
+                  currentTag.set('title', venue.get('name'));
+                  currentTag.set('description', venue.get('description'));
+                  currentTag.set('link', venue.get('link'));
+                  currentTag.url = Routing.generate('api_v1_post_tag');
+                  currentTag.getToken('tag_item', function() {
+                     currentTag.save(null, {
+                        success: function() {
+                           currentTag.set('persisted', '');
+                           app.fb.createVenueStory(venue, app.appState().getCurrentPhotoModel());
+                           currentVenue = null;
+                           app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
+                        },
+                        error: function() {
+                           $submit.button('reset');
+                           that.setView('.alert-venue', new Common.Views.Alert({
+                              cssClass: Common.alertError,
+                              message: $.t('tag.errorTagPost'),
+                              showClose: true
+                           })).render();
+                        }
+                     });
+                  });
+               },
+               error: function(e, r) {
+                  $submit.button('reset');
+                  if (r.status === 403) {
+                     that.setView('.alert-venue', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.forbiddenTagPost'),
+                        showClose: true
+                     })).render();
+                  } else {
+                     that.setView('.alert-venue', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.errorVenuePost'),
+                        showClose: true
+                     })).render();
+                  }
+               }
+            });
+         });
+      },
+
       createProduct: function(e) {
          newProduct = new Product.Model();
       },
@@ -1359,23 +1380,25 @@ define([
       },
 
       setupGoogleMap: function(model) {
-         var latLng = new google.maps.LatLng(model.get('venue').lat, model.get('venue').lng);
-         var mapOptions = {
-            zoom:  14,
-            center: latLng,
-            scrollwheel: false,
-            navigationControl: false,
-            mapTypeControl: false,
-            scaleControl: false,
-            draggable: false,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-         };
-         var gMap = new google.maps.Map(document.getElementById('map' + model.get('id')), mapOptions);
-         new google.maps.Marker({
-            position: latLng,
-            map: gMap
-         });
-         $('#map' + model.get('id')).addClass('loaded');
+         if (model.get('venue').lat && model.get('venue').lng) {
+            var latLng = new google.maps.LatLng(model.get('venue').lat, model.get('venue').lng);
+            var mapOptions = {
+               zoom:  14,
+               center: latLng,
+               scrollwheel: false,
+               navigationControl: false,
+               mapTypeControl: false,
+               scaleControl: false,
+               draggable: false,
+               mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var gMap = new google.maps.Map(document.getElementById('map' + model.get('id')), mapOptions);
+            new google.maps.Marker({
+               position: latLng,
+               map: gMap
+            });
+            $('#map' + model.get('id')).addClass('loaded');
+         }
       }
    };
 
