@@ -10,6 +10,7 @@
 namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Person;
+use AdEntify\CoreBundle\Entity\User;
 use AdEntify\CoreBundle\Form\PersonType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -65,12 +66,16 @@ class PeopleController extends FosRestController
             $em = $this->getDoctrine()->getManager();
 
             $personRequest = $request->request->get('person');
-            $user = $em->getRepository('AdEntifyCoreBundle:User')->findOneBy(array(
-                'facebookId' => $personRequest['facebookId']
-            ));
-            $person = $em->getRepository('AdEntifyCoreBundle:Person')->findOneBy(array(
-                'facebookId' => $personRequest['facebookId']
-            ));
+            $user = null;
+            $person = null;
+            if (array_key_exists('facebookId', $personRequest)) {
+                $user = $em->getRepository('AdEntifyCoreBundle:User')->findOneBy(array(
+                    'facebookId' => $personRequest['facebookId']
+                ));
+                $person = $em->getRepository('AdEntifyCoreBundle:Person')->findOneBy(array(
+                    'facebookId' => $personRequest['facebookId']
+                ));
+            }
 
             if ($person) {
                 if (!$person->getUser() && $user)
@@ -89,9 +94,11 @@ class PeopleController extends FosRestController
                     if ($user) {
                         $person->setUser($user);
                     }
+                    if (!$person->getGender()) {
+                        $person->setGender(User::GENDER_UNKNOWN);
+                    }
                     $em->persist($person);
                     $em->flush();
-
                     return $person;
                 } else {
                     return $form;

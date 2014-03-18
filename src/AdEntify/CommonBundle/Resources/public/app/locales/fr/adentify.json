@@ -177,6 +177,7 @@
       "errorTagPost": "Une erreur est survenue lors de l'ajout du tag",
       "errorVenuePost": "Une erreur est survenue lors de l'ajout du lieu",
       "noVenueSelected": "Vous devez sélectionner un lieu avant de valider le tag",
+      "noPersonSelected": "Vous devez sélectionner une personne avant de valider le tag",
       "forbiddenTagPost": "Vous n'êtes pas autorisé(e) à taguer cette photo",
       "validateTag": "Autoriser ce tag",
       "refuseTag": "Refuser ce tag",

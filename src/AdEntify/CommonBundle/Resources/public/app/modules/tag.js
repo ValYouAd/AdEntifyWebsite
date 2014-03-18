@@ -946,97 +946,50 @@ define([
             case 'venue':
                $submit = $('#submit-venue');
                that.removeView('.alert-venue');
-               if (currentTag) {
-                  if (!currentVenue && !this.$('#venue-name').val()) {
-                     that.setView('.alert-venue', new Common.Views.Alert({
-                        cssClass: Common.alertError,
-                        message: $.t('tag.noVenueSelected'),
-                        showClose: true
-                     })).render();
-                     return;
-                  } else if (!currentVenue && this.$('#venue-name').val()) {
-                     $submit.button('loading');
-                     venue = new Venue.Model();
-                     venue.set('name', this.$('#venue-name').val());
-                     venue.set('link', $('#venue-link').val());
-                     venue.set('description', $('#venue-description').val());
-                     that.postVenue(venue, $submit);
-                  } else {
-                     $submit.button('loading');
-                     // Set venue info
-                     currentVenue.link = $('#venue-link').val();
-                     currentVenue.description = $('#venue-description').val();
-                     // POST currentVenue
-                     venue = new Venue.Model();
-                     venue.entityToModel(currentVenue);
-                     that.postVenue(venue, $submit);
-                  }
-               } else {
-                  $submit.button('reset');
+               if (!currentVenue && !this.$('#venue-name').val()) {
                   that.setView('.alert-venue', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('tag.noVenueSelected'),
                      showClose: true
                   })).render();
+               } else if (!currentVenue && this.$('#venue-name').val()) {
+                  $submit.button('loading');
+                  venue = new Venue.Model();
+                  venue.set('name', this.$('#venue-name').val());
+                  venue.set('link', $('#venue-link').val());
+                  venue.set('description', $('#venue-description').val());
+                  that.postVenue(venue, $submit);
+               } else {
+                  $submit.button('loading');
+                  // Set venue info
+                  currentVenue.link = $('#venue-link').val();
+                  currentVenue.description = $('#venue-description').val();
+                  // POST currentVenue
+                  venue = new Venue.Model();
+                  venue.entityToModel(currentVenue);
+                  that.postVenue(venue, $submit);
                }
                break;
             case 'person':
                $submit = $('#submit-person');
                that.removeView('.alert-person');
-               if (currentPerson) {
+               if (!currentPerson && !this.$('#person-text').val()) {
+                  that.setView('.alert-venue', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.noPersonSelected'),
+                     showClose: true
+                  })).render();
+                  return;
+               } else if (!currentPerson && this.$('#person-text').val()) {
+                  $submit.button('loading');
+                  person = new Person.Model();
+                  person.set('name', this.$('#person-text').val());
+                  that.postPerson(person, $submit);
+               } else {
                   $submit.button('loading');
                   person = new Person.Model();
                   person.entityToModel(currentPerson);
-                  person.url = Routing.generate('api_v1_post_person');
-                  person.getToken('person_item', function() {
-                     person.save(null, {
-                        success: function() {
-                           // Link tag to photo
-                           currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
-                           // Set tag info
-                           currentTag.set('type', 'person');
-                           currentTag.set('person', person.get('id'));
-                           currentTag.set('title', currentPerson.name);
-                           currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/' + currentPerson.id);
-                           currentTag.url = Routing.generate('api_v1_post_tag');
-                           currentTag.getToken('tag_item', function() {
-                              currentTag.save(null, {
-                                 success: function() {
-                                    currentTag.set('persisted', '');
-                                    currentTag.setup();
-                                    app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
-                                    currentPerson = null;
-                                    app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
-                                 },
-                                 error: function(e, r) {
-                                    if (r.status === 403) {
-                                       app.useLayout().setView('.alert-person', new Common.Views.Alert({
-                                          cssClass: Common.alertError,
-                                          message: $.t('tag.forbiddenTagPost'),
-                                          showClose: true
-                                       })).render();
-                                    } else {
-                                       that.setView('.alert-person', new Common.Views.Alert({
-                                          cssClass: Common.alertError,
-                                          message: $.t('tag.errorTagPost'),
-                                          showClose: true
-                                       })).render();
-                                    }
-                                    $submit.button('reset');
-                                 }
-                              });
-                           });
-                        },
-                        error: function() {
-                           $submit.button('reset');
-                           that.setView('.alert-person', new Common.Views.Alert({
-                              cssClass: Common.alertError,
-                              message: $.t('tag.errorPerson'),
-                              showClose: true
-                           })).render();
-                        }
-                     });
-                  });
+                  that.postPerson(person, $submit)
                }
                break;
          }
@@ -1250,6 +1203,61 @@ define([
                         showClose: true
                      })).render();
                   }
+               }
+            });
+         });
+      },
+
+      postPerson: function(person, $submit) {
+         var that = this;
+         person.url = Routing.generate('api_v1_post_person');
+         person.getToken('person_item', function() {
+            person.save(null, {
+               success: function() {
+                  // Link tag to photo
+                  currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+                  // Set tag info
+                  currentTag.set('type', 'person');
+                  currentTag.set('person', person.get('id'));
+                  currentTag.set('title', person.get('name'));
+                  if (currentPerson)
+                     currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/' + currentPerson.id);
+                  currentTag.url = Routing.generate('api_v1_post_tag');
+                  currentTag.getToken('tag_item', function() {
+                     currentTag.save(null, {
+                        success: function() {
+                           currentTag.set('persisted', '');
+                           currentTag.setup();
+                           app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
+                           currentPerson = null;
+                           app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
+                        },
+                        error: function(e, r) {
+                           if (r.status === 403) {
+                              app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.forbiddenTagPost'),
+                                 showClose: true
+                              })).render();
+                           } else {
+                              that.setView('.alert-person', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.errorTagPost'),
+                                 showClose: true
+                              })).render();
+                           }
+                           $submit.button('reset');
+                        }
+                     });
+                  });
+               },
+               error: function() {
+                  $submit.button('reset');
+                  that.setView('.alert-person', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorPerson'),
+                     showClose: true
+                  })).render();
                }
             });
          });
