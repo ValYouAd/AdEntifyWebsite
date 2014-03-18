@@ -715,26 +715,28 @@ define([
          });
 
          // Person
-         if (!app.fb.isConnected()) {
+         /*if (!app.fb.isConnected()) {
             $('.tab-pane .fb-loggedin').fadeOut('fast');
             $('.tab-pane .fb-loggedout').fadeIn('fast');
          } else {
             $('.tab-pane .fb-loggedout').fadeOut('fast');
             $('.tab-pane .fb-loggedin').fadeIn('fast');
-         }
+         }*/
          this.$('#person-text').typeahead({
             source: function(query, process) {
-               $('#loading-person').css({'display': 'inline-block'});
-               app.fb.loadFriends({
-                  success: function(friends) {
-                     var friendsNames = [];
-                     _.each(friends, function(friend) {
-                        friendsNames.push(friend.name);
-                     });
-                     process(friendsNames);
-                     $('#loading-person').fadeOut(200);
-                  }
-               });
+               if (app.fb.isConnected()) {
+                  $('#loading-person').css({'display': 'inline-block'});
+                  app.fb.loadFriends({
+                     success: function(friends) {
+                        var friendsNames = [];
+                        _.each(friends, function(friend) {
+                           friendsNames.push(friend.name);
+                        });
+                        process(friendsNames);
+                        $('#loading-person').fadeOut(200);
+                     }
+                  });
+               }
             },
             minLength: 2,
             items: 10,
