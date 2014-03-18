@@ -24,6 +24,7 @@ use FOS\RestBundle\Controller\Annotations\Prefix,
 use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class PeopleController
@@ -53,6 +54,14 @@ class PeopleController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a Person",
+     *  input="AdEntify\CoreBundle\Form\PersonType",
+     *  output="AdEntify\CoreBundle\Entity\Person",
+     *  section="Person"
+     * )
+     *
      * @View()
      */
     public function postAction(Request $request)
@@ -110,9 +119,41 @@ class PeopleController extends FosRestController
     }
 
     /**
-     * Get form for Venue
+     * @param $query
+     * @param int $limit
      *
-     * @param null $venue
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search a person with a query (keyword)",
+     *  output="AdEntify\CoreBundle\Entity\Person",
+     *  section="Person"
+     * )
+     *
+     * @QueryParam(name="limit", default="10")
+     * @View()
+     */
+    public function getSearchAction($query, $limit)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $people = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM AdEntifyCoreBundle:Person p
+                WHERE p.name LIKE :query OR p.firstname LIKE :query OR p.lastname LIKE :query')
+                ->setMaxResults($limit)
+                ->setParameters(array(
+                    'query' => '%'.$query.'%'
+                ))
+                ->getResult();
+
+            return $people;
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * Get form for Perso
+     *
+     * @param null $person
      * @return mixed
      */
     protected function getForm($person = null)
