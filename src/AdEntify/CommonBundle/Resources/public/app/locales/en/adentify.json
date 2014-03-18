@@ -177,6 +177,7 @@
       "errorTagPost": "Error adding tag",
       "errorVenuePost": "Error adding place",
       "noVenueSelected": "You must select a place before confirming the tag",
+      "noPersonSelected": "You must select a person before confirming the tag",
       "forbiddenTagPost": "You are not authorized to tag this photo",
       "validateTag": "Confirm tag",
       "refuseTag": "Refuse tag",

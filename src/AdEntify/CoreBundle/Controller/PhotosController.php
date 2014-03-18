@@ -268,10 +268,10 @@ class PhotosController extends FosRestController
                 Criteria::expr()->eq('validationStatus', Tag::VALIDATION_GRANTED)
             ));
 
-        $photo->setTags($photo->getTags()->matching($criteria));
-
-        if ($photo)
+        if ($photo) {
+            $photo->setTags($photo->getTags()->matching($criteria));
             return $photo;
+        }
         else
             throw new NotFoundHttpException('Photo not found');
     }

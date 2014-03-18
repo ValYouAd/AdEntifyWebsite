@@ -66,8 +66,7 @@ define([
             var User = require('modules/user');
             this.set('ownerModel', new User.Model(this.get('owner')));
          }
-         if (this.has('tags') && this.get('tags').length > 0 && !this.has('tagsConverted')) {
-            this.set('tagsConverted', '');
+         if (this.has('tags') && this.get('tags').length > 0 && typeof this.get('tags').models === 'undefined') {
             this.set('tags', new Tag.Collection(this.get('tags')));
          } else {
             if (typeof init !== 'undefined' && init && this.has('tags') && this.get('tags').length == 0)
@@ -90,7 +89,7 @@ define([
       getBrands: function() {
          var hasBrands = false;
          var brands = [];
-         if (this.has('tags') && this.get('tags').length > 0) {
+         if (this.has('tags') && this.get('tags').length > 0 && typeof this.get('tags').models !== 'undefined') {
             this.get('tags').each(function(tag) {
                if (tag.has('brandModel')) {
                   hasBrands = true;
@@ -767,8 +766,7 @@ define([
                         data: {
                            hashtags: that.model.get('hashtags')
                         },
-                        success: function(data)
-                        {
+                        success: function(data) {
                            that.model.set('hashtags', $.map(data, function(h) { return h.id; }));
                            that.save(btn);
                         },
@@ -788,8 +786,12 @@ define([
          var that = this;
          this.model.getToken('photo_item', function() {
             that.model.url = Routing.generate('api_v1_put_photo', { id: that.model.get('id')});
-            that.model.save();
-            btn.button('reset');
+            that.model.save(null, {
+               complete: function() {
+                  btn.button('reset');
+                  app.trigger('photoEditModal:close');
+               }
+            });
          });
       },
 

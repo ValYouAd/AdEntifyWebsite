@@ -104,7 +104,7 @@ class Venue
     /**
      * @var float
      *
-     * @ORM\Column(name="latitude", type="float", length=10, scale=6)
+     * @ORM\Column(name="latitude", type="float", length=10, scale=6, nullable=true)
      * @Serializer\Groups({"details", "list"})
      */
     private $lat;
@@ -112,7 +112,7 @@ class Venue
     /**
      * @var float
      *
-     * @ORM\Column(name="longitude", type="float", length=10, scale=6)
+     * @ORM\Column(name="longitude", type="float", length=10, scale=6, nullable=true)
      * @Serializer\Groups({"details", "list"})
      */
     private $lng;

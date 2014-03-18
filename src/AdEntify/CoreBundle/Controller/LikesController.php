@@ -56,7 +56,7 @@ class LikesController extends FosRestController
                         ':photoId' => $request->request->get('photoId'),
                         ':userId' => $user->getId()
                     ))
-                    ->SetMaxResults(1)
+                    ->setMaxResults(1)
                     ->getOneOrNullResult();
 
                 if (!$like) {

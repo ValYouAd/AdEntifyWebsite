@@ -1,7 +1,9 @@
 <div id="photos">
     <div class="top-grey-title-container text-center">
         <% if (category) { %>
-        <h1 class="photos-title" data-i18n="category.title" data-i18n-options='{"name": "<%= category.get("name") %>"}'></h1>
+        <% if (category.has('name')) { %>
+        <h1 class="photos-title"><%= $.t('category.title', { name: category.get('name') }) %></h1>
+        <% } %>
         <% } else { %>
         <h1 class="photos-title fade-out"></h1>
         <% } %>

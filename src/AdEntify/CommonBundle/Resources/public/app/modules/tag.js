@@ -486,12 +486,13 @@ define([
       template: 'tag/addModal',
 
       beforeRender: function() {
+         var photoEditView = new this.Photo.Views.Edit({
+            model: this.options.photo,
+            photoCategories: this.options.photoCategories,
+            photoHashtags: this.options.photoHashtags
+         });
          this.setViews({
-            "#center-modal-content": new this.Photo.Views.Edit({
-               model: this.options.photo,
-               photoCategories: this.options.photoCategories,
-               photoHashtags: this.options.photoHashtags
-            }),
+            "#center-modal-content": photoEditView,
             "#right-modal-content": new Tag.Views.AddTagForm({
                photo: this.options.photo
             })
@@ -523,7 +524,6 @@ define([
 
       initialize: function() {
          this.photo = this.options.photo;
-         var that = this;
          this.listenTo(app, 'photo:tagAdded', function(tag) {
             var that = this;
             currentTag = tag;
@@ -586,13 +586,13 @@ define([
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
                that.checkBrand();
-               if (currentBrand) {
+               if (currentBrand && currentBrand.medium_logo_url) {
                   $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                }
                return selectedItem;
             },
             highlighter: function(item) {
-               return '<div><img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' + item + '</div>'
+               return '<div>' + (currentBrands[item].small_logo_url ? '<img style="height: 20px;" src="' + currentBrands[item].small_logo_url : '') + '"> ' + item + '</div>'
             }
          });
 
@@ -715,26 +715,28 @@ define([
          });
 
          // Person
-         if (!app.fb.isConnected()) {
+         /*if (!app.fb.isConnected()) {
             $('.tab-pane .fb-loggedin').fadeOut('fast');
             $('.tab-pane .fb-loggedout').fadeIn('fast');
          } else {
             $('.tab-pane .fb-loggedout').fadeOut('fast');
             $('.tab-pane .fb-loggedin').fadeIn('fast');
-         }
+         }*/
          this.$('#person-text').typeahead({
             source: function(query, process) {
-               $('#loading-person').css({'display': 'inline-block'});
-               app.fb.loadFriends({
-                  success: function(friends) {
-                     var friendsNames = [];
-                     _.each(friends, function(friend) {
-                        friendsNames.push(friend.name);
-                     });
-                     process(friendsNames);
-                     $('#loading-person').fadeOut(200);
-                  }
-               });
+               if (app.fb.isConnected()) {
+                  $('#loading-person').css({'display': 'inline-block'});
+                  app.fb.loadFriends({
+                     success: function(friends) {
+                        var friendsNames = [];
+                        _.each(friends, function(friend) {
+                           friendsNames.push(friend.name);
+                        });
+                        process(friendsNames);
+                        $('#loading-person').fadeOut(200);
+                     }
+                  });
+               }
             },
             minLength: 2,
             items: 10,
@@ -761,7 +763,7 @@ define([
                success: function() {
                   var url = Routing.generate('api_v1_get_venue_search', { query: query });
                   if (app.appState().getCurrentPosition()) {
-                     url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
+                     url += '?ll=' + app.appState().getCurrentPosition('lat') + ',' + app.appState().getCurrentPosition('lng');
                   }
                   $.ajax({
                      url: url,
@@ -946,7 +948,20 @@ define([
             case 'venue':
                $submit = $('#submit-venue');
                that.removeView('.alert-venue');
-               if (currentVenue && currentTag) {
+               if (!currentVenue && !this.$('#venue-name').val()) {
+                  that.setView('.alert-venue', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.noVenueSelected'),
+                     showClose: true
+                  })).render();
+               } else if (!currentVenue && this.$('#venue-name').val()) {
+                  $submit.button('loading');
+                  venue = new Venue.Model();
+                  venue.set('name', this.$('#venue-name').val());
+                  venue.set('link', $('#venue-link').val());
+                  venue.set('description', $('#venue-description').val());
+                  that.postVenue(venue, $submit);
+               } else {
                   $submit.button('loading');
                   // Set venue info
                   currentVenue.link = $('#venue-link').val();
@@ -954,122 +969,29 @@ define([
                   // POST currentVenue
                   venue = new Venue.Model();
                   venue.entityToModel(currentVenue);
-                  venue.url = Routing.generate('api_v1_post_venue');
-                  venue.getToken('venue_item', function() {
-                     venue.save(null, {
-                        success: function() {
-                           // Link tag to photo
-                           currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
-                           // Set tag info
-                           currentTag.set('type', 'place');
-                           currentTag.set('venue', venue.get('id'));
-                           currentTag.set('title', currentVenue.name);
-                           currentTag.set('description', currentVenue.description);
-                           currentTag.set('link', currentVenue.link);
-                           currentTag.url = Routing.generate('api_v1_post_tag');
-                           currentTag.getToken('tag_item', function() {
-                              currentTag.save(null, {
-                                 success: function() {
-                                    currentTag.set('persisted', '');
-                                    app.fb.createVenueStory(venue, app.appState().getCurrentPhotoModel());
-                                    currentVenue = null;
-                                    app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
-                                 },
-                                 error: function() {
-                                    $submit.button('reset');
-                                    that.setView('.alert-venue', new Common.Views.Alert({
-                                       cssClass: Common.alertError,
-                                       message: $.t('tag.errorTagPost'),
-                                       showClose: true
-                                    })).render();
-                                 }
-                              });
-                           });
-                        },
-                        error: function(e, r) {
-                           $submit.button('reset');
-                           if (r.status === 403) {
-                              that.setView('.alert-person', new Common.Views.Alert({
-                                 cssClass: Common.alertError,
-                                 message: $.t('tag.forbiddenTagPost'),
-                                 showClose: true
-                              })).render();
-                           } else {
-                              that.setView('.alert-venue', new Common.Views.Alert({
-                                 cssClass: Common.alertError,
-                                 message: $.t('tag.errorVenuePost'),
-                                 showClose: true
-                              })).render();
-                           }
-                        }
-                     });
-                  });
-               } else {
-                  $submit.button('reset');
-                  that.setView('.alert-product', new Common.Views.Alert({
-                     cssClass: Common.alertError,
-                     message: $.t('tag.noVenueSelected'),
-                     showClose: true
-                  })).render();
+                  that.postVenue(venue, $submit);
                }
                break;
             case 'person':
                $submit = $('#submit-person');
                that.removeView('.alert-person');
-               if (currentPerson) {
+               if (!currentPerson && !this.$('#person-text').val()) {
+                  that.setView('.alert-venue', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.noPersonSelected'),
+                     showClose: true
+                  })).render();
+                  return;
+               } else if (!currentPerson && this.$('#person-text').val()) {
+                  $submit.button('loading');
+                  person = new Person.Model();
+                  person.set('name', this.$('#person-text').val());
+                  that.postPerson(person, $submit);
+               } else {
                   $submit.button('loading');
                   person = new Person.Model();
                   person.entityToModel(currentPerson);
-                  person.url = Routing.generate('api_v1_post_person');
-                  person.getToken('person_item', function() {
-                     person.save(null, {
-                        success: function() {
-                           // Link tag to photo
-                           currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
-                           // Set tag info
-                           currentTag.set('type', 'person');
-                           currentTag.set('person', person.get('id'));
-                           currentTag.set('title', currentPerson.name);
-                           currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/' + currentPerson.id);
-                           currentTag.url = Routing.generate('api_v1_post_tag');
-                           currentTag.getToken('tag_item', function() {
-                              currentTag.save(null, {
-                                 success: function() {
-                                    currentTag.set('persisted', '');
-                                    currentTag.setup();
-                                    app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
-                                    currentPerson = null;
-                                    app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
-                                 },
-                                 error: function(e, r) {
-                                    if (r.status === 403) {
-                                       app.useLayout().setView('.alert-person', new Common.Views.Alert({
-                                          cssClass: Common.alertError,
-                                          message: $.t('tag.forbiddenTagPost'),
-                                          showClose: true
-                                       })).render();
-                                    } else {
-                                       that.setView('.alert-person', new Common.Views.Alert({
-                                          cssClass: Common.alertError,
-                                          message: $.t('tag.errorTagPost'),
-                                          showClose: true
-                                       })).render();
-                                    }
-                                    $submit.button('reset');
-                                 }
-                              });
-                           });
-                        },
-                        error: function() {
-                           $submit.button('reset');
-                           that.setView('.alert-person', new Common.Views.Alert({
-                              cssClass: Common.alertError,
-                              message: $.t('tag.errorPerson'),
-                              showClose: true
-                           })).render();
-                        }
-                     });
-                  });
+                  that.postPerson(person, $submit)
                }
                break;
          }
@@ -1234,6 +1156,115 @@ define([
          });
       },
 
+      postVenue: function(venue, $submit) {
+         var that = this;
+         venue.url = Routing.generate('api_v1_post_venue');
+         venue.getToken('venue_item', function() {
+            venue.save(null, {
+               success: function() {
+                  // Link tag to photo
+                  currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+                  // Set tag info
+                  currentTag.set('type', 'place');
+                  currentTag.set('venue', venue.get('id'));
+                  currentTag.set('title', venue.get('name'));
+                  currentTag.set('description', venue.get('description'));
+                  currentTag.set('link', venue.get('link'));
+                  currentTag.url = Routing.generate('api_v1_post_tag');
+                  currentTag.getToken('tag_item', function() {
+                     currentTag.save(null, {
+                        success: function() {
+                           currentTag.set('persisted', '');
+                           app.fb.createVenueStory(venue, app.appState().getCurrentPhotoModel());
+                           currentVenue = null;
+                           app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
+                        },
+                        error: function() {
+                           $submit.button('reset');
+                           that.setView('.alert-venue', new Common.Views.Alert({
+                              cssClass: Common.alertError,
+                              message: $.t('tag.errorTagPost'),
+                              showClose: true
+                           })).render();
+                        }
+                     });
+                  });
+               },
+               error: function(e, r) {
+                  $submit.button('reset');
+                  if (r.status === 403) {
+                     that.setView('.alert-venue', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.forbiddenTagPost'),
+                        showClose: true
+                     })).render();
+                  } else {
+                     that.setView('.alert-venue', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.errorVenuePost'),
+                        showClose: true
+                     })).render();
+                  }
+               }
+            });
+         });
+      },
+
+      postPerson: function(person, $submit) {
+         var that = this;
+         person.url = Routing.generate('api_v1_post_person');
+         person.getToken('person_item', function() {
+            person.save(null, {
+               success: function() {
+                  // Link tag to photo
+                  currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+                  // Set tag info
+                  currentTag.set('type', 'person');
+                  currentTag.set('person', person.get('id'));
+                  currentTag.set('title', person.get('name'));
+                  if (currentPerson)
+                     currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/' + currentPerson.id);
+                  currentTag.url = Routing.generate('api_v1_post_tag');
+                  currentTag.getToken('tag_item', function() {
+                     currentTag.save(null, {
+                        success: function() {
+                           currentTag.set('persisted', '');
+                           currentTag.setup();
+                           app.fb.createPersonStory(person, app.appState().getCurrentPhotoModel());
+                           currentPerson = null;
+                           app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
+                        },
+                        error: function(e, r) {
+                           if (r.status === 403) {
+                              app.useLayout().setView('.alert-person', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.forbiddenTagPost'),
+                                 showClose: true
+                              })).render();
+                           } else {
+                              that.setView('.alert-person', new Common.Views.Alert({
+                                 cssClass: Common.alertError,
+                                 message: $.t('tag.errorTagPost'),
+                                 showClose: true
+                              })).render();
+                           }
+                           $submit.button('reset');
+                        }
+                     });
+                  });
+               },
+               error: function() {
+                  $submit.button('reset');
+                  that.setView('.alert-person', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorPerson'),
+                     showClose: true
+                  })).render();
+               }
+            });
+         });
+      },
+
       createProduct: function(e) {
          newProduct = new Product.Model();
       },
@@ -1301,6 +1332,9 @@ define([
             showHeader: false,
             modalContentClasses: 'photoModal'
          });
+         app.listenTo(app, 'photoEditModal:close', function() {
+            modal.close();
+         });
          modal.on('hide', function() {
             app.trigger('addTagModal:hide');
             var currentModalView = app.useLayout().getView('#modal-container');
@@ -1360,23 +1394,25 @@ define([
       },
 
       setupGoogleMap: function(model) {
-         var latLng = new google.maps.LatLng(model.get('venue').lat, model.get('venue').lng);
-         var mapOptions = {
-            zoom:  14,
-            center: latLng,
-            scrollwheel: false,
-            navigationControl: false,
-            mapTypeControl: false,
-            scaleControl: false,
-            draggable: false,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-         };
-         var gMap = new google.maps.Map(document.getElementById('map' + model.get('id')), mapOptions);
-         new google.maps.Marker({
-            position: latLng,
-            map: gMap
-         });
-         $('#map' + model.get('id')).addClass('loaded');
+         if (model.get('venue').lat && model.get('venue').lng) {
+            var latLng = new google.maps.LatLng(model.get('venue').lat, model.get('venue').lng);
+            var mapOptions = {
+               zoom:  14,
+               center: latLng,
+               scrollwheel: false,
+               navigationControl: false,
+               mapTypeControl: false,
+               scaleControl: false,
+               draggable: false,
+               mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var gMap = new google.maps.Map(document.getElementById('map' + model.get('id')), mapOptions);
+            new google.maps.Marker({
+               position: latLng,
+               map: gMap
+            });
+            $('#map' + model.get('id')).addClass('loaded');
+         }
       }
    };
 

@@ -1,1 +1,1 @@
-<?php phpinfo(); ?>
+<?php print_r(getimagesize('https://graph.facebook.com/6797246895/picture?width=2000')); ?>

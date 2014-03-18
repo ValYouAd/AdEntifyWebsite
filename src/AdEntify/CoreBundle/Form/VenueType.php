@@ -17,15 +17,26 @@ class VenueType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('foursquareId', 'hidden')
-            ->add('foursquareShortLink', 'text')
+        $builder
+            ->add('foursquareId', 'hidden', array(
+                'required' => false
+            ))
+            ->add('foursquareShortLink', 'text', array(
+                'required' => false
+            ))
             ->add('name', 'text')
             ->add('description', 'textarea', array(
                 'required' => false
             ))
-            ->add('link', 'text')
-            ->add('lat', 'text')
-            ->add('lng', 'text')
+            ->add('link', 'text', array(
+                'required' => false
+            ))
+            ->add('lat', 'text', array(
+                'required' => false
+            ))
+            ->add('lng', 'text', array(
+                'required' => false
+            ))
             ->add('address', 'text', array(
                 'required' => false
             ))
