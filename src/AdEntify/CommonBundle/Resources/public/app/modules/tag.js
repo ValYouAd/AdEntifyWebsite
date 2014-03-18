@@ -760,7 +760,7 @@ define([
                success: function() {
                   var url = Routing.generate('api_v1_get_venue_search', { query: query });
                   if (app.appState().getCurrentPosition()) {
-                     url += '?ll=' + app.appState().getCurrentPosition().coords.latitude + ',' + app.appState().getCurrentPosition().coords.longitude;
+                     url += '?ll=' + app.appState().getCurrentPosition('lat') + ',' + app.appState().getCurrentPosition('lng');
                   }
                   $.ajax({
                      url: url,

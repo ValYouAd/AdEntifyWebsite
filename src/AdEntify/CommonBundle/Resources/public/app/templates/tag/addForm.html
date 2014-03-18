@@ -63,17 +63,18 @@
                         <div id="product-venue-informations"></div>
                     </div>
                     <p><button id="submit-product" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn-around-corner btn-red-grey-border submitTagButton"><i class="glyphicon glyphicon-ok"></i> <span data-i18n="tag.submitProduct"></span></button>
-                        <button class="btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button></p>
+                        <button class="btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button>
+                    </p>
                 </div>
                 <!-- Lieu -->
                 <div class="tab-pane" id="venue">
                     <div class="alert-venue"></div>
-                    <p class="support-geolocation">
-                        <span><small data-i18n="tag.textGeolocation"></small></span><br>
-                    <div class="text-center">
-                        <button class="btn-around-corner btn-dark-grey btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="glyphicon glyphicon-map-marker"></i> <span data-i18n="tag.useGeolocation"></span></button>
+                    <div class="support-geolocation">
+                        <p><small data-i18n="tag.textGeolocation"></small></p>
+                        <p class="text-center">
+                            <button class="btn-around-corner btn-dark-grey btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="glyphicon glyphicon-map-marker"></i> <%= $.t('tag.useGeolocation') %></button>
+                        </p>
                     </div>
-                    </p>
                     <p class="fade-out not-support-geolocation" data-i18n="tag.noSupportGeolocation"></p>
                     <div class="form-group">
                         <label><span data-i18n="tag.labelPlaceName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="loading-venue"></i></label>

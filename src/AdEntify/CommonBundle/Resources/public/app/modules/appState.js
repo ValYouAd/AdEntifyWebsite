@@ -49,12 +49,25 @@ define([
             return false;
       },
 
-      getCurrentPosition: function() {
+      getCurrentPosition: function(type) {
          if (this.has('currentPosition') && typeof this.get('currentPosition') !== 'undefined'
             && this.get('currentPosition')) {
-            return this.get('currentPosition');
+            switch (type) {
+               case 'lat':
+                  return this.fixedDown(this.get('currentPosition').coords.latitude, 2);
+               case 'lng':
+                  return this.fixedDown(this.get('currentPosition').coords.longitude, 2);
+               default:
+                  return this.get('currentPosition');
+            }
          } else
             return false;
+      },
+
+      fixedDown: function(number, digits) {
+         var n = number - Math.pow(10, -digits)/2;
+         n += n / Math.pow(2, 53); // added 1360765523: 17.56.toFixedDown(2) === "17.56"
+         return n.toFixed(digits);
       }
    });
 
