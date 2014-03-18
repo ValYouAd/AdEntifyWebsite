@@ -486,12 +486,13 @@ define([
       template: 'tag/addModal',
 
       beforeRender: function() {
+         var photoEditView = new this.Photo.Views.Edit({
+            model: this.options.photo,
+            photoCategories: this.options.photoCategories,
+            photoHashtags: this.options.photoHashtags
+         });
          this.setViews({
-            "#center-modal-content": new this.Photo.Views.Edit({
-               model: this.options.photo,
-               photoCategories: this.options.photoCategories,
-               photoHashtags: this.options.photoHashtags
-            }),
+            "#center-modal-content": photoEditView,
             "#right-modal-content": new Tag.Views.AddTagForm({
                photo: this.options.photo
             })
@@ -1320,6 +1321,9 @@ define([
             showFooter: false,
             showHeader: false,
             modalContentClasses: 'photoModal'
+         });
+         app.listenTo(app, 'photoEditModal:close', function() {
+            modal.close();
          });
          modal.on('hide', function() {
             app.trigger('addTagModal:hide');

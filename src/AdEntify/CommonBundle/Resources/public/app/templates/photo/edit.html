@@ -16,7 +16,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
-                        <% if (categories && categories.length > 0) { %>
+                        <% if (categories && categories.length) { %>
                         <select data-i18n="[placeholder]upload.categories" class="selectCategories" multiple="multiple">
                             <% _.forEach(categories.models, function(category) { %>
                             <option value="<%= category.get('id') %>" <%= isSelectedCategory(category) %>><%= category.get('name') %></option>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <p><button type="submit" class="btn btn-success btn-small" data-loading-text="Chargement..."><i class="glyphicon glyphicon-ok"></i> <span data-i18n="common.submit"></span></button></p>
+            <p><button type="submit" class="btn-around-corner btn-red-grey-border" data-loading-text="Chargement..."><i class="glyphicon glyphicon-ok"></i> <span data-i18n="common.submit"></span></button></p>
         </fieldset>
     </form>
 </div>
