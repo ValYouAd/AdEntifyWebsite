@@ -1,0 +1,9 @@
+<div class="user-reward col-sm-4 col-md-3 col-lg-2 text-center">
+    <div class="profile-picture-wrapper">
+        <a href="<%= model.get('ownerModel').get('link') %>"><img src="<%= model.get('ownerModel').get('largeProfilePicture') %>" alt="<%= model.get('ownerModel').get('fullname') %>" class="profile-picture" /></a>
+    </div>
+    <h3><%= model.get('ownerModel').get('fullname') %></h3>
+    <% if (currentUserId != model.get('ownerModel').get('id')) { %>
+    <div class="follow-button"></div>
+    <% } %>
+</div>

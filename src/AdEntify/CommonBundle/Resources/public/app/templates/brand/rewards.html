@@ -1,0 +1,21 @@
+<div class="brand-rewards">
+    <% if (brand) { %>
+    <div class="text-center brand-logo-wrapper">
+        <img src="<%= brand.get('medium_logo_url') %>" alt="<%= brand.get('name') %>" class="profile-picture brand-profile-picture" />
+    </div>
+    <% } %>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#fan" data-bypass="" data-toggle="tab"><i class="icon icon-middle reward-addict"></i> <%= $.t('brand.fan') %></a></li>
+        <li><a href="#bronze" data-bypass="" data-toggle="tab"><i class="icon icon-middle reward-bronze"></i> <%= $.t('brand.bronze') %></a></li>
+        <li><a href="#silver" data-bypass="" data-toggle="tab"><i class="icon icon-middle reward-silver"></i> <%= $.t('brand.silver') %></a></li>
+        <li><a href="#gold" data-bypass="" data-toggle="tab"><i class="icon icon-middle reward-gold"></i> <%= $.t('brand.gold') %></a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="fan"></div>
+        <div class="tab-pane fade" id="bronze"></div>
+        <div class="tab-pane fade" id="silver"></div>
+        <div class="tab-pane fade" id="gold"></div>
+    </div>
+</div>

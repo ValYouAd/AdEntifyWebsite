@@ -32,7 +32,13 @@
       "createSuccessfull": "La marque a bien été ajouté. Elle doit cependant être validé par l'équipe AdEntify avant d'être visible sur le site.",
       "myBrandsPageTitle": "Mes marques",
       "noUserBrands": "Vous ne suivez aucune marque pour le moment",
-      "noBrands": "Aucune marque n'est référencée pour le moment"
+      "noBrands": "Aucune marque n'est référencée pour le moment",
+      "fan": "Fan",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "noUserRewards": "Aucun membre n'a obtenu cette récompense pour le moment.",
+      "viewAllRewards": "Voir toutes les récompenses"
    },
    "photos": {
       "pageTitle": "Découvrez, taguez et partagez des photos - AdEntify",
