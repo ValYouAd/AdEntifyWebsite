@@ -39,10 +39,12 @@ define([
 
    Reward.Views.List = Backbone.View.extend({
       template: 'reward/list',
+      showAllButton: false,
 
       serialize: function() {
          return {
-            visible: this.visible
+            visible: this.visible,
+            showAllButton: this.showAllButton
          };
       },
 
@@ -59,6 +61,7 @@ define([
             }
             this.render();
          }});
+         this.showAllButton = typeof this.options.showAllButton !== 'undefined' ? this.options.showAllButton : this.showAllButton;
       },
 
       beforeRender: function() {
@@ -68,6 +71,27 @@ define([
                itemTemplate: typeof this.options.itemTemplate !== 'undefined' ? this.options.itemTemplate : null
             }));
          }, this);
+      },
+
+      showAllRewards: function() {
+         var Brand = require('modules/brand');
+         var rewardsViews = new Brand.Views.Rewards({
+            rewards: this.options.rewards,
+            brand: this.options.brand
+         });
+         var modal = new Common.Views.Modal({
+            view: rewardsViews,
+            showFooter: false,
+            showHeader: false,
+            modalContentClasses: 'photoModal'
+         });
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
+         });
+      },
+
+      events: {
+         'click .showAllRewards': 'showAllRewards'
       }
    });
 
@@ -84,6 +108,53 @@ define([
          this.template = typeof this.options.itemTemplate !== 'undefined' && this.options.itemTemplate != null ? this.options.itemTemplate : this.template;
       }
    });
+
+   Reward.Views.Users = Backbone.View.extend({
+      template: 'reward/users',
+
+      initialize: function() {
+         this.listenTo(this.options.users, 'sync', function() {
+            this.render();
+         });
+      },
+
+      beforeRender: function() {
+         if (this.options.users.length == 0) {
+            this.setView('.users-alert', new Common.Views.Alert({
+               cssClass: Common.alertInfo,
+               message: $.t('brand.noUserRewards'),
+               showClose: true
+            }));
+         } else {
+            this.removeView('.users-alert');
+         }
+         this.options.users.each(function(user) {
+            this.insertView('.users', new Reward.Views.User({
+               model: user
+            }));
+         }, this);
+      }
+   });
+
+   Reward.Views.User = Backbone.View.extend({
+      template: 'reward/user',
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, 'change', this.render);
+      }
+   });
+
+   Reward.Common = {
+      Addict: 'addict',
+      Gold: 'gold',
+      Silver: 'silver',
+      Bronze: 'bronze'
+
+   };
 
    return Reward;
 });

@@ -472,7 +472,7 @@ class BrandsController extends FosRestController
     public function getRewardsAction($slug, $page = 1, $limit = 10)
     {
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT reward FROM AdEntifyCoreBundle:Reward reward
-            LEFT JOIN reward.brand brand WHERE brand.slug = :slug ORDER BY reward.id DESC')
+            LEFT JOIN reward.brand brand WHERE brand.slug = :slug ORDER BY reward.type')
             ->setParameters(array(
                 'slug'=> $slug
             ))

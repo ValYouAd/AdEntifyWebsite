@@ -34,6 +34,8 @@ define([
          this.set('state', venueEntity.state);
          this.set('country', venueEntity.country);
          this.set('cc', venueEntity.cc);
+         if (typeof venueEntity.id !== 'undefined')
+            this.set('id', venueEntity.id);
       }
    });
 

@@ -86,7 +86,7 @@ define([
          return '&lt;iframe src="' + app.rootUrl +'iframe/photo-' + this.get('id') + '.html' + query + '" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="' + this.get("large_width") + '" height="' + this.get("large_height") + '" allowTransparency="true"&gt;&lt;/iframe&gt;';
       },
 
-      getBrands: function() {
+      getBrands: function(sharedPlatform) {
          var hasBrands = false;
          var brands = [];
          if (this.has('tags') && this.get('tags').length > 0 && typeof this.get('tags').models !== 'undefined') {
@@ -94,13 +94,29 @@ define([
                if (tag.has('brandModel')) {
                   hasBrands = true;
                   var found = false;
+                  var brandName = '';
+                  switch (sharedPlatform) {
+                     case 'twitter':
+                        if (tag.get('brandModel').has('twitter_url')) {
+                           var pattern = /^https?:\/\/(www\.)?twitter\.com\/(#!\/)?([^\/]+)(\w+)*$/i;
+                           pattern.exec(tag.get('brandModel').get('twitter_url'));
+                           if (RegExp.$3) {
+                              brandName = '@' + RegExp.$3;
+                              break;
+                           }
+                        }
+                     default:
+                        brandName = tag.get('brandModel').get('name');
+                        break;
+                  }
+
                   brands.forEach(function(brand) {
-                     if (brand == tag.get('brandModel').get('name')) {
+                     if (brand == brandName) {
                         found = true;
                      }
                   });
                   if (!found)
-                     brands.push(tag.get('brandModel').get('name'));
+                     brands.push(brandName);
                }
             });
          }
@@ -108,8 +124,8 @@ define([
          return hasBrands ? brands.join(', ') : hasBrands;
       },
 
-      getShareText: function() {
-         var brands = this.getBrands();
+      getShareText: function(sharedPlatform) {
+         var brands = this.getBrands(sharedPlatform);
          if (brands != false) {
             return $.t('photo.shareTextWithTags', { 'brands': brands });
          } else {

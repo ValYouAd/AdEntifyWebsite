@@ -32,7 +32,13 @@
       "createSuccessfull": "The brand has successfully been added. However, it must be validated by the Adentify team before being visible on the website.",
       "myBrandsPageTitle": "My brands",
       "noUserBrands": "You don't follow any brand for the moment.",
-      "noBrands": "No brands available yet"
+      "noBrands": "No brands available yet",
+      "fan": "Fan",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "noUserRewards": "No user for this reward.",
+      "viewAllRewards": "View all rewards"
    },
    "photos": {
       "pageTitle": "Browse, tag & share photos - AdEntify",

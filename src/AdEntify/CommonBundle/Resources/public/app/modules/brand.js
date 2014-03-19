@@ -197,12 +197,6 @@ define([
       beforeRender: function() {
          var that = this;
          var User = require('modules/user');
-         if (!this.getView('.rewards') && this.loaded) {
-            this.setView('.rewards', new Reward.Views.List({
-               rewards: new Reward.Collection(),
-               emptyMessage: $.t('brand.noRewards', { name: this.model.get('name') })
-            }));
-         }
          if (!this.getView('.followers')) {
             this.setView('.followers', new User.Views.List({
                users: this.followers,
@@ -227,7 +221,9 @@ define([
             this.setView('.rewards', new Reward.Views.List({
                rewards: this.options.rewards,
                emptyMessage: $.t('brand.noRewards', { name: this.model.get('name') }),
-               itemTemplate: 'reward/userItem'
+               itemTemplate: 'reward/userItem',
+               brand: this.model,
+               showAllButton: true
             }));
          }
       },
@@ -471,6 +467,86 @@ define([
       events: {
          'click .name-filter': 'nameFilter',
          'click .number-of-tags-filter': 'numberOfTags'
+      }
+   });
+
+   Brand.Views.Rewards = Backbone.View.extend({
+      template: 'brand/rewards',
+      fans: new Reward.Collection(),
+      bronze: new Reward.Collection(),
+      silver: new Reward.Collection(),
+      gold: new Reward.Collection(),
+
+      serialize: function() {
+         return {
+            brand: this.options.brand
+         };
+      },
+
+      initialize: function() {
+         this.groupRewards();
+         this.listenTo(this.options.rewards, 'sync', function() {
+            this.groupRewards();
+            this.render();
+         });
+      },
+
+      beforeRender: function() {
+         if (!this.getView('#fan')) {
+            this.setView('#fan', new Reward.Views.Users({
+               users: this.fans
+            }));
+         }
+         if (!this.getView('#bronze')) {
+            this.setView('#bronze', new Reward.Views.Users({
+               users: this.bronze
+            }));
+         }
+         if (!this.getView('#silver')) {
+            this.setView('#silver', new Reward.Views.Users({
+               users: this.silver
+            }));
+         }
+         if (!this.getView('#gold')) {
+            this.setView('#gold', new Reward.Views.Users({
+               users: this.gold
+            }));
+         }
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      groupRewards: function() {
+         this.fans.reset();
+         this.bronze.reset();
+         this.silver.reset();
+         this.gold.reset();
+
+         this.options.rewards.each(function(reward) {
+            switch (reward.get('type')) {
+               case Reward.Common.Addict:
+                  this.fans.add(reward);
+                  break;
+               case Reward.Common.Bronze:
+                  this.bronze.add(reward);
+                  break;
+               case Reward.Common.Silver:
+                  this.silver.add(reward);
+                  break;
+               case Reward.Common.Gold:
+                  this.gold.add(reward);
+                  break;
+            }
+         }, this);
+      },
+
+      events: {
+         'click .nav-tabs a': function(e) {
+            e.preventDefault();
+            $(this).tab('show');
+         }
       }
    });
 

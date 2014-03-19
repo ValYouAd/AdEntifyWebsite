@@ -989,6 +989,18 @@ html,body,.body-grey-background {
 .logo-nav {
     display: block;
     margin: 13px 0px 0px 0px;
+    position: relative;
+}
+.logo-nav span {
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    bottom: -11px;
+    right: 2px;
+    font-family: 'pacificoregular', Helvetica Neue, Helvetica, Arial;
+}
+.logo-nav span:hover {
+    text-decoration: none;
 }
 .navbar-adentify .profile-picture {
     border: 4px solid #424244;
@@ -2743,7 +2755,7 @@ html,body,.body-grey-background {
 /* End Brand
 ----------------------- */
 
-/* End Rewards
+/* Rewards
 ----------------------- */
 .reward-item {
     padding: 4px 10px;
@@ -2796,6 +2808,35 @@ html,body,.body-grey-background {
 }
 .reward-text-gold {
     color: #d6b22a;
+}
+.brand-rewards {
+    margin-top: 40px;
+}
+.brand-rewards .brand-logo-wrapper {
+    margin: 20px 0px;
+}
+.brand-rewards .nav-tabs .icon {
+    margin-right: 5px;
+}
+.brand-rewards .tab-content {
+    margin: 0px;
+}
+.brand-rewards .nav-tabs a {
+    padding: 10px 40px;
+}
+.reward-users {
+    margin: 30px 40px;
+}
+.user-reward .profile-picture {
+    max-width: 80px;
+    max-height: 80px;
+}
+.user-reward {
+    margin: 10px 0px;
+}
+.user-reward h3 {
+    text-transform: uppercase;
+    font-size: 14px;
 }
 /* End Rewards
 ----------------------- */
@@ -4952,6 +4993,9 @@ a[data-bypass] {
 }
 .pointer {
     cursor: pointer;
+}
+.icon-middle {
+    vertical-align: middle;
 }
 /*
 ----------------------- */
