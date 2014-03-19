@@ -181,7 +181,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="followers", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="followers")
      * @ORM\JoinTable(name="users_followings",
      *      joinColumns={@ORM\JoinColumn(name="follower_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="following_id", referencedColumnName="id")})
@@ -198,7 +198,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="followings", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="followings")
      */
     private $followers;
 
