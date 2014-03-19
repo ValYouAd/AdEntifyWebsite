@@ -222,7 +222,8 @@ define([
                rewards: this.options.rewards,
                emptyMessage: $.t('brand.noRewards', { name: this.model.get('name') }),
                itemTemplate: 'reward/userItem',
-               brand: this.model
+               brand: this.model,
+               showAllButton: true
             }));
          }
       },

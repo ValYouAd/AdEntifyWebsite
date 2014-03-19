@@ -39,10 +39,12 @@ define([
 
    Reward.Views.List = Backbone.View.extend({
       template: 'reward/list',
+      showAllButton: false,
 
       serialize: function() {
          return {
-            visible: this.visible
+            visible: this.visible,
+            showAllButton: this.showAllButton
          };
       },
 
@@ -59,6 +61,7 @@ define([
             }
             this.render();
          }});
+         this.showAllButton = typeof this.options.showAllButton !== 'undefined' ? this.options.showAllButton : this.showAllButton;
       },
 
       beforeRender: function() {

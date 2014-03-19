@@ -1,5 +1,7 @@
 <div class="rewards-alert"></div>
 <div class="block-white-background">
     <ul class="rewards list-unstyled striped"></ul>
+    <% if (showAllButton) { %>
     <a data-bypass="" class="showAllRewards link-grey-whith-red-arrow"><%= $.t('brand.viewAllRewards') %></a>
+    <% } %>
 </div>

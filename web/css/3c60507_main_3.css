@@ -142,6 +142,18 @@ html,body,.body-grey-background {
 .logo-nav {
     display: block;
     margin: 13px 0px 0px 0px;
+    position: relative;
+}
+.logo-nav span {
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    bottom: -11px;
+    right: 2px;
+    font-family: 'pacificoregular', Helvetica Neue, Helvetica, Arial;
+}
+.logo-nav span:hover {
+    text-decoration: none;
 }
 .navbar-adentify .profile-picture {
     border: 4px solid #424244;
