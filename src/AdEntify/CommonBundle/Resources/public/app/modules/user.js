@@ -115,10 +115,8 @@ define([
             this.setView('.follow-button', followButtonView);
             followButtonView.on('follow', function(follow) {
                that.options.user.changeFollowersCount(follow);
-               that.render();
-            });
-            followButtonView.on('followed', function() {
                that.options.followers.fetch();
+               that.render();
             });
          }
          if (!this.getView('.hashtags') && this.options.hashtags) {
@@ -307,6 +305,8 @@ define([
       },
 
       followButtonClick: function() {
+         var btn = this.$('.follow-button');
+         btn.button('loading');
          if (app.appState().isLogged()) {
             // Follow user
             var that = this;
@@ -318,15 +318,15 @@ define([
                      type: 'POST',
                      data: { userId: that.user.get('id') },
                      success: function() {
-                        that.trigger('followed');
+                        that.follow = !that.follow;
+                        that.render();
+                        that.trigger('follow', that.follow);
                      }
+                  }).always(function() {
+                     btn.button('reset');
                   });
                }
             });
-            this.follow = !this.follow;
-
-            this.render();
-            this.trigger('follow', this.follow);
          } else {
             Common.Tools.notLoggedModal(false, 'notLogged.follow');
          }
