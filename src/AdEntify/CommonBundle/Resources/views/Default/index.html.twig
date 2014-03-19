@@ -23,6 +23,8 @@
     <script type="text/javascript" src="{{ asset_url }}"></script>
     <script type="text/javascript">
         $("a").click(function(event){
+            if ($(this).attr('target') == '_blank')
+                return true;
             event.preventDefault();
             linkLocation = this.href;
             $("body").fadeOut('fast', redirectPage(linkLocation));
