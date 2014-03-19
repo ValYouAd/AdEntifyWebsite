@@ -212,8 +212,6 @@ define([
             followButtonView.on('follow', function(follow) {
                that.model.changeFollowersCount(follow);
                that.render();
-            });
-            followButtonView.on('followed', function() {
                that.followers.fetch();
             });
          }

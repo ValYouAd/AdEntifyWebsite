@@ -1,1 +1,2 @@
-<button data-toggle="button" type="button" class="btn-large btn-around-corner btn-grey-white-border follow-button" data-followed="<%= follow %>"><%= follow ? $.t("profile.followed") : $.t("profile.follow") %></button>
+<button data-toggle="button" type="button" class="btn-large btn-around-corner btn-grey-white-border follow-button"
+        data-followed="<%= follow %>" data-loading-text="<%= $.t('common.waiting') %>"><%= follow ? $.t("profile.followed") : $.t("profile.follow") %></button>
