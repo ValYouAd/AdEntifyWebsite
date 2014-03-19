@@ -84,6 +84,8 @@ class PeopleController extends FosRestController
                 $person = $em->getRepository('AdEntifyCoreBundle:Person')->findOneBy(array(
                     'facebookId' => $personRequest['facebookId']
                 ));
+            } else if (array_key_exists('id', $personRequest)) {
+                $person = $em->getRepository('AdEntifyCoreBundle:Person')->find($personRequest['id']);
             }
 
             if ($person) {

@@ -25,6 +25,10 @@ define([
          this.set('lastname', personEntity.last_name);
          this.set('facebookId', personEntity.id);
          this.set('gender', personEntity.gender);
+         if (typeof personEntity.name !== 'undefined')
+            this.set('name', personEntity.name);
+         if (typeof personEntity.id !== 'undefined')
+            this.set('id', personEntity.id);
       }
    });
 
