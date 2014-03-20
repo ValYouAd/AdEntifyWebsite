@@ -21,14 +21,18 @@ define([
       },
 
       entityToModel: function(personEntity) {
-         this.set('firstname', personEntity.first_name);
-         this.set('lastname', personEntity.last_name);
+         this.set('firstname', personEntity.firstname);
+         this.set('lastname', personEntity.lastname);
          this.set('facebookId', personEntity.id);
          this.set('gender', personEntity.gender);
          if (typeof personEntity.name !== 'undefined')
             this.set('name', personEntity.name);
          if (typeof personEntity.id !== 'undefined')
             this.set('id', personEntity.id);
+      },
+
+      getFullname: function() {
+         return this.has('name') && this.get('name') ? this.get('name') : this.get('firstname') + ' ' + this.get('lastname')
       }
    });
 

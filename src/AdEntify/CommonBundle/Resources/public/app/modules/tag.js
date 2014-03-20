@@ -410,7 +410,7 @@ define([
       initialize: function() {
          var that = this;
          this.visible = typeof this.options.visible === 'undefined' ? false : this.options.visible;
-         this.tags = this.options.tags instanceof Array ? new Tag.Collection(this.options.tags) : this.options.tags
+         this.tags = this.options.tags instanceof Array ? new Tag.Collection(this.options.tags) : this.options.tags;
          this.desactivatePopover = typeof this.options.desactivatePopover === 'undefined' ? false : true;
          this.photo = this.options.photo;
          this.listenTo(this.tags, {
@@ -1271,7 +1271,7 @@ define([
          // Set tag info
          currentTag.set('type', 'person');
          currentTag.set('person', person.get('id'));
-         currentTag.set('title', person.get('name'));
+         currentTag.set('title', person.getFullname());
          if (currentPerson)
             currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/' + currentPerson.id);
          currentTag.url = Routing.generate('api_v1_post_tag');

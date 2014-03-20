@@ -204,17 +204,6 @@ class TagsController extends FosRestController
                             ->setObjectType($em->getClassMetadata(get_class($photo))->getName())->setOwner($photo->getOwner())
                             ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                         $em->persist($notification);
-
-                        if ($tag->getBrand()) {
-                            $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
-                                $user, null, array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
-                                $em->getClassMetadata(get_class($photo))->getName(), false, 'brandTagged', null, null, $tag->getBrand());
-                        } else {
-                            // TAG Action
-                            $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
-                                $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
-                                $em->getClassMetadata(get_class($photo))->getName(), false, 'tagPhoto');
-                        }
                     } else {
                         throw new HttpException(403, 'You can\t add a tag to this photo');
                     }
@@ -283,6 +272,18 @@ class TagsController extends FosRestController
                     $tag->setValidationStatus(Tag::VALIDATION_GRANTED);
                     $this->get('ad_entify_core.points')->calculateUserPoints($tag->getOwner(), $tag);
                     $em->merge($tag);
+
+                    if ($tag->getBrand()) {
+                        $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_BRAND_TAG,
+                            $user, null, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
+                            $em->getClassMetadata(get_class($tag->getPhoto()))->getName(), false, 'brandTagged', null, null, $tag->getBrand());
+                    } else {
+                        // TAG Action
+                        $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_TAG,
+                            $user, $tag->getPhoto()->getOwner(), array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
+                            $em->getClassMetadata(get_class($tag->getPhoto()))->getName(), false, 'tagPhoto');
+                    }
+
                     $em->flush();
                 } else if ($status == Tag::VALIDATION_DENIED) {
                     $tag->setValidationStatus(Tag::VALIDATION_DENIED);
