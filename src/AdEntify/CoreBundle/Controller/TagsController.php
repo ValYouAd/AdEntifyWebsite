@@ -264,8 +264,6 @@ class TagsController extends FosRestController
                 throw new HttpException(403, 'Access forbidden');
             }
 
-            echo $tag->getWaitingValidation() ? 'true' : 'false';
-
             if ($request->request->has('waiting_validation') && $tag->getWaitingValidation()) {
                 $em = $this->getDoctrine()->getManager();
                 $tag->setWaitingValidation(false);
