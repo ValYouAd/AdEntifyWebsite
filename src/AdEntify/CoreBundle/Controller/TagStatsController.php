@@ -61,8 +61,10 @@ class TagStatsController extends FosRestController
                     $tagStats = new TagStats();
                     $tagStats->setIpAddress($request->getClientIp())->setTag($tag)
                         ->setType($request->request->get('statType'));
+                    if ($request->request->has('platform'))
+                        $tagStats->setPlatform($request->request->get('platform'));
 
-                    // Set user if loggedin
+                    // Set user if logged in
                     $securityContext = $this->container->get('security.context');
                     if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
                         $tagStats->setUser($this->container->get('security.context')->getToken()->getUser());
