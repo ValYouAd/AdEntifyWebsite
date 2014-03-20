@@ -448,18 +448,22 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             })
          }).render();
 
-         photo.fetch();
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
-         });
-         this.comments.fetch({
-            url: Routing.generate('api_v1_get_photo_comments', { id: id })
-         });
-         this.categories.fetch({
-            url: Routing.generate('api_v1_get_photo_categories', { id: id })
-         });
-         this.hashtags.fetch({
-            url: Routing.generate('api_v1_get_photo_hashtags', { id: id })
+         var that = this;
+         photo.fetch({
+            complete: function() {
+               that.tickerPhotos.fetch({
+                  url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
+               });
+               that.comments.fetch({
+                  url: Routing.generate('api_v1_get_photo_comments', { id: id })
+               });
+               that.categories.fetch({
+                  url: Routing.generate('api_v1_get_photo_categories', { id: id })
+               });
+               that.hashtags.fetch({
+                  url: Routing.generate('api_v1_get_photo_hashtags', { id: id })
+               });
+            }
          });
       },
 

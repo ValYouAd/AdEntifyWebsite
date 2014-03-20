@@ -190,6 +190,7 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * Get a photo by id
      *
      * @ApiDoc(
      *  resource=true,
@@ -271,9 +272,14 @@ class PhotosController extends FosRestController
         if ($photo) {
             $photo->setTags($photo->getTags()->matching($criteria));
             return $photo;
+        } else {
+            $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($id);
+            if ($photo && $photo->getVisibilityScope() == Photo::SCOPE_PRIVATE) {
+                throw new HttpException(403);
+            } else {
+                throw new NotFoundHttpException('Photo not found');
+            }
         }
-        else
-            throw new NotFoundHttpException('Photo not found');
     }
 
     /**

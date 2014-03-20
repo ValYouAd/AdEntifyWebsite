@@ -217,6 +217,12 @@ define([
             'error': function(model, resp) {
                if (resp.status == 404) {
                   Common.Tools.notFound();
+               } else if (resp.status == 403) {
+                  app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('photo.forbidden'),
+                     showClose: true
+                  })).render();
                } else {
                   app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                      cssClass: Common.alertError,

@@ -68,17 +68,6 @@ class TagStatsController extends FosRestController
 
             $tagStats = $qb->setMaxResults(1)->setParameters($parameters)->getQuery()->getOneOrNullResult();
 
-            /*$tagStats = $em->createQuery('SELECT tagStats FROM AdEntify\CoreBundle\Entity\TagStats tagStats
-              LEFT JOIN tagStats.tag tag WHERE tagStats.ipAddress = :ipAddress AND tagStats.type = :statType
-              AND tag.id = :tagId')
-                ->setParameters(array(
-                    ':ipAddress' => $request->getClientIp(),
-                    ':tagId' => $request->request->get('tagId'),
-                    ':statType' => $request->request->get('statType')
-                ))
-                ->setMaxResults(1)
-                ->getOneOrNullResult();*/
-
             if (!$tagStats) {
                 $tag = $em->getRepository('AdEntifyCoreBundle:Tag')->find($request->request->get('tagId'));
                 if ($tag) {
