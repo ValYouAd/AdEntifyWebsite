@@ -44,7 +44,31 @@ class TagStatsController extends FosRestController
         if ($request->request->has('tagId') && $request->request->has('statType')
             && is_numeric($request->request->get('tagId'))) {
             $em = $this->getDoctrine()->getManager();
-            $tagStats = $em->createQuery('SELECT tagStats FROM AdEntify\CoreBundle\Entity\TagStats tagStats
+
+            $qb = $em->getRepository('AdEntifyCoreBundle:TagStats')->createQueryBuilder('tagStats');
+            $qb->leftJoin('tagStats.tag', 'tag')
+                ->where('tag.id = :tagId')
+                ->andWhere('tagStats.ipAddress = :ipAddress')
+                ->andWhere('tagStats.type = :statType');
+
+            $parameters = array(
+                ':ipAddress' => $request->getClientIp(),
+                ':tagId' => $request->request->get('tagId'),
+                ':statType' => $request->request->get('statType')
+            );
+
+            if ($request->request->has('link')) {
+                $qb->andWhere('tagStats.link = :link');
+                $parameters['link'] = $request->request->get('link');
+            }
+            if ($request->request->has('platform')) {
+                $qb->andWhere('tagStats.platform = :platform');
+                $parameters['platform'] = $request->request->get('platform');
+            }
+
+            $tagStats = $qb->setMaxResults(1)->setParameters($parameters)->getQuery()->getOneOrNullResult();
+
+            /*$tagStats = $em->createQuery('SELECT tagStats FROM AdEntify\CoreBundle\Entity\TagStats tagStats
               LEFT JOIN tagStats.tag tag WHERE tagStats.ipAddress = :ipAddress AND tagStats.type = :statType
               AND tag.id = :tagId')
                 ->setParameters(array(
@@ -52,8 +76,8 @@ class TagStatsController extends FosRestController
                     ':tagId' => $request->request->get('tagId'),
                     ':statType' => $request->request->get('statType')
                 ))
-                ->SetMaxResults(1)
-                ->getOneOrNullResult();
+                ->setMaxResults(1)
+                ->getOneOrNullResult();*/
 
             if (!$tagStats) {
                 $tag = $em->getRepository('AdEntifyCoreBundle:Tag')->find($request->request->get('tagId'));
@@ -63,6 +87,8 @@ class TagStatsController extends FosRestController
                         ->setType($request->request->get('statType'));
                     if ($request->request->has('platform'))
                         $tagStats->setPlatform($request->request->get('platform'));
+                    if ($request->request->has('link'))
+                        $tagStats->setLink($request->request->get('link'));
 
                     // Set user if logged in
                     $securityContext = $this->container->get('security.context');

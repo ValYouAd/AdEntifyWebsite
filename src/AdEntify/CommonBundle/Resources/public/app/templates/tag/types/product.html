@@ -10,7 +10,7 @@
                 <% } %>
             </div>
             <div class="popover-inner">
-                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.has('product') && model.get("product").get("brand")) { %> - <%= model.get("product").get("brand")["name"] %><% } %></a></span>
+                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.get("brand")) { %> - <%= model.get("brand").name %><% } %></a></span>
                 <% if (model.has("product") && model.get("product").get("small_url")) { %>
                 <div class="pull-left">
                     <img src="<%= model.get("product").get("small_url") %>" class="product-photo" />
@@ -21,7 +21,7 @@
                 <% } %>
                 <% if (model.has("brandModel") && model.get('brandModel').has('small_logo_url')) { %>
                 <div class="brand pull-right">
-                    <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get("brandModel").get('small_logo_url') %>" alt="<%= model.get("brand")["name"] %>" class="brand-logo" /></a>
+                    <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get("brandModel").get('small_logo_url') %>" alt="<%= model.get("brandModel").get('name') %>" class="brand-logo" /></a>
                 </div>
                 <% } %>
             </div>

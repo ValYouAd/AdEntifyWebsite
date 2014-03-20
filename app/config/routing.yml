@@ -184,13 +184,6 @@ productType:
     options:
         expose: true
 
-# Public Tags REST
-public_tag:
-    type:     rest
-    resource: AdEntify\EmbedJsBundle\Controller\PublicTagsController
-    options:
-        expose: true
-
 public_photo:
     type:     rest
     resource: AdEntify\EmbedJsBundle\Controller\PublicPhotosController

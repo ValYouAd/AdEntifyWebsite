@@ -82,6 +82,13 @@ class TagStats
     private $platform = self::PLATFORM_ADENTIFY_WEB;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="link", type="text", nullable=true)
+     */
+    private $link;
+
+    /**
      * @return int
      */
     public function getId()
@@ -189,5 +196,22 @@ class TagStats
     public function getPlatform()
     {
         return $this->platform;
+    }
+
+    /**
+     * @param string $link
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 }
