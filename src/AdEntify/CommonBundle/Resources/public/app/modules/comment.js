@@ -20,7 +20,7 @@ define([
       },
 
       toJSON: function() {
-         return { comment: this.attributes }
+         return { comment: this.attributes };
       },
 
       initialize: function() {
@@ -31,7 +31,7 @@ define([
       },
 
       isAuthor: function() {
-         return this && this.has('author') ? currentUserId === this.get('author')['id'] : false;
+         return this && this.has('author') ? currentUserId === this.get('author').id : false;
       },
 
       setup: function() {
@@ -81,7 +81,7 @@ define([
       template: "comment/list",
 
       beforeRender: function() {
-         if (this.options.comments.length == 0) {
+         if (this.options.comments.length === 0) {
             this.setView('.alert-comments', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t('comment.noComments'),

@@ -439,7 +439,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                comments: this.comments,
                photoId: id,
                categories: this.categories,
-               hashtags: this.hashtags,
+               hashtags: this.hashtags
             }),
             "#right-pane-content": new Photo.Views.RightMenu({
                photo: photo,
@@ -448,18 +448,22 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             })
          }).render();
 
-         photo.fetch();
-         this.tickerPhotos.fetch({
-            url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
-         });
-         this.comments.fetch({
-            url: Routing.generate('api_v1_get_photo_comments', { id: id })
-         });
-         this.categories.fetch({
-            url: Routing.generate('api_v1_get_photo_categories', { id: id })
-         });
-         this.hashtags.fetch({
-            url: Routing.generate('api_v1_get_photo_hashtags', { id: id })
+         var that = this;
+         photo.fetch({
+            complete: function() {
+               that.tickerPhotos.fetch({
+                  url: Routing.generate('api_v1_get_photo_linked_photos', { id: id })
+               });
+               that.comments.fetch({
+                  url: Routing.generate('api_v1_get_photo_comments', { id: id })
+               });
+               that.categories.fetch({
+                  url: Routing.generate('api_v1_get_photo_categories', { id: id })
+               });
+               that.hashtags.fetch({
+                  url: Routing.generate('api_v1_get_photo_hashtags', { id: id })
+               });
+            }
          });
       },
 
@@ -1073,13 +1077,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
       // Change title of window
       onDomChangeTitle: function(title) {
-         if (typeof title !== 'undefined' && title != '') {
+         if (typeof title !== 'undefined' && title !== '') {
             $(document).attr('title', title);
          }
       },
 
       onDomChangeDescription: function(description) {
-         if (typeof description !== 'undefined' && description != '') {
+         if (typeof description !== 'undefined' && description !== '') {
             Common.Tools.setMeta('description', description, false);
             Common.Tools.setMeta('og:description', description);
          }
@@ -1099,7 +1103,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.deleteOldAlerts();
 
          // Check if collection is empty
-         if (collection.length == 0) {
+         if (collection.length === 0) {
             this.successView = new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t(translationKey)
@@ -1132,7 +1136,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       handleWindowEvent: function() {
-         if (accountEnabled == 0) {
+         if (accountEnabled === 0) {
             $('#accountDisabled').modal('show');
          }
          window.onpopstate = function() {

@@ -39,7 +39,7 @@ define([
          }
          this.set('message', options.message);
          if (typeof options.showClose !== 'undefined') {
-            this.set('showClose', options.showClose)
+            this.set('showClose', options.showClose);
          }
       }
    });
@@ -151,7 +151,7 @@ define([
                      url: Routing.generate('api_v1_task_user_progress'),
                      headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                      success: function(progress) {
-                        if (progress != null)
+                        if (progress !== null)
                            that.update(progress);
                         else {
                            clearInterval(progressInterval);
@@ -224,7 +224,7 @@ define([
          name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
             results = regex.exec(location.search);
-         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
       },
 
       getHtmlErrors: function(json) {
@@ -271,7 +271,7 @@ define([
                'Les 30 derniers jours': [moment().subtract('days', 29), new Date()],
                'Ce mois': [moment().startOf('month'), moment().endOf('month')],
                'Le mois dernier': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-            }
+            };
          } else {
             return {
                'Today': [new Date(), new Date()],
@@ -280,7 +280,7 @@ define([
                'Last 30 Days': [moment().subtract('days', 29), new Date()],
                'This Month': [moment().startOf('month'), moment().endOf('month')],
                'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-            }
+            };
          }
       },
 

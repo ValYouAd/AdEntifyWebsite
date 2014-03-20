@@ -79,23 +79,23 @@ define([
                $('#loading-photos').stop().fadeOut();
                if (data.result) {
                   var photo = new ExternalServicePhotos.Model();
-                  photo.set('thumbUrl', data.result['small']['filename']);
-                  photo.set('smallSource', data.result['small']['filename']);
-                  photo.set('smallWidth', data.result['small']['width']);
-                  photo.set('smallHeight', data.result['small']['height']);
+                  photo.set('thumbUrl', data.result.small.filename);
+                  photo.set('smallSource', data.result.small.filename);
+                  photo.set('smallWidth', data.result.small.width);
+                  photo.set('smallHeight', data.result.small.height);
                   if ('medium' in data.result) {
-                     photo.set('mediumSource', data.result['medium']['filename']);
-                     photo.set('mediumWidth', data.result['medium']['width']);
-                     photo.set('mediumHeight', data.result['medium']['height']);
+                     photo.set('mediumSource', data.result.medium.filename);
+                     photo.set('mediumWidth', data.result.medium.width);
+                     photo.set('mediumHeight', data.result.medium.height);
                   }
                   if ('large' in data.result) {
-                     photo.set('largeSource', data.result['large']['filename']);
-                     photo.set('largeWidth', data.result['large']['width']);
-                     photo.set('largeHeight', data.result['large']['height']);
+                     photo.set('largeSource', data.result.large.filename);
+                     photo.set('largeWidth', data.result.large.width);
+                     photo.set('largeHeight', data.result.large.height);
                   }
-                  photo.set('originalSource', data.result['original']['filename']);
-                  photo.set('originalWidth', data.result['original']['width']);
-                  photo.set('originalHeight', data.result['original']['height']);
+                  photo.set('originalSource', data.result.original.filename);
+                  photo.set('originalWidth', data.result.original.width);
+                  photo.set('originalHeight', data.result.original.height);
                   that.photos.add(photo);
                } else {
                   app.useLayout().setView('.alert-product', new Common.Views.Alert({
@@ -177,10 +177,10 @@ define([
             counterView.on('checkedPhoto', function(count) {
                var submitButton = $(that.el).find('.submit-photos-button');
                if (count > 0) {
-                  if ($(that.el).find('.submit-photos-button:visible').length == 0)
+                  if ($(that.el).find('.submit-photos-button:visible').length === 0)
                      submitButton.fadeIn('fast');
                } else {
-                  if ($(that.el).find('.submit-photos-button:hidden').length == 0)
+                  if ($(that.el).find('.submit-photos-button:hidden').length === 0)
                      submitButton.fadeOut('fast');
                }
             });
@@ -245,7 +245,7 @@ define([
          return {
             model: this.model,
             rootUrl: app.beginUrl + app.root
-         }
+         };
       },
 
       initialize: function() {
@@ -339,7 +339,7 @@ define([
                break;
          }
       }
-   }
+   };
 
    return Upload;
 });

@@ -62,13 +62,13 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-         if (this.options.hashtags.length == 0)
+         if (this.options.hashtags.length === 0)
             this.$('.hashtags-list').hide();
       },
 
       initialize: function() {
          this.listenTo(this.options.hashtags, 'sync', function() {
-            if (this.options.hashtags.length == 0 && this.showAlert) {
+            if (this.options.hashtags.length === 0 && this.showAlert) {
                this.setView('.hashtags-alert', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t('profile.noHashtag'),

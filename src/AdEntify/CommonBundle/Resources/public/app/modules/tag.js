@@ -81,7 +81,7 @@ define([
          delete jsonAttributes.cssClass;
          delete jsonAttributes.tempTag;
          delete jsonAttributes.tagIcon;
-         return { tag: jsonAttributes }
+         return { tag: jsonAttributes };
       },
 
       changeValidationStatus: function(status) {
@@ -410,7 +410,7 @@ define([
       initialize: function() {
          var that = this;
          this.visible = typeof this.options.visible === 'undefined' ? false : this.options.visible;
-         this.tags = this.options.tags instanceof Array ? new Tag.Collection(this.options.tags) : this.options.tags
+         this.tags = this.options.tags instanceof Array ? new Tag.Collection(this.options.tags) : this.options.tags;
          this.desactivatePopover = typeof this.options.desactivatePopover === 'undefined' ? false : true;
          this.photo = this.options.photo;
          this.listenTo(this.tags, {
@@ -475,7 +475,7 @@ define([
       changeTagsVisibility: function(show, tags) {
          if (show) {
             tags.stop().fadeIn('fast');
-            tags.data('state', 'visible')
+            tags.data('state', 'visible');
          } else {
             tags.stop().fadeOut('fast');
             tags.data('state', 'hidden');
@@ -655,11 +655,11 @@ define([
                return selectedItem;
             },
             highlighter: function(item) {
-               var found = currentProducts[item]
+               var found = currentProducts[item];
                if (found) {
                   return '<div><img style="height: 20px;" src="' + found.small_url + '"> ' + item + '</div>';
                } else {
-                  return '<div>' + item + '</div>'
+                  return '<div>' + item + '</div>';
                }
             }
          });
@@ -1012,7 +1012,7 @@ define([
                   $submit.button('loading');
                   person = new Person.Model();
                   person.entityToModel(currentPerson);
-                  that.postPerson(person, $submit)
+                  that.postPerson(person, $submit);
                }
                break;
          }
@@ -1271,7 +1271,7 @@ define([
          // Set tag info
          currentTag.set('type', 'person');
          currentTag.set('person', person.get('id'));
-         currentTag.set('title', person.get('name'));
+         currentTag.set('title', person.getFullname());
          if (currentPerson)
             currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/' + currentPerson.id);
          currentTag.url = Routing.generate('api_v1_post_tag');

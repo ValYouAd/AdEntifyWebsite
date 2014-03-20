@@ -24,7 +24,7 @@ define([
       loadMoreFired: false,
 
       serialize: function() {
-         return { model: this.model }
+         return { model: this.model };
       },
 
       initialize: function() {

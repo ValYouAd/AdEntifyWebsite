@@ -333,7 +333,7 @@ define([
             success: this.photosSuccess,
             error: this.photosError,
             complete: function() {
-               $('#loading-photos').fadeOut('fast')
+               $('#loading-photos').fadeOut('fast');
             }
          });
       },

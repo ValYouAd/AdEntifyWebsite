@@ -31,7 +31,7 @@ define([
          return { notification: {
             '_token': this.get('_token'),
             'status': this.get('status')
-         }}
+         }};
       },
 
       setup: function() {
@@ -176,7 +176,7 @@ define([
          this.pollNotifications(this.options.notifications);
          this.listenTo(app, 'notifications:read', function() {
             var count = that.notifications.unreadCount();
-            if (count == 0) {
+            if (count === 0) {
                this.render();
             } else {
                $('.notifications-count').html(count);
@@ -192,7 +192,7 @@ define([
             notifications.fetch({
                url: Routing.generate('api_v1_get_user_notifications', { id: app.appState().getCurrentUserId() }),
                success: function(collection) {
-                  if (collection.length == 0) {
+                  if (collection.length === 0) {
                      app.useLayout().setView('.alert-notifications', new Common.Views.Alert({
                         cssClass: Common.alertInfo,
                         message: $.t('notification.noNotifications'),

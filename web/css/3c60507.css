@@ -2824,6 +2824,17 @@ html,body,.body-grey-background {
 .brand-rewards .nav-tabs a {
     padding: 10px 40px;
 }
+.brand-rewards .brand-profile-picture {
+    max-height: 100px;
+}
+.brand-rewards .nav-tabs li {
+    display: inline-block;
+    float: none;
+    margin-right: -3px;
+}
+.brand-rewards .nav-tabs {
+    text-align: center;
+}
 .reward-users {
     margin: 30px 40px;
 }

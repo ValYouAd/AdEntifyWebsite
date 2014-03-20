@@ -218,7 +218,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.users, { 'sync': function() {
-            if (this.options.users.length == 0) {
+            if (this.options.users.length === 0) {
                this.setView('.users-alert', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t(this.options.noUsersMessage),
@@ -260,7 +260,7 @@ define([
       serialize: function() {
          return {
             follow: this.follow
-         }
+         };
       },
 
       afterRender: function() {
@@ -360,7 +360,9 @@ define([
       },
 
       afterRender: function() {
+         var that = this;
          $(this.el).i18n();
+
          if (this.chartData) {
             var ctx = this.$('.userPhotosChart').get(0).getContext('2d');
             var chart = new Chart(ctx);
@@ -368,16 +370,15 @@ define([
                animationEasing: 'easeInOutCubic'
             });
          }
+
          if (app.useLayout().getView('.user-points').points) {
             this.$('.user-points-red').html($.t('user.totalPoints', { points: app.useLayout().getView('.user-points').points}));
          } else {
-            var that = this;
             app.useLayout().getView('.user-points').on('pointsUpdated', function() {
                that.$('.user-points-red').html($.t('user.totalPoints', { points: app.useLayout().getView('.user-points').points}));
             });
          }
 
-         var that = this;
          this.$('input[name="daterange"]').daterangepicker(
             {
                ranges: Common.Tools.getDaterangepickerRanges(),
@@ -388,8 +389,6 @@ define([
             },
             function(start, end) {
                that.creditsTableView.credits.refresh(start, end);
-               //that.$('input[name="daterange"]').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-               //getMetrics(selected_tab, selected_goal, start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD"));
             });
       },
 
@@ -431,7 +430,7 @@ define([
          this.listenTo(this.credits, 'sync', this.render);
          this.credits.fetch({
             success: function(credits) {
-               if (credits.length == 0) {
+               if (credits.length === 0) {
                   that.setView('.alert-credits', new Common.Views.Alert({
                      cssClass: Common.alertInfo,
                      message: $.t('user.noCredits')
@@ -482,7 +481,7 @@ define([
          this.options.credits.fetch({
             url: Routing.generate('api_v1_get_user_credits_by_date', { date: this.options.date }),
             success: function(credits) {
-               if (credits.length == 0) {
+               if (credits.length === 0) {
                   that.setView('.alert-credits', new Common.Views.Alert({
                      cssClass: Common.alertInfo,
                      message: $.t('user.noCreditsDetail')
@@ -638,13 +637,13 @@ define([
          });
       },
       closeOpenedDropdown: function(evt) {
-         if ($('.profile-infos .dropdown-menu:visible').length > 0 && $(evt.target).parents('.profile-infos').length == 0) {
+         if ($('.profile-infos .dropdown-menu:visible').length > 0 && $(evt.target).parents('.profile-infos').length === 0) {
             $('.profile-infos .dropdown-menu').stop().fadeOut();
          }
          if ($('.navbar .tag-button .dropdown-menu:visible').length > 0 && !$(evt.target).hasClass('tag-button')) {
             $('.navbar .tag-button .dropdown-menu').stop().fadeOut();
          }
-         if ($('#notifications .dropdown-menu:visible').length > 0 && $(evt.target).parents('#notifications').length == 0) {
+         if ($('#notifications .dropdown-menu:visible').length > 0 && $(evt.target).parents('#notifications').length === 0) {
             $('#notifications .dropdown-menu').stop().fadeOut();
          }
          if ($('.dropdown-header-menu').hasClass('in')) {
@@ -660,7 +659,7 @@ define([
    User.Common = {
       showModalFollowings: function(user) {
          var users = new User.Collection();
-         users.url = Routing.generate('api_v1_get_user_followings', { id: user.get('id') })
+         users.url = Routing.generate('api_v1_get_user_followings', { id: user.get('id') });
          this.showModal(users, 'user.modalFollowingsTitle', 'profile.noFollowings');
       },
 

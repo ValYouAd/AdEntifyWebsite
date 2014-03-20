@@ -97,10 +97,10 @@ define([
             counterView.on('checkedAlbum', function(count) {
                var submitButton = $(that.el).find('.submit-albums-button');
                if (count > 0) {
-                  if ($(that.el).find('.submit-albums-button:visible').length == 0)
+                  if ($(that.el).find('.submit-albums-button:visible').length === 0)
                      submitButton.fadeIn('fast');
                } else {
-                  if ($(that.el).find('.submit-albums-button:hidden').length == 0)
+                  if ($(that.el).find('.submit-albums-button:hidden').length === 0)
                      submitButton.fadeOut('fast');
                }
             });
@@ -189,7 +189,7 @@ define([
          });
 
          var albumLoaded = setInterval(function() {
-            if (stack.length == 0) {
+            if (stack.length === 0) {
                // POST images to database
                $.ajax({
                   url : Routing.generate('upload_load_external_photos'),

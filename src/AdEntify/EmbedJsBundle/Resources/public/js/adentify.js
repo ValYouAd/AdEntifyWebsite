@@ -26,7 +26,7 @@
 
    AdEntify = {
       hoverTimeout: null,
-      rootUrl: "//adentify.com/",
+      rootUrl: "//local.adentify.com/",
       showTags: false,
       showLikes: false,
 
@@ -217,11 +217,12 @@
                               (tag.description ? '<p>' + tag.description + '</p>' : '') +
                               '</div></div></div>');
                         } else if (tag.type == 'product') {
-                           $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.product.brand ? ' - ' + tag.product.brand.name : '') + '</a></span><img class="pull-left product-image" src="'+tag.product.small_url+'">' +
+                           $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.brand ? ' - ' + tag.brand.name : '') + '</a></span>' + (tag.product ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
                               (tag.description ? '<p>' + tag.description + '</p>' : '') +
                               '</div><div class="clearfix"></div>' +
-                              (tag.product && tag.product.brand ? '<div class="brand pull-right"><img src="' + tag.product.brand.small_logo_url + '" alt="' + tag.product.brand.name + '" class="brand-logo" /></div>' : '') +
-                              '<div class="popover-details"><a href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div></div></div>');
+                              (tag.brand ? '<div class="brand pull-right"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div>' : '') +
+                              (tag.product ? '<div class="popover-details"><a target="_blank" href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div>' : '') +
+                              '</div></div>');
                         } else {
                            jQuery($tags).append('');
                         }
@@ -284,20 +285,20 @@
 
             popover.fadeIn();
 
-            var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
+            var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'api/v1/tagstats');
             if (xhr) {
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-               xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=hover');
+               xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=hover&platform=adentify-embed');
             }
          });
          $tags.on('mouseleave', '.tag', function() {
             jQuery(this).find('.popover').fadeOut();
          });
          $tags.on('click', 'a[href]', function() {
-            var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'public-api/v1/tag/stat');
+            var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'api/v1/tagstats');
             if (xhr) {
                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-               xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=click');
+               xhr.send('tagId=' + jQuery(this).parents('.tag').data('tag-id') + '&statType=click&platform=adentify-embed&link=' + encodeURIComponent(jQuery(this).attr('href')));
             }
          });
       },

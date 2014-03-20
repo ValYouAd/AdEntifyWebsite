@@ -41,7 +41,7 @@ define([
          delete jsonAttributes.tags_count;
          delete jsonAttributes.visibility_scope;
          delete jsonAttributes.id;
-         return { photo: jsonAttributes }
+         return { photo: jsonAttributes };
       },
 
       defaults: {
@@ -61,15 +61,15 @@ define([
       setup: function(init) {
          this.set('link', app.beginUrl + app.root + $.t('routing.photo/id/', { id: this.get('id') }));
          if (this.has('owner') && !this.has('ownerModel')) {
-            this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner')['id'] }));
-            this.set('fullname', this.get('owner')['firstname'] + ' ' + this.get('owner')['lastname']);
+            this.set('profileLink', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('owner').id }));
+            this.set('fullname', this.get('owner').firstname + ' ' + this.get('owner').lastname);
             var User = require('modules/user');
             this.set('ownerModel', new User.Model(this.get('owner')));
          }
          if (this.has('tags') && this.get('tags').length > 0 && typeof this.get('tags').models === 'undefined') {
             this.set('tags', new Tag.Collection(this.get('tags')));
          } else {
-            if (typeof init !== 'undefined' && init && this.has('tags') && this.get('tags').length == 0)
+            if (typeof init !== 'undefined' && init && this.has('tags') && this.get('tags').length === 0)
                this.set('tags', new Tag.Collection());
          }
       },
@@ -126,7 +126,7 @@ define([
 
       getShareText: function(sharedPlatform) {
          var brands = this.getBrands(sharedPlatform);
-         if (brands != false) {
+         if (brands !== false) {
             return $.t('photo.shareTextWithTags', { 'brands': brands });
          } else {
             return $.t('photo.shareTextWithoutTags');
@@ -141,7 +141,7 @@ define([
       },
 
       isOwner: function() {
-         return this && this.has('owner') ? currentUserId === this.get('owner')['id'] : false;
+         return this && this.has('owner') ? currentUserId === this.get('owner').id : false;
       },
 
       delete: function() {
@@ -217,6 +217,12 @@ define([
             'error': function(model, resp) {
                if (resp.status == 404) {
                   Common.Tools.notFound();
+               } else if (resp.status == 403) {
+                  app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('photo.forbidden'),
+                     showClose: true
+                  })).render();
                } else {
                   app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                      cssClass: Common.alertError,
@@ -226,7 +232,7 @@ define([
                }
             },
             'sync': function(model, resp) {
-               if (resp == null) {
+               if (resp === null) {
                   app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('photo.noPhoto'),
@@ -285,6 +291,8 @@ define([
       },
 
       beforeRender: function() {
+         var that = this;
+
          if (this.model && this.model.has('tags') && this.model.get('tags').length > 0) {
             this.tagsView = this.getView('.tags-container');
             if (!this.tagsView) {
@@ -314,7 +322,6 @@ define([
             var likeButtonView = new Photo.Views.LikeButton({
                photo: this.model
             });
-            var that = this;
             likeButtonView.on('like', function(liked) {
                that.updateLikedCount(liked);
                that.getView('.popover-wrapper').updateLike(liked);
@@ -324,7 +331,6 @@ define([
 
          // Pastille popover
          if (!this.getView('.popover-wrapper')) {
-            var that = this;
             var pastillePopoverView = new Photo.Views.PastillePopover({
                photo: this.model
             });
@@ -400,7 +406,7 @@ define([
          var that = this;
          clearTimeout(this.photoLoadedTimeout);
          this.$('.loading-gif-container').fadeOut(200, function() {
-            if (!that.$('.full-photo:visible').length > 0) {
+            if (that.$('.full-photo:visible').length == 0) {
                that.$('.full-photo').fadeIn('fast');
             }
          });
@@ -433,7 +439,7 @@ define([
       },
 
       updateLikedCount: function(liked) {
-         $likeCount = this.$('.likes-count-value')
+         $likeCount = this.$('.likes-count-value');
          var currentLikeCount = $likeCount.html() ? parseInt($likeCount.html()) : 0;
          if (liked) {
             $likeCount.html(currentLikeCount + 1);
@@ -544,7 +550,7 @@ define([
       serialize: function() {
          return {
             model: this.model
-         }
+         };
       },
 
       beforeRender: function() {

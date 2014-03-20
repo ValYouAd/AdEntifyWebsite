@@ -50,7 +50,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.rewards, { 'sync': function() {
-            if (this.options.rewards.length == 0) {
+            if (this.options.rewards.length === 0) {
                this.setView('.rewards-alert', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: this.options.emptyMessage,
@@ -105,7 +105,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, 'change', this.render);
-         this.template = typeof this.options.itemTemplate !== 'undefined' && this.options.itemTemplate != null ? this.options.itemTemplate : this.template;
+         this.template = typeof this.options.itemTemplate !== 'undefined' && this.options.itemTemplate !== null ? this.options.itemTemplate : this.template;
       }
    });
 
@@ -119,7 +119,7 @@ define([
       },
 
       beforeRender: function() {
-         if (this.options.users.length == 0) {
+         if (this.options.users.length === 0) {
             this.setView('.users-alert', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t('brand.noUserRewards'),

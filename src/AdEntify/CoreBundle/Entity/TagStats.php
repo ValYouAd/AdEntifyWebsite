@@ -20,13 +20,17 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\XmlRoot("tagStat")
  * @Serializer\ExclusionPolicy("none")
  *
- * @ORM\Table(name="tag_stats", indexes={@ORM\Index(name="search_idx", columns={"stat_type","ip_address","created_at"})})
+ * @ORM\Table(name="tag_stats", indexes={@ORM\Index(name="search_idx", columns={"stat_type","ip_address","created_at","platform"})})
  * @ORM\Entity
  */
 class TagStats
 {
     const TYPE_HOVER = 'hover';
     const TYPE_CLICK = 'click';
+
+    const PLATFORM_ADENTIFY_WEB = 'adentify-web';
+    const PLATFORM_ADENTIFY_EMEBED = 'adentify-embed';
+    const PLATFORM_ADENTIFY_WORDPRESS = 'adentify-wordpress';
 
     /**
      * @var integer
@@ -69,6 +73,20 @@ class TagStats
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="stats")
      */
     private $user;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="platform", type="string", length=100)
+     */
+    private $platform = self::PLATFORM_ADENTIFY_WEB;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="link", type="text", nullable=true)
+     */
+    private $link;
 
     /**
      * @return int
@@ -161,5 +179,39 @@ class TagStats
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @param string $platform
+     */
+    public function setPlatform($platform)
+    {
+        $this->platform = $platform;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlatform()
+    {
+        return $this->platform;
+    }
+
+    /**
+     * @param string $link
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 }

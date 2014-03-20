@@ -16,45 +16,30 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('usernameCanonical')
             ->add('email')
-            ->add('emailCanonical')
-            ->add('enabled')
-            ->add('salt')
-            ->add('password')
-            ->add('lastLogin')
-            ->add('locked')
-            ->add('expired')
-            ->add('expiresAt')
-            ->add('confirmationToken')
-            ->add('passwordRequestedAt')
-            ->add('roles')
-            ->add('credentialsExpired')
-            ->add('credentialsExpireAt')
-            ->add('firstname')
-            ->add('lastname')
-            ->add('createdAt')
-            ->add('facebookId')
-            ->add('facebookUsername')
-            ->add('facebookAccessToken')
-            ->add('twitterId')
-            ->add('twitterUsername')
-            ->add('twitterAccessToken')
+            ->add('enabled', 'checkbox', array(
+                'required' => false
+            ))
+            ->add('locked', 'checkbox', array(
+                'required' => false
+            ))
+            ->add('expired', 'checkbox', array(
+                'required' => false
+            ))
+            ->add('firstname', 'text', array(
+                'required' => false
+            ))
+            ->add('lastname', 'text', array(
+                'required' => false
+            ))
             ->add('gender')
             ->add('photosCount')
             ->add('followingsCount')
             ->add('followersCount')
-            ->add('lastFriendsListUpdate')
             ->add('locale')
             ->add('tagsCount')
             ->add('followedBrandsCount')
-            ->add('person')
-            ->add('followings')
-            ->add('followers')
-            ->add('friends')
-            ->add('favoritesPhotos')
-            ->add('clients')
-            ->add('followedBrands')
+            ->add('points')
         ;
     }
     

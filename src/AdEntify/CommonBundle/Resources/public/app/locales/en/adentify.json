@@ -252,7 +252,8 @@
       "reportSpam": "It's spam",
       "reportOther": "Other",
       "likers": "People who liked",
-      "noLiker": "Be the first to like this photo."
+      "noLiker": "Be the first to like this photo.",
+      "forbidden": "You are not authorized to view this photo"
    },
    "externalServicePhotos": {
       "select": "Select",

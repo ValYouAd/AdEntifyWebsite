@@ -28,3 +28,33 @@ Lancer deployment-queries.sql
 
 6) Launch upload loop in background
 
+--------------------------------------------------
+
+Prerender
+
+getUrl function :
+
+// Gets the URL to prerender from a request, stripping out unnecessary parts
+function getUrl(req) {
+    var decodedUrl
+      , parts;
+
+    try {
+        decodedUrl = decodeURIComponent(req.url);
+    } catch (e) {
+        decodedUrl = req.url;
+    }
+
+    parts = url.parse(decodedUrl, true);
+
+    // Remove the _escaped_fragment_ query parameter
+    if (parts.query.hasOwnProperty('_escaped_fragment_')) {
+        if(parts.query['_escaped_fragment_']) parts.pathname += parts.query['_escaped_fragment_'];
+        delete parts.query['_escaped_fragment_'];
+        delete parts.search;
+    }
+
+    var newUrl = url.format(parts);
+    if(newUrl[0] == '/') newUrl = newUrl.substr(1);
+    return newUrl;
+}
