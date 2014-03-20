@@ -34,6 +34,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 use AdEntify\CoreBundle\Entity\Tag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class TagsController
@@ -263,7 +264,9 @@ class TagsController extends FosRestController
                 throw new HttpException(403, 'Access forbidden');
             }
 
-            if ($request->request->has('waiting_validation') && $request->request->get('waiting_validation') != Tag::VALIDATION_GRANTED) {
+            echo $tag->getWaitingValidation() ? 'true' : 'false';
+
+            if ($request->request->has('waiting_validation') && $tag->getWaitingValidation()) {
                 $em = $this->getDoctrine()->getManager();
                 $tag->setWaitingValidation(false);
 
