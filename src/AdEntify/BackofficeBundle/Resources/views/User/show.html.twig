@@ -117,10 +117,19 @@
                 <th>Followedbrandscount</th>
                 <td>{{ entity.followedBrandsCount }}</td>
             </tr>
+            <tr>
+                <th>Points</th>
+                <td>{{ entity.points }}</td>
+            </tr>
         </tbody>
     </table>
 
         <ul class="record_actions">
+            <li>
+                <a href="{{ path('users_edit', { 'id': entity.id }) }}">
+                    Edit
+                </a>
+            </li>
     <li>
         <a href="{{ path('users') }}">
             Back to the list
