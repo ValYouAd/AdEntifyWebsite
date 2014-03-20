@@ -19,7 +19,7 @@ define([
       url: Routing.generate('api_v1_post_user_change_password', { id: currentUserId }),
 
       toJSON: function() {
-         return { fos_user_change_password: this.attributes }
+         return { fos_user_change_password: this.attributes };
       }
    });
 
@@ -123,7 +123,7 @@ define([
          this.listenTo(this.services, "remove", this.render);
          this.listenTo(app, 'mysettings:serviceDeleted', function(service) {
             this.services.remove(service);
-            if (this.services.length == 0) {
+            if (this.services.length === 0) {
                app.useLayout().setView('.alert-connected-services', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t('mySettings.noConnectedServices'),
@@ -264,7 +264,7 @@ define([
                            showClose: true
                         })).render();
                      }
-                  })
+                  });
                });
             } else {
                app.useLayout().setView('.alert-changePassword', new Common.Views.Alert({

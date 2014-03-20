@@ -34,24 +34,21 @@ define([
       },
 
       getCurrentPhotoModel: function() {
-         if (this.has('currentPhotoModel') && typeof this.get('currentPhotoModel') !== 'undefined'
-            && this.get('currentPhotoModel')) {
+         if (this.has('currentPhotoModel') && typeof this.get('currentPhotoModel') !== 'undefined' && this.get('currentPhotoModel')) {
             return this.get('currentPhotoModel');
          } else
             return false;
       },
 
       getCurrentPhotoId: function() {
-         if (this.has('currentPhotoId') && typeof this.get('currentPhotoId') !== 'undefined'
-            && this.get('currentPhotoId')) {
+         if (this.has('currentPhotoId') && typeof this.get('currentPhotoId') !== 'undefined' && this.get('currentPhotoId')) {
             return this.get('currentPhotoId');
          } else
             return false;
       },
 
       getCurrentPosition: function(type) {
-         if (this.has('currentPosition') && typeof this.get('currentPosition') !== 'undefined'
-            && this.get('currentPosition')) {
+         if (this.has('currentPosition') && typeof this.get('currentPosition') !== 'undefined' && this.get('currentPosition')) {
             switch (type) {
                case 'lat':
                   return this.fixedDown(this.get('currentPosition').coords.latitude, 2);

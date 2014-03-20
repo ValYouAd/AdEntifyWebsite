@@ -172,7 +172,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.options.actions, 'sync', function() {
-            if (this.options.actions.length == 0) {
+            if (this.options.actions.length === 0) {
                this.setView('.alert-actions', new Action.Views.NoAction({
                   emptyMessage: typeof this.options.emptyMessage ? this.options.emptyMessage : null
                }));

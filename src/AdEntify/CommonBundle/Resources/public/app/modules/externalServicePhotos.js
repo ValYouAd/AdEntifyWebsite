@@ -63,7 +63,7 @@ define([
                   return {
                      query: term,
                      page: page
-                  }
+                  };
                },
                results: function(data, page) {
                   return {
@@ -74,7 +74,7 @@ define([
                            usedCount: item.used_count
                         };
                      })
-                  }
+                  };
                }
             },
             dropdownCssClass: "bigdrop",
@@ -88,7 +88,7 @@ define([
                } else {
                   markup += "<td class='hashtag-usecount'>" + $.t('hashtag.usedCount', {count: 0}) + "</td>";
                }
-               markup += "</tr></table>"
+               markup += "</tr></table>";
                return markup;
             }
          }).on("change", function(e) {
@@ -161,7 +161,7 @@ define([
                   return {
                      query: term,
                      page: page
-                  }
+                  };
                },
                results: function(data, page) {
                   return {
@@ -171,7 +171,7 @@ define([
                            text : item.name
                         };
                      })
-                  }
+                  };
                }
             },
             dropdownCssClass: "bigdrop",
@@ -185,7 +185,7 @@ define([
                } else {
                   markup += "<td class='hashtag-usecount'>" + $.t('hashtag.usedCount', {count: 0}) + "</td>";
                }
-               markup += "</tr></table>"
+               markup += "</tr></table>";
                return markup;
             }
          }).on("change", function(e) {

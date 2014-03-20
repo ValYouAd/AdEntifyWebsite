@@ -17,7 +17,7 @@ define([
       },
 
       toJSON: function() {
-         return { person: this.attributes }
+         return { person: this.attributes };
       },
 
       entityToModel: function(personEntity) {

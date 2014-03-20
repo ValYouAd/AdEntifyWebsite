@@ -102,13 +102,13 @@ function(app, Router, i18n, AppState, TagStats, Common) {
                   delete this.next;
                }
                if (typeof obj.paging.previous !== 'undefined') {
-                  this.previous = obj.paging.previous
+                  this.previous = obj.paging.previous;
                }
                else {
                   delete this.previous;
                }
                if (typeof obj.paging.total !== 'undefined') {
-                  this.total = obj.paging.total
+                  this.total = obj.paging.total;
                }
                else {
                   delete this.total;
@@ -215,5 +215,5 @@ function(app, Router, i18n, AppState, TagStats, Common) {
             Backbone.history.loadUrl(Backbone.history.getFragment());
          });
       }
-   };
+   }
 });

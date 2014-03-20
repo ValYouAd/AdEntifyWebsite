@@ -48,7 +48,7 @@ define([
       serialize: function() {
          return {
             searchUrl : app.beginUrl + app.root + $.t('routing.search/')
-         }
+         };
       },
 
       beforeRender: function() {
@@ -88,9 +88,7 @@ define([
             if (!this.isFullscreenSearch()) {
                $('.search-loading').stop().fadeOut();
 
-               if (this.options.photos.length == 0 && this.options.users.length == 0 && this.options.hashtags.length == 0
-                  && this.options.brands.length == 0)
-               {
+               if (this.options.photos.length === 0 && this.options.users.length === 0 && this.options.hashtags.length === 0 && this.options.brands.length === 0) {
                   this.setView('.alert-search-results', new Common.Views.Alert({
                      cssClass: Common.alertInfo,
                      message: $.t('search.noResults'),
@@ -109,8 +107,7 @@ define([
             $('.search-bar .dropdown-menu').stop().fadeOut();
          });
          this.listenTo(app, 'search:show', function() {
-            if (!this.isFullscreenSearch() && (this.options.photos.length > 0 || this.options.users.length > 0
-               || this.options.hashtags.length > 0 || this.options.brands.length > 0))
+            if (!this.isFullscreenSearch() && (this.options.photos.length > 0 || this.options.users.length > 0 || this.options.hashtags.length > 0 || this.options.brands.length > 0))
                $('.search-bar .dropdown-menu').stop().fadeIn();
          });
       },
@@ -304,7 +301,7 @@ define([
          return {
             terms : this.terms,
             resultsCount: this.resultsCount
-         }
+         };
       },
 
       initialize: function() {
@@ -346,7 +343,7 @@ define([
             this.resultsCount = this.options.photos.length + this.options.users.length + this.options.hashtags.length + this.options.brands.length;
          }
 
-         if (this.options.photos.length == 0) {
+         if (this.options.photos.length === 0) {
             this.setView('.alert-search-tags-results', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t('search.noPhoto'),
@@ -492,28 +489,28 @@ define([
       },
       
       hideContainerWithNoResults: function(context, feed) {
-         if (context.options.users.length == 0 || feed) {
+         if (context.options.users.length === 0 || feed) {
             context.$('.users-container').fadeOut();
          } else {
-            if (context.$('.users-container:visible').length == 0)
+            if (context.$('.users-container:visible').length === 0)
                context.$('.users-container').stop().fadeIn();
          }
-         if (context.options.hashtags.length == 0 || feed) {
+         if (context.options.hashtags.length === 0 || feed) {
             context.$('.feeds-container').fadeOut();
          } else {
-            if (context.$('.feeds-container:visible').length == 0)
+            if (context.$('.feeds-container:visible').length === 0)
                context.$('.feeds-container').stop().fadeIn();
          }
-         if (context.options.photos.length == 0) {
+         if (context.options.photos.length === 0) {
             context.$('.search-filters').fadeOut();
          } else {
-            if (context.$('.search-filters:visible').length == 0)
+            if (context.$('.search-filters:visible').length === 0)
                context.$('.search-filters').stop().fadeIn();
          }
-         if (context.options.brands.length == 0 || feed) {
+         if (context.options.brands.length === 0 || feed) {
             context.$('.brands-container').fadeOut();
          } else {
-            if (context.$('.brands-container:visible').length == 0)
+            if (context.$('.brands-container:visible').length === 0)
                context.$('.brands-container').stop().fadeIn();
          }
          if (feed) {

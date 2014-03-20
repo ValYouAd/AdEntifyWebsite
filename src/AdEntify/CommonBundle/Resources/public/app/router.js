@@ -439,7 +439,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                comments: this.comments,
                photoId: id,
                categories: this.categories,
-               hashtags: this.hashtags,
+               hashtags: this.hashtags
             }),
             "#right-pane-content": new Photo.Views.RightMenu({
                photo: photo,
@@ -1073,13 +1073,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
       // Change title of window
       onDomChangeTitle: function(title) {
-         if (typeof title !== 'undefined' && title != '') {
+         if (typeof title !== 'undefined' && title !== '') {
             $(document).attr('title', title);
          }
       },
 
       onDomChangeDescription: function(description) {
-         if (typeof description !== 'undefined' && description != '') {
+         if (typeof description !== 'undefined' && description !== '') {
             Common.Tools.setMeta('description', description, false);
             Common.Tools.setMeta('og:description', description);
          }
@@ -1099,7 +1099,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          this.deleteOldAlerts();
 
          // Check if collection is empty
-         if (collection.length == 0) {
+         if (collection.length === 0) {
             this.successView = new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t(translationKey)
@@ -1132,7 +1132,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
       },
 
       handleWindowEvent: function() {
-         if (accountEnabled == 0) {
+         if (accountEnabled === 0) {
             $('#accountDisabled').modal('show');
          }
          window.onpopstate = function() {

@@ -20,14 +20,14 @@ define([
 
       initialize: function() {
          var images = this.get('images');
-         this.set('thumbUrl', images['low_resolution']['url']);
+         this.set('thumbUrl', images.low_resolution.url);
          // Get larger image
-         this.set('originalUrl', images['standard_resolution']['url']);
-         this.set('originalWidth', images['standard_resolution']['width']);
-         this.set('originalHeight', images['standard_resolution']['height']);
+         this.set('originalUrl', images.standard_resolution.url);
+         this.set('originalWidth', images.standard_resolution.width);
+         this.set('originalHeight', images.standard_resolution.height);
          this.set('servicePhotoId', this.get('id'));
          if (this.has('caption'))
-            this.set('title', this.get('caption')['text']);
+            this.set('title', this.get('caption').text);
       }
    });
 
@@ -48,7 +48,7 @@ define([
             backToLink: app.beginUrl + app.root + $.t('routing.upload/'),
             serviceName: 'instagram',
             loweredServiceName: 'instagram'
-         }
+         };
       },
 
       initialize: function() {
@@ -84,10 +84,10 @@ define([
             counterView.on('checkedPhoto', function(count) {
                var submitButton = $(that.el).find('.submit-photos-button');
                if (count > 0) {
-                  if ($(that.el).find('.submit-photos-button:visible').length == 0)
+                  if ($(that.el).find('.submit-photos-button:visible').length === 0)
                      submitButton.fadeIn('fast');
                } else {
-                  if ($(that.el).find('.submit-photos-button:hidden').length == 0)
+                  if ($(that.el).find('.submit-photos-button:hidden').length === 0)
                      submitButton.fadeOut('fast');
                }
             });
@@ -152,7 +152,7 @@ define([
                               error : function() {
                                  console.log('impossible de récupérer les photos instagram');
                               }
-                           })
+                           });
                         } else {
                            Backbone.history.navigate($.t('routing.upload/'), { trigger: true });
                            // TODO error : pas de token instagram

@@ -21,29 +21,29 @@ define([
          var images = this.get('images');
          if (images && images.length > 0) {
             var smallImage = _.find(images, function(image) {
-               return image['width'] <= 200;
+               return image.width <= 200;
             });
             var mediumImage = _.find(images, function(image) {
-               return image['width'] <= 500 && image['width'] > 300;
+               return image.width <= 500 && image.width > 300;
             });
             var largeImage = _.find(images, function(image) {
-               return image['width'] <= 1600 && image['width'] > 700;
+               return image.width <= 1600 && image.width > 700;
             });
             if (smallImage) {
-               this.set('smallUrl', smallImage['source']);
-               this.set('smallWidth', smallImage['width']);
-               this.set('smallHeight', smallImage['height']);
+               this.set('smallUrl', smallImage.source);
+               this.set('smallWidth', smallImage.width);
+               this.set('smallHeight', smallImage.height);
             }
             if (mediumImage) {
-               this.set('thumbUrl', mediumImage['source']);
-               this.set('mediumUrl', mediumImage['source']);
-               this.set('mediumWidth', mediumImage['width']);
-               this.set('mediumHeight', mediumImage['height']);
+               this.set('thumbUrl', mediumImage.source);
+               this.set('mediumUrl', mediumImage.source);
+               this.set('mediumWidth', mediumImage.width);
+               this.set('mediumHeight', mediumImage.height);
             }
             if (largeImage) {
-               this.set('largeUrl', largeImage['source']);
-               this.set('largeWidth', largeImage['width']);
-               this.set('largeHeight', largeImage['height']);
+               this.set('largeUrl', largeImage.source);
+               this.set('largeWidth', largeImage.width);
+               this.set('largeHeight', largeImage.height);
             }
             // Get larger image (original)
             this.set('originalUrl', images[0].source);

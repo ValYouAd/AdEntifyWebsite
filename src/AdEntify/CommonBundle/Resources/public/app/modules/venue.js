@@ -17,7 +17,7 @@ define([
       },
 
       toJSON: function() {
-         return { venue: this.attributes }
+         return { venue: this.attributes };
       },
 
       entityToModel: function(venueEntity) {

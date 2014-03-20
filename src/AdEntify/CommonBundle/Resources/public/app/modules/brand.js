@@ -27,7 +27,7 @@ define([
       toJSON: function() {
          var jsonAttributes = jQuery.extend(true, {}, this.attributes);
          delete jsonAttributes.link;
-         return { brand: jsonAttributes }
+         return { brand: jsonAttributes };
       },
 
       setup: function() {
@@ -157,7 +157,7 @@ define([
                model: brand
             }));
          }, this);
-         if (this.loaded && this.options.brands.length == 0) {
+         if (this.loaded && this.options.brands.length === 0) {
             this.setView('.alert-brands', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: typeof this.options.emptyDataMessage !== 'undefined' ? this.options.emptyDataMessage : $.t('brand.noUserBrands'),
@@ -262,7 +262,7 @@ define([
       serialize: function() {
          return {
             follow: this.follow
-         }
+         };
       },
 
       afterRender: function() {
