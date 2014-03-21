@@ -58,6 +58,7 @@ class DefaultController extends Controller
                         }
                     }
 
+                    $user->setLoggedInCount($user->getLoggedInCount() + 1);
                     $user->setFacebookAccessToken($fb->getAccessToken());
                     $user->setFBData($fbdata);
                     $userManager->updateUser($user);

@@ -106,6 +106,8 @@ class FOSUBUserProvider extends BaseClass
         //update access token
         $user->$setter($response->getAccessToken());
 
+        $user->setLoggedInCount($user->getLoggedInCount() + 1);
+
         return $user;
     }
 
