@@ -75,8 +75,13 @@ define([
             start: function() {
                $('#loading-photos').stop().fadeIn();
             },
-            done: function (e, data) {
+            fail: function(e, data) {
+
+            },
+            always: function() {
                $('#loading-photos').stop().fadeOut();
+            },
+            done: function (e, data) {
                if (data.result) {
                   var photo = new ExternalServicePhotos.Model();
                   photo.set('thumbUrl', data.result.small.filename);

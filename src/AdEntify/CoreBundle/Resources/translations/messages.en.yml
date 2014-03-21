@@ -1,7 +1,7 @@
 email:
     register_validation:
-        title: 'Thanks for your registration on AdEntify, pending validation'
-        content: '<p>Hello <strong>%user%</strong>,</p><p>You are now a member of <a href="https://adentify.com">AdEntify</a>. You will received an email when your account will be valided.</p>'
+        title: 'Thank you for resgistering on AdEntify !'
+        content: '<p>Hello <strong>%user%</strong>,</p><p>You are now a member of <a href="https://adentify.com">AdEntify</a>. You will receive an email as soon as your account is valided.</p>'
     validate_account:
-        title: 'Congrats, your account has been validated'
-        content: '<p>Hello <strong>%user%</strong>,</p><p>Your account is now enabled, you can logged in and tag photos right now on <a href="https://adentify.com">adentify.com</a>.</p>'
+        title: 'Congrats ! your AdEntify account is now active'
+        content: '<p>Hello <strong>%user%</strong>,</p><p>Your account has been activated so go ahead and log in to start tagging photos on <a href="https://adentify.com">adentify.com</a>.</p>'
