@@ -82,6 +82,11 @@ class HashtagsController extends FosRestController
         if (count($hashtags) == 0)
             $hashtags = explode(" ", $query);
 
+        foreach ($hashtags as &$hashtag) {
+            $hashtag = str_replace('#', '', $hashtag);
+        }
+        unset($hashtag);
+
         $query = $em->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
         WHERE (REGEXP(hashtag.name, :hashtags) > 0)')
             ->setParameters(array(

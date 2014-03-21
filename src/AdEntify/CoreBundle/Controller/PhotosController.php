@@ -604,8 +604,8 @@ class PhotosController extends FosRestController
                         if (array_key_exists('hashtags', $request->request->get('photo'))) {
                             $oldPhoto->setHashtags($oldPhoto->getHashtags()->clear());
                             $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
-                            $photo = $request->request->get('photo');
-                            foreach (array_unique($photo['hashtags']) as $hashtagName) {
+                            $newPhoto = $request->request->get('photo');
+                            foreach (array_unique($newPhoto['hashtags']) as $hashtagName) {
                                 if (is_numeric($hashtagName)) {
                                     $hashtag = $hashtagRepository->find($hashtagName);
                                     if ($hashtag) {
