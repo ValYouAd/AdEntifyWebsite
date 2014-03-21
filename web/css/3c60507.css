@@ -1548,7 +1548,9 @@ html,body,.body-grey-background {
 
 /* Upload
 ----------------------- */
-
+.alert-upload .alert {
+    margin-top: 30px;
+}
 .upload-dialog {
     max-width: 480px!important;
     padding-top: 15%;

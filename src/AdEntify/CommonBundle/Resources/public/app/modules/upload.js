@@ -74,9 +74,15 @@ define([
             dataType: 'json',
             start: function() {
                $('#loading-photos').stop().fadeIn();
+               if (that.getView('.alert-upload'))
+                  that.removeView('.alert-upload');
             },
             fail: function(e, data) {
-
+               that.setView('.alert-upload', new Common.Views.Alert({
+                  cssClass: Common.alertError,
+                  message: $.t('upload.errorLocalUpload'),
+                  showClose: true
+               })).render();
             },
             always: function() {
                $('#loading-photos').stop().fadeOut();

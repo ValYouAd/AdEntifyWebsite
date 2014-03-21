@@ -142,6 +142,8 @@ class UploadController extends Controller
      */
     public function uploadLocalPhoto()
     {
+        throw new \Exception('toto');
+
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             if (isset($_FILES['files'])) {
