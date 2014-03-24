@@ -84,6 +84,7 @@ class Category
      *  mappedBy="object",
      *  cascade={"persist", "remove"}
      * )
+     * @Serializer\Exclude
      */
     private $translations;
 

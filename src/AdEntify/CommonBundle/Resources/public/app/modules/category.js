@@ -29,7 +29,7 @@ define([
    Category.Collection = Backbone.Collection.extend({
       model: Category.Model,
       cache: true,
-      url: Routing.generate('api_v1_get_categories')
+      url: Routing.generate('api_v1_get_categories', { locale: currentLocale })
    });
 
    Category.Views.Select = Backbone.View.extend({
