@@ -130,7 +130,7 @@ define([
                         // Connect to Instagram API
                         if (instagramOAuthInfos) {
                            $.ajax({
-                              url: 'https://api.instagram.com/v1/users/' + instagramOAuthInfos.service_user_id + '/media/recent/?access_token='
+                              url: 'https://api.instagram.com/v1/users/' + instagramOAuthInfos.service_user_id + '/media/recent/?count=200&access_token='
                                  + instagramOAuthInfos.service_access_token,
                               dataType: 'jsonp',
                               success: function(response) {
