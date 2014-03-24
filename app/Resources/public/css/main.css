@@ -1096,6 +1096,7 @@ html,body,.body-grey-background {
     font-size: 19px;
     margin: 4px auto;
     color: #444444;
+    padding: 0 10px;
 }
 .linked-photos {
     background: url('../img/linked-photos-background.png') repeat-y top left;

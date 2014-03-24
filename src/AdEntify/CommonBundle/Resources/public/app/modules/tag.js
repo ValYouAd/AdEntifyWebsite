@@ -1360,6 +1360,22 @@ define([
       addTag: function(evt, photo, photoCategories, photoHashtags) {
          if (evt)
             evt.preventDefault();
+
+         if (typeof photoCategories === 'undefined') {
+            var Category = require('modules/category');
+            photoCategories = new Category.Collection();
+            photoCategories.fetch({
+               url: Routing.generate('api_v1_get_photo_categories', { id: photo.get('id'), locale: currentLocale })
+            });
+         }
+         if (typeof photoHashtags === 'undefined') {
+            var Hashtag = require('modules/hashtag');
+            photoHashtags = new Hashtag.Collection();
+            photoHashtags.fetch({
+               url: Routing.generate('api_v1_get_photo_hashtags', { id: photo.get('id') })
+            });
+         }
+
          var tagView = new Tag.Views.AddModal({
             photo: photo,
             photoCategories: photoCategories,
