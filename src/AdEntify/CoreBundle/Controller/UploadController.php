@@ -116,7 +116,7 @@ class UploadController extends Controller
                     $thumb->setOriginalPath($url);
                     $thumb->addThumbSize(FileTools::PROFILE_PICTURE_TYPE);
 
-                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $user, $filename);
+                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateProfilePictureThumb($thumb, $user, $filename);
                     $thumbs['original'] = $url;
                     $response = new JsonResponse();
                     $response->setData($thumbs);

@@ -359,6 +359,14 @@ class User extends BaseUser
      */
     protected $introPlayed = false;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="logged_in_count", type="integer")
+     * @Serializer\Exclude()
+     */
+    protected $loggedInCount = 0;
+
     public function __construct()
     {
         parent::__construct();
@@ -1215,5 +1223,22 @@ class User extends BaseUser
     public function getIntroPlayed()
     {
         return $this->introPlayed;
+    }
+
+    /**
+     * @param int $loggedInCount
+     */
+    public function setLoggedInCount($loggedInCount)
+    {
+        $this->loggedInCount = $loggedInCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLoggedInCount()
+    {
+        return $this->loggedInCount;
     }
 }

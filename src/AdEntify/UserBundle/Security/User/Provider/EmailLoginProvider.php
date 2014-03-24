@@ -31,6 +31,9 @@ class EmailLoginProvider implements UserProviderInterface
             throw new UsernameNotFoundException(sprintf('Vous n\'êtes pas inscrit(e) avec l\'email "%s"', $username));
         }
 
+        $user->setLoggedInCount($user->getLoggedInCount() + 1);
+        $this->userManager->updateUser($user);
+
         return $user;
     }
 

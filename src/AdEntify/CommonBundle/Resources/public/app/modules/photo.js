@@ -196,7 +196,7 @@ define([
             url: Routing.generate('api_v1_get_photo_comments', { id: this.options.photo.get('id') })
          });
          this.categories.fetch({
-            url: Routing.generate('api_v1_get_photo_categories', { id: this.options.photo.get('id') })
+            url: Routing.generate('api_v1_get_photo_categories', { id: this.options.photo.get('id'), locale: currentLocale })
          });
          this.hashtags.fetch({
             url: Routing.generate('api_v1_get_photo_hashtags', { id: this.options.photo.get('id') })
@@ -521,7 +521,7 @@ define([
 
       update: function() {
          this.options.categories.fetch({
-            url: Routing.generate('api_v1_get_photo_categories', { id: this.model.get('id') })
+            url: Routing.generate('api_v1_get_photo_categories', { id: this.model.get('id'), locale: currentLocale })
          });
          this.options.hashtags.fetch({
             url: Routing.generate('api_v1_get_photo_hashtags', { id: this.model.get('id') })

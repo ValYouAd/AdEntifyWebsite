@@ -458,7 +458,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                   url: Routing.generate('api_v1_get_photo_comments', { id: id })
                });
                that.categories.fetch({
-                  url: Routing.generate('api_v1_get_photo_categories', { id: id })
+                  url: Routing.generate('api_v1_get_photo_categories', { id: id, locale: currentLocale })
                });
                that.hashtags.fetch({
                   url: Routing.generate('api_v1_get_photo_hashtags', { id: id })

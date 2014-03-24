@@ -73,12 +73,14 @@ class FacebookProvider implements UserProviderInterface
             if (count($this->validator->validate($user, 'Facebook'))) {
                 throw new UsernameNotFoundException('The facebook user could not be stored');
             }
-            $this->userManager->updateUser($user);
         }
 
         if (empty($user)) {
             throw new UsernameNotFoundException('The user is not authenticated on facebook');
         }
+
+        $user->setLoggedInCount($user->getLoggedInCount() + 1);
+        $this->userManager->updateUser($user);
 
         return $user;
     }

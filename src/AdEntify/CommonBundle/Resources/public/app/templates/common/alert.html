@@ -1,6 +1,6 @@
 <div class="clearfix"></div>
 <div class="alert <%= model.get('cssClass') %> fade in">
-    <% if (model.get('close')) { %>
+    <% if (model.get('showClose')) { %>
     <button type="button" class="close" data-dismiss="alert">×</button>
     <% } %>
     <%= model.get('message') %>
