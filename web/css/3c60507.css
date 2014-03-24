@@ -4446,12 +4446,24 @@ label,
     color: #2c2c2e;
     text-decoration: none;
 }
+.user-item-name {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    width: 160px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    vertical-align: middle;
+}
 .account-buttons {
     margin-top: 9px;
     margin-left: -5px;
 }
 .account-buttons .btn {
     display: inline-block;
+    zoom: 1;
+    *display: inline;
     vertical-align: middle;
     -webkit-border-radius: 22px;
     -moz-border-radius: 22px;
@@ -4526,6 +4538,8 @@ label,
     font-family: 'robotobold', "Helvetica Neue", "Arial", sans-serif;
     padding-right: 10px;
     display: inline-block;
+    zoom: 1;
+    *display: inline;
 }
 .dashboard .period-picker input {
     width: 200px;

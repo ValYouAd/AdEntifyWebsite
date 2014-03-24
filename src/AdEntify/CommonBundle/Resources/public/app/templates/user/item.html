@@ -1,9 +1,8 @@
 <a href="<%= model.get('link') %>">
-<div class="pull-left">
-    <img src="<%= model.get('profilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" />
-    <span><%= model.get('fullname') %></span>
-</div>
-<div class="pull-right more-profile"></div>
-<div class="clearfix"></div>
+    <div class="pull-left">
+        <img src="<%= model.get('profilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" /> <div class="user-item-name"><span><%= model.get('fullname') %></span></div>
+    </div>
+    <div class="pull-right more-profile"></div>
+    <div class="clearfix"></div>
 </a>
 <div class="clearfix"></div>
