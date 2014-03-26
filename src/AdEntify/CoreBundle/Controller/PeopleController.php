@@ -38,6 +38,13 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class PeopleController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get all persons",
+     *  output="AdEntify\CoreBundle\Entity\Person",
+     *  section="Person"
+     * )
+     *
      * @View()
      */
     public function cgetAction()
@@ -46,6 +53,13 @@ class PeopleController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a person by id",
+     *  output="AdEntify\CoreBundle\Entity\Person",
+     *  section="Person"
+     * )
+     *
      * @View()
      */
     public function getAction($id)

@@ -91,7 +91,6 @@ class CategoriesController extends FosRestController
 
     /**
      * @View()
-     * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      * @QueryParam(name="brands", requirements="\d+", default="null")
@@ -99,7 +98,7 @@ class CategoriesController extends FosRestController
      * @QueryParam(name="people", requirements="\d+", default="null")
      * @QueryParam(name="orderBy", default="null")
      */
-    public function getPhotosAction($slug, $tagged, $page, $limit, $brands, $places, $people, $orderBy)
+    public function getPhotosAction($slug, $page, $limit, $brands, $places, $people, $orderBy)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -112,6 +111,7 @@ class CategoriesController extends FosRestController
         // If no user connected, 0 is default
         $facebookFriendsIds = array(0);
         $followings = array(0);
+        $followedBrands = array(0);
 
         if ($user) {
             // Get friends list (id) array
@@ -127,52 +127,46 @@ class CategoriesController extends FosRestController
                 $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 0);
                 UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
             }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
+            }
         }
 
-        $parameters = null;
-        if ($tagged == 'true') {
-            $parameters = array(
-                ':status' => Photo::STATUS_READY,
-                ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':facebookFriendsIds' => $facebookFriendsIds,
-                ':followings' => $followings,
-                ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED,
-                ':slug' => $slug
-            );
+        $parameters = array(
+            ':status' => Photo::STATUS_READY,
+            ':visibilityScope' => Photo::SCOPE_PUBLIC,
+            ':facebookFriendsIds' => $facebookFriendsIds,
+            ':followedBrands' => $followedBrands,
+            ':followings' => $followings,
+            ':none' => Tag::VALIDATION_NONE,
+            ':granted' => Tag::VALIDATION_GRANTED,
+            ':slug' => $slug
+        );
 
-            $tagClause = '';
-            if ($brands == 1) {
-                $tagClause = ' AND tag.brand IS NOT NULL';
-            }
-            if ($places == 1) {
-                $tagClause = ' AND tag.venue IS NOT NULL';
-            }
-            if ($people == 1) {
-                $tagClause = ' AND tag.person IS NOT NULL';
-            }
-
-            $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                INNER JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
-                  AND tag.censored = false AND tag.waitingValidation = false
-                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' . $tagClause .')
-                INNER JOIN photo.owner owner LEFT JOIN photo.categories category
-                WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
-                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                AND photo.tagsCount > 0 AND category.slug = :slug';
-        } else {
-            $parameters = array(
-                ':status' => Photo::STATUS_READY,
-                ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':facebookFriendsIds' => $facebookFriendsIds,
-                ':followings' => $followings
-            );
-            $sql = 'SELECT DISTINCT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner LEFT JOIN photo.categories category
-                WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
-                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                AND photo.tagsCount = 0 AND category.slug = :slug';
+        $tagClause = '';
+        if ($brands == 1) {
+            $tagClause = ' AND tag.brand IS NOT NULL';
         }
+        if ($places == 1) {
+            $tagClause = ' AND tag.venue IS NOT NULL';
+        }
+        if ($people == 1) {
+            $tagClause = ' AND tag.person IS NOT NULL';
+        }
+
+        $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+            LEFT JOIN photo.tags tag WITH (tag IS NULL OR (tag.visible = true AND tag.deletedAt IS NULL
+              AND tag.censored = false AND tag.waitingValidation = false
+              AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' . $tagClause .'))
+            INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN photo.categories category
+            WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
+            OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)
+            OR brand.id IN (:followedBrands))
+            AND category.slug = :slug';
 
         // Order by
         if ($orderBy) {
@@ -209,7 +203,6 @@ class CategoriesController extends FosRestController
             }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_category_photos', array(
-                'tagged' => $tagged,
                 'slug' => $slug
             ));
         }

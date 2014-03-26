@@ -254,7 +254,9 @@
       "reportOther": "Autre",
       "likers": "Personnes ayant aimées",
       "noLiker": "Soyez le premier à aimer cette photo.",
-      "forbidden": "Vous n'êtes pas autorisé à voir cette photo"
+      "forbidden": "Vous n'êtes pas autorisé à voir cette photo",
+      "detailsUpdateSuccess": "Les informations de votre photo sont maintenant à jour.",
+      "detailsUpdateError": "Impossible de mettre à jour les informations de votre photo."
    },
    "externalServicePhotos": {
       "select": "Sélectionner",

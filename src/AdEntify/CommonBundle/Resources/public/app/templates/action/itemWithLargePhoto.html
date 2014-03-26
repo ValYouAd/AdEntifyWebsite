@@ -9,7 +9,7 @@
 <div class="clearfix"></div>
 <% if (model.has('photo')) { %>
 <div class="action-photo">
-    <a href="<%= model.get('photo').get('link') %>" data-bypass='' class='photo-link'><img src="<%= model.get('photo').get('medium_url') %>" alt="<%= model.get('photo').get('caption') %>" /></a>
+    <a href="<%= model.get('photo').get('link') %>" data-bypass='' class='photo-link'><img src="<%= model.get('photo').get('small_url') %>" alt="<%= model.get('photo').get('caption') %>" /></a>
 </div>
 <% } %>
 <div class="clearfix"></div>

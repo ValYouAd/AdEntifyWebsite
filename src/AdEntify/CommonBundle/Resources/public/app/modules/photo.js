@@ -809,9 +809,23 @@ define([
          this.model.getToken('photo_item', function() {
             that.model.url = Routing.generate('api_v1_put_photo', { id: that.model.get('id')});
             that.model.save(null, {
+               success: function() {
+                  that.setView('.alert-photo-details', new Common.Views.Alert({
+                     cssClass: Common.alertSuccess,
+                     message: $.t('photo.detailsUpdateSuccess'),
+                     showClose: true
+                  })).render();
+               },
+               error: function() {
+                  that.setView('.alert-photo-details', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('photo.detailsUpdateError'),
+                     showClose: true
+                  })).render();
+               },
                complete: function() {
                   btn.button('reset');
-                  app.trigger('photoEditModal:close');
+                  //app.trigger('photoEditModal:close');
                }
             });
          });

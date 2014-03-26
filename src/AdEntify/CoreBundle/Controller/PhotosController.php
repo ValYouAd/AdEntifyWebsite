@@ -48,10 +48,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class PhotosController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get all punlic or friends photos",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="Photo"
+     * )
+     *
      * GET all public or friends photos
      *
      * @View(serializerGroups={"list"})
-     * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      * @QueryParam(name="brands", requirements="\d+", default="null")
@@ -60,7 +66,7 @@ class PhotosController extends FosRestController
      * @QueryParam(name="orderBy", default="null")
      * @QueryParam(name="way", requirements="DESC|ASC", default="DESC")
      */
-    public function cgetAction($tagged, $page, $limit, $brands, $places, $people, $orderBy, $way)
+    public function cgetAction($page, $limit, $brands, $places, $people, $orderBy, $way)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -103,50 +109,35 @@ class PhotosController extends FosRestController
         $dataQuery = null;
         $joinClause = null;
 
-        if ($tagged == 'true') {
-            $parameters = array(
-                ':status' => Photo::STATUS_READY,
-                ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':facebookFriendsIds' => $facebookFriendsIds,
-                ':followings' => $followings,
-                ':followedBrands' => $followedBrands,
-                ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED
-            );
 
-            $tagClause = '';
-            if ($brands == 1) {
-                $tagClause = ' AND tag.brand IS NOT NULL';
-            }
-            if ($places == 1) {
-                $tagClause = ' AND tag.venue IS NOT NULL';
-            }
-            if ($people == 1) {
-                $tagClause = ' AND tag.person IS NOT NULL';
-            }
+        $parameters = array(
+            ':status' => Photo::STATUS_READY,
+            ':visibilityScope' => Photo::SCOPE_PUBLIC,
+            ':facebookFriendsIds' => $facebookFriendsIds,
+            ':followings' => $followings,
+            ':followedBrands' => $followedBrands,
+            ':none' => Tag::VALIDATION_NONE,
+            ':granted' => Tag::VALIDATION_GRANTED
+        );
 
-            $sql = sprintf('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                INNER JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
-                  AND tag.censored = false AND tag.waitingValidation = false
-                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
-                INNER JOIN photo.owner owner LEFT JOIN tag.brand brand %s
-                WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
-                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
-                AND photo.tagsCount > 0', $tagClause, $joinClause);
-        } else {
-            $parameters = array(
-                ':status' => Photo::STATUS_READY,
-                ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':facebookFriendsIds' => $facebookFriendsIds,
-                ':followings' => $followings,
-                ':followedBrands' => $followedBrands
-            );
-            $sql = sprintf('SELECT DISTINCT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag LEFT JOIN tag.brand brand %s
-                WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
-                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
-                AND photo.tagsCount = 0 ', $joinClause);
+        $tagClause = '';
+        if ($brands == 1) {
+            $tagClause = ' AND tag.brand IS NOT NULL';
         }
+        if ($places == 1) {
+            $tagClause = ' AND tag.venue IS NOT NULL';
+        }
+        if ($people == 1) {
+            $tagClause = ' AND tag.person IS NOT NULL';
+        }
+
+        $sql = sprintf('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+            LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
+              AND tag.censored = false AND tag.waitingValidation = false
+              AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
+            INNER JOIN photo.owner owner LEFT JOIN tag.brand brand %s
+            WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
+            OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))', $tagClause, $joinClause);
 
         if ($orderBy) {
             switch ($orderBy) {
@@ -181,9 +172,7 @@ class PhotosController extends FosRestController
                 $photos[] = $photo;
             }
 
-            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_photos', array(
-                'tagged' => $tagged
-            ));
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_photos');
         }
 
         return PaginationTools::getPaginationArray($photos, $pagination);

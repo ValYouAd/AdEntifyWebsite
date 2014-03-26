@@ -72,7 +72,7 @@ define([
                this.setView('.hashtags-alert', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t('profile.noHashtag'),
-                  showClose: true
+                  showClose: false
                }));
             } else {
                this.removeView('.hashtags-alert');

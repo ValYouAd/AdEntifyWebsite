@@ -1273,7 +1273,7 @@ define([
          currentTag.set('person', person.get('id'));
          currentTag.set('title', person.getFullname());
          if (currentPerson)
-            currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/' + currentPerson.id);
+            currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/profile.php?id=' + currentPerson.id);
          currentTag.url = Routing.generate('api_v1_post_tag');
          currentTag.getToken('tag_item', function() {
             currentTag.save(null, {

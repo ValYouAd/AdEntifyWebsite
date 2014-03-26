@@ -40,6 +40,13 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class CommentsController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of all comments",
+     *  output="AdEntify\CoreBundle\Entity\Comment",
+     *  section="Comment"
+     * )
+     *
      * @View()
      */
     public function cgetAction()
@@ -49,6 +56,13 @@ class CommentsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a comment",
+     *  output="AdEntify\CoreBundle\Entity\Comment",
+     *  section="Comment"
+     * )
+     *
      * @View()
      *
      * @return Comment
@@ -60,6 +74,14 @@ class CommentsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a Comment",
+     *  input="AdEntify\CoreBundle\Form\CommentType",
+     *  output="AdEntify\CoreBundle\Entity\Comment",
+     *  section="Venue"
+     * )
+     *
      * @View()
      */
     public function postAction(Request $request)
@@ -104,7 +126,7 @@ class CommentsController extends FosRestController
      *      204="Returned if the comment is deleted",
      *      403="Returned if the user is not authorized to delete the comment"
      *  },
-     *  section="Tag"
+     *  section="Comment"
      * )
      *
      * @View()
