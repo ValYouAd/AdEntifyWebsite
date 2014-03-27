@@ -126,11 +126,10 @@ class BrandsController extends FosRestController
         $form->bind($request);
         if ($form->isValid()) {
 
-            $found = $em->createQuery('SELECT COUNT(b.id) FROM AdEntifyCoreBundle:Brand b WHERE b.name = :name')
-                ->setParameter('name', $brand->getName())->getSingleScalarResult();
-            if ($found > 0) {
-                $form->addError(new FormError('brand.alreadyExist'));
-                return $form;
+            $found = $em->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand b WHERE b.name = :name')
+                ->setParameter('name', $brand->getName())->setMaxResults(1)->getResult();
+            if ($found) {
+                return $brand;
             }
 
             if ($brand->getOriginalLogoUrl()) {
@@ -145,6 +144,8 @@ class BrandsController extends FosRestController
                 $brand->setMediumLogoUrl($thumbs[FileTools::LOGO_TYPE_MEDIUM]['filename']);
                 $brand->setLargeLogoUrl($thumbs[FileTools::LOGO_TYPE_LARGE]['filename']);
             }
+
+            $brand->setValidated(true);
 
             $em->persist($brand);
             $em->flush();

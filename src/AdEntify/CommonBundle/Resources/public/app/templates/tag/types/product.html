@@ -29,7 +29,7 @@
             <% if (model.has("product")) { %>
             <div class="popover-details">
                 <% if (model.get('product').get('purchase_url')) { %>
-                <a href="<%= model.get("product").get("purchase_url") %>" class="buy-link"><i class="icon-shopping-cart icon-white"></i> <%= $.t('tag.buy') %></a>
+                <a href="<%= model.get("product").get("purchase_url") %>" target="_blank" class="buy-link"><i class="icon-shopping-cart icon-white"></i> <%= $.t('tag.buy') %></a>
                 <% } %>
                 <% if (model.get('product').get('legal_notice')) { %>
                 <br><small><em><%= $.t('legalNotice.' + model.get('product').get('legal_notice')) %></em></small>

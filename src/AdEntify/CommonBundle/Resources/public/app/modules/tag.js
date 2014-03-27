@@ -553,7 +553,10 @@ define([
          var that = this;
 
          // Brand/Product
-         $('#brand-name').typeahead({
+         $('#brand-name').keydown(function() {
+            currentBrand = null;
+            console.log('null');
+         }).typeahead({
             source: function(query, process) {
                $('#loading-brand').css({'display': 'inline-block'});
                app.oauth.loadAccessToken({
@@ -586,6 +589,7 @@ define([
             items: 15,
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
+               console.log('currentBrand');
                that.checkBrand();
                if (currentBrand && currentBrand.medium_logo_url) {
                   $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
@@ -593,7 +597,7 @@ define([
                return selectedItem;
             },
             highlighter: function(item) {
-               return '<div>' + (currentBrands[item].small_logo_url ? '<img style="height: 20px;" src="' + currentBrands[item].small_logo_url : '') + '"> ' + item + '</div>'
+               return '<div>' + (currentBrands[item].small_logo_url ? '<img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' : '') + item + '</div>'
             }
          });
 
@@ -640,14 +644,16 @@ define([
                currentProduct = currentProducts[selectedItem];
                that.checkBrand();
                if (currentProduct) {
-                  $('#product-image').html('<img src="' + currentProduct.medium_url + '" style="margin: 10px 0px;" class="product-image" />');
+                  if (currentProduct.medium_url)
+                     $('#product-image').html('<img src="' + currentProduct.medium_url + '" style="margin: 10px 0px;" class="product-image" />');
                   $('#product-description').html(currentProduct.description);
                   $('#product-purchase-url').val(currentProduct.purchase_url);
                   // Check if product has a brand
                   if (currentProduct.brand) {
                      currentBrand = currentProduct.brand;
                      $('#brand-name').val(currentBrand.name);
-                     $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
+                     if (currentBrand.medium_logo_url)
+                        $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
                   }
                } else {
                   currentProductType = currentProductTypes[selectedItem];
@@ -657,7 +663,7 @@ define([
             highlighter: function(item) {
                var found = currentProducts[item];
                if (found) {
-                  return '<div><img style="height: 20px;" src="' + found.small_url + '"> ' + item + '</div>';
+                  return '<div>' + (found.small_url ? '<img style="height: 20px;" src="' + found.small_url + '"> ' : '') + item + '</div>';
                } else {
                   return '<div>' + item + '</div>';
                }
@@ -924,7 +930,7 @@ define([
                      }
                   };
 
-                  if (!currentBrand) {
+                  if (!currentBrand || (currentBrand && currentBrand.name != that.$('#brand-name').val())) {
                      if (that.$('#brand-name').val()) {
                         var brandModule = require('modules/brand');
                         currentBrand = new brandModule.Model();
