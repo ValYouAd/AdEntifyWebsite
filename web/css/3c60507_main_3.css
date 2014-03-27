@@ -1096,6 +1096,7 @@ html,body,.body-grey-background {
     font-size: 19px;
     margin: 4px auto;
     color: #444444;
+    padding: 0 10px;
 }
 .linked-photos {
     background: url('../img/linked-photos-background.png') repeat-y top left;
@@ -1264,6 +1265,10 @@ html,body,.body-grey-background {
     width: 35px;
     height: 36px;
 }
+.tag .tag-description {
+    text-align: justify;
+    padding-right: 10px;
+}
 .tag .tag-popover-arrow {
     position: absolute;
 }
@@ -1338,9 +1343,22 @@ html,body,.body-grey-background {
     font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
 
 }
-.popover-details a.buy-link {
+.popover-details a.more-info {
     font-size: 16px;
     color: #4e4e50;
+}
+.popover-details a.more-info-url {
+    color: #5b5756;
+    font-size: 12px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.popover-details a.more-info-url:hover {
+    text-decoration: none;
+}
+.popover-details .legal-notice {
+    margin-top: 6px;
 }
 .person-tag-container .popover {
     width: 250px;
@@ -1367,7 +1385,7 @@ html,body,.body-grey-background {
     -webkit-filter: none;
     -moz-filter: none;
     filter: none;
-    padding: 10px;
+    padding: 0px 10px 10px 10px;
 }
 .product-photo {
     max-width: 180px;
