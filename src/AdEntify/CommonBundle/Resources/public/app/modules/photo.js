@@ -733,8 +733,8 @@ define([
 
       addTag: function(e) {
          var tagRadius = 17.5;
-         var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
-         var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
+         var xPosition = ((e.offsetX === undefined ? e.originalEvent.layerX : e.offsetX) - tagRadius) / e.currentTarget.clientWidth;
+         var yPosition = ((e.offsetY === undefined ? e.originalEvent.layerY : e.offsetY) - tagRadius) / e.currentTarget.clientHeight;
 
          // Remove tags aren't persisted
          var that = this;
