@@ -1347,12 +1347,14 @@ html,body,.body-grey-background {
     font-size: 16px;
     color: #4e4e50;
 }
+.popover-details .more-info-url-wrapper {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .popover-details a.more-info-url {
     color: #5b5756;
     font-size: 12px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
 }
 .popover-details a.more-info-url:hover {
     text-decoration: none;

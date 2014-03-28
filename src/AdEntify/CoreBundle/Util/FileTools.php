@@ -104,7 +104,7 @@ class FileTools
         );
     }
 
-    public static function loadFile($sourceUrl, $timeout = 10, $getSize = false)
+    public static function loadRemoteFile($sourceUrl, $timeout = 10, $getSize = false)
     {
         $sourceUrl = str_replace(' ', '%20', $sourceUrl);
         $ch = curl_init($sourceUrl);
@@ -135,5 +135,21 @@ class FileTools
                 'content-type' => $contentType
             );
         }
+    }
+
+    public static function loadFile($filename, $path = null)
+    {
+        if (!$path)
+            $path = __DIR__.'/../../../../web/';
+
+        $result = file_get_contents($path . $filename);
+        $size = getimagesize($path . $filename);
+
+        return array(
+            'content' => $result,
+            'content-type' => $size['mime'],
+            'width' => $size[0],
+            'height' => $size[1]
+        );
     }
 }
