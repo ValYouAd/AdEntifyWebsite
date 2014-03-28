@@ -5,8 +5,13 @@
         <div class="popover">
             <div class="tag-popover-arrow"></div>
             <div class="popover-inner">
-                <a class="person-picture" href="<%= (model.has('person') && typeof model.get('person').user !== 'undefined') ? rootUrl + $.t('routing.profile/id/', { id: model.get('person').user.id }) : model.get("link") %>" target="_blank"><img src="<%= model.get('personModel').get('largeProfilePicture') %>" /></a>
-                <span class="title"><a href="<%= (model.has('person') && typeof model.get('person').user !== 'undefined') ? rootUrl + $.t('routing.profile/id/', { id: model.get('person').user.id }) : model.get("link") %>" target="_blank"><%= model.get("title") %></a></span>
+                <% if (model.has('link') || model.get('person').has('link')) { %>
+                <a class="person-picture" href="<%= model.has('link') ? model.get("link") : model.get('person').get('link') %>" target="_blank"><img src="<%= model.get('personModel').get('largeProfilePicture') %>" /></a>
+                <span class="title"><a href="<%= model.has('link') ? model.get("link") : model.get('person').get('link') %>" target="_blank"><%= model.get("title") %></a></span>
+                <% } else { %>
+                <div class="person-picture"><img src="<%= model.get('personModel').get('largeProfilePicture') %>" /></div>
+                <span class="title"><%= model.get("title") %></span>
+                <% } %>
                 <div class="clearfix"></div>
             </div>
             <div class="tag-buttons">

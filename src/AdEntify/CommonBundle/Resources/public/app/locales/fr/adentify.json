@@ -217,7 +217,9 @@
       "poweredByFoursquare": "Propulsé par Foursquare",
       "moreInfo": "En savoir plus",
       "viewMap": "Carte",
-      "actions": "Actions"
+      "actions": "Actions",
+      "labelPersonLink": "Lien",
+      "personLinkPlaceholder": "Vous pouvez entrer l'url vers le site, blog, réseau social de la personne"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",

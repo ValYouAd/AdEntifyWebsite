@@ -16,7 +16,16 @@ define([
          return Routing.generate('api_v1_get_person');
       },
 
+      initialize: function() {
+         this.setup();
+         this.listenTo(this, {
+            'sync': this.setup,
+            'add': this.setup
+         });
+      },
+
       toJSON: function() {
+         delete this.attributes.link;
          return { person: this.attributes };
       },
 
@@ -29,6 +38,17 @@ define([
             this.set('name', personEntity.name);
          if (typeof personEntity.id !== 'undefined')
             this.set('id', personEntity.id);
+      },
+
+      setup: function() {
+         var link = null;
+         if (this.has('user'))
+            link = app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('user').id });
+         else if (this.has('facebook_id'))
+            link = 'https://www.facebook.com/profile.php?id=' + this.get('facebook_id');
+
+         if (link)
+            this.set('link', link);
       },
 
       getFullname: function() {

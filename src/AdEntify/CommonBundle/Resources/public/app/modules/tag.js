@@ -76,6 +76,9 @@ define([
          if (this.has('product') && typeof this.get('product').attributes === 'undefined') {
             this.set('product', new Product.Model(this.get('product')));
          }
+         if (this.has('person') && typeof this.get('person').attributes === 'undefined') {
+            this.set('person', new Person.Model(this.get('person')));
+         }
       },
 
       urlRoot: function() {
@@ -1309,8 +1312,8 @@ define([
          currentTag.set('type', 'person');
          currentTag.set('person', person.get('id'));
          currentTag.set('title', person.getFullname());
-         if (currentPerson)
-            currentTag.set('link', typeof currentPerson.user !== 'undefined' ? app.beginUrl + app.root + $.t('routing.profile/id/', { id: currentPerson.user.id }) : 'https://www.facebook.com/profile.php?id=' + currentPerson.id);
+         if (that.$('#person-link').val())
+            currentTag.set('link', that.$('#person-link').val());
          currentTag.url = Routing.generate('api_v1_post_tag');
          currentTag.getToken('tag_item', function() {
             currentTag.save(null, {

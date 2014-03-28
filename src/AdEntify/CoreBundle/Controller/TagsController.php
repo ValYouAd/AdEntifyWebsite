@@ -14,6 +14,7 @@ use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Form\TagType;
+use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use AdEntify\CoreBundle\Validator\AgeValidator;
@@ -176,6 +177,9 @@ class TagsController extends FosRestController
                 }
 
                 $em = $this->getDoctrine()->getManager();
+
+                if ($tag->getLink())
+                    $tag->setLink(CommonTools::addScheme($tag->getLink()));
 
                 // Calculate tag points
                 $this->get('ad_entify_core.points')->calculateTagPoints($user, $tag);

@@ -217,7 +217,9 @@
       "poweredByFoursquare": "Powered by Foursquare",
       "moreInfo": "More info",
       "viewMap": "Map",
-      "actions": "Actions"
+      "actions": "Actions",
+      "labelPersonLink": "Link",
+      "personLinkPlaceholder": "You can add an URL to the website, blog or social network page of the person"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",
