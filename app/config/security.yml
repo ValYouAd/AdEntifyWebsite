@@ -38,8 +38,8 @@ security:
                 resource_owners:
                     twitter:         "/login/check-twitter"
                     flickr:          "/login/check-flickr"
-                login_path:          /
-                failure_path:        /
+                login_path:          loggedInHome
+                failure_path:        home_logoff
                 oauth_user_provider:
                     service: adentify_user.fos_ub_user_provider
             anonymous:               true
