@@ -214,7 +214,9 @@
       "buy": "Acheter le produit",
       "errorDifferentBrand": "La marque choisit est différente de la marque associée au produit.",
       "errorProductEmpty": "Vous devez entrer un produit avant de valider l'ajout du tag",
-      "poweredByFoursquare": "Propulsé par Foursquare"
+      "poweredByFoursquare": "Propulsé par Foursquare",
+      "moreInfo": "En savoir plus",
+      "viewMap": "Carte"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -254,7 +256,9 @@
       "reportOther": "Autre",
       "likers": "Personnes ayant aimées",
       "noLiker": "Soyez le premier à aimer cette photo.",
-      "forbidden": "Vous n'êtes pas autorisé à voir cette photo"
+      "forbidden": "Vous n'êtes pas autorisé à voir cette photo",
+      "detailsUpdateSuccess": "Les informations de votre photo sont maintenant à jour.",
+      "detailsUpdateError": "Impossible de mettre à jour les informations de votre photo."
    },
    "externalServicePhotos": {
       "select": "Sélectionner",

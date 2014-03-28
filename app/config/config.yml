@@ -232,10 +232,10 @@ avalanche_imagine:
     filters:
         small:
             type:    thumbnail
-            options: { size: [300, 9999], mode: inset, quality: 100, format: jpeg }
+            options: { size: [100, 9999], mode: inset, quality: 70, format: jpeg }
         medium:
             type:    thumbnail
-            options: { size: [500, 9999], mode: inset, quality: 100, format: jpeg }
+            options: { size: [300, 9999], mode: inset, quality: 80, format: jpeg }
         large:
             type:    thumbnail
             options: { size: [1024, 9999], mode: inset, quality: 100, format: jpeg }
@@ -302,8 +302,8 @@ nelmio_cors:
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
             max_age: 3600
 
-#nelmio_api_doc:
-#    name: AdEntify API v1
+nelmio_api_doc:
+    name: AdEntify API v1
 
 a2lix_translation_form:
     locales: [en, fr]       # [1]

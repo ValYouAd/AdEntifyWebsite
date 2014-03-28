@@ -95,6 +95,7 @@ define([
                   photo.set('smallWidth', data.result.small.width);
                   photo.set('smallHeight', data.result.small.height);
                   if ('medium' in data.result) {
+                     photo.set('thumbUrl', data.result.medium.filename);
                      photo.set('mediumSource', data.result.medium.filename);
                      photo.set('mediumWidth', data.result.medium.width);
                      photo.set('mediumHeight', data.result.medium.height);

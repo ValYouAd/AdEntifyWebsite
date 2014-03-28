@@ -733,8 +733,8 @@ define([
 
       addTag: function(e) {
          var tagRadius = 17.5;
-         var xPosition = (e.offsetX - tagRadius) / e.currentTarget.clientWidth;
-         var yPosition = (e.offsetY - tagRadius) / e.currentTarget.clientHeight;
+         var xPosition = ((e.offsetX === undefined ? e.originalEvent.layerX : e.offsetX) - tagRadius) / e.currentTarget.clientWidth;
+         var yPosition = ((e.offsetY === undefined ? e.originalEvent.layerY : e.offsetY) - tagRadius) / e.currentTarget.clientHeight;
 
          // Remove tags aren't persisted
          var that = this;
@@ -809,9 +809,23 @@ define([
          this.model.getToken('photo_item', function() {
             that.model.url = Routing.generate('api_v1_put_photo', { id: that.model.get('id')});
             that.model.save(null, {
+               success: function() {
+                  that.setView('.alert-photo-details', new Common.Views.Alert({
+                     cssClass: Common.alertSuccess,
+                     message: $.t('photo.detailsUpdateSuccess'),
+                     showClose: true
+                  })).render();
+               },
+               error: function() {
+                  that.setView('.alert-photo-details', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('photo.detailsUpdateError'),
+                     showClose: true
+                  })).render();
+               },
                complete: function() {
                   btn.button('reset');
-                  app.trigger('photoEditModal:close');
+                  //app.trigger('photoEditModal:close');
                }
             });
          });

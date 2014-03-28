@@ -195,7 +195,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          }).render();
 
          this.photos.fetch({
-            url: Routing.generate('api_v1_get_photos', { tagged: true }),
+            url: Routing.generate('api_v1_get_photos'),
             success: function(collection) {
                that.successCallback(collection, 'photos.noPhotos');
             },
@@ -668,7 +668,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                category: category,
                listenToEnable: true,
                filters: true,
-               photosUrl: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: true }),
+               photosUrl: Routing.generate('api_v1_get_category_photos', { slug: slug }),
                showPhotoInfo: true
             }),
             "#right-pane-content": new Action.Views.List({
@@ -697,7 +697,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
          // Get category photos
          this.photos.fetch({
-            url: Routing.generate('api_v1_get_category_photos', { slug: slug, tagged: true }),
+            url: Routing.generate('api_v1_get_category_photos', { slug: slug }),
             success: function(collection) {
                that.successCallback(collection, 'category.noPhotos');
             },

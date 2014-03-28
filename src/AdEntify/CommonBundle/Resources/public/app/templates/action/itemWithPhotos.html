@@ -7,7 +7,7 @@
 <div class="clearfix"></div>
 <div class="action-photos">
     <% model.get('photosCollection').each(function(photo, index) { %>
-        <a href="<%= photo.get('link') %>" data-bypass='' data-photo-id="<%= photo.get('id') %>" class='photo-link photo-<%= index %>'><img src="<%= index > 0 ? photo.get('small_url') : photo.get('medium_url') %>" alt="<%= photo.get('caption') %>" /></a>
+        <a href="<%= photo.get('link') %>" data-bypass='' data-photo-id="<%= photo.get('id') %>" class='photo-link photo-<%= index %>'><img src="<%= photo.get('small_url') %>" alt="<%= photo.get('caption') %>" /></a>
     <% }); %>
 </div>
 <div class="clearfix"></div>

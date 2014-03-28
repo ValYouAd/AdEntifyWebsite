@@ -204,9 +204,9 @@ fos_js_routing:
 #fos_facebook_channel:
 #    resource: "@FOSFacebookBundle/Resources/config/routing.xml"
 
-#NelmioApiDocBundle:
-#    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-#    prefix:   /api-doc/
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api-doc/
 
 # Upload
 upload:
