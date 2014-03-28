@@ -22,7 +22,7 @@ class ProductType extends AbstractType
             ->add('medium_url', 'text')
             ->add('small_url', 'text')
             ->add('description', 'textarea')
-            ->add('purchase_url', 'text',  array(
+            ->add('purchase_url', 'url',  array(
                 'required' => false
             ))
             ->add('brand', 'entity', array(

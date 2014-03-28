@@ -22,7 +22,7 @@ class TagType extends AbstractType
             ->add('description', 'textarea', array(
                 'required' => false
             ))
-            ->add('link', 'text', array(
+            ->add('link', 'url', array(
                 'required' => false,
                 'description' => 'Link to the object'
             ))
