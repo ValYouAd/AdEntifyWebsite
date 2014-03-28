@@ -1503,7 +1503,7 @@ define([
                position: latLng,
                map: gMap
             });
-            $('#map' + model.get('id')).addClass('loaded');
+            $('#map' + model.get('id')).addClass('loaded map');
          }
       }
    };

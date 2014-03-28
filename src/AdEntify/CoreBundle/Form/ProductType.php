@@ -25,12 +25,6 @@ class ProductType extends AbstractType
             ->add('purchase_url', 'text',  array(
                 'required' => false
             ))
-            ->add('purchaseVenues', 'entity', array(
-                'class' => 'AdEntifyCoreBundle:Venue',
-                'property' => 'name',
-                'required' => false,
-                'description' => 'Array of venue ID. Get the right id with the GET operations of venues endpoint'
-            ))
             ->add('brand', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Brand',
                 'property' => 'name'
