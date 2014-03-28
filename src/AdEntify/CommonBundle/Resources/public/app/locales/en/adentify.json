@@ -216,7 +216,8 @@
       "errorProductEmpty": "You have to enter a product name before submiting tag",
       "poweredByFoursquare": "Powered by Foursquare",
       "moreInfo": "More info",
-      "viewMap": "Map"
+      "viewMap": "Map",
+      "actions": "Actions"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",

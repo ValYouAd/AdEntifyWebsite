@@ -122,8 +122,7 @@ define([
          if (this.options.users.length === 0) {
             this.setView('.users-alert', new Common.Views.Alert({
                cssClass: Common.alertInfo,
-               message: $.t('brand.noUserRewards'),
-               showClose: true
+               message: $.t('brand.noUserRewards')
             }));
          } else {
             this.removeView('.users-alert');

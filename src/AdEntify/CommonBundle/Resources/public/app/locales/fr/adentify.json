@@ -216,7 +216,8 @@
       "errorProductEmpty": "Vous devez entrer un produit avant de valider l'ajout du tag",
       "poweredByFoursquare": "Propulsé par Foursquare",
       "moreInfo": "En savoir plus",
-      "viewMap": "Carte"
+      "viewMap": "Carte",
+      "actions": "Actions"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",

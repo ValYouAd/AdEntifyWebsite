@@ -2290,12 +2290,6 @@ html,body,.body-grey-background {
     text-decoration: none;
     color: #b7babe!important;
 }
-.deleteTagButton {
-    cursor: pointer;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-}
 .add-tag-form .brand-logo {
     -webkit-filter: none;
     -moz-filter: none;
