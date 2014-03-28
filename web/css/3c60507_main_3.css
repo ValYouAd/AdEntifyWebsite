@@ -1360,6 +1360,15 @@ html,body,.body-grey-background {
 .popover-details .legal-notice {
     margin-top: 6px;
 }
+.tag .popover a.link-google-maps {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #ff4444;
+    font-family: 'asapbold', Helvetica Neue, Helvetica, Arial;
+}
+.tag .popover a.link-google-maps:hover {
+    text-decoration: none;
+}
 .person-tag-container .popover {
     width: 250px;
 }
@@ -1388,9 +1397,9 @@ html,body,.body-grey-background {
     padding: 0px 10px 10px 10px;
 }
 .product-photo {
-    max-width: 180px;
-    max-height: 180px;
-    padding: 10px 15px;
+    max-width: 160px;
+    max-height: 240px;
+    padding: 10px;
 }
 .venue-tag-container .popover {
     width: 350px;

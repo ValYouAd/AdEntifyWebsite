@@ -70,6 +70,12 @@ define([
             var Brand = require('modules/brand');
             this.set('brandModel', new Brand.Model(this.get('brand')));
          }
+         if (this.has('venue') && typeof this.get('venue').attributes === 'undefined') {
+            this.set('venue', new Venue.Model(this.get('venue')));
+         }
+         if (this.has('product') && typeof this.get('product').attributes === 'undefined') {
+            this.set('product', new Product.Model(this.get('product')));
+         }
       },
 
       urlRoot: function() {
@@ -273,6 +279,14 @@ define([
          this.listenTo(this.model, 'change', this.render);
       },
 
+      beforeRender: function() {
+         if (!this.getView('.popover-details')) {
+            this.setView('.popover-details', new Venue.Views.Address({
+               model: this.model.get('venue')
+            }));
+         }
+      },
+
       hoverIn: function() {
          if (!this.popoverDesactivated) {
             clearTimeout(this.hoverTimeout);
@@ -338,10 +352,16 @@ define([
          };
       },
 
+      beforeRender: function() {
+         if (this.model.has('venue') && !this.getView('.venue-adress-wrapper')) {
+            this.setView('.venue-adress-wrapper', new Venue.Views.Address({
+               model: this.model.get('venue')
+            }));
+         }
+      },
+
       initialize: function(options) {
          this.constructor.__super__.initialize.apply(this, [options]);
-         if (this.model.has('product') && typeof this.model.get('product').attributes === 'undefined')
-            this.model.set('product', new Product.Model(this.model.get('product')));
          this.listenTo(this.model, "change", this.render);
       },
 

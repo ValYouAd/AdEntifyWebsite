@@ -36,12 +36,48 @@ define([
          this.set('cc', venueEntity.cc);
          if (typeof venueEntity.id !== 'undefined')
             this.set('id', venueEntity.id);
+      },
+
+      googleMapsQueryString: function() {
+         var queryString = '?q=';
+         if (this.has('lat') && !this.get('lat') && this.has('lng') && !this.get('lng')) {
+            queryString += this.get('lat') + ',' + this.get('lng');
+         } else {
+            var fullAddress = [ this.get('name') ];
+            if (this.has('address'))
+               fullAddress.push(this.get('address'));
+            if (this.has('postalCode'))
+               fullAddress.push(this.get('postalCode'));
+            if (this.has('country'))
+               fullAddress.push(this.get('country'));
+            if (this.has('city'))
+               fullAddress.push(this.get('city'));
+            queryString += encodeURIComponent(fullAddress.join(' '));
+         }
+
+         return queryString + '&zoom=12';
       }
    });
 
    Venue.Collection = Backbone.Collection.extend({
       model: Venue.Model,
       cache: true
+   });
+
+   Venue.Views.Address = Backbone.View.extend({
+      template: 'venue/address',
+
+      serialize: function() {
+         return { model: this.model };
+      },
+
+      initialize: function() {
+         this.listenTo(this.model, 'change', this.render);
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+      }
    });
 
    return Venue;

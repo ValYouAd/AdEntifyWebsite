@@ -16,13 +16,7 @@
                 <% } %>
             </div>
             <div id="map<%= model.get("id") %>" class="map"></div>
-            <div class="popover-details">
-                <address>
-                    <strong><%= model.get('title') %></strong><br>
-                    <% if (model.get('venue').address) { %><%= model.get('venue').address %><br><% } %>
-                    <% if (model.get('venue').postalCode) { %><%= model.get('venue').postalCode %><% } %> <% if (model.get('venue').city) { %><%= model.get('venue').city %><% } %> <% if (model.get('venue').country) { %><%= model.get('venue').country %><% } %>
-                </address>
-            </div>
+            <div class="popover-details"></div>
             <div class="tag-buttons">
                 <% if (model.has('ownerModel')) { %>
                 <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) %></span>

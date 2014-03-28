@@ -10,28 +10,28 @@
                 <% } %>
             </div>
             <div class="popover-inner">
-                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.get("brand") && !model.get('brand').small_logo_url) { %> - <%= model.get("brand").name %><% } %></a></span>
+                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.has("brandModel") && !model.get('brandModel').has('small_logo_url')) { %> - <%= model.get("brandModel").get('name') %><% } %></a></span>
                 <% if (model.has("product") && model.get("product").get("small_url")) { %>
                 <div class="pull-left">
                     <img src="<%= model.get("product").get("small_url") %>" class="product-photo" />
                 </div>
                 <% } %>
-                <% if (model.get('product').has('description') && model.get('product').get('description')) { %>
+                <% if (model.has('product') && model.get('product').has('description') && model.get('product').get('description')) { %>
                 <p class="tag-description"><%= model.get('product').get('description') %></p>
                 <% } else { %>
                     <% if (model.has('description') && model.get("description")) { %>
                     <p class="tag-description"><%= model.get("description") %></p>
                     <% } %>
                 <% } %>
-                <% if (model.has("brandModel") && model.get('brandModel').has('small_logo_url')) { %>
-                <div class="brand pull-right">
+                <% if (model.has("brandModel") && model.get('brandModel') && model.get('brandModel').has('small_logo_url')) { %>
+                <div class="brand">
                     <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get("brandModel").get('small_logo_url') %>" alt="<%= model.get("brandModel").get('name') %>" class="brand-logo" /></a>
                 </div>
                 <% } %>
             </div>
             <div class="clearfix"></div>
             <div class="popover-details">
-                <% if (model.get('product').get('purchase_url')) { %>
+                <% if (model.has('product') && model.get('product').get('purchase_url')) { %>
                 <p>
                     <a href="<%= model.get("product").get("purchase_url") %>" target="_blank" class="more-info"><i class="icon-shopping-cart icon-white"></i> <%= $.t('tag.moreInfo') %></a>
                 </p>
@@ -40,17 +40,11 @@
                         <a href="<%= model.get("product").get("purchase_url") %>" target="_blank" class="more-info-url"><i class="glyphicon glyphicon-globe icon"></i> <%= model.get("product").get("purchase_url") %></a>
                     </div>
                     <div class="col-xs-6">
-                        <% if (model.has('venue')) { %>
-                        <address>
-                            <strong><%= model.get('venue').name %></strong><br>
-                            <% if (model.get('venue').address) { %><%= model.get('venue').address %><br><% } %>
-                            <% if (model.get('venue').postalCode) { %><%= model.get('venue').postalCode %><% } %> <% if (model.get('venue').city) { %><%= model.get('venue').city %><% } %> <% if (model.get('venue').country) { %><%= model.get('venue').country %><% } %>
-                        </address>
-                        <% } %>
+                        <div class="venue-adress-wrapper"></div>
                     </div>
                 </div>
                 <% } %>
-                <% if (model.get('product').get('legal_notice')) { %>
+                <% if (model.has('product') && model.get('product').get('legal_notice')) { %>
                 <div class="legal-notice"><small><em><%= $.t('legalNotice.' + model.get('product').get('legal_notice')) %></em></small></div>
                 <% } %>
                 <% if (model.has("brandModel") && model.get("brandModel").get('legal_notice')) { %>
