@@ -71,10 +71,6 @@ define([
          return { model: this.model };
       },
 
-      initialize: function() {
-         this.listenTo(this.model, 'change', this.render);
-      },
-
       afterRender: function() {
          $(this.el).i18n();
       }

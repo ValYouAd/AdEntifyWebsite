@@ -1486,8 +1486,8 @@ define([
       },
 
       setupGoogleMap: function(model) {
-         if (model.get('venue').lat && model.get('venue').lng) {
-            var latLng = new google.maps.LatLng(model.get('venue').lat, model.get('venue').lng);
+         if (model.get('venue').has('lat') && model.get('venue').has('lng')) {
+            var latLng = new google.maps.LatLng(model.get('venue').get('lat'), model.get('venue').get('lng'));
             var mapOptions = {
                zoom:  14,
                center: latLng,
