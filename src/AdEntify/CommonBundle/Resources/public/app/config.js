@@ -96,6 +96,6 @@ require.config({
      }
   },
 
-   urlArgs: "v=1.0.2"
+   urlArgs: "v=1.0.3"
 
 });

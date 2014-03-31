@@ -133,7 +133,7 @@ define([
 
          this.filters = typeof this.options.filters !== 'undefined' ? this.options.filters : this.filters;
          this.showServices = typeof this.options.showServices !== 'undefined' ? this.options.showServices : this.showServices;
-         this.photosUrl = typeof this.options.photosUrl !== 'undefined' ? this.options.photosUrl : Routing.generate('api_v1_get_photos', { tagged: true });
+         this.photosUrl = typeof this.options.photosUrl !== 'undefined' ? this.options.photosUrl : Routing.generate('api_v1_get_photos');
          this.photosSuccess = typeof this.options.photosSuccess !== 'undefined' ? this.options.photosSuccess : null;
          this.photosError = typeof this.options.photosError !== 'undefined' ? this.options.photosError : null;
       },
@@ -201,7 +201,7 @@ define([
          this.listenTo(app, 'photos:submitPhotoDetails', this.submitPhotoDetails);
          this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
 
-         this.photosUrl = typeof this.options.photosUrl !== 'undefined' ? this.options.photosUrl : Routing.generate('api_v1_get_photos', { tagged: true });
+         this.photosUrl = typeof this.options.photosUrl !== 'undefined' ? this.options.photosUrl : Routing.generate('api_v1_get_photos');
          this.photosSuccess = typeof this.options.photosSuccess !== 'undefined' ? this.options.photosSuccess : null;
          this.photosError = typeof this.options.photosError !== 'undefined' ? this.options.photosError : null;
       },
@@ -306,25 +306,25 @@ define([
 
       brandsFilter: function() {
          var activate = this.activateFilter(this.$('.brands-filter').parent());
-         this.loadPhotos(activate ? '&brands=1' : '');
+         this.loadPhotos(activate ? '?brands=1' : '');
       },
 
       placesFilter: function() {
          var activate = this.activateFilter(this.$('.places-filter').parent());
-         this.loadPhotos(activate ? '&places=1' : '');
+         this.loadPhotos(activate ? '?places=1' : '');
       },
 
       peopleFilter: function() {
          var activate = this.activateFilter(this.$('.people-filter').parent());
-         this.loadPhotos(activate ? '&people=1' : '');
+         this.loadPhotos(activate ? '?people=1' : '');
       },
 
       dateFilter: function(way) {
-         this.loadPhotos('&orderBy=date&way=' + way);
+         this.loadPhotos('?orderBy=date&way=' + way);
       },
 
       likeFilter: function(way) {
-         this.loadPhotos('&orderBy=likes&way=' + way);
+         this.loadPhotos('?orderBy=likes&way=' + way);
       },
 
       loadPhotos: function(query) {
