@@ -19,6 +19,7 @@ class EmailService
     protected $contactEmail;
     protected $fromEmail;
     protected $translator;
+    protected $teamEmail;
 
     /**
      * @param TwigEngine $template
@@ -26,12 +27,21 @@ class EmailService
      * @param $contactEmail
      * @param $fromEmail
      */
-    public function __construct(TwigEngine $template, \Swift_Mailer $mailer, $contactEmail, $fromEmail, Translator $translator) {
+    public function __construct(TwigEngine $template, \Swift_Mailer $mailer, $contactEmail, $fromEmail, Translator $translator, $teamEmail) {
         $this->template = $template;
         $this->mailer = $mailer;
         $this->contactEmail = $contactEmail;
         $this->fromEmail = $fromEmail;
         $this->translator = $translator;
+        $this->teamEmail = $teamEmail;
+    }
+
+    public function newUserRegistred($user) {
+        $template = $this->template->render('AdEntifyCoreBundle:Email:new_user_registered.html.twig', array (
+            'user' => $user->getFullname()
+        ));
+
+        return $this->sendEmail($this->translator->trans('email.new_user.title', array('%user%', $user->getFullname())), $template, $this->teamEmail);
     }
 
     /**
@@ -39,6 +49,8 @@ class EmailService
      * @return bool|int
      */
     public function registerWithValidation($user) {
+        $this->newUserRegistred($user);
+
         $template = $this->template->render('AdEntifyCoreBundle:Email:register_pending_validation.html.twig', array (
             'user' => $user->getFullname()
         ));
@@ -51,6 +63,8 @@ class EmailService
      * @return bool|int
      */
     public function register($user) {
+        $this->newUserRegistred($user);
+
         /*$template = $this->template->render('AdEntifyCoreBundle:Email:register.html.twig', array (
             'user' => $user->getFullname()
         ));

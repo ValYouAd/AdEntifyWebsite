@@ -1,0 +1,7 @@
+{% extends "AdEntifyCoreBundle:Email:layout.html.twig" %}
+
+{% block title %}{{ 'email.new_user.title'|trans({'%user%': user }) }}{% endblock %}
+
+{% block content %}
+    {{ 'email.new_user.content'|trans({'%user%': user })|raw }}
+{% endblock %}

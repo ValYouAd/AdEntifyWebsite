@@ -46,22 +46,27 @@ class DefaultController extends Controller
                     $userManager = $this->container->get('fos_user.user_manager');
                     $user = $userManager->findUserBy(array('facebookId' => $fbdata['id']));
 
+                    $newUser = false;
                     if (null === $user) {
                         $user = $userManager->createUser();
                         $user->setEnabled(false);
                         $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
 
-                        if ($user->isEnabled()) {
-                            $this->get('ad_entify_core.email')->register($user);
-                        } else {
-                            $this->get('ad_entify_core.email')->registerWithValidation($user);
-                        }
+                        $newUser = true;
                     }
 
                     $user->setLoggedInCount($user->getLoggedInCount() + 1);
                     $user->setFacebookAccessToken($fb->getAccessToken());
                     $user->setFBData($fbdata);
                     $userManager->updateUser($user);
+
+                    if ($newUser) {
+                        if ($user->isEnabled()) {
+                            $this->get('ad_entify_core.email')->register($user);
+                        } else {
+                            $this->get('ad_entify_core.email')->registerWithValidation($user);
+                        }
+                    }
 
                     if (empty($user)) {
                         throw new UsernameNotFoundException('The user is not authenticated on facebook');

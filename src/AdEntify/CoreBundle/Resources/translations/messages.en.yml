@@ -5,3 +5,6 @@ email:
     validate_account:
         title: 'Congrats ! your AdEntify account is now active'
         content: '<p>Hello <strong>%user%</strong>,</p><p>Your account has been activated so go ahead and log in to start tagging photos on <a href="https://adentify.com">adentify.com</a>.</p>'
+    new_user:
+        title: '%user% just registered'
+        content: '<p>Hi Team !</p><p><strong>%user%</strong> just registered on AdEntify.com</p>'

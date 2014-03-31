@@ -39,3 +39,4 @@ parameters:
     root_url:                     "https://local.adentify.com/"
     facebook_grant_extension_uri: "http://grants.api.adentify.com/facebook_access_token"
     adentify_oauth_client_name:   "AdEntify"
+    team_email:                   team@valyouad.com
