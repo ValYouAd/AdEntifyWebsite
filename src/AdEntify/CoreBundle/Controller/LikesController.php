@@ -49,6 +49,10 @@ class LikesController extends FosRestController
                 $em = $this->getDoctrine()->getManager();
                 $user = $securityContext->getToken()->getUser();
 
+                $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($request->request->get('photoId'));
+                if (!$photo)
+                    throw new HttpException(404);
+
                 $like = $em->createQuery('SELECT l FROM AdEntify\CoreBundle\Entity\Like l
                     LEFT JOIN l.photo p WHERE (l.ipAddress = :ipAddress OR l.liker = :userId) AND p.id = :photoId')
                     ->setParameters(array(
@@ -59,29 +63,34 @@ class LikesController extends FosRestController
                     ->setMaxResults(1)
                     ->getOneOrNullResult();
 
-                if (!$like) {
-                    $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($request->request->get('photoId'));
-                    if ($photo) {
-                        // Create the like
+                if (!$like || $like->getDeletedAt()) {
+                    // Create the like
+                    if (!$like) {
                         $like = new Like();
                         $like->setIpAddress($request->getClientIp())->setPhoto($photo)->setLiker($user);
-
-                        $sendNotification = $user->getId() != $photo->getOwner()->getId();
-                        $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_LIKE,
-                            $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
-                            $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, $user ? 'memberLikedPhoto': 'anonymousLikedPhoto');
-
                         $em->persist($like);
-                        $em->flush();
+                    } else {
+                        $like->setDeletedAt(null);
+                        $photo->setLikesCount($photo->getLikesCount() + 1);
+                        $em->merge($photo);
+                        $em->merge($like);
+                    }
 
-                        return true;
-                    }
+                    $sendNotification = $user->getId() != $photo->getOwner()->getId();
+                    $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_LIKE,
+                        $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
+                        $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, $user ? 'memberLikedPhoto': 'anonymousLikedPhoto');
+
+                    $em->flush();
+
+                    return true;
                 } else {
-                    if ($user && $like) {
-                        $em->remove($like);
-                        $em->flush();
-                        return false;
-                    }
+                    $like->setDeletedAt(new \DateTime());
+                    $photo->setLikesCount($photo->getLikesCount() - 1);
+                    $em->merge($photo);
+                    $em->merge($like);
+                    $em->flush();
+                    return false;
                 }
             }
         } else {

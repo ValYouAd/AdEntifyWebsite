@@ -39,6 +39,8 @@ define([
       },
 
       initialize: function() {
+         this.listenTo(this.model, 'change:likes_count', this.render);
+         this.listenTo(this.model, 'change:comments_count', this.render);
          this.itemClickBehavior = typeof this.options.itemClickBehavior !== 'undefined' ? this.options.itemClickBehavior : Photos.Common.PhotoItemClickBehaviorDetail;
          this.tagName = typeof this.options.tagName !== 'undefined' ? this.options.tagName : this.tagName;
          this.addTag = typeof this.options.addTag !== 'undefined' ? this.options.addTag : this.addTag;

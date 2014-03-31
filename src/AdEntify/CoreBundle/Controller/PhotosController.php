@@ -834,7 +834,7 @@ class PhotosController extends FosRestController
             $user = $this->container->get('security.context')->getToken()->getUser();
 
             $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(l.id) FROM AdEntify\CoreBundle\Entity\Like l
-              WHERE l.photo = :photoId AND l.liker = :userId')
+              WHERE l.photo = :photoId AND l.liker = :userId AND l.deleted_at IS NULL')
                 ->setParameters(array(
                     'photoId' => $id,
                     'userId' => $user->getId()
