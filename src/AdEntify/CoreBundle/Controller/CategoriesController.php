@@ -90,6 +90,13 @@ class CategoriesController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get category photos",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="Category"
+     * )
+     *
      * @View()
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
@@ -148,18 +155,22 @@ class CategoriesController extends FosRestController
         );
 
         $tagClause = '';
+        $joinSide = 'LEFT';
         if ($brands == 1) {
             $tagClause = ' AND tag.brand IS NOT NULL';
+            $joinSide = 'INNER';
         }
         if ($places == 1) {
             $tagClause = ' AND tag.venue IS NOT NULL';
+            $joinSide = 'INNER';
         }
         if ($people == 1) {
             $tagClause = ' AND tag.person IS NOT NULL';
+            $joinSide = 'INNER';
         }
 
         $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-            LEFT JOIN photo.tags tag WITH (tag IS NULL OR (tag.visible = true AND tag.deletedAt IS NULL
+            ' . $joinSide . ' JOIN photo.tags tag WITH (tag IS NULL OR (tag.visible = true AND tag.deletedAt IS NULL
               AND tag.censored = false AND tag.waitingValidation = false
               AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' . $tagClause .'))
             INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN photo.categories category

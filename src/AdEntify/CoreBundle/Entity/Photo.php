@@ -642,6 +642,7 @@ class Photo
     public function setCommentsCount($commentsCount)
     {
         $this->commentsCount = $commentsCount;
+        return $this;
     }
 
     /**
@@ -658,6 +659,15 @@ class Photo
     public function getLikesCount()
     {
         return $this->likesCount;
+    }
+
+    /**
+     * @param int $likesCount
+     */
+    public function setLikesCount($likesCount)
+    {
+        $this->likesCount = $likesCount;
+        return $this;
     }
 
     /**

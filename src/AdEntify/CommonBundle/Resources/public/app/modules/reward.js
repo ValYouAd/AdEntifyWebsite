@@ -54,7 +54,7 @@ define([
                this.setView('.rewards-alert', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: this.options.emptyMessage,
-                  showClose: true
+                  showClose: false
                }));
             } else {
                this.removeView('.rewards-alert');

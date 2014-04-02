@@ -20,7 +20,6 @@ use AdEntify\CoreBundle\Form\VenueType;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use FOS\UserBundle\Form\Model\ChangePassword;
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -39,6 +38,7 @@ use AdEntify\CoreBundle\Util\PaginationTools;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class UsersController
@@ -52,6 +52,13 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 class UsersController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a user by ID",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
      * @View()
      *
      * @return User
@@ -62,6 +69,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get user photos",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="User"
+     * )
+     *
      * @param $id
      *
      * @View()
@@ -134,6 +148,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get user favorites photos",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="User"
+     * )
+     *
      * @View()
      */
     public function getFavoritesAction()
@@ -148,6 +169,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search users",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
      * @param $query
      * @param int $limit
      *
@@ -188,6 +216,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get user feed",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="User"
+     * )
+     *
      * @View()
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
@@ -257,6 +292,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="POST a new follower for a user",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
      * @param $id following id
      * @return mixed
      *
@@ -304,6 +346,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Check if current logged user follow the user id in parameter",
+     *  output="bool",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @View()
      *
      * @param $id
@@ -326,6 +378,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET user liked photos with his ID",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @param $id
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
@@ -365,6 +427,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET user hashtags with user ID",
+     *  output="AdEntify\CoreBundle\Entity\Hashtag",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @param $id
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
@@ -402,6 +474,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET user notifications with user ID",
+     *  output="AdEntify\CoreBundle\Entity\Notification",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @param $id
      *
      * @View(serializerGroups={"slight-list"})
@@ -425,6 +507,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="POST Change password",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @View()
      *
      * @param $id
@@ -455,6 +547,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET followings by user ID",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @View()
      */
     public function getFollowingsAction($id)
@@ -475,6 +577,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET followers by user ID",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @View()
      */
     public function getFollowersAction($id)
@@ -495,6 +607,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET top followers",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
      * @View()
      */
     public function getTopFollowersAction()
@@ -506,6 +625,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Delete user user ID, mandatory : logged user should be the same as user ID in parameter",
+     *  output="Boolean",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @View()
      *
      * @param $id
@@ -517,7 +646,7 @@ class UsersController extends FosRestController
             $user = $securityContext->getToken()->getUser();
             if ($id == $user->getId()) {
                 $this->getDoctrine()->getManager()->remove($user);
-                /*$this->getDoctrine()->getManager()->flush();*/
+                $this->getDoctrine()->getManager()->flush();
                 return true;
             } else {
                 throw new HttpException(403);
@@ -528,6 +657,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET task progress for current logged user",
+     *  output="AdEntify\CoreBundle\Entity\Task",
+     *  section="User"
+     * )
+     *
      * @View()
      *
      * @param $id
@@ -548,6 +684,12 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Update birthday for current logged user",
+     *  section="User"
+     * )
+     *
      * @View()
      */
     public function postBirthdayAction()
@@ -558,13 +700,20 @@ class UsersController extends FosRestController
             $currentUser->setBirthday(new \DateTime($this->getRequest()->request->get('birthday')));
             $this->getDoctrine()->getManager()->merge($currentUser);
             $this->getDoctrine()->getManager()->flush();
-            return '';
+            return true;
         } else {
             throw new HttpException(401);
         }
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET brands for current logged user",
+     *  output="AdEntify\CoreBundle\Entity\Brand",
+     *  section="User"
+     * )
+     *
      * @View()
      */
     public function getBrandsAction()
@@ -582,6 +731,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET analytics for current logged user",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
      * @View()
      */
     public function getAnalyticsAction()
@@ -622,6 +778,13 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET points for current logged user",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
      * @View()
      */
     public function getPointsAction()
@@ -636,6 +799,12 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET credits by date rage for current logged user",
+     *  section="User"
+     * )
+     *
      * @View()
      *
      * @QueryParam(name="begin")
@@ -715,6 +884,12 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET credits for current logged user by date",
+     *  section="User"
+     * )
+     *
      * @View()
      */
     public function getCreditsByDateAction($date)
@@ -765,6 +940,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET rewards by user ID",
+     *  output="AdEntify\CoreBundle\Entity\Reward",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @param $id
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
@@ -801,6 +986,16 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET actions for current logged user",
+     *  output="AdEntify\CoreBundle\Entity\Action",
+     *  section="User",
+     * parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
+     * }
+     * )
+     *
      * @param $id
      *
      * @QueryParam(name="page", requirements="\d+", default="1")

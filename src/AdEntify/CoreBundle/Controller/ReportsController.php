@@ -43,6 +43,17 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class ReportsController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a report",
+     *  output="AdEntify\CoreBundle\Entity\Report",
+     *  section="Report",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         401="Returned when authentication is required",
+     *     }
+     * )
+     *
      * @param Request $request
      * @return Report|\Symfony\Component\Form\Form|\Symfony\Component\Form\FormError[]
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException

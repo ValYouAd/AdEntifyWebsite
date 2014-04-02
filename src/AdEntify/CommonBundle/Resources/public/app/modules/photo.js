@@ -311,10 +311,15 @@ define([
 
          // Comments
          if (!this.getView('.comments')) {
-            this.setView('.comments', new Comment.Views.List({
+            var commentsView = new Comment.Views.List({
                comments: this.options.comments,
                photoId: this.options.photoId
-            }));
+            });
+            commentsView.on('comment:new', function() {
+               that.model.set('comments_count', that.model.get('comments_count') + 1);
+            });
+            this.setView('.comments', commentsView);
+
          }
 
          // Like Button
@@ -442,8 +447,10 @@ define([
          $likeCount = this.$('.likes-count-value');
          var currentLikeCount = $likeCount.html() ? parseInt($likeCount.html()) : 0;
          if (liked) {
+            this.model.set('likes_count', this.model.get('likes_count') + 1);
             $likeCount.html(currentLikeCount + 1);
          } else {
+            this.model.set('likes_count', this.model.get('likes_count') > 0 ? this.model.get('likes_count') - 1 : 0);
             $likeCount.html(currentLikeCount > 0 ? currentLikeCount - 1 : 0);
          }
       },

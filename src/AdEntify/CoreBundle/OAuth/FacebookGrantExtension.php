@@ -43,7 +43,7 @@ class FacebookGrantExtension implements GrantExtensionInterface
                 return false;
             }
 
-            // Check if a user match in AdEntify database with the facebook id and access token
+            // Check if a user match in AdEntify database with the facebook id
             $user = $this->userManager->findUserBy(array(
                 'facebookId' => $fbData['id'],
             ));
@@ -62,7 +62,7 @@ class FacebookGrantExtension implements GrantExtensionInterface
             return array(
                 'data' => $user
             );
-        } catch(\FacebookApiExceptionion $e) {
+        } catch(\Exception $e) {
             return false;
         }
     }

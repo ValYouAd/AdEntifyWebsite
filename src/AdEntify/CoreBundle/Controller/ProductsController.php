@@ -102,7 +102,11 @@ class ProductsController extends FosRestController
      *  description="Post a Product",
      *  input="AdEntify\CoreBundle\Form\ProductType",
      *  output="AdEntify\CoreBundle\Entity\Product",
-     *  section="Product"
+     *  section="Product",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         401="Returned when authentication is required",
+     *     }
      * )
      *
      * @View()

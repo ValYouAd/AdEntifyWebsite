@@ -121,18 +121,22 @@ class PhotosController extends FosRestController
         );
 
         $tagClause = '';
+        $joinSide = 'LEFT';
         if ($brands == 1) {
             $tagClause = ' AND tag.brand IS NOT NULL';
+            $joinSide = 'INNER';
         }
         if ($places == 1) {
             $tagClause = ' AND tag.venue IS NOT NULL';
+            $joinSide = 'INNER';
         }
         if ($people == 1) {
             $tagClause = ' AND tag.person IS NOT NULL';
+            $joinSide = 'INNER';
         }
 
         $sql = sprintf('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-            LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
+            ' . $joinSide . ' JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
               AND tag.censored = false AND tag.waitingValidation = false
               AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
             INNER JOIN photo.owner owner LEFT JOIN tag.brand brand %s
@@ -528,7 +532,8 @@ class PhotosController extends FosRestController
      *  input="AdEntify\CoreBundle\Form\PhotoType",
      *  output="AdEntify\CoreBundle\Entity\Photo",
      *  statusCodes={
-     *      200="Returned if the photo is created"
+     *      200="Returned if the photo is created",
+     *      401="Returned when authentication is required",
      *  },
      *  section="Photo"
      * )
@@ -834,7 +839,7 @@ class PhotosController extends FosRestController
             $user = $this->container->get('security.context')->getToken()->getUser();
 
             $count = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(l.id) FROM AdEntify\CoreBundle\Entity\Like l
-              WHERE l.photo = :photoId AND l.liker = :userId')
+              WHERE l.photo = :photoId AND l.liker = :userId AND l.deleted_at IS NULL')
                 ->setParameters(array(
                     'photoId' => $id,
                     'userId' => $user->getId()
