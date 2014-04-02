@@ -59,8 +59,7 @@ class UploadService
             $client = new Client();
             $requests = array();
             // Download images in parallel
-            foreach($images as $image)
-            {
+            foreach($images as $image) {
                 $requests[] = $client->get($image->originalSource);
             }
             $responses = $client->send($requests);
