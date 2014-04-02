@@ -153,9 +153,11 @@ define([
          }
 
          this.options.brands.each(function(brand) {
-            this.insertView("#brands", new Brand.Views.Item({
-               model: brand
-            }));
+            if (brand.has('small_logo_url')) {
+               this.insertView("#brands", new Brand.Views.Item({
+                  model: brand
+               }));
+            }
          }, this);
          if (this.loaded && this.options.brands.length === 0) {
             this.setView('.alert-brands', new Common.Views.Alert({

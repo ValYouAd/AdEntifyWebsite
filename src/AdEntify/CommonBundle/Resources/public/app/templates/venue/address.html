@@ -1,4 +1,4 @@
-<% if (model) { %>
+<% if (model && typeof model.attributes !== 'undefined') { %>
 <address>
     <i class="glyphicon glyphicon-home"></i>
     <strong><%= model.get('name') %></strong><br>
