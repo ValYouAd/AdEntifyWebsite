@@ -239,19 +239,19 @@ avalanche_imagine:
             options: { size: [300, 9999], mode: inset, quality: 80, format: jpeg }
         large:
             type:    thumbnail
-            options: { size: [1024, 9999], mode: inset, quality: 100, format: jpeg }
+            options: { size: [1024, 9999], mode: inset, quality: 95, format: jpeg }
         logo-small:
             type:    thumbnail
-            options: { size: [100, 9999], mode: inset, quality: 100 }
+            options: { size: [100, 9999], mode: inset, quality: 70 }
         logo-medium:
            type:    thumbnail
-           options: { size: [250, 9999], mode: inset, quality: 100 }
+           options: { size: [250, 9999], mode: inset, quality: 90 }
         logo-large:
            type:    thumbnail
-           options: { size: [500, 9999], mode: inset, quality: 100 }
+           options: { size: [500, 9999], mode: inset, quality: 95 }
         profile-picture:
            type:    thumbnail
-           options: { size: [120, 120], mode: outbound, quality: 100, format: jpeg }
+           options: { size: [120, 120], mode: outbound, quality: 95, format: jpeg }
 
 # AdEntify Core
 ad_entify_core:

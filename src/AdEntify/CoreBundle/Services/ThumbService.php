@@ -117,8 +117,8 @@ class ThumbService
         if (!$imageContent)
             return null;
 
-        $this->replace_extension($filename, 'jpg');
-        $url = $this->fileUploader->uploadFromContent($imageContent, $fileInfo['content-type'], $path, $filename);
+        $filename = $this->replace_extension($filename, 'jpg');
+        $url = $this->fileUploader->uploadFromContent($imageContent, 'image/jpeg', $path, $filename);
 
         $thumbInfo = array(
             'filename' => $url
@@ -143,9 +143,9 @@ class ThumbService
         } else {
             return $this->filterManager->get($size)
                 ->apply($this->imagine->load($imageInfo['content']))
-                ->get($this->getFormat($imageInfo['content-type']), array(
+                ->get('jpeg', array(
                     'quality' => $this->filterManager->getOption($size, "quality", 100),
-                    'format'  => $this->filterManager->getOption($size, "format", null)
+                    'format'  => $this->filterManager->getOption($size, "format", 'jpeg')
                 ));
         }
     }
@@ -176,20 +176,6 @@ class ThumbService
                 );
             }
         }
-    }
-
-    private function getFormat($mime)
-    {
-        static $formats = array(
-            'image/jpeg' =>         'jpeg',
-            'image/jpg' =>         'jpg',
-            'image/gif' =>          'gif',
-            'image/png' =>          'png',
-            'image/vnd.wap.wbmp' => 'wbmp',
-            'image/xbm' =>          'xbm',
-        );
-
-        return $formats[$mime];
     }
 
     function replace_extension($filename, $new_extension) {
