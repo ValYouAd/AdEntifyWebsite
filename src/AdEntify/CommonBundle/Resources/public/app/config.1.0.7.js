@@ -20,16 +20,16 @@ require.config({
         "//assets.pinterest.com/js/pinit",
         "../vendor/lib/pinit"
      ],
-     "select2": "../vendor/js/select2/select2",
-     "select2fr": "../vendor/js/select2/select2_locale_fr",
+     "select2": "//cdn.jsdelivr.net/select2/3.4.6/select2.min",
+     "select2fr": "//cdn.jsdelivr.net/select2/3.4.6/select2_locale_fr",
      "jquery.fileupload": "../vendor/js/jquery.fileupload",
      "jquery.iframe-transport": "../vendor/js/jquery.iframe-transport",
      "jquery.ui.widget": "../vendor/js/jquery.ui.widget",
-     "moment": "../vendor/js/moment.min",
+     "moment": "//cdn.jsdelivr.net/momentjs/2.5.1/moment-with-langs.min",
      "typeahead": "../vendor/js/bootstrap3-typeahead.min",
      "bday-picker": "../vendor/js/bday-picker.min",
      "jquery.serializeJSON": "../vendor/js/jquery.serializeJSON.min",
-     "Chart": "../vendor/js/Chart.min",
+     "Chart": "//cdn.jsdelivr.net/chart.js/0.2/Chart.min",
      "daterangepicker": "../vendor/js/daterangepicker",
      "introjs": "../vendor/js/intro.min",
      "i18next": "//cdn.jsdelivr.net/i18next/1.7.1/i18next.amd.withJQuery.min"
@@ -97,6 +97,6 @@ require.config({
      }
   },
 
-   urlArgs: "v=1.0.4"
+   urlArgs: "v=1.0.7"
 
 });

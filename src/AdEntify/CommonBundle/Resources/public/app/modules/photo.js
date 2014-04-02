@@ -600,6 +600,7 @@ define([
    Photo.Views.Edit = Backbone.View.extend({
       template: 'photo/edit',
       currentHashtags: [],
+      select2Loaded: false,
 
       serialize: function() {
          return {
@@ -647,7 +648,8 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-         if (this.categories && this.categories.length > 0) {
+         if (this.categories && this.categories.length > 0 && !this.select2Loaded) {
+            this.select2Loaded = !this.select2Loaded;
             var that = this;
             $(this.el).find('.selectCategories').select2();
             $(this.el).find('.selectCategories').on('change', function() {
