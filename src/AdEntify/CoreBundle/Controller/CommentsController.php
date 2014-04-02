@@ -79,7 +79,7 @@ class CommentsController extends FosRestController
      *  description="Post a Comment",
      *  input="AdEntify\CoreBundle\Form\CommentType",
      *  output="AdEntify\CoreBundle\Entity\Comment",
-     *  section="Venue"
+     *  section="Comment"
      * )
      *
      * @View()

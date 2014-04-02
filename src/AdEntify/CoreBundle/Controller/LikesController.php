@@ -26,6 +26,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 use AdEntify\CoreBundle\Entity\Like;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class LikesController
@@ -39,6 +40,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class LikesController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a photo like, return true if liked, false on unliked",
+     *  output="bool",
+     *  section="Like",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         401="Returned when authentication is required",
+     *     }
+     * )
+     *
      * @View()
      */
     public function postAction(Request $request)

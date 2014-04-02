@@ -25,6 +25,8 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 use AdEntify\CoreBundle\Entity\Tag;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
 /**
  * Class TagsController
  * @package AdEntify\CoreBundle\Controller
@@ -37,6 +39,16 @@ use AdEntify\CoreBundle\Entity\Tag;
 class TagStatsController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a tag stats. Two parameters : tagId and statType ('hover' or 'click')",
+     *  output="AdEntify\CoreBundle\Entity\TagStats",
+     *  statusCodes={
+     *      200="Returned if the tag is created",
+     *  },
+     *  section="TagStats"
+     * )
+     *
      * @View()
      */
     public function postAction(Request $request)

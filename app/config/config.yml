@@ -304,6 +304,8 @@ nelmio_cors:
 
 nelmio_api_doc:
     name: AdEntify API v1
+    sandbox:
+        endpoint: %root_url_without_trailing%
 
 a2lix_translation_form:
     locales: [en, fr]       # [1]

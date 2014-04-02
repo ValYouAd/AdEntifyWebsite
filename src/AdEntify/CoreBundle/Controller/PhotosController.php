@@ -532,7 +532,8 @@ class PhotosController extends FosRestController
      *  input="AdEntify\CoreBundle\Form\PhotoType",
      *  output="AdEntify\CoreBundle\Entity\Photo",
      *  statusCodes={
-     *      200="Returned if the photo is created"
+     *      200="Returned if the photo is created",
+     *      401="Returned when authentication is required",
      *  },
      *  section="Photo"
      * )

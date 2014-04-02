@@ -123,9 +123,12 @@ class DefaultController extends Controller
             "client_id" => $oAuthClient->getPublicId(),
             "client_secret" => $oAuthClient->getSecret(),
             "grant_type" => $this->container->getParameter('facebook_grant_extension_uri'),
-            "facebook_access_token" => $this->getRequest()->request->get('access_token')
+            "facebook_access_token" => $this->getRequest()->query->get('access_token')
         );
         $result = $this->postUrl($url, $params);
+
+        print_r($result);die;
+
         $tokens = !empty($result) ? json_decode($result) : null;
 
         // If no error, return the tokens
@@ -297,6 +300,7 @@ class DefaultController extends Controller
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params, null, '&'));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $ret = curl_exec($ch);
         curl_close($ch);
         return $ret;

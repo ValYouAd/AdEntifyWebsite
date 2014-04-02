@@ -26,6 +26,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 use AdEntify\CoreBundle\Entity\User;
 use AdEntify\CoreBundle\Util\PaginationTools;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class NotificationsController
@@ -39,6 +40,13 @@ use AdEntify\CoreBundle\Util\PaginationTools;
 class NotificationsController extends FOSRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a notification by ID",
+     *  output="AdEntify\CoreBundle\Entity\Notification",
+     *  section="Notification"
+     * )
+     *
      * @View()
      *
      * @return Notification
@@ -53,24 +61,29 @@ class NotificationsController extends FOSRestController
      */
     public function putAction($id, Request $request)
     {
-        $notification = $this->getAction($id);
-        if ($notification) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($notification->getOwner()->getId() == $user->getId()) {
-                $form = $this->getForm($notification);
-                $form->bind($request);
-                if ($form->isValid()) {
-                    $em = $this->getDoctrine()->getManager();
-                    $em->merge($notification);
-                    $em->flush();
-                    return $notification;
-                } else {
-                    throw new \Exception($form->getErrorsAsString());
-                }
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $notification = $this->getAction($id);
+            if ($notification) {
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                if ($notification->getOwner()->getId() == $user->getId()) {
+                    $form = $this->getForm($notification);
+                    $form->bind($request);
+                    if ($form->isValid()) {
+                        $em = $this->getDoctrine()->getManager();
+                        $em->merge($notification);
+                        $em->flush();
+                        return $notification;
+                    } else {
+                        throw new \Exception($form->getErrorsAsString());
+                    }
+                } else
+                    throw new ForbiddenHttpException();
             } else
-                throw new ForbiddenHttpException();
-        } else
-            throw new HttpNotFoundException();
+                throw new HttpNotFoundException();
+        } else {
+            throw new \HttpException(401);
+        }
     }
 
     /**

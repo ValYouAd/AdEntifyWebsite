@@ -90,6 +90,13 @@ class CategoriesController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get category photos",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="Category"
+     * )
+     *
      * @View()
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
