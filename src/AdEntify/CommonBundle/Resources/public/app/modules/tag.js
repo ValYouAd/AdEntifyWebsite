@@ -234,8 +234,8 @@ define([
          }
       },
 
-      clickTag: function() {
-         app.tagStats().click(this.model);
+      clickTag: function(e) {
+         app.tagStats().click(this.model, e);
       },
 
       validateTag: function() {
@@ -312,8 +312,8 @@ define([
          }
       },
 
-      clickTag: function() {
-         app.tagStats().click(this.model);
+      clickTag: function(e) {
+         app.tagStats().click(this.model, e);
       },
 
       validateTag: function() {
@@ -390,8 +390,8 @@ define([
          }
       },
 
-      clickTag: function() {
-         app.tagStats().click(this.model);
+      clickTag: function(e) {
+         app.tagStats().click(this.model, e);
       },
 
       validateTag: function() {

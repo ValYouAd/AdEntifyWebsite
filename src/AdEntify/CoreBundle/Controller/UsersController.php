@@ -999,11 +999,11 @@ class UsersController extends FosRestController
      * @param $id
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="20")
+     * @QueryParam(name="limit", requirements="\d+", default="30")
      *
      * @View()
      */
-    public function getActionsAction($page = 1, $limit = 20)
+    public function getActionsAction($page = 1, $limit = 30)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {

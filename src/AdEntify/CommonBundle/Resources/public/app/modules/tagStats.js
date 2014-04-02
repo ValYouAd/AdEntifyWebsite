@@ -25,24 +25,25 @@ define([
          }
       },
 
-      click: function(tag) {
+      click: function(tag, e) {
          clickedTags = _.find(this.clickedTags, function(t) {
             return t.get('id') == tag.get('id') ? true : false;
          });
          if (!clickedTags) {
+            this.postStats(tag, 'click', $(e.currentTarget).attr('href'));
             this.clickedTags.push(tag);
-            this.postStats(tag, 'click');
          }
       },
 
-      postStats: function(tag, type) {
+      postStats: function(tag, type, link) {
+         link = typeof link === 'undefined' ? null : link;
          app.oauth.loadAccessToken({
             success: function() {
                $.ajax({
                   url: Routing.generate('api_v1_post_tagstats'),
                   headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                   type: 'POST',
-                  data: { tagId: tag.get('id'), statType: type }
+                  data: { tagId: tag.get('id'), statType: type, link: link }
                });
             }
          });
