@@ -31,7 +31,8 @@ require.config({
      "jquery.serializeJSON": "../vendor/js/jquery.serializeJSON.min",
      "Chart": "../vendor/js/Chart.min",
      "daterangepicker": "../vendor/js/daterangepicker",
-     "introjs": "../vendor/js/intro.min"
+     "introjs": "../vendor/js/intro.min",
+     "i18next": "//cdn.jsdelivr.net/i18next/1.7.1/i18next.amd.withJQuery.min"
   },
 
    map: {
@@ -96,6 +97,6 @@ require.config({
      }
   },
 
-   urlArgs: "v=1.0.3"
+   urlArgs: "v=1.0.4"
 
 });
