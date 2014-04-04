@@ -42,7 +42,7 @@ class ThumbsCommand extends ContainerAwareCommand
 
         $batchSize = 20;
         $i = 0;
-        $q = $this->em->createQuery('select p from AdEntifyCoreBundle:Photo p WHERE p.id = 419 ORDER BY p.id DESC');
+        $q = $this->em->createQuery('select p from AdEntifyCoreBundle:Photo p WHERE p.retinaUrl IS NULL ORDER BY p.id DESC');
         $iterableResult = $q->iterate();
         foreach($iterableResult AS $row) {
             $photo = $row[0];

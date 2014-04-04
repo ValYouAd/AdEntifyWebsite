@@ -96,17 +96,23 @@ define([
                   photo.set('smallWidth', data.result['photo-small'].width);
                   photo.set('smallHeight', data.result['photo-small'].height);
 
-                  photo.set('mediumSource', data.result['photo-medium'].filename);
-                  photo.set('mediumWidth', data.result['photo-medium'].width);
-                  photo.set('mediumHeight', data.result['photo-medium'].height);
+                  if (data.result['photo-medium']) {
+                     photo.set('mediumSource', data.result['photo-medium'].filename);
+                     photo.set('mediumWidth', data.result['photo-medium'].width);
+                     photo.set('mediumHeight', data.result['photo-medium'].height);
+                  }
 
-                  photo.set('largeSource', data.result['photo-retina'].filename);
-                  photo.set('largeWidth', data.result['photo-retina'].width);
-                  photo.set('largeHeight', data.result['photo-retina'].height);
+                  if (data.result['photo-retina']) {
+                     photo.set('retinaSource', data.result['photo-retina'].filename);
+                     photo.set('retinaWidth', data.result['photo-retina'].width);
+                     photo.set('retinaHeight', data.result['photo-retina'].height);
+                  }
 
-                  photo.set('largeSource', data.result['photo-large'].filename);
-                  photo.set('largeWidth', data.result['photo-large'].width);
-                  photo.set('largeHeight', data.result['photo-large'].height);
+                  if (data.result['photo-large']) {
+                     photo.set('largeSource', data.result['photo-large'].filename);
+                     photo.set('largeWidth', data.result['photo-large'].width);
+                     photo.set('largeHeight', data.result['photo-large'].height);
+                  }
 
                   photo.set('originalSource', data.result.original.filename);
                   photo.set('originalWidth', data.result.original.width);

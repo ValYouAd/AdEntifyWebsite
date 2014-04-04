@@ -88,17 +88,20 @@ class UploadService
                     $photo->setSmallWidth($image->smallWidth);
                     $photo->setSmallHeight($image->smallHeight);
 
-                    $photo->setMediumUrl($image->mediumSource);
-                    $photo->setMediumWidth($image->mediumWidth);
-                    $photo->setMediumHeight($image->mediumHeight);
+                    $mediumUrl = isset($image->mediumSource) ? $image->mediumSource : $image->originalSource;
+                    $photo->setMediumUrl($mediumUrl);
+                    $photo->setMediumWidth($image->mediumWidth ? $image->mediumWidth : $image->originalWidth);
+                    $photo->setMediumHeight($image->mediumHeight ? $image->mediumHeight : $image->originalHeight);
 
-                    $photo->setRetinaUrl($image->retinaSource);
-                    $photo->setRetinaWidth($image->retinaWidth);
-                    $photo->setRetinaHeight($image->retinaHeight);
+                    $retinaUrl = isset($image->retinaSource) ? $image->retinaSource : $image->originalSource;
+                    $photo->setRetinaUrl($retinaUrl);
+                    $photo->setRetinaWidth(isset($image->retinaWidth) ? $image->retinaWidth: $image->originalWidth);
+                    $photo->setRetinaHeight(isset($image->retinaHeight) ? $image->retinaHeight : $image->originalHeight);
 
-                    $photo->setLargeUrl($image->largeSource);
-                    $photo->setLargeWidth($image->largeWidth);
-                    $photo->setLargeHeight($image->largeHeight);
+                    $largeUrl = isset($image->largeSource) ? $image->largeSource : $image->originalSource;
+                    $photo->setLargeUrl($largeUrl);
+                    $photo->setLargeWidth(isset($image->largeWidth) ? $image->largeWidth : $image->originalWidth);
+                    $photo->setLargeHeight(isset($image->largeHeight) ? $image->largeHeight : $image->originalHeight);
 
                     $photo->setStatus(Photo::STATUS_READY);
 
