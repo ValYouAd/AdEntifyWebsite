@@ -230,7 +230,7 @@ class Tag
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tags")
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"details", "list"})
      */
     private $owner;
 
