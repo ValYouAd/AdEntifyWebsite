@@ -231,13 +231,16 @@ ad_entify_flickr:
 # Imagine
 avalanche_imagine:
     filters:
-        small:
+        photo-small:
             type:    thumbnail
             options: { size: [100, 9999], mode: inset, quality: 70, format: jpeg }
-        medium:
+        photo-medium:
             type:    thumbnail
-            options: { size: [300, 9999], mode: inset, quality: 80, format: jpeg }
-        large:
+            options: { size: [320, 9999], mode: inset, quality: 80, format: jpeg }
+        photo-retina:
+            type:    thumbnail
+            options: { size: [640, 9999], mode: inset, quality: 95, format: jpeg }
+        photo-large:
             type:    thumbnail
             options: { size: [1024, 9999], mode: inset, quality: 95, format: jpeg }
         logo-small:

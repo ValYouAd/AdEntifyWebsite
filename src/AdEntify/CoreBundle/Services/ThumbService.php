@@ -55,6 +55,13 @@ class ThumbService
         return $generatedThumbs;
     }
 
+    /**
+     * Generate product thumb
+     *
+     * @param Thumb $thumb
+     * @param $filename
+     * @return array
+     */
     public function generateProductThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
@@ -71,6 +78,14 @@ class ThumbService
         return $generatedThumbs;
     }
 
+    /***
+     * Generate profile picture thumbs
+     *
+     * @param Thumb $thumb
+     * @param User $user
+     * @param $filename
+     * @return array
+     */
     public function generateProfilePictureThumb(Thumb $thumb, User $user, $filename)
     {
         $generatedThumbs = array();
@@ -87,6 +102,13 @@ class ThumbService
         return $generatedThumbs;
     }
 
+    /**
+     * Generate brand logo thumbs
+     *
+     * @param Thumb $thumb
+     * @param $filename
+     * @return array
+     */
     public function generateBrandLogoThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
@@ -123,7 +145,7 @@ class ThumbService
         $thumbInfo = array(
             'filename' => $url
         );
-        $thumbInfo = $this->getImageSize($url, $thumbInfo);
+        $thumbInfo = $this->getImageSizeFormUrl($url, $thumbInfo);
 
         return $thumbInfo;
     }
@@ -157,7 +179,7 @@ class ThumbService
      * @param $array
      * @return array
      */
-    private function getImageSize($url, $array) {
+    private function getImageSizeFormUrl($url, $array) {
         $url = str_replace(' ', '%20', $url);
         $imageSize = getimagesize($url);
 

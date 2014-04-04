@@ -85,7 +85,7 @@ define([
             this.setView('.alert-comments', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t('comment.noComments'),
-               showClose: true
+               showClose: false
             }));
          } else {
             this.removeView('.alert-comments');

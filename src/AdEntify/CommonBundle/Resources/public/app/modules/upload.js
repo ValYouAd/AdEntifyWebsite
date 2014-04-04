@@ -90,21 +90,24 @@ define([
             done: function (e, data) {
                if (data.result) {
                   var photo = new ExternalServicePhotos.Model();
-                  photo.set('thumbUrl', data.result.small.filename);
-                  photo.set('smallSource', data.result.small.filename);
-                  photo.set('smallWidth', data.result.small.width);
-                  photo.set('smallHeight', data.result.small.height);
-                  if ('medium' in data.result) {
-                     photo.set('thumbUrl', data.result.medium.filename);
-                     photo.set('mediumSource', data.result.medium.filename);
-                     photo.set('mediumWidth', data.result.medium.width);
-                     photo.set('mediumHeight', data.result.medium.height);
-                  }
-                  if ('large' in data.result) {
-                     photo.set('largeSource', data.result.large.filename);
-                     photo.set('largeWidth', data.result.large.width);
-                     photo.set('largeHeight', data.result.large.height);
-                  }
+                  photo.set('thumbUrl', data.result['photo-medium'].filename);
+
+                  photo.set('smallSource', data.result['photo-small'].filename);
+                  photo.set('smallWidth', data.result['photo-small'].width);
+                  photo.set('smallHeight', data.result['photo-small'].height);
+
+                  photo.set('mediumSource', data.result['photo-medium'].filename);
+                  photo.set('mediumWidth', data.result['photo-medium'].width);
+                  photo.set('mediumHeight', data.result['photo-medium'].height);
+
+                  photo.set('largeSource', data.result['photo-retina'].filename);
+                  photo.set('largeWidth', data.result['photo-retina'].width);
+                  photo.set('largeHeight', data.result['photo-retina'].height);
+
+                  photo.set('largeSource', data.result['photo-large'].filename);
+                  photo.set('largeWidth', data.result['photo-large'].width);
+                  photo.set('largeHeight', data.result['photo-large'].height);
+
                   photo.set('originalSource', data.result.original.filename);
                   photo.set('originalWidth', data.result.original.width);
                   photo.set('originalHeight', data.result.original.height);

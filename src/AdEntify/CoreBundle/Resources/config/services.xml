@@ -9,7 +9,7 @@
         <parameter key="ad_entify_core.emailService">AdEntify\CoreBundle\Services\EmailService</parameter>
         <parameter key="ad_entify_core.uploadService">AdEntify\CoreBundle\Services\UploadService</parameter>
         <parameter key="ad_entify_core.incomeService">AdEntify\CoreBundle\Services\IncomeService</parameter>
-        <parameter key="adentify_storage.file_uploader.class">AdEntify\CoreBundle\Services\FileUploader</parameter>
+        <parameter key="adentify_storage.file_manager.class">AdEntify\CoreBundle\Services\FileManager</parameter>
         <parameter key="adentify_storage.aws_s3.client.class">Aws\S3\S3Client</parameter>
         <parameter key="adentify_storage.aws_s3.client.factory">Aws\S3\S3Client</parameter>
         <parameter key="ad_entify_core.pointService">AdEntify\CoreBundle\Services\PointService</parameter>
@@ -20,7 +20,7 @@
         <service id="ad_entify_core.thumb" class="%ad_entify_core.thumbService%">
             <argument type="service" id="imagine.filter.manager" />
             <argument type="service" id="imagine" />
-            <argument type="service" id="adentify_storage.file_uploader" />
+            <argument type="service" id="adentify_storage.file_manager" />
             <argument>%root_url%</argument>
         </service>
         <service id="ad_entify_core.email" class="%ad_entify_core.emailService%">
@@ -36,7 +36,7 @@
             <argument type="service" id="ad_entify_core.thumb" />
             <argument>%root_url%</argument>
             <argument type="service" id="fos_facebook.api"></argument>
-            <argument type="service" id="adentify_storage.file_uploader" />
+            <argument type="service" id="adentify_storage.file_manager" />
         </service>
         <service id="ad_entify_core.income" class="%ad_entify_core.incomeService%">
             <argument type="service" id="doctrine.orm.entity_manager" />
@@ -48,9 +48,10 @@
                 <argument key="region">%aws_region%</argument>
             </argument>
         </service>
-        <service id="adentify_storage.file_uploader" class="%adentify_storage.file_uploader.class%">
+        <service id="adentify_storage.file_manager" class="%adentify_storage.file_manager.class%">
             <argument type="service" id="file_storage_filesystem" />
             <argument>%adentify_base_url%</argument>
+            <argument>%adentify_bucket_name%</argument>
         </service>
         <service id="ad_entify_core.points" class="%ad_entify_core.pointService%">
             <argument type="service" id="doctrine.orm.entity_manager" />

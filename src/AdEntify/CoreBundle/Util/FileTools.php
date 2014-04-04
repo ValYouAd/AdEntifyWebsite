@@ -11,10 +11,11 @@ namespace AdEntify\CoreBundle\Util;
 
 class FileTools
 {
-    const PHOTO_TYPE_ORIGINAL = 'original';
-    const PHOTO_TYPE_LARGE = 'large';
-    const PHOTO_TYPE_MEDIUM = 'medium';
-    const PHOTO_TYPE_SMALLL = 'small';
+    const PHOTO_SIZE_ORIGINAL = 'original';
+    const PHOTO_SIZE_RETINA = 'photo-retina';
+    const PHOTO_SIZE_LARGE = 'photo-large';
+    const PHOTO_SIZE_MEDIUM = 'photo-medium';
+    const PHOTO_SIZE_SMALLL = 'photo-small';
 
     const LOGO_TYPE_ORIGINAL = 'logo-original';
     const LOGO_TYPE_LARGE = 'logo-large';
@@ -30,7 +31,10 @@ class FileTools
     public static function getExtensionFromUrl($url)
     {
         $pathParts = pathinfo(strtok($url, '?'));
-        return '.'.$pathParts['extension'];
+        if (array_key_exists('extension', $pathParts))
+            return '.'.$pathParts['extension'];
+        else
+            return '.jpg';
     }
 
     /**
@@ -39,7 +43,7 @@ class FileTools
      *
      * @return string path
      */
-    public static function getUserPhotosPath($user, $type = self::PHOTO_TYPE_ORIGINAL)
+    public static function getUserPhotosPath($user, $type = self::PHOTO_SIZE_ORIGINAL)
     {
         return 'uploads/photos/users/'.$user->getId().'/'.$type.'/';
     }
@@ -47,7 +51,7 @@ class FileTools
     /**
      * @return string path
      */
-    public static function getProductPhotoPath($type = self::PHOTO_TYPE_ORIGINAL)
+    public static function getProductPhotoPath($type = self::PHOTO_SIZE_ORIGINAL)
     {
         return 'uploads/photos/products/'.$type.'/';
     }

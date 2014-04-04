@@ -22,10 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UploadService
 {
-    const SMALL_SIZE = 150;
-    const MEDIUM_SIZE = 320;
-    const LARGE_SIZE = 1024;
-
     protected $em;
     protected $thumbService;
     protected $rootUrl;
@@ -67,7 +63,7 @@ class UploadService
             foreach($images as $image) {
                 // Build filename & path
                 $filename = uniqid().FileTools::getExtensionFromUrl($image->originalSource);
-                $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_TYPE_ORIGINAL);
+                $originalPath = FileTools::getUserPhotosPath($user, FileTools::PHOTO_SIZE_ORIGINAL);
 
                 // Create a new photo
                 $photo = new Photo();
@@ -95,6 +91,10 @@ class UploadService
                     $photo->setMediumUrl($image->mediumSource);
                     $photo->setMediumWidth($image->mediumWidth);
                     $photo->setMediumHeight($image->mediumHeight);
+
+                    $photo->setRetinaUrl($image->retinaSource);
+                    $photo->setRetinaWidth($image->retinaWidth);
+                    $photo->setRetinaHeight($image->retinaHeight);
 
                     $photo->setLargeUrl($image->largeSource);
                     $photo->setLargeWidth($image->largeWidth);
@@ -145,26 +145,29 @@ class UploadService
                         $uploadedPhotos[] = $photo;
                         $countUploadedPhotos++;
 
-                        $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                        $this->generateThumbIfOriginalLarger($thumb, self::MEDIUM_SIZE, FileTools::PHOTO_TYPE_MEDIUM, $photo);
-                        $this->generateThumbIfOriginalLarger($thumb, self::LARGE_SIZE, FileTools::PHOTO_TYPE_LARGE, $photo);
+                        $thumb->configure($photo);
 
                         // Thumb generation
                         if ($thumb->IsThumbGenerationNeeded()) {
                             $generatedThumbs = $this->thumbService->generateUserPhotoThumb($thumb, $user, $filename);
                             foreach($generatedThumbs as $key => $value) {
                                 switch ($key) {
-                                    case FileTools::PHOTO_TYPE_LARGE:
+                                    case FileTools::PHOTO_SIZE_LARGE:
                                         $photo->setLargeUrl($value['filename']);
                                         $photo->setLargeWidth($value['width']);
                                         $photo->setLargeHeight($value['height']);
                                         break;
-                                    case FileTools::PHOTO_TYPE_MEDIUM:
+                                    case FileTools::PHOTO_SIZE_RETINA:
+                                        $photo->setRetinaUrl($value['filename']);
+                                        $photo->setRetinaWidth($value['width']);
+                                        $photo->setRetinaHeight($value['height']);
+                                        break;
+                                    case FileTools::PHOTO_SIZE_MEDIUM:
                                         $photo->setMediumUrl($value['filename']);
                                         $photo->setMediumWidth($value['width']);
                                         $photo->setMediumHeight($value['height']);
                                         break;
-                                    case FileTools::PHOTO_TYPE_SMALLL:
+                                    case FileTools::PHOTO_SIZE_SMALLL:
                                         $photo->setSmallUrl($value['filename']);
                                         $photo->setSmallWidth($value['width']);
                                         $photo->setSmallHeight($value['height']);
@@ -365,24 +368,6 @@ class UploadService
             return array(
                 'error' => 'No images posted.'
             );
-        }
-    }
-
-    private function generateThumbIfOriginalLarger(Thumb $thumb, $size, $photoType, Photo $photo)
-    {
-        if ($photo->getOriginalWidth() < $size) {
-            if ($size == self::MEDIUM_SIZE) {
-                $photo->setMediumUrl($photo->getOriginalUrl());
-                $photo->setMediumWidth($photo->getOriginalWidth());
-                $photo->setMediumHeight($photo->getOriginalHeight());
-            } else if ($size == self::LARGE_SIZE) {
-                $photo->setLargeUrl($photo->getOriginalUrl());
-                $photo->setLargeWidth($photo->getOriginalWidth());
-                $photo->setLargeHeight($photo->getOriginalHeight());
-            }
-        } else {
-            // Original larger, add it to generate the thumb
-            $thumb->addThumbSize($photoType);
         }
     }
 }

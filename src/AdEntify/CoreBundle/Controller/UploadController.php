@@ -79,8 +79,8 @@ class UploadController extends Controller
                 if ($url) {
                     $thumb = new Thumb();
                     $thumb->setOriginalPath($url);
-                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
-                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
+                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_SMALLL);
+                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_MEDIUM);
 
                     $thumbs = $this->container->get('ad_entify_core.thumb')->generateProductThumb($thumb, $filename);
                     $thumbs['original'] = $url;
@@ -174,9 +174,10 @@ class UploadController extends Controller
 
                     $thumb = new Thumb();
                     $thumb->setOriginalPath($url);
-                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_LARGE);
-                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_MEDIUM);
-                    $thumb->addThumbSize(FileTools::PHOTO_TYPE_SMALLL);
+                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_LARGE);
+                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_MEDIUM);
+                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_SMALLL);
+                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_RETINA);
                     $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
 
                     // Add original
@@ -202,6 +203,6 @@ class UploadController extends Controller
     }
 
     protected function getFileUploader() {
-        return $this->get('adentify_storage.file_uploader');
+        return $this->get('adentify_storage.file_manager');
     }
 }

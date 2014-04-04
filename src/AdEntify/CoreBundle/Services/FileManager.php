@@ -13,15 +13,17 @@ use AdEntify\CoreBundle\Util\FileTools;
 use Gaufrette\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FileUploader
+class FileManager
 {
     private $filesystem;
     private $baseUrl;
+    protected $bucketName;
 
-    public function __construct(Filesystem $filesystem, $baseUrl = '')
+    public function __construct(Filesystem $filesystem, $baseUrl = '', $bucketName)
     {
         $this->filesystem = $filesystem;
         $this->baseUrl = $baseUrl;
+        $this->bucketName = $bucketName;
     }
 
     /**
@@ -76,6 +78,23 @@ class FileUploader
         $this->write($uploadedFilename, $result['content'], $result['content-type']);
 
         return $this->baseUrl . $uploadedFilename;
+    }
+
+    /**
+     * Delete file from URL
+     *
+     * @param $url
+     * @return bool
+     */
+    public function deleteFromUrl($url) {
+        $adapter = $this->filesystem->getAdapter();
+        $pos = strpos($url, $this->bucketName);
+        if ($pos !== false) {
+            $pos = $pos + strlen($this->bucketName) + 1; // +1 to remove trailing slash
+            if ($adapter->exists(substr($url, $pos, strlen($url) - $pos)))
+                return $adapter->delete(substr($url, $pos, strlen($url) - $pos));
+        }
+        return false;
     }
 
     /**
