@@ -1166,6 +1166,8 @@ define([
          if (currentProductType) {
             currentTag.set('productType', currentProductType.id);
             currentTag.set('title', currentProductType.name);
+            currentTag.set('description', that.$('#product-description').val());
+            currentTag.set('link', that.$('#product-purchase-url').val());
          } else {
             currentTag.set('product', typeof newProduct !== 'undefined' ? newProduct.get('id') : currentProduct.id);
             currentTag.set('title', typeof newProduct !== 'undefined' ? newProduct.get('name') : currentProduct.name);

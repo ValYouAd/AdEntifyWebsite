@@ -236,7 +236,7 @@ define([
                   app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('photo.noPhoto'),
-                     showClose: true
+                     showClose: false
                   })).render();
                } else {
                   this.updateMetas();
@@ -589,7 +589,7 @@ define([
                this.setView('.alert-linked-photos-list', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t('photo.noLinkedPhotos'),
-                  showClose: true
+                  showClose: false
                }));
             }
             this.render();
