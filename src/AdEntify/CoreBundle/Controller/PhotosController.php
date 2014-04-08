@@ -127,7 +127,7 @@ class PhotosController extends FosRestController
             $joinSide = 'INNER';
         }
         if ($places == 1) {
-            $tagClause = ' AND tag.venue IS NOT NULL';
+            $tagClause = ' AND tag.venue IS NOT NULL AND tag.product IS NULL';
             $joinSide = 'INNER';
         }
         if ($people == 1) {

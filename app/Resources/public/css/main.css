@@ -1397,6 +1397,7 @@ html,body,.body-grey-background {
     -moz-filter: none;
     filter: none;
     padding: 0px 10px 10px 10px;
+    float: right;
 }
 .product-photo {
     max-width: 160px;
