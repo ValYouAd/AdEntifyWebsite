@@ -90,6 +90,9 @@ class HashtagsController extends FosRestController
      */
     public function getSearchAction($query, $page = 1, $limit = 10)
     {
+        if (empty($query))
+            return null;
+
         $em = $this->getDoctrine()->getManager();
 
         $hashtags = CommonTools::extractHashtags($query, false, true);

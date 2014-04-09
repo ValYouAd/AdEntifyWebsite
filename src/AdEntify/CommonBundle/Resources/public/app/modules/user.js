@@ -93,7 +93,8 @@ define([
          if (!this.getView('.brands') && this.options.brands) {
             this.setView('.brands', new Brand.Views.List({
                brands: this.options.brands,
-               emptyMessage: 'profile.noBrands'
+               emptyMessage: 'profile.noBrands',
+               showTagsCount: false
             }));
          }
          if (!this.getView('.followings') && this.options.followings) {

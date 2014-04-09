@@ -4258,6 +4258,31 @@ label,
     color: #9da0a4;
     margin: 10px 0px;
 }
+.profile-aside .brands,
+.profile-aside #brands {
+    border: none;
+    margin: 0px;
+}
+.profile-aside .brands {
+    background: white;
+}
+.profile-aside .brands .brand-logo {
+    max-height: 55px!important;
+    max-width: 100%;
+}
+.profile-aside #brands {
+    border: none;
+}
+.profile-aside #brands li, .profile-aside .brands li {
+    border: none;
+    padding: 0px 5px;
+    margin: 7px 0px;
+    height: 65px;
+}
+.profile-aside #brands li:nth-child(3n+2),
+.profile-aside #brands li:nth-child(3n+1) {
+    border-right: 1px solid #e5e5e5;
+}
 .followers-link, .followings-link { cursor: pointer; }
 .menu-left-hr {
     background: url('../img/horizontal-menu-left-separator.png') repeat-x;

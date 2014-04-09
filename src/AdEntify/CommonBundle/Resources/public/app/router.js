@@ -631,7 +631,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                followers: followers,
                photos: this.photos,
                hashtags: this.hashtags,
-               rewards: this.rewards
+               rewards: this.rewards,
+               brands: this.brands
             })
          }).render();
 
@@ -647,6 +648,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          });
          this.rewards.fetch({
             url: Routing.generate('api_v1_get_user_rewards', { id: id })
+         });
+         this.brands.fetch({
+            url: Routing.generate('api_v1_get_user_brands', { id: id })
          });
       },
 
