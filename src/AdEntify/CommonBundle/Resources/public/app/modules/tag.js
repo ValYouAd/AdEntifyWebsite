@@ -22,15 +22,15 @@ define([
    var Tag = app.module();
    var currentTag = null;
    var tags = null;
-   var currentBrands = {};
+   var currentBrands = [];
    var currentBrand = null;
-   var currentProducts = {};
-   var currentProductTypes = {};
+   var currentProducts = [];
+   var currentProductTypes = [];
    var currentProduct = null;
    var currentProductType = null;
-   var currentPeople = {};
+   var currentPeople = [];
    var newProduct = null;
-   var currentVenues = {};
+   var currentVenues = [];
    var currentVenue = null;
    var currentPerson = null;
    var venuesSearchTimeout = null;
@@ -593,6 +593,7 @@ define([
                         success: function(response) {
                            if (typeof response !== 'undefined' && response.data.length > 0) {
                               var brands = [];
+                              brands.push(query);
                               currentBrands = {};
                               _.each(response.data, function(brand) {
                                  brands.push(brand.name);
@@ -612,7 +613,6 @@ define([
             items: 15,
             updater: function(selectedItem) {
                currentBrand = currentBrands[selectedItem];
-               console.log('currentBrand');
                that.checkBrand();
                if (currentBrand && currentBrand.medium_logo_url) {
                   $('#brand-logo').html('<img src="' + currentBrand.medium_logo_url + '" style="margin: 10px 0px;" class="brand-logo" />');
@@ -620,7 +620,12 @@ define([
                return selectedItem;
             },
             highlighter: function(item) {
-               return '<div>' + (currentBrands[item].small_logo_url ? '<img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' : '') + item + '</div>'
+               var found = currentBrands[item];
+               if (found) {
+                  return '<div>' + (currentBrands[item].small_logo_url ? '<img style="height: 20px;" src="' + currentBrands[item].small_logo_url + '"> ' : '') + item + '</div>'
+               } else {
+                  return '<div class="new-item"><i class="glyphicon glyphicon-plus-sign"></i> ' + item + '</div>';
+               }
             }
          });
 
@@ -629,9 +634,10 @@ define([
                $('#loading-product').css({'display': 'inline-block'});
                app.oauth.loadAccessToken({
                   success: function() {
+                     that.productQuery = query;
                      var products = [];
-                     currentProducts = {};
-                     currentProductTypes = {};
+                     currentProducts = [];
+                     currentProductTypes = [];
                      $.when($.ajax({
                         url: Routing.generate('api_v1_get_product_search', { query: query, brandId: currentBrand ? currentBrand.id : 0 }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
@@ -639,7 +645,7 @@ define([
                            if (typeof response !== 'undefined' && response.length > 0) {
                               _.each(response, function(product) {
                                  products.push(product.name);
-                                 currentProducts[product.name] = product;
+                                 currentProducts.push(product);
                               });
                            }
                         }
@@ -650,11 +656,12 @@ define([
                            if (typeof response !== 'undefined' && response.length > 0) {
                               _.each(response, function(productType) {
                                  products.push(productType.name);
-                                 currentProductTypes[productType.name] = productType;
+                                 currentProductTypes.push(productType);
                               });
                            }
                         }
                      })).done(function(a1, a2) {
+                           products.push(query + '#query');
                            process(products);
                            $('#loading-product').fadeOut(200);
                         });
@@ -664,7 +671,13 @@ define([
             minLength: 1,
             items: 15,
             updater: function(selectedItem) {
-               currentProduct = currentProducts[selectedItem];
+               var productName = null;
+               if (selectedItem.indexOf('#query') == -1) {
+                  currentProduct = _.find(currentProducts, function(productName) { return productName == selectedItem; });
+               } else {
+                  productName = selectedItem.substring(0, selectedItem.indexOf('#query'));
+               }
+
                that.checkBrand();
                if (currentProduct) {
                   if (currentProduct.medium_url)
@@ -681,14 +694,20 @@ define([
                } else {
                   currentProductType = currentProductTypes[selectedItem];
                }
-               return selectedItem;
+
+               return productName ? productName : selectedItem;
             },
             highlighter: function(item) {
-               var found = currentProducts[item];
-               if (found) {
-                  return '<div>' + (found.small_url ? '<img style="height: 20px;" src="' + found.small_url + '"> ' : '') + item + '</div>';
+               if (item.indexOf('#query') == -1) {
+                  var product = _.find(currentProducts, function(product) { return product.name == item; });
+                  var html = '<div>' + (product.small_url ? '<img style="height: 20px;" src="' + product.small_url + '"> ' : '') + product.name;
+                  if (product.brand) {
+                     html += product.brand.small_logo_url ? ' <img style="height: 20px;" src="' + product.brand.small_logo_url + '" />' : product.brand.name;
+                  }
+                  html += '</div>';
+                  return html;
                } else {
-                  return '<div>' + item + '</div>';
+                  return '<div class="new-item"><i class="glyphicon glyphicon-plus-sign"></i> ' + item.substring(0, item.indexOf('#query')) + '</div>';
                }
             }
          });
@@ -1182,6 +1201,7 @@ define([
             currentTag.save(null, {
                success: function() {
                   currentTag.set('persisted', '');
+                  currentTag.setup();
                   if (currentBrand)
                      app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
                   currentBrand = null;
@@ -1266,6 +1286,7 @@ define([
             currentTag.save(null, {
                success: function() {
                   currentTag.set('persisted', '');
+                  currentTag.setup();
                   app.fb.createVenueStory(venue, app.appState().getCurrentPhotoModel());
                   currentVenue = null;
                   app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
