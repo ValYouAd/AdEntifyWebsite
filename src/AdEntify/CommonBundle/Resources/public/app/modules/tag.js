@@ -670,23 +670,6 @@ define([
             },
             minLength: 1,
             items: 15,
-            /*matcher: function(product) {
-               return ~product.name.toLowerCase().indexOf(this.query.toLowerCase());
-            },
-            sorter: function (items) {
-               var beginswith = []
-                  , caseSensitive = []
-                  , caseInsensitive = []
-                  , item;
-
-               while ((item = items.shift())) {
-                  if (!item.name.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item);
-                  else if (~item.name.indexOf(this.query)) caseSensitive.push(item);
-                  else caseInsensitive.push(item);
-               }
-
-               return beginswith.concat(caseSensitive, caseInsensitive);
-            },*/
             updater: function(selectedItem) {
                var productName = null;
                if (selectedItem.indexOf('#query') == -1) {
