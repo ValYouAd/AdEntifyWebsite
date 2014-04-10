@@ -160,7 +160,7 @@ define([
             this.setView('.alert-brands', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: typeof this.options.emptyDataMessage !== 'undefined' ? this.options.emptyDataMessage : $.t('brand.noUserBrands'),
-               showClose: true
+               showClose: false
             }));
          }
       },

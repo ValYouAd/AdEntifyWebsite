@@ -714,16 +714,18 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
+     * @QueryParam(name="id", requirements="\d+", default="0", description="user ID")
+     *
      * @View()
      */
-    public function getBrandsAction()
+    public function getBrandsAction($id = 0)
     {
         $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($id > 0 || $securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
-            LEFT JOIN b.followers as follower WHERE b.validated = 1 AND follower.id = :currentUserId')
+            LEFT JOIN b.followers as follower WHERE b.validated = 1 AND follower.id = :userId')
                 ->setParameters(array(
-                    'currentUserId' => $securityContext->getToken()->getUser()->getId()
+                    'userId' => $id > 0 ? $id : $securityContext->getToken()->getUser()->getId()
                 ))->getResult();
         } else {
             throw new HttpException(401);

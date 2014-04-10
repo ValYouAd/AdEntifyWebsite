@@ -39,7 +39,7 @@ define([
             } else {
                // cancelled
             }
-         }, {scope: facebookPermissions});
+         }, { scope: facebookPermissions });
       },
 
       logout: function() {
@@ -52,7 +52,7 @@ define([
       },
 
       isConnected: function() {
-         return this.get('status') === 'connected' ? true: false;
+         return this.get('status') === 'connected' ? true : false;
       },
 
       loadFriends: function(options) {
