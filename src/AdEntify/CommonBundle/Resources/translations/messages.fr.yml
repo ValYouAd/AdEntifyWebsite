@@ -161,6 +161,9 @@ didacticiel:
     tagButton: 'Ajoutez du contenu en quelques clics'
     show: Voir le didacticiel
 
+index:
+    pageHeading: Taguez et partagez des photos sur AdEntify.com
+
 #Routing
 photos/untagged/: photos/non-taguees/
 my/photos/: mes/photos/

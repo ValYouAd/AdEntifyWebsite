@@ -150,6 +150,9 @@ didacticiel:
     tagButton: 'Add new content in few clicks'
     show: Show step-by-step introduction
 
+index:
+    pageHeading: Tag and share photos on AdEntify.com
+
 #Routing
 photos/untagged/: photos/untagged/
 my/photos/: my/photos/
