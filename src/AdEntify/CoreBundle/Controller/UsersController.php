@@ -12,6 +12,7 @@ namespace AdEntify\CoreBundle\Controller;
 use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Entity\Reward;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Entity\TagIncome;
 use AdEntify\CoreBundle\Entity\TagPoint;
@@ -955,22 +956,26 @@ class UsersController extends FosRestController
      * @param $id
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="5")
      *
      * @View()
      */
-    public function getRewardsAction($id, $page = 1, $limit = 10)
+    public function getRewardsAction($id, $page = 1, $limit = 5)
     {
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT reward FROM AdEntifyCoreBundle:Reward reward
-            WHERE reward.owner = :userId')
+            LEFT JOIN reward.brand brand WHERE reward.owner = :userId AND
+              ((SELECT COUNT(r.id) FROM AdEntifyCoreBundle:Reward r LEFT JOIN r.brand b WHERE b.id = brand.id) = 1 OR reward.type != :type)')
             ->setParameters(array(
-                'userId'=> $id
+                'userId'=> $id,
+                'type' => Reward::TYPE_ADDICT
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $count = count($paginator);
+
+
 
         $rewards = null;
         $pagination = null;
