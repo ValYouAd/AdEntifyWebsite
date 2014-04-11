@@ -36,8 +36,6 @@ class DefaultController extends Controller
             );
             parse_str($this->postUrl($url, $token_params), $response);
             if (array_key_exists('access_token', $response) && array_key_exists('expires', $response)) {
-                $response['access_token'];
-
                 $fb = $this->container->get('fos_facebook.api');
                 $fb->setAccessToken($response['access_token']);
                 try {
@@ -48,11 +46,17 @@ class DefaultController extends Controller
 
                     $newUser = false;
                     if (null === $user) {
-                        $user = $userManager->createUser();
-                        $user->setEnabled(false);
-                        $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
+                        // Check if there is a logged in user
+                        $securityContext = $this->container->get('security.context');
+                        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+                            $user = $this->container->get('security.context')->getToken()->getUser();
+                        } else {
+                            $user = $userManager->createUser();
+                            $user->setEnabled(false);
+                            $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
 
-                        $newUser = true;
+                            $newUser = true;
+                        }
                     }
 
                     $user->setLoggedInCount($user->getLoggedInCount() + 1);

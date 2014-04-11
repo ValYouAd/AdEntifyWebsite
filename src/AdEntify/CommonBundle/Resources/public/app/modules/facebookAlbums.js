@@ -70,6 +70,7 @@ define([
             this.listenTo(app, 'global:facebook:connected', function() {
                that.loadAlbums();
             });
+            app.fb.login();
          }
          this.albums = this.options.albums;
          this.listenTo(this.options.albums, {

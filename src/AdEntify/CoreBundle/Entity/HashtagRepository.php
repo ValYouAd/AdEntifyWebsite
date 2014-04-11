@@ -22,7 +22,7 @@ class HashtagRepository extends EntityRepository
     {
         $name = str_replace(array(' ', '#'), '', trim($name));
         if (is_numeric($name)) {
-            return $this->getEntityManager()->getRepository('AdEntifyCoreBundle:Hashtag')->findBy($name);
+            return $this->getEntityManager()->getRepository('AdEntifyCoreBundle:Hashtag')->find($name);
         } else {
             $hashtag = $this->findOneBy(array(
                 'name' => strtolower($name)

@@ -311,6 +311,11 @@ define([
          return connected ? $.t('routing.instagram/photos/') : 'https://api.instagram.com/oauth/authorize/?client_id=' + instagramClientId + '&redirect_uri=' + app.rootUrl + 'instagram/authentication&response_type=code';
       },
 
+      getFacebookUrl: function(connected) {
+         connected = typeof connected !== 'undefined' ? connected : false;
+         return connected ? $.t('facebook/albums/') : 'https://www.facebook.com/dialog/oauth?client_id=' + facebookAppId + '&redirect_uri=' + Routing.generate('_security_check_facebook', null, true) + '&scope=' + facebookPermissions + '&response_type=code';
+      },
+
       getFlickrUrl: function(connected) {
          connected = typeof connected !== 'undefined' ? connected : false;
          return connected ? $.t('routing.flickr/sets/') : Routing.generate('flickr_request_token', { 'locale': currentLocale });
@@ -348,7 +353,8 @@ define([
       goToServiceUploadPage: function(model) {
          switch(model.get('service_name')) {
             case 'Facebook':
-               Backbone.history.navigate($.t('facebook/albums/'), { trigger: true });
+               var url = Upload.Common.getFacebookUrl(app.fb.isConnected());
+               app.fb.isConnected() ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
                break;
             case 'instagram':
                var url = Upload.Common.getInstagramUrl(model.get('linked'));

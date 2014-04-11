@@ -63,6 +63,15 @@ class PhotoType extends AbstractType
             ->add('small_height', 'text', array(
                 'required' => false
             ))
+            ->add('retina_url', 'url', array(
+                'required' => false
+            ))
+            ->add('retina_width', 'text', array(
+                'required' => false
+            ))
+            ->add('retina_height', 'text', array(
+                'required' => false
+            ))
             ->add('latitude', 'number', array(
                 'precision' => 6,
                 'required' => false
