@@ -3,6 +3,7 @@
 namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Form\ProductType;
+use AdEntify\CoreBundle\Util\CommonTools;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -101,7 +102,11 @@ class ProductsController extends FosRestController
      *  description="Post a Product",
      *  input="AdEntify\CoreBundle\Form\ProductType",
      *  output="AdEntify\CoreBundle\Entity\Product",
-     *  section="Product"
+     *  section="Product",
+     *  statusCodes={
+     *         200="Returned when successful",
+     *         401="Returned when authentication is required",
+     *     }
      * )
      *
      * @View()
@@ -117,6 +122,8 @@ class ProductsController extends FosRestController
             if ($form->isValid()) {
                 // Add venue products
                 if ($product->getPurchaseUrl()) {
+                    $product->setPurchaseUrl(CommonTools::addScheme($product->getPurchaseUrl()));
+
                     $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
                     if ($shortUrl)
                         $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(

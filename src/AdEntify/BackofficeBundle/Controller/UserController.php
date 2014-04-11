@@ -171,6 +171,7 @@ class UserController extends Controller
         $form = $this->createForm(new UserType(), $entity, array(
             'action' => $this->generateUrl('users_update', array('id' => $entity->getId())),
             'method' => 'PUT',
+            'roles' => $this->container->getParameter('security.role_hierarchy.roles')
         ));
 
         $form->add('submit', 'submit', array('label' => 'Update'));

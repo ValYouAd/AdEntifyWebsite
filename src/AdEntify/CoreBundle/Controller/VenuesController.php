@@ -10,6 +10,7 @@
 namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Form\VenueType;
+use AdEntify\CoreBundle\Util\CommonTools;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -113,6 +114,9 @@ class VenuesController extends FosRestController
             $form = $this->getForm($venue);
             $form->bind($request);
             if ($form->isValid()) {
+                if ($venue->getLink())
+                    $venue->setLink(CommonTools::addScheme($venue->getLink()));
+
                 // Add venue products
                 $this->addProductsToVenue($venue, $venueRequest, $em);
                 if ($venue->getLink()) {

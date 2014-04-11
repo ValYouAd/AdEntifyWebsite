@@ -171,7 +171,7 @@ define([
                                  image.mediumSource = size.source;
                                  image.mediumWidth = size.width;
                                  image.mediumHeight = size.height;
-                              } else if (width == 150) {
+                              } else if (width == 100) {
                                  image.smallSource = size.source;
                                  image.smallWidth = size.width;
                                  image.smallHeight = size.height;

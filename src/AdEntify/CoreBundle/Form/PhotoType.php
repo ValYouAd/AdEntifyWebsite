@@ -29,14 +29,14 @@ class PhotoType extends AbstractType
                 'required' => false,
                 'description' => 'Photo ID of the source'
             ))
-            ->add('original_url', 'text')
+            ->add('original_url', 'url')
             ->add('original_width', 'text', array(
                     'required' => false
                 ))
             ->add('original_height', 'text', array(
                     'required' => false
                 ))
-            ->add('large_url', 'text', array(
+            ->add('large_url', 'url', array(
                 'required' => false
             ))
             ->add('large_width', 'text', array(
@@ -45,7 +45,7 @@ class PhotoType extends AbstractType
             ->add('large_height', 'text', array(
                 'required' => false
             ))
-            ->add('medium_url', 'text', array(
+            ->add('medium_url', 'url', array(
                 'required' => false
             ))
             ->add('medium_width', 'text', array(
@@ -54,13 +54,22 @@ class PhotoType extends AbstractType
             ->add('medium_height', 'text', array(
                 'required' => false
             ))
-            ->add('small_url', 'text', array(
+            ->add('small_url', 'url', array(
                 'required' => false
             ))
             ->add('small_width', 'text', array(
                 'required' => false
             ))
             ->add('small_height', 'text', array(
+                'required' => false
+            ))
+            ->add('retina_url', 'url', array(
+                'required' => false
+            ))
+            ->add('retina_width', 'text', array(
+                'required' => false
+            ))
+            ->add('retina_height', 'text', array(
                 'required' => false
             ))
             ->add('latitude', 'number', array(

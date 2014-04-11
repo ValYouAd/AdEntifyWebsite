@@ -12,11 +12,7 @@
 
     <title>{% block title %}AdEntify.com{% endblock %}</title>
 
-    {% stylesheets
-        '../app/Resources/public/css/bootstrap.min.css'
-    %}
-    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
-    {% endstylesheets %}
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" media="screen" rel="stylesheet" />
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>

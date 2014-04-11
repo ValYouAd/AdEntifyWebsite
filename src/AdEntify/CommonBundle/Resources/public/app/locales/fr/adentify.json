@@ -29,7 +29,7 @@
       "alreadyExist": "Cette marque existe déjà.",
       "loadInfo": "Récupérer les informations",
       "createBrandTitle": "Ajouter une marque",
-      "createSuccessfull": "La marque a bien été ajouté. Elle doit cependant être validé par l'équipe AdEntify avant d'être visible sur le site.",
+      "createSuccessfull": "La marque a bien été ajoutée. Elle doit cependant être validée par l'équipe AdEntify avant d'être visible sur le site.",
       "myBrandsPageTitle": "Mes marques",
       "noUserBrands": "Vous ne suivez aucune marque pour le moment",
       "noBrands": "Aucune marque n'est référencée pour le moment",
@@ -42,7 +42,7 @@
    },
    "photos": {
       "pageTitle": "Découvrez, taguez et partagez des photos - AdEntify",
-      "loading": "Chargement des pageTitlephotos en cours...",
+      "loading": "Chargement des pagesTitlephotos en cours...",
       "errorPhotosLoading": "Impossible de récupérer les photos. Veuillez réessayer.",
       "noPhotos": "Aucune photo disponible.",
       "loadMore": "Charger plus de photos",
@@ -98,7 +98,7 @@
       "profilePictureUpload": "Envoyer ma photo de profil",
       "labelBirthday": "Date de naissance",
       "shareDataAdvertisers": "J’accepte de partager des données publicitaires avec AdEntify",
-      "partnersNewsletters": "Je ne souhaite pas recevoir toutes informations publicitaires émanant de nos Partenaires"
+      "partnersNewsletters": "Je ne souhaite pas recevoir d'information publicitaire émanant de nos Partenaires"
    },
    "upload": {
       "pageTitle": "Envoyer mes photos - AdEntify",
@@ -209,14 +209,17 @@
       "placeLinkPlaceholder": "Site officiel, blog...",
       "placeMoreDetails": "Plus d'informations",
       "placeLessDetails": "Moins d'informations",
-      "tellUsMore": "Vous voulez gagnez plus ? Dites nous en plus sur ce produit",
+      "tellUsMore": "Vous voulez gagnez plus de points ? Dites nous en plus sur ce produit",
       "tagSuccessfullyAdded": "Le tag a été ajouté avec succès",
       "buy": "Acheter le produit",
-      "errorDifferentBrand": "La marque choisit est différente de la marque associée au produit.",
+      "errorDifferentBrand": "La marque choisie est différente de la marque associée au produit.",
       "errorProductEmpty": "Vous devez entrer un produit avant de valider l'ajout du tag",
       "poweredByFoursquare": "Propulsé par Foursquare",
       "moreInfo": "En savoir plus",
-      "viewMap": "Carte"
+      "viewMap": "Carte",
+      "actions": "Actions",
+      "labelPersonLink": "Lien",
+      "personLinkPlaceholder": "Vous pouvez entrer l'url vers le site, blog, réseau social de la personne"
    },
    "photo": {
       "loadingPhoto": "Chargement de la photo en cours...",
@@ -254,7 +257,7 @@
       "reportShouldntBe": "Je pense que cette photo ne devrait pas être sur AdEntify",
       "reportSpam": "C'est du spam",
       "reportOther": "Autre",
-      "likers": "Personnes ayant aimées",
+      "likers": "Personnes ayant aimé",
       "noLiker": "Soyez le premier à aimer cette photo.",
       "forbidden": "Vous n'êtes pas autorisé à voir cette photo",
       "detailsUpdateSuccess": "Les informations de votre photo sont maintenant à jour.",
@@ -295,9 +298,9 @@
       "history": "Mon historique",
       "photos": "Mes photos AdEntify",
       "credits": "Mes crédits",
-      "labelTaggedPhotos": "<span class='large'>__count__</span><br> photo tagué",
+      "labelTaggedPhotos": "<span class='large'>__count__</span><br> photo taguée",
       "labelTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos taguées",
-      "labelUnTaggedPhotos": "<span class='large'>__count__</span><br> photo non tagué",
+      "labelUnTaggedPhotos": "<span class='large'>__count__</span><br> photo non taguée",
       "labelUnTaggedPhotos_plural": "<span class='large'>__count__</span><br> photos non taguées",
       "points": "Points",
       "cash": "Argent",

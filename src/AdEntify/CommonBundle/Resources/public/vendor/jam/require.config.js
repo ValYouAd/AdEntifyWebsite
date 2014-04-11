@@ -11,11 +11,6 @@ var jam = {
             "main": "backbone.layoutmanager.js"
         },
         {
-            "name": "i18next2",
-            "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.7.1.min.js"
-        },
-        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -82,11 +77,6 @@ if (typeof require !== "undefined" && require.config) {
             "main": "backbone.layoutmanager.js"
         },
         {
-            "name": "i18next2",
-            "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.7.1.min.js"
-        },
-        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -150,11 +140,6 @@ else {
             "name": "backbone.layoutmanager",
             "location": "../vendor/jam/backbone.layoutmanager",
             "main": "backbone.layoutmanager.js"
-        },
-        {
-            "name": "i18next2",
-            "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.7.1.min.js"
         },
         {
             "name": "isotope",

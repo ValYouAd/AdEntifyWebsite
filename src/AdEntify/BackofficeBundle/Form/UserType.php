@@ -40,6 +40,11 @@ class UserType extends AbstractType
             ->add('tagsCount')
             ->add('followedBrandsCount')
             ->add('points')
+            ->add('roles', 'choice', array(
+                'required' => true,
+                'multiple' => true,
+                'choices' => $this->refactorRoles($options['roles'])
+            ));
         ;
     }
     
@@ -49,8 +54,11 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AdEntify\CoreBundle\Entity\User'
+            'data_class' => 'AdEntify\CoreBundle\Entity\User',
+            'roles' => null
         ));
+
+        //$resolver->resolve(array('roles'));
     }
 
     /**
@@ -59,5 +67,27 @@ class UserType extends AbstractType
     public function getName()
     {
         return 'adentify_backofficebundle_user';
+    }
+
+    private function refactorRoles($originRoles)
+    {
+        $roles = array();
+        $rolesAdded = array();
+
+        // Add herited roles
+        foreach ($originRoles as $roleParent => $rolesHerit) {
+            $tmpRoles = array_values($rolesHerit);
+            $rolesAdded = array_merge($rolesAdded, $tmpRoles);
+            $roles[$roleParent] = array_combine($tmpRoles, $tmpRoles);
+        }
+        // Add missing superparent roles
+        $rolesParent = array_keys($originRoles);
+        foreach ($rolesParent as $roleParent) {
+            if (!in_array($roleParent, $rolesAdded)) {
+                $roles['-----'][$roleParent] = $roleParent;
+            }
+        }
+
+        return $roles;
     }
 }

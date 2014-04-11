@@ -5,7 +5,7 @@ require([
    // Main Router.
    "router",
 
-   "i18next2",
+   "i18next",
 
    // App State
    "modules/appState",

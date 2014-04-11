@@ -23,6 +23,7 @@ use FOS\RestBundle\Controller\Annotations\Prefix,
 
 use Doctrine\Common\Collections\ArrayCollection,
     Doctrine\Common\Collections\Collection;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Class SettingsController
@@ -35,6 +36,16 @@ use Doctrine\Common\Collections\ArrayCollection,
 class SettingsController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get settings of current logged user",
+     *  statusCodes={
+     *      200="Returned if the photo is created",
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Settings"
+     * )
+     *
      * @View()
      */
     public function getUserServicesAction()
@@ -92,6 +103,17 @@ class SettingsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post user settings",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  statusCodes={
+     *      200="Returned if successfull",
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Settings"
+     * )
+     *
      * @View()
      */
     public function postSettingsAction() {

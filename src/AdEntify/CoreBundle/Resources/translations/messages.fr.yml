@@ -11,3 +11,6 @@ email:
     validate_account:
         title: 'Félicitations ! votre compte AdEntify vient d''être activé'
         content: '<p>Bonjour <strong>%user%</strong>,</p><p>Votre compte AdEntify est maintenant actif.</p><p>Connectez-vous dès à présent et taguez vos premières photos sur <a href="https://adentify.com">adentify.com</a>.</p>'
+    new_user:
+        title: '%user% vient de s''enregistrer'
+        content: '<p>Hello Team !</p><p><strong>%user%</strong> vient de s''inscrire sur AdEntify.com</p>'

@@ -31,5 +31,5 @@ jms_debugging:
     # to click the "search" button manually each time.
     auto_help: true
 
-#swiftmailer:
-#    delivery_address: me@example.com
+swiftmailer:
+    delivery_address: pierrick@valyouad.com

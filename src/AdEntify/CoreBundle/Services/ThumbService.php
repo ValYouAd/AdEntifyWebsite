@@ -42,7 +42,7 @@ class ThumbService
         if (empty($filename))
             $filename = uniqid().FileTools::getExtensionFromUrl($thumb->getOriginalPath());
 
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath());
+        $fileInfo = FileTools::loadRemoteFile($thumb->getOriginalPath());
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getUserPhotosPath($user, $size);
 
@@ -55,10 +55,17 @@ class ThumbService
         return $generatedThumbs;
     }
 
+    /**
+     * Generate product thumb
+     *
+     * @param Thumb $thumb
+     * @param $filename
+     * @return array
+     */
     public function generateProductThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, true);
+        $fileInfo = FileTools::loadRemoteFile($thumb->getOriginalPath(), 10, true);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getProductPhotoPath($size);
 
@@ -71,10 +78,18 @@ class ThumbService
         return $generatedThumbs;
     }
 
+    /***
+     * Generate profile picture thumbs
+     *
+     * @param Thumb $thumb
+     * @param User $user
+     * @param $filename
+     * @return array
+     */
     public function generateProfilePictureThumb(Thumb $thumb, User $user, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, false);
+        $fileInfo = FileTools::loadRemoteFile($thumb->getOriginalPath(), 10, false);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getUserProfilePicturePath($user);
 
@@ -87,10 +102,17 @@ class ThumbService
         return $generatedThumbs;
     }
 
+    /**
+     * Generate brand logo thumbs
+     *
+     * @param Thumb $thumb
+     * @param $filename
+     * @return array
+     */
     public function generateBrandLogoThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile($thumb->getOriginalPath(), 10, false);
+        $fileInfo = FileTools::loadFile( $thumb->getOriginalPath());
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getBrandLogoPath($size);
             // Generate thumb
@@ -117,13 +139,13 @@ class ThumbService
         if (!$imageContent)
             return null;
 
-        $this->replace_extension($filename, 'jpg');
-        $url = $this->fileUploader->uploadFromContent($imageContent, $fileInfo['content-type'], $path, $filename);
+        $filename = $this->replace_extension($filename, 'jpg');
+        $url = $this->fileUploader->uploadFromContent($imageContent, 'image/jpeg', $path, $filename);
 
         $thumbInfo = array(
             'filename' => $url
         );
-        $thumbInfo = $this->getImageSize($url, $thumbInfo);
+        $thumbInfo = $this->getImageSizeFormUrl($url, $thumbInfo);
 
         return $thumbInfo;
     }
@@ -143,9 +165,9 @@ class ThumbService
         } else {
             return $this->filterManager->get($size)
                 ->apply($this->imagine->load($imageInfo['content']))
-                ->get($this->getFormat($imageInfo['content-type']), array(
+                ->get('jpeg', array(
                     'quality' => $this->filterManager->getOption($size, "quality", 100),
-                    'format'  => $this->filterManager->getOption($size, "format", null)
+                    'format'  => $this->filterManager->getOption($size, "format", 'jpeg')
                 ));
         }
     }
@@ -157,7 +179,7 @@ class ThumbService
      * @param $array
      * @return array
      */
-    private function getImageSize($url, $array) {
+    private function getImageSizeFormUrl($url, $array) {
         $url = str_replace(' ', '%20', $url);
         $imageSize = getimagesize($url);
 
@@ -176,20 +198,6 @@ class ThumbService
                 );
             }
         }
-    }
-
-    private function getFormat($mime)
-    {
-        static $formats = array(
-            'image/jpeg' =>         'jpeg',
-            'image/jpg' =>         'jpg',
-            'image/gif' =>          'gif',
-            'image/png' =>          'png',
-            'image/vnd.wap.wbmp' => 'wbmp',
-            'image/xbm' =>          'xbm',
-        );
-
-        return $formats[$mime];
     }
 
     function replace_extension($filename, $new_extension) {

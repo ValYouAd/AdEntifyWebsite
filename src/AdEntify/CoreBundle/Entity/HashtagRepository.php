@@ -21,16 +21,20 @@ class HashtagRepository extends EntityRepository
     public function createIfNotExist($name)
     {
         $name = str_replace(array(' ', '#'), '', trim($name));
-        $hashtag = $this->findOneBy(array(
-            'name' => strtolower($name)
-        ));
-        if ($hashtag) {
-            $hashtag->setUsedCount($hashtag->getUsedCount() + 1);
-            $this->getEntityManager()->merge($hashtag);
+        if (is_numeric($name)) {
+            return $this->getEntityManager()->getRepository('AdEntifyCoreBundle:Hashtag')->find($name);
         } else {
-            $hashtag = new Hashtag();
-            $hashtag->setName($name)->setUsedCount(1);
-            $this->getEntityManager()->persist($hashtag);
+            $hashtag = $this->findOneBy(array(
+                'name' => strtolower($name)
+            ));
+            if ($hashtag) {
+                $hashtag->setUsedCount($hashtag->getUsedCount() + 1);
+                $this->getEntityManager()->merge($hashtag);
+            } else {
+                $hashtag = new Hashtag();
+                $hashtag->setName($name)->setUsedCount(1);
+                $this->getEntityManager()->persist($hashtag);
+            }
         }
         return $hashtag;
     }

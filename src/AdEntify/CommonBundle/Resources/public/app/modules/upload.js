@@ -90,21 +90,30 @@ define([
             done: function (e, data) {
                if (data.result) {
                   var photo = new ExternalServicePhotos.Model();
-                  photo.set('thumbUrl', data.result.small.filename);
-                  photo.set('smallSource', data.result.small.filename);
-                  photo.set('smallWidth', data.result.small.width);
-                  photo.set('smallHeight', data.result.small.height);
-                  if ('medium' in data.result) {
-                     photo.set('thumbUrl', data.result.medium.filename);
-                     photo.set('mediumSource', data.result.medium.filename);
-                     photo.set('mediumWidth', data.result.medium.width);
-                     photo.set('mediumHeight', data.result.medium.height);
+                  photo.set('thumbUrl', data.result['photo-medium'].filename);
+
+                  photo.set('smallSource', data.result['photo-small'].filename);
+                  photo.set('smallWidth', data.result['photo-small'].width);
+                  photo.set('smallHeight', data.result['photo-small'].height);
+
+                  if (data.result['photo-medium']) {
+                     photo.set('mediumSource', data.result['photo-medium'].filename);
+                     photo.set('mediumWidth', data.result['photo-medium'].width);
+                     photo.set('mediumHeight', data.result['photo-medium'].height);
                   }
-                  if ('large' in data.result) {
-                     photo.set('largeSource', data.result.large.filename);
-                     photo.set('largeWidth', data.result.large.width);
-                     photo.set('largeHeight', data.result.large.height);
+
+                  if (data.result['photo-retina']) {
+                     photo.set('retinaSource', data.result['photo-retina'].filename);
+                     photo.set('retinaWidth', data.result['photo-retina'].width);
+                     photo.set('retinaHeight', data.result['photo-retina'].height);
                   }
+
+                  if (data.result['photo-large']) {
+                     photo.set('largeSource', data.result['photo-large'].filename);
+                     photo.set('largeWidth', data.result['photo-large'].width);
+                     photo.set('largeHeight', data.result['photo-large'].height);
+                  }
+
                   photo.set('originalSource', data.result.original.filename);
                   photo.set('originalWidth', data.result.original.width);
                   photo.set('originalHeight', data.result.original.height);
@@ -302,6 +311,11 @@ define([
          return connected ? $.t('routing.instagram/photos/') : 'https://api.instagram.com/oauth/authorize/?client_id=' + instagramClientId + '&redirect_uri=' + app.rootUrl + 'instagram/authentication&response_type=code';
       },
 
+      getFacebookUrl: function(connected) {
+         connected = typeof connected !== 'undefined' ? connected : false;
+         return connected ? $.t('facebook/albums/') : 'https://www.facebook.com/dialog/oauth?client_id=' + facebookAppId + '&redirect_uri=' + Routing.generate('_security_check_facebook', null, true) + '&scope=' + facebookPermissions + '&response_type=code';
+      },
+
       getFlickrUrl: function(connected) {
          connected = typeof connected !== 'undefined' ? connected : false;
          return connected ? $.t('routing.flickr/sets/') : Routing.generate('flickr_request_token', { 'locale': currentLocale });
@@ -339,7 +353,8 @@ define([
       goToServiceUploadPage: function(model) {
          switch(model.get('service_name')) {
             case 'Facebook':
-               Backbone.history.navigate($.t('facebook/albums/'), { trigger: true });
+               var url = Upload.Common.getFacebookUrl(app.fb.isConnected());
+               app.fb.isConnected() ? Backbone.history.navigate(url, { trigger: true }) : window.location.href = url;
                break;
             case 'instagram':
                var url = Upload.Common.getInstagramUrl(model.get('linked'));

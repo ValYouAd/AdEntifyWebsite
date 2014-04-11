@@ -4,39 +4,52 @@
     <% if (!popoverDesactivated) { %>
         <div class="popover">
             <div class="tag-popover-arrow"></div>
-            <div class="tag-top-buttons">
-                <% if (model.isOwner()) { %>
-                <i class="glyphicon glyphicon-remove deleteTagButton" data-toggle="tooltip" title data-original-title="<%= $.t('tag.deleteTooltip') %>"></i>
-                <% } %>
-            </div>
             <div class="popover-inner">
-                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %><% if (model.has("brandModel") && !model.get('brandModel').has('small_logo_url')) { %> - <%= model.get("brandModel").get('name') %><% } %></a></span>
+
+                <% if (model.get('link')) { %>
+                <span class="title"><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %></a></span>
+                <% } else { %>
+                <span class="title"><%= model.get("title") %></span>
+                <% } %>
+
                 <% if (model.has("product") && model.get("product").get("small_url")) { %>
                 <div class="pull-left">
+                    <% if (model.get('link')) { %><a href="<%= model.get("link") %>" target="_blank"><% } %>
                     <img src="<%= model.get("product").get("small_url") %>" class="product-photo" />
+                    <% if (model.get('link')) { %></a><% } %>
                 </div>
                 <% } %>
-                <% if (model.has('product') && model.get('product').has('description') && model.get('product').get('description')) { %>
+
+                <% if (model.has('description') && model.get("description")) { %>
+                <p class="tag-description"><%= model.get("description") %></p>
+                <% } else if (model.has('product') && model.get('product').has('description') && model.get('product').get('description')) { %>
                 <p class="tag-description"><%= model.get('product').get('description') %></p>
-                <% } else { %>
-                    <% if (model.has('description') && model.get("description")) { %>
-                    <p class="tag-description"><%= model.get("description") %></p>
-                    <% } %>
                 <% } %>
-                <% if (model.has("brandModel") && model.get('brandModel') && model.get('brandModel').has('small_logo_url')) { %>
+
+                <% if (model.has("brandModel") && model.get('brandModel')) { %>
                 <div class="brand">
-                    <a href="<%= model.get('brandModel').get('link') %>"><img src="<%= model.get("brandModel").get('small_logo_url') %>" alt="<%= model.get("brandModel").get('name') %>" class="brand-logo" /></a>
+                    <a href="<%= model.get('brandModel').get('link') %>">
+                        <% if (!model.get('brandModel').has('small_logo_url')) { %>
+                        <%= model.get("brandModel").get('name') %>
+                        <% } else { %>
+                        <img src="<%= model.get("brandModel").get('small_logo_url') %>" alt="<%= model.get("brandModel").get('name') %>" class="brand-logo" />
+                        <% } %>
+                    </a>
                 </div>
                 <% } %>
+
             </div>
             <div class="clearfix"></div>
+            <% if ((model.has('product') && model.get('product').get('purchase_url'))
+                    || (model.has('product') && model.get('product').get('legal_notice'))
+                    || (model.has("brandModel") && model.get("brandModel").get('legal_notice'))) { %>
             <div class="popover-details">
                 <% if (model.has('product') && model.get('product').get('purchase_url')) { %>
                 <p>
                     <a href="<%= model.get("product").get("purchase_url") %>" target="_blank" class="more-info"><i class="icon-shopping-cart icon-white"></i> <%= $.t('tag.moreInfo') %></a>
                 </p>
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6 more-info-url-wrapper">
                         <a href="<%= model.get("product").get("purchase_url") %>" target="_blank" class="more-info-url"><i class="glyphicon glyphicon-globe icon"></i> <%= model.get("product").get("purchase_url") %></a>
                     </div>
                     <div class="col-xs-6">
@@ -51,6 +64,7 @@
                 <div class="legal-notice"><small><em><%= $.t('legalNotice.' + model.get("brandModel").get('legal_notice')) %></em></small></div>
                 <% } %>
             </div>
+            <% } %>
             <div class="tag-buttons">
                 <% if (model.has('ownerModel')) { %>
                 <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) %></span>
@@ -67,7 +81,15 @@
                         <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
                     </ul>
                     <% } else { %>
-                    <button class="btn btn-black btn-sm reportTagButton"><i class="glyphicon glyphicon-warning-sign"></i></button>
+                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <%= $.t('tag.actions') %> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <% if (model.isOwner()) { %>
+                        <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>
+                        <% } %>
+                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
+                    </ul>
                     <% } %>
                 </div>
             </div>

@@ -39,6 +39,13 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class HashtagsController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of hashtags",
+     *  output="AdEntify\CoreBundle\Entity\Hashtag",
+     *  section="Hashtag"
+     * )
+     *
      * Get hashtags
      *
      * @View()
@@ -66,6 +73,13 @@ class HashtagsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search hashtags by query",
+     *  output="AdEntify\CoreBundle\Entity\Hashtag",
+     *  section="Hashtag"
+     * )
+     *
      * @param $query
      * @param int $limit
      *
@@ -76,6 +90,9 @@ class HashtagsController extends FosRestController
      */
     public function getSearchAction($query, $page = 1, $limit = 10)
     {
+        if (empty($query))
+            return null;
+
         $em = $this->getDoctrine()->getManager();
 
         $hashtags = CommonTools::extractHashtags($query, false, true);
@@ -116,6 +133,13 @@ class HashtagsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Post a new hashtag",
+     *  output="AdEntify\CoreBundle\Entity\Hashtag",
+     *  section="Hashtag"
+     * )
+     *
      * @param Request $request
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      *

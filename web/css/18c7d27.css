@@ -30,17 +30,17 @@ header {
         width: 254px;
         height: 251px;
         position: absolute;
-        top: 150px;
+        top: 180px;
         left: 50%;
         text-align: center;
-        text-indent: 5000px;
+        text-indent: -5000px;
         overflow: hidden;
         margin: 0;
         margin-left: -127px;
     }
     .account-buttons {
         position: absolute;
-        top: 420px;
+        top: 450px;
         left: 50%;
         width: 480px;
         margin-left: -240px;
@@ -251,8 +251,8 @@ header {
     }
     .start-button {
         background: url('../../bundles/adentifycommon/images/start-button.png') no-repeat top center;
-        width: 135px;
-        height: 77px;
+        width: 141px;
+        height: 73px;
         display: block;
         margin: -10px auto 0 auto;
         position: relative;

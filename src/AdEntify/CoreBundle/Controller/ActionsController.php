@@ -41,11 +41,18 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class ActionsController extends FosRestController
 {
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get recent actions of current logged user",
+     *  output="AdEntify\CoreBundle\Entity\Action",
+     *  section="Action"
+     * )
+     *
      * Get actions for logged user
      *
      * @View(serializerGroups={"slight-list"})
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="20")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      */
     public function cgetAction($page, $limit)
     {

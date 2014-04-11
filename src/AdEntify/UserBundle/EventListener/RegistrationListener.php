@@ -48,7 +48,7 @@ class RegistrationListener implements EventSubscriberInterface
         $user = $event->getForm()->getData();
         $user->setEnabled(false);
 
-        if ($user->getEnabled()) {
+        if ($user->isEnabled()) {
             $this->emailer->register($user);
         } else {
             $this->emailer->registerWithValidation($user);

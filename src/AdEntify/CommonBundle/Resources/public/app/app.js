@@ -1,6 +1,6 @@
 define([
    "backbone.layoutmanager",
-   "i18next2"
+   "i18next"
 
    // Include additional libraries installed with JamJS or placed in the
    // `vendor/js` directory, here.

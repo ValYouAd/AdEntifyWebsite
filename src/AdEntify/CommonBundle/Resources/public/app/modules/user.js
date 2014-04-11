@@ -93,7 +93,8 @@ define([
          if (!this.getView('.brands') && this.options.brands) {
             this.setView('.brands', new Brand.Views.List({
                brands: this.options.brands,
-               emptyMessage: 'profile.noBrands'
+               emptyMessage: 'profile.noBrands',
+               showTagsCount: false
             }));
          }
          if (!this.getView('.followings') && this.options.followings) {
@@ -222,7 +223,7 @@ define([
                this.setView('.users-alert', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t(this.options.noUsersMessage),
-                  showClose: true
+                  showClose: false
                }));
             } else {
                this.removeView('.users-alert');

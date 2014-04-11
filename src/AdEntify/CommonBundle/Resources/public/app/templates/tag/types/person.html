@@ -4,14 +4,14 @@
     <% if (!popoverDesactivated) { %>
         <div class="popover">
             <div class="tag-popover-arrow"></div>
-            <div class="tag-top-buttons">
-                <% if (model.isOwner()) { %>
-                <i class="glyphicon glyphicon-remove deleteTagButton" data-toggle="tooltip" title data-original-title="<%= $.t('tag.deleteTooltip') %>"></i>
-                <% } %>
-            </div>
             <div class="popover-inner">
-                <a class="person-picture" href="<%= (model.has('person') && typeof model.get('person').user !== 'undefined') ? rootUrl + $.t('routing.profile/id/', { id: model.get('person').user.id }) : model.get("link") %>" target="_blank"><img src="<%= model.get('personModel').get('largeProfilePicture') %>" /></a>
-                <span class="title"><a href="<%= (model.has('person') && typeof model.get('person').user !== 'undefined') ? rootUrl + $.t('routing.profile/id/', { id: model.get('person').user.id }) : model.get("link") %>" target="_blank"><%= model.get("title") %></a></span>
+                <% if (model.has('link') || model.get('person').has('link')) { %>
+                <a class="person-picture" href="<%= model.has('link') ? model.get("link") : model.get('person').get('link') %>" target="_blank"><img src="<%= model.get('personModel').get('largeProfilePicture') %>" /></a>
+                <span class="title"><a href="<%= model.has('link') ? model.get("link") : model.get('person').get('link') %>" target="_blank"><%= model.get("title") %></a></span>
+                <% } else { %>
+                <div class="person-picture"><img src="<%= model.get('personModel').get('largeProfilePicture') %>" /></div>
+                <span class="title"><%= model.get("title") %></span>
+                <% } %>
                 <div class="clearfix"></div>
             </div>
             <div class="tag-buttons">
@@ -30,7 +30,15 @@
                         <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
                     </ul>
                     <% } else { %>
-                        <button class="btn btn-black btn-sm reportTagButton"><i class="glyphicon glyphicon-warning-sign"></i></button>
+                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <%= $.t('tag.actions') %> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <% if (model.isOwner()) { %>
+                        <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>
+                        <% } %>
+                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
+                    </ul>
                     <% } %>
                 </div>
             </div>

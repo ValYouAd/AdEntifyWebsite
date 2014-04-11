@@ -4,18 +4,13 @@
     <% if (!popoverDesactivated) { %>
         <div class="popover">
             <div class="tag-popover-arrow"></div>
-            <div class="tag-top-buttons">
-                <% if (model.isOwner()) { %>
-                <i class="glyphicon glyphicon-remove deleteTagButton" data-toggle="tooltip" title data-original-title="<%= $.t('tag.deleteTooltip') %>"></i>
-                <% } %>
-            </div>
             <div class="popover-inner">
                 <span class="title"><% if (model.get("link")) { %><a href="<%= model.get("link") %>" target="_blank"><%= model.get("title") %></a><% } else { %><%= model.get("title") %><% } %></span>
                 <% if (model.has('description') && model.get("description")) { %>
                 <p><%= model.get("description") %></p>
                 <% } %>
             </div>
-            <div id="map<%= model.get("id") %>" class="map"></div>
+            <div id="map<%= model.get("id") %>"></div>
             <div class="popover-details"></div>
             <div class="tag-buttons">
                 <% if (model.has('ownerModel')) { %>
@@ -33,7 +28,15 @@
                         <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
                     </ul>
                     <% } else { %>
-                    <button class="btn btn-black btn-sm reportTagButton"><i class="glyphicon glyphicon-warning-sign"></i></button>
+                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <%= $.t('tag.actions') %> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <% if (model.isOwner()) { %>
+                        <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>
+                        <% } %>
+                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
+                    </ul>
                     <% } %>
                 </div>
             </div>

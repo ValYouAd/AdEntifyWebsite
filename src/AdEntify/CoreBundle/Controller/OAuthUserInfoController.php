@@ -23,6 +23,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 
 use AdEntify\CoreBundle\Entity\OAuthUserInfo;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class OAuthUserInfoController

@@ -1,0 +1,14 @@
+default:
+    pageTitle: Découvrez, taguez et partagez des photos - AdEntify
+    pageDescription: Tagguez, partagez et découvrez des photos avec AdEntify, vous pouvez ajouter des marques, des produits, des lieux et des personnes sur vos photos ou celles de vos amis.
+
+error:
+    404PageTitle: 'La page demandée est introuvable'
+    404Heading: 'Nous n''avons pu trouver votre page'
+    404Content: 'La page que vous avez demandée est introuvable.'
+    500PageTitle: 'Une erreur est survenue sur le serveur'
+    500Heading: 'Impossible d''afficher la page, une erreur serveur est survenue'
+    500Content: 'Nous ne pouvons pas afficher cette page pour le moment, veuillez réessayer dans quelques instants ou nous contacter.'
+    commonPageTitle: 'Une erreur inconnue est survenue'
+    commonHeading: 'Une erreur inconnue est survenue'
+    commonContent: 'Nous ne pouvons pas afficher cette page pour le moment suite à une erreur inconnue, veuillez réessayer dans quelques instants ou nous contacter.'

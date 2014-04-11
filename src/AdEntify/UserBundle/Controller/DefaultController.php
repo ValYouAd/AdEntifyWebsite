@@ -36,8 +36,6 @@ class DefaultController extends Controller
             );
             parse_str($this->postUrl($url, $token_params), $response);
             if (array_key_exists('access_token', $response) && array_key_exists('expires', $response)) {
-                $response['access_token'];
-
                 $fb = $this->container->get('fos_facebook.api');
                 $fb->setAccessToken($response['access_token']);
                 try {
@@ -46,15 +44,18 @@ class DefaultController extends Controller
                     $userManager = $this->container->get('fos_user.user_manager');
                     $user = $userManager->findUserBy(array('facebookId' => $fbdata['id']));
 
+                    $newUser = false;
                     if (null === $user) {
-                        $user = $userManager->createUser();
-                        $user->setEnabled(false);
-                        $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
-
-                        if ($user->isEnabled()) {
-                            $this->get('ad_entify_core.email')->register($user);
+                        // Check if there is a logged in user
+                        $securityContext = $this->container->get('security.context');
+                        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+                            $user = $this->container->get('security.context')->getToken()->getUser();
                         } else {
-                            $this->get('ad_entify_core.email')->registerWithValidation($user);
+                            $user = $userManager->createUser();
+                            $user->setEnabled(false);
+                            $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
+
+                            $newUser = true;
                         }
                     }
 
@@ -62,6 +63,14 @@ class DefaultController extends Controller
                     $user->setFacebookAccessToken($fb->getAccessToken());
                     $user->setFBData($fbdata);
                     $userManager->updateUser($user);
+
+                    if ($newUser) {
+                        if ($user->isEnabled()) {
+                            $this->get('ad_entify_core.email')->register($user);
+                        } else {
+                            $this->get('ad_entify_core.email')->registerWithValidation($user);
+                        }
+                    }
 
                     if (empty($user)) {
                         throw new UsernameNotFoundException('The user is not authenticated on facebook');
@@ -118,9 +127,12 @@ class DefaultController extends Controller
             "client_id" => $oAuthClient->getPublicId(),
             "client_secret" => $oAuthClient->getSecret(),
             "grant_type" => $this->container->getParameter('facebook_grant_extension_uri'),
-            "facebook_access_token" => $this->getRequest()->request->get('access_token')
+            "facebook_access_token" => $this->getRequest()->query->get('access_token')
         );
         $result = $this->postUrl($url, $params);
+
+        print_r($result);die;
+
         $tokens = !empty($result) ? json_decode($result) : null;
 
         // If no error, return the tokens
@@ -292,6 +304,7 @@ class DefaultController extends Controller
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params, null, '&'));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $ret = curl_exec($ch);
         curl_close($ch);
         return $ret;

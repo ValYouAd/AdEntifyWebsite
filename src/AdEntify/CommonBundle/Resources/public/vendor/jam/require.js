@@ -2012,11 +2012,6 @@ var jam = {
             "main": "backbone.layoutmanager.js"
         },
         {
-            "name": "i18next2",
-            "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
-        },
-        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -2061,11 +2056,6 @@ var jam = {
             ],
             "exports": "Backbone"
         },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
-        },
         "isotope": {
             "deps": [
                 "jquery"
@@ -2086,11 +2076,6 @@ if (typeof require !== "undefined" && require.config) {
             "name": "backbone.layoutmanager",
             "location": "../vendor/jam/backbone.layoutmanager",
             "main": "backbone.layoutmanager.js"
-        },
-        {
-            "name": "i18next2",
-            "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
         },
         {
             "name": "isotope",
@@ -2135,11 +2120,6 @@ if (typeof require !== "undefined" && require.config) {
                 "jquery"
             ],
             "exports": "Backbone"
-        },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
         },
         "isotope": {
             "deps": [
@@ -2163,11 +2143,6 @@ else {
             "main": "backbone.layoutmanager.js"
         },
         {
-            "name": "i18next2",
-            "location": "../vendor/jam/i18next2",
-            "main": "dist/i18next.amd.withJQuery-1.6.3.min.js"
-        },
-        {
             "name": "isotope",
             "location": "../vendor/jam/isotope",
             "main": "jquery.isotope.js"
@@ -2210,11 +2185,6 @@ else {
                 "jquery"
             ],
             "exports": "Backbone"
-        },
-        "i18next2": {
-            "deps": [
-                "jquery"
-            ]
         },
         "isotope": {
             "deps": [

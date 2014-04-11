@@ -323,6 +323,13 @@ class BrandsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of photos for the brand",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="Brand"
+     * )
+     *
      * @View()
      *
      * @QueryParam(name="page", requirements="\d+", default="1")

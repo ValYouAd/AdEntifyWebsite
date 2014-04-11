@@ -7,6 +7,8 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
+        ROLE_FACEBOOK:    ROLE_USER
+        ROLE_TWITTER:     ROLE_USER
         ROLE_TEAM:        ROLE_USER
         ROLE_ANOUNCER:    ROLE_USER
         ROLE_ADMIN:       [ROLE_USER, ROLE_TEAM]
@@ -38,8 +40,8 @@ security:
                 resource_owners:
                     twitter:         "/login/check-twitter"
                     flickr:          "/login/check-flickr"
-                login_path:          /
-                failure_path:        /
+                login_path:          loggedInHome
+                failure_path:        home_logoff
                 oauth_user_provider:
                     service: adentify_user.fos_ub_user_provider
             anonymous:               true

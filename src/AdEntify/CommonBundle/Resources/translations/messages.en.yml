@@ -20,7 +20,7 @@ My profile: My profile
 My brand: My brand
 Tag my photos: Tag my photos
 Log out: Log out
-Press: Who we are?
+Press: Who we are
 Credits: Credits
 FAQ: FAQ
 About Us: About us
@@ -31,10 +31,10 @@ People to follow: People to follow
 Already: Already
 Most tagged Brands: Most tagged brands
 Advertisers: Advertisers
-Who we are: Who we are?
+Who we are: Who we are
 Contact: Contact
 Legal notice: Legal
-How it works: How it works?
+How it works: How it works
 More brands: More brands
 More members: More members
 Login: Login
@@ -53,10 +53,10 @@ Add a brand: Add a brand
 modal:
     login: Login
     signup: Sign up
-    fbOrTwitterConnect: Save time by sign up with Facebook or Twitter
+    fbOrTwitterConnect: Save time by signing up with Facebook or Twitter
     facebookConnect: Connect with Facebook
     twitterConnect: Connect with Twitter
-    noAccount: I don't have Facebook or Twitter account
+    noAccount: I don't have a Facebook or a Twitter account
 
 #Register
 BirthdayRequirementInfo: Providing your birthday helps make sure you get the right AdEntify experience for your age. This info is private and never shown on your profile.
@@ -64,8 +64,8 @@ BirthdayRequirementInfo: Providing your birthday helps make sure you get the rig
 #About
 about:
     pageTitle: About - AdEntify.com
-    pageDescription: AdEntify is a service that gives you ability to enhence your photos with tags : brands, products, places, people...
-How it works?: How it works?
+    pageDescription: AdEntify is a service that gives you the ability to enhance your photos with tags of brands, products, places, people...
+How it works?: How it works
 HowItWorksStep1: <strong>Add</strong> your photos via Facebook, Instagram, Flickr, etc
 HowItWorksStep2: <strong>Enrich</strong> your photos with tags and share them
 HowItWorksStep3: <strong>Discover</strong> photos with your favorite brands
@@ -82,7 +82,7 @@ contact:
     send: Send
     sent: Your message was sent. We will reply to it as soon as posssible.
     pageTitle: Contact - AdEntify.com
-    pageDescription: Contact AdEntify Team by mail or social networks
+    pageDescription: Contact the AdEntify Team by email or social networks
 
 #Jobs
 Jobs: Jobs
@@ -93,17 +93,17 @@ jobs:
 
 #Press
 press:
-    pageTitle: Who we are? - AdEntify.com
+    pageTitle: Who we are - AdEntify.com
     pageDescription: Story, team, logos & press release of AdEntify
     quote: « Sharing economy isn’t about you earning less, it’s about us sharing more »
 Contact us!: Contact us!
-Download press kit: Download press kit
+Download press kit: Download the press kit
 Download: Download
 Logos HD: HD Logos
 Screenshots: Screenshots
 Communiqué de presse: Press release
 Story: Story
-Team: Who we are?
+Team: Who we are
 Logos and press kit: Logos and press kit
 
 #HP Offline
@@ -128,10 +128,10 @@ search:
 
 #Brand
 Add a new brand: Add a new brand
-Congrats, brand was successfully added !: Congrats, brand was successfully added !
+Congrats, brand was successfully added !: Congrats, the brand was successfully added !
 addBrand:
     pageTitle: Add a brand - AdEntify.com
-    pageDescription: Add you brand or a new brand with this form.
+    pageDescription: Add your brand or a new brand with this form.
 
 #Legal
 legal:
@@ -140,15 +140,18 @@ legal:
 
 didacticiel:
     search: 'Search photos, users, brands, tags, hashtags...'
-    dropdown: 'Discover photos by brands or by categories'
+    dropdown: 'Discover photos by brands or categories'
     upload : 'Upload new photos from your social networks or your computer'
     tag: 'Tag your photos as well as other users to earn rewards'
     notifications: 'Click on your profile picture to view your latest notifications'
     userInfos: 'Click here to access all your information'
     photos: 'View the latest tagged photos from AdEntify users'
     ticker: ' Check out what’s going on with the people you follow'
-    tagButton: 'Add new content in few clicks'
+    tagButton: 'Add new content in a few clicks'
     show: Show step-by-step introduction
+
+index:
+    pageHeading: Tag and share photos on AdEntify.com
 
 #Routing
 photos/untagged/: photos/untagged/

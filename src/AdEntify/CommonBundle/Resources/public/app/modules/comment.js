@@ -85,7 +85,7 @@ define([
             this.setView('.alert-comments', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: $.t('comment.noComments'),
-               showClose: true
+               showClose: false
             }));
          } else {
             this.removeView('.alert-comments');
@@ -128,9 +128,9 @@ define([
                comment.getToken('comment_item', function() {
                   comment.save(null, {
                      success: function(comment) {
-                        btn.button('reset');
                         that.comments.add(comment);
                         that.render();
+                        that.trigger('comment:new');
                         $('.comment-body').val('');
                      },
                      error: function() {
@@ -139,6 +139,8 @@ define([
                            message: $.t('comment.errorCommentPost'),
                            showClose: true
                         })).render();
+                     },
+                     complete: function() {
                         btn.button('reset');
                      }
                   });

@@ -18,9 +18,9 @@
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     {% javascripts
     '@AdEntifyCommonBundle/Resources/public/vendor/jam/jquery/dist/jquery.js'
-    '@AdEntifyCommonBundle/Resources/public/vendor/js/bootstrap.min.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $("a").click(function(event){
             if ($(this).attr('target') == '_blank')
@@ -264,7 +264,7 @@
         <div class="carousel"></div>
 
         <a href="{{ path('about') }}">
-            <h1 class="pastille-adentify">AdEntify</h1>
+            <h1 class="pastille-adentify">{{ 'index.pageHeading'|trans }}</h1>
         </a>
 
         <div class="account-buttons">

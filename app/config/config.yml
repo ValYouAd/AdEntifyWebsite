@@ -17,7 +17,8 @@ framework:
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
-    session:         ~
+    session:
+        save_path: %kernel.root_dir%/var/sessions
     fragments:       ~
 
 # Twig Configuration
@@ -230,27 +231,30 @@ ad_entify_flickr:
 # Imagine
 avalanche_imagine:
     filters:
-        small:
+        photo-small:
             type:    thumbnail
             options: { size: [100, 9999], mode: inset, quality: 70, format: jpeg }
-        medium:
+        photo-medium:
             type:    thumbnail
-            options: { size: [300, 9999], mode: inset, quality: 80, format: jpeg }
-        large:
+            options: { size: [320, 9999], mode: inset, quality: 80, format: jpeg }
+        photo-retina:
             type:    thumbnail
-            options: { size: [1024, 9999], mode: inset, quality: 100, format: jpeg }
+            options: { size: [640, 9999], mode: inset, quality: 95, format: jpeg }
+        photo-large:
+            type:    thumbnail
+            options: { size: [1024, 9999], mode: inset, quality: 95, format: jpeg }
         logo-small:
             type:    thumbnail
-            options: { size: [100, 9999], mode: inset, quality: 100 }
+            options: { size: [100, 9999], mode: inset, quality: 70 }
         logo-medium:
            type:    thumbnail
-           options: { size: [250, 9999], mode: inset, quality: 100 }
+           options: { size: [250, 9999], mode: inset, quality: 90 }
         logo-large:
            type:    thumbnail
-           options: { size: [500, 9999], mode: inset, quality: 100 }
+           options: { size: [500, 9999], mode: inset, quality: 95 }
         profile-picture:
            type:    thumbnail
-           options: { size: [120, 120], mode: outbound, quality: 100, format: jpeg }
+           options: { size: [120, 120], mode: outbound, quality: 95, format: jpeg }
 
 # AdEntify Core
 ad_entify_core:
@@ -304,6 +308,8 @@ nelmio_cors:
 
 nelmio_api_doc:
     name: AdEntify API v1
+    sandbox:
+        endpoint: %root_url_without_trailing%
 
 a2lix_translation_form:
     locales: [en, fr]       # [1]

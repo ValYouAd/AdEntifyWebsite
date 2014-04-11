@@ -20,26 +20,16 @@ define([
          this.set('status', response.status);
       },
 
-      /*notLoggedIn: function() {
-         var that = this;
-         $('#loading-authent').hide();
-         $('#fb-logout').hide();
-         $('#fb-login').show();
-         $('#twitter-authent').show();
-         $('#fb-login').click(function() {
-            that.login();
-         });
-      },*/
-
       login: function() {
-         var that = this;
+         window.location.href = require('modules/upload').Common.getFacebookUrl();
+         /*var that = this;
          FB.login(function(response) {
             if (response.authResponse) {
                that.connected(response);
             } else {
                // cancelled
             }
-         }, {scope: facebookPermissions});
+         }, { scope: facebookPermissions });*/
       },
 
       logout: function() {
@@ -52,7 +42,7 @@ define([
       },
 
       isConnected: function() {
-         return this.get('status') === 'connected' ? true: false;
+         return this.get('status') === 'connected' ? true : false;
       },
 
       loadFriends: function(options) {

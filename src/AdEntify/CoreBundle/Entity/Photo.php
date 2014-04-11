@@ -160,6 +160,30 @@ class Photo
     /**
      * @var string
      *
+     * @ORM\Column(name="retina_url", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $retinaUrl;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="retina_width", type="smallint", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $retinaWidth;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="retina_height", type="smallint", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $retinaHeight;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="medium_url", type="text", nullable=true)
      * @Serializer\Groups({"details", "list", "slight-list"})
      */
@@ -642,6 +666,7 @@ class Photo
     public function setCommentsCount($commentsCount)
     {
         $this->commentsCount = $commentsCount;
+        return $this;
     }
 
     /**
@@ -658,6 +683,15 @@ class Photo
     public function getLikesCount()
     {
         return $this->likesCount;
+    }
+
+    /**
+     * @param int $likesCount
+     */
+    public function setLikesCount($likesCount)
+    {
+        $this->likesCount = $likesCount;
+        return $this;
     }
 
     /**
@@ -938,5 +972,56 @@ class Photo
     public function getReports()
     {
         return $this->reports;
+    }
+
+    /**
+     * @param int $retinaHeight
+     */
+    public function setRetinaHeight($retinaHeight)
+    {
+        $this->retinaHeight = $retinaHeight;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRetinaHeight()
+    {
+        return $this->retinaHeight;
+    }
+
+    /**
+     * @param string $retinaUrl
+     */
+    public function setRetinaUrl($retinaUrl)
+    {
+        $this->retinaUrl = $retinaUrl;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRetinaUrl()
+    {
+        return $this->retinaUrl;
+    }
+
+    /**
+     * @param int $retinaWidth
+     */
+    public function setRetinaWidth($retinaWidth)
+    {
+        $this->retinaWidth = $retinaWidth;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRetinaWidth()
+    {
+        return $this->retinaWidth;
     }
 }

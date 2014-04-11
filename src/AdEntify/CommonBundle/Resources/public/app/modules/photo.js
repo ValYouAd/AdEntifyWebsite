@@ -236,7 +236,7 @@ define([
                   app.useLayout().setView('#center-pane-content', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('photo.noPhoto'),
-                     showClose: true
+                     showClose: false
                   })).render();
                } else {
                   this.updateMetas();
@@ -311,10 +311,15 @@ define([
 
          // Comments
          if (!this.getView('.comments')) {
-            this.setView('.comments', new Comment.Views.List({
+            var commentsView = new Comment.Views.List({
                comments: this.options.comments,
                photoId: this.options.photoId
-            }));
+            });
+            commentsView.on('comment:new', function() {
+               that.model.set('comments_count', that.model.get('comments_count') + 1);
+            });
+            this.setView('.comments', commentsView);
+
          }
 
          // Like Button
@@ -442,8 +447,10 @@ define([
          $likeCount = this.$('.likes-count-value');
          var currentLikeCount = $likeCount.html() ? parseInt($likeCount.html()) : 0;
          if (liked) {
+            this.model.set('likes_count', this.model.get('likes_count') + 1);
             $likeCount.html(currentLikeCount + 1);
          } else {
+            this.model.set('likes_count', this.model.get('likes_count') > 0 ? this.model.get('likes_count') - 1 : 0);
             $likeCount.html(currentLikeCount > 0 ? currentLikeCount - 1 : 0);
          }
       },
@@ -582,7 +589,7 @@ define([
                this.setView('.alert-linked-photos-list', new Common.Views.Alert({
                   cssClass: Common.alertInfo,
                   message: $.t('photo.noLinkedPhotos'),
-                  showClose: true
+                  showClose: false
                }));
             }
             this.render();
@@ -593,6 +600,7 @@ define([
    Photo.Views.Edit = Backbone.View.extend({
       template: 'photo/edit',
       currentHashtags: [],
+      select2Loaded: false,
 
       serialize: function() {
          return {
@@ -640,7 +648,8 @@ define([
 
       afterRender: function() {
          $(this.el).i18n();
-         if (this.categories && this.categories.length > 0) {
+         if (this.categories && this.categories.length > 0 && !this.select2Loaded) {
+            this.select2Loaded = !this.select2Loaded;
             var that = this;
             $(this.el).find('.selectCategories').select2();
             $(this.el).find('.selectCategories').on('change', function() {
@@ -653,8 +662,8 @@ define([
             multiple: true,
             createSearchChoice: function(term, data) {
                if ($(data).filter(function() {
-                  return this.text.localeCompare(term)===0;
-               }).length===0) {
+                  return this.text.localeCompare(term) === 0;
+               }).length === 0) {
                   return {id:term, text:term};
                }
             },

@@ -52,23 +52,6 @@ define([
       url: Routing.generate('api_v1_get_brands')
    });
 
-   Brand.Views.Item = Backbone.View.extend({
-      template: "brand/item",
-      tagName: "li class='col-xs-6 col-sm-4 col-md-2'",
-
-      serialize: function() {
-         return { model: this.model };
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-      },
-
-      initialize: function() {
-         this.listenTo(this.model, "change", this.render);
-      }
-   });
-
    Brand.Views.Content = Backbone.View.extend({
       template: 'brand/content',
 
@@ -125,6 +108,7 @@ define([
    Brand.Views.List = Backbone.View.extend({
       template: "brand/list",
       loaded: false,
+      showTagsCount: true,
 
       serialize: function() {
          return {
@@ -134,6 +118,17 @@ define([
             hasData: this.loaded && this.options.brands.length > 0,
             loaded: this.loaded
          };
+      },
+
+      initialize: function() {
+         this.showTagsCount = typeof this.options.showTagsCount !== 'undefined' ? this.options.showTagsCount : false;
+         this.listenTo(this.options.brands, {
+            'sync': function() {
+               this.$('#loading-brands').fadeOut('fast');
+               this.loaded = true;
+               this.render();
+            }
+         });
       },
 
       beforeRender: function() {
@@ -153,31 +148,45 @@ define([
          }
 
          this.options.brands.each(function(brand) {
-            this.insertView("#brands", new Brand.Views.Item({
-               model: brand
-            }));
+            if (brand.has('small_logo_url')) {
+               this.insertView("#brands", new Brand.Views.Item({
+                  model: brand,
+                  showTagsCount: this.showTagsCount,
+                  tagName: this.showTagsCount ? "li class='col-xs-6 col-sm-4 col-md-2'" : "li class='col-xs-6 col-md-4'"
+               }));
+            }
          }, this);
          if (this.loaded && this.options.brands.length === 0) {
             this.setView('.alert-brands', new Common.Views.Alert({
                cssClass: Common.alertInfo,
                message: typeof this.options.emptyDataMessage !== 'undefined' ? this.options.emptyDataMessage : $.t('brand.noUserBrands'),
-               showClose: true
+               showClose: false
             }));
          }
       },
 
       afterRender: function() {
          $(this.el).i18n();
+      }
+   });
+
+   Brand.Views.Item = Backbone.View.extend({
+      template: 'brand/item',
+      tagName: "li class='col-xs-6 col-sm-4 col-md-2'",
+
+      serialize: function() {
+         return {
+            model: this.model,
+            showTagsCount: this.options.showTagsCount
+         };
       },
 
       initialize: function() {
-         this.listenTo(this.options.brands, {
-            'sync': function() {
-               this.$('#loading-brands').fadeOut('fast');
-               this.loaded = true;
-               this.render();
-            }
-         });
+         this.listenTo(this.model, 'change', this.render);
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
       }
    });
 
