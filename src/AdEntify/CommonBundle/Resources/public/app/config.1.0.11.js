@@ -14,7 +14,7 @@ require.config({
      ],
      "lodash": "../vendor/jam/lodash/dist/lodash.underscore.min",
      "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
-     "bootstrap": "../vendor/js/bootstrap.min",
+     "bootstrap": "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min",
      "hmacsha1": "../vendor/js/hmac-sha1",
      "pinterest": [
         "//assets.pinterest.com/js/pinit",
@@ -97,6 +97,6 @@ require.config({
      }
   },
 
-   urlArgs: "v=1.0.10"
+   urlArgs: "v=1.0.11"
 
 });
