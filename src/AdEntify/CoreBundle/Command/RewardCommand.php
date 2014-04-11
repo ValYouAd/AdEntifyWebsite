@@ -37,11 +37,11 @@ class RewardCommand extends ContainerAwareCommand
         $this->setup();
 
         // Check new addict fans
-        $sql = 'SELECT u.id as userId, b.id as brandId, b.tag_required_addict_reward FROM users as u
+        $sql = 'SELECT u.id as userId, b.id as brandId, b.tag_required_addict_reward, COUNT(tp.id) FROM users as u
             INNER JOIN tags as t ON (t.owner_id = u.id) INNER JOIN tag_points as tp ON (tp.tag_id = t.id)
             INNER JOIN brands as b ON (t.brand_id = b.id) WHERE tp.status = :status AND NOT EXISTS(SELECT r.id FROM rewards as r
             WHERE r.owner_id = u.id AND r.brand_id = b.id)
-            GROUP BY u.id HAVING COUNT(tp.id) >= b.tag_required_addict_reward';
+            GROUP BY u.id, b.id HAVING COUNT(tp.id) >= b.tag_required_addict_reward';
 
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('userId', 'userId', 'integer');
