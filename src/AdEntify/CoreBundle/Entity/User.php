@@ -40,7 +40,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var string
+     * @var stringet
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Please enter your firstname.", groups={"Registration", "Profile"})
@@ -510,13 +510,13 @@ class User extends BaseUser
             $this->setFacebookId($fbdata['id']);
             $this->addRole('ROLE_FACEBOOK');
         }
-        if (isset($fbdata['first_name'])) {
+        if (isset($fbdata['first_name']) && empty($this->firstname)) {
             $this->setFirstname($fbdata['first_name']);
         }
-        if (isset($fbdata['last_name'])) {
+        if (isset($fbdata['last_name']) && empty($this->lastname)) {
             $this->setLastname($fbdata['last_name']);
         }
-        if (isset($fbdata['email'])) {
+        if (isset($fbdata['email'])  && empty($this->email)) {
             $this->setEmail($fbdata['email']);
         }
         if (isset($fbdata['username'])) {
