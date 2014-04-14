@@ -55,6 +55,9 @@ define([
          this.loadMoreButton = this.$('.loadMore');
          if (!this.showLoadMoreButton)
             this.checkWindowScrollHandler();
+         if (!this.options.collection.hasNextPage()) {
+            this.loadMoreButton.hide();
+         }
       },
 
       checkWindowScrollHandler: function() {
