@@ -150,7 +150,22 @@ function(app, Router, i18n, AppState, TagStats, Common) {
          // Delete previous pagination
          delete this.next;
          delete this.previous;
+         delete this.total;
          return Backbone.Collection.prototype.reset.apply(this, arguments);
+      },
+      clone: function(newCollection) {
+         this.each(function(model) {
+            newCollection.add(model);
+         });
+         if (typeof this.url !== 'undefined')
+            newCollection.url = this.url;
+         if (typeof this.next !== 'undefined')
+            newCollection.next = this.next;
+         if (typeof this.prev !== 'undefined')
+            newCollection.prev = this.prev;
+         if (typeof this.total !== 'undefined')
+            newCollection.total = this.total;
+         return newCollection;
       }
    });
 

@@ -944,6 +944,7 @@ html,body,.body-grey-background {
 .full-photo .photo-container {
     margin-top: 8px;
     display: inline-block;
+    max-width: 100%;
 }
 .photo-container {
     position: relative;
@@ -1158,6 +1159,14 @@ html,body,.body-grey-background {
     cursor: crosshair;
 }
 /*
+----------------------- */
+
+/* MODULE : Hashtags
+----------------------- */
+.modal .hashtags-list {
+    margin: 4px 8px;
+}
+/* END MODULE : Hashtags
 ----------------------- */
 
 /* MODULE : Actions
@@ -2134,6 +2143,14 @@ html,body,.body-grey-background {
         z-index: 2;
     }
 /*
+----------------------- */
+
+/* End Modal
+----------------------- */
+.modal .loadMore {
+    margin: 10px 0px;
+}
+/* End Modal
 ----------------------- */
 
 /* Dropdown Menu
@@ -3414,15 +3431,17 @@ label,
     margin: 10px 0px;
 }
 .profile-aside .brands,
-.profile-aside #brands {
+.profile-aside #brands,
+.modal .brands,
+.modal #brands {
     border: none;
     margin: 0px;
 }
-.profile-aside #brands {
-    background: white;
-}
 .profile-aside .brands .brand-logo {
     max-height: 55px!important;
+    max-width: 100%;
+}
+.modal .brands .brand-logo {
     max-width: 100%;
 }
 .profile-aside #brands {
@@ -3434,8 +3453,16 @@ label,
     margin: 7px 0px;
     height: 65px;
 }
+.modal #brands li, .modal .brands li{
+    border: none;
+    padding: 0px 5px;
+    margin: 7px 0px;
+    height: 115px;
+}
 .profile-aside #brands li:nth-child(3n+2),
-.profile-aside #brands li:nth-child(3n+1) {
+.profile-aside #brands li:nth-child(3n+1),
+.modal #brands li:nth-child(3n+2),
+.modal #brands li:nth-child(3n+1){
     border-right: 1px solid #e5e5e5;
 }
 .followers-link, .followings-link { cursor: pointer; }

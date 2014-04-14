@@ -199,14 +199,14 @@ define([
             this.render();
          });
          this.listenTo(app, 'photos:submitPhotoDetails', this.submitPhotoDetails);
-         this.listenTo(app, 'pagination:loadNextPage', this.loadMorePhotos);
-
          this.photosUrl = typeof this.options.photosUrl !== 'undefined' ? this.options.photosUrl : Routing.generate('api_v1_get_photos');
          this.photosSuccess = typeof this.options.photosSuccess !== 'undefined' ? this.options.photosSuccess : null;
          this.photosError = typeof this.options.photosError !== 'undefined' ? this.options.photosError : null;
       },
 
       beforeRender: function() {
+         var that = this;
+
          this.options.photos.each(function(photo) {
             this.insertView("#photos-grid", new Photos.Views.Item({
                model: photo,
@@ -218,13 +218,17 @@ define([
 
          // Pagination
          if (!this.getView('.pagination-wrapper')) {
-            this.setView('.pagination-wrapper', new Pagination.Views.NextPage({
+            this.pagination = new Pagination.Views.NextPage({
                collection: this.options.photos,
                model: new Pagination.Model({
                   buttonText: 'photos.loadMore',
                   loadingText: 'photos.loadingMore'
                })
-            }));
+            });
+            this.pagination.on('pagination:loadNextPage', function() {
+               that.loadMorePhotos();
+            });
+            this.setView('.pagination-wrapper', this.pagination);
          }
       },
 
@@ -284,8 +288,9 @@ define([
          this.newRender = true;
          this.stopListening(this.options.photos, 'add');
          this.listenTo(this.options.photos, 'add', this.renderNew);
+         var that = this;
          this.options.photos.nextPage(function() {
-            app.trigger('pagination:nextPageLoaded');
+            that.pagination.trigger('pagination:nextPageLoaded');
          });
       }
    });

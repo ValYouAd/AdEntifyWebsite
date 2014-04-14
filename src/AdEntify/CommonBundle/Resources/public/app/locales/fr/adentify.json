@@ -38,7 +38,10 @@
       "silver": "Silver",
       "gold": "Gold",
       "noUserRewards": "Aucun membre n'a obtenu cette récompense pour le moment.",
-      "viewAllRewards": "Voir toutes les récompenses"
+      "viewAllRewards": "Voir toutes les récompenses",
+      "viewAllBrands": "Voir toutes les marques",
+      "loadMore": "Charger plus de marques",
+      "modalTitle": "Marques"
    },
    "photos": {
       "pageTitle": "Découvrez, taguez et partagez des photos - AdEntify",
@@ -129,7 +132,10 @@
    },
    "hashtag": {
       "usedCount": "__count__ fois",
-      "usedCount_plural": "__count__ fois"
+      "usedCount_plural": "__count__ fois",
+      "viewAllHashtags": "Voir tous les hashtags",
+      "loadMore": "Charger plus de hashtags",
+      "modalTitle": "Hashtags"
    },
    "facebook": {
       "albumsPageTitle": "Mes albums Facebook - AdEntify",
@@ -474,6 +480,10 @@
       "prev": "Précédent",
       "skip": "Passer",
       "done": "Commence à tagguer !"
+   },
+   "reward": {
+      "modalTitle": "Récompenses",
+      "loadMore": "Charger plus de récompenses"
    },
    "common": {
       "viewPhoto": "voir la photo",

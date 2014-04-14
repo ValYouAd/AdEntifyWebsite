@@ -61,10 +61,13 @@ define([
             }
             this.render();
          }});
-         this.showAllButton = typeof this.options.showAllButton !== 'undefined' ? this.options.showAllButton : this.showAllButton;
+         this.showViewMore = typeof this.options.showViewMore !== 'undefined' ? this.options.showViewMore : false;
       },
 
       beforeRender: function() {
+         if (this.options.rewards.hasNextPage() && this.showViewMore) {
+            this.showAllButton = true;
+         }
          this.options.rewards.each(function(reward) {
             this.insertView('.rewards', new Reward.Views.Item({
                model: reward,
@@ -73,25 +76,48 @@ define([
          }, this);
       },
 
-      showAllRewards: function() {
+      viewMore: function() {
+         var rewards = this.options.rewards.clone(new Reward.Collection());
+
          var Brand = require('modules/brand');
-         var rewardsViews = new Brand.Views.Rewards({
-            rewards: this.options.rewards,
-            brand: this.options.brand
-         });
-         var modal = new Common.Views.Modal({
-            view: rewardsViews,
-            showFooter: false,
-            showHeader: false,
-            modalContentClasses: 'photoModal'
-         });
+         var rewardsViews = null;
+         var Pagination = require('modules/pagination');
+         var modal = null;
+         if (typeof this.options.brand !== 'undefined') {
+            rewardsViews = new Brand.Views.Rewards({
+               rewards: rewards,
+               brand: this.options.brand
+            });
+            modal = new Common.Views.Modal({
+               view: rewardsViews,
+               showFooter: false,
+               showHeader: false,
+               modalContentClasses: 'photoModal'
+            });
+         } else {
+            rewardsViews = new Reward.Views.List({
+               rewards:rewards
+            });
+            modal = new Common.Views.Modal({
+               view: rewardsViews,
+               showFooter: false,
+               showHeader: true,
+               title: 'reward.modalTitle',
+               modalDialogClasses: 'small-modal-dialog',
+               isPaginationEnabled: true,
+               paginationCollection: rewards,
+               paginationModel: new Pagination.Model({
+                  buttonText: 'reward.loadMore'
+               })
+            });
+         }
          Common.Tools.hideCurrentModalIfOpened(function() {
             app.useLayout().setView('#modal-container', modal).render();
          });
       },
 
       events: {
-         'click .showAllRewards': 'showAllRewards'
+         'click .viewMore': 'viewMore'
       }
    });
 
