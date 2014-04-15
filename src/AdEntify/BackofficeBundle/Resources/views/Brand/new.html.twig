@@ -7,8 +7,39 @@
 
     {{ form(form, {'attr': {'class' : 'form-horizontal'} }) }}
 
+    <button class="facebookLoader btn btn-info" data-loading-text="{{ 'Loading in progress...'|trans }}">{{ 'Load data from Facebook'|trans }}</button>
+
     <a class="btn btn-default" href="{{ path('brands') }}">
         {{ 'Back to the list'|trans }}
     </a>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('.facebookLoader').click(function() {
+            var btn = $(this);
+            btn.button('loading');
+            $.ajax({
+                url: 'http://graph.facebook.com/?id=' + $('#adentify_backofficebundle_brand_facebookUrl').val(),
+                success: function(json) {
+                    if (json && typeof json.error === 'undefined') {
+                        if (json.name)
+                            $('#adentify_backofficebundle_brand_name').val(json.name);
+                        if (json.description)
+                            $('#adentify_backofficebundle_brand_description').html(json.description);
+                        if (json.website)
+                            $('#adentify_backofficebundle_brand_websiteUrl').val(json.website);
+                        if (json.id)
+                        {
+                            var img = 'https://graph.facebook.com/' + json.id + '/picture?width=2000';
+                            $('#adentify_backofficebundle_brand_logoUrl').val(img);
+                        }
+                    }
+                }
+            }).always(function() {
+                btn.button('reset');
+            });
+        });
+    </script>
 {% endblock %}
