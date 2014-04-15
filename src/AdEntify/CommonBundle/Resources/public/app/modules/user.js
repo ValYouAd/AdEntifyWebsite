@@ -695,7 +695,7 @@ define([
       showModalFollowings: function(users, user) {
          if (typeof users === 'undefined') {
             var users = new User.Collection();
-            users.url = Routing.generate('api_v1_get_user_followers', { id: user.get('id'), limit: 10 });
+            users.url = Routing.generate('api_v1_get_user_followings', { id: user.get('id'), limit: 10 });
          }
          this.showModal(users, 'user.modalFollowingsTitle', 'profile.noFollowings', false, true);
       },
