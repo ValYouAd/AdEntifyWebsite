@@ -233,7 +233,7 @@ avalanche_imagine:
     filters:
         photo-small:
             type:    thumbnail
-            options: { size: [100, 9999], mode: inset, quality: 70, format: jpeg }
+            options: { size: [100, 9999], mode: inset, quality: 80, format: jpeg }
         photo-medium:
             type:    thumbnail
             options: { size: [320, 9999], mode: inset, quality: 80, format: jpeg }
@@ -245,7 +245,7 @@ avalanche_imagine:
             options: { size: [1024, 9999], mode: inset, quality: 95, format: jpeg }
         logo-small:
             type:    thumbnail
-            options: { size: [100, 9999], mode: inset, quality: 70 }
+            options: { size: [100, 9999], mode: inset, quality: 80 }
         logo-medium:
            type:    thumbnail
            options: { size: [250, 9999], mode: inset, quality: 90 }
