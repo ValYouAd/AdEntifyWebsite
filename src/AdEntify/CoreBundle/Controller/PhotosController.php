@@ -189,7 +189,10 @@ class PhotosController extends FosRestController
      *  resource=true,
      *  description="Get a photo",
      *  output="AdEntify\CoreBundle\Entity\Photo",
-     *  section="Photo"
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
      * )
      *
      * @param integer $id photo id
@@ -429,6 +432,19 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get linked photos",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  statusCodes={
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
@@ -573,7 +589,10 @@ class PhotosController extends FosRestController
      *  description="Edit a Photo",
      *  input="AdEntify\CoreBundle\Form\PhotoType",
      *  output="AdEntify\CoreBundle\Entity\Photo",
-     *  section="Photo"
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
      * )
      *
      * @View()
@@ -640,6 +659,19 @@ class PhotosController extends FosRestController
     /**
      * Delete a photo
      *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Delete a Photo",
+     *  statusCodes={
+     *      200="Returned if the photo is deleted",
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * @View()
      *
      * @param $id
@@ -683,6 +715,7 @@ class PhotosController extends FosRestController
 
                 $em->merge($photo);
                 $em->flush();
+                return '';
             } else {
                 throw new HttpException(403, 'You are not authorized to delete this photo');
             }
@@ -693,6 +726,19 @@ class PhotosController extends FosRestController
 
     /**
      * GET all tags by photo ID
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get all validated tags by photo ID",
+     *  output="AdEntify\CoreBundle\Entity\Tag",
+     *  statusCodes={
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
      *
      * @View(serializerGroups={"details"})
      * @param $id
@@ -712,6 +758,19 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get unvalidated tags by photo ID",
+     *  output="AdEntify\CoreBundle\Entity\Tag",
+     *  statusCodes={
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * @View(serializerGroups={"details"})
      *
      * @param $id
@@ -741,6 +800,19 @@ class PhotosController extends FosRestController
     /**
      * Get photo hashtags
      *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get all hashtags by photo ID",
+     *  output="AdEntify\CoreBundle\Entity\Hashtag",
+     *  statusCodes={
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * @param $id
      *
      * @View()
@@ -757,6 +829,19 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get all comments by photo ID",
+     *  output="AdEntify\CoreBundle\Entity\Comment",
+     *  statusCodes={
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * GET all comments by photo ID
      *
      * @View()
@@ -774,6 +859,19 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get all likers of a photo ID",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  statusCodes={
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * GET all likers by photo ID
      *
      * @View()
@@ -791,6 +889,20 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get all categories of a photo by photo ID",
+     *  output="AdEntify\CoreBundle\Entity\Category",
+     *  statusCodes={
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"},
+     *   {"name"="localte", "dataType"="string", "required"=false, "description"="locale (en or fr)"}
+     *  }
+     * )
+     *
      * GET all categories by photo ID
      *
      * @View()
@@ -820,6 +932,8 @@ class PhotosController extends FosRestController
      */
     public function getLikesAction($id)
     {
+        // TODO : REMOVE LIKE WITH DELETED AT
+
         $photo = $this->getAction($id);
         if (!$photo)
             return null;
@@ -827,6 +941,20 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Check if current user liked the photo",
+     *  output="boolean",
+     *  statusCodes={
+     *      200="Return true if liked, false if not",
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * @View()
      *
      * @param $id
@@ -853,6 +981,20 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Check if current user favorited the photo",
+     *  output="boolean",
+     *  statusCodes={
+     *      200="Return true if favorited, false if not",
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * @View()
      *
      * @param $id
@@ -880,6 +1022,16 @@ class PhotosController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get user photos of current logged in user",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  statusCodes={
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo"
+     * )
+     *
      * @View()
      * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
@@ -932,18 +1084,22 @@ class PhotosController extends FosRestController
         }
     }
 
-    /**
-     * Get form for photo
-     *
-     * @param null $photo
-     * @return mixed
-     */
-    protected function getForm($photo = null)
-    {
-        return $this->createForm(new PhotoType(), $photo);
-    }
+
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Add a photo to favorite of current logged in user",
+     *  statusCodes={
+     *      200="Returned if successfull",
+     *      401="Returned when authentication is required",
+     *  },
+     *  section="Photo",
+     *  parameters={
+     *   {"name"="photoId", "dataType"="integer", "required"=true, "description"="photo ID"}
+     *  }
+     * )
+     *
      * @View()
      */
     public function postFavoriteAction(Request $request)
@@ -982,5 +1138,16 @@ class PhotosController extends FosRestController
         } else {
             throw new HttpException(401);
         }
+    }
+
+    /**
+     * Get form for photo
+     *
+     * @param null $photo
+     * @return mixed
+     */
+    protected function getForm($photo = null)
+    {
+        return $this->createForm(new PhotoType(), $photo);
     }
 }
