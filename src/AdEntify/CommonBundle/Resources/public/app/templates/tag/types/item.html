@@ -12,7 +12,7 @@
         <% if (model.has('description') && model.get("description")) { %>
         <p><%= model.get("description") %></p>
         <% } %>
-        <% if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isOwner()) { %>
+        <% if (model.isWaitingValidation()) { %>
         <div class="tag-validation">
             <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
             <div class="btn-group">

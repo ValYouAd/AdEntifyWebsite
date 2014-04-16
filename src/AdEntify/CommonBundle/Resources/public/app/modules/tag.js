@@ -128,6 +128,10 @@ define([
          return app.appState().getCurrentPhotoModel() !== 'undefined' ? app.appState().getCurrentPhotoModel().isOwner() : false;
       },
 
+      isWaitingValidation: function() {
+         return this.get('validation_status') == "waiting" && this.get('waiting_validation') && this.isPhotoOwner();
+      },
+
       delete: function() {
          // Check if currentUser is the owner
          if (this.isOwner()) {
