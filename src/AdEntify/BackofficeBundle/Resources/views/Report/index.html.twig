@@ -21,11 +21,9 @@
                 <td>{{ entity.reason }}</td>
                 <td>{{ entity.option }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('report_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                </ul>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="{{ path('report_show', { 'id': entity.id }) }}">show</a>
+                    </div>
                 </td>
             </tr>
         {% endfor %}

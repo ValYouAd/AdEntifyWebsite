@@ -2920,6 +2920,10 @@ html,body,.body-grey-background {
     width: 21px;
     height: 22px;
 }
+.twitter-grey-circle-icon,
+.twitter-grey-circle-icon:hover {
+    width: 32px;
+}
 
 /*
 ----------------------- */

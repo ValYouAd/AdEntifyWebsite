@@ -186,7 +186,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{_locale}/press", name="press")
+     * @Route("/{_locale}/who-we-are", name="press")
      * @Template()
      */
     public function pressAction()
