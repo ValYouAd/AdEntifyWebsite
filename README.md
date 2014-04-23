@@ -28,6 +28,10 @@ Lancer deployment-queries.sql
 
 6) Launch upload loop in background
 
+7) CHMOD 777 sessions
+
+chmod 777 app/var/sessions/
+
 --------------------------------------------------
 
 Prerender

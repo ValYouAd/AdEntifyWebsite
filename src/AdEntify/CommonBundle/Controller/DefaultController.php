@@ -327,4 +327,15 @@ class DefaultController extends Controller
             $this->getDoctrine()->getManager()->flush();
         }
     }
+
+    /**
+     * @Route("/douze")
+     */
+    public function testAction() {
+        $this->get('fos_facebook.api')->setAccessToken('CAACRJMfT1PgBAPRsv8eA1Mv4mUyEJKz8KIC38XHQQiwgG05U71xCzvZCaJP79jD3dT8xrt5lBrZBk5ZC9gcZADgKJnVJlKFIPXyHOEbgNSByPz2nAk0mFBCd0zVIE0tZA2DorG5US6hprcKZC4m4zoKtBuqEHzrqEmvkrKTQSzSKMv7DMDZBZCEIudVcPQZBlGhcDZAhnryqa2wQZDZD');
+            // Try to get the user with the facebook token from Open Graph
+            $fbData = $this->get('fos_facebook.api')->api('/me');
+
+        print_r($fbData);
+    }
 }

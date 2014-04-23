@@ -61,6 +61,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             oauth      : true
          });
          FB.getLoginStatus(function(response) {
+            console.log(response);
             if (response.status === 'connected') {
                app.fb.connected(response);
             }

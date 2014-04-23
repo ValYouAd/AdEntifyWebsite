@@ -282,7 +282,7 @@ header {
 }
 .team .profile-picture {
     border: 4px solid #ffffff;
-    max-width: 140px;
+    width: 140px;
 }
 
 /* Logos press kit */
