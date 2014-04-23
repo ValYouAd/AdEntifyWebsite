@@ -261,7 +261,7 @@ define([
                that.followers.fetch();
             });
          }
-         if (!this.getView('.rewards')) {
+         if (!this.getView('.rewards') && this.loaded) {
             this.setView('.rewards', new Reward.Views.List({
                rewards: this.options.rewards,
                emptyMessage: $.t('brand.noRewards', { name: this.model.get('name') }),
