@@ -1437,6 +1437,15 @@ html,body,.body-grey-background {
     font-size: 16px;
     padding: 10px;
 }
+.tag-text .add-tag-info {
+    font-size: 16px;
+}
+.tag-text .add-tag-info span {
+    font-size: 16px;
+}
+.tag-text .add-tag-info li {
+    margin: 10px 0px;
+}
 .tag-buttons {
     background: url('../img/dark-grey-tag-background.jpg') repeat;
     padding: 6px 10px;
