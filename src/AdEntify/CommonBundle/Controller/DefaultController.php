@@ -189,7 +189,7 @@ class DefaultController extends Controller
      * @Route("/{_locale}/who-we-are", name="press")
      * @Template()
      */
-    public function pressAction()
+    public function whoWeAreAction()
     {
         $em = $this->getDoctrine()->getManager();
         $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
@@ -326,16 +326,5 @@ class DefaultController extends Controller
             $this->getDoctrine()->getManager()->merge($user);
             $this->getDoctrine()->getManager()->flush();
         }
-    }
-
-    /**
-     * @Route("/douze")
-     */
-    public function testAction() {
-        $this->get('fos_facebook.api')->setAccessToken('CAACRJMfT1PgBAPRsv8eA1Mv4mUyEJKz8KIC38XHQQiwgG05U71xCzvZCaJP79jD3dT8xrt5lBrZBk5ZC9gcZADgKJnVJlKFIPXyHOEbgNSByPz2nAk0mFBCd0zVIE0tZA2DorG5US6hprcKZC4m4zoKtBuqEHzrqEmvkrKTQSzSKMv7DMDZBZCEIudVcPQZBlGhcDZAhnryqa2wQZDZD');
-            // Try to get the user with the facebook token from Open Graph
-            $fbData = $this->get('fos_facebook.api')->api('/me');
-
-        print_r($fbData);
     }
 }
