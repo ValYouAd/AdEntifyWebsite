@@ -677,7 +677,7 @@ define([
             updater: function(selectedItem) {
                var productName = null;
                if (selectedItem.indexOf('#query') == -1) {
-                  currentProduct = _.find(currentProducts, function(productName) { return productName == selectedItem; });
+                  currentProduct = _.find(currentProducts, function(product) { return product.name == selectedItem; });
                } else {
                   productName = selectedItem.substring(0, selectedItem.indexOf('#query'));
                }

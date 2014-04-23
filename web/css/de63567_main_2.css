@@ -3438,6 +3438,7 @@ label,
 ----------------------- */
 .profile-aside {
     font-family: 'asapregular', sans-serif;
+    margin-bottom: 40px;
 }
     .profile-aside h2 {
         font-family: 'pacificoregular', sans-serif;
