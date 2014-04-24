@@ -18,16 +18,20 @@ class PaginationTools
                 'total' => $count
             );
             if ($page > 1) {
+                $pageNumber = $page - 1;
                 $pagination['previous'] = $controller->generateUrl($url, array_merge($params, array(
-                    'page' => $page - 1,
+                    'page' => $pageNumber,
                     'limit' => $limit
                 )), true);
+                $pagination['previousPage'] = $pageNumber;
             }
             if (ceil($count / $limit) > $page) {
+                $pageNumber = $page + 1;
                 $pagination['next'] = $controller->generateUrl($url, array_merge($params, array(
-                    'page' => $page + 1,
+                    'page' => $pageNumber,
                     'limit' => $limit
                 )), true);
+                $pagination['nextPage'] = $pageNumber;
             }
         }
 
