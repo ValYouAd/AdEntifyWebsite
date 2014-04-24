@@ -69,7 +69,7 @@ class TokenController extends FosRestController
         // If no error, return the tokens
         // Else, throw an error
         if (null !== $tokens && !isset($tokens->error)) {
-            return $result;
+            return (array)$tokens;
         } else {
             throw new HttpException(403, $tokens->error);
         }
@@ -101,7 +101,7 @@ class TokenController extends FosRestController
         // If no error, return the tokens
         // Else, throw an error
         if (null !== $tokens && !isset($tokens->error)) {
-            return $result;
+            return (array)$tokens;
         } else {
             throw new HttpException(403, $tokens->error);
         }
@@ -110,7 +110,7 @@ class TokenController extends FosRestController
     /**
      * @View()
      */
-    public function postPassswordAction()
+    public function postPasswordAction()
     {
         if (!$this->getRequest()->request->has('username') || !$this->getRequest()->request->has('password')) {
             throw new HttpException(403);
@@ -134,7 +134,7 @@ class TokenController extends FosRestController
         // If no error, return the tokens
         // Else, throw an error
         if (null !== $tokens && !isset($tokens->error)) {
-            return $result;
+            return (array)$tokens;
         } else {
             throw new HttpException(403, $tokens->error);
         }

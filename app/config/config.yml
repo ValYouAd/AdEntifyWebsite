@@ -218,7 +218,7 @@ fos_oauth_server:
     refresh_token_class: AdEntify\CoreBundle\Entity\OAuth\RefreshToken
     auth_code_class:     AdEntify\CoreBundle\Entity\OAuth\AuthCode
     service:
-        user_provider: fos_user.user_manager
+        user_provider: fos_user.user_provider.username_email
         options:
             access_token_lifetime: 5184000
             refresh_token_lifetime: 6048000
