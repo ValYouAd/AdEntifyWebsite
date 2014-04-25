@@ -16,7 +16,10 @@ class ReportType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('reason', 'textarea')
+        $builder
+            ->add('reason', 'textarea', array(
+                'required' => false
+            ))
             ->add('option', 'text', array(
                 'required' => false
             ))

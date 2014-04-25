@@ -184,6 +184,12 @@ productType:
     options:
         expose: true
 
+token:
+    type:     rest
+    resource: AdEntify\CoreBundle\Controller\TokenController
+    options:
+        expose: true
+
 public_photo:
     type:     rest
     resource: AdEntify\EmbedJsBundle\Controller\PublicPhotosController

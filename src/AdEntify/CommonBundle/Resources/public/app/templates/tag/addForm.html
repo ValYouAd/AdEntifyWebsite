@@ -2,8 +2,12 @@
     <fieldset>
         <legend class="pacifico-adentify"><i class="adentify-flat-pastille icon"></i> <%= $.t('tag.legendAddTag') %></legend>
         <div class="alert-container"></div>
-        <div class="tag-text text-center">
-            <p data-i18n="tag.textAddTagToPhoto"></p>
+        <div class="tag-text">
+            <ol class="add-tag-info">
+                <li><span><%= $.t('tag.addTagInfoStep1') %></span></li>
+                <li><span><%= $.t('tag.addTagInfoStep2') %></span></li>
+                <li><span><%= $.t('tag.addTagInfoStep3') %></span></li>
+            </ol>
         </div>
         <div class="tag-tabs fade-out">
             <ul class="nav nav-tabs">

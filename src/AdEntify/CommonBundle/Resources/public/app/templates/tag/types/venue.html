@@ -17,7 +17,7 @@
                 <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) %></span>
                 <% } %>
                 <div class="btn-group">
-                    <% if (model.get('validation_status') == 'waiting' && model.get('waiting_validation') && model.isPhotoOwner()) { %>
+                    <% if (model.isWaitingValidation()) { %>
                     <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>
                     <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>

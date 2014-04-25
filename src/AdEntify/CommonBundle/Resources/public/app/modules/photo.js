@@ -741,28 +741,30 @@ define([
       },
 
       addTag: function(e) {
-         var tagRadius = 17.5;
-         var xPosition = ((e.offsetX === undefined ? e.originalEvent.layerX : e.offsetX) - tagRadius) / e.currentTarget.clientWidth;
-         var yPosition = ((e.offsetY === undefined ? e.originalEvent.layerY : e.offsetY) - tagRadius) / e.currentTarget.clientHeight;
+         if ($(e.target).hasClass('photo-overlay')) {
+            var tagRadius = 17.5;
+            var xPosition = ((e.offsetX === undefined ? e.originalEvent.layerX : e.offsetX) - tagRadius) / e.currentTarget.clientWidth;
+            var yPosition = ((e.offsetY === undefined ? e.originalEvent.layerY : e.offsetY) - tagRadius) / e.currentTarget.clientHeight;
 
-         // Remove tags aren't persisted
-         var that = this;
-         this.model.get('tags').each(function(tag) {
-            if (tag.has('tempTag')) {
-               that.model.get('tags').remove(tag);
-            }
-         });
+            // Remove tags aren't persisted
+            var that = this;
+            this.model.get('tags').each(function(tag) {
+               if (tag.has('tempTag')) {
+                  that.model.get('tags').remove(tag);
+               }
+            });
 
-         var tag = new Tag.Model();
-         tag.set('x_position', xPosition);
-         tag.set('y_position', yPosition);
-         tag.set('cssClass', 'new-tag');
-         tag.set('tagIcon', this.currentTag ? this.currentTag.get('tagIcon') : 'glyphicon glyphicon-tag')
-         tag.set('tempTag', true);
-         this.model.get('tags').add(tag);
-         this.currentTag = tag;
+            var tag = new Tag.Model();
+            tag.set('x_position', xPosition);
+            tag.set('y_position', yPosition);
+            tag.set('cssClass', 'new-tag');
+            tag.set('tagIcon', this.currentTag ? this.currentTag.get('tagIcon') : 'glyphicon glyphicon-tag')
+            tag.set('tempTag', true);
+            this.model.get('tags').add(tag);
+            this.currentTag = tag;
 
-         app.trigger('photo:tagAdded', tag);
+            app.trigger('photo:tagAdded', tag);
+         }
       },
 
       tagFormFabChanged: function(tabName) {

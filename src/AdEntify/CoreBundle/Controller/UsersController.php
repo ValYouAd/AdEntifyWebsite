@@ -219,82 +219,6 @@ class UsersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get user feed",
-     *  output="AdEntify\CoreBundle\Entity\Photo",
-     *  section="User"
-     * )
-     *
-     * @View()
-     *
-     * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="20")
-     *
-     * @return ArrayCollection|null
-     */
-    public function getFeedAction($page = 1, $limit = 20)
-    {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $em = $this->getDoctrine()->getManager();
-            $user = $securityContext->getToken()->getUser();
-
-            // Get friends list (id) array
-            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
-            if (!$facebookFriendsIds) {
-                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
-                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
-            }
-
-            // Get followings ids
-            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
-            if (!$followings) {
-                $followings = $user->getFollowingsIds();
-                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
-            }
-
-            $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner
-                WHERE photo.owner != :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.tagsCount > 0 AND tag.visible = true
-                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
-                AND (tag.validationStatus = :none OR tag.validationStatus = :granted)
-                AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
-                AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
-                ORDER BY photo.createdAt DESC')
-                ->setParameters(array(
-                    ':userId' => $user->getId(),
-                    ':status' => Photo::STATUS_READY,
-                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                    ':facebookFriendsIds' => $facebookFriendsIds,
-                    ':followings' => $followings,
-                    ':none' => Tag::VALIDATION_NONE,
-                    ':granted' => Tag::VALIDATION_GRANTED
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit);
-
-            $paginator = new Paginator($query, $fetchJoinCollection = true);
-            $count = count($paginator);
-
-            $photos = null;
-            $pagination = null;
-            if ($count > 0) {
-                $photos = array();
-                foreach($paginator as $photo) {
-                    $photos[] = $photo;
-                }
-
-                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_feed');
-            }
-
-            return PaginationTools::getPaginationArray($photos, $pagination);
-        } else {
-            throw new HttpException(401);
-        }
-    }
-
-    /**
-     * @ApiDoc(
-     *  resource=true,
      *  description="POST a new follower for a user",
      *  output="AdEntify\CoreBundle\Entity\User",
      *  section="User"
@@ -441,11 +365,11 @@ class UsersController extends FosRestController
      * @param $id
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="20")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
      *
      * @View()
      */
-    public function getHashtagsAction($id, $page = 1, $limit = 20)
+    public function getHashtagsAction($id, $page = 1, $limit = 10)
     {
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
             LEFT JOIN hashtag.photos photo LEFT JOIN photo.owner owner
@@ -559,19 +483,40 @@ class UsersController extends FosRestController
      * )
      *
      * @View()
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="5")
+     *
      */
-    public function getFollowingsAction($id)
+    public function getFollowingsAction($id, $page = 1, $limit = 5)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
-            return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
             LEFT JOIN user.followers follower WHERE follower.id = :userId')
                 ->setParameters(array(
                     'userId' => $user->getId()
                 ))
-                ->setMaxResults(10)
-                ->getResult();
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+
+            $paginator = new Paginator($query, $fetchJoinCollection = true);
+            $count = count($paginator);
+
+            $users = null;
+            $pagination = null;
+            if ($count > 0) {
+                $users = array();
+                foreach ($paginator as $user)
+                    $users[] = $user;
+
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
+                    'api_v1_get_user_followings', array(
+                        'id' => $id
+                    ));
+            }
+            return PaginationTools::getPaginationArray($users, $pagination);
         } else {
             throw new NotFoundHttpException('User not found');
         }
@@ -589,19 +534,40 @@ class UsersController extends FosRestController
      * )
      *
      * @View()
+     *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="5")
+     *
      */
-    public function getFollowersAction($id)
+    public function getFollowersAction($id, $page = 1, $limit = 5)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
-            return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
             LEFT JOIN user.followings following WHERE following.id = :userId')
                 ->setParameters(array(
                     'userId' => $user->getId()
                 ))
-                ->setMaxResults(10)
-                ->getResult();
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+
+            $paginator = new Paginator($query, $fetchJoinCollection = true);
+            $count = count($paginator);
+
+            $users = null;
+            $pagination = null;
+            if ($count > 0) {
+                $users = array();
+                foreach ($paginator as $user)
+                    $users[] = $user;
+
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
+                    'api_v1_get_user_followers', array(
+                        'id' => $id
+                    ));
+            }
+            return PaginationTools::getPaginationArray($users, $pagination);
         } else {
             throw new NotFoundHttpException('User not found');
         }
@@ -716,18 +682,38 @@ class UsersController extends FosRestController
      * )
      *
      * @QueryParam(name="id", requirements="\d+", default="0", description="user ID")
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="9")
      *
      * @View()
      */
-    public function getBrandsAction($id = 0)
+    public function getBrandsAction($id = 0, $page = 1, $limit = 9)
     {
         $securityContext = $this->container->get('security.context');
         if ($id > 0 || $securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand as b
             LEFT JOIN b.followers as follower WHERE b.validated = 1 AND follower.id = :userId')
                 ->setParameters(array(
                     'userId' => $id > 0 ? $id : $securityContext->getToken()->getUser()->getId()
-                ))->getResult();
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+
+            $paginator = new Paginator($query, $fetchJoinCollection = true);
+            $count = count($paginator);
+
+            $brands = null;
+            $pagination = null;
+            if ($count > 0) {
+                foreach ($paginator as $brand)
+                    $brands[] = $brand;
+
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
+                    'api_v1_get_user_brands', array(
+                        'id' => $id
+                    ));
+            }
+            return PaginationTools::getPaginationArray($brands, $pagination);
         } else {
             throw new HttpException(401);
         }
@@ -975,8 +961,6 @@ class UsersController extends FosRestController
         $paginator = new Paginator($query, $fetchJoinCollection = true);
         $count = count($paginator);
 
-
-
         $rewards = null;
         $pagination = null;
         if ($count > 0) {
@@ -989,6 +973,7 @@ class UsersController extends FosRestController
                     'id' => $id
                 ));
         }
+
         return PaginationTools::getPaginationArray($rewards, $pagination);
     }
 

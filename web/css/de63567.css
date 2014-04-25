@@ -947,6 +947,7 @@ html,body,.body-grey-background {
 .full-photo .photo-container {
     margin-top: 8px;
     display: inline-block;
+    max-width: 100%;
 }
 .photo-container {
     position: relative;
@@ -1163,6 +1164,14 @@ html,body,.body-grey-background {
 /*
 ----------------------- */
 
+/* MODULE : Hashtags
+----------------------- */
+.modal .hashtags-list {
+    margin: 4px 8px;
+}
+/* END MODULE : Hashtags
+----------------------- */
+
 /* MODULE : Actions
 ----------------------- */
 .actions-list img {
@@ -1269,6 +1278,9 @@ html,body,.body-grey-background {
     background-position: -102px -109px;
     width: 35px;
     height: 36px;
+}
+.unvalidateTag {
+    background-position: -124px -287px!important;
 }
 .tag .tag-description {
     text-align: justify;
@@ -1440,6 +1452,15 @@ html,body,.body-grey-background {
     font-family: 'robotoregular', "Helvetica Neue", "Arial", sans-serif;
     font-size: 16px;
     padding: 10px;
+}
+.tag-text .add-tag-info {
+    font-size: 16px;
+}
+.tag-text .add-tag-info span {
+    font-size: 16px;
+}
+.tag-text .add-tag-info li {
+    margin: 10px 0px;
 }
 .tag-buttons {
     background: url('../img/dark-grey-tag-background.jpg') repeat;
@@ -1962,6 +1983,28 @@ html,body,.body-grey-background {
 
 /* Rewards
 ----------------------- */
+.rewards-presentation h2 {
+    color: #606366;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 40px;
+    padding: 30px 0px;
+    margin: 0px;
+    text-align: center;
+}
+.rewards-presentation h3 {
+    color: #606366;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 24px;
+    margin: 0px;
+    padding-bottom: 20px;
+}
+.rewards-presentation .tab-pane {
+    padding: 20px 0px;
+}
+.rewards-presentation th {
+    font-size: 16px;
+    font-family: robotobold;
+}
 .reward-item {
     padding: 4px 10px;
     color: #cecfd1;
@@ -2023,21 +2066,25 @@ html,body,.body-grey-background {
 .brand-rewards .nav-tabs .icon {
     margin-right: 5px;
 }
-.brand-rewards .tab-content {
+.brand-rewards .tab-content,
+.rewards-presentation .tab-content {
     margin: 0px;
 }
-.brand-rewards .nav-tabs a {
+.brand-rewards .nav-tabs a,
+.rewards-presentation .nav-tabs a {
     padding: 10px 40px;
 }
 .brand-rewards .brand-profile-picture {
     max-height: 100px;
 }
-.brand-rewards .nav-tabs li {
+.brand-rewards .nav-tabs li,
+.rewards-presentation .nav-tabs li {
     display: inline-block;
     float: none;
     margin-right: -3px;
 }
-.brand-rewards .nav-tabs {
+.brand-rewards .nav-tabs,
+.rewards-presentation .nav-tabs {
     text-align: center;
 }
 .reward-users {
@@ -2160,6 +2207,14 @@ html,body,.body-grey-background {
 /*
 ----------------------- */
 
+/* End Modal
+----------------------- */
+.modal .loadMore {
+    margin: 10px 0px;
+}
+/* End Modal
+----------------------- */
+
 /* Dropdown Menu
 ----------------------- */
 .dropdown-menu {
@@ -2201,11 +2256,12 @@ html,body,.body-grey-background {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver, .tumblr-circle-icon, .tumblr-grey-circle-icon, .small-facebook-circle-icon, .small-facebook-grey-circle-icon, .small-flickr-circle-icon, .small-flickr-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-circle-icon, .small-pinterest-grey-circle-icon, .small-tumblr-circle-icon, .small-tumblr-grey-circle-icon, .small-twitter-circle-icon, .small-twitter-grey-circle-icon, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille, .tag-button, .adentify-pastille-small, .logo-nav, .gift-icon{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver, .tumblr-circle-icon, .tumblr-grey-circle-icon, .small-facebook-circle-icon, .small-facebook-grey-circle-icon, .small-flickr-circle-icon, .small-flickr-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-circle-icon, .small-pinterest-grey-circle-icon, .small-tumblr-circle-icon, .small-tumblr-grey-circle-icon, .small-twitter-circle-icon, .small-twitter-grey-circle-icon, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille, .tag-button, .adentify-pastille-small, .logo-nav, .gift-icon, .tag-background-yellow{
     background-image: url('../img/sprites.png');
     background-repeat: no-repeat;
     background-color: transparent;
 }
+
 .brands-icon{
     background-position: -110px -51px ;
     width: 17px;
@@ -2842,7 +2898,11 @@ html,body,.body-grey-background {
     height: 17px;
 }
 
-
+.tag-background-yellow{
+    background-position: -124px -287px ;
+    width: 35px;
+    height: 36px;
+}
 
 
 /* DONT CHANGE IT */
@@ -2919,6 +2979,10 @@ html,body,.body-grey-background {
     background-position: -48px -251px ;
     width: 21px;
     height: 22px;
+}
+.twitter-grey-circle-icon,
+.twitter-grey-circle-icon:hover {
+    width: 32px;
 }
 
 /*
@@ -3425,6 +3489,7 @@ label,
 ----------------------- */
 .profile-aside {
     font-family: 'asapregular', sans-serif;
+    margin-bottom: 40px;
 }
     .profile-aside h2 {
         font-family: 'pacificoregular', sans-serif;
@@ -3440,15 +3505,17 @@ label,
 <<<<<<< HEAD
 =======
 .profile-aside .brands,
-.profile-aside #brands {
+.profile-aside #brands,
+.modal .brands,
+.modal #brands {
     border: none;
     margin: 0px;
 }
-.profile-aside #brands {
-    background: white;
-}
 .profile-aside .brands .brand-logo {
     max-height: 55px!important;
+    max-width: 100%;
+}
+.modal .brands .brand-logo {
     max-width: 100%;
 }
 .profile-aside #brands {
@@ -3460,8 +3527,16 @@ label,
     margin: 7px 0px;
     height: 65px;
 }
+.modal #brands li, .modal .brands li{
+    border: none;
+    padding: 0px 5px;
+    margin: 7px 0px;
+    height: 115px;
+}
 .profile-aside #brands li:nth-child(3n+2),
-.profile-aside #brands li:nth-child(3n+1) {
+.profile-aside #brands li:nth-child(3n+1),
+.modal #brands li:nth-child(3n+2),
+.modal #brands li:nth-child(3n+1){
     border-right: 1px solid #e5e5e5;
 }
 >>>>>>> develop

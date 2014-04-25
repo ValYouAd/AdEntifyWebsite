@@ -1,0 +1,86 @@
+<div class="rewards-presentation">
+    <h2 class="text-center"><%= $.t('reward.presentationTitle') %></h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#presentation" data-bypass="" data-toggle="tab"><%= $.t('reward.presentationTab') %></a></li>
+        <li><a href="#points" data-bypass="" data-toggle="tab"><%= $.t('reward.pointsTab') %></a></li>
+        <li><a href="#badges" data-bypass="" data-toggle="tab"><%= $.t('reward.badgesTab') %></a></li>
+        <li><a href="#cash" data-bypass="" data-toggle="tab"><%= $.t('reward.cashTab') %></a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="presentation">
+            <%= $.t('reward.presentationIntro') %>
+        </div>
+        <div class="tab-pane fade" id="points">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th><%= $.t('reward.pointsTableYourPhoto') %></th>
+                        <th colspan="2"><%= $.t('reward.pointsTableAnotherUserPhoto') %></th>
+                    </tr>
+                    <tr>
+                        <th><%= $.t('reward.pointsTableTypeOfTag') %></th>
+                        <th><%= $.t('reward.pointsTableYouWin') %></th>
+                        <th><%= $.t('reward.pointsTableYouWin') %></th>
+                        <th><%= $.t('reward.pointsTablePhotoOwnerWins') %></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%= $.t('reward.pointsTableProduct') %></td>
+                        <td><%= $.t('reward.pointsTable10Pts') %></td>
+                        <td><%= $.t('reward.pointsTable5pts') %></td>
+                        <td><%= $.t('reward.pointsTable5pts') %></td>
+                    </tr>
+                    <tr>
+                        <td><%= $.t('reward.pointsTableProductWithDetails') %></td>
+                        <td><%= $.t('reward.pointsTable15pts') %></td>
+                        <td><%= $.t('reward.pointsTable10Pts') %></td>
+                        <td><%= $.t('reward.pointsTable5pts') %></td>
+                    </tr>
+                    <tr>
+                        <td><%= $.t('reward.pointsTablePlace') %></td>
+                        <td><%= $.t('reward.pointsTable10Pts') %></td>
+                        <td><%= $.t('reward.pointsTable5pts') %></td>
+                        <td><%= $.t('reward.pointsTable5pts') %></td>
+                    </tr>
+                    <tr>
+                        <td><%= $.t('reward.pointsTablePerson') %></td>
+                        <td><%= $.t('reward.pointsTable10Pts') %></td>
+                        <td><%= $.t('reward.pointsTable5pts') %></td>
+                        <td><%= $.t('reward.pointsTable5pts') %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="badges">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th><%= $.t('reward.badgesBadge') %></th>
+                    <th><%= $.t('reward.badgesRanking') %></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="icon icon-middle reward-gold"></i> <span class="icon-middle"><%= $.t('brand.gold') %></span></td>
+                        <td><%= $.t('reward.badgesTop10') %></td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon icon-middle reward-silver"></i> <span class="icon-middle"><%= $.t('brand.silver') %></span></td>
+                        <td><%= $.t('reward.badgesTop20') %></td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon icon-middle reward-bronze"></i> <span class="icon-middle"><%= $.t('brand.bronze') %></span></td>
+                        <td><%= $.t('reward.badgesTop30') %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="cash">
+            <p><%= $.t('reward.cashSoon') %></p>
+        </div>
+    </div>
+</div>

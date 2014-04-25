@@ -43,9 +43,12 @@
     color: #828081;
     text-align: left;
 }
+.team .links {
+    font-size: 20px;
+}
 .team .profile-picture {
     border: 4px solid #ffffff;
-    max-width: 140px;
+    width: 140px;
 }
 
 /* Logos press kit */
@@ -152,4 +155,9 @@
     margin: 5px 0px;
     display: block;
     position: relative;
+}
+
+/* Contributeurs */
+.contributor {
+    margin-bottom: 20px;
 }

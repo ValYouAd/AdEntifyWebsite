@@ -20,35 +20,44 @@ define([
 
    Pagination.Views.NextPage = Backbone.View.extend({
       template: 'pagination/nextpage',
+      tagName: 'div class="pagination-next-page"',
       scrollEventBind: false,
       loadMoreFired: false,
+      showLoadMoreButton: false,
 
       serialize: function() {
-         return { model: this.model };
+         return {
+            model: this.model,
+            showLoadMoreButton: this.showLoadMoreButton
+         };
       },
 
       initialize: function() {
          var that = this;
          this.collection = this.options.collection;
-         this.listenTo(app, 'pagination:nextPageLoaded', function() {
+         this.listenTo(this, 'pagination:nextPageLoaded', function() {
             this.$('.loading-gif-container').stop().fadeOut();
             // Check if there is more data to load
             if (!that.options.collection.hasNextPage()) {
                $(this.el).find('.pagination').fadeOut('fast');
+               that.loadMoreButton.hide();
             }
             // Reset button state
-            setTimeout(function() {
-               that.loadMoreButton.button('reset');
-            }, 1000);
+            that.loadMoreButton.button('reset');
          });
 
+         this.showLoadMoreButton = typeof this.options.showLoadMoreButton !== 'undefined' ? this.options.showLoadMoreButton : this.showLoadMoreButton;
          this.listenTo(this.options.collection, 'sync', this.checkWindowScrollHandler);
       },
 
       afterRender: function() {
          $(this.el).i18n();
          this.loadMoreButton = this.$('.loadMore');
-         this.checkWindowScrollHandler();
+         if (!this.showLoadMoreButton)
+            this.checkWindowScrollHandler();
+         if (!this.options.collection.hasNextPage()) {
+            this.loadMoreButton.hide();
+         }
       },
 
       checkWindowScrollHandler: function() {
@@ -68,7 +77,8 @@ define([
       loadMore: function() {
          this.loadMoreFired = true;
          this.$('.loading-gif-container').stop().fadeIn();
-         app.trigger('pagination:loadNextPage');
+         this.loadMoreButton.button('loading');
+         this.trigger('pagination:loadNextPage');
       },
 
       events: {

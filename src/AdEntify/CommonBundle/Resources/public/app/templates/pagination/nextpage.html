@@ -1,3 +1,8 @@
 <div class="loading-gif-container fade-out">
     <div class="loader rotate"></div>
 </div>
+<% if (showLoadMoreButton) { %>
+    <div class="text-center">
+        <button class="loadMore btn-around-corner btn-red-grey-border" data-loading-text="<%= $.t(model.get('loadingText')) %>"><%= $.t(model.get('buttonText')) %></button>
+    </div>
+<% } %>

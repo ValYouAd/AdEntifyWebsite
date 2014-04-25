@@ -93,20 +93,29 @@ define([
          if (!this.getView('.brands') && this.options.brands) {
             this.setView('.brands', new Brand.Views.List({
                brands: this.options.brands,
-               emptyMessage: 'profile.noBrands',
-               showTagsCount: false
+               emptyDataMessage: $.t('profile.noBrands'),
+               showTagsCount: false,
+               showViewMore: true
             }));
          }
          if (!this.getView('.followings') && this.options.followings) {
             this.setView('.followings', new User.Views.List({
                users: this.options.followings,
-               noUsersMessage: 'profile.noFollowings'
+               noUsersMessage: 'profile.noFollowings',
+               moreMessage: 'profile.moreFollowings',
+               showViewMore: true,
+               usersType: User.Common.Followings,
+               user: this.options.user
             }));
          }
          if (!this.getView('.followers') && this.options.followers) {
             this.setView('.followers', new User.Views.List({
                users: this.options.followers,
-               noUsersMessage: 'profile.noFollowers'
+               noUsersMessage: 'profile.noFollowers',
+               moreMessage: 'profile.moreFollowers',
+               showViewMore: true,
+               usersType: User.Common.Followers,
+               user: this.options.user
             }));
          }
          if (!this.getView('.follow-button')) {
@@ -123,13 +132,15 @@ define([
          if (!this.getView('.hashtags') && this.options.hashtags) {
             this.setView('.hashtags', new Hashtag.Views.List({
                hashtags: this.options.hashtags,
-               showAlert: true
+               showAlert: true,
+               showViewMore: true
             }));
          }
          if (!this.getView('.rewards') && this.options.rewards) {
             this.setView('.rewards', new Reward.Views.List({
                rewards: this.options.rewards,
-               emptyMessage: $.t('profile.noRewards')
+               emptyMessage: $.t('profile.noRewards'),
+               showViewMore: true
             }));
          }
          if (this.showServices && !this.getView('.services')) {
@@ -200,20 +211,24 @@ define([
 
       events: {
          'click .followings-link': function() {
-            User.Common.showModalFollowings(this.options.user);
+            User.Common.showModalFollowings(this.options.followings);
          },
          'click .followers-link': function() {
-            User.Common.showModalFollowers(this.options.user);
-         }
+            User.Common.showModalFollowers(this.options.followers);
+         },
+         'click .rewards-hiw-link': Reward.Common.showPresentation
       }
    });
 
    User.Views.List = Backbone.View.extend({
       template: "user/list",
+      showAllButton: false,
 
       serialize: function() {
          return {
-            visible: this.visible
+            visible: this.visible,
+            showAllButton: this.showAllButton,
+            moreMessage: this.moreMessage
          };
       },
 
@@ -230,14 +245,31 @@ define([
             }
             this.render();
          }});
+
+         this.moreMessage = typeof this.options.moreMessage !== 'undefined' ? $.t(this.options.moreMessage) : '';
+         this.showViewMore = typeof this.options.showViewMore !== 'undefined' ? this.options.showViewMore : false;
       },
 
       beforeRender: function() {
+         if (this.options.users.hasNextPage() && this.showViewMore) {
+            this.showAllButton = true;
+         }
          this.options.users.each(function(user) {
             this.insertView('.users', new User.Views.Item({
                model: user
             }));
          }, this);
+      },
+
+      viewMore: function() {
+         if (this.options.usersType == User.Common.Followings)
+            User.Common.showModalFollowings(undefined, this.options.user);
+         else if (this.options.usersType === User.Common.Followers)
+            User.Common.showModalFollowers(undefined, this.options.user);
+      },
+
+      events: {
+         'click .viewMore': 'viewMore'
       }
    });
 
@@ -418,6 +450,10 @@ define([
 
             }
          });
+      },
+
+      events: {
+         'click .rewards-hiw-link': Reward.Common.showPresentation
       }
    });
 
@@ -658,16 +694,23 @@ define([
    });
 
    User.Common = {
-      showModalFollowings: function(user) {
-         var users = new User.Collection();
-         users.url = Routing.generate('api_v1_get_user_followings', { id: user.get('id') });
-         this.showModal(users, 'user.modalFollowingsTitle', 'profile.noFollowings');
+      Followings: 'followings',
+      Followers: 'followers',
+
+      showModalFollowings: function(users, user) {
+         if (typeof users === 'undefined') {
+            var users = new User.Collection();
+            users.url = Routing.generate('api_v1_get_user_followings', { id: user.get('id'), limit: 10 });
+         }
+         this.showModal(users, 'user.modalFollowingsTitle', 'profile.noFollowings', false, true);
       },
 
-      showModalFollowers: function(user) {
-         var users = new User.Collection();
-         users.url = Routing.generate('api_v1_get_user_followers', { id: user.get('id') });
-         this.showModal(users, 'user.modalFollowersTitle', 'profile.noFollowers');
+      showModalFollowers: function(users, user) {
+         if (typeof users === 'undefined') {
+            var users = new User.Collection();
+            users.url = Routing.generate('api_v1_get_user_followers', { id: user.get('id'), limit: 10 });
+         }
+         this.showModal(users, 'user.modalFollowersTitle', 'profile.noFollowers', false, true);
       },
 
       showModalTopFollowers: function() {
@@ -684,18 +727,26 @@ define([
             users: users,
             noUsersMessage: noUsersMessage
          });
-         users.fetch({
-            success: function() {
-               if (forceRender)
-                  userListView.render();
-            }
-         });
+         if (users.length === 0 && typeof users.url !== 'undefined') {
+            users.fetch({
+               success: function() {
+                  if (forceRender)
+                     userListView.render();
+               }
+            });
+         } else {
+            users.trigger('sync');
+            if (forceRender)
+               userListView.render();
+         }
          var modal = new Common.Views.Modal({
             view: userListView,
             showFooter: false,
             showHeader: true,
             title: title,
-            modalDialogClasses: modalDialogClass
+            modalDialogClasses: modalDialogClass,
+            isPaginationEnabled: true,
+            paginationCollection: users
          });
          if (stack) {
             var currentModal = app.useLayout().getView('#modal-container');

@@ -112,7 +112,7 @@ class ThumbService
     public function generateBrandLogoThumb(Thumb $thumb, $filename)
     {
         $generatedThumbs = array();
-        $fileInfo = FileTools::loadFile( $thumb->getOriginalPath());
+        $fileInfo = FileTools::loadRemoteFile($thumb->getOriginalPath(), 10, true);
         foreach($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getBrandLogoPath($size);
             // Generate thumb

@@ -5,6 +5,7 @@ namespace AdEntify\BackofficeBundle\Controller;
 use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -65,28 +66,29 @@ class BrandController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
 
+            $fileManager = $this->get('adentify_storage.file_manager');
+
             if ($entity->getOriginalLogoUrl()) {
-                $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-                $uploadableListener = $uploadableManager->getUploadableListener();
-                $uploadableListener->setDefaultPath(FileTools::getBrandLogoPath(FileTools::LOGO_TYPE_ORIGINAL, false));
-                $uploadableManager->markEntityToUpload($entity, $entity->getOriginalLogoUrl());
-            } elseif ($entity->getLogoUrl()) {
-                $logo = FileTools::downloadImage($entity->getLogoUrl(), FileTools::getBrandLogoPath());
-                if ($logo['status'] !== false) {
-                    $entity->setOriginalLogoUrl($logo['path'].$logo['filename']);
+                $uploadedFile = $_FILES['adentify_backofficebundle_brand'];
+                $filename = uniqid().$uploadedFile['name'][0];
+                $url = $fileManager->upload($this->getRequest()->files->get('adentify_backofficebundle_brand'), FileTools::getBrandLogoPath(), $filename);
+                if ($url) {
+                    $entity->setOriginalLogoUrl($url);
                 } else {
+                    $form->addError(new FormError('Impossible de récupérer le logo de la marque'));
                     return array(
                         'entity' => $entity,
                         'form'   => $form->createView(),
                     );
                 }
+            } elseif ($entity->getLogoUrl()) {
+                $entity->setOriginalLogoUrl($fileManager->uploadFromUrl($entity->getLogoUrl(), FileTools::getBrandLogoPath()));
             }
 
-            $em->flush();
-
             $thumb = new Thumb();
+
             $filename = basename($entity->getOriginalLogoUrl());
-            $thumb->setOriginalPath(FileTools::getBrandLogoPath().$filename);
+            $thumb->setOriginalPath($entity->getOriginalLogoUrl());
             $thumb->addThumbSize(FileTools::LOGO_TYPE_LARGE);
             $thumb->addThumbSize(FileTools::LOGO_TYPE_MEDIUM);
             $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);
@@ -240,25 +242,24 @@ class BrandController extends Controller
         if ($editForm->isValid()) {
             $file = $request->files->get('adentify_backofficebundle_brand');
             if (($file && isset($file['originalLogoUrl'])) || $entity->getLogoUrl()) {
+                $fileManager = $this->get('adentify_storage.file_manager');
                 if ($file && isset($file['originalLogoUrl'])) {
-                    $uploadableManager = $this->container->get('stof_doctrine_extensions.uploadable.manager');
-                    $uploadableListener = $uploadableManager->getUploadableListener();
-                    $uploadableListener->setDefaultPath(FileTools::getBrandLogoPath(FileTools::LOGO_TYPE_ORIGINAL, false));
-                    $uploadableManager->markEntityToUpload($entity, $entity->getOriginalLogoUrl());
-                } elseif ($entity->getLogoUrl()) {
-                    $logo = FileTools::downloadImage($entity->getLogoUrl(), FileTools::getBrandLogoPath());
-                    if ($logo['status'] !== false) {
-                        $entity->setOriginalLogoUrl($logo['path'].$logo['filename']);
-                    } else {
-                        return $this->redirect($this->generateUrl('brands_edit', array('id' => $id)));
+                    $uploadedFile = $_FILES['adentify_backofficebundle_brand'];
+                    $filename = uniqid().$uploadedFile['name']['originalLogoUrl'];
+
+                    $url = $fileManager->upload($file['originalLogoUrl'], FileTools::getBrandLogoPath(), $filename);
+                    if ($url) {
+                        $entity->setOriginalLogoUrl($url);
                     }
+                } elseif ($entity->getLogoUrl()) {
+                    $entity->setOriginalLogoUrl($fileManager->uploadFromUrl($entity->getLogoUrl(), FileTools::getBrandLogoPath()));
                 }
 
                 $em->flush();
 
                 $thumb = new Thumb();
                 $filename = basename($entity->getOriginalLogoUrl());
-                $thumb->setOriginalPath(FileTools::getBrandLogoPath().$filename);
+                $thumb->setOriginalPath($entity->getOriginalLogoUrl());
                 $thumb->addThumbSize(FileTools::LOGO_TYPE_LARGE);
                 $thumb->addThumbSize(FileTools::LOGO_TYPE_MEDIUM);
                 $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);

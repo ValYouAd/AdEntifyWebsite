@@ -128,6 +128,10 @@ define([
          return app.appState().getCurrentPhotoModel() !== 'undefined' ? app.appState().getCurrentPhotoModel().isOwner() : false;
       },
 
+      isWaitingValidation: function() {
+         return this.get('validation_status') == "waiting" && this.get('waiting_validation') && this.isPhotoOwner();
+      },
+
       delete: function() {
          // Check if currentUser is the owner
          if (this.isOwner()) {
@@ -673,7 +677,7 @@ define([
             updater: function(selectedItem) {
                var productName = null;
                if (selectedItem.indexOf('#query') == -1) {
-                  currentProduct = _.find(currentProducts, function(productName) { return productName == selectedItem; });
+                  currentProduct = _.find(currentProducts, function(product) { return product.name == selectedItem; });
                } else {
                   productName = selectedItem.substring(0, selectedItem.indexOf('#query'));
                }

@@ -60,7 +60,7 @@ class Report
     /**
      * @var string
      *
-     * @ORM\Column(name="reason", type="text")
+     * @ORM\Column(name="reason", type="text", nullable=true)
      */
     private $reason;
 

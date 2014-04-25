@@ -109,6 +109,7 @@ define([
       template: "brand/list",
       loaded: false,
       showTagsCount: true,
+      showAllButton: false,
 
       serialize: function() {
          return {
@@ -116,12 +117,14 @@ define([
             brandsCount: typeof this.options.brands !== 'undefined' ? this.options.brands.length : 0,
             title: typeof this.options.title !== 'undefined' ? this.options.title : $.t('brand.pageTitle'),
             hasData: this.loaded && this.options.brands.length > 0,
-            loaded: this.loaded
+            loaded: this.loaded,
+            showAllButton: this.showAllButton
          };
       },
 
       initialize: function() {
          this.showTagsCount = typeof this.options.showTagsCount !== 'undefined' ? this.options.showTagsCount : false;
+         this.showViewMore = typeof this.options.showViewMore !== 'undefined' ? this.options.showViewMore : false;
          this.listenTo(this.options.brands, {
             'sync': function() {
                this.$('#loading-brands').fadeOut('fast');
@@ -163,10 +166,43 @@ define([
                showClose: false
             }));
          }
+
+         if (this.options.brands.hasNextPage() && this.showViewMore) {
+            this.showAllButton = true;
+         }
       },
 
       afterRender: function() {
          $(this.el).i18n();
+      },
+
+
+      viewMore: function() {
+         var brands = this.options.brands.clone(new Brand.Collection());
+         var brandsListView = new Brand.Views.List({
+            showAlert: true,
+            brands: brands
+         });
+         var Pagination = require('modules/pagination');
+         var modal = new Common.Views.Modal({
+            view: brandsListView,
+            showFooter: false,
+            showHeader: true,
+            title: 'brand.modalTitle',
+            modalDialogClasses: 'small-modal-dialog',
+            isPaginationEnabled: true,
+            paginationCollection: brands,
+            paginationModel: new Pagination.Model({
+               buttonText: 'brand.loadMore'
+            })
+         });
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
+         });
+      },
+
+      events: {
+         'click .viewMore': 'viewMore'
       }
    });
 
@@ -209,7 +245,8 @@ define([
          if (!this.getView('.followers')) {
             this.setView('.followers', new User.Views.List({
                users: this.followers,
-               noUsersMessage: 'profile.noFollowers'
+               noUsersMessage: 'profile.noFollowers',
+               moreMessage: 'profile.moreFollowers'
             }));
          }
          if (!this.getView('.follow-button')) {
@@ -224,7 +261,7 @@ define([
                that.followers.fetch();
             });
          }
-         if (!this.getView('.rewards')) {
+         if (!this.getView('.rewards') && this.loaded) {
             this.setView('.rewards', new Reward.Views.List({
                rewards: this.options.rewards,
                emptyMessage: $.t('brand.noRewards', { name: this.model.get('name') }),
@@ -261,6 +298,10 @@ define([
                this.render();
             }
          }, this);
+      },
+
+      events: {
+         'click .rewards-hiw-link': Reward.Common.showPresentation
       }
    });
 

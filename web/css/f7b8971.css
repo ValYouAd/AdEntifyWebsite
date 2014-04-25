@@ -390,3 +390,8 @@ header {
     display: block;
     position: relative;
 }
+
+/* Contributeurs */
+.contributor {
+    margin-bottom: 20px;
+}

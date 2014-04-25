@@ -51,19 +51,12 @@ define([
    Hashtag.Views.List = Backbone.View.extend({
       template: "hashtag/list",
       showAlert: false,
+      showAllButton: false,
 
-      beforeRender: function() {
-         this.options.hashtags.each(function(hashtag) {
-            this.insertView(".hashtags-list", new Hashtag.Views.Item({
-               model: hashtag
-            }));
-         }, this);
-      },
-
-      afterRender: function() {
-         $(this.el).i18n();
-         if (this.options.hashtags.length === 0)
-            this.$('.hashtags-list').hide();
+      serialize: function() {
+         return {
+            showAllButton: this.showAllButton
+         };
       },
 
       initialize: function() {
@@ -80,6 +73,52 @@ define([
             this.render();
          });
          this.showAlert = typeof this.options.showAlert !== 'undefined' ? this.options.showAlert : this.showAlert;
+         this.showViewMore = typeof this.options.showViewMore !== 'undefined' ? this.options.showViewMore : false;
+      },
+
+      beforeRender: function() {
+         if (this.options.hashtags.hasNextPage() && this.showViewMore) {
+            this.showAllButton = true;
+         }
+         this.options.hashtags.each(function(hashtag) {
+            this.insertView(".hashtags-list", new Hashtag.Views.Item({
+               model: hashtag
+            }));
+         }, this);
+      },
+
+      afterRender: function() {
+         $(this.el).i18n();
+         if (this.options.hashtags.length === 0)
+            this.$('.hashtags-list').hide();
+      },
+
+      viewMore: function() {
+         var hashtags = this.options.hashtags.clone(new Hashtag.Collection());
+         var hashtagsListView = new Hashtag.Views.List({
+            showAlert: true,
+            hashtags: hashtags
+         });
+         var Pagination = require('modules/pagination');
+         var modal = new Common.Views.Modal({
+            view: hashtagsListView,
+            showFooter: false,
+            showHeader: true,
+            title: 'hashtag.modalTitle',
+            modalDialogClasses: 'small-modal-dialog',
+            isPaginationEnabled: true,
+            paginationCollection: hashtags,
+            paginationModel: new Pagination.Model({
+               buttonText: 'hashtag.loadMore'
+            })
+         });
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
+         });
+      },
+
+      events: {
+         'click .viewMore': 'viewMore'
       }
    });
 

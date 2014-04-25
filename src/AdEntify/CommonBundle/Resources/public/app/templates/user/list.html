@@ -1,5 +1,7 @@
 <div class="users-alert"></div>
 <div class="block-white-background">
     <ul class="users list-unstyled striped"></ul>
-    <!--<a href="#" class="link-grey-whith-red-arrow"><%= $.t('profile.moreFollowings') %></a>-->
+    <% if (showAllButton) { %>
+    <a data-bypass="" class="viewMore link-grey-whith-red-arrow"><%= moreMessage %></a>
+    <% } %>
 </div>

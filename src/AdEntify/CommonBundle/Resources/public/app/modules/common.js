@@ -71,6 +71,8 @@ define([
       showFooter: true,
       showHeader: true,
       showConfirmButton: false,
+      showMoreButton: false,
+      isPaginationEnabled: false,
 
       serialize: function() {
          return {
@@ -81,19 +83,36 @@ define([
             modalContentClasses: this.modalContentClasses,
             modalDialogClasses: this.modalDialogClasses,
             showConfirmButton: this.showConfirmButton,
-            confirmButton: this.confirmButton
+            confirmButton: this.confirmButton,
+            isPaginationEnabled: this.isPaginationEnabled
          };
       },
 
       beforeRender: function() {
          if (typeof this.options.view !== 'undefined')
-            this.setView('.modal-body', this.options.view);
+            this.setView('.modal-body-view', this.options.view);
+         if (this.isPaginationEnabled) {
+            var Pagination = require('modules/pagination');
+            this.pagination = new Pagination.Views.NextPage({
+               collection: this.options.paginationCollection,
+               model: typeof this.options.paginationModel !== 'undefined' ? this.options.paginationModel : new Pagination.Model(),
+               showLoadMoreButton: true
+            });
+            var that = this;
+            this.pagination.on('pagination:loadNextPage', function() {
+               that.options.paginationCollection.nextPage(function() {
+                  that.pagination.trigger('pagination:nextPageLoaded');
+               });
+            });
+            this.setView('.pagination-wrapper', this.pagination);
+         }
       },
 
       initialize: function() {
          this.showFooter = typeof this.options.showFooter !== 'undefined' ? this.options.showFooter : this.showFooter;
          this.showHeader = typeof this.options.showHeader !== 'undefined' ? this.options.showHeader : this.showHeader;
          this.showConfirmButton = typeof this.options.showConfirmButton !== 'undefined' ? this.options.showConfirmButton : this.showConfirmButton;
+         this.isPaginationEnabled = typeof this.options.isPaginationEnabled !== 'undefined' ? this.options.isPaginationEnabled : this.isPaginationEnabled;
          this.confirmButton = typeof this.options.confirmButton !== 'undefined' ? this.options.confirmButton : 'common.confirmButton';
          this.title = typeof this.options.title !== 'undefined' ? this.options.title : null;
          this.modalContentClasses = typeof this.options.modalContentClasses !== 'undefined' ? this.options.modalContentClasses : null;

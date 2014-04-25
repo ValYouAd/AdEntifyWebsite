@@ -1,2 +1,7 @@
 <div class="alert-brands"></div>
-<ul id="brands" class="row list-unstyled"></ul>
+<div class="block-white-background">
+    <ul id="brands" class="row list-unstyled"></ul>
+    <% if (showAllButton) { %>
+    <a data-bypass="" class="viewMore link-grey-whith-red-arrow"><%= $.t('brand.viewAllBrands') %></a>
+    <% } %>
+</div>

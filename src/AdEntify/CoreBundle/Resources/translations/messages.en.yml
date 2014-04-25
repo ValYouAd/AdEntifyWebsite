@@ -1,4 +1,7 @@
 email:
+    register:
+        title: 'Thank you for resgistering on AdEntify !'
+        content: '<p>Hello <strong>%user%</strong>,</p><p>You are now a member of <a href="https://adentify.com">AdEntify</a>. Go ahead and log in to start tagging photos on <a href="https://adentify.com">adentify.com</a>.</p>'
     register_validation:
         title: 'Thank you for resgistering on AdEntify !'
         content: '<p>Hello <strong>%user%</strong>,</p><p>You are now a member of <a href="https://adentify.com">AdEntify</a>. You will receive an email as soon as your account is valided.</p>'

@@ -1,0 +1,77 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    <h1>Report</h1>
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Reason</th>
+                <td>{{ entity.reason }}</td>
+            </tr>
+            <tr>
+                <th>Option</th>
+                <td>{{ entity.option }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if entity.photo %}
+    <h2>Photo</h2>
+
+    <div class="text-center">
+        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': entity.photo.id }) }}" target="_blank">
+            <p><img src="{{ entity.photo.mediumUrl }}" /></p>
+            <button class="btn btn-info">View photo</button>
+        </a>
+    </div>
+    {% endif %}
+
+    {% if entity.tag %}
+    <h2>Tag</h2>
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th>Type</th>
+            <td>{{ entity.tag.type }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ entity.tag.title }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ entity.tag.description }}</td>
+        </tr>
+        <tr>
+            <th>Link</th>
+            <td>{{ entity.tag.link }}</td>
+        </tr>
+        </tbody>
+    </table>
+    {% endif %}
+
+    <p>&nbsp;</p>
+
+    <div class="container text-center">
+        {% if delete_photo_form %}{{ form(delete_photo_form) }}{% endif %}
+        {% if delete_tag_form %}{{ form(delete_tag_form) }}{% endif %}
+        {{ form(delete_form) }}
+    </div>
+
+        <ul class="record_actions">
+    <li>
+        <a class="btn btn-default" href="{{ path('report') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

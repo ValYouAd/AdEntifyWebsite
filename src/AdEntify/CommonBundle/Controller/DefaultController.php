@@ -186,10 +186,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/{_locale}/press", name="press")
+     * @Route("/{_locale}/who-we-are", name="press")
      * @Template()
      */
-    public function pressAction()
+    public function whoWeAreAction()
     {
         $em = $this->getDoctrine()->getManager();
         $photos = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo

@@ -8,10 +8,14 @@
                 <% } %>
             </div>
             <div class="modal-body">
+                <div class="modal-body-view"></div>
                 <% if (content) { %>
                 <div class="modal-body-wrapper mt2">
                     <p data-i18n="[html]<%= content %>"></p>
                 </div>
+                <% } %>
+                <% if (isPaginationEnabled) { %>
+                <div class="pagination-wrapper"></div>
                 <% } %>
             </div>
             <% if (showFooter) { %>

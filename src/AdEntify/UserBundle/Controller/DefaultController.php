@@ -34,7 +34,7 @@ class DefaultController extends Controller
                 "client_secret" => $this->container->getParameter('facebook_secret'),
                 "redirect_uri" => $this->generateUrl('_security_check_facebook', array(), true)
             );
-            parse_str($this->postUrl($url, $token_params), $response);
+            parse_str(CommonTools::postUrl($url, $token_params), $response);
             if (array_key_exists('access_token', $response) && array_key_exists('expires', $response)) {
                 $fb = $this->container->get('fos_facebook.api');
                 $fb->setAccessToken($response['access_token']);
@@ -52,7 +52,7 @@ class DefaultController extends Controller
                             $user = $this->container->get('security.context')->getToken()->getUser();
                         } else {
                             $user = $userManager->createUser();
-                            $user->setEnabled(false);
+                            $user->setEnabled(true);
                             $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
 
                             $newUser = true;
@@ -110,114 +110,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/token/facebook")
-     */
-    public function facebookAccessTokenAction()
-    {
-        if (!$this->getRequest()->request->has('access_token')) {
-            throw new HttpException(403);
-        }
-
-        // Get AdEntify OAuth client
-        $oAuthClient = $this->getOAuthClient();
-
-        // Get OAuth token with facebook grant type
-        $url = $this->generateUrl('fos_oauth_server_token', array(), true);
-        $params = array(
-            "client_id" => $oAuthClient->getPublicId(),
-            "client_secret" => $oAuthClient->getSecret(),
-            "grant_type" => $this->container->getParameter('facebook_grant_extension_uri'),
-            "facebook_access_token" => $this->getRequest()->query->get('access_token')
-        );
-        $result = $this->postUrl($url, $params);
-
-        print_r($result);die;
-
-        $tokens = !empty($result) ? json_decode($result) : null;
-
-        // If no error, return the tokens
-        // Else, throw an error
-        if (null !== $tokens && !isset($tokens->error)) {
-            $response = new Response($result);
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        } else {
-            throw new HttpException(403);
-        }
-    }
-
-    /**
-     * @Route("/token/twitter")
-     */
-    public function twitterAccessTokenAction()
-    {
-        if (!$this->getRequest()->request->has('access_token')) {
-            throw new HttpException(403);
-        }
-
-        // Get AdEntify OAuth client
-        $oAuthClient = $this->getOAuthClient();
-
-        // Get OAuth token with facebook grant type
-        $url = $this->generateUrl('fos_oauth_server_token', array(), true);
-        $params = array(
-            "client_id" => $oAuthClient->getPublicId(),
-            "client_secret" => $oAuthClient->getSecret(),
-            "grant_type" => $this->container->getParameter('facebook_grant_extension_uri'),
-            "facebook_access_token" => $this->getRequest()->request->get('access_token')
-        );
-        $result = $this->postUrl($url, $params);
-        $tokens = !empty($result) ? json_decode($result) : null;
-
-        // If no error, return the tokens
-        // Else, throw an error
-        if (null !== $tokens && !isset($tokens->error)) {
-            $response = new Response($result);
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        } else {
-            throw new HttpException(403);
-        }
-    }
-
-    /**
-     * @Route("/token/password")
-     */
-    public function passswordAccessTokenAction()
-    {
-        if (!$this->getRequest()->request->has('username') || !$this->getRequest()->request->has('password')) {
-            throw new HttpException(403);
-        }
-
-        // Get AdEntify OAuth client
-        $oAuthClient = $this->getOAuthClient();
-
-        // Get OAuth token with password grant type
-        $url = $this->generateUrl('fos_oauth_server_token', array(), true);
-        $params = array(
-            "client_id" => $oAuthClient->getPublicId(),
-            "client_secret" => $oAuthClient->getSecret(),
-            "grant_type" => 'password',
-            "username" => $this->getRequest()->request->get('username'),
-            "password" => $this->getRequest()->request->get('password'),
-        );
-        $result = $this->postUrl($url, $params);
-        $tokens = !empty($result) ? json_decode($result) : null;
-
-        // If no error, return the tokens
-        // Else, throw an error
-        if (null !== $tokens && !isset($tokens->error)) {
-            $response = new Response($result);
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        } else {
-            throw new HttpException(403);
-        }
-    }
-
-    /**
      * @Route("/token/user-logged-access-token", name="get_user_access_token")
-     * @Method({"POST"})
      */
     public function getUserAccessTokenAction()
     {
@@ -297,16 +190,5 @@ class DefaultController extends Controller
         return $this->container->get('fos_oauth_server.client_manager.default')->findClientBy(array(
             'name' => $this->container->getParameter('adentify_oauth_client_name')
         ));
-    }
-
-    private function postUrl($url, $params) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params, null, '&'));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $ret = curl_exec($ch);
-        curl_close($ch);
-        return $ret;
     }
 }

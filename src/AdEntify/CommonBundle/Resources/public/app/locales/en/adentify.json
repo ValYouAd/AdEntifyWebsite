@@ -38,7 +38,10 @@
       "silver": "Silver",
       "gold": "Gold",
       "noUserRewards": "No member has otained this reward yet.",
-      "viewAllRewards": "View all rewards"
+      "viewAllRewards": "View all rewards",
+      "viewAllBrands": "View all brands",
+      "loadMore": "Load more brands",
+      "modalTitle": "Brands"
    },
    "photos": {
       "pageTitle": "Browse, tag & share photos - AdEntify",
@@ -129,7 +132,10 @@
    },
    "hashtag": {
       "usedCount": "__count__ time",
-      "usedCount_plural": "__count__ time"
+      "usedCount_plural": "__count__ time",
+      "viewAllHashtags": "View all hashtags",
+      "loadMore": "Load more hashtags",
+      "modalTitle": "Hashtags"
    },
    "facebook": {
       "albumsPageTitle": "My Facebook albums - AdEntify",
@@ -168,6 +174,9 @@
       "submitPlace": "Confirm that place and add tag",
       "cancelTagAdding": "Cancel tag",
       "textAddTagToPhoto": "Click on the photo where you want to add this tag.",
+      "addTagInfoStep1": "Click on the item you want to tag (remember ANYTHING can be tagged!)",
+      "addTagInfoStep2": "There are 3 different types of tags : product, place and person",
+      "addTagInfoStep3": "Finally, for more visibility, provide as many details as you can in your tag",
       "labelPersonName": "Enter the name of the person you want to tag",
       "placeholderPersonName": "First Name or Last Name",
       "submitPerson": "Confirm and add tag",
@@ -407,10 +416,10 @@
       "anonymousLikedPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>Someone commented on <strong>your photo</strong></a>",
       "friendTagPhoto": "<a href='__photoLink__' data-bypass='' class='photo-link'>__author__ tagged <strong>your photo</strong></a>",
       "followUser": "<a href='__authorLink__'>__author__ now follows you</a>",
-      "tagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You just win __count__ points for your last tag on <strong>your photo</strong></a>",
-      "publicTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You just win __count__ points for the tag on <strong>your photo</strong></a>",
-      "publicTaggerTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You just win __count__ points for the tag on <strong>this photo</strong></a>",
-      "newReward": "<a href='__brandLink__'>You just win the reward <strong>__type__</strong> for <strong>__brandName__</strong></a>"
+      "tagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You won __count__ points for the tag on <strong>your photo</strong></a>",
+      "publicTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You won __count__ points for the tag on <strong>your photo</strong></a>",
+      "publicTaggerTagPoints": "<a href='__photoLink__' data-bypass='' class='photo-link'>You won __count__ points for the tag on <strong>this photo</strong></a>",
+      "newReward": "<a href='__brandLink__'>You won the reward <strong>__type__</strong> for <strong>__brandName__</strong></a>"
    },
    "action": {
       "errorLoading": "Error loading actions.",
@@ -425,11 +434,11 @@
       "photosUploaded": "<a href='__authorLink__'>__author__</a> added __count__ new photos",
       "tagPhoto": "<a href='__authorLink__'>__author__</a> tagged <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
       "brandTagged": "<a href='__authorLink__'>__author__</a> tagged <a href='__brandLink__'>__brandName__</a> on <a href='__photoLink__' data-bypass='' class='photo-link'>a photo</a>",
-      "followBrand": "<a href='__authorLink__'>__author__</a> just followed <a href='__brandLink__'>__brandName__</a>",
-      "tagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
-      "publicTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>his photo</a>",
-      "publicTaggerTagPoints": "<a href='__authorLink__'>__author__</a> just win __count__ points for his last tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
-      "newReward": "<a href='__authorLink__'>__author__</a> just became an __type__ fan of <a href='__brandLink__'>__brandName__</a>",
+      "followBrand": "<a href='__authorLink__'>__author__</a> now follows <a href='__brandLink__'>__brandName__</a>",
+      "tagPoints": "<a href='__authorLink__'>__author__</a> won __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
+      "publicTagPoints": "<a href='__authorLink__'>__author__</a> won __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>his photo</a>",
+      "publicTaggerTagPoints": "<a href='__authorLink__'>__author__</a> won __count__ points for the tag on <a href='__photoLink__' data-bypass='' class='photo-link'>this photo</a>",
+      "newReward": "<a href='__authorLink__'>__author__</a> became a __type__ fan of <a href='__brandLink__'>__brandName__</a>",
       "noAction": "Start following other users to keep up with their latest activity",
       "loggedOff": "Login or Sign Up to check out what’s going on with the people you follow",
       "followNewUsers": "Want to follow them?",
@@ -474,6 +483,34 @@
       "prev": "Prev",
       "skip": "Skip",
       "done": "Start tagging!"
+   },
+   "reward": {
+      "modalTitle": "Rewards",
+      "loadMore": "Load more rewards",
+      "presentationTab": "Presentation",
+      "pointsTab": "Points",
+      "badgesTab": "Badges",
+      "cashTab": "Cash",
+      "presentationIntro": "<p>Tag your photos in order to earn points and become the ambassador of your favorite brands. <strong>How cool is that?</strong></p><p>Thanks to you and all your tags, your favorite brands are discovering the true value of social recommandation and how each one of you is an ambassador who should be rewarded!</p><h3>How do I become an ambassador ?</h3><p>To become an eligible brand ambassador, you must have previously made 20 tags of this brand.</p><p>As soon as you become an eligible brand ambassador, AdEntify measures on a daily basis the most active taggers of this brand to reward them.</p>",
+      "presentationTitle": "How do i get rewards?",
+      "pointsTableYourPhoto": "Your photo",
+      "pointsTableAnotherUserPhoto": "Another user's photo",
+      "pointsTableTypeOfTag": "Type of tag",
+      "pointsTableYouWin": "You win",
+      "pointsTablePhotoOwnerWins": "Photo owner wins",
+      "pointsTableProduct": "Product",
+      "pointsTable10Pts": "10 pts",
+      "pointsTable5pts": "5 pts",
+      "pointsTableProductWithDetails": "Product with details",
+      "pointsTable15pts": "15 pts",
+      "pointsTablePlace": "Place",
+      "pointsTablePerson": "Person",
+      "badgesBadge": "Badge",
+      "badgesRanking": "Ranking",
+      "badgesTop10": "Top 10",
+      "badgesTop20": "Top 20",
+      "badgesTop30": "Top 30",
+      "cashSoon": "Just a little more patience cash rewards, they will come sooner than you think ☺"
    },
    "common": {
       "viewPhoto": "View photo",
