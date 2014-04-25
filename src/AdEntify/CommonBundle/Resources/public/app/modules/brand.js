@@ -298,6 +298,10 @@ define([
                this.render();
             }
          }, this);
+      },
+
+      events: {
+         'click .rewards-hiw-link': Reward.Common.showPresentation
       }
    });
 

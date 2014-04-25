@@ -1959,6 +1959,28 @@ html,body,.body-grey-background {
 
 /* Rewards
 ----------------------- */
+.rewards-presentation h2 {
+    color: #606366;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 40px;
+    padding: 30px 0px;
+    margin: 0px;
+    text-align: center;
+}
+.rewards-presentation h3 {
+    color: #606366;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 24px;
+    margin: 0px;
+    padding-bottom: 20px;
+}
+.rewards-presentation .tab-pane {
+    padding: 20px 0px;
+}
+.rewards-presentation th {
+    font-size: 16px;
+    font-family: robotobold;
+}
 .reward-item {
     padding: 4px 10px;
     color: #cecfd1;
@@ -2020,21 +2042,25 @@ html,body,.body-grey-background {
 .brand-rewards .nav-tabs .icon {
     margin-right: 5px;
 }
-.brand-rewards .tab-content {
+.brand-rewards .tab-content,
+.rewards-presentation .tab-content {
     margin: 0px;
 }
-.brand-rewards .nav-tabs a {
+.brand-rewards .nav-tabs a,
+.rewards-presentation .nav-tabs a {
     padding: 10px 40px;
 }
 .brand-rewards .brand-profile-picture {
     max-height: 100px;
 }
-.brand-rewards .nav-tabs li {
+.brand-rewards .nav-tabs li,
+.rewards-presentation .nav-tabs li {
     display: inline-block;
     float: none;
     margin-right: -3px;
 }
-.brand-rewards .nav-tabs {
+.brand-rewards .nav-tabs,
+.rewards-presentation .nav-tabs {
     text-align: center;
 }
 .reward-users {

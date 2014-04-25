@@ -215,7 +215,8 @@ define([
          },
          'click .followers-link': function() {
             User.Common.showModalFollowers(this.options.followers);
-         }
+         },
+         'click .rewards-hiw-link': Reward.Common.showPresentation
       }
    });
 
@@ -449,6 +450,10 @@ define([
 
             }
          });
+      },
+
+      events: {
+         'click .rewards-hiw-link': Reward.Common.showPresentation
       }
    });
 

@@ -981,6 +981,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                view: createBrandView
             })).render();
          });
+         $('.rewards-hiw-link').click(function() {
+            Reward.Common.showPresentation();
+         });
 
          $('.showDidacticiel').tooltip();
          $('.showDidacticiel').click(function() {

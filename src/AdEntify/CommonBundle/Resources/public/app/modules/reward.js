@@ -183,9 +183,36 @@ define([
       Addict: 'addict',
       Gold: 'gold',
       Silver: 'silver',
-      Bronze: 'bronze'
+      Bronze: 'bronze',
 
+      showPresentation: function() {
+         var presentationView = new Reward.Views.Presentation();
+         var modal = new Common.Views.Modal({
+            view: presentationView,
+            showFooter: false,
+            showHeader: false,
+            modalContentClasses: 'photoModal'
+         });
+         Common.Tools.hideCurrentModalIfOpened(function() {
+            app.useLayout().setView('#modal-container', modal).render();
+         });
+      }
    };
+
+   Reward.Views.Presentation = Backbone.View.extend({
+      template: 'reward/presentation',
+
+      afterRender: function() {
+         $(this.el).i18n();
+      },
+
+      events: {
+         'click .nav-tabs a': function(e) {
+            e.preventDefault();
+            $(this).tab('show');
+         }
+      }
+   });
 
    return Reward;
 });
