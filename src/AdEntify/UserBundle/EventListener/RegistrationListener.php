@@ -46,7 +46,7 @@ class RegistrationListener implements EventSubscriberInterface
     public function onRegistrationSuccess(FormEvent $event)
     {
         $user = $event->getForm()->getData();
-        $user->setEnabled(false);
+        $user->setEnabled(true);
 
         if ($user->isEnabled()) {
             $this->emailer->register($user);

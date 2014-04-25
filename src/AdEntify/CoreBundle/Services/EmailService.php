@@ -65,11 +65,11 @@ class EmailService
     public function register($user) {
         $this->newUserRegistred($user);
 
-        /*$template = $this->template->render('AdEntifyCoreBundle:Email:register.html.twig', array (
+        $template = $this->template->render('AdEntifyCoreBundle:Email:register.html.twig', array (
             'user' => $user->getFullname()
         ));
 
-        return $this->sendEmail($this->translator->trans('email.register.title'), $template, $user->getEmail());*/
+        return $this->sendEmail($this->translator->trans('email.register.title'), $template, $user->getEmail());
     }
 
     /**

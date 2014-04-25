@@ -52,7 +52,7 @@ class DefaultController extends Controller
                             $user = $this->container->get('security.context')->getToken()->getUser();
                         } else {
                             $user = $userManager->createUser();
-                            $user->setEnabled(false);
+                            $user->setEnabled(true);
                             $user->setPlainPassword(CommonTools::randomPassword()); // set random password to avoid login with just email
 
                             $newUser = true;
