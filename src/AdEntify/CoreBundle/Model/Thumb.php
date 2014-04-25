@@ -93,7 +93,10 @@ class Thumb
     {
         $width = $photo->getOriginalWidth();
         if (!$width)
-            $width = getimagesize($photo->getOriginalUrl())[0];
+        {
+            $imagesize = getimagesize($photo->getOriginalUrl());
+            $width = $imagesize[0];
+        }
 
         if ($width < $size) {
             if ($size == self::MEDIUM_SIZE) {
