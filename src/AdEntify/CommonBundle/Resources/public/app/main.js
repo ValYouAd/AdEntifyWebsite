@@ -181,7 +181,7 @@ function(app, Router, i18n, AppState, TagStats, Common) {
 
    i18n.init({
       lng: app.appState().getLocale(),
-      resGetPath: app.rootUrl + "bundles/adentifycommon/app/locales/__lng__/__ns__.json",
+      resGetPath: app.rootUrl + "bundles/adentifycommon/app/locales/__lng__/__ns__.json?v=" + app.version,
       ns: { namespaces: ['adentify'], defaultNs: 'adentify'},
       useDataAttrOptions: true
    }).done(function() {

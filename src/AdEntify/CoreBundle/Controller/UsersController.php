@@ -72,6 +72,28 @@ class UsersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
+     *  description="Get current logged in user",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
+     * @View()
+     *
+     * @return User
+     */
+    public function getCurrentAction()
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $securityContext->getToken()->getUser();
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
      *  description="Get user photos",
      *  output="AdEntify\CoreBundle\Entity\Photo",
      *  section="User"
@@ -162,7 +184,7 @@ class UsersController extends FosRestController
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
+            $user = $securityContext->getToken()->getUser();
             return $user->getFavoritePhotos();
         } else {
             throw new HttpException(401);
@@ -723,7 +745,6 @@ class UsersController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="GET analytics for current logged user",
-     *  output="AdEntify\CoreBundle\Entity\User",
      *  section="User"
      * )
      *
