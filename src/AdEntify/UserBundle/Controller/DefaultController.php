@@ -43,6 +43,9 @@ class DefaultController extends Controller
 
                     $userManager = $this->container->get('fos_user.user_manager');
                     $user = $userManager->findUserBy(array('facebookId' => $fbdata['id']));
+                    if (array_key_exists('email', $fbdata) && !empty($fbdata['email'])) {
+                        $user = $userManager->findUserBy(array('email' => $fbdata['email']));
+                    }
 
                     $newUser = false;
                     if (null === $user) {

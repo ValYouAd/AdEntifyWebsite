@@ -17,8 +17,6 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username_email
-        my_fos_facebook_provider:
-            id: my.facebook.user
 
     firewalls:
         api:
