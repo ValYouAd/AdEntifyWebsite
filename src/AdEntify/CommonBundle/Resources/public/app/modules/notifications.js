@@ -190,7 +190,7 @@ define([
          if (app.appState().getCurrentUserId() > 0) {
             this.currentNotificationsCount = notifications.length;
             notifications.fetch({
-               url: Routing.generate('api_v1_get_user_notifications', { id: app.appState().getCurrentUserId() }),
+               url: Routing.generate('api_v1_get_user_notifications'),
                success: function(collection) {
                   if (collection.length === 0) {
                      app.useLayout().setView('.alert-notifications', new Common.Views.Alert({

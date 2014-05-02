@@ -178,14 +178,43 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="30")
+     *
      * @View()
      */
-    public function getFavoritesAction()
+    public function getFavoritesAction($page, $limit)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $securityContext->getToken()->getUser();
-            return $user->getFavoritePhotos();
+
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.owner owner
+                WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL
+                ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':userId' => $user->getId(),
+                    ':status' => Photo::STATUS_READY
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+
+            $paginator = new Paginator($query, $fetchJoinCollection = true);
+            $count = count($paginator);
+
+            $photos = null;
+            $pagination = null;
+            if ($count > 0) {
+                $photos = array();
+                foreach($paginator as $photo) {
+                    $photos[] = $photo;
+                }
+
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_favorites');
+            }
+
+            return PaginationTools::getPaginationArray($photos, $pagination);
         } else {
             throw new HttpException(401);
         }
@@ -423,31 +452,25 @@ class UsersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="GET user notifications with user ID",
+     *  description="GET notifications of current logged in user",
      *  output="AdEntify\CoreBundle\Entity\Notification",
-     *  section="User",
-     * parameters={
-     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
-     * }
+     *  section="User"
      * )
      *
      * @param $id
      *
      * @View(serializerGroups={"slight-list"})
      */
-    public function getNotificationsAction($id)
+    public function getNotificationsAction()
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getId() == $id) {
-                return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Notification')->findBy(array(
-                    'owner' => $user->getId()
-                ), array(
-                    'createdAt' => 'DESC'
-                ), 10);
-            } else
-                throw new HttpException(403);
+            return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Notification')->findBy(array(
+                'owner' => $user->getId()
+            ), array(
+                'createdAt' => 'DESC'
+            ), 10);
         } else {
             throw new HttpException(401);
         }

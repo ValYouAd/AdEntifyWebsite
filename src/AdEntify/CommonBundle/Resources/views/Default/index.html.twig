@@ -133,7 +133,7 @@
                                 $('.search-users-results').html('');
                                 for (var i = 0; i < data.data.length; i++) {
                                     var model = data.data[i];
-                                    $('.search-tags-results').append('<li><a href="' + model.link + '">\
+                                    $('.search-users-results').append('<li><a href="' + model.link + '">\
                                             <img src="' + (typeof model.facebook_id !== 'undefined' ? 'https://graph.facebook.com/' + model.facebook_id + '/picture?width=50&height=50' : './img/anonymous-profile-picture.png') + '" class="profile-picture" />\
                                             <span class="user-fullname">' + model.firstname + ' ' + model.lastname + '</span></a><div class="clearfix"></div></li>');
                                 }
