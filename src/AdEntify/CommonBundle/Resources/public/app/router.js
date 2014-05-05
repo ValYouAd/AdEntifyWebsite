@@ -474,7 +474,8 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          app.useLayout().setViews({
             "#center-pane-content": new Brand.Views.Content({
                brands: this.brands,
-               emptyDataMessage: $.t('brand.noBrands')
+               emptyDataMessage: $.t('brand.noBrands'),
+               showTagsCount: true
             })
          }).render();
 

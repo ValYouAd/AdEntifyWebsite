@@ -84,7 +84,8 @@ define([
          if (!this.getView('.brands-wrapper')) {
             this.setView('.brands-wrapper', new Brand.Views.List({
                brands: this.options.brands,
-               emptyDataMessage: this.options.emptyDataMessage
+               emptyDataMessage: this.options.emptyDataMessage,
+               showTagsCount: typeof this.options.showTagsCount !== 'undefined' ? this.options.showTagsCount : false
             }));
          }
       },
@@ -108,7 +109,7 @@ define([
    Brand.Views.List = Backbone.View.extend({
       template: "brand/list",
       loaded: false,
-      showTagsCount: true,
+      showTagsCount: false,
       showAllButton: false,
 
       serialize: function() {

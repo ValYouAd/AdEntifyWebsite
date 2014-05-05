@@ -582,7 +582,6 @@ define([
          // Brand/Product
          $('#brand-name').keydown(function() {
             currentBrand = null;
-            console.log('null');
          }).typeahead({
             source: function(query, process) {
                $('#loading-brand').css({'display': 'inline-block'});

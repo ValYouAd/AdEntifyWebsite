@@ -1901,6 +1901,9 @@ html,body,.body-grey-background {
 .brands-wrapper {
     margin-top: 30px;
 }
+.brands-wrapper .block-white-background {
+    box-shadow: none;
+}
 #brands,
 .brands {
    border-top: 1px solid #e0dfdf;

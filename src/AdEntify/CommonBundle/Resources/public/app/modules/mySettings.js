@@ -150,7 +150,7 @@ define([
             dataType: 'json',
             done: function (e, data) {
                if (data.result) {
-                  console.log(data);
+
                } else {
                   app.useLayout().setView('.alert-product', new Common.Views.Alert({
                      cssClass: Common.alertError,
