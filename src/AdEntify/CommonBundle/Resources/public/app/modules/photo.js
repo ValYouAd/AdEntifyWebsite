@@ -885,7 +885,7 @@ define([
                         url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
-                           that.liked = response;
+                           that.liked = response.liked;
                            that.render();
                         }
                      });
@@ -939,7 +939,7 @@ define([
                      url: Routing.generate('api_v1_get_photo_is_favorites', { 'id': that.options.photo.get('id') }),
                      headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                      success: function(response) {
-                        that.added = response;
+                        that.added = response.favorites;
                         that.render();
                      }
                   });
@@ -1023,7 +1023,7 @@ define([
                      url: Routing.generate('api_v1_get_photo_is_favorites', { 'id': that.options.photo.get('id') }),
                      headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                      success: function(response) {
-                        that.isFavorite = response;
+                        that.isFavorite = response.favorites;
                         that.render();
                      }
                   });
@@ -1031,7 +1031,7 @@ define([
                      url: Routing.generate('api_v1_get_photo_is_liked', { 'id': that.options.photo.get('id') }),
                      headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                      success: function(response) {
-                        that.liked = response;
+                        that.liked = response.liked;
                         that.render();
                      }
                   });

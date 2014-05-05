@@ -950,7 +950,7 @@ class PhotosController extends FosRestController
                 ))
                 ->getSingleScalarResult();
 
-            return $count > 0 ? true : false;
+            return $count > 0 ? array('liked' => true) : array('liked' => false);
         } else {
             throw new HttpException(401);
         }
@@ -991,7 +991,7 @@ class PhotosController extends FosRestController
                 ))
                 ->getSingleScalarResult();
 
-            return $count > 0 ? true : false;
+            return $count > 0 ? array('favorites' => true) : array('favorites' => false);
         } else {
             throw new HttpException(401);
         }

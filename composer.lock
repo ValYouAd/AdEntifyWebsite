@@ -116,20 +116,20 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.6.0",
+            "version": "2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "324e18c75d507f08931ce7eb414889a549914e14"
+                "reference": "d623ebdf433dd0e4ff6727ad7735f8dabdb03b33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/324e18c75d507f08931ce7eb414889a549914e14",
-                "reference": "324e18c75d507f08931ce7eb414889a549914e14",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d623ebdf433dd0e4ff6727ad7735f8dabdb03b33",
+                "reference": "d623ebdf433dd0e4ff6727ad7735f8dabdb03b33",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": ">=3.7.0,<3.9.0",
+                "guzzle/guzzle": ">=3.7.0,<=3.9.9",
                 "php": ">=5.3.3"
             },
             "require-dev": {
@@ -150,7 +150,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5.x-dev"
+                    "dev-master": "2.6.x-dev"
                 }
             },
             "autoload": {
@@ -180,7 +180,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2014-03-25 20:59:15"
+            "time": "2014-04-25 04:22:25"
         },
         {
             "name": "doctrine/annotations",
@@ -1395,12 +1395,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043"
+                "reference": "0faed3abffffbd3018f0dac6261fa1b59000bfee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/840683b88b637a5310aefceac3722c6fd6b4c043",
-                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0faed3abffffbd3018f0dac6261fa1b59000bfee",
+                "reference": "0faed3abffffbd3018f0dac6261fa1b59000bfee",
                 "shasum": ""
             },
             "require": {
@@ -1479,7 +1479,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-04-09 22:38:44"
+            "time": "2014-05-01 21:56:28"
         },
         {
             "name": "hwi/oauth-bundle",
@@ -2533,16 +2533,16 @@
         },
         {
             "name": "michelf/php-markdown",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "96d8150406f67e683ef4acc09fef91785fef1266"
+                "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/96d8150406f67e683ef4acc09fef91785fef1266",
-                "reference": "96d8150406f67e683ef4acc09fef91785fef1266",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
+                "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
                 "shasum": ""
             },
             "require": {
@@ -2580,20 +2580,20 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2013-11-29 17:09:24"
+            "time": "2014-05-05 02:43:50"
         },
         {
             "name": "monolog/monolog",
-            "version": "1.8.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "392ef35fd470638e08d0160d6b1cbab63cb23174"
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/392ef35fd470638e08d0160d6b1cbab63cb23174",
-                "reference": "392ef35fd470638e08d0160d6b1cbab63cb23174",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac",
                 "shasum": ""
             },
             "require": {
@@ -2621,7 +2621,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
@@ -2648,7 +2648,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-03-23 19:50:26"
+            "time": "2014-04-24 13:29:03"
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -2657,12 +2657,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "fd126c1a0101a7703489b2fd65c91526d2b75774"
+                "reference": "1c553e93ecc09fff64a393ddb139e25785b1ff20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/fd126c1a0101a7703489b2fd65c91526d2b75774",
-                "reference": "fd126c1a0101a7703489b2fd65c91526d2b75774",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1c553e93ecc09fff64a393ddb139e25785b1ff20",
+                "reference": "1c553e93ecc09fff64a393ddb139e25785b1ff20",
                 "shasum": ""
             },
             "require": {
@@ -2723,7 +2723,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2014-03-28 12:48:20"
+            "time": "2014-04-23 10:13:35"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -2732,12 +2732,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioCorsBundle.git",
-                "reference": "fc77b00c90beb76b54e2bf1c4d706b5bde5b29b5"
+                "reference": "64e73bbc116e74f81c0a654011c223aec5ebfae0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/fc77b00c90beb76b54e2bf1c4d706b5bde5b29b5",
-                "reference": "fc77b00c90beb76b54e2bf1c4d706b5bde5b29b5",
+                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/64e73bbc116e74f81c0a654011c223aec5ebfae0",
+                "reference": "64e73bbc116e74f81c0a654011c223aec5ebfae0",
                 "shasum": ""
             },
             "require": {
@@ -2778,7 +2778,7 @@
                 "cors",
                 "crossdomain"
             ],
-            "time": "2014-03-18 10:28:19"
+            "time": "2014-04-15 08:53:43"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -3399,16 +3399,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.3.12",
+            "version": "v2.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "3574df3d5e0039f3225007b8be534df5c4104503"
+                "reference": "9c4b11915d7409a9cecd155d954f2ade273f3359"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/3574df3d5e0039f3225007b8be534df5c4104503",
-                "reference": "3574df3d5e0039f3225007b8be534df5c4104503",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/9c4b11915d7409a9cecd155d954f2ade273f3359",
+                "reference": "9c4b11915d7409a9cecd155d954f2ade273f3359",
                 "shasum": ""
             },
             "require": {
@@ -3505,7 +3505,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-04-03 05:42:39"
+            "time": "2014-04-27 08:34:33"
         },
         {
             "name": "twig/extensions",
