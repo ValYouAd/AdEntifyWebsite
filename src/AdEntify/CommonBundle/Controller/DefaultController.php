@@ -94,6 +94,8 @@ class DefaultController extends Controller
      */
     public function appIndexAction()
     {
+        echo $this->get('translator')->trans('email.new_user.title', array('%user%' => 'test'));die;
+
         $categories = $this->getDoctrine()->getManager()
             ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.displayOrder")
             ->useQueryCache(false)

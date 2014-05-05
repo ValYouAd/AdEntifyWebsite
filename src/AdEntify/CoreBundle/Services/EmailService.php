@@ -41,7 +41,7 @@ class EmailService
             'user' => $user->getFullname()
         ));
 
-        return $this->sendEmail($this->translator->trans('email.new_user.title', array('user', $user->getFullname())), $template, $this->teamEmail);
+        return $this->sendEmail($this->translator->trans('email.new_user.title', array('%user%' => $user->getFullname())), $template, $this->teamEmail);
     }
 
     /**
