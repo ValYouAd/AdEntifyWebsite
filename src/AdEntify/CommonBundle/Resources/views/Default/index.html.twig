@@ -264,7 +264,7 @@
                 {{ 'Start'|trans }}
             </a>
         </div>
-        <div class="carousel"></div>
+        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': 178 }) }}" class="carousel"></a>
 
         <a href="{{ path('about') }}">
             <h1 class="pastille-adentify">{{ 'index.pageHeading'|trans }}</h1>
@@ -276,6 +276,13 @@
         </div>
 
     </header>
+
+    <div class="quotes">
+        <div class="container text-center">
+            <p class="quote">{{ 'index.quote1'|trans }}</p>
+            <p class="quote">{{ 'index.quote2'|trans }}</p>
+        </div>
+    </div>
 
     <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
         <div class="modal-dialog">

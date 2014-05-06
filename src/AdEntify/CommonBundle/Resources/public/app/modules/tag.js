@@ -703,7 +703,7 @@ define([
             highlighter: function(item) {
                if (item.indexOf('#query') == -1) {
                   var product = _.find(currentProducts, function(product) { return product.name == item; });
-                  var html = '<div>' + (product.small_url ? '<img style="height: 20px;" src="' + product.small_url + '"> ' : '') + product.name;
+                  var html = '<div>' + (typeof product.small_url !== 'undefined' && product.small_url ? '<img style="height: 20px;" src="' + product.small_url + '"> ' : '') + product.name;
                   if (product.brand) {
                      html += product.brand.small_logo_url ? ' <img style="height: 20px;" src="' + product.brand.small_logo_url + '" />' : product.brand.name;
                   }

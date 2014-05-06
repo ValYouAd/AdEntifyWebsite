@@ -30,7 +30,7 @@ header {
         width: 254px;
         height: 251px;
         position: absolute;
-        top: 180px;
+        top: 240px;
         left: 50%;
         text-align: center;
         text-indent: -5000px;
@@ -40,10 +40,21 @@ header {
     }
     .account-buttons {
         position: absolute;
-        top: 450px;
+        top: 530px;
         left: 50%;
         width: 480px;
         margin-left: -240px;
+    }
+    @media (max-width:767px) {
+        .account-buttons {
+            left: auto;
+            width: auto;
+            margin-left: auto;
+            text-align: center;
+        }
+        .account-buttons .btn {
+            margin-bottom: 10px;
+        }
     }
     .account-buttons .btn {
         width: 227px;
