@@ -2,10 +2,16 @@
     <form class="form-horizontal mt2" role="form">
         <fieldset>
 
-            <% if (model.isOwner() && model.get('tags_count') == 0) { %>
+            <% if (model.isOwner() && model.get('tags_count') === 0) { %>
             <div class="form-group">
                 <div class="col-md-12 text-center">
                     <button type="button" data-bypass="" class="btn-around-corner btn-red-grey-border deletePhotoButton"><%= $.t('photo.deletePhoto') %></button>
+                </div>
+            </div>
+            <% } else if (model.isOwner() && model.get('tags_count') > 0) { %>
+            <div class="form-group">
+                <div class="col-md-12 text-center">
+                    <p><%= $.t('photo.deleteTagsBeforePhoto') %></p>
                 </div>
             </div>
             <% } %>

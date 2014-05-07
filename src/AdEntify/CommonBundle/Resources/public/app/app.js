@@ -16,7 +16,7 @@ define([
          rootUrl: location.protocol + "//local.adentify.com/",
          beginUrl: location.protocol + "//" + location.host,
          secondsBetweenPoll: 15,
-         version: '1.1.0'
+         version: '1.1.1'
       };
 
       // Localize or create a new JavaScript Template object.
