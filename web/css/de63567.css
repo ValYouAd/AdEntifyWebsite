@@ -889,12 +889,12 @@ html,body,.body-grey-background {
     top: -1px;
 }
 .services .service-button {
-    background: #eff1f4;
+    background: #dfdede;
     border: 1px solid #dfdede;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     font-size: 14px;
-    color: #aeacac;
+    color: #828081;
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     height: 42px;
     display: block;
@@ -1749,10 +1749,11 @@ html,body,.body-grey-background {
 /* Brands */
 .search-bar .brands li {
     padding: 5px;
-    height: 30px;
+    height: 60px;
 }
 .search-bar .brands .brand-logo {
-    max-height: 30px;
+    max-height: 50px;
+    max-width: 100%;
 }
 .search-bar .brands .tagged-count {
     display: none;
@@ -3480,6 +3481,10 @@ label,
     font-size: 13px;
     color: #9da0a4;
     margin: 10px 0px;
+}
+.profile-aside .profile-picture-wrapper,
+.profile-aside .profile-picture-wrapper .table-center {
+    min-height: 116px;
 }
 .profile-aside .brands,
 .profile-aside #brands,

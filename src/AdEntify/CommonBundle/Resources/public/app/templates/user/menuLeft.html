@@ -10,7 +10,11 @@
             <% } %>
 
             <div class="profile-picture-wrapper">
-                <a href="<%= model.get('link') %>"><img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" /></a>
+                <div class="table-center">
+                    <div class="table-center-cell">
+                        <a href="<%= model.get('link') %>"><img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" /></a>
+                    </div>
+                </div>
             </div>
             <h1><%= model.get('fullname') %></h1>
             <% if (showFollowButton) { %>

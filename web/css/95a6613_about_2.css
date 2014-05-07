@@ -26,9 +26,9 @@ header {
 /* How it works */
 .how-it-works-inner {
     background: url('../../bundles/adentifycommon/images/about-captures.png') no-repeat top center;
-    width: 1019px;
+    width: 1001px;
     margin: 20px auto 0px auto;
-    height: 1650px;
+    height: 1628px;
     position: relative;
 }
 .steps {
@@ -46,7 +46,7 @@ header {
 }
 .step1 {
     top: 155px;
-    left: 711px;
+    left: 741px;
     max-width: 215px;
 }
 .step2 {
@@ -56,7 +56,7 @@ header {
 }
 .step3 {
     top: 1346px;
-    left: 711px;
+    left: 746px;
     max-width: 280px;
 }
 
