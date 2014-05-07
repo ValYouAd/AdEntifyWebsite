@@ -1748,10 +1748,11 @@ html,body,.body-grey-background {
 /* Brands */
 .search-bar .brands li {
     padding: 5px;
-    height: 30px;
+    height: 60px;
 }
 .search-bar .brands .brand-logo {
-    max-height: 30px;
+    max-height: 50px;
+    max-width: 100%;
 }
 .search-bar .brands .tagged-count {
     display: none;

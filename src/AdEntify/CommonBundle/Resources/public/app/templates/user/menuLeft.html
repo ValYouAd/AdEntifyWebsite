@@ -22,7 +22,9 @@
             <% } %>
 
             <div class="indicators-container text-center">
+                <% if (currentUserId === model.get('id')) { %>
                 <a href="<%= rootUrl %><%= $.t('routing.my/photos/') %>">
+                <% } %>
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="separator-sm-vertical"></div>
@@ -34,7 +36,9 @@
                         <div class="indicator-label"><%= $.t('profile.tagsIndicator') %></div>
                     </div>
                 </div>
+                <% if (currentUserId === model.get('id')) { %>
                 </a>
+                <% } %>
                 <div class="row">
                     <div class="col-xs-6 followings-link">
                         <div class="separator-sm-horizontal"></div>
