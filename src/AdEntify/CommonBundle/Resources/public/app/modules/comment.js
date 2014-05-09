@@ -65,7 +65,7 @@ define([
       delete: function() {
          var that = this;
          this.model.destroy({
-            url: Routing.generate('api_v1_delete_comment', { 'id': this.model.get('id')}),
+            url: Routing.generate('api_v1_delete_comment', { id: this.model.get('id') }),
             success: function() {
                that.remove();
             }

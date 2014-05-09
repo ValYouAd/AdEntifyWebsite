@@ -165,8 +165,8 @@ didacticiel:
 
 index:
     pageHeading: Taguez et partagez des photos sur AdEntify.com
-    quote1: Enrichissez votre contenu avec AdEntify et révélez l’ambassadeur de marque en vous
-    quote2: Tagguez vos photos avec les marques, produits, etc que vous préférez et soyez ainsi reconnu à votre juste valeur !
+    quote1: Enrichissez votre contenu avec adentify et révélez l’ambassadeur de marque en vous
+    quote2: Commencez à tagguer vos photos dès maintenant et soyez reconnu à votre juste valeur !
 
 #Routing
 photos/untagged/: photos/non-taguees/

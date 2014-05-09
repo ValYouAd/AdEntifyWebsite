@@ -140,7 +140,7 @@ class PhotosController extends FosRestController
               AND tag.censored = false AND tag.waitingValidation = false
               AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
             INNER JOIN photo.owner owner LEFT JOIN tag.brand brand %s
-            WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
+            WHERE photo.tagsCount > 0 AND photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
             OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))', $tagClause, $joinClause);
 
         if ($orderBy) {

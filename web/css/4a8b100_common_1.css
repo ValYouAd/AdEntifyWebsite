@@ -39,11 +39,10 @@ header {
         margin-left: -127px;
     }
     .account-buttons {
-        position: absolute;
-        top: 530px;
-        left: 50%;
         width: 480px;
-        margin-left: -240px;
+        margin: 40px auto 0px auto;
+        position: relative;
+        z-index: 1;
     }
     @media (max-width:767px) {
         .account-buttons {

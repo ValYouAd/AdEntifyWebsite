@@ -1123,55 +1123,6 @@ define([
          });
       },
 
-      submitBrandTag: function($submit) {
-         var that = this;
-
-         // Link tag to photo
-         currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
-         // Set tag info
-         currentTag.set('type', 'brand');
-         currentTag.set('brand', currentBrand.id);
-         currentTag.set('title', currentBrand.name);
-
-         currentTag.url = Routing.generate('api_v1_post_tag');
-         currentTag.getToken('tag_item', function() {
-            currentTag.save(null, {
-               success: function() {
-                  currentTag.set('persisted', '');
-                  if (currentBrand)
-                     app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
-                  app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
-               },
-               error: function(e, r) {
-                  delete currentTag.id;
-                  $submit.button('reset');
-                  if (r.status === 403) {
-                     that.setView('.alert-product', new Common.Views.Alert({
-                        cssClass: Common.alertError,
-                        message: $.t('tag.forbiddenTagPost'),
-                        showClose: true
-                     })).render();
-                  } else {
-                     var json = $.parseJSON(r.responseText);
-                     if (json && typeof json.errors !== 'undefined') {
-                        that.setView('.alert-product', new Common.Views.Alert({
-                           cssClass: Common.alertError,
-                           message: Common.Tools.getHtmlErrors(json.errors),
-                           showClose: true
-                        })).render();
-                     } else {
-                        that.setView('.alert-product', new Common.Views.Alert({
-                           cssClass: Common.alertError,
-                           message: $.t('tag.errorTagPost'),
-                           showClose: true
-                        })).render();
-                     }
-                  }
-               }
-            });
-         });
-      },
-
       postProduct: function($submit, newProduct, venue) {
          var that = this;
 
