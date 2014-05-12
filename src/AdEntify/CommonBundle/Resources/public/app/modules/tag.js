@@ -1450,7 +1450,7 @@ define([
                               report: {
                                  'reason': reason,
                                  'tag': tag.get('id'),
-                                 '_token': data
+                                 '_token': data.csrf_token
                               }
                            }
                         });

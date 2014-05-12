@@ -1173,7 +1173,7 @@ define([
                                  'reason': reason,
                                  'option': option,
                                  'photo': photo.get('id'),
-                                 '_token': data
+                                 '_token': data.csrf_token
                               }
                            }
                         });
