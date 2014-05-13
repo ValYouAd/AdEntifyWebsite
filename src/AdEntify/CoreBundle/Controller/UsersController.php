@@ -781,22 +781,25 @@ class UsersController extends FosRestController
             $currentUser = $this->container->get('security.context')->getToken()->getUser();
 
             $taggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
-            AND p.tags IS NOT EMPTY')
+            AND p.tags IS NOT EMPTY AND p.deletedAt IS NULL AND p.status = :status')
                 ->setParameters(array(
-                    'currentUserId' => $currentUser->getId()
+                    'currentUserId' => $currentUser->getId(),
+                    ':status' => Photo::STATUS_READY
                 ))
                 ->getSingleScalarResult();
 
             $untaggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
-            AND p.tags IS EMPTY')
+            AND p.tags IS EMPTY AND p.deletedAt IS NULL AND p.status = :status')
                 ->setParameters(array(
-                    'currentUserId' => $currentUser->getId()
+                    'currentUserId' => $currentUser->getId(),
+                    ':status' => Photo::STATUS_READY
                 ))
                 ->getSingleScalarResult();
 
-            $totalPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId')
+            $totalPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId AND p.deletedAt IS NULL AND p.status = :status')
                 ->setParameters(array(
-                    'currentUserId' => $currentUser->getId()
+                    'currentUserId' => $currentUser->getId(),
+                    ':status' => Photo::STATUS_READY
                 ))
                 ->getSingleScalarResult();
 

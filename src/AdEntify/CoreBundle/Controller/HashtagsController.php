@@ -95,25 +95,30 @@ class HashtagsController extends FosRestController
 
         $em = $this->getDoctrine()->getManager();
 
+        $query = trim(preg_replace("/[^\p{Latin} \#]/u", '', $query));
+
         $hashtags = CommonTools::extractHashtags($query, false, true);
         if (count($hashtags) == 0)
-            $hashtags = explode(" ", $query);
+            $hashtags = explode(' ', $query);
 
         foreach ($hashtags as &$hashtag) {
-            $hashtag = str_replace('#', '', $hashtag);
+            $hashtag = trim(str_replace('#', '', $hashtag));
         }
         unset($hashtag);
 
-        $query = $em->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
+        $count = 0;
+        if (count($hashtags) > 0) {
+            $query = $em->createQuery('SELECT hashtag FROM AdEntify\CoreBundle\Entity\Hashtag hashtag
         WHERE (REGEXP(hashtag.name, :hashtags) > 0)')
-            ->setParameters(array(
-                ':hashtags' => implode('|', $hashtags)
-            ))
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit);
+                ->setParameters(array(
+                    ':hashtags' => implode('|', $hashtags)
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
 
-        $paginator = new Paginator($query, $fetchJoinCollection = false);
-        $count = count($paginator);
+            $paginator = new Paginator($query, $fetchJoinCollection = false);
+            $count = count($paginator);
+        }
 
         $results = null;
         $pagination = null;

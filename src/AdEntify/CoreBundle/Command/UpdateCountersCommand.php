@@ -30,7 +30,7 @@ class UpdateCountersCommand extends ContainerAwareCommand
 
         $output->writeln('Update users');
         $sql = 'UPDATE users as u SET tags_count = (SELECT COUNT(t.id) FROM tags as t WHERE t.owner_id = u.id AND t.deleted_at IS NULL),
-                    photos_count = (SELECT COUNT(p.id) FROM photos as p WHERE p.owner_id = u.id AND p.deleted_at IS NULL),
+                    photos_count = (SELECT COUNT(p.id) FROM photos as p WHERE p.owner_id = u.id AND p.deleted_at IS NULL AND p.status = "ready"),
                     followers_count = (SELECT COUNT(f.following_id) FROM users_followings as f WHERE f.following_id = u.id),
                     followings_count = (SELECT COUNT(f.follower_id) FROM users_followings as f WHERE f.follower_id = u.id)';
         $this->em->getConnection()->executeUpdate($sql);

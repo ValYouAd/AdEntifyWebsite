@@ -247,8 +247,12 @@ define([
          this.services.each(function(service) {
             this.insertView(".services", new Upload.Views.ServiceButton({
                model: service
-            }));
+            }), 0);
          }, this);
+      },
+
+      afterRender: function() {
+         this.$('.services').append('<li><a href="' + app.beginUrl + app.root + $.t('routing.upload/local/') + '" class="service-button local-service-button active"><i class="local-circle-white-icon icon"></i> ' + $.t('upload.myComputer') + '</a></li>');
       },
 
       initialize: function() {
