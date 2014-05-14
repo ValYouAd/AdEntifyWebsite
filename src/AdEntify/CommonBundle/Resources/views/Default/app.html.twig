@@ -22,6 +22,7 @@
 {% block body %}
 
     {% set full_root_url = root_url ~ app.request.locale ~ '/app/' %}
+    {% set showBecomeAmbassador = not app.user or not app.user.introPlayed ? true : false %}
 
     <main role="main" id="main">
 
@@ -155,6 +156,14 @@
 
         </nav>
 
+        {% if showBecomeAmbassador %}
+        <div class="become-ambassador">
+            <div class="container text-center">
+                <a data-bypass="" class="rewards-hiw-link">{{ 'How do I become an ambassador?'|trans }}</a>
+            </div>
+        </div>
+        {% endif %}
+
         <div class="top-progress-bar"></div>
 
         <div class="container dashboard-container">
@@ -172,7 +181,7 @@
                 </section>
 
                 <section id="right-pane" class="hidden-xs hidden-sm col-md-3">
-                    <section id="right-pane-content" data-intro="{{ 'didacticiel.ticker'|trans }}" data-position="left"></section>
+                    <section id="right-pane-content" {% if showBecomeAmbassador %}class="with-become-ambassador"{% endif %}" data-intro="{{ 'didacticiel.ticker'|trans }}" data-position="left"></section>
                     <div class="push"></div>
                 </section>
             </div>

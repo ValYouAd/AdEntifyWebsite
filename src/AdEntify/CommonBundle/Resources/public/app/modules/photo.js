@@ -1118,7 +1118,7 @@ define([
                   data: { photoId: photo.get('id') },
                   success: function(data) {
                      if (success) {
-                        success(data);
+                        success(data.liked);
                      }
                   }
                });
