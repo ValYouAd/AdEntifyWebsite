@@ -31,6 +31,8 @@ class Comment
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -39,6 +41,8 @@ class Comment
      *
      * @ORM\Column(name="body", type="text")
      * @Assert\NotBlank(message="comment.body.notblank")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $body;
 
@@ -48,6 +52,8 @@ class Comment
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
@@ -67,6 +73,8 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="comments")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $author;
 

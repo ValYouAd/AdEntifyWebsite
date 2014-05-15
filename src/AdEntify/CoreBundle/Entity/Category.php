@@ -32,6 +32,8 @@ class Category
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -40,6 +42,8 @@ class Category
      *
      * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $name;
 
@@ -47,6 +51,8 @@ class Category
      * @var boolean
      *
      * @ORM\Column(name="visible", type="boolean")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $visible = true;
 
@@ -55,12 +61,16 @@ class Category
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
     /**
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(length=128, unique=true)
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $slug;
 
@@ -92,6 +102,8 @@ class Category
      * @var int
      *
      * @ORM\Column(name="display_order", type="integer")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $displayOrder = 0;
 

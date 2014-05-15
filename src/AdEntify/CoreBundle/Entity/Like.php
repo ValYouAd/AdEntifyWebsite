@@ -31,6 +31,8 @@ class Like
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -40,6 +42,8 @@ class Like
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
@@ -48,6 +52,8 @@ class Like
      *
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      * @Assert\DateTime()
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $deleted_at;
 
@@ -59,7 +65,7 @@ class Like
     private $photo;
 
     /**
-     * @Serializer\Exclude
+     * @Serializer\Groups({"details"})
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="likes")
      */
     private $liker;
@@ -68,6 +74,8 @@ class Like
      * @var string
      *
      * @ORM\Column(name="ip_address", type="string", length=50)
+     *
+     * @Serializer\Exclude
      */
     private $ipAddress;
 

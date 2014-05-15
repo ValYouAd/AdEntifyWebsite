@@ -236,7 +236,7 @@ class Photo
     private $owner;
 
     /**
-     * @Serializer\Exclude
+     * @Serializer\Groups({"details"})
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Comment", mappedBy="photo", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
@@ -251,7 +251,7 @@ class Photo
     private $commentsCount = 0;
 
     /**
-     * @Serializer\Exclude
+     * @Serializer\Groups({"details"})
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Like", mappedBy="photo", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
@@ -637,6 +637,11 @@ class Photo
         $comment->setPhoto(null);
     }
 
+    public function clearComments()
+    {
+        $this->comments->clear();
+    }
+
     public function getComments()
     {
         return $this->comments;
@@ -655,6 +660,11 @@ class Photo
         $like->setPhoto(null);
     }
 
+    public function clearLikes()
+    {
+        $this->likes->clear();
+    }
+
     public function getLikes()
     {
         return $this->likes;
@@ -663,7 +673,7 @@ class Photo
     /**
      * @param int $commentsCount
      */
-    public function setCommentsCount($commentsCount)
+    public function Count($commentsCount)
     {
         $this->commentsCount = $commentsCount;
         return $this;
