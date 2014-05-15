@@ -176,7 +176,7 @@
       "textAddTagToPhoto": "Click on the photo where you want to add this tag.",
       "addTagInfoStep1": "Click on the item you want to tag (remember ANYTHING can be tagged!)",
       "addTagInfoStep2": "There are 3 different types of tags : product, place and person",
-      "addTagInfoStep3": "Finally, for more visibility, provide as many details as you can in your tag",
+      "addTagInfoStep3": "Finally, for more visibility (and more rewards!), provide as many details as you can in your tag ",
       "labelPersonName": "Enter the name of the person you want to tag",
       "placeholderPersonName": "First Name or Last Name",
       "submitPerson": "Confirm and add tag",
@@ -270,7 +270,8 @@
       "noLiker": "Be the first to like this photo.",
       "forbidden": "You are not authorized to view this photo",
       "detailsUpdateSuccess": "Photo's details updated successfully",
-      "detailsUpdateError": "An error occurred, we can't update your photo's details"
+      "detailsUpdateError": "An error occurred, we can't update your photo's details",
+      "deleteTagsBeforePhoto": "To delete the photo, please delete tags on your photo first"
    },
    "externalServicePhotos": {
       "select": "Select",
@@ -491,8 +492,8 @@
       "pointsTab": "Points",
       "badgesTab": "Badges",
       "cashTab": "Cash",
-      "presentationIntro": "<p>Tag your photos in order to earn points and become the ambassador of your favorite brands. <strong>How cool is that?</strong></p><p>Thanks to you and all your tags, your favorite brands are discovering the true value of social recommandation and how each one of you is an ambassador who should be rewarded!</p><h3>How do I become an ambassador ?</h3><p>To become an eligible brand ambassador, you must have previously made 20 tags of this brand.</p><p>As soon as you become an eligible brand ambassador, AdEntify measures on a daily basis the most active taggers of this brand to reward them.</p>",
-      "presentationTitle": "How do i get rewards?",
+      "presentationIntro": "<h3>Why?</h3><p>We believe each and everyone of us is a potential brand ambassador to our community.</p><p>Thanks to AdEntify, start tagging your pictures with your favorite brands, products, etc and get the recognition you deserve !</p><h3>How?</h3><p>You will earn points each time you tag a photo.</p><p>To become an eligible brand ambassador, you must have previously made 20 tags of this brand.</p><p>As soon as you become eligible, AdEntify will include you in its daily competition where the most active taggers for each brand get rewarded.</p><h3>What?</h3><p>AdEntify offers 3 types of rewards to its users :</p><ul><li>Points</li><li>Status badges</li><li>Cash</li></ul><p>Check out the thumbnails above for more details about each.</p>",
+      "presentationTitle": "How do I become an ambassador?",
       "pointsTableYourPhoto": "Your photo",
       "pointsTableAnotherUserPhoto": "Another user's photo",
       "pointsTableTypeOfTag": "Type of tag",
@@ -510,7 +511,7 @@
       "badgesTop10": "Top 10",
       "badgesTop20": "Top 20",
       "badgesTop30": "Top 30",
-      "cashSoon": "Just a little more patience cash rewards, they will come sooner than you think ☺"
+      "cashSoon": "<p>Thanks to you and all your tags, we are showing your favorite brands the true value of your social recommendation and how each one of you is an ambassador who has to be rewarded!</p><p>So just a little more patience, cash reward will come sooner than you think J</p><p>The AdEntify team</p>"
    },
    "common": {
       "viewPhoto": "View photo",

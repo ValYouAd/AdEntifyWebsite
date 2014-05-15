@@ -88,7 +88,8 @@ class CommonTools
         foreach($matches[0] as $match) {
             $hashtag = !$withSharp ? str_replace('#', '', $match[0]) : $match[0];
             $hashtag = $toLower ? strtolower($hashtag) : $hashtag;
-            $hashtags[] = $hashtag;
+            if (!empty($hashtag))
+                $hashtags[] = $hashtag;
         }
         return $hashtags;
     }

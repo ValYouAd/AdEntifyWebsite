@@ -95,14 +95,18 @@ class LikesController extends FosRestController
 
                     $em->flush();
 
-                    return true;
+                    return array(
+                        'liked' => true
+                    );
                 } else {
                     $like->setDeletedAt(new \DateTime());
                     $photo->setLikesCount($photo->getLikesCount() - 1);
                     $em->merge($photo);
                     $em->merge($like);
                     $em->flush();
-                    return false;
+                    return array(
+                        'liked' => false
+                    );
                 }
             }
         } else {

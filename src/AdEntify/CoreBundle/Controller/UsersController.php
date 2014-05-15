@@ -72,6 +72,28 @@ class UsersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
+     *  description="Get current logged in user",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
+     * @View()
+     *
+     * @return User
+     */
+    public function getCurrentAction()
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $securityContext->getToken()->getUser();
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
      *  description="Get user photos",
      *  output="AdEntify\CoreBundle\Entity\Photo",
      *  section="User"
@@ -156,14 +178,43 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="30")
+     *
      * @View()
      */
-    public function getFavoritesAction()
+    public function getFavoritesAction($page, $limit)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            return $user->getFavoritePhotos();
+            $user = $securityContext->getToken()->getUser();
+
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.owner owner
+                WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL
+                ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':userId' => $user->getId(),
+                    ':status' => Photo::STATUS_READY
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+
+            $paginator = new Paginator($query, $fetchJoinCollection = true);
+            $count = count($paginator);
+
+            $photos = null;
+            $pagination = null;
+            if ($count > 0) {
+                $photos = array();
+                foreach($paginator as $photo) {
+                    $photos[] = $photo;
+                }
+
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_favorites');
+            }
+
+            return PaginationTools::getPaginationArray($photos, $pagination);
         } else {
             throw new HttpException(401);
         }
@@ -401,31 +452,25 @@ class UsersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="GET user notifications with user ID",
+     *  description="GET notifications of current logged in user",
      *  output="AdEntify\CoreBundle\Entity\Notification",
-     *  section="User",
-     * parameters={
-     *   {"name"="id", "dataType"="integer", "required"=true, "description"="user ID"}
-     * }
+     *  section="User"
      * )
      *
      * @param $id
      *
      * @View(serializerGroups={"slight-list"})
      */
-    public function getNotificationsAction($id)
+    public function getNotificationsAction()
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getId() == $id) {
-                return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Notification')->findBy(array(
-                    'owner' => $user->getId()
-                ), array(
-                    'createdAt' => 'DESC'
-                ), 10);
-            } else
-                throw new HttpException(403);
+            return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Notification')->findBy(array(
+                'owner' => $user->getId()
+            ), array(
+                'createdAt' => 'DESC'
+            ), 10);
         } else {
             throw new HttpException(401);
         }
@@ -723,7 +768,6 @@ class UsersController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="GET analytics for current logged user",
-     *  output="AdEntify\CoreBundle\Entity\User",
      *  section="User"
      * )
      *
@@ -737,22 +781,25 @@ class UsersController extends FosRestController
             $currentUser = $this->container->get('security.context')->getToken()->getUser();
 
             $taggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
-            AND p.tags IS NOT EMPTY')
+            AND p.tags IS NOT EMPTY AND p.deletedAt IS NULL AND p.status = :status')
                 ->setParameters(array(
-                    'currentUserId' => $currentUser->getId()
+                    'currentUserId' => $currentUser->getId(),
+                    ':status' => Photo::STATUS_READY
                 ))
                 ->getSingleScalarResult();
 
             $untaggedPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId
-            AND p.tags IS EMPTY')
+            AND p.tags IS EMPTY AND p.deletedAt IS NULL AND p.status = :status')
                 ->setParameters(array(
-                    'currentUserId' => $currentUser->getId()
+                    'currentUserId' => $currentUser->getId(),
+                    ':status' => Photo::STATUS_READY
                 ))
                 ->getSingleScalarResult();
 
-            $totalPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId')
+            $totalPhotos = $em->createQuery('SELECT COUNT(p.id) FROM AdEntifyCoreBundle:Photo p WHERE p.owner = :currentUserId AND p.deletedAt IS NULL AND p.status = :status')
                 ->setParameters(array(
-                    'currentUserId' => $currentUser->getId()
+                    'currentUserId' => $currentUser->getId(),
+                    ':status' => Photo::STATUS_READY
                 ))
                 ->getSingleScalarResult();
 

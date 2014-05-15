@@ -25,6 +25,7 @@
         <service id="adentify_user.fos_ub_user_provider" class="AdEntify\UserBundle\Security\User\Provider\FOSUBUserProvider" public="false">
             <argument type="service" id="fos_user.user_manager" />
             <argument>%fosubuserprovider.properties%</argument>
+            <argument type="service" id="service_container" />
         </service>
 
         <service id="adentify_user.registration.form.type" class="AdEntify\UserBundle\Form\Type\RegistrationFormType">

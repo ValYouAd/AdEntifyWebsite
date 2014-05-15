@@ -34,7 +34,8 @@ class SecurityController  extends FosRestController
 {
     /**
      * Photo intention : photo_item, Person intention : person_item, Product intention : product_item,
-     * Tag intention : tag_item, Venue intention : venue_item
+     * Tag intention : tag_item, Venue intention : venue_item, Comment intention : comment_item, Brand Intention : brand_item
+     * Notification intention : notification_item, Report intention : report_item
      *
      * @ApiDoc(
      *  resource=true,
@@ -49,6 +50,8 @@ class SecurityController  extends FosRestController
      */
     public function getCsrftokenAction($intention)
     {
-        return $this->container->get('form.csrf_provider')->generateCsrfToken($intention);
+        return array(
+            'csrf_token' => $this->container->get('form.csrf_provider')->generateCsrfToken($intention)
+        );
     }
 }

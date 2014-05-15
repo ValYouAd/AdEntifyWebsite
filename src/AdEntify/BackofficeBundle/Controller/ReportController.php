@@ -68,7 +68,7 @@ class ReportController extends Controller
     /**
      * Deletes a photo entity.
      *
-     * @Route("/{id}", name="report_photo_delete")
+     * @Route("/photo/{id}", name="report_photo_delete")
      * @Method("DELETE")
      */
     public function deletePhotoAction(Request $request, $id)
@@ -102,7 +102,7 @@ class ReportController extends Controller
     /**
      * Deletes a tag entity.
      *
-     * @Route("/{id}", name="report_tag_delete")
+     * @Route("/tag/{id}", name="report_tag_delete")
      * @Method("DELETE")
      */
     public function deleteTagAction(Request $request, $id)

@@ -255,6 +255,24 @@ html,body,.body-grey-background {
 }
 .introjs-disabled { display: none!important; }
 .introjs-skipbutton { float: right; margin-left: 2px; }
+
+.become-ambassador {
+    background: #ff3838;
+    padding: 4px 0px;
+    font-size: 20px;
+    font-family: 'pacificoregular', Helvetica Neue, Helvetica, Arial;
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 2px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 2px 5px 0px rgba(50, 50, 50, 0.75);
+    position: relative;
+    z-index: 99;
+}
+.become-ambassador a {
+    color: white;
+}
+.become-ambassador a:hover {
+    text-decoration: none;
+}
 /* END NAV
 ----------------------- */
 
@@ -324,6 +342,9 @@ html,body,.body-grey-background {
     margin-right: 240px;
     max-width: 292px;
     z-index: 0;
+}
+.with-become-ambassador {
+    top: 102px!important;
 }
 #right-pane .alert {
     margin-top: 20px;
@@ -888,12 +909,12 @@ html,body,.body-grey-background {
     top: -1px;
 }
 .services .service-button {
-    background: #eff1f4;
+    background: #dfdede;
     border: 1px solid #dfdede;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     font-size: 14px;
-    color: #aeacac;
+    color: #828081;
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     height: 42px;
     display: block;
@@ -1748,10 +1769,11 @@ html,body,.body-grey-background {
 /* Brands */
 .search-bar .brands li {
     padding: 5px;
-    height: 30px;
+    height: 60px;
 }
 .search-bar .brands .brand-logo {
-    max-height: 30px;
+    max-height: 50px;
+    max-width: 100%;
 }
 .search-bar .brands .tagged-count {
     display: none;
@@ -1900,6 +1922,9 @@ html,body,.body-grey-background {
 }
 .brands-wrapper {
     margin-top: 30px;
+}
+.brands-wrapper .block-white-background {
+    box-shadow: none;
 }
 #brands,
 .brands {
@@ -3476,6 +3501,10 @@ label,
     font-size: 13px;
     color: #9da0a4;
     margin: 10px 0px;
+}
+.profile-aside .profile-picture-wrapper,
+.profile-aside .profile-picture-wrapper .table-center {
+    min-height: 116px;
 }
 .profile-aside .brands,
 .profile-aside #brands,

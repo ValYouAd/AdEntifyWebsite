@@ -116,20 +116,20 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.6.0",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "324e18c75d507f08931ce7eb414889a549914e14"
+                "reference": "629c5ba5b419d2730c0823d5c95ae03066b6817f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/324e18c75d507f08931ce7eb414889a549914e14",
-                "reference": "324e18c75d507f08931ce7eb414889a549914e14",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/629c5ba5b419d2730c0823d5c95ae03066b6817f",
+                "reference": "629c5ba5b419d2730c0823d5c95ae03066b6817f",
                 "shasum": ""
             },
             "require": {
-                "guzzle/guzzle": ">=3.7.0,<3.9.0",
+                "guzzle/guzzle": ">=3.7.0,<=3.9.9",
                 "php": ">=5.3.3"
             },
             "require-dev": {
@@ -150,7 +150,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5.x-dev"
+                    "dev-master": "2.6.x-dev"
                 }
             },
             "autoload": {
@@ -180,7 +180,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2014-03-25 20:59:15"
+            "time": "2014-05-06 19:14:32"
         },
         {
             "name": "doctrine/annotations",
@@ -1247,12 +1247,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "e4c000a9b19096be0135d0773b56f7c757c93542"
+                "reference": "13c173ff60eef8e32c10f76225eacca00a430826"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/e4c000a9b19096be0135d0773b56f7c757c93542",
-                "reference": "e4c000a9b19096be0135d0773b56f7c757c93542",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/13c173ff60eef8e32c10f76225eacca00a430826",
+                "reference": "13c173ff60eef8e32c10f76225eacca00a430826",
                 "shasum": ""
             },
             "require": {
@@ -1307,7 +1307,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2014-04-08 21:21:16"
+            "time": "2014-05-07 23:51:03"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1395,12 +1395,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043"
+                "reference": "92d9934f2fca1da15178c91239576ae26e505e60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/840683b88b637a5310aefceac3722c6fd6b4c043",
-                "reference": "840683b88b637a5310aefceac3722c6fd6b4c043",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/92d9934f2fca1da15178c91239576ae26e505e60",
+                "reference": "92d9934f2fca1da15178c91239576ae26e505e60",
                 "shasum": ""
             },
             "require": {
@@ -1479,7 +1479,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-04-09 22:38:44"
+            "time": "2014-05-07 17:04:22"
         },
         {
             "name": "hwi/oauth-bundle",
@@ -1488,12 +1488,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "5a667454c32e35e4f5ab53030b54f21e1aee839f"
+                "reference": "14ea033984ea72d58d97f838be5ec3a6cc59ed2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/5a667454c32e35e4f5ab53030b54f21e1aee839f",
-                "reference": "5a667454c32e35e4f5ab53030b54f21e1aee839f",
+                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/14ea033984ea72d58d97f838be5ec3a6cc59ed2c",
+                "reference": "14ea033984ea72d58d97f838be5ec3a6cc59ed2c",
                 "shasum": ""
             },
             "require": {
@@ -1592,7 +1592,7 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2014-02-17 15:26:38"
+            "time": "2014-05-12 14:27:04"
         },
         {
             "name": "imagine/imagine",
@@ -2533,16 +2533,16 @@
         },
         {
             "name": "michelf/php-markdown",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "96d8150406f67e683ef4acc09fef91785fef1266"
+                "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/96d8150406f67e683ef4acc09fef91785fef1266",
-                "reference": "96d8150406f67e683ef4acc09fef91785fef1266",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
+                "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
                 "shasum": ""
             },
             "require": {
@@ -2580,20 +2580,20 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2013-11-29 17:09:24"
+            "time": "2014-05-05 02:43:50"
         },
         {
             "name": "monolog/monolog",
-            "version": "1.8.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "392ef35fd470638e08d0160d6b1cbab63cb23174"
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/392ef35fd470638e08d0160d6b1cbab63cb23174",
-                "reference": "392ef35fd470638e08d0160d6b1cbab63cb23174",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac",
                 "shasum": ""
             },
             "require": {
@@ -2621,7 +2621,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
@@ -2648,7 +2648,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-03-23 19:50:26"
+            "time": "2014-04-24 13:29:03"
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -2657,12 +2657,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "fd126c1a0101a7703489b2fd65c91526d2b75774"
+                "reference": "1c553e93ecc09fff64a393ddb139e25785b1ff20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/fd126c1a0101a7703489b2fd65c91526d2b75774",
-                "reference": "fd126c1a0101a7703489b2fd65c91526d2b75774",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1c553e93ecc09fff64a393ddb139e25785b1ff20",
+                "reference": "1c553e93ecc09fff64a393ddb139e25785b1ff20",
                 "shasum": ""
             },
             "require": {
@@ -2723,7 +2723,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2014-03-28 12:48:20"
+            "time": "2014-04-23 10:13:35"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -2732,12 +2732,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioCorsBundle.git",
-                "reference": "fc77b00c90beb76b54e2bf1c4d706b5bde5b29b5"
+                "reference": "64e73bbc116e74f81c0a654011c223aec5ebfae0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/fc77b00c90beb76b54e2bf1c4d706b5bde5b29b5",
-                "reference": "fc77b00c90beb76b54e2bf1c4d706b5bde5b29b5",
+                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/64e73bbc116e74f81c0a654011c223aec5ebfae0",
+                "reference": "64e73bbc116e74f81c0a654011c223aec5ebfae0",
                 "shasum": ""
             },
             "require": {
@@ -2778,7 +2778,7 @@
                 "cors",
                 "crossdomain"
             ],
-            "time": "2014-03-18 10:28:19"
+            "time": "2014-04-15 08:53:43"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -3122,25 +3122,28 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.1.0",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "748c01c1144713ac0118396935d10b6ceec91b68"
+                "reference": "043e336b871f17a117f76ef8e190eddfc04c8d48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/748c01c1144713ac0118396935d10b6ceec91b68",
-                "reference": "748c01c1144713ac0118396935d10b6ceec91b68",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/043e336b871f17a117f76ef8e190eddfc04c8d48",
+                "reference": "043e336b871f17a117f76ef8e190eddfc04c8d48",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1"
+            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.1-dev"
+                    "dev-master": "5.2-dev"
                 }
             },
             "autoload": {
@@ -3169,7 +3172,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-03-18 09:03:27"
+            "time": "2014-05-08 08:11:19"
         },
         {
             "name": "symfony/assetic-bundle",
@@ -3399,16 +3402,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.3.12",
+            "version": "v2.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "3574df3d5e0039f3225007b8be534df5c4104503"
+                "reference": "9c4b11915d7409a9cecd155d954f2ade273f3359"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/3574df3d5e0039f3225007b8be534df5c4104503",
-                "reference": "3574df3d5e0039f3225007b8be534df5c4104503",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/9c4b11915d7409a9cecd155d954f2ade273f3359",
+                "reference": "9c4b11915d7409a9cecd155d954f2ade273f3359",
                 "shasum": ""
             },
             "require": {
@@ -3505,7 +3508,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-04-03 05:42:39"
+            "time": "2014-04-27 08:34:33"
         },
         {
             "name": "twig/extensions",

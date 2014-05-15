@@ -43,6 +43,9 @@ class DefaultController extends Controller
 
                     $userManager = $this->container->get('fos_user.user_manager');
                     $user = $userManager->findUserBy(array('facebookId' => $fbdata['id']));
+                    if (array_key_exists('email', $fbdata) && !empty($fbdata['email'])) {
+                        $user = $userManager->findUserBy(array('email' => $fbdata['email']));
+                    }
 
                     $newUser = false;
                     if (null === $user) {
@@ -62,6 +65,7 @@ class DefaultController extends Controller
                     $user->setLoggedInCount($user->getLoggedInCount() + 1);
                     $user->setFacebookAccessToken($fb->getAccessToken());
                     $user->setFBData($fbdata);
+
                     $userManager->updateUser($user);
 
                     if ($newUser) {

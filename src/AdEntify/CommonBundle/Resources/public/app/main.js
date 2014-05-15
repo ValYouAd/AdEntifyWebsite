@@ -61,7 +61,7 @@ function(app, Router, i18n, AppState, TagStats, Common) {
                   },
                   url: Routing.generate('api_v1_get_csrftoken', { intention: intention}),
                   success: function(data) {
-                        that.set('_token', data);
+                        that.set('_token', data.csrf_token);
                      if (callback)
                         callback();
                   }
@@ -181,7 +181,7 @@ function(app, Router, i18n, AppState, TagStats, Common) {
 
    i18n.init({
       lng: app.appState().getLocale(),
-      resGetPath: app.rootUrl + "bundles/adentifycommon/app/locales/__lng__/__ns__.json",
+      resGetPath: app.rootUrl + "bundles/adentifycommon/app/locales/__lng__/__ns__.json?v=" + app.version,
       ns: { namespaces: ['adentify'], defaultNs: 'adentify'},
       useDataAttrOptions: true
    }).done(function() {

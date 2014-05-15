@@ -516,8 +516,10 @@ class User extends BaseUser
         if (isset($fbdata['last_name']) && empty($this->lastname)) {
             $this->setLastname($fbdata['last_name']);
         }
-        if (isset($fbdata['email'])  && empty($this->email)) {
+        if (isset($fbdata['email']) && !empty($fbdata['email']) && empty($this->email)) {
             $this->setEmail($fbdata['email']);
+        } else if (!isset($fbdata['email']) && empty($fbdata['email']) && empty($this->email)) {
+            $this->setEmail($fbdata['id']);
         }
         if (isset($fbdata['username'])) {
             $this->setFacebookUsername($fbdata['username']);

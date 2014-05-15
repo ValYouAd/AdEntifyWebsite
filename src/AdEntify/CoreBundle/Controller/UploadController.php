@@ -174,10 +174,7 @@ class UploadController extends Controller
 
                     $thumb = new Thumb();
                     $thumb->setOriginalPath($url);
-                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_LARGE);
-                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_MEDIUM);
-                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_SMALLL);
-                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_RETINA);
+                    $thumb->configureThumbs();
                     $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
 
                     // Add original

@@ -53,6 +53,7 @@ My brands: Mes marques
 Everything: Toutes
 Legal: Légal
 Contributors: Contributeurs
+How do I become an ambassador?: Comment devenir ambassadeur ?
 
 #Login
 modal:
@@ -165,6 +166,8 @@ didacticiel:
 
 index:
     pageHeading: Taguez et partagez des photos sur AdEntify.com
+    quote1: Enrichissez votre contenu avec adentify et révélez l’ambassadeur de marque en vous
+    quote2: Commencez à tagguer vos photos dès maintenant et soyez reconnu à votre juste valeur !
 
 #Routing
 photos/untagged/: photos/non-taguees/

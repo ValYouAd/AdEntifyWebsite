@@ -140,7 +140,7 @@ class PhotosController extends FosRestController
               AND tag.censored = false AND tag.waitingValidation = false
               AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
             INNER JOIN photo.owner owner LEFT JOIN tag.brand brand %s
-            WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
+            WHERE photo.tagsCount > 0 AND photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
             OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))', $tagClause, $joinClause);
 
         if ($orderBy) {
@@ -628,10 +628,12 @@ class PhotosController extends FosRestController
                                     $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
                                     if ($hashtag) {
                                         $found = false;
-                                        foreach($photo->getHashtags() as $ht) {
-                                            if ($ht->getId() == $hashtag->getId()) {
-                                                $found = true;
-                                                break;
+                                        if ($photo->getHashtags()) {
+                                            foreach($photo->getHashtags() as $ht) {
+                                                if ($ht->getId() == $hashtag->getId()) {
+                                                    $found = true;
+                                                    break;
+                                                }
                                             }
                                         }
                                         if (!$found)
@@ -950,7 +952,7 @@ class PhotosController extends FosRestController
                 ))
                 ->getSingleScalarResult();
 
-            return $count > 0 ? true : false;
+            return $count > 0 ? array('liked' => true) : array('liked' => false);
         } else {
             throw new HttpException(401);
         }
@@ -991,7 +993,7 @@ class PhotosController extends FosRestController
                 ))
                 ->getSingleScalarResult();
 
-            return $count > 0 ? true : false;
+            return $count > 0 ? array('favorites' => true) : array('favorites' => false);
         } else {
             throw new HttpException(401);
         }

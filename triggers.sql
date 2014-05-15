@@ -17,12 +17,22 @@ DELIMITER $$
 CREATE TRIGGER tags_count AFTER INSERT ON `tags`
  FOR EACH ROW BEGIN
     UPDATE photos SET tags_count = tags_count+1 WHERE id = NEW.photo_id;
-    UPDATE venues SET tags_count = tags_count+1 WHERE id = NEW.venue_id;
-    UPDATE products SET tags_count = tags_count+1 WHERE id = NEW.product_id;
-    UPDATE product_types SET tags_count = tags_count+1 WHERE id = NEW.productType_id;
-    UPDATE people SET tags_count = tags_count+1 WHERE id = NEW.person_id;
-    UPDATE brands SET tags_count = tags_count+1 WHERE id = NEW.brand_id;
-    UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count+1 WHERE p.id = NEW.product_id;
+    IF (NEW.venue_id IS NOT NULL) THEN
+      UPDATE venues SET tags_count = tags_count+1 WHERE id = NEW.venue_id;
+    END IF;
+    IF (NEW.product_id IS NOT NULL) THEN
+      UPDATE products SET tags_count = tags_count+1 WHERE id = NEW.product_id;
+      UPDATE brands b JOIN products p ON p.brand_id = p.id SET b.tags_count = b.tags_count+1 WHERE p.id = NEW.product_id;
+    END IF;
+    IF (NEW.productType_id IS NOT NULL) THEN
+      UPDATE product_types SET tags_count = tags_count+1 WHERE id = NEW.productType_id;
+    END IF;
+    IF (NEW.person_id IS NOT NULL) THEN
+      UPDATE people SET tags_count = tags_count+1 WHERE id = NEW.person_id;
+    END IF;
+    IF (NEW.brand_id IS NOT NULL) THEN
+      UPDATE brands SET tags_count = tags_count+1 WHERE id = NEW.brand_id;
+    END IF;
     UPDATE users SET tags_count = tags_count+1 WHERE id = NEW.owner_id;
  END$$
 DELIMITER ;
@@ -70,6 +80,14 @@ CREATE TRIGGER photos_count_update AFTER UPDATE ON `photos`
       UPDATE venues v SET photos_count = photos_count-1 WHERE v.id = NEW.venue_id;
     END IF;
  END$$
+DELIMITER ;
+DROP TRIGGER IF EXISTS  `photos_count_delete`;
+DELIMITER $$
+CREATE TRIGGER photos_count_delete AFTER DELETE ON `photos`
+ FOR EACH ROW BEGIN
+    UPDATE users u SET photos_count = photos_count-1 WHERE u.id = OLD.owner_id;
+    UPDATE venues v SET photos_count = photos_count-1 WHERE v.id = OLD.venue_id;
+ END$$;
 DELIMITER ;
 
 # Mise à jour des compteurs de lieux/marques

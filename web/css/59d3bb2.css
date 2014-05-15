@@ -669,7 +669,9 @@ disabled look for disabled choices in the results dropdown
       background-position: 100% -21px !important;
   }
 }
-
+span.select2-hidden-accessible {
+    display: none;
+}
 @charset "UTF-8";
 /*
  * jQuery File Upload UI Plugin CSS 8.1

@@ -582,7 +582,6 @@ define([
          // Brand/Product
          $('#brand-name').keydown(function() {
             currentBrand = null;
-            console.log('null');
          }).typeahead({
             source: function(query, process) {
                $('#loading-brand').css({'display': 'inline-block'});
@@ -704,7 +703,7 @@ define([
             highlighter: function(item) {
                if (item.indexOf('#query') == -1) {
                   var product = _.find(currentProducts, function(product) { return product.name == item; });
-                  var html = '<div>' + (product.small_url ? '<img style="height: 20px;" src="' + product.small_url + '"> ' : '') + product.name;
+                  var html = '<div>' + (typeof product.small_url !== 'undefined' && product.small_url ? '<img style="height: 20px;" src="' + product.small_url + '"> ' : '') + product.name;
                   if (product.brand) {
                      html += product.brand.small_logo_url ? ' <img style="height: 20px;" src="' + product.brand.small_logo_url + '" />' : product.brand.name;
                   }
@@ -1124,55 +1123,6 @@ define([
          });
       },
 
-      submitBrandTag: function($submit) {
-         var that = this;
-
-         // Link tag to photo
-         currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
-         // Set tag info
-         currentTag.set('type', 'brand');
-         currentTag.set('brand', currentBrand.id);
-         currentTag.set('title', currentBrand.name);
-
-         currentTag.url = Routing.generate('api_v1_post_tag');
-         currentTag.getToken('tag_item', function() {
-            currentTag.save(null, {
-               success: function() {
-                  currentTag.set('persisted', '');
-                  if (currentBrand)
-                     app.fb.createBrandTagStory(currentBrand, app.appState().getCurrentPhotoModel());
-                  app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
-               },
-               error: function(e, r) {
-                  delete currentTag.id;
-                  $submit.button('reset');
-                  if (r.status === 403) {
-                     that.setView('.alert-product', new Common.Views.Alert({
-                        cssClass: Common.alertError,
-                        message: $.t('tag.forbiddenTagPost'),
-                        showClose: true
-                     })).render();
-                  } else {
-                     var json = $.parseJSON(r.responseText);
-                     if (json && typeof json.errors !== 'undefined') {
-                        that.setView('.alert-product', new Common.Views.Alert({
-                           cssClass: Common.alertError,
-                           message: Common.Tools.getHtmlErrors(json.errors),
-                           showClose: true
-                        })).render();
-                     } else {
-                        that.setView('.alert-product', new Common.Views.Alert({
-                           cssClass: Common.alertError,
-                           message: $.t('tag.errorTagPost'),
-                           showClose: true
-                        })).render();
-                     }
-                  }
-               }
-            });
-         });
-      },
-
       postProduct: function($submit, newProduct, venue) {
          var that = this;
 
@@ -1500,7 +1450,7 @@ define([
                               report: {
                                  'reason': reason,
                                  'tag': tag.get('id'),
-                                 '_token': data
+                                 '_token': data.csrf_token
                               }
                            }
                         });

@@ -10,7 +10,11 @@
             <% } %>
 
             <div class="profile-picture-wrapper">
-                <a href="<%= model.get('link') %>"><img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" /></a>
+                <div class="table-center">
+                    <div class="table-center-cell">
+                        <a href="<%= model.get('link') %>"><img src="<%= model.get('largeProfilePicture') %>" alt="<%= model.get('fullname') %>" class="profile-picture" /></a>
+                    </div>
+                </div>
             </div>
             <h1><%= model.get('fullname') %></h1>
             <% if (showFollowButton) { %>
@@ -22,7 +26,9 @@
             <% } %>
 
             <div class="indicators-container text-center">
+                <% if (currentUserId === model.get('id')) { %>
                 <a href="<%= rootUrl %><%= $.t('routing.my/photos/') %>">
+                <% } %>
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="separator-sm-vertical"></div>
@@ -34,7 +40,9 @@
                         <div class="indicator-label"><%= $.t('profile.tagsIndicator') %></div>
                     </div>
                 </div>
+                <% if (currentUserId === model.get('id')) { %>
                 </a>
+                <% } %>
                 <div class="row">
                     <div class="col-xs-6 followings-link">
                         <div class="separator-sm-horizontal"></div>

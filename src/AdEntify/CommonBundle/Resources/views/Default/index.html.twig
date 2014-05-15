@@ -133,7 +133,7 @@
                                 $('.search-users-results').html('');
                                 for (var i = 0; i < data.data.length; i++) {
                                     var model = data.data[i];
-                                    $('.search-tags-results').append('<li><a href="' + model.link + '">\
+                                    $('.search-users-results').append('<li><a href="' + model.link + '">\
                                             <img src="' + (typeof model.facebook_id !== 'undefined' ? 'https://graph.facebook.com/' + model.facebook_id + '/picture?width=50&height=50' : './img/anonymous-profile-picture.png') + '" class="profile-picture" />\
                                             <span class="user-fullname">' + model.firstname + ' ' + model.lastname + '</span></a><div class="clearfix"></div></li>');
                                 }
@@ -264,18 +264,26 @@
                 {{ 'Start'|trans }}
             </a>
         </div>
-        <div class="carousel"></div>
+        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': 178 }) }}" class="carousel"></a>
 
         <a href="{{ path('about') }}">
             <h1 class="pastille-adentify">{{ 'index.pageHeading'|trans }}</h1>
         </a>
 
-        <div class="account-buttons">
-            <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
-            <button data-toggle="modal" data-target="#loginModal" type="button" class="btn signup"><i class="icon signup-icon"></i> {{ 'Sign Up'|trans }}</button>
-        </div>
-
     </header>
+
+    <div class="quotes">
+        <div class="container text-center">
+            <div class="porte-voix"></div>
+            <p class="quote">{{ 'index.quote1'|trans }}</p>
+            <p class="quote">{{ 'index.quote2'|trans }}</p>
+
+            <div class="account-buttons">
+                <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
+                <button data-toggle="modal" data-target="#loginModal" type="button" class="btn signup"><i class="icon signup-icon"></i> {{ 'Sign Up'|trans }}</button>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
         <div class="modal-dialog">

@@ -35,8 +35,6 @@ DirectoryIndex app.php
     # - use Apache >= 2.3.9 and replace all L flags by END flags and remove the
     #   following RewriteCond (best solution)
 
-    Redirect 302 /login/ /
-
     RewriteCond %{ENV:REDIRECT_STATUS} ^$
     RewriteRule ^app_dev\.php(/(.*)|$) %{CONTEXT_PREFIX}/$2 [R=301,L]
 

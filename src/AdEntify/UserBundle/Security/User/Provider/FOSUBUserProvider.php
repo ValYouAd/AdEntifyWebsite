@@ -13,9 +13,19 @@ use AdEntify\CoreBundle\Entity\User;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseClass;
 use Symfony\Component\Security\Core\User\UserInterface;
+use FOS\UserBundle\Model\UserManagerInterface;
 
 class FOSUBUserProvider extends BaseClass
 {
+    protected $container;
+
+    public function __construct(UserManagerInterface $userManager, array $properties, $container)
+    {
+        $this->userManager = $userManager;
+        $this->properties  = $properties;
+        $this->container = $container;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -88,9 +98,9 @@ class FOSUBUserProvider extends BaseClass
             $user->setEnabled(true);
 
             if ($user->isEnabled()) {
-                $this->get('ad_entify_core.email')->register($user);
+                $this->container->get('ad_entify_core.email')->register($user);
             } else {
-                $this->get('ad_entify_core.email')->registerWithValidation($user);
+                $this->container->get('ad_entify_core.email')->registerWithValidation($user);
             }
 
             $this->userManager->updateUser($user);

@@ -41,7 +41,7 @@ class EmailService
             'user' => $user->getFullname()
         ));
 
-        return $this->sendEmail($this->translator->trans('email.new_user.title', array('%user%', $user->getFullname())), $template, $this->teamEmail);
+        return $this->sendEmail($this->translator->trans('email.new_user.title', array('%user%' => $user->getFullname())), $template, $this->teamEmail);
     }
 
     /**
@@ -55,7 +55,10 @@ class EmailService
             'user' => $user->getFullname()
         ));
 
-        return $this->sendEmail($this->translator->trans('email.register_validation.title'), $template, $user->getEmail());
+        if (filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            return $this->sendEmail($this->translator->trans('email.register_validation.title'), $template, $user->getEmail());
+        } else
+            return true;
     }
 
     /**
@@ -69,7 +72,10 @@ class EmailService
             'user' => $user->getFullname()
         ));
 
-        return $this->sendEmail($this->translator->trans('email.register.title'), $template, $user->getEmail());
+        if (filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            return $this->sendEmail($this->translator->trans('email.register.title'), $template, $user->getEmail());
+        } else
+            return true;
     }
 
     /**
@@ -84,7 +90,10 @@ class EmailService
             'user' => $user->getFullname()
         ));
 
-        return $this->sendEmail($this->translator->trans('email.validate_account.title'), $template, $user->getEmail());
+        if (filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            return $this->sendEmail($this->translator->trans('email.validate_account.title'), $template, $user->getEmail());
+        } else
+            return true;
     }
 
     /**
