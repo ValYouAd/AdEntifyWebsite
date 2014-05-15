@@ -19,6 +19,8 @@ class Hashtag
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -26,6 +28,8 @@ class Hashtag
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $name;
 
@@ -33,6 +37,8 @@ class Hashtag
      * @var integer
      *
      * @ORM\Column(name="used_count", type="integer")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $usedCount = 0;
 

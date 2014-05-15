@@ -266,6 +266,29 @@ class PhotosController extends FosRestController
             ));
 
         if ($photo) {
+            // Get last 3 comments
+            $comments = $em->createQuery('SELECT comment FROM AdEntifyCoreBundle:Comment comment WHERE comment.photo = :photoId ORDER BY comment.createdAt DESC')
+                ->setParameter('photoId', $photo->getId())
+                ->setMaxResults(3)
+                ->getResult();
+            if (count($comments) > 0) {
+                $photo->clearComments();
+                foreach($comments as $comment) {
+                    $photo->addComment($comment);
+                }
+            }
+            // Get last 3 likes
+            $likes = $em->createQuery('SELECT l FROM AdEntifyCoreBundle:Like l WHERE l.photo = :photoId AND l.deleted_at IS NULL ORDER BY l.createdAt DESC')
+                ->setParameter('photoId', $photo->getId())
+                ->setMaxResults(3)
+                ->getResult();
+            if (count($likes) > 0) {
+                $photo->clearLikes();
+                foreach($likes as $like) {
+                    $photo->addLike($like);
+                }
+            }
+
             $photo->setTags($photo->getTags()->matching($criteria));
             return $photo;
         } else {
