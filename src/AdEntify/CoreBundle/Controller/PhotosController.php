@@ -628,10 +628,12 @@ class PhotosController extends FosRestController
                                     $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
                                     if ($hashtag) {
                                         $found = false;
-                                        foreach($photo->getHashtags() as $ht) {
-                                            if ($ht->getId() == $hashtag->getId()) {
-                                                $found = true;
-                                                break;
+                                        if ($photo->getHashtags()) {
+                                            foreach($photo->getHashtags() as $ht) {
+                                                if ($ht->getId() == $hashtag->getId()) {
+                                                    $found = true;
+                                                    break;
+                                                }
                                             }
                                         }
                                         if (!$found)

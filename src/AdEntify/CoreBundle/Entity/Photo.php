@@ -291,7 +291,7 @@ class Photo
 
     /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Category", inversedBy="photos")
-     * @Serializer\Exclude
+     * @Serializer\Groups({"details", "list"})
      */
     private $categories;
 
@@ -334,7 +334,7 @@ class Photo
 
     /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Hashtag", inversedBy="photos")
-     * @Serializer\Exclude
+     * @Serializer\Groups({"details"})
      */
     private $hashtags;
 
