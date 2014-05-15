@@ -324,10 +324,7 @@ html,body,.body-grey-background {
     background: url('../img/ticker_background.png') repeat;
     margin-right: 240px;
     max-width: 292px;
-<<<<<<< HEAD
-=======
     z-index: 0;
->>>>>>> develop
 }
 #right-pane .alert {
     margin-top: 20px;
@@ -1364,14 +1361,6 @@ html,body,.body-grey-background {
     font-size: 16px;
     color: #4e4e50;
 }
-<<<<<<< HEAD
-.popover-details a.more-info-url {
-    color: #5b5756;
-    font-size: 12px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-=======
 .popover-details .more-info-url-wrapper {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1380,7 +1369,6 @@ html,body,.body-grey-background {
 .popover-details a.more-info-url {
     color: #5b5756;
     font-size: 12px;
->>>>>>> develop
 }
 .popover-details a.more-info-url:hover {
     text-decoration: none;
@@ -1423,10 +1411,7 @@ html,body,.body-grey-background {
     -moz-filter: none;
     filter: none;
     padding: 0px 10px 10px 10px;
-<<<<<<< HEAD
-=======
     float: right;
->>>>>>> develop
 }
 .product-photo {
     max-width: 160px;
@@ -1482,15 +1467,6 @@ html,body,.body-grey-background {
     text-decoration: none;
     color: #b7babe!important;
 }
-<<<<<<< HEAD
-.deleteTagButton {
-    cursor: pointer;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-}
-=======
->>>>>>> develop
 .add-tag-form .brand-logo {
     -webkit-filter: none;
     -moz-filter: none;
@@ -3502,8 +3478,6 @@ label,
     color: #9da0a4;
     margin: 10px 0px;
 }
-<<<<<<< HEAD
-=======
 .profile-aside .brands,
 .profile-aside #brands,
 .modal .brands,
@@ -3539,7 +3513,6 @@ label,
 .modal #brands li:nth-child(3n+1){
     border-right: 1px solid #e5e5e5;
 }
->>>>>>> develop
 .followers-link, .followings-link { cursor: pointer; }
 .menu-left-hr {
     background: url('../img/horizontal-menu-left-separator.png') repeat-x;
