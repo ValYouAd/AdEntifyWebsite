@@ -17,4 +17,11 @@
         </service>
     </services>
     -->
+
+    <services>
+        <service id="adEntify.twig.varsextension" class="AdEntify\CommonBundle\Twig\Extension\VarsExtension">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
 </container>

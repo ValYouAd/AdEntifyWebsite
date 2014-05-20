@@ -883,7 +883,7 @@ class PhotosController extends FosRestController
     public function getLikersAction($id)
     {
         return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntifyCoreBundle:User user
-            LEFT JOIN user.likes l WHERE l.photo = :photoId')
+            LEFT JOIN user.likes l WHERE l.photo = :photoId AND l.deleted_at IS NULL')
             ->setParameters(array(
                 'photoId' => $id
             ))->getResult();

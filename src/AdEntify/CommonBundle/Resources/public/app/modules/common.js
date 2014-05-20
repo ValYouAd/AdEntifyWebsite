@@ -340,6 +340,11 @@ define([
          }
       },
 
+      hideBecomeAmbassador: function() {
+         $('.become-ambassador').slideUp();
+         /*$('#right-pane-content').animate({ top: '65px' }, 'fast');*/
+      },
+
       setMeta: function(key, content, isProperty) {
          isProperty = typeof isProperty !== 'undefined' ? isProperty : true;
          var attributeName = isProperty ? 'property' : 'name';

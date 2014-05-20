@@ -51,6 +51,29 @@ class CategoriesController extends FosRestController
      *
      * @View()
      * @QueryParam(name="locale", default="en")
+     */
+    public function cgetAction($locale = 'en')
+    {
+        return $this->getDoctrine()->getManager()
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.displayOrder")
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'categories'.$locale)
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a category",
+     *  output="AdEntify\CoreBundle\Entity\Category",
+     *  section="Category"
+     * )
+     *
+     * @View()
+     * @QueryParam(name="locale", default="en")
      * @return Category
      */
     public function getAction($slug, $locale = 'en')
@@ -69,30 +92,7 @@ class CategoriesController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get a category",
-     *  output="AdEntify\CoreBundle\Entity\Category",
-     *  section="Category"
-     * )
-     *
-     * @View()
-     * @QueryParam(name="locale", default="en")
-     */
-    public function cgetAction($locale = 'en')
-    {
-        return $this->getDoctrine()->getManager()
-            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.displayOrder")
-            ->useQueryCache(false)
-            ->useResultCache(true, null, 'categories'.$locale)
-            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
-            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
-            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
-            ->getResult();
-    }
-
-    /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Get category photos",
+     *  description="Get category's photos",
      *  output="AdEntify\CoreBundle\Entity\Photo",
      *  section="Category"
      * )

@@ -6,7 +6,16 @@ define([
 
    AppState.Model = Backbone.Model.extend({
       defaults: {
-         locale: currentLocale
+         locale: currentLocale,
+         user: null
+      },
+
+      setCurrentUser: function(user) {
+         this.set('user', user);
+      },
+
+      getCurrentUser: function() {
+         return this.get('user');
       },
 
       getCurrentUserId: function() {

@@ -31,6 +31,8 @@ class User extends BaseUser
     const GENDER_FEMALE = "female";
     const GENDER_UNKNOWN = "unknown";
 
+    const SETTINGS_SHOW_BECOME_AMBASSADOR = 'showBecomeAmbassador';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -358,6 +360,14 @@ class User extends BaseUser
      * @var bool
      */
     protected $introPlayed = false;
+
+    /**
+     * @Serializer\Groups({"details"})
+     * @ORM\Column(name="settings", type="text", nullable=true)
+     *
+     * @var string
+     */
+    protected $settings;
 
     /**
      * @var integer
@@ -1242,5 +1252,22 @@ class User extends BaseUser
     public function getLoggedInCount()
     {
         return $this->loggedInCount;
+    }
+
+    /**
+     * @param boolean $settings
+     */
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getSettings()
+    {
+        return $this->settings;
     }
 }

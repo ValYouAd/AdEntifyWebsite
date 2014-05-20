@@ -77,7 +77,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return User
      */
@@ -1091,6 +1091,31 @@ class UsersController extends FosRestController
             $em->merge($user);
             $em->flush();
             return $user;
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * @return mixed
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     *
+     * @View()
+     */
+    public function postSettingsAction(Request $request)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ($request->request->has('settings')) {
+                $user = $securityContext->getToken()->getUser();
+                $user->setSettings($request->request->get('settings'));
+                $em = $this->getDoctrine()->getManager();
+                $em->merge($user);
+                $em->flush();
+                return $user;
+            } else {
+                throw new HttpException(404);
+            }
         } else {
             throw new HttpException(401);
         }

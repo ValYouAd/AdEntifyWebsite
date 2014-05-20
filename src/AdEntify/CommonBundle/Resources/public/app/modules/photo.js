@@ -26,6 +26,8 @@ define([
       toJSON: function() {
          var jsonAttributes = jQuery.extend(true, {}, this.attributes);
          delete jsonAttributes.comments_count;
+         delete jsonAttributes.comments;
+         delete jsonAttributes.likes;
          delete jsonAttributes.created_at;
          delete jsonAttributes.fullname;
          delete jsonAttributes.link;
