@@ -744,9 +744,8 @@ define([
 
       addTag: function(e) {
          if ($(e.target).hasClass('photo-overlay')) {
-            var tagRadius = 17.5;
-            var xPosition = ((e.offsetX === undefined ? e.originalEvent.layerX : e.offsetX) - tagRadius) / e.currentTarget.clientWidth;
-            var yPosition = ((e.offsetY === undefined ? e.originalEvent.layerY : e.offsetY) - tagRadius) / e.currentTarget.clientHeight;
+            var xPosition = (e.offsetX === undefined ? e.originalEvent.layerX : e.offsetX) / e.currentTarget.clientWidth;
+            var yPosition = (e.offsetY === undefined ? e.originalEvent.layerY : e.offsetY) / e.currentTarget.clientHeight;
 
             // Remove tags aren't persisted
             var that = this;
@@ -763,6 +762,7 @@ define([
             tag.set('tagIcon', this.currentTag ? this.currentTag.get('tagIcon') : 'glyphicon glyphicon-tag')
             tag.set('tempTag', true);
             this.model.get('tags').add(tag);
+            this.model.setup();
             this.currentTag = tag;
 
             app.trigger('photo:tagAdded', tag);

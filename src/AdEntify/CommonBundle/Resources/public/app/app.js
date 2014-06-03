@@ -13,10 +13,10 @@ define([
       var app = {
          // The root path to run the application.
          root: "/" + currentLocale + "/app/",
-         rootUrl: location.protocol + "//adentify.com/",
+         rootUrl: location.protocol + "//local.adentify.com/",
          beginUrl: location.protocol + "//" + location.host,
          secondsBetweenPoll: 15,
-         version: '1.1.9'
+         version: '1.1.10'
       };
 
       // Localize or create a new JavaScript Template object.

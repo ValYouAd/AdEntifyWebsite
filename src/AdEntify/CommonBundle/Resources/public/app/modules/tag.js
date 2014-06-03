@@ -79,7 +79,7 @@ define([
          if (this.has('person') && typeof this.get('person').attributes === 'undefined') {
             this.set('person', new Person.Model(this.get('person')));
          }
-         this.set('cssStyle', 'left: ' + this.get('x_position') * 100 + '%; top: ' + this.get('y_position') * 100 + '%; margin-left: ' + Tag.Common.tagDimension + 'px; margin-top: ' + Tag.Common.tagDimension + 'px');
+         this.set('cssStyle', 'left: ' + this.get('x_position') * 100 + '%; top: ' + this.get('y_position') * 100 + '%; margin-left: ' + (-Tag.Common.tagRadius) + 'px; margin-top: ' + (-Tag.Common.tagRadius) + 'px');
       },
 
       urlRoot: function() {
@@ -1373,7 +1373,7 @@ define([
    });
 
    Tag.Common = {
-      tagDimension: -17,
+      tagRadius: 17,
 
       addTag: function(evt, photo, photoCategories, photoHashtags) {
          if (evt)
