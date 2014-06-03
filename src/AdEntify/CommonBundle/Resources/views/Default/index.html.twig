@@ -153,8 +153,7 @@
                     });
                     this.requests.push(new $.Deferred());
                     $.ajax({
-                        url: Routing.generate('api_v1_get_brand_search'),
-                        data: { query: terms },
+                        url: Routing.generate('api_v1_get_brand_search', { query: terms }),
                         success: function(data) {
                             if (data && typeof data.data !== 'undefined')
                             {

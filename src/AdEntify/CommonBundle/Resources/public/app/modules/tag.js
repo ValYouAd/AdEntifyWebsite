@@ -588,10 +588,7 @@ define([
                app.oauth.loadAccessToken({
                   success: function() {
                      $.ajax({
-                        url: Routing.generate('api_v1_get_brand_search'),
-                        data: {
-                           query: query
-                        },
+                        url: Routing.generate('api_v1_get_brand_search', { query: query }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
                            if (typeof response !== 'undefined' && response.data.length > 0) {
