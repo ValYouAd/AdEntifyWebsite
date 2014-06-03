@@ -1,5 +1,5 @@
 <% if (model) { %>
-<div class="tag product-tag-container <%= model.get("cssClass") %>" style="left: <%= model.get("x_position") * 100 %>%; top: <%= model.get("y_position") * 100 %>%">
+<div class="tag product-tag-container <%= model.get("cssClass") %>" style="<%= model.get('cssStyle') %>">
     <div class="glyphicon glyphicon-tag tag-icon"></div>
     <% if (!popoverDesactivated) { %>
         <div class="popover">

@@ -79,6 +79,7 @@ define([
          if (this.has('person') && typeof this.get('person').attributes === 'undefined') {
             this.set('person', new Person.Model(this.get('person')));
          }
+         this.set('cssStyle', 'left: ' + this.get('x_position') * 100 + '%; top: ' + this.get('y_position') * 100 + '%; margin-left: ' + Tag.Common.tagDimension + 'px; margin-top: ' + Tag.Common.tagDimension + 'px');
       },
 
       urlRoot: function() {
@@ -88,6 +89,7 @@ define([
       toJSON: function() {
          var jsonAttributes = this.attributes;
          delete jsonAttributes.cssClass;
+         delete jsonAttributes.cssStyle;
          delete jsonAttributes.tempTag;
          delete jsonAttributes.tagIcon;
          return { tag: jsonAttributes };
@@ -1371,6 +1373,8 @@ define([
    });
 
    Tag.Common = {
+      tagDimension: -17,
+
       addTag: function(evt, photo, photoCategories, photoHashtags) {
          if (evt)
             evt.preventDefault();
