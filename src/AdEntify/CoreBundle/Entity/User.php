@@ -318,7 +318,7 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", mappedBy="admin")
-     * @Serializer\Exclude
+     * @Serializer\Groups({"details"})
      */
     private $brand;
 

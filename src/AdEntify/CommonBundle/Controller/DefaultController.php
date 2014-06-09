@@ -157,7 +157,7 @@ class DefaultController extends Controller
     public function redirectAction($id)
     {
         $shortUrl = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:ShortUrl')
-            ->findByBase64IdAndUpdateCounter($id);
+            ->findByBase62IdAndUpdateCounter($id);
         if ($shortUrl !== false) {
             return $this->redirect($shortUrl->getUrl(), 301);
         } else {

@@ -34,7 +34,7 @@ class Report
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="reports")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User")
      */
     private $user;
 
@@ -48,12 +48,12 @@ class Report
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="reports")
      */
     private $tag;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="reports")
      */
     private $photo;
 

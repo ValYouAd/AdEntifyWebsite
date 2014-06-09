@@ -60,7 +60,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return User
      */
@@ -190,8 +190,8 @@ class UsersController extends FosRestController
             $user = $securityContext->getToken()->getUser();
 
             $query = $this->getDoctrine()->getManager()->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner
-                WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL
+                LEFT JOIN photo.favoritesUsers user
+                WHERE user.id = :userId AND photo.status = :status AND photo.deletedAt IS NULL
                 ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':userId' => $user->getId(),

@@ -1120,6 +1120,7 @@ class PhotosController extends FosRestController
                     }
 
                     if (!$found) {
+                        $favorites = true;
                         // Add favorite
                         $user->addFavoritePhoto($photo);
 
@@ -1130,10 +1131,14 @@ class PhotosController extends FosRestController
                             $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, 'photoFav');
                     } else {
                         $user->removeFavoritePhoto($photo);
+                        $favorites = false;
                     }
 
                     $em->merge($user);
                     $em->flush();
+                    return array(
+                        'favorites' => $favorites
+                    );
                 }
             }
         } else {
