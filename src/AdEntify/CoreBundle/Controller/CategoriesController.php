@@ -149,8 +149,7 @@ class CategoriesController extends FosRestController
             ':facebookFriendsIds' => $facebookFriendsIds,
             ':followedBrands' => $followedBrands,
             ':followings' => $followings,
-            ':none' => Tag::VALIDATION_NONE,
-            ':granted' => Tag::VALIDATION_GRANTED,
+            ':denied' => Tag::VALIDATION_DENIED,
             ':slug' => $slug
         );
 
@@ -171,8 +170,7 @@ class CategoriesController extends FosRestController
 
         $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
             ' . $joinSide . ' JOIN photo.tags tag WITH (tag IS NULL OR (tag.visible = true AND tag.deletedAt IS NULL
-              AND tag.censored = false AND tag.waitingValidation = false
-              AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' . $tagClause .'))
+              AND tag.censored = false AND tag.validationStatus != :denied' . $tagClause .'))
             INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN photo.categories category
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
             OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)

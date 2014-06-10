@@ -189,13 +189,15 @@ class UsersController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $securityContext->getToken()->getUser();
 
-            $query = $this->getDoctrine()->getManager()->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.favoritesUsers user
-                WHERE user.id = :userId AND photo.status = :status AND photo.deletedAt IS NULL
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.favoritesUsers u LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
+                      AND tag.censored = false AND tag.validationStatus != :denied)
+                WHERE u.id = :userId AND photo.status = :status AND photo.deletedAt IS NULL
                 ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':userId' => $user->getId(),
-                    ':status' => Photo::STATUS_READY
+                    ':status' => Photo::STATUS_READY,
+                    ':denied' => Tag::VALIDATION_DENIED
                 ))
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit);

@@ -458,7 +458,12 @@ define([
       },
 
       beforeRender: function() {
+         var that = this;
          this.tags.each(function(tag) {
+            if (tag.get('validation_status') == 'waiting' && !that.photo.isOwner()) {
+               return;
+            }
+
             if (tag.get('type') == 'place') {
                this.insertView(".tags", new Tag.Views.VenueItem({
                   model: tag,
@@ -479,6 +484,7 @@ define([
                   model: tag
                }));
             }
+
          }, this);
       },
 
