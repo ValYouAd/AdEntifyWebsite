@@ -140,7 +140,7 @@ class User extends BaseUser
      * @var integer
      *
      * @ORM\Column(name="photos_count", type="integer")
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"details", "list"})
      */
     private $photosCount = 0;
 

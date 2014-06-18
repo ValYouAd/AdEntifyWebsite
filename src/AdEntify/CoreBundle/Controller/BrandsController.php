@@ -403,20 +403,30 @@ class BrandsController extends FosRestController
     /**
      * @View()
      *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Check if current user follow a brand",
+     *  section="Brand"
+     * )
+     *
      * @param $id
      */
-    public function getIsFollowingAction($slug)
+    public function getIsFollowedAction($slug)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $follower = $this->container->get('security.context')->getToken()->getUser();
-            return $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
+            $followed = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
                 LEFT JOIN u.followedBrands brand WHERE u.id = :userId AND brand.slug = :slug')
                 ->setParameters(array(
                     'userId' => $follower->getId(),
                     'slug' => $slug
                 ))
-                ->getSingleScalarResult() > 0 ? true : false;
+                ->getSingleScalarResult() > 0;
+
+            return array(
+                'followed' => $followed
+            );
         } else {
             throw new HttpException(401);
         }
@@ -425,6 +435,12 @@ class BrandsController extends FosRestController
     /**
      * @param $slug brand slug
      * @return mixed
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="POST a new follower for a brand",
+     *  section="Brand"
+     * )
      *
      * @View()
      */
@@ -436,7 +452,8 @@ class BrandsController extends FosRestController
 
             $follower = $this->container->get('security.context')->getToken()->getUser();
             $brand = $this->getAction($slug);
-            if ($brand && !$this->getIsFollowingAction($slug)) {
+            $isFolowed = $this->getIsFollowedAction($slug);
+            if ($brand && !$isFolowed['followed']) {
                 $brand->addFollower($follower);
                 $brand->setFollowersCount($brand->getFollowersCount() + 1);
                 $follower->setFollowedBrandsCount($follower->getFollowedBrandsCount() + 1);
@@ -452,7 +469,9 @@ class BrandsController extends FosRestController
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
 
-                return $follower;
+                return array(
+                    'followed' => true
+                );
             } else {
                 $brand->removeFollower($follower);
                 $brand->setFollowersCount($brand->getFollowersCount() - 1);
@@ -463,6 +482,10 @@ class BrandsController extends FosRestController
 
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+
+                return array(
+                    'followed' => false
+                );
             }
         } else {
             throw new HttpException(401);

@@ -273,7 +273,6 @@ class UsersController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="POST a new follower for a user",
-     *  output="AdEntify\CoreBundle\Entity\User",
      *  section="User"
      * )
      *
@@ -290,7 +289,9 @@ class UsersController extends FosRestController
 
             $follower = $this->container->get('security.context')->getToken()->getUser();
             $following = $this->getAction($id);
-            if ($following && $follower->getId() != $following->getId() && !$this->getIsFollowingAction($id)) {
+
+            $isFollowed = $this->getIsFollowedAction($id);
+            if ($following && $follower->getId() != $following->getId() && !$isFollowed['followed']) {
                 // FOLLOW Action & notification
                 $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_FOLLOW,
                     $follower, $following, null, Action::VISIBILITY_PUBLIC, $following->getId(),
@@ -306,7 +307,9 @@ class UsersController extends FosRestController
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
 
-                return $follower;
+                return array(
+                    'followed' => true
+                );
             } else {
                 $follower->removeFollowing($following);
                 $follower->setFollowingsCount($follower->getFollowingsCount() - 1);
@@ -317,6 +320,10 @@ class UsersController extends FosRestController
 
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+
+                return array(
+                    'followed' => false,
+                );
             }
         } else {
             throw new HttpException(401);
@@ -338,19 +345,23 @@ class UsersController extends FosRestController
      *
      * @param $id
      */
-    public function getIsFollowingAction($id)
+    public function getIsFollowedAction($id)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $follower = $this->container->get('security.context')->getToken()->getUser();
 
-            return $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
+            $followed = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
                 LEFT JOIN u.followings following WHERE u.id = :userId AND following.id = :followingId')
                 ->setParameters(array(
                     'userId' => $follower->getId(),
                     'followingId' => $id
                 ))
-                ->getSingleScalarResult() > 0 ? true : false;
+                ->getSingleScalarResult() > 0;
+
+            return array(
+                'followed' => $followed
+            );
         } else
             throw new HttpException(401);
     }

@@ -255,13 +255,8 @@ class PhotosController extends FosRestController
         $criteria = Criteria::create()
             ->where(Criteria::expr()->isNull('deletedAt'))
             ->andWhere(Criteria::expr()->eq('censored', false))
-            ->andWhere(Criteria::expr()->eq('waitingValidation', false))
-            ->andWhere(Criteria::expr()->eq('censored', false))
-            ->andWhere(Criteria::expr()->eq('visible', true))
-            ->andWhere(Criteria::expr()->orX(
-                Criteria::expr()->eq('validationStatus', Tag::VALIDATION_NONE),
-                Criteria::expr()->eq('validationStatus', Tag::VALIDATION_GRANTED)
-            ));
+            ->andWhere(Criteria::expr()->neq('validationStatus', Tag::VALIDATION_DENIED))
+            ->andWhere(Criteria::expr()->eq('visible', true));
 
         if ($photo) {
             // Get last 3 comments
@@ -969,7 +964,7 @@ class PhotosController extends FosRestController
                 ))
                 ->getSingleScalarResult();
 
-            return $count > 0 ? array('liked' => true) : array('liked' => false);
+            return array('liked' => $count > 0);
         } else {
             throw new HttpException(401);
         }
