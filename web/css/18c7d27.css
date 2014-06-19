@@ -503,12 +503,29 @@ h2 {
 .quotes {
     position: relative;
     padding: 30px 10px;
+    color: #5b5756;
+    font-weight: 500;
+}
+.quotes h2 {
+    color: #5b5756;
+}
+.quotes em {
+    font-size: 20px;
+}
+.quotes .quote-circle {
+    border: 1px solid #5b5756;
+    border-radius: 99em;
+    color: white;
+    background-color: #5b5756;
+    font-size: 20px;
+    width: 30px;
+    height: 31px;
+    display: inline-block;
+    padding-top: 3px;
+    margin-bottom: 10px;
 }
 .quote {
-    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
-    color: #5b5756;
-    font-size: 34px;
-    text-shadow: 0px 1px 0px rgba(50, 50, 50, 0.5);
+    font-size: 30px;
     text-align: center;
     position: relative;
     z-index: 1;

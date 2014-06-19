@@ -275,7 +275,19 @@
         <div class="container text-center">
             <div class="porte-voix"></div>
             <p class="quote">{{ 'index.quote1'|trans }}</p>
-            <p class="quote">{{ 'index.quote2'|trans }}</p>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h2><span class="quote-circle">1</span><br>{{ 'Post a product'|trans }}</h2>
+                </div>
+                <div class="col-sm-4">
+                    <h2><span class="quote-circle">2</span><br>{{ 'Tag your favorite'|trans }}</h2>
+                    <em class="text-muted">{{ 'brands, places, etc'|trans }}</em>
+                </div>
+                <div class="col-sm-4">
+                    <h2><span class="quote-circle">3</span><br>{{ 'Get rewarded'|trans }}</h2>
+                    <em class="text-muted">{{ 'by the brands'|trans }}</em>
+                </div>
+            </div>
 
             <div class="account-buttons">
                 <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
