@@ -275,6 +275,11 @@
             <h1 class="pastille-adentify">{{ 'index.pageHeading'|trans }}</h1>
         </a>
 
+        <div class="account-buttons">
+            <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
+            <button data-toggle="modal" data-target="#loginModal" type="button" class="btn signup"><i class="icon signup-icon"></i> {{ 'Sign Up'|trans }}</button>
+        </div>
+
         <a class="scroller-arrow">
             <i class="glyphicon glyphicon-chevron-down"></i>
         </a>
@@ -284,18 +289,22 @@
     <div id="begin" class="red-image-bg">
 
         <div class="steps container">
+
+            <p class="quote">{{ 'index.quote1'|trans }}</p>
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="step step-1">
                         <div class="number">1</div>
-                        <h2>{{ 'Post a picture'|trans }}</h2>
+                        <h2>{{ 'Post'|trans }}
+                        <br><span class="text-muted">{{ 'a picture'|trans }}</span></h2>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="step step-2">
                         <div class="number">2</div>
-                        <h2>{{ 'Tag your favorite'|trans }}
-                        <br><span class="text-muted">{{ 'brands, places, etc'|trans }}</span></h2>
+                        <h2>{{ 'Tag'|trans }}
+                        <br><span class="text-muted">{{ 'your favorite brands, places, etc'|trans }}</span></h2>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -308,17 +317,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="quotes">
-        <div class="container text-center">
-            {#<div class="porte-voix"></div>#}
-            <p class="quote">{{ 'index.quote1'|trans }}</p>
-            <div class="account-buttons">
-                <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
-                <button data-toggle="modal" data-target="#loginModal" type="button" class="btn signup"><i class="icon signup-icon"></i> {{ 'Sign Up'|trans }}</button>
-            </div>
-        </div>
     </div>
 
     <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
