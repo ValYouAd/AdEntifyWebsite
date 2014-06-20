@@ -871,11 +871,29 @@ class PhotosController extends FosRestController
      */
     public function getLikersAction($id)
     {
-        return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntifyCoreBundle:User user
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $array = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+                LEFT JOIN u.followings following WHERE u.id = :currentUserId AND following.id = user.id) as followed FROM AdEntifyCoreBundle:User user
             LEFT JOIN user.likes l WHERE l.photo = :photoId AND l.deleted_at IS NULL')
-            ->setParameters(array(
-                'photoId' => $id
-            ))->getResult();
+                ->setParameters(array(
+                    'photoId' => $id,
+                    'currentUserId' => $this->container->get('security.context')->getToken()->getUser()->getId()
+                ))->getResult();
+
+            $likers = array();
+            foreach ($array as $entry) {
+                $liker = $entry[0];
+                $liker->setFollowed($entry['followed'] > 0 ? true : false);
+                $likers[] = $liker;
+            }
+            return $likers;
+        } else {
+            return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntifyCoreBundle:User user LEFT JOIN user.likes l WHERE l.photo = :photoId AND l.deleted_at IS NULL')
+                ->setParameters(array(
+                    'photoId' => $id
+                ))->getResult();
+        }
     }
 
     /**

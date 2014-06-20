@@ -377,6 +377,13 @@ class User extends BaseUser
      */
     protected $loggedInCount = 0;
 
+    /**
+     * @var string
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    protected $followed = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -1269,5 +1276,19 @@ class User extends BaseUser
     public function getSettings()
     {
         return $this->settings;
+    }
+
+    public function getFollowed()
+    {
+        return $this->followed;
+    }
+
+    /**
+     * @param null $followed
+     */
+    public function setFollowed($followed)
+    {
+        $this->followed = $followed;
+        return $this;
     }
 }

@@ -22,6 +22,12 @@
     <script type="text/javascript" src="{{ asset_url }}"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+        $('.scroller-arrow').click(function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            $("html, body").animate({ scrollTop: $('#begin').offset().top }, 1000);
+        });
+
         $("a").click(function(event){
             if ($(this).attr('target') == '_blank')
                 return true;
@@ -269,26 +275,45 @@
             <h1 class="pastille-adentify">{{ 'index.pageHeading'|trans }}</h1>
         </a>
 
+        <a class="scroller-arrow">
+            <i class="glyphicon glyphicon-chevron-down"></i>
+        </a>
+
     </header>
+
+    <div id="begin" class="red-image-bg">
+
+        <div class="steps container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="step step-1">
+                        <div class="number">1</div>
+                        <h2>{{ 'Post a picture'|trans }}</h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step step-2">
+                        <div class="number">2</div>
+                        <h2>{{ 'Tag your favorite'|trans }}
+                        <br><span class="text-muted">{{ 'brands, places, etc'|trans }}</span></h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step step-3">
+                        <div class="number">3</div>
+                        <h2>{{ 'Share & Earn'|trans }}
+                        <br><span class="text-muted">{{ 'rewards'|trans }}</span></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <div class="quotes">
         <div class="container text-center">
-            <div class="porte-voix"></div>
+            {#<div class="porte-voix"></div>#}
             <p class="quote">{{ 'index.quote1'|trans }}</p>
-            <div class="row">
-                <div class="col-sm-4">
-                    <h2><span class="quote-circle">1</span><br>{{ 'Post a product'|trans }}</h2>
-                </div>
-                <div class="col-sm-4">
-                    <h2><span class="quote-circle">2</span><br>{{ 'Tag your favorite'|trans }}</h2>
-                    <em class="text-muted">{{ 'brands, places, etc'|trans }}</em>
-                </div>
-                <div class="col-sm-4">
-                    <h2><span class="quote-circle">3</span><br>{{ 'Get rewarded'|trans }}</h2>
-                    <em class="text-muted">{{ 'by the brands'|trans }}</em>
-                </div>
-            </div>
-
             <div class="account-buttons">
                 <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
                 <button data-toggle="modal" data-target="#loginModal" type="button" class="btn signup"><i class="icon signup-icon"></i> {{ 'Sign Up'|trans }}</button>
