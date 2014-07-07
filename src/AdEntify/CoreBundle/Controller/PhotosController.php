@@ -14,7 +14,9 @@ use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\PhotoType;
+use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\CommonTools;
+use AdEntify\CoreBundle\Util\FileTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\Common\Collections\Criteria;
@@ -578,6 +580,34 @@ class PhotosController extends FosRestController
             $form->bind($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+
+                if (isset($_FILES['photo'])) {
+                    $uploadedFile = $_FILES['photo'];
+                    $user = $this->container->get('security.context')->getToken()->getUser();
+                    $path = FileTools::getUserPhotosPath($user);
+                    $filename = uniqid().$uploadedFile['name'][0];
+                    $file = $this->getRequest()->files->get('photo');
+
+                    $url = $this->getFileUploader()->upload($file[0], $path, $filename);
+                    if ($url) {
+                        $thumb = new Thumb();
+                        $thumb->setOriginalPath($url);
+                        $thumb->configure($photo);
+                        $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
+
+                        // Add original
+                        $originalImageSize = getimagesize($url);
+                        $thumbs['original'] = array(
+                            'filename' => $url,
+                            'width' => $originalImageSize[0],
+                            'height' => $originalImageSize[1],
+                        );
+
+                        $photo->fillThumbs($thumbs);
+                    } else {
+                        throw new HttpException(500, 'Can\'t upload photo.');
+                    }
+                }
 
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();

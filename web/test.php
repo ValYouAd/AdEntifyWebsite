@@ -1,1 +1,4 @@
-<?php print_r(getimagesize('https://graph.facebook.com/6797246895/picture?width=2000')); ?>
+<?php
+for ($i = 1; $i < 1000; $i++) {
+echo 'http://ads.ayads.co/delivery/image-'.$i.'.jpg<br>';
+}
