@@ -581,14 +581,14 @@ class PhotosController extends FosRestController
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
-                if (isset($_FILES['photo'])) {
-                    $uploadedFile = $_FILES['photo'];
+                if (isset($_FILES['file'])) {
+                    $uploadedFile = $_FILES['file'];
                     $user = $this->container->get('security.context')->getToken()->getUser();
                     $path = FileTools::getUserPhotosPath($user);
-                    $filename = uniqid().$uploadedFile['name'][0];
-                    $file = $this->getRequest()->files->get('photo');
+                    $filename = uniqid().$uploadedFile['name'];
+                    $file = $this->getRequest()->files->get('file');
 
-                    $url = $this->getFileUploader()->upload($file[0], $path, $filename);
+                    $url = $this->get('adentify_storage.file_manager')->upload($file, $path, $filename);
                     if ($url) {
                         $thumb = new Thumb();
                         $thumb->setOriginalPath($url);
@@ -612,7 +612,7 @@ class PhotosController extends FosRestController
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
 
-                $photo->setOwner($user)->setStatus(Photo::STATUS_READY)->setVisibilityScope(Photo::SCOPE_PUBLIC);
+                $photo->setOwner($user)->setStatus(Photo::STATUS_READY);
 
                 $em->persist($photo);
                 $em->flush();

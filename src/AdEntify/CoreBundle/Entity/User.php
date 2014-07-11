@@ -37,7 +37,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details", "list", "slight-list"})
      */
     protected $id;
 
@@ -46,7 +46,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Please enter your firstname.", groups={"Registration", "Profile"})
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $firstname;
 
@@ -55,7 +55,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Please enter your lastname.", groups={"Registration", "Profile"})
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $lastname;
 
@@ -64,7 +64,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="birthday", type="datetime", nullable=true)
      * @Assert\DateTime()
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $birthday = null;
 
@@ -82,7 +82,7 @@ class User extends BaseUser
      * @var integer
      *
      * @ORM\Column(name="facebook_id", type="bigint", nullable=true)
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     protected $facebookId;
 
@@ -90,7 +90,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="facebook_username", type="text", nullable=true)
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $facebookUsername;
 
@@ -105,7 +105,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="twitter_id", type="string", length=255, nullable=true)
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     protected $twitterId;
 
@@ -113,7 +113,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="twitter_username", type="text", nullable=true)
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $twitterUsername;
 
@@ -125,7 +125,7 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(name="gender", type="string", length=20, nullable=true)
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $gender = self::GENDER_UNKNOWN;
 
@@ -140,7 +140,7 @@ class User extends BaseUser
      * @var integer
      *
      * @ORM\Column(name="photos_count", type="integer")
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $photosCount = 0;
 
@@ -194,7 +194,7 @@ class User extends BaseUser
      * @var int
      *
      * @ORM\Column(name="followings_count", type="integer")
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $followingsCount = 0;
 
@@ -208,7 +208,7 @@ class User extends BaseUser
      * @var int
      *
      * @ORM\Column(name="followers_count", type="integer")
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $followersCount = 0;
 
@@ -231,7 +231,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="locale", type="string", length=10, nullable=true)
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $locale;
 
@@ -284,7 +284,7 @@ class User extends BaseUser
      * @var int
      *
      * @ORM\Column(name="tags_count", type="integer")
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $tagsCount = 0;
 
@@ -304,7 +304,7 @@ class User extends BaseUser
      * @var int
      *
      * @ORM\Column(name="followed_brands_count", type="integer")
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $followedBrandsCount = 0;
 
@@ -312,13 +312,13 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="profile_picture", type="string", length=255, nullable=true)
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $profilePicture;
 
     /**
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", mappedBy="admin")
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"me", "details" })
      */
     private $brand;
 
@@ -326,7 +326,7 @@ class User extends BaseUser
      * @var integer
      *
      * @ORM\Column(name="points", type="integer")
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $points = 0;
 
@@ -338,7 +338,7 @@ class User extends BaseUser
     private $rewards;
 
     /**
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      * @ORM\Column(name="share_data_with_advertisers", type="boolean")
      *
      * @var bool
@@ -346,7 +346,7 @@ class User extends BaseUser
     protected $shareDataWithAdvertisers = true;
 
     /**
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      * @ORM\Column(name="partners_newsletters", type="boolean")
      *
      * @var bool
@@ -354,7 +354,7 @@ class User extends BaseUser
     protected $partnersNewsletters = false;
 
     /**
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      * @ORM\Column(name="intro_played", type="boolean")
      *
      * @var bool
@@ -362,7 +362,7 @@ class User extends BaseUser
     protected $introPlayed = false;
 
     /**
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"me", "details" })
      * @ORM\Column(name="settings", type="text", nullable=true)
      *
      * @var string
@@ -380,7 +380,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @Serializer\Groups({"details", "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     protected $followed = null;
 

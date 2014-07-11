@@ -1042,28 +1042,38 @@ class Photo
             switch ($key) {
                 case FileTools::PHOTO_SIZE_LARGE:
                     $this->setLargeUrl($value['filename']);
-                    $this->setLargeWidth($value['width']);
-                    $this->setLargeHeight($value['height']);
+                    if (!empty($value['width']))
+                        $this->setLargeWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setLargeHeight($value['height']);
                     break;
                 case FileTools::PHOTO_SIZE_RETINA:
                     $this->setRetinaUrl($value['filename']);
-                    $this->setRetinaWidth($value['width']);
-                    $this->setRetinaHeight($value['height']);
+                    if (!empty($value['width']))
+                        $this->setRetinaWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setRetinaHeight($value['height']);
                     break;
                 case FileTools::PHOTO_SIZE_MEDIUM:
                     $this->setMediumUrl($value['filename']);
-                    $this->setMediumWidth($value['width']);
-                    $this->setMediumHeight($value['height']);
+                    if (!empty($value['width']))
+                        $this->setMediumWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setMediumHeight($value['height']);
                     break;
                 case FileTools::PHOTO_SIZE_SMALLL:
                     $this->setSmallUrl($value['filename']);
-                    $this->setSmallWidth($value['width']);
-                    $this->setSmallHeight($value['height']);
+                    if (!empty($value['width']))
+                        $this->setSmallWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setSmallHeight($value['height']);
                     break;
                 case FileTools::PHOTO_SIZE_ORIGINAL:
                     $this->setOriginalUrl($value['filename']);
-                    $this->setOriginalWidth($value['width']);
-                    $this->setOriginalHeight($value['height']);
+                    if (!empty($value['width']))
+                        $this->setOriginalWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setOriginalHeight($value['height']);
                     break;
             }
         }
