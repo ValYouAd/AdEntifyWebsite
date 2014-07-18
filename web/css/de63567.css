@@ -274,6 +274,14 @@ html,body,.body-grey-background {
 .become-ambassador a:hover {
     text-decoration: none;
 }
+.become-ambassador .close {
+    color: white;
+    text-shadow: none;
+    opacity: 1;
+    font-size: 30px;
+    margin-right: 10px;
+    margin-top: -5px;
+}
 /* END NAV
 ----------------------- */
 
@@ -344,8 +352,8 @@ html,body,.body-grey-background {
     max-width: 292px;
     z-index: 0;
 }
-.with-become-ambassador {
-    top: 102px!important;
+#right-pane-content.with-become-ambassador {
+    top: 102px;
 }
 #right-pane .alert {
     margin-top: 20px;

@@ -51,6 +51,29 @@ class CategoriesController extends FosRestController
      *
      * @View()
      * @QueryParam(name="locale", default="en")
+     */
+    public function cgetAction($locale = 'en')
+    {
+        return $this->getDoctrine()->getManager()
+            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.displayOrder")
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'categories'.$locale)
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a category",
+     *  output="AdEntify\CoreBundle\Entity\Category",
+     *  section="Category"
+     * )
+     *
+     * @View()
+     * @QueryParam(name="locale", default="en")
      * @return Category
      */
     public function getAction($slug, $locale = 'en')
@@ -69,30 +92,7 @@ class CategoriesController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get a category",
-     *  output="AdEntify\CoreBundle\Entity\Category",
-     *  section="Category"
-     * )
-     *
-     * @View()
-     * @QueryParam(name="locale", default="en")
-     */
-    public function cgetAction($locale = 'en')
-    {
-        return $this->getDoctrine()->getManager()
-            ->createQuery("SELECT category FROM AdEntify\CoreBundle\Entity\Category category ORDER BY category.displayOrder")
-            ->useQueryCache(false)
-            ->useResultCache(true, null, 'categories'.$locale)
-            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
-            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
-            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
-            ->getResult();
-    }
-
-    /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Get category photos",
+     *  description="Get category's photos",
      *  output="AdEntify\CoreBundle\Entity\Photo",
      *  section="Category"
      * )
@@ -149,8 +149,7 @@ class CategoriesController extends FosRestController
             ':facebookFriendsIds' => $facebookFriendsIds,
             ':followedBrands' => $followedBrands,
             ':followings' => $followings,
-            ':none' => Tag::VALIDATION_NONE,
-            ':granted' => Tag::VALIDATION_GRANTED,
+            ':denied' => Tag::VALIDATION_DENIED,
             ':slug' => $slug
         );
 
@@ -171,8 +170,7 @@ class CategoriesController extends FosRestController
 
         $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
             ' . $joinSide . ' JOIN photo.tags tag WITH (tag IS NULL OR (tag.visible = true AND tag.deletedAt IS NULL
-              AND tag.censored = false AND tag.waitingValidation = false
-              AND (tag.validationStatus = :none OR tag.validationStatus = :granted)' . $tagClause .'))
+              AND tag.censored = false AND tag.validationStatus != :denied' . $tagClause .'))
             INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN photo.categories category
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
             OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)

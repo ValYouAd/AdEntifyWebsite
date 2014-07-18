@@ -16,7 +16,7 @@ define([
          rootUrl: location.protocol + "//local.adentify.com/",
          beginUrl: location.protocol + "//" + location.host,
          secondsBetweenPoll: 15,
-         version: '1.1.1'
+         version: '1.1.14'
       };
 
       // Localize or create a new JavaScript Template object.
@@ -31,7 +31,7 @@ define([
 
          fetch: function(path) {
             // Concatenate the file extension.
-            path = path + ".html";
+            path = path + ".html?v=" + app.version;
 
             // If cached, use the compiled template.
             if (JST[path]) {

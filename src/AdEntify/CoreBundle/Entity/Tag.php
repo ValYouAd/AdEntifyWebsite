@@ -66,7 +66,7 @@ class Tag
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $description;
 
@@ -74,7 +74,7 @@ class Tag
      * @var string
      *
      * @ORM\Column(name="link", type="text", nullable=true)
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $link;
 

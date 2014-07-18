@@ -18,7 +18,7 @@ class ShortUrlRepository extends EntityRepository
      * @param $id
      * @return ShortUrl|bool
      */
-    public function findByBase64IdAndUpdateCounter($id)
+    public function findByBase62IdAndUpdateCounter($id)
     {
         $id = CommonTools::base_to($id, 62, 10);
         if ($id != false) {

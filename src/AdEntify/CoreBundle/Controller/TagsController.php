@@ -157,7 +157,7 @@ class TagsController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $tag = new Tag();
             $form = $this->getForm($tag);
-            $form->bind($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();

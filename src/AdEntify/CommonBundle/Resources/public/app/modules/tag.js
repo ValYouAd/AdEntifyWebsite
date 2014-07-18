@@ -79,6 +79,7 @@ define([
          if (this.has('person') && typeof this.get('person').attributes === 'undefined') {
             this.set('person', new Person.Model(this.get('person')));
          }
+         this.set('cssStyle', 'left: ' + this.get('x_position') * 100 + '%; top: ' + this.get('y_position') * 100 + '%; margin-left: ' + (-Tag.Common.tagRadius) + 'px; margin-top: ' + (-Tag.Common.tagRadius) + 'px');
       },
 
       urlRoot: function() {
@@ -88,6 +89,7 @@ define([
       toJSON: function() {
          var jsonAttributes = this.attributes;
          delete jsonAttributes.cssClass;
+         delete jsonAttributes.cssStyle;
          delete jsonAttributes.tempTag;
          delete jsonAttributes.tagIcon;
          return { tag: jsonAttributes };
@@ -456,7 +458,12 @@ define([
       },
 
       beforeRender: function() {
+         var that = this;
          this.tags.each(function(tag) {
+            if (tag.get('validation_status') == 'waiting' && !that.photo.isOwner()) {
+               return;
+            }
+
             if (tag.get('type') == 'place') {
                this.insertView(".tags", new Tag.Views.VenueItem({
                   model: tag,
@@ -477,6 +484,7 @@ define([
                   model: tag
                }));
             }
+
          }, this);
       },
 
@@ -588,10 +596,7 @@ define([
                app.oauth.loadAccessToken({
                   success: function() {
                      $.ajax({
-                        url: Routing.generate('api_v1_get_brand_search'),
-                        data: {
-                           query: query
-                        },
+                        url: Routing.generate('api_v1_get_brand_search', { query: query }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
                            if (typeof response !== 'undefined' && response.data.length > 0) {
@@ -1374,6 +1379,8 @@ define([
    });
 
    Tag.Common = {
+      tagRadius: 17,
+
       addTag: function(evt, photo, photoCategories, photoHashtags) {
          if (evt)
             evt.preventDefault();

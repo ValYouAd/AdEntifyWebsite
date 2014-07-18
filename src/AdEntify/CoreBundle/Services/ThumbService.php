@@ -43,7 +43,7 @@ class ThumbService
             $filename = uniqid().FileTools::getExtensionFromUrl($thumb->getOriginalPath());
 
         $fileInfo = FileTools::loadRemoteFile($thumb->getOriginalPath());
-        foreach($thumb->getDesiredThumbSizes() as $size) {
+        foreach ($thumb->getDesiredThumbSizes() as $size) {
             $path = FileTools::getUserPhotosPath($user, $size);
 
             // Generate thumb

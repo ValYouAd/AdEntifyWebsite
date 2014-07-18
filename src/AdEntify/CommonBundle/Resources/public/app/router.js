@@ -985,6 +985,27 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
          $('.rewards-hiw-link').click(function() {
             Reward.Common.showPresentation();
          });
+         $('.become-ambassador .close').click(function() {
+            if (app.appState().getCurrentUser()) {
+               var settings = app.appState().getCurrentUser().settings;
+               if (!settings)
+                  settings = {};
+               settings.showBecomeAmbassador = false;
+               app.oauth.loadAccessToken({
+                  success: function() {
+                     $.ajax({
+                        headers: {
+                           "Authorization": app.oauth.getAuthorizationHeader()
+                        },
+                        url : Routing.generate('api_v1_post_user_settings'),
+                        type: 'POST',
+                        data: { 'settings' : JSON.stringify(settings) }
+                     });
+                  }
+               });
+            }
+            Common.Tools.hideBecomeAmbassador();
+         });
 
          $('.showDidacticiel').tooltip();
          $('.showDidacticiel').click(function() {
@@ -1008,6 +1029,10 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                         "Authorization": app.oauth.getAuthorizationHeader()
                      },
                      success: function(user) {
+                        if (user) {
+                           app.appState().setCurrentUser(user);
+                        }
+
                         if (user && !user.intro_played) {
                            Common.Tools.launchDidacticiel(function() {
                               // Show linked account when didacticiel ended

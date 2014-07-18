@@ -57,7 +57,7 @@ class TagType extends AbstractType
             ))
             ->add('person', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Person',
-                'property' => 'fullname',
+                'property' => 'id',
                 'required' => false,
                 'description' => 'Person ID. Get the right id with the GET operations of persons endpoint'
             ))

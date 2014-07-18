@@ -38,9 +38,9 @@ class SettingsController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get settings of current logged user",
+     *  description="Get services status for current logged user",
      *  statusCodes={
-     *      200="Returned if the photo is created",
+     *      200="Returned the services linked or not of the current logged user",
      *      401="Returned when authentication is required",
      *  },
      *  section="Settings"
