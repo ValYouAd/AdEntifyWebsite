@@ -77,7 +77,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View(serializerGroups={"details"})
+     * @View(serializerGroups={"me"})
      *
      * @return User
      */

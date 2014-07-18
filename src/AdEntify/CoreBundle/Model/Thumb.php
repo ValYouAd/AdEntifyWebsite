@@ -104,36 +104,41 @@ class Thumb
     private function generateThumbIfOriginalLarger($size, $photoType, Photo $photo = null)
     {
         $width = 0;
+        $height = 0;
         if ($photo) {
             $width = $photo->getOriginalWidth();
+            $height = $photo->getOriginalHeight();
             if (!$width)
             {
-                $imagesize = getimagesize($photo->getOriginalUrl());
+                $imagesize = getimagesize($photo->getOriginalUrl() ? $photo->getOriginalUrl() : $this->getOriginalPath());
                 $width = $imagesize[0];
+                $height = $imagesize[1];
             }
         } else {
             $imagesize = getimagesize($this->getOriginalPath());
             $width = $imagesize[0];
+            $height = $imagesize[1];
         }
 
         if ($width < $size) {
+            $url = $photo->getOriginalUrl() ? $photo->getOriginalUrl() : $this->getOriginalPath();
             if ($size == self::MEDIUM_SIZE) {
                 if ($photo) {
-                    $photo->setMediumUrl($photo->getOriginalUrl());
-                    $photo->setMediumWidth($photo->getOriginalWidth());
-                    $photo->setMediumHeight($photo->getOriginalHeight());
+                    $photo->setMediumUrl($url);
+                    $photo->setMediumWidth($width);
+                    $photo->setMediumHeight($height);
                 }
             } else if ($size == self::LARGE_SIZE) {
                 if ($photo) {
-                    $photo->setLargeUrl($photo->getOriginalUrl());
-                    $photo->setLargeWidth($photo->getOriginalWidth());
-                    $photo->setLargeHeight($photo->getOriginalHeight());
+                    $photo->setLargeUrl($url);
+                    $photo->setLargeWidth($width);
+                    $photo->setLargeHeight($height);
                 }
             } else if ($size == self::RETINA_SIZE) {
                 if ($photo) {
-                    $photo->setRetinaUrl($photo->getOriginalUrl());
-                    $photo->setRetinaWidth($photo->getOriginalWidth());
-                    $photo->setRetinaHeight($photo->getOriginalHeight());
+                    $photo->setRetinaUrl($url);
+                    $photo->setRetinaWidth($width);
+                    $photo->setRetinaHeight($height);
                 }
             }
         } else {

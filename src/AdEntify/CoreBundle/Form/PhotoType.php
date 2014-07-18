@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Form;
 
+use AdEntify\CoreBundle\Entity\Photo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -23,13 +24,15 @@ class PhotoType extends AbstractType
             ))
             ->add('source', 'text', array(
                 'required' => false,
-                'description' => 'Source of the photo : facebook|flickr|instagram|googleplus|local|wordpress'
+                'description' => 'Source of the photo : facebook|flickr|instagram|googleplus|local|wordpress|mobile'
             ))
             ->add('photo_source_id', 'text', array(
                 'required' => false,
                 'description' => 'Photo ID of the source'
             ))
-            ->add('original_url', 'url')
+            ->add('original_url', 'url', array(
+                'required' => false
+            ))
             ->add('original_width', 'text', array(
                     'required' => false
                 ))
@@ -80,6 +83,7 @@ class PhotoType extends AbstractType
                 'precision' => 6,
                 'required' => false
             ))
+            ->add('visibility_scope', 'text')
             ->add('categories', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Category',
                 'property' => 'name',
