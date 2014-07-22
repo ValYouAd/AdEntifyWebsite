@@ -22,6 +22,12 @@
     <script type="text/javascript" src="{{ asset_url }}"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+        $('.scroller-arrow').click(function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            $("html, body").animate({ scrollTop: $('#begin').offset().top }, 1000);
+        });
+
         $("a").click(function(event){
             if ($(this).attr('target') == '_blank')
                 return true;
@@ -153,15 +159,14 @@
                     });
                     this.requests.push(new $.Deferred());
                     $.ajax({
-                        url: Routing.generate('api_v1_get_brand_search'),
-                        data: { query: terms },
+                        url: Routing.generate('api_v1_get_brand_search', { query: terms }),
                         success: function(data) {
                             if (data && typeof data.data !== 'undefined')
                             {
                                 $('.search-brands-results').html('');
                                 for (var i = 0; i < data.data.length; i++) {
                                     var model = data.data[i];
-                                    $('.search-brands-results').append('<li class="col-xs-4 col-sm-2 brand"><div class="table-center"><div class="table-center-cell text-center"><a href="app/' + '{{ 'brand/slug/'|trans }}' + model.slug + '" class="thumbnail">' +
+                                    $('.search-brands-results').append('<li class="col-xs-4 col-sm-2 brand"><div class="table-center"><div class="table-center-cell text-center"><a href="app/' + '{{ 'brand/slug/'|trans }}' + model.slug + '/" class="thumbnail">' +
                                     (model.medium_logo_url ? '<img src="' + model.medium_logo_url + '" alt="' + model.name + '" class="brand-logo" />' : model.name) + '</a></div></div></li>');
                                 }
 
@@ -270,19 +275,48 @@
             <h1 class="pastille-adentify">{{ 'index.pageHeading'|trans }}</h1>
         </a>
 
+        <div class="account-buttons">
+            <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
+            <button data-toggle="modal" data-target="#loginModal" type="button" class="btn signup"><i class="icon signup-icon"></i> {{ 'Sign Up'|trans }}</button>
+        </div>
+
+        <a class="scroller-arrow">
+            <i class="glyphicon glyphicon-chevron-down"></i>
+        </a>
+
     </header>
 
-    <div class="quotes">
-        <div class="container text-center">
-            <div class="porte-voix"></div>
-            <p class="quote">{{ 'index.quote1'|trans }}</p>
-            <p class="quote">{{ 'index.quote2'|trans }}</p>
+    <div id="begin" class="red-image-bg">
 
-            <div class="account-buttons">
-                <button data-toggle="modal" data-target="#signinModal" type="button" class="btn signin"><i class="icon signin-icon"></i> {{ 'Login'|trans }}</button>
-                <button data-toggle="modal" data-target="#loginModal" type="button" class="btn signup"><i class="icon signup-icon"></i> {{ 'Sign Up'|trans }}</button>
+        <div class="steps container">
+
+            <p class="quote">{{ 'index.quote1'|trans }}</p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="step step-1">
+                        <div class="number">1.</div>
+                        <h2>{{ 'Post'|trans }}
+                        <br><span class="text-muted">{{ 'a picture'|trans }}</span></h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step step-2">
+                        <div class="number">2.</div>
+                        <h2>{{ 'Tag'|trans }}
+                        <br><span class="text-muted">{{ 'your favorite brands, places, etc'|trans }}</span></h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="step step-3">
+                        <div class="number">3.</div>
+                        <h2>{{ 'Share & Earn'|trans }}
+                        <br><span class="text-muted">{{ 'rewards'|trans }}</span></h2>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 
     <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">

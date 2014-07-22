@@ -49,14 +49,12 @@ class PublicPhotosController extends FOSRestController
         $tags = $this->getDoctrine()->getManager()->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.tags tag
                 WHERE photo.id = :id AND photo.status = :status AND photo.visibilityScope = :visibilityScope AND (tag IS NULL OR tag.visible = true
-                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE
-                AND (tag.validationStatus = :none OR tag.validationStatus = :granted))')
+                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.validationStatus != :denied)')
             ->setParameters(array(
                 ':id' => $id,
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED
+                ':denied' => Tag::VALIDATION_DENIED
             ))
             ->getOneOrNullResult();
         $response->setJsonData($serializer->serialize($tags, 'json'));

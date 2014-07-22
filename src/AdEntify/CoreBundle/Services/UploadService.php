@@ -153,30 +153,7 @@ class UploadService
                         // Thumb generation
                         if ($thumb->IsThumbGenerationNeeded()) {
                             $generatedThumbs = $this->thumbService->generateUserPhotoThumb($thumb, $user, $filename);
-                            foreach($generatedThumbs as $key => $value) {
-                                switch ($key) {
-                                    case FileTools::PHOTO_SIZE_LARGE:
-                                        $photo->setLargeUrl($value['filename']);
-                                        $photo->setLargeWidth($value['width']);
-                                        $photo->setLargeHeight($value['height']);
-                                        break;
-                                    case FileTools::PHOTO_SIZE_RETINA:
-                                        $photo->setRetinaUrl($value['filename']);
-                                        $photo->setRetinaWidth($value['width']);
-                                        $photo->setRetinaHeight($value['height']);
-                                        break;
-                                    case FileTools::PHOTO_SIZE_MEDIUM:
-                                        $photo->setMediumUrl($value['filename']);
-                                        $photo->setMediumWidth($value['width']);
-                                        $photo->setMediumHeight($value['height']);
-                                        break;
-                                    case FileTools::PHOTO_SIZE_SMALLL:
-                                        $photo->setSmallUrl($value['filename']);
-                                        $photo->setSmallWidth($value['width']);
-                                        $photo->setSmallHeight($value['height']);
-                                        break;
-                                }
-                            }
+                            $photo->fillThumbs($generatedThumbs);
                         }
 
                         if (isset($taskProgressHelper))

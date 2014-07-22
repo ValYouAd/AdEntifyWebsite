@@ -208,7 +208,7 @@
                                  <address>\
                                  <strong>' + tag.title + '</strong><br>\
                                    ' + (tag.venue.address ? tag.venue.address + '<br>' : '') +
-                              (tag.venue.postalCode ? tag.venue.postalCode + ' ' : '') + (tag.venue.city ? tag.venue.city + ' ' : '') + (tag.venue.country ? tag.venue.country + ' ' : '') +
+                              (tag.venue.postal_code ? tag.venue.postal_code + ' ' : '') + (tag.venue.city ? tag.venue.city + ' ' : '') + (tag.venue.country ? tag.venue.country + ' ' : '') +
                                '</address></div></div></div>');
                         } else if (tag.type == 'person') {
                            $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%">\

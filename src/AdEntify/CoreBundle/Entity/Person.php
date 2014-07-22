@@ -104,7 +104,7 @@ class Person
      * @var User
      *
      * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="person")
-     * @Serializer\Groups({"details"})
+     * @Serializer\Groups({"details", "list"})
      */
     private $user;
 

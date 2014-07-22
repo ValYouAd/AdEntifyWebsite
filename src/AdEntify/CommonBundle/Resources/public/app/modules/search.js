@@ -232,8 +232,7 @@ define([
             });
             this.requests.push(new $.Deferred());
             this.brands.fetch({
-               url: Routing.generate('api_v1_get_brand_search'),
-               data: { query: terms },
+               url: Routing.generate('api_v1_get_brand_search', { query: terms }),
                complete: function() {
                   var deferred = that.requests.pop();
                   if (deferred)

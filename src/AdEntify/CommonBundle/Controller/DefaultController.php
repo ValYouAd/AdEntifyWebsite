@@ -4,6 +4,7 @@ namespace AdEntify\CommonBundle\Controller;
 
 use AdEntify\CommonBundle\Models\Contact;
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\Tests\Common\Annotations\False;
@@ -14,6 +15,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class DefaultController extends Controller
 {
@@ -157,7 +159,7 @@ class DefaultController extends Controller
     public function redirectAction($id)
     {
         $shortUrl = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:ShortUrl')
-            ->findByBase64IdAndUpdateCounter($id);
+            ->findByBase62IdAndUpdateCounter($id);
         if ($shortUrl !== false) {
             return $this->redirect($shortUrl->getUrl(), 301);
         } else {
@@ -311,6 +313,40 @@ class DefaultController extends Controller
         }
 
         return $locale;
+    }
+
+    /**
+     * @Route("/post-test")
+     * @Method({"POST"})
+     */
+    public function testAction()
+    {
+        $uploadedFile = $_FILES['file'];
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $path = FileTools::getUserPhotosPath($user);
+        $filename = uniqid().$uploadedFile['name'];
+        $file = $this->getRequest()->files->get('file');
+
+        $url = $this->container->get('adentify_storage.file_manager')->upload($file, $path, $filename);
+        if ($url) {
+            $photo = new Photo();
+            $thumb = new Thumb();
+            $thumb->setOriginalPath($url);
+            $thumb->configure($photo);
+            $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
+
+            // Add original
+            $originalImageSize = getimagesize($url);
+            $thumbs['original'] = array(
+                'filename' => $url,
+                'width' => $originalImageSize[0],
+                'height' => $originalImageSize[1],
+            );
+
+            $photo->fillThumbs($thumbs);
+        } else {
+            throw new HttpException(500, 'Can\'t upload photo.');
+        }
     }
 
     /**

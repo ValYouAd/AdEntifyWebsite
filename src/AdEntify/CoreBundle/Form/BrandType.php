@@ -23,10 +23,10 @@ class BrandType extends AbstractType
             ->add('pinterest_url', 'url', array('required' => false))
             ->add('instagram_url', 'url', array('required' => false))
             ->add('tumblr_url', 'url', array('required' => false))
-            ->add('original_logo_url', 'url')
-            ->add('large_logo_url', 'url')
-            ->add('medium_logo_url', 'url')
-            ->add('small_logo_url', 'url')
+            ->add('original_logo_url', 'url', array('required' => false))
+            ->add('large_logo_url', 'url', array('required' => false))
+            ->add('medium_logo_url', 'url', array('required' => false))
+            ->add('small_logo_url', 'url', array('required' => false))
             ->add('description', 'textarea', array('required' => false))
             ->add('categories', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Category',

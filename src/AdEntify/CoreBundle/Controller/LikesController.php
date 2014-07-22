@@ -66,9 +66,8 @@ class LikesController extends FosRestController
                     throw new HttpException(404);
 
                 $like = $em->createQuery('SELECT l FROM AdEntify\CoreBundle\Entity\Like l
-                    LEFT JOIN l.photo p WHERE (l.ipAddress = :ipAddress OR l.liker = :userId) AND p.id = :photoId')
+                    LEFT JOIN l.photo p WHERE l.liker = :userId AND p.id = :photoId')
                     ->setParameters(array(
-                        ':ipAddress' => $request->getClientIp(),
                         ':photoId' => $request->request->get('photoId'),
                         ':userId' => $user->getId()
                     ))

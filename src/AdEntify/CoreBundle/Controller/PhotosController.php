@@ -14,7 +14,9 @@ use AdEntify\CoreBundle\Entity\Notification;
 use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\PhotoType;
+use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\CommonTools;
+use AdEntify\CoreBundle\Util\FileTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\Common\Collections\Criteria;
@@ -116,8 +118,7 @@ class PhotosController extends FosRestController
             ':facebookFriendsIds' => $facebookFriendsIds,
             ':followings' => $followings,
             ':followedBrands' => $followedBrands,
-            ':none' => Tag::VALIDATION_NONE,
-            ':granted' => Tag::VALIDATION_GRANTED
+            ':denied' => Tag::VALIDATION_DENIED
         );
 
         $tagClause = '';
@@ -137,8 +138,7 @@ class PhotosController extends FosRestController
 
         $sql = sprintf('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
             ' . $joinSide . ' JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
-              AND tag.censored = false AND tag.waitingValidation = false
-              AND (tag.validationStatus = :none OR tag.validationStatus = :granted) %s)
+              AND tag.censored = false AND tag.validationStatus != :denied %s)
             INNER JOIN photo.owner owner LEFT JOIN tag.brand brand %s
             WHERE photo.tagsCount > 0 AND photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
             OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))', $tagClause, $joinClause);
@@ -257,13 +257,8 @@ class PhotosController extends FosRestController
         $criteria = Criteria::create()
             ->where(Criteria::expr()->isNull('deletedAt'))
             ->andWhere(Criteria::expr()->eq('censored', false))
-            ->andWhere(Criteria::expr()->eq('waitingValidation', false))
-            ->andWhere(Criteria::expr()->eq('censored', false))
-            ->andWhere(Criteria::expr()->eq('visible', true))
-            ->andWhere(Criteria::expr()->orX(
-                Criteria::expr()->eq('validationStatus', Tag::VALIDATION_NONE),
-                Criteria::expr()->eq('validationStatus', Tag::VALIDATION_GRANTED)
-            ));
+            ->andWhere(Criteria::expr()->neq('validationStatus', Tag::VALIDATION_DENIED))
+            ->andWhere(Criteria::expr()->eq('visible', true));
 
         if ($photo) {
             // Get last 3 comments
@@ -417,14 +412,13 @@ class PhotosController extends FosRestController
             LEFT JOIN tag.product product LEFT JOIN photo.hashtags hashtag LEFT JOIN tag.brand brand
             WHERE photo.status = :status AND photo.deletedAt IS NULL AND (photo.visibilityScope = :visibilityScope
                 OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))
-            AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted) AND
+            AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.validationStatus != :denied AND
             (LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
-            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query))' . implode('', $whereClauses) . $orderByQuery)
+            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)' . implode('', $whereClauses) . $orderByQuery)
                 ->setParameters(array_merge(array(
                     ':query' => '%'.$query.'%',
-                    ':none' => Tag::VALIDATION_NONE,
-                    ':granted' => Tag::VALIDATION_GRANTED,
+                    ':denied' => Tag::VALIDATION_DENIED,
                     ':status' => Photo::STATUS_READY,
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
                     ':facebookFriendsIds' => $facebookFriendsIds,
@@ -523,8 +517,7 @@ class PhotosController extends FosRestController
 
         $sql = 'SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
-                  AND tag.censored = false AND tag.waitingValidation = false
-                  AND (tag.validationStatus = :none OR tag.validationStatus = :granted))
+                  AND tag.censored = false AND tag.validationStatus != :denied)
                 LEFT JOIN photo.owner owner LEFT JOIN photo.categories category LEFT JOIN tag.brand brand
                 WHERE category.id IN (:categories) AND photo.id != :photoId AND photo.status = :status AND photo.deletedAt IS NULL
                     AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
@@ -538,8 +531,7 @@ class PhotosController extends FosRestController
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
                 ':photoId' => $id,
-                ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED,
+                ':denied' => Tag::VALIDATION_DENIED,
                 ':followedBrands' => $followedBrands
             ))
             ->setFirstResult(($page - 1) * $limit)
@@ -589,10 +581,38 @@ class PhotosController extends FosRestController
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
+                if (isset($_FILES['file'])) {
+                    $uploadedFile = $_FILES['file'];
+                    $user = $this->container->get('security.context')->getToken()->getUser();
+                    $path = FileTools::getUserPhotosPath($user);
+                    $filename = uniqid().$uploadedFile['name'];
+                    $file = $this->getRequest()->files->get('file');
+
+                    $url = $this->get('adentify_storage.file_manager')->upload($file, $path, $filename);
+                    if ($url) {
+                        $thumb = new Thumb();
+                        $thumb->setOriginalPath($url);
+                        $thumb->configure($photo);
+                        $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
+
+                        // Add original
+                        $originalImageSize = getimagesize($url);
+                        $thumbs['original'] = array(
+                            'filename' => $url,
+                            'width' => $originalImageSize[0],
+                            'height' => $originalImageSize[1],
+                        );
+
+                        $photo->fillThumbs($thumbs);
+                    } else {
+                        throw new HttpException(500, 'Can\'t upload photo.');
+                    }
+                }
+
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
 
-                $photo->setOwner($user)->setStatus(Photo::STATUS_READY)->setVisibilityScope(Photo::SCOPE_PUBLIC);
+                $photo->setOwner($user)->setStatus(Photo::STATUS_READY);
 
                 $em->persist($photo);
                 $em->flush();
@@ -749,11 +769,10 @@ class PhotosController extends FosRestController
     {
         return $this->getDoctrine()->getManager()->createQuery('SELECT tag FROM AdEntify\CoreBundle\Entity\Tag tag
                 LEFT JOIN tag.photo photo WHERE photo.id = :id AND tag.visible = TRUE AND tag.deletedAt IS NULL
-                  AND tag.censored = FALSE AND tag.waitingValidation = FALSE AND (tag.validationStatus = :none OR tag.validationStatus = :granted)')
+                  AND tag.censored = FALSE AND tag.validationStatus != :denied')
             ->setParameters(array(
                 ':id' => $id,
-                ':none' => Tag::VALIDATION_NONE,
-                ':granted' => Tag::VALIDATION_GRANTED
+                ':denied' => Tag::VALIDATION_DENIED
             ))
             ->getResult();
     }
@@ -882,11 +901,29 @@ class PhotosController extends FosRestController
      */
     public function getLikersAction($id)
     {
-        return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntifyCoreBundle:User user
-            LEFT JOIN user.likes l WHERE l.photo = :photoId')
-            ->setParameters(array(
-                'photoId' => $id
-            ))->getResult();
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $array = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+                LEFT JOIN u.followings following WHERE u.id = :currentUserId AND following.id = user.id) as followed FROM AdEntifyCoreBundle:User user
+            LEFT JOIN user.likes l WHERE l.photo = :photoId AND l.deleted_at IS NULL')
+                ->setParameters(array(
+                    'photoId' => $id,
+                    'currentUserId' => $this->container->get('security.context')->getToken()->getUser()->getId()
+                ))->getResult();
+
+            $likers = array();
+            foreach ($array as $entry) {
+                $liker = $entry[0];
+                $liker->setFollowed($entry['followed'] > 0 ? true : false);
+                $likers[] = $liker;
+            }
+            return $likers;
+        } else {
+            return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntifyCoreBundle:User user LEFT JOIN user.likes l WHERE l.photo = :photoId AND l.deleted_at IS NULL')
+                ->setParameters(array(
+                    'photoId' => $id
+                ))->getResult();
+        }
     }
 
     /**
@@ -975,7 +1012,7 @@ class PhotosController extends FosRestController
                 ))
                 ->getSingleScalarResult();
 
-            return $count > 0 ? array('liked' => true) : array('liked' => false);
+            return array('liked' => $count > 0);
         } else {
             throw new HttpException(401);
         }
@@ -1115,11 +1152,14 @@ class PhotosController extends FosRestController
                     $em = $this->getDoctrine()->getManager();
 
                     foreach($user->getFavoritePhotos() as $favoritePhoto) {
-                        if ($favoritePhoto->getId() == $photo->getId())
-                            $found = true; break;
+                        if ($favoritePhoto->getId() == $photo->getId()) {
+                            $found = true;
+                            break;
+                        }
                     }
 
                     if (!$found) {
+                        $favorites = true;
                         // Add favorite
                         $user->addFavoritePhoto($photo);
 
@@ -1130,10 +1170,14 @@ class PhotosController extends FosRestController
                             $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, 'photoFav');
                     } else {
                         $user->removeFavoritePhoto($photo);
+                        $favorites = false;
                     }
 
                     $em->merge($user);
                     $em->flush();
+                    return array(
+                        'favorites' => $favorites
+                    );
                 }
             }
         } else {

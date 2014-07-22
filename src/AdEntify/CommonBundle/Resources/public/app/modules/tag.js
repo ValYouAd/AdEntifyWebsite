@@ -34,6 +34,9 @@ define([
    var currentVenue = null;
    var currentPerson = null;
    var venuesSearchTimeout = null;
+   var small_url = null;
+   var medium_url = null;
+   var original_url = null;
 
    Tag.Model = Backbone.Model.extend({
 
@@ -79,6 +82,7 @@ define([
          if (this.has('person') && typeof this.get('person').attributes === 'undefined') {
             this.set('person', new Person.Model(this.get('person')));
          }
+         this.set('cssStyle', 'left: ' + this.get('x_position') * 100 + '%; top: ' + this.get('y_position') * 100 + '%; margin-left: ' + (-Tag.Common.tagRadius) + 'px; margin-top: ' + (-Tag.Common.tagRadius) + 'px');
       },
 
       urlRoot: function() {
@@ -88,6 +92,7 @@ define([
       toJSON: function() {
          var jsonAttributes = this.attributes;
          delete jsonAttributes.cssClass;
+         delete jsonAttributes.cssStyle;
          delete jsonAttributes.tempTag;
          delete jsonAttributes.tagIcon;
          return { tag: jsonAttributes };
@@ -456,7 +461,12 @@ define([
       },
 
       beforeRender: function() {
+         var that = this;
          this.tags.each(function(tag) {
+            if (tag.get('validation_status') == 'waiting' && !that.photo.isOwner()) {
+               return;
+            }
+
             if (tag.get('type') == 'place') {
                this.insertView(".tags", new Tag.Views.VenueItem({
                   model: tag,
@@ -477,6 +487,7 @@ define([
                   model: tag
                }));
             }
+
          }, this);
       },
 
@@ -588,10 +599,7 @@ define([
                app.oauth.loadAccessToken({
                   success: function() {
                      $.ajax({
-                        url: Routing.generate('api_v1_get_brand_search'),
-                        data: {
-                           query: query
-                        },
+                        url: Routing.generate('api_v1_get_brand_search', { query: query }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
                            if (typeof response !== 'undefined' && response.data.length > 0) {
@@ -720,12 +728,10 @@ define([
             dataType: 'json',
             done: function (e, data) {
                if (data.result) {
-                  $('#product-image').html('<img src="' + data.result.small.filename + '" style="margin: 10px 0px;" class="product-image" />');
-                  if (!newProduct)
-                     newProduct = new Product.Model();
-                  newProduct.set('small_url', data.result.small.filename);
-                  newProduct.set('medium_url', data.result.medium.filename);
-                  newProduct.set('original_url', data.result.original);
+                  $('#product-image').html('<img src="' + data.result['photo-small'].filename + '" style="margin: 10px 0px;" class="product-image" />');
+                  that.small_url = data.result['photo-small'].filename;
+                  that.medium_url = data.result['photo-medium'].filename;
+                  that.original_url = data.result.original;
                } else {
                   app.useLayout().setView('.alert-product', new Common.Views.Alert({
                      cssClass: Common.alertError,
@@ -1080,6 +1086,9 @@ define([
          newProduct.set('purchase_url', $('#product-purchase-url').val());
          newProduct.set('name', $('#product-name').val());
          newProduct.set('brand', currentBrand.id);
+         newProduct.set('small_url', that.small_url);
+         newProduct.set('medium_url', that.medium_url);
+         newProduct.set('original_url', that.original_url);
          newProduct.getToken('product_item', function() {
             newProduct.save(null, {
                success: function() {
@@ -1118,6 +1127,11 @@ define([
                      message: $.t('tag.errorProductPost'),
                      showClose: true
                   })).render();
+               },
+               complete: function() {
+                   that.small_url = null;
+                   that.medium_url = null;
+                   that.original_url = null;
                }
             });
          });
@@ -1374,6 +1388,8 @@ define([
    });
 
    Tag.Common = {
+      tagRadius: 17,
+
       addTag: function(evt, photo, photoCategories, photoHashtags) {
          if (evt)
             evt.preventDefault();

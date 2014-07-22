@@ -37,7 +37,7 @@ header {
     }
     .carousel {
         width: 100%;
-        height: 670px;
+        height: 750px;
         margin-top: -25px;
         position: relative;
         display: block;
@@ -51,6 +51,35 @@ header {
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
+    }
+    .scroller-arrow {
+        width: 61px;
+        height: 60px;
+        border-radius: 99em;
+        background-color: rgba(255, 255, 255, 0.2);
+        position: absolute;
+        left: 50%;
+        margin-left: -30px;
+        bottom: 30px;
+        color: white;
+        cursor: pointer;
+        font-size: 30px;
+        text-align: center;
+        -webkit-transition: background .2s ease-out;
+        -moz-transition: background .2s ease-out;
+        -o-transition: background .2s ease-out;
+        transition: background .2s ease-out;
+        padding-top: 12px;
+    }
+    .scroller-arrow:hover {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+    .account-buttons {
+        position: absolute;
+        top: 470px;
+        left: 50%;
+        margin-left: -240px;
     }
 /* End Header
 ----------------------- */
@@ -256,15 +285,57 @@ h2 {
 
 /* Quotes
 */
-.quotes {
-    position: relative;
-    padding: 30px 10px;
-}
 .quote {
-    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    margin-bottom: 30px;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-family: 'asapitalic', sans-serif
+}
+.steps {
+    text-align: center;
+    padding: 65px 0px;
+}
+.steps .step {
+    border: 1px solid #FFFFFF;
+    border-radius: 99em;
     color: #5b5756;
-    font-size: 34px;
-    text-shadow: 0px 1px 0px rgba(50, 50, 50, 0.5);
+    background-color: #FFFFFF;
+    font-size: 20px;
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    padding: 10px;
+    font-family: 'asapitalic', sans-serif
+}
+.step .number {
+    font-size: 40px;
+    font-weight: bold;
+    /*font-size: 20px;
+    color: white;
+    background: #5b5756;
+    border-radius: 99em;
+    margin-bottom: 0px;
+    display: inline-block;
+    padding: 2px;
+    width: 32px;*/
+}
+.steps .step-1 {
+
+}
+.steps .step-3 {
+
+}
+.step h2 {
+    font-size: 26px;
+    margin-top: 10px;
+    color: #5b5756;
+}
+.step h2 span {
+    font-size: 19px;
+}
+.quote,
+.steps .step{
+    font-size: 30px;
     text-align: center;
     position: relative;
     z-index: 1;
@@ -275,6 +346,13 @@ h2 {
 .tags-count-bg {
     background: url('../../bundles/adentifycommon/images/tags_count_bg.jpg') no-repeat;
     height: 482px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.red-image-bg {
+    background: url('../../bundles/adentifycommon/images/tags_count_bg.jpg') no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
