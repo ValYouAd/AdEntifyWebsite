@@ -1158,8 +1158,8 @@ define([
          } else {
             currentTag.set('product', typeof newProduct !== 'undefined' ? newProduct.get('id') : currentProduct.id);
             currentTag.set('title', typeof newProduct !== 'undefined' ? newProduct.get('name') : currentProduct.name);
-            currentTag.set('description', typeof newProduct !== 'undefined' ? newProduct.get('description') : currentProduct.description);
-            currentTag.set('link', typeof newProduct !== 'undefined' ? newProduct.get('purchase_url') : currentProduct.purchase_url);
+            currentTag.set('description', that.$('#product-description').val());
+            currentTag.set('link', that.$('#product-purchase-url').val());
          }
 
          if (currentBrand)
