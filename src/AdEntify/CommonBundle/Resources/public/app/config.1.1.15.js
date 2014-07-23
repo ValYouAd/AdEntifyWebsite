@@ -9,22 +9,22 @@ require.config({
 
   paths: {
      facebook: [
-        "//connect.facebook.net/fr_FR/all",
-        "../vendor/lib/fr-fb"
+	"//connect.facebook.net/fr_FR/all",
+	"../vendor/lib/fr-fb"
      ],
      "lodash": "../vendor/jam/lodash/dist/lodash.underscore.min",
      "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
      "bootstrap": "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min",
      "hmacsha1": "../vendor/js/hmac-sha1",
      "pinterest": [
-        "//assets.pinterest.com/js/pinit",
-        "../vendor/lib/pinit"
+	"//assets.pinterest.com/js/pinit",
+	"../vendor/lib/pinit"
      ],
      "select2": "//cdn.jsdelivr.net/select2/3.4.6/select2.min",
      "select2fr": "//cdn.jsdelivr.net/select2/3.4.6/select2_locale_fr",
      "jquery.fileupload": "../vendor/js/jquery.fileupload",
      "jquery.iframe-transport": "../vendor/js/jquery.iframe-transport",
-     "jquery.ui.widget": "../vendor/js/jquery.ui.widget",
+     "jquery.ui.widget": "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min",
      "moment": "//cdn.jsdelivr.net/momentjs/2.5.1/moment-with-langs.min",
      "typeahead": "../vendor/js/bootstrap3-typeahead.min",
      "bday-picker": "../vendor/js/bday-picker.min",
@@ -42,61 +42,61 @@ require.config({
 
   shim: {
      "infinitescroll": {
-        "deps": [
-           "jquery"
-        ]
+	"deps": [
+	   "jquery"
+	]
      },
      "typeahead" : {
-        "deps": [
-           "jquery"
-        ]
+	"deps": [
+	   "jquery"
+	]
      },
      "bootstrap": {
-        "deps": [
-           "jquery-ui",
-           "jquery"
-        ]
+	"deps": [
+	   "jquery-ui",
+	   "jquery"
+	]
      },
      "Backbone": {
-        "deps": [
-           "jquery",
-           "facebook",
-           "bootstrap"
-        ]
+	"deps": [
+	   "jquery",
+	   "facebook",
+	   "bootstrap"
+	]
      },
      "jquery-ui": {
-        "deps": [
-           "jquery"
-        ]
+	"deps": [
+	   "jquery"
+	]
      },
      "select2": {
-        "deps": [
-           "jquery"
-        ]
+	"deps": [
+	   "jquery"
+	]
      },
      "select2fr": {
-        "deps": [
-           "jquery"
-        ]
+	"deps": [
+	   "jquery"
+	]
      },
      "bday-picker": {
-        "deps": [
-           "jquery"
-        ]
+	"deps": [
+	   "jquery"
+	]
      },
      "jquery.serializeJSON": {
-        "deps": [
-            "jquery"
-        ]
+	"deps": [
+	    "jquery"
+	]
      },
      "Chart": {
-        "deps": ["jquery"]
+	"deps": ["jquery"]
      },
      "daterangepicker": {
-        "deps": ["jquery", "moment"]
+	"deps": ["jquery", "moment"]
      }
   },
 
-   urlArgs: "v=1.1.14"
+   urlArgs: "v=1.1.15"
 
 });
