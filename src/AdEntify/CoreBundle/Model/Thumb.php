@@ -121,7 +121,7 @@ class Thumb
         }
 
         if ($width < $size) {
-            $url = $photo->getOriginalUrl() ? $photo->getOriginalUrl() : $this->getOriginalPath();
+            $url = $photo && $photo->getOriginalUrl() ? $photo->getOriginalUrl() : $this->getOriginalPath();
             if ($size == self::MEDIUM_SIZE) {
                 if ($photo) {
                     $photo->setMediumUrl($url);

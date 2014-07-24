@@ -493,6 +493,7 @@ class UsersController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="POST Change password",
+     *  input="FOS\UserBundle\Form\Type\ChangePasswordFormType",
      *  output="AdEntify\CoreBundle\Entity\User",
      *  section="User",
      * parameters={
@@ -510,13 +511,11 @@ class UsersController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
             if ($user->getId() == $id) {
-                $model = new ChangePassword();
-                $form = $this->createForm(new ChangePasswordFormType(), $model);
-                $form->setData($model);
-                $form->bind($request);
+                $form = $this->createForm(new ChangePasswordFormType('AdEntify\\CoreBundle\\Entity\\User'));
+                $form->handleRequest($request);
                 if ($form->isValid()) {
                     $changePasswordService = $request->request->get('fos_user_change_password');
-                    $user->setPlainPassword($changePasswordService['new']);
+                    $user->setPlainPassword($changePasswordService['plainPassword']);
                     $this->container->get('fos_user.user_manager')->updateUser($user);
                     return $user;
                 } else {
