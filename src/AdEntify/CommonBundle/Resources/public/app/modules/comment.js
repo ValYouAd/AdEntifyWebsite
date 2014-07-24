@@ -60,6 +60,7 @@ define([
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+         this.listenTo(this.model, "destroy", this.remove);
       },
 
       delete: function() {
@@ -111,6 +112,16 @@ define([
             }
          });
          this.comments = this.options.comments;
+         var currentUser;
+         currentUser = this.options.user.fetch({
+             url: Routing.generate('api_v1_get_user', { id: currentUserId }),
+             success: function() {
+                 console.log('success');
+             },
+             error: function() {
+                 console.log('error');
+             }
+         });
       },
 
       addComment: function(e) {
@@ -157,8 +168,21 @@ define([
          }
       },
 
+      deleteAllComments: function(e) {
+          e.preventDefault();
+
+          var model;
+
+          while (model = this.options.comments.first()) {
+              model.destroy({
+                  url: Routing.generate('api_v1_delete_comment', { id: model.get('id') })
+              });
+          }
+      },
+
       events: {
-         "submit": "addComment"
+         'click .add-comment-button': 'addComment',
+         'click .delete-comment-button': 'deleteAllComments'
       }
    });
 
