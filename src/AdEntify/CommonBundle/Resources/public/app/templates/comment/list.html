@@ -6,6 +6,9 @@
             <textarea data-i18n="[placeholder]comment.placeholderBody" class="comment-body form-control" name="comment-body"></textarea>
             <div class="text-center mt1 mb1">
                 <button type="submit" class="btn-around-corner btn-red-grey-border add-comment-button" data-i18n="[data-loading-text]comment.addButtonLoading"><i class="icon white-pencil-icon"></i> <%= $.t('comment.addButton') %></button>
+                <% if (has_role_team) { %>
+                    <small><a id="deleteAllComments" class="pull-right delete-comment-button"><%= $.t('comment.deleteButton') %></a></small>
+                <% } %>
             </div>
         </fieldset>
     </form>

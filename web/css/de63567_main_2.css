@@ -4099,6 +4099,10 @@ label,
     font-size: 20px;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
 }
+#deleteAllComments {
+    color: #a5a6a8;
+    font-size: 12px;
+}
 /* END : Commentaires
 ----------------------- */
 

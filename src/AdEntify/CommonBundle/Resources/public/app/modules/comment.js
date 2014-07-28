@@ -55,11 +55,21 @@ define([
       tagName: "li class='media comment'",
 
       serialize: function() {
-         return { model: this.model };
+         return {
+             model: this.model,
+             has_role_team: function() {
+                 var currentUser = new User.Model({ id: currentUserId });
+                 currentUser.fetch({
+                     url: Routing.generate('api_v1_get_user_current')
+                 });
+                 return in_array('ROLE_TEAM', currentUser);
+             }
+         };
       },
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+         this.listenTo(this.model, "destroy", this.remove);
       },
 
       delete: function() {
@@ -79,6 +89,18 @@ define([
 
    Comment.Views.List = Backbone.View.extend({
       template: "comment/list",
+
+      serialize: function() {
+          return {
+              has_role_team: function() {
+                  var currentUser = new User.Model({ id: currentUserId });
+                  currentUser.fetch({
+                      url: Routing.generate('api_v1_get_user_current')
+                  });
+                  return in_array('ROLE_TEAM', currentUser);
+              }
+          };
+      },
 
       beforeRender: function() {
          if (this.options.comments.length === 0) {
@@ -157,8 +179,21 @@ define([
          }
       },
 
+      deleteAllComments: function(e) {
+          e.preventDefault();
+
+          var model;
+
+          while (model = this.options.comments.first()) {
+              model.destroy({
+                  url: Routing.generate('api_v1_delete_comment', { id: model.get('id') })
+              });
+          }
+      },
+
       events: {
-         "submit": "addComment"
+         'click .add-comment-button': 'addComment',
+         'click .delete-comment-button': 'deleteAllComments'
       }
    });
 
