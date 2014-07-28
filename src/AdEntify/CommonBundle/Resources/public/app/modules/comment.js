@@ -55,7 +55,16 @@ define([
       tagName: "li class='media comment'",
 
       serialize: function() {
-         return { model: this.model };
+         return {
+             model: this.model,
+             has_role_team: function() {
+                 var currentUser = new User.Model({ id: currentUserId });
+                 currentUser.fetch({
+                     url: Routing.generate('api_v1_get_user_current')
+                 });
+                 return in_array('ROLE_TEAM', currentUser);
+             }
+         };
       },
 
       initialize: function() {
@@ -80,6 +89,18 @@ define([
 
    Comment.Views.List = Backbone.View.extend({
       template: "comment/list",
+
+      serialize: function() {
+          return {
+              has_role_team: function() {
+                  var currentUser = new User.Model({ id: currentUserId });
+                  currentUser.fetch({
+                      url: Routing.generate('api_v1_get_user_current')
+                  });
+                  return in_array('ROLE_TEAM', currentUser);
+              }
+          };
+      },
 
       beforeRender: function() {
          if (this.options.comments.length === 0) {
@@ -112,16 +133,6 @@ define([
             }
          });
          this.comments = this.options.comments;
-         var currentUser;
-         currentUser = this.options.user.fetch({
-             url: Routing.generate('api_v1_get_user', { id: currentUserId }),
-             success: function() {
-                 console.log('success');
-             },
-             error: function() {
-                 console.log('error');
-             }
-         });
       },
 
       addComment: function(e) {
