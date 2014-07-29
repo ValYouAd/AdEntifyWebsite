@@ -602,7 +602,7 @@ define([
                         url: Routing.generate('api_v1_get_brand_search', { query: query }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
-                           if (typeof response !== 'undefined' && response.data.length > 0) {
+                           if (typeof response !== 'undefined' && typeof response.data !== 'undefined' && response.data.length > 0) {
                               var brands = [];
                               brands.push(query);
                               currentBrands = {};
