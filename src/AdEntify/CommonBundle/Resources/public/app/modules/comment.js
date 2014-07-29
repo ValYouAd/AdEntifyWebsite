@@ -197,7 +197,7 @@ define([
          var found = false;
          _.each(roles, function(role) {
             if (!found)
-               found = $.inArray(role, currentUser.roles) ? true : false;
+               found = $.inArray(role, currentUser.roles) != -1 ? true : false;
          });
          return found;
       }

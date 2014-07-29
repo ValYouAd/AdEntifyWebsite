@@ -142,7 +142,15 @@ class CommentsController extends FosRestController
                 throw new HttpException(404);
 
             $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getId() == $comment->getAuthor()->getId() && !$comment->getDeletedAt()) {
+            $roles = ['ROLE_TEAM', 'ROLE_SUPER_ADMIN', 'ROLE_ADMIN'];
+            $has_role_team = false;
+            foreach($roles as $role) {
+                if (array_search($role, $user->getRoles()) !== false) {
+                    $has_role_team = true;
+                    break;
+                }
+            }
+            if (($user->getId() == $comment->getAuthor()->getId() || $has_role_team) && !$comment->getDeletedAt()) {
                 $em = $this->getDoctrine()->getManager();
                 $comment->setDeletedAt(new \DateTime());
                 $em->merge($comment);
