@@ -46,11 +46,11 @@
             <div class="popover-details">
                 <% if (model.has('product') && model.get('product').get('purchase_url')) { %>
                 <p>
-                    <a href="<%= model.get("product").get("purchase_url") %>" target="_blank" class="more-info"><i class="icon-shopping-cart icon-white"></i> <%= $.t('tag.moreInfo') %></a>
+                    <a href="<%= model.get('link') %>" target="_blank" class="more-info"><i class="icon-shopping-cart icon-white"></i> <%= $.t('tag.moreInfo') %></a>
                 </p>
                 <div class="row">
                     <div class="col-xs-6 more-info-url-wrapper">
-                        <a href="<%= model.get("product").get("purchase_url") %>" target="_blank" class="more-info-url"><i class="glyphicon glyphicon-globe icon"></i> <%= model.get("product").get("purchase_url") %></a>
+                        <a href="<%= model.get('link') %>" target="_blank" class="more-info-url"><i class="glyphicon glyphicon-globe icon"></i> <%= model.get('link') %></a>
                     </div>
                     <div class="col-xs-6">
                         <div class="venue-adress-wrapper"></div>
