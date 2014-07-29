@@ -689,6 +689,15 @@ class Photo
     }
 
     /**
+     * @param int $commentsCount
+     */
+    public function setCommentsCount($commentsCount)
+    {
+        $this->commentsCount = $commentsCount;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getLikesCount()
