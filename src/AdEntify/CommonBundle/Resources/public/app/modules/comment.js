@@ -53,16 +53,13 @@ define([
    Comment.Views.Item = Backbone.View.extend({
       template: "comment/item",
       tagName: "li class='media comment'",
+      hasRoleTeam: false,
 
       serialize: function() {
          return {
              model: this.model,
              has_role_team: function() {
-                 var currentUser = new User.Model({ id: currentUserId });
-                 currentUser.fetch({
-                     url: Routing.generate('api_v1_get_user_current')
-                 });
-                 return in_array('ROLE_TEAM', currentUser);
+                return Comment.Common.hasRoleTeam();
              }
          };
       },
@@ -93,11 +90,7 @@ define([
       serialize: function() {
           return {
               has_role_team: function() {
-                  var currentUser = new User.Model({ id: currentUserId });
-                  currentUser.fetch({
-                      url: Routing.generate('api_v1_get_user_current')
-                  });
-                  return in_array('ROLE_TEAM', currentUser);
+                 return Comment.Common.hasRoleTeam();
               }
           };
       },
@@ -196,6 +189,19 @@ define([
          'click .delete-comment-button': 'deleteAllComments'
       }
    });
+
+   Comment.Common = {
+      hasRoleTeam: function() {
+         var currentUser = app.appState().getCurrentUser();
+         var roles = ['ROLE_TEAM', 'ROLE_SUPER_ADMIN', 'ROLE_ADMIN'];
+         var found = false;
+         _.each(roles, function(role) {
+            if (!found)
+               found = $.inArray(role, currentUser.roles) ? true : false;
+         });
+         return found;
+      }
+   };
 
    return Comment;
 });
