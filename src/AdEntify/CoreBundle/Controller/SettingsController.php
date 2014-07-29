@@ -117,6 +117,8 @@ class SettingsController extends FosRestController
      *  section="Settings"
      * )
      *
+     * @View(serializerGroups={"me"})
+     *
      * @View()
      */
     public function postSettingsAction() {
@@ -126,27 +128,29 @@ class SettingsController extends FosRestController
 
             $user->setShareDataWithAdvertisers($this->getRequest()->request->has('shareDataAdvertisers'));
             $user->setPartnersNewsletters($this->getRequest()->request->has('partnersNewsletters'));
-	    if ($this->getRequest()->request->has('birthday'))
-		$user->setBirthday(new \DateTime($this->getRequest()->request->get('birthday')));
-	    if (isset($_FILES['profilepicture'])) {
-		$uploadedFile = $_FILES['profilepicture'];
-		$user = $this->container->get('security.context')->getToken()->getUser();
-		$path = FileTools::getUserProfilePicturePath($user);
-		$filename = uniqid().$uploadedFile['name'][0];
-		$url = $this->getFileUploader()->upload($this->getRequest()->files->get('profilepicture'), $path, $filename);
-		if ($url) {
-		    $thumb = new Thumb();
-		    $thumb->setOriginalPath($url);
-		    $thumb->addThumbSize(FileTools::PROFILE_PICTURE_TYPE);
 
-		    $thumbs = $this->container->get('ad_entify_core.thumb')->generateProfilePictureThumb($thumb, $user, $filename);
-		    $thumbs['original'] = $url;
+            if ($this->getRequest()->request->has('birthday'))
+                $user->setBirthday(new \DateTime($this->getRequest()->request->get('birthday')));
 
-		    $user->setProfilePicture($thumbs['profile-picture']['filename']);
-		} else {
-		    throw new HttpException(500);
-		}
-	    }
+            if (isset($_FILES['profilepicture'])) {
+                $uploadedFile = $_FILES['profilepicture'];
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                $path = FileTools::getUserProfilePicturePath($user);
+                $filename = uniqid().$uploadedFile['name'][0];
+                $url = $this->container->get('adentify_storage.file_manager')->upload($this->getRequest()->files->get('profilepicture'), $path, $filename);
+                if ($url) {
+                    $thumb = new Thumb();
+                    $thumb->setOriginalPath($url);
+                    $thumb->addThumbSize(FileTools::PROFILE_PICTURE_TYPE);
+
+                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateProfilePictureThumb($thumb, $user, $filename);
+                    $thumbs['original'] = $url;
+
+                    $user->setProfilePicture($thumbs['profile-picture']['filename']);
+                } else {
+                    throw new HttpException(500);
+                }
+            }
 
             $this->getDoctrine()->getManager()->merge($user);
             $this->getDoctrine()->getManager()->flush();
