@@ -12,7 +12,7 @@
 <% if (model.has('photo')) { %>
 <div class="pull-right">
     <a href="<%= model.get('photo').get('link') %>" data-bypass="" class="photo-link">
-        <div style="background-image: url('<%= model.get('photo').get('small_url') %>');" class="small-photo"></div>
+        <div style="background-image: url('<%= model.get('photo').get('medium_url') %>');" class="small-photo"></div>
     </a>
 </div>
 <% } %>

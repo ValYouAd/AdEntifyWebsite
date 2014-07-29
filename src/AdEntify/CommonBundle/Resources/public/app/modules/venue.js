@@ -21,15 +21,15 @@ define([
       },
 
       entityToModel: function(venueEntity) {
-         this.set('foursquareId', venueEntity.foursquare_id);
-         this.set('foursquareShortLink', venueEntity.foursquare_short_link);
+         this.set('foursquare_id', venueEntity.foursquare_id);
+         this.set('foursquare_short_link', venueEntity.foursquare_short_link);
          this.set('name', venueEntity.name);
          this.set('description', venueEntity.description);
          this.set('link', venueEntity.link);
          this.set('lat', venueEntity.lat);
          this.set('lng', venueEntity.lng);
          this.set('address', venueEntity.address);
-         this.set('postalCode', venueEntity.postal_code);
+         this.set('postal_code', venueEntity.postal_code);
          this.set('city', venueEntity.city);
          this.set('state', venueEntity.state);
          this.set('country', venueEntity.country);
@@ -46,8 +46,8 @@ define([
             var fullAddress = [ this.get('name') ];
             if (this.has('address'))
                fullAddress.push(this.get('address'));
-            if (this.has('postalCode'))
-               fullAddress.push(this.get('postalCode'));
+            if (this.has('postal_code'))
+               fullAddress.push(this.get('postal_code'));
             if (this.has('country'))
                fullAddress.push(this.get('country'));
             if (this.has('city'))

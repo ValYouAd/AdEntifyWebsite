@@ -46,6 +46,7 @@ class ReportsController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="Post a report",
+     *  input="AdEntify\CoreBundle\Entity\ReportType",
      *  output="AdEntify\CoreBundle\Entity\Report",
      *  section="Report",
      *  statusCodes={

@@ -22,7 +22,7 @@
 {% block body %}
 
     {% set full_root_url = root_url ~ app.request.locale ~ '/app/' %}
-    {% set showBecomeAmbassador = not app.user or not app.user.introPlayed ? true : false %}
+    {% set showBecomeAmbassador = not app.user or not app.user.settings or (app.user.settings|json_decode).showBecomeAmbassador ? true : false %}
 
     <main role="main" id="main">
 
@@ -158,6 +158,7 @@
 
         {% if showBecomeAmbassador %}
         <div class="become-ambassador">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <div class="container text-center">
                 <a data-bypass="" class="rewards-hiw-link">{{ 'How do I become an ambassador?'|trans }}</a>
             </div>
@@ -181,7 +182,7 @@
                 </section>
 
                 <section id="right-pane" class="hidden-xs hidden-sm col-md-3">
-                    <section id="right-pane-content" {% if showBecomeAmbassador %}class="with-become-ambassador"{% endif %}" data-intro="{{ 'didacticiel.ticker'|trans }}" data-position="left"></section>
+                    <section id="right-pane-content" data-intro="{{ 'didacticiel.ticker'|trans }}" data-position="left"></section>
                     <div class="push"></div>
                 </section>
             </div>
@@ -292,5 +293,5 @@
     </script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script data-main="{{ asset('bundles/adentifycommon/app/config.1.1.4') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
+    <script data-main="{{ asset('bundles/adentifycommon/app/config.1.1.15') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
 {% endblock %}

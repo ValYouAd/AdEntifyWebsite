@@ -246,7 +246,7 @@ define([
             if ($('.newPasswordFirst').val() == $('.newPasswordSecond').val()) {
                var changePassword = new MySettings.ChangePasswordModel();
                changePassword.set('current_password', $('.currentPassword').val());
-               changePassword.set('new', $('.newPasswordFirst').val());
+               changePassword.set('plainPassword', $('.newPasswordFirst').val());
                changePassword.getToken('change_password', function() {
                   changePassword.save(null, {
                      success: function() {

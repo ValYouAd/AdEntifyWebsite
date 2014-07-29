@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Entity;
 
+use AdEntify\CoreBundle\Util\FileTools;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -688,6 +689,15 @@ class Photo
     }
 
     /**
+     * @param int $commentsCount
+     */
+    public function setCommentsCount($commentsCount)
+    {
+        $this->commentsCount = $commentsCount;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getLikesCount()
@@ -1033,5 +1043,48 @@ class Photo
     public function getRetinaWidth()
     {
         return $this->retinaWidth;
+    }
+    
+    public function fillThumbs($generatedThumbs) 
+    {
+        foreach($generatedThumbs as $key => $value) {
+            switch ($key) {
+                case FileTools::PHOTO_SIZE_LARGE:
+                    $this->setLargeUrl($value['filename']);
+                    if (!empty($value['width']))
+                        $this->setLargeWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setLargeHeight($value['height']);
+                    break;
+                case FileTools::PHOTO_SIZE_RETINA:
+                    $this->setRetinaUrl($value['filename']);
+                    if (!empty($value['width']))
+                        $this->setRetinaWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setRetinaHeight($value['height']);
+                    break;
+                case FileTools::PHOTO_SIZE_MEDIUM:
+                    $this->setMediumUrl($value['filename']);
+                    if (!empty($value['width']))
+                        $this->setMediumWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setMediumHeight($value['height']);
+                    break;
+                case FileTools::PHOTO_SIZE_SMALLL:
+                    $this->setSmallUrl($value['filename']);
+                    if (!empty($value['width']))
+                        $this->setSmallWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setSmallHeight($value['height']);
+                    break;
+                case FileTools::PHOTO_SIZE_ORIGINAL:
+                    $this->setOriginalUrl($value['filename']);
+                    if (!empty($value['width']))
+                        $this->setOriginalWidth($value['width']);
+                    if (!empty($value['height']))
+                        $this->setOriginalHeight($value['height']);
+                    break;
+            }
+        }
     }
 }

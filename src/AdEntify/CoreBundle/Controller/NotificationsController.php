@@ -57,6 +57,14 @@ class NotificationsController extends FOSRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Update a notification by ID",
+     *  input="AdEntify\CoreBundle\Form\NotificationType",
+     *  output="AdEntify\CoreBundle\Entity\Notification",
+     *  section="Notification"
+     * )
+     *
      * @View()
      */
     public function putAction($id, Request $request)
@@ -78,9 +86,9 @@ class NotificationsController extends FOSRestController
                         throw new \Exception($form->getErrorsAsString());
                     }
                 } else
-                    throw new ForbiddenHttpException();
+                    throw new \HttpException(403);
             } else
-                throw new HttpNotFoundException();
+                throw new \HttpException(404);
         } else {
             throw new \HttpException(401);
         }

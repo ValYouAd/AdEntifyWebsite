@@ -1,6 +1,9 @@
 # Bootstrap
 app/bootstrap*
 
+# Sessions
+app/var/sessions/*
+
 # Symfony directories
 vendor/*
 */logs/*

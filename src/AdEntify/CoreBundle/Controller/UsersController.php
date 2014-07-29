@@ -60,7 +60,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return User
      */
@@ -77,7 +77,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"me"})
      *
      * @return User
      */
@@ -189,13 +189,15 @@ class UsersController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $securityContext->getToken()->getUser();
 
-            $query = $this->getDoctrine()->getManager()->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.owner owner
-                WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.favoritesUsers u LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
+                      AND tag.censored = false AND tag.validationStatus != :denied)
+                WHERE u.id = :userId AND photo.status = :status AND photo.deletedAt IS NULL
                 ORDER BY photo.createdAt DESC')
                 ->setParameters(array(
                     ':userId' => $user->getId(),
-                    ':status' => Photo::STATUS_READY
+                    ':status' => Photo::STATUS_READY,
+                    ':denied' => Tag::VALIDATION_DENIED
                 ))
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit);
@@ -271,7 +273,6 @@ class UsersController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="POST a new follower for a user",
-     *  output="AdEntify\CoreBundle\Entity\User",
      *  section="User"
      * )
      *
@@ -288,7 +289,9 @@ class UsersController extends FosRestController
 
             $follower = $this->container->get('security.context')->getToken()->getUser();
             $following = $this->getAction($id);
-            if ($following && $follower->getId() != $following->getId() && !$this->getIsFollowingAction($id)) {
+
+            $isFollowed = $this->getIsFollowedAction($id);
+            if ($following && $follower->getId() != $following->getId() && !$isFollowed['followed']) {
                 // FOLLOW Action & notification
                 $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_FOLLOW,
                     $follower, $following, null, Action::VISIBILITY_PUBLIC, $following->getId(),
@@ -304,7 +307,9 @@ class UsersController extends FosRestController
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
 
-                return $follower;
+                return array(
+                    'followed' => true
+                );
             } else {
                 $follower->removeFollowing($following);
                 $follower->setFollowingsCount($follower->getFollowingsCount() - 1);
@@ -315,6 +320,10 @@ class UsersController extends FosRestController
 
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+
+                return array(
+                    'followed' => false,
+                );
             }
         } else {
             throw new HttpException(401);
@@ -336,19 +345,23 @@ class UsersController extends FosRestController
      *
      * @param $id
      */
-    public function getIsFollowingAction($id)
+    public function getIsFollowedAction($id)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $follower = $this->container->get('security.context')->getToken()->getUser();
 
-            return $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
+            $followed = $this->getDoctrine()->getManager()->createQuery('SELECT COUNT(u.id) FROM AdEntify\CoreBundle\Entity\User u
                 LEFT JOIN u.followings following WHERE u.id = :userId AND following.id = :followingId')
                 ->setParameters(array(
                     'userId' => $follower->getId(),
                     'followingId' => $id
                 ))
-                ->getSingleScalarResult() > 0 ? true : false;
+                ->getSingleScalarResult() > 0;
+
+            return array(
+                'followed' => $followed
+            );
         } else
             throw new HttpException(401);
     }
@@ -480,6 +493,7 @@ class UsersController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="POST Change password",
+     *  input="FOS\UserBundle\Form\Type\ChangePasswordFormType",
      *  output="AdEntify\CoreBundle\Entity\User",
      *  section="User",
      * parameters={
@@ -497,13 +511,11 @@ class UsersController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
             if ($user->getId() == $id) {
-                $model = new ChangePassword();
-                $form = $this->createForm(new ChangePasswordFormType(), $model);
-                $form->setData($model);
-                $form->bind($request);
+                $form = $this->createForm(new ChangePasswordFormType('AdEntify\\CoreBundle\\Entity\\User'));
+                $form->handleRequest($request);
                 if ($form->isValid()) {
                     $changePasswordService = $request->request->get('fos_user_change_password');
-                    $user->setPlainPassword($changePasswordService['new']);
+                    $user->setPlainPassword($changePasswordService['plainPassword']);
                     $this->container->get('fos_user.user_manager')->updateUser($user);
                     return $user;
                 } else {
@@ -1091,6 +1103,31 @@ class UsersController extends FosRestController
             $em->merge($user);
             $em->flush();
             return $user;
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * @return mixed
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     *
+     * @View()
+     */
+    public function postSettingsAction(Request $request)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ($request->request->has('settings')) {
+                $user = $securityContext->getToken()->getUser();
+                $user->setSettings($request->request->get('settings'));
+                $em = $this->getDoctrine()->getManager();
+                $em->merge($user);
+                $em->flush();
+                return $user;
+            } else {
+                throw new HttpException(404);
+            }
         } else {
             throw new HttpException(401);
         }

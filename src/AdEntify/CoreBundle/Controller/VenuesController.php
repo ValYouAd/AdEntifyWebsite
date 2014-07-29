@@ -90,9 +90,9 @@ class VenuesController extends FosRestController
 
             if ($request->request->has('venue')) {
                 // Check if existing foursquare id exist
-                if (array_key_exists('foursquareId', $venueRequest)) {
+                if (array_key_exists('foursquare_id', $venueRequest)) {
                     $venue = $em->getRepository('AdEntifyCoreBundle:Venue')->findOneBy(array(
-                        'foursquareId' => $venueRequest['foursquareId']
+                        'foursquareId' => $venueRequest['foursquare_id']
                     ));
                 } else {
                     $venue = null;

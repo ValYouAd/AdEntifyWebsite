@@ -320,10 +320,14 @@ define([
                app.oauth.loadAccessToken({
                   success: function() {
                      $.ajax({
-                        url: Routing.generate('api_v1_get_user_is_following', { 'id': that.options.user.get('id') }),
+                        url: Routing.generate('api_v1_get_user_is_followed', { 'id': that.options.user.get('id') }),
                         headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                         success: function(response) {
-                           that.follow = response;
+                           that.follow = response.followed;
+                           that.render();
+                        },
+                        error: function() {
+                           that.follow = false;
                            that.render();
                         }
                      });

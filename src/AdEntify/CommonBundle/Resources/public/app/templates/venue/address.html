@@ -3,7 +3,7 @@
     <i class="glyphicon glyphicon-home"></i>
     <strong><%= model.get('name') %></strong><br>
     <% if (model.has('address')) { %><%= model.get('address') %><br><% } %>
-    <% if (model.has('postalCode')) { %><%= model.get('postalCode') %><% } %> <% if (model.has('city')) { %><%= model.get('city') %><% } %> <% if (model.get('country')) { %><%= model.get('country') %><% } %><br>
+    <% if (model.has('postal_code')) { %><%= model.get('postal_code') %><% } %> <% if (model.has('city')) { %><%= model.get('city') %><% } %> <% if (model.get('country')) { %><%= model.get('country') %><% } %><br>
     <a href="http://maps.google.com/maps<%= model.googleMapsQueryString() %>" target="_blank" class="link-google-maps"><i class="glyphicon glyphicon-map-marker"></i> <%= $.t('tag.viewMap') %></a>
 </address>
 <% } %>

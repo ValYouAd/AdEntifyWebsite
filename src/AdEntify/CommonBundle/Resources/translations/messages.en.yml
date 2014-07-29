@@ -153,8 +153,7 @@ didacticiel:
 
 index:
     pageHeading: Tag and share photos on AdEntify.com
-    quote1: Empower your content with adentify and reveal the brand ambassador in you
-    quote2: Start tagging now and get the recognition you deserve!
+    quote1: Empower your content with tags and reveal the brand ambassador in you!
 
 #Routing
 photos/untagged/: photos/untagged/
