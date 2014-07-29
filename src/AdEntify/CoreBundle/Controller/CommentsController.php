@@ -47,7 +47,7 @@ class CommentsController extends FosRestController
      *  section="Comment"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function cgetAction()
     {
@@ -63,7 +63,7 @@ class CommentsController extends FosRestController
      *  section="Comment"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return Comment
      */
@@ -82,7 +82,7 @@ class CommentsController extends FosRestController
      *  section="Comment"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -129,7 +129,7 @@ class CommentsController extends FosRestController
      *  section="Comment"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */

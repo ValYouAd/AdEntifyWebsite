@@ -101,7 +101,7 @@ class UsersController extends FosRestController
      *
      * @param $id
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
@@ -181,7 +181,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getFavoritesAction($page, $limit)
     {
@@ -236,7 +236,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getSearchAction($query, $page = 1, $limit = 10)
     {
@@ -279,7 +279,7 @@ class UsersController extends FosRestController
      * @param $id following id
      * @return mixed
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postFollowerAction($id)
     {
@@ -341,7 +341,7 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -382,7 +382,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function getLikedPhotosAction($id, $page = 1, $limit = 10)
     {
@@ -431,7 +431,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function getHashtagsAction($id, $page = 1, $limit = 10)
     {
@@ -501,7 +501,7 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -539,7 +539,7 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="5")
@@ -590,7 +590,7 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="5")
@@ -638,7 +638,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"slight-list"})
      */
     public function getTopFollowersAction()
     {
@@ -659,7 +659,7 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -684,11 +684,10 @@ class UsersController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="GET task progress for current logged user",
-     *  output="AdEntify\CoreBundle\Entity\Task",
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -701,7 +700,7 @@ class UsersController extends FosRestController
                 'user' => $currentUser->getId(),
                 'type' => Task::TYPE_UPLOAD
             ));
-            return $task ? $task->getProgress() : null;
+            return $task ? $task->getProgress() : '';
         } else {
             throw new HttpException(401);
         }
@@ -714,7 +713,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postBirthdayAction()
     {
@@ -742,7 +741,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="9")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getBrandsAction($id = 0, $page = 1, $limit = 9)
     {
@@ -783,7 +782,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getAnalyticsAction()
     {
@@ -833,7 +832,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getPointsAction()
     {
@@ -853,7 +852,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="begin")
      * @QueryParam(name="end")
@@ -934,11 +933,39 @@ class UsersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
+     *  description="GET user dashboard for current logged user",
+     *  section="User"
+     * )
+     *
+     * @View(serializerGroups={"slight-list"})
+     *
+     * @QueryParam(name="begin")
+     * @QueryParam(name="end")
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="30")
+     */
+    public function getUserDashboardAction($begin, $end, $page = 1, $limit = 30)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return array(
+                'credits' => $this->getCreditsByDateRangeAction($begin, $end),
+                'analytics' => $this->getAnalyticsAction(),
+                'actions' => $this->getActionsAction($page, $limit)
+            );
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
      *  description="GET credits for current logged user by date",
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"slight-list"})
      */
     public function getCreditsByDateAction($date)
     {
@@ -1003,7 +1030,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="5")
      *
-     * @View()
+     * @View(serializerGroups={"slight-list"})
      */
     public function getRewardsAction($id, $page = 1, $limit = 5)
     {
@@ -1052,7 +1079,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getActionsAction($page = 1, $limit = 30)
     {
@@ -1091,7 +1118,7 @@ class UsersController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postIntroPlayedAction()
     {
@@ -1112,7 +1139,7 @@ class UsersController extends FosRestController
      * @return mixed
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postSettingsAction(Request $request)
     {

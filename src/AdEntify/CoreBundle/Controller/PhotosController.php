@@ -569,7 +569,7 @@ class PhotosController extends FosRestController
      *  section="Photo"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -638,7 +638,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function putAction($id, Request $request)
     {
@@ -717,7 +717,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -835,7 +835,7 @@ class PhotosController extends FosRestController
      *
      * @param $id
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getHashtagsAction($id)
     {
@@ -864,7 +864,7 @@ class PhotosController extends FosRestController
      *
      * GET all comments by photo ID
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @param $id
      * @return ArrayCollection|null
@@ -894,7 +894,7 @@ class PhotosController extends FosRestController
      *
      * GET all likers by photo ID
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @param $id
      * @return ArrayCollection|null
@@ -943,7 +943,7 @@ class PhotosController extends FosRestController
      *
      * GET all categories by photo ID
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="locale", default="en")
      *
      * @param $id
@@ -963,7 +963,7 @@ class PhotosController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @param $id
      * @return ArrayCollection|null
@@ -993,7 +993,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return bool
@@ -1033,7 +1033,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return bool
@@ -1070,7 +1070,7 @@ class PhotosController extends FosRestController
      *  section="Photo"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
@@ -1138,7 +1138,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postFavoriteAction(Request $request)
     {

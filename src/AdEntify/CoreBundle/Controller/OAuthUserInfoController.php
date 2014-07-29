@@ -37,7 +37,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class OAuthUserInfoController extends FosRestController
 {
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function cgetAction()
     {
@@ -57,7 +57,7 @@ class OAuthUserInfoController extends FosRestController
     /**
      * @param $id
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function deleteAction($id)
     {

@@ -51,7 +51,7 @@ class LikesController extends FosRestController
      *     }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {

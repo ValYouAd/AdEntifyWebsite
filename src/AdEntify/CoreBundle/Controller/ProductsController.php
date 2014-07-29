@@ -39,7 +39,7 @@ class ProductsController extends FosRestController
      *  section="Product"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function cgetAction()
     {
@@ -54,7 +54,7 @@ class ProductsController extends FosRestController
      *  section="Product"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function getAction($id)
     {
@@ -76,7 +76,7 @@ class ProductsController extends FosRestController
      * @QueryParam(name="brandId", requirements="\d+", default="0")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getSearchAction($query, $page, $limit, $brandId = 0)
     {
@@ -109,7 +109,7 @@ class ProductsController extends FosRestController
      *     }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {

@@ -56,7 +56,7 @@ class TagsController extends FosRestController
      *  section="Tag"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @return mixed
      */
@@ -73,7 +73,7 @@ class TagsController extends FosRestController
      *  section="Tag"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return Tag
      */
@@ -93,7 +93,7 @@ class TagsController extends FosRestController
      *  section="Tag"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -149,7 +149,7 @@ class TagsController extends FosRestController
      *  section="Tag"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -251,7 +251,7 @@ class TagsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @param Request $request
@@ -307,7 +307,7 @@ class TagsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return Venue|null
@@ -321,7 +321,7 @@ class TagsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return Product|null
@@ -335,7 +335,7 @@ class TagsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return Person|null

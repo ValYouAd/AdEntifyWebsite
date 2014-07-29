@@ -45,7 +45,7 @@ class PeopleController extends FosRestController
      *  section="Person"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function cgetAction()
     {
@@ -60,7 +60,7 @@ class PeopleController extends FosRestController
      *  section="Person"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function getAction($id)
     {
@@ -76,7 +76,7 @@ class PeopleController extends FosRestController
      *  section="Person"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -146,7 +146,7 @@ class PeopleController extends FosRestController
      * )
      *
      * @QueryParam(name="limit", default="10")
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getSearchAction($query, $limit)
     {

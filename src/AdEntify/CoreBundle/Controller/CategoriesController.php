@@ -49,7 +49,7 @@ class CategoriesController extends FosRestController
      *  section="Category"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="locale", default="en")
      */
     public function cgetAction($locale = 'en')
@@ -72,7 +72,7 @@ class CategoriesController extends FosRestController
      *  section="Category"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      * @QueryParam(name="locale", default="en")
      * @return Category
      */
@@ -97,7 +97,7 @@ class CategoriesController extends FosRestController
      *  section="Category"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      * @QueryParam(name="brands", requirements="\d+", default="null")

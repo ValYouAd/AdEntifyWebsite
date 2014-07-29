@@ -46,7 +46,7 @@ class VenuesController extends FosRestController
      *  section="Venue"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function cgetAction()
     {
@@ -61,7 +61,7 @@ class VenuesController extends FosRestController
      *  section="Venue"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return Venue
      */
@@ -79,7 +79,7 @@ class VenuesController extends FosRestController
      *  section="Venue"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -154,7 +154,7 @@ class VenuesController extends FosRestController
      * @QueryParam(name="limit", default="30")
      * @QueryParam(name="ll", default="", description="Latitude and longitude of the user's location. Example : 44.3,37.2. If it's not specified, globally search.")
      * @QueryParam(name="radius", default="10000", description="Limit results to venues within this many meters of the specified location. Maximum 100,000 meters")
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getSearchAction($query, $limit, $ll, $radius)
     {

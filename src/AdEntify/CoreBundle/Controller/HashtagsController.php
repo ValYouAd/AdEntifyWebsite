@@ -48,7 +48,7 @@ class HashtagsController extends FosRestController
      *
      * Get hashtags
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      */
@@ -86,7 +86,7 @@ class HashtagsController extends FosRestController
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getSearchAction($query, $page = 1, $limit = 10)
     {
@@ -148,7 +148,7 @@ class HashtagsController extends FosRestController
      * @param Request $request
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {

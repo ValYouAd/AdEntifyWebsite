@@ -59,7 +59,7 @@ class ReportsController extends FosRestController
      * @return Report|\Symfony\Component\Form\Form|\Symfony\Component\Form\FormError[]
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {

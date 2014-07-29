@@ -49,7 +49,7 @@ class SettingsController extends FosRestController
      *  section="Settings"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function getUserServicesAction()
     {
@@ -118,8 +118,6 @@ class SettingsController extends FosRestController
      * )
      *
      * @View(serializerGroups={"me"})
-     *
-     * @View()
      */
     public function postSettingsAction() {
         $securityContext = $this->container->get('security.context');

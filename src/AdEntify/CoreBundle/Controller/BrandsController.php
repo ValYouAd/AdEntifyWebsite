@@ -58,7 +58,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="orderBy", default="null")
      * @QueryParam(name="way", requirements="DESC|ASC", default="ASC")
      */
@@ -86,7 +86,7 @@ class BrandsController extends FosRestController
     /**
      * Get brand by slug
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @ApiDoc(
      *  resource=true,
@@ -116,7 +116,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -159,7 +159,7 @@ class BrandsController extends FosRestController
     /**
      * GET all categories by brand slug
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="locale", default="en")
      *
      * @param $id
@@ -193,7 +193,7 @@ class BrandsController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getSearchAction($query, $page, $limit)
     {
@@ -220,7 +220,7 @@ class BrandsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
@@ -259,7 +259,7 @@ class BrandsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
@@ -310,7 +310,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getProductsAction($slug)
     {
@@ -330,7 +330,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
@@ -401,7 +401,7 @@ class BrandsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @ApiDoc(
      *  resource=true,
@@ -442,7 +442,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postFollowerAction($slug)
     {
@@ -498,7 +498,7 @@ class BrandsController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getRewardsAction($slug, $page = 1, $limit = 10)
     {

@@ -38,6 +38,8 @@ class Task
      * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $id;
 
@@ -45,6 +47,8 @@ class Task
      * @var string
      *
      * @ORM\Column(name="task_type", type="string", length=50)
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $type = self::TYPE_UPLOAD;
 
@@ -53,6 +57,8 @@ class Task
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $createdAt;
 
@@ -61,6 +67,8 @@ class Task
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="launched_at", type="datetime")
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $launchedAt;
 
@@ -68,11 +76,15 @@ class Task
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=50)
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $status = self::STATUS_WAITING;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User")
+     *
+     * @Serializer\Groups({"details"})
      */
     private $user;
 
@@ -80,6 +92,8 @@ class Task
      * @var string
      *
      * @ORM\Column(name="message", type="text")
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $message;
 
@@ -87,6 +101,8 @@ class Task
      * @var bool
      *
      * @ORM\Column(name="notify_completed", type="boolean")
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $notifyCompleted = true;
 
@@ -94,6 +110,8 @@ class Task
      * @var
      *
      * @ORM\Column(name="error_message", type="text", nullable=true)
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $errorMessage;
 
@@ -101,6 +119,8 @@ class Task
      * @var int
      *
      * @ORM\Column(name="attempt", type="integer")
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $attempt = 0;
 
@@ -108,6 +128,8 @@ class Task
      * @var int
      *
      * @ORM\Column(name="progress", type="smallint")
+     *
+     * @Serializer\Groups({"details" , "list", "slight-list"})
      */
     private $progress = 0;
 
