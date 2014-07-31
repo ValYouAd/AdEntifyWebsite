@@ -493,6 +493,16 @@ class BrandsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET rewards by user ID",
+     *  output="AdEntify\CoreBundle\Entity\Reward",
+     *  section="Brand",
+     * parameters={
+     *   {"name"="slug", "dataType"="string", "required"=true, "description"="brand slug"}
+     * }
+     * )
+     *
      * @param $slug
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
