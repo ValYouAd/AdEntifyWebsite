@@ -30,11 +30,15 @@ class Report
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $user;
 
@@ -44,16 +48,22 @@ class Report
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
      * @Assert\DateTime()
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="reports")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $tag;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="reports")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $photo;
 
@@ -61,6 +71,8 @@ class Report
      * @var string
      *
      * @ORM\Column(name="reason", type="text", nullable=true)
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $reason;
 
@@ -68,6 +80,8 @@ class Report
      * @var string
      *
      * @ORM\Column(name="reason_option", type="text", nullable=true)
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $option;
 
