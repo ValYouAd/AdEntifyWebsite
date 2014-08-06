@@ -17,3 +17,8 @@ email:
     new_user:
         title: '%user% vient de s''enregistrer'
         content: '<p>Hello Team !</p><p><strong>%user%</strong> vient de s''inscrire sur AdEntify.com</p>'
+
+cgu:
+    terms_of_use: %terms_of_use%
+    privacy: %privacy%
+    legal_notices: %legal_notices%

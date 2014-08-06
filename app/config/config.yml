@@ -193,6 +193,13 @@ services:
             - { name: twig.extension }
         arguments:
             container: "@service_container"
+    adEntify.CoreBundle.twig.adentify_extension:
+        class: AdEntify\CoreBundle\Twig\AdEntifyExtension
+        tags:
+            - { name: twig.extension }
+        arguments:
+            em: "@doctrine.orm.entity_manager"
+            container: "@service_container"
 
 # Twig globals
 twig:
