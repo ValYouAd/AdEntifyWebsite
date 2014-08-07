@@ -43,3 +43,11 @@ user:
     createdat: Créé le
     actions: Actions
     count: %count% utilisateurs
+
+#CGU
+cgu:
+    terms_of_use: Conditions générales d'utilisation
+    privacy: Politique de confidentialité
+    legals_notice: Mentions légales
+    language: Langage
+    End-user license agreement list: Conditions générales d'utilisation

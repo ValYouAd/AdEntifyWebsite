@@ -1,0 +1,44 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    <h1>{{ 'End-user license agreement list'|trans }}</h1>
+
+    <ul class="list-unstyled">
+        <li>
+            <a class="btn btn-success" href="{{ path('legals_new') }}">
+                <i class="icon icon-plus icon-white"></i> {{ 'Create a new entry'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>{{ 'Terms of use'|trans }}</th>
+            <th>{{ 'Privacy'|trans }}</th>
+            <th>{{ 'Legal notices'|trans }}</th>
+            <th>{{ 'Language'|trans }}</th>
+            <th>{{ 'Actions'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('legals_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ 'cgu.terms_of_use'|trans }}</td>
+                <td>{{ 'cgu.privacy'|trans }}</td>
+                <td>{{ 'cgu.legals_notice'|trans }}</td>
+                <td>{{ entity.language }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-default" href="{{ path('legals_show', { 'id': entity.id }) }}">{{ 'show'|trans }}</a>
+                        <a class="btn btn-primary" href="{{ path('legals_edit', { 'id': entity.id }) }}">{{ 'edit'|trans }}</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

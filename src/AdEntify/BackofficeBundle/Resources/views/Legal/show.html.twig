@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Legal</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Termsofuse</th>
+                <td>{{ entity.termsOfUse }}</td>
+            </tr>
+            <tr>
+                <th>Privacy</th>
+                <td>{{ entity.privacy }}</td>
+            </tr>
+            <tr>
+                <th>Legalnotices</th>
+                <td>{{ entity.legalNotices }}</td>
+            </tr>
+            <tr>
+                <th>Language</th>
+                <td>{{ entity.language }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('legals') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('legals_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}
