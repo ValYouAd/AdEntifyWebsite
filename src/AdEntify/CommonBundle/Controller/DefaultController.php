@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 
 class DefaultController extends Controller
 {
@@ -294,7 +296,25 @@ class DefaultController extends Controller
      */
     public function legalAction()
     {
-        return array();
+        $em = $this->getDoctrine()->getManager();
+        $parametersCGU = array(
+            'locale' => $this->container->get('request')->getlocale()
+        );
+
+        $rsm = new ResultSetMapping();
+        $rsm->addEntityResult('Adentify\CoreBundle\Entity\Legal', 'Legal');
+        $rsm->addScalarResult('terms_of_use', 'terms_of_use', 'string');
+        $rsm->addScalarResult('privacy', 'privacy', 'string');
+        $rsm->addScalarResult('legal_notices', 'legal_notices', 'string');
+
+        $sql = 'SELECT terms_of_use, privacy, legal_notices FROM legal WHERE language = :locale';
+        $cgu = $em->createNativeQuery($sql, $rsm)->setParameters($parametersCGU)->getResult();
+
+        return array(
+            'terms_of_use' => $cgu[0]['terms_of_use'],
+            'privacy' => $cgu[0]['privacy'],
+            'legal_notices' => $cgu[0]['legal_notices'],
+        );
     }
 
     /**
