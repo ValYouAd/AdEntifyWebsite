@@ -3,8 +3,9 @@
 {% if edit_form is defined %}{% form_theme edit_form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
 {% if delete_form is defined %}{% form_theme delete_form 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}{% endif %}
 
+
 <!DOCTYPE html>
-<html xmlns:fb="http://www.facebook.com/2008/fbml">
+<html xmlns:fb="http://www.facebook.com/2008/fbml" style="height: 100%">
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -16,7 +17,7 @@
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
-<body>
+<body style="height: 100%">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -42,7 +43,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container" style="height: 65%">
         {% block body %}{% endblock %}
     </div>
     <script src="{{ asset('bundles/adentifycommon/vendor/jam/jquery/dist/jquery.js') }}"></script>

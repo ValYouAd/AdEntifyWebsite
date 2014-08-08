@@ -1,15 +1,48 @@
-{% extends '::base.html.twig' %}
+{% extends '::base.admin.html.twig' %}
 
 {% block body -%}
-    <h1>Legal creation</h1>
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+    <h1>
+        {{ 'End-user license agreement creation'|trans }}
+        <span class="pull-right">
+            <a class="btn btn-default" href="{{ path ('legals') }}">{{ 'Back to the list'|trans }}</a>
+            {{ form_widget(form.submit) }}
+        </span>
+    </h1>
 
-    {{ form(form) }}
+    <div>
+        <h5>{{ 'cgu.language'|trans }}</h5>
+        {{ form_widget(form.language) }}
+    </div>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('legals') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <div class="clearfix">&nbsp;</div>
+
+    <div style="height: 100%">
+        <ul class="nav nav-tabs" id="tabs">
+            <li class="active"><a href="#terms_of_use" data-toggle="tab">{{ 'cgu.terms_of_use'|trans() }}</a></li>
+            <li><a href="#privacy" data-toggle="tab">{{ 'cgu.privacy'|trans() }}</a></li>
+            <li><a href="#legals_notice" data-toggle="tab">{{ 'cgu.legals_notice'|trans() }}</a></li>
+        </ul>
+        <div class="panel-body" style="height: 100%; margin: 0; padding: 0">
+            <div class="tab-content" style="height: 100%">
+                <div class="tab-pane active" id="terms_of_use" style="height: 100%">
+                    <div class="clearfix">&nbsp;</div>
+                    {{ form_widget(form.termsOfUse) }}
+                </div>
+
+                <div class="tab-pane" id="privacy" style="height: 100%">
+                    <div class="clearfix">&nbsp;</div>
+                    {{ form_widget(form.privacy) }}
+                </div>
+
+                <div class="tab-pane" id="legals_notice" style="height: 100%">
+                    <div class="clearfix">&nbsp;</div>
+                    {{ form_widget(form.legalNotices) }}
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}

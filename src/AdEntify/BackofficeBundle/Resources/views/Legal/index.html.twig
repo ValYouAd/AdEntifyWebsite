@@ -1,5 +1,9 @@
 {% extends '::base.admin.html.twig' %}
 
+{% for entity in entities %}
+    {% form_theme delete_forms[entity.id] 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
+{% endfor %}
+
 {% block body -%}
     <h1>{{ 'End-user license agreement list'|trans }}</h1>
 
@@ -31,14 +35,14 @@
                 <td>{{ 'cgu.legals_notice'|trans }}</td>
                 <td>{{ entity.language }}</td>
                 <td>
-                    <div class="btn-group">
+                    <div>
                         <a class="btn btn-default" href="{{ path('legals_show', { 'id': entity.id }) }}">{{ 'show'|trans }}</a>
                         <a class="btn btn-primary" href="{{ path('legals_edit', { 'id': entity.id }) }}">{{ 'edit'|trans }}</a>
+                        {{ form(delete_forms[entity.id], { 'attr': {'style': 'display:inline'} }) }}
                     </div>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}

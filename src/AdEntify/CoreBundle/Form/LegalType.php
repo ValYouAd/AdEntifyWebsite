@@ -15,11 +15,10 @@ class LegalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('termsOfUse')
-            ->add('privacy')
-            ->add('legalNotices')
-            ->add('language')
-        ;
+            ->add('termsOfUse', 'textarea', array('attr' => array('style' => 'height: 100%')))
+            ->add('privacy', 'textarea', array('attr' => array('style' => 'height: 100%')))
+            ->add('legalNotices', 'textarea', array('attr' => array('style' => 'height: 100%')))
+            ->add('language', 'locale');
     }
     
     /**

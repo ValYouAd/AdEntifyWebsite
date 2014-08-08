@@ -276,6 +276,12 @@
     {{ form_widget(form) }}
 {% endblock hidden_row %}
 
+{% block button_row -%}
+    <div style="display: inline">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row %}
+
 {# Misc #}
 
 {% block form_enctype %}

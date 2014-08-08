@@ -27,12 +27,19 @@ class LegalController extends Controller
      */
     public function indexAction()
     {
+        $delete_forms = array();
+
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AdEntifyCoreBundle:Legal')->findAll();
 
+        foreach ($entities as $entity) {
+            $delete_forms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+        }
+
         return array(
             'entities' => $entities,
+            'delete_forms' => $delete_forms,
         );
     }
     /**
@@ -55,6 +62,9 @@ class LegalController extends Controller
 
             return $this->redirect($this->generateUrl('legals_show', array('id' => $entity->getId())));
         }
+        else {
+            echo $form->getErrorsAsString();
+        }
 
         return array(
             'entity' => $entity,
@@ -74,9 +84,10 @@ class LegalController extends Controller
         $form = $this->createForm(new LegalType(), $entity, array(
             'action' => $this->generateUrl('legals_create'),
             'method' => 'POST',
+            'attr' => array('style' => 'height: 100%'),
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Create', 'attr' => array('class' => 'btn btn-primary')));
 
         return $form;
     }
@@ -240,7 +251,7 @@ class LegalController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('legals_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
             ->getForm()
         ;
     }
