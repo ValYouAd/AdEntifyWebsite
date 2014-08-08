@@ -46,8 +46,8 @@ user:
 
 #CGU
 cgu:
-    terms_of_use: Conditions générales d'utilisation
-    privacy: Politique de confidentialité
-    legals_notice: Mentions légales
+    termsOfUse: Conditions générales d'utilisation
+    privacy2: Politique de confidentialité
+    legalsNotice: Mentions légales
     language: Langage
     End-user license agreement list: Conditions générales d'utilisation

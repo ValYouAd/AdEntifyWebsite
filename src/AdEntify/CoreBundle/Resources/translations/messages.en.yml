@@ -12,7 +12,3 @@ email:
         title: '%user% just registered'
         content: '<p>Hi Team !</p><p><strong>%user%</strong> just registered on AdEntify.com</p>'
 
-cgu:
-    terms_of_use: %terms_of_use%
-    privacy: %privacy%
-    legal_notices: %legal_notices%
