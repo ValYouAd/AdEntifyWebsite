@@ -644,58 +644,55 @@ class PhotosController extends FosRestController
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $photo = $this->getAction($id);
-            if ($photo) {
-                $em = $this->getDoctrine()->getManager();
-                $oldPhoto = $em->getRepository('AdEntifyCoreBundle:Photo')->find($id);
-                $user = $this->container->get('security.context')->getToken()->getUser();
-                if ($oldPhoto->getOwner()->getId() == $user->getId()) {
-                    $form = $this->getForm($photo);
-                    $form->bind($request);
-                    if ($form->isValid()) {
-                        $oldPhoto->setCaption($photo->getCaption());
-                        if ($photo->getCategories()) {
-                            $oldPhoto->setCategories($photo->getCategories());
-                        }
-                        if (array_key_exists('hashtags', $request->request->get('photo'))) {
-                            $oldPhoto->setHashtags($oldPhoto->getHashtags()->clear());
-                            $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
-                            $newPhoto = $request->request->get('photo');
-                            foreach (array_unique($newPhoto['hashtags']) as $hashtagName) {
-                                if (is_numeric($hashtagName)) {
-                                    $hashtag = $hashtagRepository->find($hashtagName);
-                                    if ($hashtag) {
-                                        $oldPhoto->addHashtag($hashtag);
-                                    }
-                                } else {
-                                    $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
-                                    if ($hashtag) {
-                                        $found = false;
-                                        if ($photo->getHashtags()) {
-                                            foreach($photo->getHashtags() as $ht) {
-                                                if ($ht->getId() == $hashtag->getId()) {
-                                                    $found = true;
-                                                    break;
-                                                }
+            $em = $this->getDoctrine()->getManager();
+            $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($id);
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            if ($photo->getOwner()->getId() == $user->getId()) {
+                $formPhoto = new Photo();
+                $form = $this->getForm($formPhoto);
+                $form->bind($request);
+                if ($form->isValid()) {
+                    $photo->setCaption($formPhoto->getCaption());
+                    if ($formPhoto->getCategories()) {
+                        $photo->setCategories($formPhoto->getCategories());
+                    }
+                    if (array_key_exists('hashtags', $request->request->get('photo'))) {
+                        $photo->setHashtags($photo->getHashtags()->clear());
+                        $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
+                        $newPhoto = $request->request->get('photo');
+                        foreach (array_unique($newPhoto['hashtags']) as $hashtagName) {
+                            if (is_numeric($hashtagName)) {
+                                $hashtag = $hashtagRepository->find($hashtagName);
+                                if ($hashtag) {
+                                    $photo->addHashtag($hashtag);
+                                }
+                            } else {
+                                $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
+                                if ($hashtag) {
+                                    $found = false;
+                                    if ($formPhoto->getHashtags()) {
+                                        foreach($formPhoto->getHashtags() as $ht) {
+                                            if ($ht->getId() == $hashtag->getId()) {
+                                                $found = true;
+                                                break;
                                             }
                                         }
-                                        if (!$found)
-                                            $oldPhoto->addHashtag($hashtag);
                                     }
+                                    if (!$found)
+                                        $photo->addHashtag($hashtag);
                                 }
                             }
                         }
-
-                        $em->merge($oldPhoto);
-                        $em->flush();
-                        return $oldPhoto;
-                    } else {
-                        return $form;
                     }
-                } else
-                    throw new HttpException(403, 'You are not authorized to edit this photo');
+
+                    $em->merge($photo);
+                    $em->flush();
+                    return $photo;
+                } else {
+                    return $form;
+                }
             } else
-                throw new NotFoundHttpException('Photo not found');
+                throw new HttpException(403, 'You are not authorized to edit this photo');
         } else {
             throw new HttpException(401);
         }

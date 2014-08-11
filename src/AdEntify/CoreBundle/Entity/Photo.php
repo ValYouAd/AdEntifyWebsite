@@ -818,7 +818,7 @@ class Photo
     }
 
     /**
-     * @param int $visibilityScope
+     * @param string $visibilityScope
      */
     public function setVisibilityScope($visibilityScope)
     {
@@ -827,7 +827,7 @@ class Photo
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getVisibilityScope()
     {

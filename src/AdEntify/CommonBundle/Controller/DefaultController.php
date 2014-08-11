@@ -316,40 +316,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/post-test")
-     * @Method({"POST"})
-     */
-    public function testAction()
-    {
-        $uploadedFile = $_FILES['file'];
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        $path = FileTools::getUserPhotosPath($user);
-        $filename = uniqid().$uploadedFile['name'];
-        $file = $this->getRequest()->files->get('file');
-
-        $url = $this->container->get('adentify_storage.file_manager')->upload($file, $path, $filename);
-        if ($url) {
-            $photo = new Photo();
-            $thumb = new Thumb();
-            $thumb->setOriginalPath($url);
-            $thumb->configure($photo);
-            $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
-
-            // Add original
-            $originalImageSize = getimagesize($url);
-            $thumbs['original'] = array(
-                'filename' => $url,
-                'width' => $originalImageSize[0],
-                'height' => $originalImageSize[1],
-            );
-
-            $photo->fillThumbs($thumbs);
-        } else {
-            throw new HttpException(500, 'Can\'t upload photo.');
-        }
-    }
-
-    /**
      * Set locale for the current user if logged
      *
      * @param $locale
