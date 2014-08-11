@@ -733,7 +733,7 @@ class PhotosController extends FosRestController
 
                 $em->merge($photo);
                 $em->flush();
-                return '';
+                return array('deleted' => true);
             } else {
                 throw new HttpException(403, 'You are not authorized to delete this photo');
             }
