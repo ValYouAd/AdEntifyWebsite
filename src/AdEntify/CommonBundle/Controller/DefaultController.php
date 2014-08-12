@@ -296,24 +296,40 @@ class DefaultController extends Controller
      */
     public function legalAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $parametersCGU = array(
-            'locale' => $this->container->get('request')->getlocale()
-        );
+        $terms_of_use = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :termsOfUse")
+            ->setParameter('termsOfUse', 'Terms of use')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
 
-        $rsm = new ResultSetMapping();
-        $rsm->addEntityResult('Adentify\CoreBundle\Entity\Legal', 'Legal');
-        $rsm->addScalarResult('terms_of_use', 'terms_of_use', 'string');
-        $rsm->addScalarResult('privacy', 'privacy', 'string');
-        $rsm->addScalarResult('legal_notices', 'legal_notices', 'string');
+        $privacy = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :privacy")
+            ->setParameter('privacy', 'Privacy')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
 
-        $sql = 'SELECT terms_of_use, privacy, legal_notices FROM legal WHERE language = :locale';
-        $cgu = $em->createNativeQuery($sql, $rsm)->setParameters($parametersCGU)->getResult();
+        $legal_notices = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :legalNotices")
+            ->setParameter('legalNotices', 'Legal notices')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
 
         return array(
-            'terms_of_use' => $cgu[0]['terms_of_use'],
-            'privacy' => $cgu[0]['privacy'],
-            'legal_notices' => $cgu[0]['legal_notices'],
+            'terms_of_use' => $terms_of_use[0]->getInfo(),
+            'privacy' => $privacy[0]->getInfo(),
+            'legal_notices' => $legal_notices[0]->getInfo(),
         );
     }
 
