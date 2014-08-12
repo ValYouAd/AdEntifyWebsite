@@ -1,24 +1,26 @@
 <?php
 
-namespace AdEntify\CoreBundle\Form;
+namespace AdEntify\BackofficeBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class LegalType extends AbstractType
+class InformationType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('termsOfUse', 'textarea', array('attr' => array('style' => 'height: 100%')))
-            ->add('privacy', 'textarea', array('attr' => array('style' => 'height: 100%')))
-            ->add('legalNotices', 'textarea', array('attr' => array('style' => 'height: 100%')))
-            ->add('language', 'locale');
+              ->add('info_key', 'text')
+              ->add('translations', 'a2lix_translations_gedmo', array(
+                    'translatable_class' => 'AdEntify\CoreBundle\Entity\Information',
+                    'required' => true,
+              ))
+        ;
     }
     
     /**
@@ -27,7 +29,7 @@ class LegalType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AdEntify\CoreBundle\Entity\Legal'
+            'data_class' => 'AdEntify\CoreBundle\Entity\Information'
         ));
     }
 
@@ -36,6 +38,6 @@ class LegalType extends AbstractType
      */
     public function getName()
     {
-        return 'adentify_corebundle_legal';
+        return 'adentify_backofficebundle_legal';
     }
 }

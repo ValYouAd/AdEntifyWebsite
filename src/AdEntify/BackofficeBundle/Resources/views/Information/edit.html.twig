@@ -1,0 +1,18 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    {{ form_start(edit_form) }}
+    {{ form_row(edit_form._token) }}
+    <h1>
+        <i class="glyphicon glyphicon-edit"></i>
+        <a>{{ 'Information edit'|trans }} #{{ entity.id }}, {{ entity.infoKey }}</a>
+        <span class="pull-right">
+            <a class="btn btn-default" href="{{ path ('informations') }}">{{ 'Back to the list'|trans }}</a>
+            {{ form_widget(edit_form.submit) }}
+        </span>
+    </h1>
+    {{ form_rest(edit_form) }}
+    {{ form_end(edit_form) }}
+    <div class="clearfix">&nbsp;</div>
+    {{ form(delete_form, { 'attr': {'style': 'display:inline', 'class': 'pull-right'} }) }}
+{% endblock %}

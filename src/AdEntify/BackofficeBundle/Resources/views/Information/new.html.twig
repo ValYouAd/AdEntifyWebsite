@@ -1,0 +1,14 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+    <h1>
+        {{ 'Informations creation'|trans }}
+        <span class="pull-right">
+            <a class="btn btn-default" href="{{ path ('informations') }}">{{ 'Back to the list'|trans }}</a>
+            {{ form_widget(form.submit) }}
+        </span>
+    </h1>
+    {{ form_rest(form) }}
+{% endblock %}

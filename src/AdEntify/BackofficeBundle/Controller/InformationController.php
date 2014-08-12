@@ -7,21 +7,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AdEntify\CoreBundle\Entity\Legal;
-use AdEntify\CoreBundle\Form\LegalType;
+use AdEntify\CoreBundle\Entity\Information;
+use AdEntify\BackofficeBundle\Form\InformationType;
 
 /**
- * Legal controller.
+ * Information controller.
  *
- * @Route("/legals")
+ * @Route("/informations")
  */
-class LegalController extends Controller
+class InformationController extends Controller
 {
 
     /**
-     * Lists all Legal entities.
+     * Lists all information entities.
      *
-     * @Route("/", name="legals")
+     * @Route("/", name="informations")
      * @Method("GET")
      * @Template()
      */
@@ -31,7 +31,7 @@ class LegalController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AdEntifyCoreBundle:Legal')->findAll();
+        $entities = $em->getRepository('AdEntifyCoreBundle:Information')->findAll();
 
         foreach ($entities as $entity) {
             $delete_forms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
@@ -43,15 +43,15 @@ class LegalController extends Controller
         );
     }
     /**
-     * Creates a new Legal entity.
+     * Creates a new Information entity.
      *
-     * @Route("/", name="legals_create")
+     * @Route("/", name="informations_create")
      * @Method("POST")
-     * @Template("AdEntifyBackofficeBundle:Legal:new.html.twig")
+     * @Template("AdEntifyBackofficeBundle:Information:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Legal();
+        $entity = new Information();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -60,7 +60,7 @@ class LegalController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('legals_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('informations_show', array('id' => $entity->getId())));
         }
         else {
             echo $form->getErrorsAsString();
@@ -73,16 +73,16 @@ class LegalController extends Controller
     }
 
     /**
-     * Creates a form to create a Legal entity.
+     * Creates a form to create a Information entity.
      *
-     * @param Legal $entity The entity
+     * @param Information $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Legal $entity)
+    private function createCreateForm(Information $entity)
     {
-        $form = $this->createForm(new LegalType(), $entity, array(
-            'action' => $this->generateUrl('legals_create'),
+        $form = $this->createForm(new InformationType(), $entity, array(
+            'action' => $this->generateUrl('informations_create'),
             'method' => 'POST',
             'attr' => array('style' => 'height: 100%'),
         ));
@@ -93,15 +93,15 @@ class LegalController extends Controller
     }
 
     /**
-     * Displays a form to create a new Legal entity.
+     * Displays a form to create a new Information entity.
      *
-     * @Route("/new", name="legals_new")
+     * @Route("/new", name="informations_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Legal();
+        $entity = new Information();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -111,9 +111,9 @@ class LegalController extends Controller
     }
 
     /**
-     * Finds and displays a Legal entity.
+     * Finds and displays a Information entity.
      *
-     * @Route("/{id}", name="legals_show")
+     * @Route("/{id}", name="informations_show")
      * @Method("GET")
      * @Template()
      */
@@ -121,24 +121,31 @@ class LegalController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AdEntifyCoreBundle:Legal')->find($id);
+        $entity = $em->getRepository('AdEntifyCoreBundle:Information')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Legal entity.');
+            throw $this->createNotFoundException('Unable to find information entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
+        $query = $em->createQuery(
+            'SELECT it.content, it.locale
+             FROM AdEntify\CoreBundle\Entity\Informationtranslation it
+             WHERE it.object = :id'
+        )->setParameter('id', $entity->getId());
+
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'entity'        => $entity,
+            'translations'  => $query->getResult(),
+            'delete_form'   => $deleteForm->createView(),
         );
     }
 
     /**
-     * Displays a form to edit an existing Legal entity.
+     * Displays a form to edit an existing Information entity.
      *
-     * @Route("/{id}/edit", name="legals_edit")
+     * @Route("/{id}/edit", name="informations_edit")
      * @Method("GET")
      * @Template()
      */
@@ -146,33 +153,40 @@ class LegalController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AdEntifyCoreBundle:Legal')->find($id);
+        $entity = $em->getRepository('AdEntifyCoreBundle:information')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Legal entity.');
+            throw $this->createNotFoundException('Unable to find Information entity.');
         }
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
+        $query = $em->createQuery(
+            'SELECT it.content, it.locale
+             FROM AdEntify\CoreBundle\Entity\Informationtranslation it
+             WHERE it.object = :id'
+        )->setParameter('id', $entity->getId());
+
         return array(
             'entity'      => $entity,
+            'translations'  => $query->getResult(),
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-    * Creates a form to edit a Legal entity.
+    * Creates a form to edit a Information entity.
     *
-    * @param Legal $entity The entity
+    * @param Information $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Legal $entity)
+    private function createEditForm(Information $entity)
     {
-        $form = $this->createForm(new LegalType(), $entity, array(
-            'action' => $this->generateUrl('legals_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new InformationType(), $entity, array(
+            'action' => $this->generateUrl('informations_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -181,20 +195,20 @@ class LegalController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Legal entity.
+     * Edits an existing Information entity.
      *
-     * @Route("/{id}", name="legals_update")
+     * @Route("/{id}", name="informations_update")
      * @Method("PUT")
-     * @Template("AdEntifyBackofficeBundle:Legal:edit.html.twig")
+     * @Template("AdEntifyBackofficeBundle:Information:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AdEntifyCoreBundle:Legal')->find($id);
+        $entity = $em->getRepository('AdEntifyCoreBundle:Information')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Legal entity.');
+            throw $this->createNotFoundException('Unable to find information entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -204,7 +218,7 @@ class LegalController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('legals_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('informations_edit', array('id' => $id)));
         }
 
         return array(
@@ -214,9 +228,9 @@ class LegalController extends Controller
         );
     }
     /**
-     * Deletes a Legal entity.
+     * Deletes a Information entity.
      *
-     * @Route("/{id}", name="legals_delete")
+     * @Route("/{id}", name="informations_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -226,21 +240,21 @@ class LegalController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AdEntifyCoreBundle:Legal')->find($id);
+            $entity = $em->getRepository('AdEntifyCoreBundle:Information')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Legal entity.');
+                throw $this->createNotFoundException('Unable to find Information entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('legals'));
+        return $this->redirect($this->generateUrl('informations'));
     }
 
     /**
-     * Creates a form to delete a Legal entity by id.
+     * Creates a form to delete a Information entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -249,7 +263,7 @@ class LegalController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('legals_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('informations_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
             ->getForm()

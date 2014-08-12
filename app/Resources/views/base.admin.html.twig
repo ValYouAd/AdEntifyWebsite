@@ -37,13 +37,13 @@
                     <li class="{{ 'users'|current() }}"><a href="{{ path('users') }}">{{ 'Users'|trans }}</a></li>
                     <li class="{{ 'producttype'|current() }}"><a href="{{ path('producttype') }}">{{ 'Product Types'|trans }}</a></li>
                     <li class="{{ 'report'|current() }}"><a href="{{ path('report') }}">{{ 'Reports'|trans }}</a></li>
-                    <li class="{{ 'cgu'|current() }}"><a href="{{ path('legals') }}">{{ 'Eula'|trans }}</a></li>
+                    <li class="{{ 'cgu'|current() }}"><a href="{{ path('informations') }}">{{ 'Informations'|trans }}</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container" style="height: 65%">
+    <div class="container" style="height: 100%">
         {% block body %}{% endblock %}
     </div>
     <script src="{{ asset('bundles/adentifycommon/vendor/jam/jquery/dist/jquery.js') }}"></script>
