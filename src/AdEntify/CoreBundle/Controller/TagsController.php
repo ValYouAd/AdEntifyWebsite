@@ -127,6 +127,7 @@ class TagsController extends FosRestController
                 $tag->getPhoto()->setTagsCount($tag->getPhoto()->getTagsCount() - 1);
                 $em->merge($tag->getPhoto());
                 $em->flush();
+                return array('deleted' => true);
             } else {
                 throw new HttpException(403, 'You are not authorized to delete this tag');
             }
