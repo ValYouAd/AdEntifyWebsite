@@ -68,7 +68,7 @@ class InformationController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'trans_form'   => $form->createView(),
         );
     }
 
@@ -106,7 +106,7 @@ class InformationController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'trans_form'   => $form->createView(),
         );
     }
 
@@ -171,7 +171,7 @@ class InformationController extends Controller
         return array(
             'entity'      => $entity,
             'translations'  => $query->getResult(),
-            'edit_form'   => $editForm->createView(),
+            'edit_trans_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -223,7 +223,7 @@ class InformationController extends Controller
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'edit_trans_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -265,7 +265,7 @@ class InformationController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('informations_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
+            ->add('delete', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
             ->getForm()
         ;
     }

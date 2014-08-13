@@ -1,0 +1,87 @@
+{% extends 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
+
+{% block form_start -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    <form style="height: 100%" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start %}
+
+{% block form_row %}
+    {% spaceless %}
+        {% if form.vars.name == 'translations' %}
+            <div class="form" style="height: 80%">
+        {% elseif form.vars.name == 'info' %}
+            <div class="form" style="height: 100%">
+        {% else %}
+            <div class="form'">
+        {% endif %}
+            {{ form_label(form) }}
+            {{ form_errors(form) }}
+            {{ form_widget(form, {attr:{placeholder:form.vars.label }}) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form_widget_compound %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }} style="height: 100%">
+        {% if form.parent is empty %}
+            {{ form_errors(form) }}
+        {% endif %}
+        {{ block('form_rows') }}
+        {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_widget_compound %}
+
+{% block textarea_widget %}
+    {% spaceless %}
+        {% set attr = attr|merge({'class': (attr.class|default('form-control'))|trim}) %}
+        <textarea {{ block('widget_attributes') }} style="height: 80%">{{ value }}</textarea>
+    {% endspaceless %}
+{% endblock textarea_widget %}
+
+{# Translations #}
+
+{% block a2lix_translations_gedmo_widget %}
+    {% if form.vars.simple_way %}
+        {{ block('a2lix_translations_widget') }}
+    {% else %}
+        <div class="a2lix_translations tabbable" style="height: 100%">
+            <ul class="a2lix_translationsLocales nav nav-tabs">
+                {% for translationsLocales in form %}
+                    {% set isDefaultLocale = 'defaultLocale' == translationsLocales.vars.name %}
+
+                    {% for translationsFields in translationsLocales %}
+                        {% set locale = translationsFields.vars.name %}
+
+                        <li {% if app.request.locale == locale %}class="active"{% endif %}>
+                            <a href="javascript:void(0)" data-toggle="tab" data-target=".a2lix_translationsFields-{{ locale }}">
+                                {{ locale|capitalize }} {% if isDefaultLocale %}[Default]{% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+
+            <div class="a2lix_translationsFields tab-content" style="height: 100%">
+                {% for translationsLocales in form %}
+                    {% for translationsFields in translationsLocales %}
+                        {% set locale = translationsFields.vars.name %}
+
+                        <div class="a2lix_translationsFields-{{ locale }} tab-pane {% if app.request.locale == locale %}active{% endif %} "style="height: 100%">
+                            {{ form_widget(translationsFields) }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
