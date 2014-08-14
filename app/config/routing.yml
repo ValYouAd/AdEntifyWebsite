@@ -196,9 +196,9 @@ public_photo:
     options:
         expose: true
 
-legals:
+info:
     type: rest
-    resource: AdEntify\CoreBundle\Controller\LegalsController
+    resource: AdEntify\CoreBundle\Controller\InformationsController
     options:
         expose: true
 
