@@ -12,3 +12,16 @@
     </h1>
     {{ form_rest(trans_form) }}
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/adentifybackoffice/ckeditor/ckeditor.js') }}"></script>
+    <script>
+          ($(".a2lix_translations").find("textarea").each(function(){
+              CKEDITOR.replace(this.id,
+                  {
+                      height: '500px'
+                  }
+              );
+          }));
+    </script>
+{% endblock %}

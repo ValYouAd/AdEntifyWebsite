@@ -1,17 +1,27 @@
 {% extends 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
 
-{% block form_start -%}
-    {% set method = method|upper %}
-    {%- if method in ["GET", "POST"] -%}
-        {% set form_method = method %}
-    {%- else -%}
-        {% set form_method = "POST" %}
-    {%- endif -%}
-    <form style="height: 100%" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
-    {%- if form_method != method -%}
-        <input type="hidden" name="_method" value="{{ method }}" />
-    {%- endif -%}
-{%- endblock form_start %}
+{# Widgets #}
+
+{% block form_widget_compound %}
+    {% spaceless %}
+        <div {{ block('widget_container_attributes') }} style="height: 100%">
+            {% if form.parent is empty %}
+                {{ form_errors(form) }}
+            {% endif %}
+            {{ block('form_rows') }}
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_widget_compound %}
+
+{% block textarea_widget %}
+    {% spaceless %}
+        {% set attr = attr|merge({'class': (attr.class|default('form-control'))|trim}) %}
+        <textarea class="ckeditor" style="display:none" {{ block('widget_attributes') }}>{{ value }}</textarea>
+    {% endspaceless %}
+{% endblock textarea_widget %}
+
+{# Rows #}
 
 {% block form_row %}
     {% spaceless %}
@@ -29,24 +39,20 @@
     {% endspaceless %}
 {% endblock form_row %}
 
-{% block form_widget_compound %}
-    {% spaceless %}
-        <div {{ block('widget_container_attributes') }} style="height: 100%">
-        {% if form.parent is empty %}
-            {{ form_errors(form) }}
-        {% endif %}
-        {{ block('form_rows') }}
-        {{ form_rest(form) }}
-        </div>
-    {% endspaceless %}
-{% endblock form_widget_compound %}
+{# Misc #}
 
-{% block textarea_widget %}
-    {% spaceless %}
-        {% set attr = attr|merge({'class': (attr.class|default('form-control'))|trim}) %}
-        <textarea {{ block('widget_attributes') }} style="height: 80%">{{ value }}</textarea>
-    {% endspaceless %}
-{% endblock textarea_widget %}
+{% block form_start -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    <form style="height: 100%" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start %}
 
 {# Translations #}
 
@@ -64,7 +70,9 @@
 
                         <li {% if app.request.locale == locale %}class="active"{% endif %}>
                             <a href="javascript:void(0)" data-toggle="tab" data-target=".a2lix_translationsFields-{{ locale }}">
-                                {{ locale|capitalize }} {% if isDefaultLocale %}[Default]{% endif %}
+                                <div  onclick="f()" >
+                                    {{ locale|capitalize }} {% if isDefaultLocale %}[Default]{% endif %}
+                                </div>
                             </a>
                         </li>
                     {% endfor %}
