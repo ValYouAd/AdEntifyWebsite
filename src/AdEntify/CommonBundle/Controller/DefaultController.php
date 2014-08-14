@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 
 class DefaultController extends Controller
 {
@@ -294,7 +296,41 @@ class DefaultController extends Controller
      */
     public function legalAction()
     {
-        return array();
+        $terms_of_use = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :termsOfUse")
+            ->setParameter('termsOfUse', 'Terms of use')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        $privacy = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :privacy")
+            ->setParameter('privacy', 'Privacy')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        $legal_notices = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :legalNotices")
+            ->setParameter('legalNotices', 'Legal notices')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        return array(
+            'terms_of_use' => $terms_of_use[0]->getInfo(),
+            'privacy' => $privacy[0]->getInfo(),
+            'legal_notices' => $legal_notices[0]->getInfo(),
+        );
     }
 
     /**

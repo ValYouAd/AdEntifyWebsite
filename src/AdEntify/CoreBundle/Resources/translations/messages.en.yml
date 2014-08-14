@@ -11,3 +11,4 @@ email:
     new_user:
         title: '%user% just registered'
         content: '<p>Hi Team !</p><p><strong>%user%</strong> just registered on AdEntify.com</p>'
+

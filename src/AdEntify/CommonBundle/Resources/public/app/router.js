@@ -1024,7 +1024,7 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
             app.oauth.loadAccessToken({
                success: function() {
                   $.ajax({
-                     url: Routing.generate('api_v1_get_user', { id: currentUserId }),
+                     url: Routing.generate('api_v1_get_user_current'),
                      headers: {
                         "Authorization": app.oauth.getAuthorizationHeader()
                      },

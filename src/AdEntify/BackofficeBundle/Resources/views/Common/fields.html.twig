@@ -30,7 +30,7 @@
 
 {% block form_widget_compound %}
     {% spaceless %}
-        <div {{ block('widget_container_attributes') }}>
+        <div {{ block('widget_container_attributes') }} style="height: 100%">
             {% if form.parent is empty %}
                 {{ form_errors(form) }}
             {% endif %}
@@ -264,7 +264,7 @@
 
 {% block form_row %}
     {% spaceless %}
-        <div class="form-group">
+        <div class="form">
             {{ form_label(form) }}
             {{ form_errors(form) }}
             {{ form_widget(form, {attr:{placeholder:form.vars.label }}) }}
@@ -275,6 +275,12 @@
 {% block hidden_row %}
     {{ form_widget(form) }}
 {% endblock hidden_row %}
+
+{% block button_row -%}
+    <div style="display: inline">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row %}
 
 {# Misc #}
 

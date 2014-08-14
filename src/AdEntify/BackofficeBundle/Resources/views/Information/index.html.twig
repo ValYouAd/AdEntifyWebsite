@@ -1,0 +1,42 @@
+{% extends '::base.admin.html.twig' %}
+
+{% for entity in entities %}
+    {% form_theme delete_forms[entity.id] 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
+{% endfor %}
+
+{% block body -%}
+    <h1>{{ 'Informations list'|trans }}</h1>
+
+    <ul class="list-unstyled">
+        <li>
+            <a class="btn btn-success" href="{{ path('informations_new') }}">
+                <i class="icon icon-plus icon-white"></i> {{ 'Create a new entry'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>{{ 'info_key'|trans }}</th>
+            <th>{{ 'actions'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('informations_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.infoKey }}</td>
+                <td>
+                    <div>
+                        <a class="btn btn-default" href="{{ path('informations_show', { 'id': entity.id }) }}">{{ 'show'|trans }}</a>
+                        <a class="btn btn-primary" href="{{ path('informations_edit', { 'id': entity.id }) }}">{{ 'edit'|trans }}</a>
+                        {{ form(delete_forms[entity.id], { 'attr': {'style': 'display:inline'} }) }}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

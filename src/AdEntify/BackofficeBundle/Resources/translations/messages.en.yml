@@ -37,3 +37,11 @@ user:
     createdat: Created at
     actions: Actions
     count: %count% utilisateurs
+
+#CGU
+cgu:
+    termsOfUse: Terms of use
+    privacy2: Privacy
+    legalsNotice: Legals notice
+    language: Language
+    End-user license agreement list: End-user license agreement list

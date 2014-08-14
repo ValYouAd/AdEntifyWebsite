@@ -53,13 +53,20 @@ define([
    Comment.Views.Item = Backbone.View.extend({
       template: "comment/item",
       tagName: "li class='media comment'",
+      hasRoleTeam: false,
 
       serialize: function() {
-         return { model: this.model };
+         return {
+             model: this.model,
+             has_role_team: function() {
+                return Comment.Common.hasRoleTeam();
+             }
+         };
       },
 
       initialize: function() {
          this.listenTo(this.model, "change", this.render);
+         this.listenTo(this.model, "destroy", this.remove);
       },
 
       delete: function() {
@@ -79,6 +86,14 @@ define([
 
    Comment.Views.List = Backbone.View.extend({
       template: "comment/list",
+
+      serialize: function() {
+          return {
+              has_role_team: function() {
+                 return Comment.Common.hasRoleTeam();
+              }
+          };
+      },
 
       beforeRender: function() {
          if (this.options.comments.length === 0) {
@@ -157,10 +172,36 @@ define([
          }
       },
 
+      deleteAllComments: function(e) {
+          e.preventDefault();
+
+          var model;
+
+          while (model = this.options.comments.first()) {
+              model.destroy({
+                  url: Routing.generate('api_v1_delete_comment', { id: model.get('id') })
+              });
+          }
+      },
+
       events: {
-         "submit": "addComment"
+         'click .add-comment-button': 'addComment',
+         'click .delete-comment-button': 'deleteAllComments'
       }
    });
+
+   Comment.Common = {
+      hasRoleTeam: function() {
+         var currentUser = app.appState().getCurrentUser();
+         var roles = ['ROLE_TEAM', 'ROLE_SUPER_ADMIN', 'ROLE_ADMIN'];
+         var found = false;
+         _.each(roles, function(role) {
+            if (!found)
+               found = $.inArray(role, currentUser.roles) != -1 ? true : false;
+         });
+         return found;
+      }
+   };
 
    return Comment;
 });
