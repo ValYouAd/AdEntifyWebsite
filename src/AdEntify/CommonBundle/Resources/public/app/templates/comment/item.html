@@ -4,7 +4,7 @@
 </a>
 <% } %>
 <div class="media-body">
-    <% if (model.isAuthor()) { %>
+    <% if (model.isAuthor() || has_role_team()) { %>
     <div class="pull-right">
         <button type="button" class="close" aria-hidden="true">&times;</button>
     </div>
