@@ -237,7 +237,7 @@ class User extends BaseUser
 
     /**
      * @Serializer\Exclude
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="favoritesUsers", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="favoritesUsers")
      * @ORM\JoinTable(name="user_favorites_photos")
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
