@@ -4,7 +4,7 @@ namespace AdEntify\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Information
@@ -21,6 +21,8 @@ class Information
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -28,6 +30,8 @@ class Information
      * @var string
      *
      * @ORM\Column(name="info_key", type="string", length=255)
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $infoKey;
 
@@ -36,6 +40,8 @@ class Information
      *
      * @Gedmo\Translatable
      * @ORM\Column(name="info", type="text")
+     *
+     * @Serializer\Groups({"details"})
      */
     private $info;
 
@@ -45,6 +51,8 @@ class Information
      *  mappedBy="object",
      *  cascade={"persist", "remove"}
      * )
+     *
+     * @Serializer\Exclude
      */
     private $translations;
 

@@ -51,7 +51,7 @@ class InformationsController extends FOSRestController {
      *  section="Informations"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="locale", default="en")
      */
     public function cgetAction($locale = 'en')
@@ -69,23 +69,23 @@ class InformationsController extends FOSRestController {
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get an information by ID",
+     *  description="Get an information by type",
      *  output="AdEntify\CoreBundle\Entity\Information",
      *  section="Informations",
      *  parameters={
-     *      {"name"="id", "dataType"="integer", "required"=true, "description"="information id"}
+     *      {"name"="infoKey", "dataType"="string", "required"=true, "description"="information type"}
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      * @QueryParam(name="locale", default="en")
      * @return Information
      */
-    public function getAction($id, $locale)
+    public function getAction($infoKey, $locale)
     {
         return $this->getDoctrine()->getManager()
-            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.id =:id")
-            ->setParameter(':id', $id)
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey =:infoKey")
+            ->setParameter(':infoKey', $infoKey)
             ->useQueryCache(false)
             ->useResultCache(true, null, 'infos'.$locale)
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
