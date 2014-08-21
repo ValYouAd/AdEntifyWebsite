@@ -125,11 +125,9 @@ class BrandsController extends FosRestController
         $form = $this->getForm($brand);
         $form->bind($request);
         if ($form->isValid()) {
-
-            $found = $em->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand b WHERE b.name = :name')
-                ->setParameter('name', $brand->getName())->setMaxResults(1)->getResult();
+            $found = $em->getRepository('AdEntifyCoreBundle:Brand')->findOneBy(array('name' => $brand->getName()));
             if ($found) {
-                return $brand;
+                return $found;
             }
 
             if ($brand->getOriginalLogoUrl()) {
