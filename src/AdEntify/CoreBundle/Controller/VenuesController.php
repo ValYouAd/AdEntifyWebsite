@@ -27,6 +27,12 @@ use AdEntify\CoreBundle\Entity\Venue;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+use AdEntify\CoreBundle\Entity\Tag;
+use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Util\UserCacheManager;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use AdEntify\CoreBundle\Util\PaginationTools;
+
 /**
  * Class VenuesController
  * @package AdEntify\CoreBundle\Controller
@@ -216,6 +222,152 @@ class VenuesController extends FosRestController
         } else {
             throw new \Exception('Cannot search venues.');
         }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a Venue's photos",
+     *  output="AdEntify\CoreBundle\Entity\Photo",
+     *  section="Venue"
+     * )
+     *
+     * @View(serializerGroups={"list"})
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="30")
+     * @QueryParam(name="orderBy", default="null")
+     * @QueryParam(name="way", requirements="DESC|ASC", default="DESC")
+     *
+     */
+    public function getPhotosAction($id, $page, $limit, $orderBy, $way)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $securityContext = $this->container->get('security.context');
+        $user = null;
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        }
+
+        // If no user connected, 0 is default
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+        $followedBrands = array(0);
+
+        if ($user) {
+            // Get friends list (id) array
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get followings ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 0);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
+            }
+        }
+
+        $parameters = null;
+        $countQuery = null;
+        $dataQuery = null;
+        $joinClause = null;
+
+        $parameters = array(
+            ':status' => Photo::STATUS_READY,
+            ':visibilityScope' => Photo::SCOPE_PUBLIC,
+            ':facebookFriendsIds' => $facebookFriendsIds,
+            ':followings' => $followings,
+            ':followedBrands' => $followedBrands,
+            ':venue_id' => $id,
+        );
+
+        $sql = sprintf('SELECT photo
+                        FROM AdEntify\CoreBundle\Entity\Photo photo
+                        LEFT JOIN photo.tags tag
+                        INNER JOIN photo.owner owner
+                        LEFT JOIN tag.brand brand %s
+                        WHERE photo.venue = :venue_id
+                          AND photo.status = :status
+                          AND photo.deletedAt IS NULL
+                          AND (photo.visibilityScope = :visibilityScope
+                            OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings) OR brand.id IN (:followedBrands))', $joinClause);
+
+        if ($orderBy) {
+            switch ($orderBy) {
+                case 'likes':
+                    $sql .= sprintf(' ORDER BY photo.likesCount %s', $way);
+                    break;
+                case 'points':
+                    $sql .= sprintf(' ORDER BY photo.totalTagsPoints %s', $way);
+                    break;
+                case 'date':
+                default:
+                    $sql .= sprintf(' ORDER BY photo.createdAt %s', $way);
+                    break;
+            }
+        } else {
+            $sql .= sprintf(' ORDER BY photo.createdAt %s', $way);
+        }
+
+        $query = $em->createQuery($sql)
+            ->setParameters($parameters)
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $count = count($paginator);
+
+        $photos = null;
+        $pagination = null;
+        if ($count > 0) {
+            $photos = array();
+            foreach($paginator as $photo) {
+                $photos[] = $photo;
+            }
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_venue_photos');
+        }
+
+        return PaginationTools::getPaginationArray($photos, $pagination);
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a Venue's photos",
+     *  output="AdEntify\CoreBundle\Entity\Tag",
+     *  section="Venue"
+     * )
+     *
+     * @View(serializerGroups={"list"})
+     *
+     */
+    public function getTagsAction($id)
+    {
+        return $this->getDoctrine()->getManager()
+            ->createQuery("SELECT tag
+                           FROM AdEntify\CoreBundle\Entity\Tag tag
+                           WHERE tag.venue = :venue_id
+                           AND tag.visible = true
+                           AND tag.deletedAt IS NULL
+                           AND tag.censored = false
+                           AND tag.validationStatus != :denied")
+            ->setParameters(array(
+                ':venue_id' => $id,
+                ':denied' => Tag::VALIDATION_DENIED
+            ))
+            ->useQueryCache(false)
+            ->getResult();
     }
 
     /**
