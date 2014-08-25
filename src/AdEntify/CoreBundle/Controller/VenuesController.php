@@ -403,35 +403,6 @@ class VenuesController extends FosRestController
     }
 
     /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Get a Venue's photos",
-     *  output="AdEntify\CoreBundle\Entity\Tag",
-     *  section="Venue"
-     * )
-     *
-     * @View(serializerGroups={"list"})
-     *
-     */
-    public function getTagsAction($id)
-    {
-        return $this->getDoctrine()->getManager()
-            ->createQuery("SELECT tag
-                           FROM AdEntify\CoreBundle\Entity\Tag tag
-                           WHERE tag.venue = :venue_id
-                           AND tag.visible = true
-                           AND tag.deletedAt IS NULL
-                           AND tag.censored = false
-                           AND tag.validationStatus != :denied")
-            ->setParameters(array(
-                ':venue_id' => $id,
-                ':denied' => Tag::VALIDATION_DENIED
-            ))
-            ->useQueryCache(false)
-            ->getResult();
-    }
-
-    /**
      * Get form for Venue
      *
      * @param null $venue

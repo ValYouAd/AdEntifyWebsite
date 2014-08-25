@@ -66,7 +66,26 @@ class UsersController extends FosRestController
      */
     public function getAction($id)
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:User')->find($id);
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+        if ($user) {
+            $lastPhoto = $em->createQuery('SELECT photo
+                                           FROM AdEntifyCoreBundle:Photo photo
+                                           WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
+                                           ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':userId' => $user->getId(),
+                ))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $user->setLastPhoto($lastPhoto);
+            return $user;
+        } else
+            throw new HttpException(404);
     }
 
     /**

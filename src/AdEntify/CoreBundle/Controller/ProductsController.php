@@ -63,7 +63,68 @@ class ProductsController extends FosRestController
      */
     public function getAction($id)
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Product')->find($id);
+        $em = $this->getDoctrine()->getManager();
+
+        $securityContext = $this->container->get('security.context');
+        $user = null;
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        }
+
+        // If no user connected, 0 is default
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+        $followedBrands = array(0);
+
+        if ($user) {
+            // Get friends list (id) array
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get followings ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 0);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
+            }
+        }
+
+        $product = $em->getRepository('AdEntifyCoreBundle:Product')->find($id);
+        if ($product) {
+            $lastPhoto = $em->createQuery('SELECT photo
+                                           FROM AdEntifyCoreBundle:Photo photo
+                                           LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.product product
+                                           WHERE product.id = :productId AND photo.status = :status AND photo.deletedAt IS NULL
+                                              AND (photo.visibilityScope = :visibilityScope
+                                                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                                OR owner.id IN (:followings)
+                                                OR brand.id IN (:followedBrands))
+                                           ORDER BY photo.id DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':productId' => $product->getId(),
+                ))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $product->setLastPhoto($lastPhoto);
+            return $product;
+        } else
+            throw new HttpException(404);
     }
 
     /**
@@ -262,35 +323,6 @@ class ProductsController extends FosRestController
         }
 
         return PaginationTools::getPaginationArray($photos, $pagination);
-    }
-
-    /**
-     * @ApiDoc(
-     *  resource=true,
-     *  description="Get a Product's photos",
-     *  output="AdEntify\CoreBundle\Entity\Tag",
-     *  section="Product"
-     * )
-     *
-     * @View(serializerGroups={"list"})
-     *
-     */
-    public function getTagsAction($id)
-    {
-        return $this->getDoctrine()->getManager()
-            ->createQuery("SELECT tag
-                           FROM AdEntify\CoreBundle\Entity\Tag tag
-                           WHERE tag.product = :product_id
-                           AND tag.visible = true
-                           AND tag.deletedAt IS NULL
-                           AND tag.censored = false
-                           AND tag.validationStatus != :denied")
-            ->setParameters(array(
-                ':product_id' => $id,
-                ':denied' => Tag::VALIDATION_DENIED
-            ))
-            ->useQueryCache(false)
-            ->getResult();
     }
 
     /**

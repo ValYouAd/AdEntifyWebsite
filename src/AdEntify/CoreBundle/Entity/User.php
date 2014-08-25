@@ -384,6 +384,11 @@ class User extends BaseUser
      */
     protected $followed = null;
 
+    /**
+     * @Serializer\Groups({"details"})
+     */
+    private $lastPhoto;
+
     public function __construct()
     {
         parent::__construct();
@@ -1290,5 +1295,21 @@ class User extends BaseUser
     {
         $this->followed = $followed;
         return $this;
+    }
+
+    /**
+     * @param mixed $lastPhoto
+     */
+    public function setLastPhoto($lastPhoto)
+    {
+        $this->lastPhoto = $lastPhoto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastPhoto()
+    {
+        return $this->lastPhoto;
     }
 }
