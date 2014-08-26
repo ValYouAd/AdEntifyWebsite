@@ -13,6 +13,7 @@ use AdEntify\CoreBundle\Entity\Person;
 use AdEntify\CoreBundle\Entity\User;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Form\PersonType;
+use AdEntify\CoreBundle\Util\UserCacheManager;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
