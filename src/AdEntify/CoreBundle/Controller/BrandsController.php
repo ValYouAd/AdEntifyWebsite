@@ -277,6 +277,13 @@ class BrandsController extends FosRestController
     /**
      * @View(serializerGroups={"list"})
      *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of followers (user) for a brand",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="Brand"
+     * )
+     *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
@@ -315,6 +322,13 @@ class BrandsController extends FosRestController
 
     /**
      * @View(serializerGroups={"list"})
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of followings (User) for a brand",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="Brand"
+     * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
