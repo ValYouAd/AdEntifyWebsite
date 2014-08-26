@@ -218,70 +218,96 @@ class VenuesController extends FosRestController
      *  section="Venue"
      * )
      *
+     * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", default="30")
      * @QueryParam(name="ll", default="", description="Latitude and longitude of the user's location. Example : 44.3,37.2. If it's not specified, globally search.")
      * @QueryParam(name="radius", default="10000", description="Limit results to venues within this many meters of the specified location. Maximum 100,000 meters")
+     * @QueryParam(name="foursquareEnabled", default="true", description="Activate foursquare search")
      * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $limit, $ll, $radius)
+    public function getSearchAction($query, $page, $limit, $ll, $radius, $foursquareEnabled = true)
     {
-        $url = 'https://api.foursquare.com/v2/venues/search';
-        // If latitude/longitude given, search locally
-        if (!empty($ll)) {
-            $url .= '?intent=browse&radius=' . $radius . '&ll=' . $ll;
-        } else {
-            $url .= '?intent=global';
-        }
-        $url .= '&limit=' . $limit . '&query=' . urlencode($query) . '&client_id=' . $this->container->getParameter('foursquare.client_id')
-            . '&client_secret=' . $this->container->getParameter('foursquare.client_secret') . '&v='.date('Ymd');
-
-        $ch = curl_init();
-        curl_setopt ($ch, CURLOPT_URL, $url);
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        $venues = $this->getDoctrine()->getManager()->createQuery('SELECT v FROM AdEntifyCoreBundle:Venue v WHERE v.name LIKE :query')
-            ->setMaxResults($limit)
-            ->setParameters(array(
-                'query' => '%'.$query.'%'
-            ))
-            ->getResult();
-
-        if (!$venues)
-            $venues = array();
-
-        if ($response !== false) {
-            $response = json_decode($response);
-            if ($response->response->venues && count($response->response->venues) > 0) {
-                foreach($response->response->venues as $val) {
-                    $venue = new Venue();
-                    $venue->setName($val->name)
-                        ->setFoursquareId($val->id)
-                        ->setLink(isset($val->url) ? $val->url : '')
-                        ->setLat($val->location->lat)
-                        ->setLng($val->location->lng);
-                    if (isset($val->canonicalUrl))
-                        $venue->setFoursquareShortLink($val->canonicalUrl);
-                    if (isset($val->location->address))
-                        $venue->setAddress($val->location->address);
-                    if (isset($val->location->city))
-                        $venue->setCity($val->location->city);
-                    if (isset($val->location->postalCode))
-                        $venue->setPostalCode($val->location->postalCode);
-                    if (isset($val->location->state))
-                        $venue->setState($val->location->state);
-                    if (isset($val->location->cc))
-                        $venue->setCc($val->location->cc);
-                    if (isset($val->location->country))
-                        $venue->setCountry($val->location->country);
-                    $venues[] = $venue;
-                }
+        if ($foursquareEnabled) {
+            $url = 'https://api.foursquare.com/v2/venues/search';
+            // If latitude/longitude given, search locally
+            if (!empty($ll)) {
+                $url .= '?intent=browse&radius=' . $radius . '&ll=' . $ll;
+            } else {
+                $url .= '?intent=global';
             }
-            return $venues;
+            $url .= '&limit=' . $limit . '&query=' . urlencode($query) . '&client_id=' . $this->container->getParameter('foursquare.client_id')
+                . '&client_secret=' . $this->container->getParameter('foursquare.client_secret') . '&v='.date('Ymd');
+
+            $ch = curl_init();
+            curl_setopt ($ch, CURLOPT_URL, $url);
+            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            $venues = $this->getDoctrine()->getManager()->createQuery('SELECT v FROM AdEntifyCoreBundle:Venue v WHERE v.name LIKE :query')
+                ->setMaxResults($limit)
+                ->setParameters(array(
+                    'query' => '%'.$query.'%'
+                ))
+                ->getResult();
+
+            if (!$venues)
+                $venues = array();
+
+            if ($response !== false) {
+                $response = json_decode($response);
+                if ($response->response->venues && count($response->response->venues) > 0) {
+                    foreach($response->response->venues as $val) {
+                        $venue = new Venue();
+                        $venue->setName($val->name)
+                            ->setFoursquareId($val->id)
+                            ->setLink(isset($val->url) ? $val->url : '')
+                            ->setLat($val->location->lat)
+                            ->setLng($val->location->lng);
+                        if (isset($val->canonicalUrl))
+                            $venue->setFoursquareShortLink($val->canonicalUrl);
+                        if (isset($val->location->address))
+                            $venue->setAddress($val->location->address);
+                        if (isset($val->location->city))
+                            $venue->setCity($val->location->city);
+                        if (isset($val->location->postalCode))
+                            $venue->setPostalCode($val->location->postalCode);
+                        if (isset($val->location->state))
+                            $venue->setState($val->location->state);
+                        if (isset($val->location->cc))
+                            $venue->setCc($val->location->cc);
+                        if (isset($val->location->country))
+                            $venue->setCountry($val->location->country);
+                        $venues[] = $venue;
+                    }
+                }
+                return $venues;
+            } else {
+                throw new \Exception('Cannot search venues.');
+            }
         } else {
-            throw new \Exception('Cannot search venues.');
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT v FROM AdEntifyCoreBundle:Venue v WHERE v.name LIKE :query')
+                ->setParameters(array(
+                    'query' => '%'.$query.'%'
+                ))
+                ->setMaxResults($limit)
+                ->setFirstResult(($page - 1) * $limit);
+
+            $paginator = new Paginator($query, $fetchJoinCollection = false);
+            $count = count($paginator);
+
+            $venues = null;
+            $pagination = null;
+            if ($count > 0) {
+                $venues = array();
+                foreach($paginator as $venue) $venues[] = $venue;
+                $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_venue_search', array(
+                    'query' => $query
+                ));
+            }
+
+            return PaginationTools::getPaginationArray($venues, $pagination);
         }
     }
 
