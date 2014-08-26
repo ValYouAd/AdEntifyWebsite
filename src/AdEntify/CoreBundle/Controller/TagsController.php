@@ -299,7 +299,9 @@ class TagsController extends FosRestController
 
                 $this->container->get('ad_entify_core.income')->calculateIncome($tag, $user, $request);
 
-                return $tag->getValidationStatus();
+                return array(
+                    'validation_status' => $tag->getValidationStatus(),
+                );
             } else
                 throw new NotFoundHttpException('Tag not found');
         } else {
