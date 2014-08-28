@@ -111,7 +111,7 @@ class VenuesController extends FosRestController
 
         $venue = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Venue')->find($id);
         if ($venue) {
-            $lastPhoto = $em->createQuery('SELECT photo
+            $photos = $em->createQuery('SELECT photo
                                            FROM AdEntifyCoreBundle:Photo photo
                                            LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.venue venue
                                            WHERE venue.id = :venueId AND photo.status = :status AND photo.deletedAt IS NULL
@@ -128,10 +128,17 @@ class VenuesController extends FosRestController
                     ':followedBrands' => $followedBrands,
                     ':venueId' => $venue->getId(),
                 ))
-                ->setMaxResults(1)
-                ->getOneOrNullResult();
+                ->getResult();
 
+            if (!empty($photos)) {
+                $lastPhoto = $photos[0];
+                $randomPhoto = $photos[rand(0, count($photos) - 1)];
+            } else {
+                $lastPhoto = null;
+                $randomPhoto = null;
+            }
             $venue->setLastPhoto($lastPhoto);
+            $venue->setRandomPhoto($randomPhoto);
             return $venue;
         } else
             throw new HttpException(404);

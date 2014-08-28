@@ -104,7 +104,7 @@ class PeopleController extends FosRestController
 
         $person = $em->getRepository('AdEntifyCoreBundle:Person')->find($id);
         if ($person) {
-            $lastPhoto = $em->createQuery('SELECT photo
+            $photos = $em->createQuery('SELECT photo
                                            FROM AdEntifyCoreBundle:Photo photo
                                            LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.person person
                                            WHERE person.id = :personId AND photo.status = :status AND photo.deletedAt IS NULL
@@ -121,10 +121,17 @@ class PeopleController extends FosRestController
                     ':followedBrands' => $followedBrands,
                     ':personId' => $person->getId(),
                 ))
-                ->setMaxResults(1)
-                ->getOneOrNullResult();
+                ->getResult();
 
+            if (!empty($photos)) {
+                $lastPhoto = $photos[0];
+                $randomPhoto = $photos[rand(0, count($photos) - 1)];
+            } else {
+                $lastPhoto = null;
+                $randomPhoto = null;
+            }
             $person->setLastPhoto($lastPhoto);
+            $person->setRandomPhoto($randomPhoto);
             return $person;
         } else
             throw new HttpException(404);
