@@ -139,6 +139,7 @@ class ProductsController extends FosRestController
      *  section="Product"
      * )
      *
+     * @QueryParam(name="query")
      * @QueryParam(name="brandId", requirements="\d+", default="0")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")

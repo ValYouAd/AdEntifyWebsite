@@ -48,6 +48,7 @@ class ProductTypesController extends FosRestController
      *  section="ProductType"
      * )
      *
+     * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View(serializerGroups={"list"})
