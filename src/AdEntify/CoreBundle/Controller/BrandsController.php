@@ -245,6 +245,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
+     * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
@@ -252,13 +253,13 @@ class BrandsController extends FosRestController
      */
     public function getSearchAction($query, $page, $limit)
     {
-	if (empty($query)) {
-	    throw new HttpException(500);
-	}
+        if (empty($query)) {
+            throw new HttpException(500);
+        }
 
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand
             WHERE brand.name LIKE :query AND brand.validated = 1')
-	    ->setParameter(':query', '%'.addcslashes($query, '%').'%', \PDO::PARAM_STR)
+	    ->setParameter(':query', '%'.$query.'%')
             ->setMaxResults($limit)
             ->setFirstResult(($page - 1) * $limit);
 

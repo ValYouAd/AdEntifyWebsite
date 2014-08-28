@@ -260,14 +260,14 @@ class UsersController extends FosRestController
     public function getSearchAction($query, $page = 1, $limit = 10)
     {
         $em = $this->getDoctrine()->getManager();
-	$securityContext = $this->container->get('security.context');
+        $securityContext = $this->container->get('security.context');
 
-	$query = $em->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
-		LEFT JOIN u.followings following WHERE u.id = :currentUserId AND following.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
-	    WHERE user.firstname LIKE :query OR user.lastname LIKE :query')
+        $query = $em->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+                LEFT JOIN u.followings following WHERE u.id = :currentUserId AND following.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
+                WHERE user.firstname LIKE :query OR user.lastname LIKE :query')
             ->setParameters(array(
-		':query' => '%'.$query.'%',
-		'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
+                ':query' => '%'.$query.'%',
+                'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
@@ -279,10 +279,10 @@ class UsersController extends FosRestController
         $pagination = null;
         if ($count > 0) {
             $results = array();
-	    foreach ($paginator as $entry) {
-		$user = $entry[0];
-		$user->setFollowed($entry['followed'] > 0 ? true : false);
-		$results[] = $user;
+	        foreach ($paginator as $entry) {
+                $user = $entry[0];
+                $user->setFollowed($entry['followed'] > 0 ? true : false);
+                $results[] = $user;
             }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_search', array(

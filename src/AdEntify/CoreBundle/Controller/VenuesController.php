@@ -218,6 +218,7 @@ class VenuesController extends FosRestController
      *  section="Venue"
      * )
      *
+     * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", default="30")
      * @QueryParam(name="ll", default="", description="Latitude and longitude of the user's location. Example : 44.3,37.2. If it's not specified, globally search.")

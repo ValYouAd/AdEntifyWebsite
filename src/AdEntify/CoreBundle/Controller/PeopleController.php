@@ -208,6 +208,7 @@ class PeopleController extends FosRestController
      *  section="Person"
      * )
      *
+     * @QueryParam(name="query")
      * @QueryParam(name="limit", default="10")
      * @View(serializerGroups={"list"})
      */
