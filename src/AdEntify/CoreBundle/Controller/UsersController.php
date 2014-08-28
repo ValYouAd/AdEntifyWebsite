@@ -260,11 +260,14 @@ class UsersController extends FosRestController
     public function getSearchAction($query, $page = 1, $limit = 10)
     {
         $em = $this->getDoctrine()->getManager();
+	$securityContext = $this->container->get('security.context');
 
-        $query = $em->createQuery('SELECT u FROM AdEntify\CoreBundle\Entity\User u
-            WHERE u.firstname LIKE :query OR u.lastname LIKE :query')
+	$query = $em->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+		LEFT JOIN u.followings following WHERE u.id = :currentUserId AND following.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
+	    WHERE user.firstname LIKE :query OR user.lastname LIKE :query')
             ->setParameters(array(
-                ':query' => '%'.$query.'%'
+		':query' => '%'.$query.'%',
+		'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
@@ -276,8 +279,10 @@ class UsersController extends FosRestController
         $pagination = null;
         if ($count > 0) {
             $results = array();
-            foreach($paginator as $item) {
-                $results[] = $item;
+	    foreach ($paginator as $entry) {
+		$user = $entry[0];
+		$user->setFollowed($entry['followed'] > 0 ? true : false);
+		$results[] = $user;
             }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_search', array(
@@ -568,11 +573,14 @@ class UsersController extends FosRestController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+	$securityContext = $this->container->get('security.context');
         if ($user) {
-            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+	    $query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
             LEFT JOIN user.followers follower WHERE follower.id = :userId')
                 ->setParameters(array(
-                    'userId' => $user->getId()
+		    'userId' => $user->getId(),
+		    'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
                 ))
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit);
@@ -584,8 +592,11 @@ class UsersController extends FosRestController
             $pagination = null;
             if ($count > 0) {
                 $users = array();
-                foreach ($paginator as $user)
+		foreach ($paginator as $entry) {
+		    $user = $entry[0];
+		    $user->setFollowed($entry['followed'] > 0 ? true : false);
                     $users[] = $user;
+		}
 
                 $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
                     'api_v1_get_user_followings', array(
@@ -619,11 +630,14 @@ class UsersController extends FosRestController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+	$securityContext = $this->container->get('security.context');
         if ($user) {
-            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+	    $query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
             LEFT JOIN user.followings following WHERE following.id = :userId')
                 ->setParameters(array(
-                    'userId' => $user->getId()
+		    'userId' => $user->getId(),
+		    'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
                 ))
                 ->setFirstResult(($page - 1) * $limit)
                 ->setMaxResults($limit);
@@ -635,8 +649,11 @@ class UsersController extends FosRestController
             $pagination = null;
             if ($count > 0) {
                 $users = array();
-                foreach ($paginator as $user)
+		foreach ($paginator as $entry) {
+		    $user = $entry[0];
+		    $user->setFollowed($entry['followed'] > 0 ? true : false);
                     $users[] = $user;
+		}
 
                 $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
                     'api_v1_get_user_followers', array(

@@ -967,12 +967,10 @@ class PhotosController extends FosRestController
      */
     public function getLikesAction($id)
     {
-        // TODO : REMOVE LIKE WITH DELETED AT
-
-        $photo = $this->getAction($id);
-        if (!$photo)
-            return null;
-        return $photo->getLikes();
+	return $this->getDoctrine()->getManager()->createQuery('SELECT l FROM AdEntifyCoreBundle:Like l
+	    WHERE l.photo = :photoId AND l.deleted_at IS NULL')
+	    ->setParameter(':photoId', $id)
+	    ->getResult();
     }
 
     /**

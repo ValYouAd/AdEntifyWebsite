@@ -252,9 +252,13 @@ class BrandsController extends FosRestController
      */
     public function getSearchAction($query, $page, $limit)
     {
+	if (empty($query)) {
+	    throw new HttpException(500);
+	}
+
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand
             WHERE brand.name LIKE :query AND brand.validated = 1')
-            ->setParameter(':query', '%'.$query.'%')
+	    ->setParameter(':query', '%'.addcslashes($query, '%').'%', \PDO::PARAM_STR)
             ->setMaxResults($limit)
             ->setFirstResult(($page - 1) * $limit);
 
@@ -294,12 +298,15 @@ class BrandsController extends FosRestController
      */
     public function getFollowersAction($slug, $page = 1, $limit = 10)
     {
-        $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+	$securityContext = $this->container->get('security.context');
+	$query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
             JOIN user.followedBrands brand WHERE brand.slug = :slug ORDER BY user.followersCount DESC')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit)
             ->setParameters(array(
-                'slug' => $slug
+		'slug' => $slug,
+		'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
             ));
 
         $paginator = new Paginator($query, $fetchJoinCollection = true);
@@ -308,7 +315,9 @@ class BrandsController extends FosRestController
         $count = count($paginator);
         if ($count > 0) {
             $users = array();
-            foreach($paginator as $user) {
+	    foreach ($paginator as $entry) {
+		$user = $entry[0];
+		$user->setFollowed($entry['followed'] > 0 ? true : false);
                 $users[] = $user;
             }
 
@@ -344,9 +353,14 @@ class BrandsController extends FosRestController
         if (!$brand)
             throw new HttpException(404);
 
-        $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+	$securityContext = $this->container->get('security.context');
+	$query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
             LEFT JOIN user.followers follower WHERE follower.id = :brandUserId ORDER BY user.followersCount DESC')
-            ->setParameter('brandUserId', $brand->getAdmin() ? $brand->getAdmin()->getId() : 0)
+	    ->setParameters(array(
+		'brandUserId' => $brand->getAdmin() ? $brand->getAdmin()->getId() : 0,
+		'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
+	    ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 
@@ -356,7 +370,9 @@ class BrandsController extends FosRestController
         $count = count($paginator);
         if ($count > 0) {
             $users = array();
-            foreach($paginator as $user) {
+	    foreach ($paginator as $entry) {
+		$user = $entry[0];
+		$user->setFollowed($entry['followed'] > 0 ? true : false);
                 $users[] = $user;
             }
 
