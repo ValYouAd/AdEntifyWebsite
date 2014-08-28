@@ -70,7 +70,7 @@ class UsersController extends FosRestController
 
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
-            $lastPhoto = $em->createQuery('SELECT photo
+            $photos = $em->createQuery('SELECT photo
                                            FROM AdEntifyCoreBundle:Photo photo
                                            WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
                                            ORDER BY photo.createdAt DESC')
@@ -79,10 +79,17 @@ class UsersController extends FosRestController
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
                     ':userId' => $user->getId(),
                 ))
-                ->setMaxResults(1)
-                ->getOneOrNullResult();
+                ->getResult();
 
+            if (!empty($photos)) {
+                $lastPhoto = $photos[0];
+                $randomPhoto = $photos[rand(0, count($photos) - 1)];
+            } else {
+                $lastPhoto = null;
+                $randomPhoto = null;
+            }
             $user->setLastPhoto($lastPhoto);
+            $user->setRandomPhoto($randomPhoto);
             return $user;
         } else
             throw new HttpException(404);

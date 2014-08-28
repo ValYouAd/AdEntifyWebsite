@@ -334,6 +334,11 @@ class Brand
      */
     private $lastPhoto;
 
+    /**
+     * @Serializer\Groups({"details"})
+     */
+    private $randomPhoto;
+
     public function __construct()
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1028,5 +1033,21 @@ class Brand
     public function getLastPhoto()
     {
         return $this->lastPhoto;
+    }
+
+    /**
+     * @param mixed $randomPhoto
+     */
+    public function setRandomPhoto($randomPhoto)
+    {
+        $this->randomPhoto = $randomPhoto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRandomPhoto()
+    {
+        return $this->randomPhoto;
     }
 }
