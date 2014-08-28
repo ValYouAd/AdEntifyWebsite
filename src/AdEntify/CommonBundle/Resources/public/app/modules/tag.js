@@ -112,7 +112,7 @@ define([
                      'waiting_validation' : status
                   },
                   success: function(data) {
-                     if (data == 'granted') {
+                     if (data.validation_status == 'granted') {
                         that.set('cssClass', '');
                         that.set('waiting_validation', false);
                         that.set('validation_status', 'granted');
