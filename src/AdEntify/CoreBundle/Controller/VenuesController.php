@@ -111,7 +111,7 @@ class VenuesController extends FosRestController
 
         $venue = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Venue')->find($id);
         if ($venue) {
-            $photos = $em->createQuery('SELECT photo
+            $lastPhoto = $em->createQuery('SELECT photo
                                            FROM AdEntifyCoreBundle:Photo photo
                                            LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.venue venue
                                            WHERE venue.id = :venueId AND photo.status = :status AND photo.deletedAt IS NULL
@@ -128,17 +128,33 @@ class VenuesController extends FosRestController
                     ':followedBrands' => $followedBrands,
                     ':venueId' => $venue->getId(),
                 ))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $venue->setLastPhoto($lastPhoto);
+
+            $count = $em->createQuery('SELECT COUNT(photo)
+                                       FROM AdEntifyCoreBundle:Photo photo
+                                       LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.venue venue
+                                       WHERE venue.id = :venueId AND photo.status = :status AND photo.deletedAt IS NULL
+                                          AND (photo.visibilityScope = :visibilityScope
+                                            OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                            OR owner.id IN (:followings)
+                                            OR brand.id IN (:followedBrands))
+                                       ORDER BY photo.id DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':venueId' => $venue->getId(),
+                ))
                 ->getResult();
 
-            if (!empty($photos)) {
-                $lastPhoto = $photos[0];
-                $randomPhoto = $photos[rand(0, count($photos) - 1)];
-            } else {
-                $lastPhoto = null;
-                $randomPhoto = null;
-            }
-            $venue->setLastPhoto($lastPhoto);
-            $venue->setRandomPhoto($randomPhoto);
+            echo $count;die;
+//            $randomPhoto = $em->createQuery();
+//            $venue->setRandomPhoto($randomPhoto);
             return $venue;
         } else
             throw new HttpException(404);
