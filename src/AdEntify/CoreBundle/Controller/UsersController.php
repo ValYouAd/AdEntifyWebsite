@@ -40,6 +40,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\UserBundle\Model\UserInterface;
+
 
 /**
  * Class UsersController
@@ -550,6 +552,45 @@ class UsersController extends FosRestController
         } else {
             throw new HttpException(401);
         }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="POST Send mail to reset a password",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User",
+     * )
+     *
+     * @View(serializerGroups={"details"})
+     *
+     */
+    public function postResetPasswordAction(Request $request)
+    {
+        $username = $request->request->get('username');
+
+        /** @var $user UserInterface */
+        $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
+
+        if (null === $user) {
+            throw new HttpException(404);
+        }
+
+        if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
+            throw new HttpException(403);
+        }
+
+        if (null === $user->getConfirmationToken()) {
+            /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
+            $tokenGenerator = $this->container->get('fos_user.util.token_generator');
+            $user->setConfirmationToken($tokenGenerator->generateToken());
+        }
+
+        $this->container->get('fos_user.mailer')->sendResettingEmailMessage($user);
+        $user->setPasswordRequestedAt(new \DateTime());
+        $this->container->get('fos_user.user_manager')->updateUser($user);
+
+        return $user;
     }
 
     /**
