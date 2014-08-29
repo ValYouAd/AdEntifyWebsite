@@ -133,7 +133,7 @@ class VenuesController extends FosRestController
 
             $venue->setLastPhoto($lastPhoto);
 
-            $count = $em->createQuery('SELECT COUNT(photo)
+            $count = $em->createQuery('SELECT COUNT(DISTINCT photo)
                                        FROM AdEntifyCoreBundle:Photo photo
                                        LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.venue venue
                                        WHERE venue.id = :venueId AND photo.status = :status AND photo.deletedAt IS NULL
@@ -141,7 +141,7 @@ class VenuesController extends FosRestController
                                             OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
                                             OR owner.id IN (:followings)
                                             OR brand.id IN (:followedBrands))
-                                       ORDER BY photo.id DESC')
+                                       ')
                 ->setParameters(array(
                     ':status' => Photo::STATUS_READY,
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
@@ -150,11 +150,30 @@ class VenuesController extends FosRestController
                     ':followedBrands' => $followedBrands,
                     ':venueId' => $venue->getId(),
                 ))
-                ->getResult();
+                ->getSingleScalarResult();
 
-            echo $count;die;
-//            $randomPhoto = $em->createQuery();
-//            $venue->setRandomPhoto($randomPhoto);
+            $randomPhoto = $em->createQuery('SELECT DISTINCT photo
+                                             FROM AdEntifyCoreBundle:Photo photo
+                                             LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.venue venue
+                                             WHERE venue.id = :venueId AND photo.status = :status AND photo.deletedAt IS NULL
+                                                AND (photo.visibilityScope = :visibilityScope
+                                                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                                  OR owner.id IN (:followings)
+                                                  OR brand.id IN (:followedBrands))
+                                             ')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':venueId' => $venue->getId(),
+                ))
+                ->setFirstResult(rand(0, $count - 1))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $venue->setRandomPhoto($randomPhoto);
             return $venue;
         } else
             throw new HttpException(404);

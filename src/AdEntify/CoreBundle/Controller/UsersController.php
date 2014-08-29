@@ -70,7 +70,7 @@ class UsersController extends FosRestController
 
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
         if ($user) {
-            $photos = $em->createQuery('SELECT photo
+            $lastPhoto = $em->createQuery('SELECT photo
                                            FROM AdEntifyCoreBundle:Photo photo
                                            WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
                                            ORDER BY photo.createdAt DESC')
@@ -79,16 +79,35 @@ class UsersController extends FosRestController
                     ':visibilityScope' => Photo::SCOPE_PUBLIC,
                     ':userId' => $user->getId(),
                 ))
-                ->getResult();
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
 
-            if (!empty($photos)) {
-                $lastPhoto = $photos[0];
-                $randomPhoto = $photos[rand(0, count($photos) - 1)];
-            } else {
-                $lastPhoto = null;
-                $randomPhoto = null;
-            }
             $user->setLastPhoto($lastPhoto);
+
+            $count = $em->createQuery('SELECT COUNT(DISTINCT photo)
+                                       FROM AdEntifyCoreBundle:Photo photo
+                                       WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
+                                       ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':userId' => $user->getId(),
+                ))
+                ->getSingleScalarResult();
+
+            $randomPhoto = $em->createQuery('SELECT DISTINCT photo
+                                             FROM AdEntifyCoreBundle:Photo photo
+                                             WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
+                                             ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':userId' => $user->getId(),
+                ))
+                ->setFirstResult(rand(0, $count - 1))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
             $user->setRandomPhoto($randomPhoto);
             return $user;
         } else

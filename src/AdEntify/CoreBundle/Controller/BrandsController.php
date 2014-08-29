@@ -139,7 +139,7 @@ class BrandsController extends FosRestController
             'validated' => true
         ));
         if ($brand) {
-            $photos = $em->createQuery('SELECT photo
+            $lastPhoto = $em->createQuery('SELECT photo
                                            FROM AdEntifyCoreBundle:Photo photo
                                            LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand
                                            WHERE brand.id = :brandId AND photo.status = :status AND photo.deletedAt IS NULL
@@ -156,16 +156,51 @@ class BrandsController extends FosRestController
                     ':followedBrands' => $followedBrands,
                     ':brandId' => $brand->getId(),
                 ))
-                ->getResult();
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
 
-            if (!empty($photos)) {
-                $lastPhoto = $photos[0];
-                $randomPhoto = $photos[rand(0, count($photos) - 1)];
-            } else {
-                $lastPhoto = null;
-                $randomPhoto = null;
-            }
             $brand->setLastPhoto($lastPhoto);
+
+            $count = $em->createQuery('SELECT COUNT(DISTINCT photo)
+                                       FROM AdEntifyCoreBundle:Photo photo
+                                       LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand
+                                       WHERE brand.id = :brandId AND photo.status = :status AND photo.deletedAt IS NULL
+                                          AND (photo.visibilityScope = :visibilityScope
+                                            OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                            OR owner.id IN (:followings)
+                                            OR brand.id IN (:followedBrands))
+                                       ')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':brandId' => $brand->getId(),
+                ))
+                ->getSingleScalarResult();
+
+            $randomPhoto = $em->createQuery('SELECT DISTINCT photo
+                                             FROM AdEntifyCoreBundle:Photo photo
+                                             LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand
+                                             WHERE brand.id = :brandId AND photo.status = :status AND photo.deletedAt IS NULL
+                                                AND (photo.visibilityScope = :visibilityScope
+                                                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                                  OR owner.id IN (:followings)
+                                                  OR brand.id IN (:followedBrands))
+                                             ')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':brandId' => $brand->getId(),
+                ))
+                ->setFirstResult(rand(0, $count - 1))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
             $brand->setRandomPhoto($randomPhoto);
             return $brand;
         } else
