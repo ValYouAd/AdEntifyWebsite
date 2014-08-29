@@ -83,6 +83,32 @@ class UsersController extends FosRestController
                 ->getOneOrNullResult();
 
             $user->setLastPhoto($lastPhoto);
+
+            $count = $em->createQuery('SELECT COUNT(DISTINCT photo)
+                                       FROM AdEntifyCoreBundle:Photo photo
+                                       WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
+                                       ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':userId' => $user->getId(),
+                ))
+                ->getSingleScalarResult();
+
+            $randomPhoto = $em->createQuery('SELECT DISTINCT photo
+                                             FROM AdEntifyCoreBundle:Photo photo
+                                             WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
+                                             ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':userId' => $user->getId(),
+                ))
+                ->setFirstResult(rand(0, $count - 1))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $user->setRandomPhoto($randomPhoto);
             return $user;
         } else
             throw new HttpException(404);

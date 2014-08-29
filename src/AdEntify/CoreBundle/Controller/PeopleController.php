@@ -125,6 +125,48 @@ class PeopleController extends FosRestController
                 ->getOneOrNullResult();
 
             $person->setLastPhoto($lastPhoto);
+
+            $count = $em->createQuery('SELECT COUNT(DISTINCT photo)
+                                       FROM AdEntifyCoreBundle:Photo photo
+                                       LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.person person
+                                       WHERE person.id = :personId AND photo.status = :status AND photo.deletedAt IS NULL
+                                          AND (photo.visibilityScope = :visibilityScope
+                                            OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                            OR owner.id IN (:followings)
+                                            OR brand.id IN (:followedBrands))
+                                       ')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':personId' => $person->getId(),
+                ))
+                ->getSingleScalarResult();
+
+            $randomPhoto = $em->createQuery('SELECT DISTINCT photo
+                                             FROM AdEntifyCoreBundle:Photo photo
+                                             LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand LEFT JOIN tag.person person
+                                             WHERE person.id = :personId AND photo.status = :status AND photo.deletedAt IS NULL
+                                                AND (photo.visibilityScope = :visibilityScope
+                                                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                                  OR owner.id IN (:followings)
+                                                  OR brand.id IN (:followedBrands))
+                                             ')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':personId' => $person->getId(),
+                ))
+                ->setFirstResult(rand(0, $count - 1))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $person->setRandomPhoto($randomPhoto);
             return $person;
         } else
             throw new HttpException(404);

@@ -389,6 +389,11 @@ class User extends BaseUser
      */
     private $lastPhoto;
 
+    /**
+     * @Serializer\Groups({"details"})
+     */
+    private $randomPhoto;
+
     public function __construct()
     {
         parent::__construct();
@@ -1311,5 +1316,21 @@ class User extends BaseUser
     public function getLastPhoto()
     {
         return $this->lastPhoto;
+    }
+
+    /**
+     * @param mixed $randomPhoto
+     */
+    public function setRandomPhoto($randomPhoto)
+    {
+        $this->randomPhoto = $randomPhoto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRandomPhoto()
+    {
+        return $this->randomPhoto;
     }
 }
