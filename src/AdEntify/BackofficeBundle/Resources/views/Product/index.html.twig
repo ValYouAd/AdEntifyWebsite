@@ -1,0 +1,47 @@
+{% extends '::base.admin.html.twig' %}
+
+{% for entity in entities %}
+    {% form_theme delete_forms[entity.id] 'AdEntifyBackofficeBundle:Common:fields.html.twig' %}
+{% endfor %}
+
+{% block body -%}
+    <h1>{{ 'Products list'|trans }}</h1>
+
+    <ul class="list-unstyled">
+        <li>
+            <a class="btn btn-success" href="{{ path('product_new') }}">
+                <i class="icon icon-plus icon-white"></i> {{ 'Create a new entry'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>{{ 'Name'|trans }}</th>
+            <th>{{ 'Description'|trans }}</th>
+            <th>{{ 'Actions'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('product_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.description|length > 200 ? entity.description|slice(0, 200) ~ ' ...' : entity.description }}</td>
+                <td style="width: 200px">
+                    <div>
+                        <a class="btn btn-default" href="{{ path('product_show', { 'id': entity.id }) }}">{{ 'show'|trans }}</a>
+                        <a class="btn btn-primary" href="{{ path('product_edit', { 'id': entity.id }) }}">{{ 'edit'|trans }}</a>
+                        {{ form(delete_forms[entity.id], { 'attr': {'style': 'display:inline'} }) }}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'AdEntifyBackofficeBundle:Common:pagination.html.twig' with {'count': count, 'pageLimit': pageLimit, route: 'product'} %}
+
+{% endblock %}
