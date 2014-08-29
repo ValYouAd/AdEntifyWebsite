@@ -585,7 +585,7 @@ class UsersController extends FosRestController
      *  resource=true,
      *  description="POST Send mail to reset a password",
      *  output="AdEntify\CoreBundle\Entity\User",
-     *  section="User",
+     *  section="User"
      * )
      *
      * @View(serializerGroups={"details"})
@@ -607,7 +607,6 @@ class UsersController extends FosRestController
         }
 
         if (null === $user->getConfirmationToken()) {
-            /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
             $tokenGenerator = $this->container->get('fos_user.util.token_generator');
             $user->setConfirmationToken($tokenGenerator->generateToken());
         }
