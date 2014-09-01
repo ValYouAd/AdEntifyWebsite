@@ -21,6 +21,7 @@ Tags count: Nb tags
 Venues count: Nb lieux
 CPT: CPT
 Actions: Actions
+Descritption: Description
 
 #Categories
 Category list: Liste des catégories
@@ -51,3 +52,9 @@ cgu:
     legalsNotice: Mentions légales
     language: Langage
     End-user license agreement list: Conditions générales d'utilisation
+
+product:
+    edit: Éditer un produit
+    list: Liste des produits
+    creation: Création d'un nouveau produit
+    show: Produit

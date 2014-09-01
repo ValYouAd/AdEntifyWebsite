@@ -3,7 +3,7 @@
 {% block body -%}
     <div>
         <h1>
-            <a>{{ 'Product'|trans }} #{{ entity.id }}</a>
+            <a>{{ 'product.show'|trans }} #{{ entity.id }}</a>
             <span class="pull-right">
                 <a class="btn btn-default" href="{{ path ('product') ~ '/' ~ page}}">{{ 'Back to the list'|trans }}</a>
                 <a class="btn btn-primary" href="{{ path('product_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans }}</a>
@@ -17,55 +17,55 @@
     <table class="table table-striped">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>{{ 'Id'|trans }}</th>
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>{{ 'Name'|trans }}</th>
                 <td>{{ entity.name }}</td>
             </tr>
             <tr>
-                <th>Description</th>
+                <th>{{ 'Description'|trans }}</th>
                 <td>{{ entity.description }}</td>
             </tr>
             <tr>
-                <th>Createdat</th>
+                <th>{{ 'Createdat'|trans }}</th>
                 <td>{{ entity.createdAt|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
-                <th>Tagscount</th>
+                <th>{{ 'Tagscount'|trans }}</th>
                 <td>{{ entity.tagsCount }}</td>
             </tr>
             <tr>
-                <th>Purchaseurl</th>
+                <th>{{ 'Purchaseurl'|trans }}</th>
                 <td>{{ entity.purchaseUrl }}</td>
             </tr>
             <tr>
-                <th>Mediumurl</th>
+                <th>{{ 'Mediumurl' }}</th>
                 <td>{{ entity.mediumUrl }}</td>
             </tr>
             <tr>
-                <th>Smallurl</th>
+                <th>{{ 'Smallurl'|trans }}</th>
                 <td>{{ entity.smallUrl }}</td>
             </tr>
             <tr>
-                <th>Originalurl</th>
+                <th>{{ 'Originalurl'|trans }}</th>
                 <td>{{ entity.originalUrl }}</td>
             </tr>
             <tr>
-                <th>Minage</th>
+                <th>{{ 'Minage'|trans }}</th>
                 <td>{{ entity.minAge }}</td>
             </tr>
             <tr>
-                <th>Legalnotice</th>
+                <th>{{ 'Legalnotice' }}</th>
                 <td>{{ entity.legalNotice }}</td>
             </tr>
             <tr>
-                <th>Costpertag</th>
+                <th>{{ 'Costpertag'|trans }}</th>
                 <td>{{ entity.costPerTag }}</td>
             </tr>
             <tr>
-                <th>Adentifyfees</th>
+                <th>{{ 'Adentifyfees'|trans }}</th>
                 <td>{{ entity.adentifyFees }}</td>
             </tr>
         </tbody>

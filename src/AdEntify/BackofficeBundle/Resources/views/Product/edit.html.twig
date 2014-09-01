@@ -6,7 +6,7 @@
     {{ form_row(edit_form._token) }}
     <h1>
         <i class="glyphicon glyphicon-edit"></i>
-        <a>{{ 'Product edit'|trans }} #{{ entity.id }}</a>
+        <a>{{ 'product.edit'|trans }} #{{ entity.id }}</a>
         <span class="pull-right">
             <a class="btn btn-default" href="{{ path ('product') ~ '/' ~ page}}">{{ 'Back to the list'|trans }}</a>
             {{ form_widget(edit_form.submit) }}

@@ -4,7 +4,7 @@
     {{ form_start(form) }}
     {{ form_row(form._token) }}
     <h1>
-        {{ 'Product creation'|trans }}
+        {{ 'product.creation'|trans }}
         <span class="pull-right">
             <a class="btn btn-default" href="{{ path ('product') ~ '/' ~ page}}">{{ 'Back to the list'|trans }}</a>
             {{ form_widget(form.submit) }}
