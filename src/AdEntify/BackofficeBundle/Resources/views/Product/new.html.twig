@@ -1,15 +1,14 @@
-{% extends '::base.html.twig' %}
+{% extends '::base.admin.html.twig' %}
 
 {% block body -%}
-    <h1>Product creation</h1>
-
-    {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('product') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+    <h1>
+        {{ 'Product creation'|trans }}
+        <span class="pull-right">
+            <a class="btn btn-default" href="{{ path ('product') ~ '/' ~ page}}">{{ 'Back to the list'|trans }}</a>
+            {{ form_widget(form.submit) }}
+        </span>
+    </h1>
+    {{ form_rest(form) }}
 {% endblock %}

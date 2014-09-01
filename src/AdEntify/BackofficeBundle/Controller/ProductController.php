@@ -46,6 +46,8 @@ class ProductController extends Controller
             $delete_forms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
         }
 
+        $this->get('session')->set('page', $page);
+
         return array(
             'entities' => $paginator,
             'count' => $c,
@@ -114,13 +116,14 @@ class ProductController extends Controller
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'page'        => $this->get('session')->get('page'),
         );
     }
 
     /**
      * Finds and displays a Product entity.
      *
-     * @Route("/{id}", name="product_show")
+     * @Route("/details/{id}", name="product_show")
      * @Method("GET")
      * @Template()
      */
@@ -139,6 +142,7 @@ class ProductController extends Controller
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'page'        => $this->get('session')->get('page'),
         );
     }
 
@@ -166,6 +170,7 @@ class ProductController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'page'        => $this->get('session')->get('page'),
         );
     }
 
@@ -242,8 +247,7 @@ class ProductController extends Controller
             $em->remove($entity);
             $em->flush();
         }
-
-        return $this->redirect($this->generateUrl('product'));
+        return $this->redirect($this->generateUrl('product') . "/" . $this->get('session')->get('page'));
     }
 
     /**
@@ -258,7 +262,7 @@ class ProductController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('product_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
+            ->add('delete', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
             ->getForm()
         ;
     }
