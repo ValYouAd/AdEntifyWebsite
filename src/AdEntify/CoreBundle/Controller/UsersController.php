@@ -21,7 +21,12 @@ use AdEntify\CoreBundle\Form\VenueType;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
+use FOS\UserBundle\FOSUserEvents;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -1220,6 +1225,70 @@ class UsersController extends FosRestController
     }
 
     /**
+     * @View()
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Register a new user",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
+     * @param Request $request
+     */
+    public function postRegisterAction(Request $request) {
+        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
+        $formFactory = $this->container->get('fos_user.registration.form.factory');
+        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+        $userManager = $this->container->get('fos_user.user_manager');
+        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+        $dispatcher = $this->container->get('event_dispatcher');
+
+        $user = $userManager->createUser();
+        $user->setEnabled(true);
+
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
+        $form = $formFactory->createForm();
+        $form->setData($user);
+
+        if ('POST' === $request->getMethod()) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $event = new FormEvent($form, $request);
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+
+                $userManager->updateUser($user);
+
+                if (null === $response = $event->getResponse()) {
+                    $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
+                    $response = new RedirectResponse($url);
+                }
+
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+
+                return $user;
+            } else {
+                $errors = $this->getErrorsAsArray($form);
+                return array(
+                    'success' => false,
+                    'errors' => $errors
+                );
+            }
+        }
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
      * @View(serializerGroups={"details"})
      */
     public function postIntroPlayedAction()
@@ -1260,6 +1329,23 @@ class UsersController extends FosRestController
         } else {
             throw new HttpException(401);
         }
+    }
+
+    private function getErrorsAsArray(\Symfony\Component\Form\Form $form)
+    {
+        $errors = array();
+
+        foreach ($form->getErrors() as $error) {
+            $errors[] = $error->getMessage();
+        }
+
+        foreach ($form->all() as $child) {
+            if ($err = $this->getErrorsAsArray($child)) {
+                $errors = array_merge($errors, $err);
+            }
+        }
+
+        return $errors;
     }
 
     private function formatCredit(TagPoint $tagPoint = null, TagIncome $tagIncome = null)
