@@ -12,3 +12,7 @@ error:
     commonPageTitle: 'An unknown error occured'
     commonHeading: 'Unknown error'
     commonContent: 'Oops, we can''t get the page you requested right now, an unknown error occured, please try again or contact us.'
+    person:
+        invalidTag: The person tag is invalid, please try again.
+    venue:
+        invalidTag: The venue tag is invalid, please try again.

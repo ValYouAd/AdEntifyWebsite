@@ -192,14 +192,21 @@ define([
 
    Comment.Common = {
       hasRoleTeam: function() {
-         var currentUser = app.appState().getCurrentUser();
-         var roles = ['ROLE_TEAM', 'ROLE_SUPER_ADMIN', 'ROLE_ADMIN'];
-         var found = false;
-         _.each(roles, function(role) {
-            if (!found)
-               found = $.inArray(role, currentUser.roles) != -1 ? true : false;
-         });
-         return found;
+         if (app.appState().isLogged()) {
+            var currentUser = app.appState().getCurrentUser();
+            if (!currentUser) {
+               return false;
+            } else {
+               var roles = ['ROLE_TEAM', 'ROLE_SUPER_ADMIN', 'ROLE_ADMIN'];
+               var found = false;
+               _.each(roles, function(role) {
+                  if (!found)
+                     found = $.inArray(role, currentUser.roles) != -1 ? true : false;
+               });
+               return found;
+            }
+         } else
+            return false;
       }
    };
 

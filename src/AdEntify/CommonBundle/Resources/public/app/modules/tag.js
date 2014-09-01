@@ -1259,7 +1259,7 @@ define([
                   currentVenue = null;
                   app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                },
-               error: function() {
+               error: function(error) {
                   $submit.button('reset');
                   that.setView('.alert-venue', new Common.Views.Alert({
                      cssClass: Common.alertError,
