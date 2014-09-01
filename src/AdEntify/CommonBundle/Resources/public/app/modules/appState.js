@@ -11,6 +11,7 @@ define([
       },
 
       setCurrentUser: function(user) {
+         this.trigger('current:user:updated');
          this.set('user', user);
       },
 

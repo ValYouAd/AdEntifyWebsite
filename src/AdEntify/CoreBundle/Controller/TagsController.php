@@ -16,6 +16,7 @@ use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
+use AdEntify\CoreBundle\Util\TagValidator;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use AdEntify\CoreBundle\Validator\AgeValidator;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -160,6 +161,13 @@ class TagsController extends FosRestController
             $form = $this->getForm($tag);
             $form->handleRequest($request);
             if ($form->isValid()) {
+                // Check tag data
+                $tagValidation = TagValidator::isValidTag($tag);
+                if (!empty($tagValidation)) {
+                    $form->addError(new FormError($tagValidation));
+                    return $form;
+                }
+
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
                 $tag->setOwner($user);

@@ -584,11 +584,7 @@ class UsersController extends FosRestController
      *  resource=true,
      *  description="POST Send mail to reset a password",
      *  output="AdEntify\CoreBundle\Entity\User",
-<<<<<<< HEAD
      *  section="User"
-=======
-     *  section="User",
->>>>>>> #30-endpoint-error-Update-tag-validation-status
      * )
      *
      * @View(serializerGroups={"details"})

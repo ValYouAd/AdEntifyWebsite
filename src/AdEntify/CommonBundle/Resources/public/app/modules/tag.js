@@ -1245,7 +1245,7 @@ define([
          currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
          // Set tag info
          currentTag.set('type', 'place');
-         currentTag.set('venue', venue.get('id'));
+         //currentTag.set('venue', venue.get('id'));
          currentTag.set('title', venue.get('name'));
          currentTag.set('description', venue.get('description'));
          currentTag.set('link', venue.get('link'));

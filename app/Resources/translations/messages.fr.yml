@@ -12,3 +12,7 @@ error:
     commonPageTitle: 'Une erreur inconnue est survenue'
     commonHeading: 'Une erreur inconnue est survenue'
     commonContent: 'Nous ne pouvons pas afficher cette page pour le moment suite à une erreur inconnue, veuillez réessayer dans quelques instants ou nous contacter.'
+    person:
+        invalidTag: Le tag personne est invalide, veuillez réesayer s'il vous plaît.
+    venue:
+        invalidTag: Le tag lieu est invalide, veuillez réesayer s'il vous plaît.
