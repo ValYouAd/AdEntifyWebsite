@@ -42,7 +42,6 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\UserBundle\Model\UserInterface;
 
-
 /**
  * Class UsersController
  * @package AdEntify\CoreBundle\Controller
@@ -585,7 +584,11 @@ class UsersController extends FosRestController
      *  resource=true,
      *  description="POST Send mail to reset a password",
      *  output="AdEntify\CoreBundle\Entity\User",
+<<<<<<< HEAD
      *  section="User"
+=======
+     *  section="User",
+>>>>>>> #30-endpoint-error-Update-tag-validation-status
      * )
      *
      * @View(serializerGroups={"details"})
@@ -607,6 +610,7 @@ class UsersController extends FosRestController
         }
 
         if (null === $user->getConfirmationToken()) {
+            /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
             $tokenGenerator = $this->container->get('fos_user.util.token_generator');
             $user->setConfirmationToken($tokenGenerator->generateToken());
         }
@@ -639,30 +643,30 @@ class UsersController extends FosRestController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
-	$securityContext = $this->container->get('security.context');
+	    $securityContext = $this->container->get('security.context');
         if ($user) {
-	    $query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
-		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followers follower WHERE follower.id = :userId')
-                ->setParameters(array(
-		    'userId' => $user->getId(),
-		    'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit);
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+            LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
+                LEFT JOIN user.followers follower WHERE follower.id = :userId')
+                    ->setParameters(array(
+                'userId' => $user->getId(),
+                'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
+                    ))
+                    ->setFirstResult(($page - 1) * $limit)
+                    ->setMaxResults($limit);
 
-            $paginator = new Paginator($query, $fetchJoinCollection = true);
-            $count = count($paginator);
+                $paginator = new Paginator($query, $fetchJoinCollection = true);
+                $count = count($paginator);
 
-            $users = null;
-            $pagination = null;
+                $users = null;
+                $pagination = null;
             if ($count > 0) {
                 $users = array();
-		foreach ($paginator as $entry) {
-		    $user = $entry[0];
-		    $user->setFollowed($entry['followed'] > 0 ? true : false);
-                    $users[] = $user;
-		}
+                foreach ($paginator as $entry) {
+                    $user = $entry[0];
+                    $user->setFollowed($entry['followed'] > 0 ? true : false);
+                            $users[] = $user;
+                }
 
                 $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
                     'api_v1_get_user_followings', array(
@@ -696,30 +700,30 @@ class UsersController extends FosRestController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
-	$securityContext = $this->container->get('security.context');
+	    $securityContext = $this->container->get('security.context');
         if ($user) {
-	    $query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
-		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followings following WHERE following.id = :userId')
-                ->setParameters(array(
-		    'userId' => $user->getId(),
-		    'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit);
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+            LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
+                LEFT JOIN user.followings following WHERE following.id = :userId')
+                    ->setParameters(array(
+                'userId' => $user->getId(),
+                'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
+                    ))
+                    ->setFirstResult(($page - 1) * $limit)
+                    ->setMaxResults($limit);
 
-            $paginator = new Paginator($query, $fetchJoinCollection = true);
-            $count = count($paginator);
+                $paginator = new Paginator($query, $fetchJoinCollection = true);
+                $count = count($paginator);
 
-            $users = null;
-            $pagination = null;
+                $users = null;
+                $pagination = null;
             if ($count > 0) {
                 $users = array();
-		foreach ($paginator as $entry) {
-		    $user = $entry[0];
-		    $user->setFollowed($entry['followed'] > 0 ? true : false);
-                    $users[] = $user;
-		}
+                foreach ($paginator as $entry) {
+                    $user = $entry[0];
+                    $user->setFollowed($entry['followed'] > 0 ? true : false);
+                            $users[] = $user;
+                }
 
                 $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
                     'api_v1_get_user_followers', array(
