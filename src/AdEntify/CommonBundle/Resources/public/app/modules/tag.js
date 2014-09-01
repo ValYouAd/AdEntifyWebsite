@@ -1245,7 +1245,7 @@ define([
          currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
          // Set tag info
          currentTag.set('type', 'place');
-         //currentTag.set('venue', venue.get('id'));
+         currentTag.set('venue', venue.get('id'));
          currentTag.set('title', venue.get('name'));
          currentTag.set('description', venue.get('description'));
          currentTag.set('link', venue.get('link'));
@@ -1259,7 +1259,7 @@ define([
                   currentVenue = null;
                   app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
                },
-               error: function() {
+               error: function(error) {
                   $submit.button('reset');
                   that.setView('.alert-venue', new Common.Views.Alert({
                      cssClass: Common.alertError,
