@@ -218,4 +218,59 @@ class CategoriesController extends FosRestController
 
         return PaginationTools::getPaginationArray($photos, $pagination);
     }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Search categories by query",
+     *  output="AdEntify\CoreBundle\Entity\Category",
+     *  section="Category"
+     * )
+     *
+     * @param $query
+     * @param int $limit
+     *
+     * @QueryParam(name="query")
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="locale", default="en")
+     * @View(serializerGroups={"list"})
+     */
+    public function getSearchAction($query, $page = 1, $limit = 10, $locale = 'en')
+    {
+        if (empty($query))
+            return null;
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->createQuery('SELECT category FROM AdEntify\CoreBundle\Entity\Category category
+              WHERE category.name LIKE :query')
+            ->setParameters(array(
+                ':query' => '%'.$query.'%'
+            ))
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $locale)
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = false);
+        $count = count($paginator);
+
+        $results = null;
+        $pagination = null;
+        if ($count > 0) {
+            $results = array();
+            foreach($paginator as $item) {
+                $results[] = $item;
+            }
+
+            $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_category_search', array(
+                'query' => $query,
+                'limit' => $limit
+            ));
+        }
+
+        return PaginationTools::getPaginationArray($results, $pagination);
+    }
 }
