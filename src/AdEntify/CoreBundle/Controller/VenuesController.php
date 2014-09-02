@@ -262,13 +262,13 @@ class VenuesController extends FosRestController
      *
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", default="30")
+     * @QueryParam(name="limit", default="50")
      * @QueryParam(name="ll", default="", description="Latitude and longitude of the user's location. Example : 44.3,37.2. If it's not specified, globally search.")
      * @QueryParam(name="radius", default="10000", description="Limit results to venues within this many meters of the specified location. Maximum 100,000 meters")
      * @QueryParam(name="foursquareEnabled", default="true", description="Activate foursquare search")
      * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $page, $limit, $ll, $radius, $foursquareEnabled = true)
+    public function getSearchAction($query, $page, $limit = 50, $ll, $radius, $foursquareEnabled = true)
     {
         if ($foursquareEnabled) {
             $url = 'https://api.foursquare.com/v2/venues/search';

@@ -286,10 +286,10 @@ class UsersController extends FosRestController
      *
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $page = 1, $limit = 10)
+    public function getSearchAction($query, $page = 1, $limit = 50)
     {
         $em = $this->getDoctrine()->getManager();
         $securityContext = $this->container->get('security.context');
@@ -638,10 +638,10 @@ class UsersController extends FosRestController
      * @View(serializerGroups={"details"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="5")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      */
-    public function getFollowingsAction($id, $page = 1, $limit = 5)
+    public function getFollowingsAction($id, $page = 1, $limit = 50)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
@@ -695,10 +695,10 @@ class UsersController extends FosRestController
      * @View(serializerGroups={"details"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="5")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      */
-    public function getFollowersAction($id, $page = 1, $limit = 5)
+    public function getFollowersAction($id, $page = 1, $limit = 50)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);

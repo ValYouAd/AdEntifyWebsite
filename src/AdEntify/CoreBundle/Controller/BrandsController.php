@@ -290,11 +290,11 @@ class BrandsController extends FosRestController
      *
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $page, $limit)
+    public function getSearchAction($query, $page, $limit = 50)
     {
         if (empty($query)) {
             throw new HttpException(500);
@@ -333,14 +333,14 @@ class BrandsController extends FosRestController
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      * @param $slug
      * @param $page
      * @param $limit
      * @return mixed
      */
-    public function getFollowersAction($slug, $page = 1, $limit = 10)
+    public function getFollowersAction($slug, $page = 1, $limit = 50)
     {
 	$securityContext = $this->container->get('security.context');
 	$query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
@@ -384,14 +384,14 @@ class BrandsController extends FosRestController
      * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      * @param $slug
      * @param $page
      * @param $limit
      * @return mixed
      */
-    public function getFollowingsAction($slug, $page = 1, $limit = 10)
+    public function getFollowingsAction($slug, $page = 1, $limit = 50)
     {
         $brand = $this->getAction($slug);
         if (!$brand)
