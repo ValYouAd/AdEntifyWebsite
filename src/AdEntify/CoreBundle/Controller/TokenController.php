@@ -92,8 +92,8 @@ class TokenController extends FosRestController
         $params = array(
             "client_id" => $oAuthClient->getPublicId(),
             "client_secret" => $oAuthClient->getSecret(),
-            "grant_type" => $this->container->getParameter('facebook_grant_extension_uri'),
-            "facebook_access_token" => $this->getRequest()->request->get('twitter_access_token')
+            "grant_type" => $this->container->getParameter('twitter_grant_extension_uri'),
+            "twitter_access_token" => $this->getRequest()->request->get('twitter_access_token')
         );
         $result = CommonTools::postUrl($url, $params);
         $tokens = !empty($result) ? json_decode($result) : null;
