@@ -11,17 +11,23 @@ namespace AdEntify\CoreBundle\OAuth;
 use AdEntify\CoreBundle\Util\CommonTools;
 use FOS\OAuthServerBundle\Storage\GrantExtensionInterface;
 use FOS\UserBundle\Doctrine\UserManager;
+use HWI\Bundle\OAuthBundle\Security\OAuthUtils;
 use OAuth2\Model\IOAuth2Client;
+use Buzz\Message\RequestInterface as HttpRequestInterface;
 
 class TwitterGrantExtension implements GrantExtensionInterface
 {
     protected $userManager = null;
-    protected $facebookSdk = null;
+    protected $ownerMap = null;
+    protected $clientId = null;
+    protected $clientSecret = null;
 
-    public function __construct(UserManager $userManager, \BaseFacebook $facebookSdk)
+    public function __construct(UserManager $userManager, $ownerMap, $clientId, $clientSecret)
     {
         $this->userManager = $userManager;
-        $this->facebookSdk = $facebookSdk;
+        $this->ownerMap = $ownerMap;
+        $this->clientId = $clientId;
+        $this->clientSecret = $clientSecret;
     }
 
     /**
@@ -32,6 +38,32 @@ class TwitterGrantExtension implements GrantExtensionInterface
         if (!isset($inputData['twitter_access_token'])) {
             return false;
         }
+
+        $resourceOwner = $this->ownerMap->getResourceOwnerByName('twitter');
+
+        $parameters = array_merge(array(
+            'oauth_consumer_key'     => $this->clientId,
+            'oauth_timestamp'        => time(),
+            'oauth_nonce'            => $this->generateNonce(),
+            'oauth_version'          => '1.0',
+            'oauth_signature_method' => $this->options['signature_method'],
+            'oauth_token'            => $requestToken['oauth_token'],
+            'oauth_verifier'         => $request->query->get('oauth_verifier'),
+        ), $extraParameters);
+
+        $url = $this->options['access_token_url'];
+        $parameters['oauth_signature'] = OAuthUtils::signRequest(
+            HttpRequestInterface::METHOD_POST,
+            $url,
+            $parameters,
+            $this->clientSecret,
+            $requestToken['oauth_token_secret'],
+            $this->options['signature_method']
+        );
+
+
+        $userInformation = $resourceOwner->getUserInformation($accessToken);
+
 
         $this->facebookSdk->setAccessToken($inputData['twitter_access_token']);
         try {
@@ -44,7 +76,7 @@ class TwitterGrantExtension implements GrantExtensionInterface
 
             // Check if a user match in AdEntify database with the facebook id
             $user = $this->userManager->findUserBy(array(
-                'facebookId' => $fbData['id'],
+                'twitterId' => $fbData['id'],
             ));
 
             // If no user found, register a new user and grant token

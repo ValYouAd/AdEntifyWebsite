@@ -575,7 +575,7 @@ class UsersController extends FosRestController
                     $this->container->get('fos_user.user_manager')->updateUser($user);
                     return $user;
                 } else {
-                    return $form->getErrorsAsString();
+                    return $form;
                 }
             } else
                 throw new HttpException(403);

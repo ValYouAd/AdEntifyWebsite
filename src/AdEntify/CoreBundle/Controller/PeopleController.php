@@ -42,21 +42,6 @@ class PeopleController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get all persons",
-     *  output="AdEntify\CoreBundle\Entity\Person",
-     *  section="Person"
-     * )
-     *
-     * @View(serializerGroups={"list"})
-     */
-    public function cgetAction()
-    {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Person')->findAll();
-    }
-
-    /**
-     * @ApiDoc(
-     *  resource=true,
      *  description="Get a person by id",
      *  output="AdEntify\CoreBundle\Entity\Person",
      *  section="Person"
@@ -251,10 +236,10 @@ class PeopleController extends FosRestController
      * )
      *
      * @QueryParam(name="query")
-     * @QueryParam(name="limit", default="10")
+     * @QueryParam(name="limit", default="50")
      * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $limit)
+    public function getSearchAction($query, $limit = 50)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
