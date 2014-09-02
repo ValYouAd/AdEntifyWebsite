@@ -21,7 +21,7 @@ class TagValidator
      */
     public static function isValidTag(Tag $tag) {
         if (!$tag->getType())
-            return false;
+            return 'error.invalidTagType';
 
         switch($tag->getType()) {
             case Tag::TYPE_BRAND:

@@ -163,7 +163,7 @@ class TagsController extends FosRestController
             if ($form->isValid()) {
                 // Check tag data
                 $tagValidation = TagValidator::isValidTag($tag);
-                if (!empty($tagValidation)) {
+                if ($tagValidation !== true) {
                     $form->addError(new FormError($tagValidation));
                     return $form;
                 }
