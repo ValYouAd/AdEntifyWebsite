@@ -288,7 +288,8 @@ define([
       serialize: function() {
          return {
             model: this.options.photo,
-            pageUrl: this.options.photo.get('link')
+            pageUrl: this.options.photo.get('link'),
+            publishDate: this.options.photo.get('created_at').split("T")[0]
          };
       },
 
