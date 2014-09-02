@@ -57,6 +57,7 @@ class RegistrationListener implements EventSubscriberInterface
         $url = $this->router->generate('loggedInHome', array(
             'accountDisabled' => true
         ));
+
         $event->setResponse(new RedirectResponse($url));
     }
 

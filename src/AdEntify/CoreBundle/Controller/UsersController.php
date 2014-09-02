@@ -22,10 +22,10 @@ use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
 use FOS\UserBundle\FOSUserEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -1273,13 +1273,14 @@ class UsersController extends FosRestController
 
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
-                return $user;
+                $client = $this->container->get('fos_oauth_server.client_manager.default')->findClientBy(array(
+                    'name' => $this->container->getParameter('adentify_oauth_client_name')
+                ));
+                return $this->container
+                    ->get('fos_oauth_server.server')
+                    ->createAccessToken($client, $user);
             } else {
-                $errors = $this->getErrorsAsArray($form);
-                return array(
-                    'success' => false,
-                    'errors' => $errors
-                );
+                return $form;
             }
         }
 
