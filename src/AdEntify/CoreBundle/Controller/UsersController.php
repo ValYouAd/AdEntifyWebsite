@@ -566,6 +566,7 @@ class UsersController extends FosRestController
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
+            $request->setLocale($user->getLocale());
             if ($user->getId() == $id) {
                 $form = $this->createForm(new ChangePasswordFormType('AdEntify\\CoreBundle\\Entity\\User'));
                 $form->handleRequest($request);
@@ -575,7 +576,7 @@ class UsersController extends FosRestController
                     $this->container->get('fos_user.user_manager')->updateUser($user);
                     return $user;
                 } else {
-                    return $form->getErrorsAsString();
+                    return $form;
                 }
             } else
                 throw new HttpException(403);
@@ -1226,6 +1227,7 @@ class UsersController extends FosRestController
 
     /**
      * @View()
+     * @QueryParam(name="locale", default="en")
      *
      * @ApiDoc(
      *  resource=true,
@@ -1236,7 +1238,9 @@ class UsersController extends FosRestController
      *
      * @param Request $request
      */
-    public function postRegisterAction(Request $request) {
+    public function postRegisterAction(Request $request, $locale = 'en') {
+        $request->setLocale($locale);
+
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->container->get('fos_user.registration.form.factory');
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
