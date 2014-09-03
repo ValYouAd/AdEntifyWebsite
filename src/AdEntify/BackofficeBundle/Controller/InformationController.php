@@ -153,7 +153,7 @@ class InformationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AdEntifyCoreBundle:information')->find($id);
+        $entity = $em->getRepository('AdEntifyCoreBundle:Information')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Information entity.');
