@@ -3,9 +3,13 @@
 namespace AdEntify\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Device
+ *
+ * @Serializer\XmlRoot("device")
+ * @Serializer\ExclusionPolicy("none")
  *
  * @ORM\Table(name="devices")
  * @ORM\Entity
@@ -18,6 +22,8 @@ class Device
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details"})
      */
     private $id;
 
@@ -25,20 +31,17 @@ class Device
      * @var string
      *
      * @ORM\Column(name="token", type="string", length=255)
+     *
+     * @Serializer\Groups({"details"})
      */
     private $token;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="platform", type="string", length=255)
+     *
+     * @Serializer\Groups({"details"})
      */
     private $platform;
 
@@ -46,6 +49,8 @@ class Device
      * @var string
      *
      * @ORM\Column(name="operating_system", type="string", length=255)
+     *
+     * @Serializer\Groups({"details"})
      */
     private $operatingSystem;
 
@@ -53,12 +58,14 @@ class Device
      * @var string
      *
      * @ORM\Column(name="app_version", type="string", length=255)
+     *
+     * @Serializer\Groups({"details"})
      */
     private $appVersion;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="devices")
-     * @Serializer\Groups({"details"})
+     * @Serializer\Exclude
      */
     private $owner;
 

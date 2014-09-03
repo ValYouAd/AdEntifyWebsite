@@ -202,6 +202,12 @@ info:
     options:
         expose: true
 
+device:
+    type: rest
+    resource: AdEntify\CoreBundle\Controller\DevicesController
+    options:
+        expose: true
+
 # OAuth
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"

@@ -88,33 +88,31 @@ class CommentsController extends FosRestController
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
+            $comment = new Comment();
+            $form = $this->getForm($comment);
+            $form->bind($request);
+            if ($form->isValid()) {
+                $comment->setAuthor($user);
+
+                // COMMENT Action & notification
+                $sendNotification = $user->getId() != $comment->getPhoto()->getOwner()->getId();
+                $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_COMMENT,
+                    $user, $comment->getPhoto()->getOwner(), array($comment->getPhoto()),
+                    Action::getVisibilityWithPhotoVisibility($comment->getPhoto()->getVisibilityScope()), $comment->getPhoto()->getId(),
+                    $em->getClassMetadata(get_class($comment->getPhoto()))->getName(), $sendNotification, 'memberCommentPhoto');
+
+                $em->persist($comment);
+                $em->flush();
+
+                return $comment;
+            } else {
+                return $form;
+            }
         } else {
             throw new HttpException(401);
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        $comment = new Comment();
-        $form = $this->getForm($comment);
-        $form->bind($request);
-        if ($form->isValid()) {
-            $comment->setAuthor($user);
-
-            // COMMENT Action & notification
-            $sendNotification = $user->getId() != $comment->getPhoto()->getOwner()->getId();
-            $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_COMMENT,
-                $user, $comment->getPhoto()->getOwner(), array($comment->getPhoto()),
-                Action::getVisibilityWithPhotoVisibility($comment->getPhoto()->getVisibilityScope()), $comment->getPhoto()->getId(),
-                $em->getClassMetadata(get_class($comment->getPhoto()))->getName(), $sendNotification, 'memberCommentPhoto');
-
-            $em->persist($comment);
-            $em->flush();
-
-            return $comment;
-        } else {
-            return $form;
         }
     }
 
