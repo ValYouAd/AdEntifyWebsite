@@ -1369,4 +1369,5 @@ class UsersController extends FosRestController
             'income' => $tagIncome ? $tagIncome->getIncome() : 0
         );
     }
+
 }

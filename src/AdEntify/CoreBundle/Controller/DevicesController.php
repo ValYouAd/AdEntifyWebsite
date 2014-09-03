@@ -59,8 +59,19 @@ class DevicesController extends FosRestController
             $form = $this->getForm($device);
             $form->bind($request);
             if ($form->isValid()) {
-                $device->setOwner($this->getUser());
-                $em->persist($device);
+                $existingDevice = $em->getRepository('AdEntifyCoreBundle:Device')->findOneBy(array(
+                   'token' => $device->getToken()
+                ));
+                if ($existingDevice) {
+                    // Update device
+                    $existingDevice->fillFromExisting($device, $this->getUser());
+                    $em->merge($existingDevice);
+                } else {
+                    // Create a new one
+                    $device->setOwner($this->getUser());
+                    $em->persist($device);
+                }
+
                 $em->flush();
 
                 return $device;

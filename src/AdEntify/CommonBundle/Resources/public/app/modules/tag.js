@@ -581,6 +581,8 @@ define([
       afterRender: function() {
          $(this.el).i18n();
 
+         this.$('.btn').button();
+
          // Tabs
          $('.nav-tabs a').click(function (e) {
             e.preventDefault();

@@ -103,29 +103,6 @@ class Device
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     * @return Device
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Set platform
      *
      * @param string $platform
@@ -207,5 +184,18 @@ class Device
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * @param Device $device
+     */
+    public function fillFromExisting(Device $device, User $user)
+    {
+        $this->setAppVersion($device->getAppVersion());
+        $this->setOperatingSystem($device->getOperatingSystem());
+        $this->setPlatform($device->getPlatform());
+        $this->setToken($device->getToken());
+        $this->setOwner($user);
+
     }
 }
