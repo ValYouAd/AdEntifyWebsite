@@ -394,6 +394,12 @@ class User extends BaseUser
      */
     private $randomPhoto;
 
+    /**
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Device", mappedBy="owner", cascade={"remove"})
+     */
+    private $devices;
+
     public function __construct()
     {
         parent::__construct();
@@ -415,6 +421,7 @@ class User extends BaseUser
         $this->tagIncomes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tagPoints = new \Doctrine\Common\Collections\ArrayCollection();
         $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -1332,5 +1339,23 @@ class User extends BaseUser
     public function getRandomPhoto()
     {
         return $this->randomPhoto;
+    }
+
+    public function addDevice(Device $device)
+    {
+        $this->devices[] = $device;
+        $device->setOwner($this);
+        return $this;
+    }
+
+    public function removeDevice(Device $device)
+    {
+        $this->devices->removeElement($device);
+        $device->setOwner(null);
+    }
+
+    public function getDevices()
+    {
+        return $this->devices;
     }
 }
