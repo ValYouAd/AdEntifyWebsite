@@ -208,23 +208,27 @@ class UploadController extends Controller
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             if (isset($_FILES['original_logo_url'])) {
                 $uploadedFile = $_FILES['original_logo_url'];
-                $path = FileTools::getBrandLogoPath();
-                $filename = uniqid().$uploadedFile['name'][0];
-                $file = $this->getRequest()->files->get('original_logo_url');
-                $url = $this->getFileUploader()->upload($file, $path, $filename);
-                if ($url) {
-                    $thumb = new Thumb();
-                    $thumb->setOriginalPath($url);
-                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_SMALLL);
-                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_MEDIUM);
+                if (preg_match('/.+(png|jpe?g|gif)$/i', $uploadedFile['name'])) {
+                    $path = FileTools::getBrandLogoPath();
+                    $filename = uniqid().$uploadedFile['name'][0];
+                    $file = $this->getRequest()->files->get('original_logo_url');
+                    $url = $this->getFileUploader()->upload($file, $path, $filename);
+                    if ($url) {
+                        $thumb = new Thumb();
+                        $thumb->setOriginalPath($url);
+                        $thumb->addThumbSize(FileTools::PHOTO_SIZE_SMALLL);
+                        $thumb->addThumbSize(FileTools::PHOTO_SIZE_MEDIUM);
 
-                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
-                    $thumbs['original'] = $url;
-                    $response = new JsonResponse();
-                    $response->setData($thumbs);
-                    return $response;
+                        $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
+                        $thumbs['original'] = $url;
+                        $response = new JsonResponse();
+                        $response->setData($thumbs);
+                        return $response;
+                    } else {
+                        throw new HttpException(500);
+                    }
                 } else {
-                    throw new HttpException(500);
+                    throw new HttpException(415);
                 }
             } else {
                 throw new NotFoundHttpException('No images to upload.');

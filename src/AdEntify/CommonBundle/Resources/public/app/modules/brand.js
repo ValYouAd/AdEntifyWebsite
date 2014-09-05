@@ -399,17 +399,24 @@ define([
             dataType: 'json',
             done: function (e, data) {
                if (data.result) {
-                  $('#logo-image').html('<img src="' + data.result['photo-small'].filename + '" style="margin: 10px 0px;" class="logo-image" />');
+                  $('#logo-image').html('<img style="display:block; margin-top: 10px" src="' + data.result['photo-small'].filename + '" style="margin: 10px 0px;" class="logo-image" />');
                   that.small_url = data.result['photo-small'].filename;
                   that.medium_url = data.result['photo-medium'].filename;
                   that.original_url = data.result.original;
                } else {
-                  app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                   app.useLayout().setView('.alert-product', new Common.Views.Alert({
                      cssClass: Common.alertError,
                      message: $.t('tag.errorLogoImageUpload'),
                      showClose: true
                   })).render();
                }
+            },
+            error: function () {
+                $('#logo-image').html('<strong class="logo-image-error" style="color:red; margin-left: 10px">Unsupported file type !</strong>');
+                $('.logo-image-error').fadeOut(5000);
+                that.small_url = null;
+                that.medium_url = null;
+                that.original_url = null;
             }
          });
       },
