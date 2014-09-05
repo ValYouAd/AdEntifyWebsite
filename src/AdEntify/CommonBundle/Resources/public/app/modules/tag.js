@@ -728,7 +728,7 @@ define([
             dataType: 'json',
             done: function (e, data) {
                if (data.result) {
-                  $('#product-image').html('<img src="' + data.result['photo-small'].filename + '" style="margin: 10px 0px;" class="product-image" />');
+                  $('#product-image').html('<img style="display: block; margin-left: auto; margin-right: auto; padding-top: 5px" src="' + data.result['photo-small'].filename + '" style="margin: 10px 0px;" class="product-image" />');
                   that.small_url = data.result['photo-small'].filename;
                   that.medium_url = data.result['photo-medium'].filename;
                   that.original_url = data.result.original;
@@ -739,6 +739,13 @@ define([
                      showClose: true
                   })).render();
                }
+            },
+            error: function () {
+                $('#product-image').html('<strong class="product-image-error" style="color:red; margin-left: 10px">Unsupported file type !</strong>');
+                $('.product-image-error').fadeOut(5000);
+                that.small_url = null;
+                that.medium_url = null;
+                that.original_url = null;
             }
          });
 
