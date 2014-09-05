@@ -1,6 +1,6 @@
 <div class="modal-body-wrapper mt2">
     <div class="alert-success-brand"></div>
-    <form role="form">
+    <form role="form" enctype="multipart/form-data">
 
     <div class="alert-add-brand"></div>
 
@@ -54,6 +54,12 @@
 
     <div class="form-group">
         <input type="text" name="tumblr_url" placeholder="<%= $.t('brand.placeholderTumblrUrl') %>" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input id="logoupload" type="file" name="original_logo_url" style="display: none"/>
+        <div id="uploadbutton" class="btn btn-primary btn-xs">Upload your brand's logo</div>
+        <div id="logo-image" class="text-left"></div>
     </div>
 
     <button type="submit" data-i18n="[data-loading-text]brand.addInProgress" class="btn-around-corner btn-red-grey-border" data-toggle="button"><%= $.t('common.submit') %></button>

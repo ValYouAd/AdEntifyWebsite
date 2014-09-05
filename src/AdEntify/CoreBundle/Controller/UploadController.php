@@ -199,6 +199,41 @@ class UploadController extends Controller
         }
     }
 
+    /**
+     * @Route("/upload/logo-photo", methods="POST", name="upload_logo_photo")
+     */
+    public function uploadLogoPhoto()
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if (isset($_FILES['original_logo_url'])) {
+                $uploadedFile = $_FILES['original_logo_url'];
+                $path = FileTools::getBrandLogoPath();
+                $filename = uniqid().$uploadedFile['name'][0];
+                $file = $this->getRequest()->files->get('original_logo_url');
+                $url = $this->getFileUploader()->upload($file, $path, $filename);
+                if ($url) {
+                    $thumb = new Thumb();
+                    $thumb->setOriginalPath($url);
+                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_SMALLL);
+                    $thumb->addThumbSize(FileTools::PHOTO_SIZE_MEDIUM);
+
+                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
+                    $thumbs['original'] = $url;
+                    $response = new JsonResponse();
+                    $response->setData($thumbs);
+                    return $response;
+                } else {
+                    throw new HttpException(500);
+                }
+            } else {
+                throw new NotFoundHttpException('No images to upload.');
+            }
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
     protected function getFileUploader() {
         return $this->get('adentify_storage.file_manager');
     }
