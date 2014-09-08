@@ -125,7 +125,6 @@ class TagsController extends FosRestController
 
                 $tag->setDeletedAt(new \DateTime());
                 $em->merge($tag);
-                $tag->getPhoto()->setTagsCount($tag->getPhoto()->getTagsCount() - 1);
                 $em->merge($tag->getPhoto());
                 $em->flush();
                 return array('deleted' => true);
