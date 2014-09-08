@@ -12,8 +12,9 @@ define([
    "modules/comment",
    'modules/category',
    'modules/hashtag',
+   'moment',
    'pinterest'
-], function(app, Tag, Common, Comment, Category, Hashtag) {
+], function(app, Tag, Common, Comment, Category, Hashtag, moment) {
 
    var Photo = app.module();
    var loaded = false;
