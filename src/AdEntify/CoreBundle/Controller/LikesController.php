@@ -82,7 +82,6 @@ class LikesController extends FosRestController
                         $em->persist($like);
                     } else {
                         $like->setDeletedAt(null);
-                        $photo->setLikesCount($photo->getLikesCount() + 1);
                         $em->merge($photo);
                         $em->merge($like);
                     }
@@ -99,7 +98,6 @@ class LikesController extends FosRestController
                     );
                 } else {
                     $like->setDeletedAt(new \DateTime());
-                    $photo->setLikesCount($photo->getLikesCount() - 1);
                     $em->merge($photo);
                     $em->merge($like);
                     $em->flush();
