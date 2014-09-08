@@ -303,14 +303,10 @@ class UploadService
                     }
                 } else if (!empty($image->title)) {
                     // Get hashtags in title
-                    $pattern = '/(?:^|\s)(\#\w+)/';
-                    preg_match_all($pattern, $image->title, $matches, PREG_OFFSET_CAPTURE);
-                    if (count($matches[0]) > 0) {
-                        $hashtagRepository = $this->em->getRepository('AdEntifyCoreBundle:Hashtag');
-                        foreach($matches[0] as $match) {
-                            $hashtag = $hashtagRepository->createIfNotExist(str_replace('#', '', $match[0]));
-                            if ($hashtag)
-                                $photo->addHashtag($hashtag);
+                    $hashtags = $this->em->getRepository('AdEntifyCoreBundle:Hashtag')->getHashtagsFromString($image->title);
+                    if (count($hashtags) > 0) {
+                        foreach($hashtags as $hashtag) {
+                            $photo->addHashtag($hashtag);
                         }
                     }
                 }
