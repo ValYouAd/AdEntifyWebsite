@@ -12,7 +12,7 @@ define([
    "modules/comment",
    'modules/category',
    'modules/hashtag',
-   "pinterest"
+   'pinterest'
 ], function(app, Tag, Common, Comment, Category, Hashtag) {
 
    var Photo = app.module();
@@ -289,7 +289,7 @@ define([
          return {
             model: this.options.photo,
             pageUrl: this.options.photo.get('link'),
-            publishDate: this.options.photo.get('created_at').split("T")[0]
+            publishDate: moment(this.options.photo.get('created_at')).format("LLL")
          };
       },
 
