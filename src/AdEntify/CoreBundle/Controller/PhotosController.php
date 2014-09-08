@@ -609,6 +609,13 @@ class PhotosController extends FosRestController
                     }
                 }
 
+                $hashtags = $em->getRepository('AdEntifyCoreBundle:Hashtag')->getHashtagsFromString($photo->getCaption());
+                if (count($hashtags) > 0) {
+                    foreach($hashtags as $hashtag) {
+                        $photo->addHashtag($hashtag);
+                    }
+                }
+
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
 
@@ -653,6 +660,12 @@ class PhotosController extends FosRestController
                 $form->bind($request);
                 if ($form->isValid()) {
                     $photo->setCaption($formPhoto->getCaption());
+                    $hashtags = $em->getRepository('AdEntifyCoreBundle:Hashtag')->getHashtagsFromString($photo->getCaption());
+                    if (count($hashtags) > 0) {
+                        foreach($hashtags as $hashtag) {
+                            $photo->addHashtag($hashtag);
+                        }
+                    }
                     if ($formPhoto->getCategories()) {
                         $photo->setCategories($formPhoto->getCategories());
                     }
