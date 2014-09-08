@@ -329,6 +329,16 @@ class Brand
      */
     private $logoUrl;
 
+    /**
+     * @Serializer\Groups({"details"})
+     */
+    private $lastPhoto;
+
+    /**
+     * @Serializer\Groups({"details"})
+     */
+    private $randomPhoto;
+
     public function __construct()
     {
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1007,5 +1017,37 @@ class Brand
     public function getSilverFansPercentage()
     {
         return $this->silverFansPercentage;
+    }
+
+    /**
+     * @param mixed $lastPhoto
+     */
+    public function setLastPhoto($lastPhoto)
+    {
+        $this->lastPhoto = $lastPhoto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastPhoto()
+    {
+        return $this->lastPhoto;
+    }
+
+    /**
+     * @param mixed $randomPhoto
+     */
+    public function setRandomPhoto($randomPhoto)
+    {
+        $this->randomPhoto = $randomPhoto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRandomPhoto()
+    {
+        return $this->randomPhoto;
     }
 }

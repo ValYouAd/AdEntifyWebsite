@@ -38,4 +38,25 @@ class HashtagRepository extends EntityRepository
         }
         return $hashtag;
     }
+
+    /**
+     * Extract hashtags from string
+     *
+     * @param $value
+     * @return array
+     */
+    public function getHashtagsFromString($value)
+    {
+        $hashtags = array();
+        $pattern = '/(?:^|\s)(\#\w+)/';
+        preg_match_all($pattern, $value, $matches, PREG_OFFSET_CAPTURE);
+        if (count($matches[0]) > 0) {
+            foreach($matches[0] as $match) {
+                $hashtag = $this->createIfNotExist(str_replace('#', '', $match[0]));
+                if ($hashtag)
+                    $hashtags[] = $hashtag;
+            }
+        }
+        return $hashtags;
+    }
 }

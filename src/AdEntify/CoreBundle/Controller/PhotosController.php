@@ -569,7 +569,7 @@ class PhotosController extends FosRestController
      *  section="Photo"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -609,6 +609,13 @@ class PhotosController extends FosRestController
                     }
                 }
 
+                $hashtags = $em->getRepository('AdEntifyCoreBundle:Hashtag')->getHashtagsFromString($photo->getCaption());
+                if (count($hashtags) > 0) {
+                    foreach($hashtags as $hashtag) {
+                        $photo->addHashtag($hashtag);
+                    }
+                }
+
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
 
@@ -638,64 +645,67 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function putAction($id, Request $request)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $photo = $this->getAction($id);
-            if ($photo) {
-                $em = $this->getDoctrine()->getManager();
-                $oldPhoto = $em->getRepository('AdEntifyCoreBundle:Photo')->find($id);
-                $user = $this->container->get('security.context')->getToken()->getUser();
-                if ($oldPhoto->getOwner()->getId() == $user->getId()) {
-                    $form = $this->getForm($photo);
-                    $form->bind($request);
-                    if ($form->isValid()) {
-                        $oldPhoto->setCaption($photo->getCaption());
-                        if ($photo->getCategories()) {
-                            $oldPhoto->setCategories($photo->getCategories());
+            $em = $this->getDoctrine()->getManager();
+            $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($id);
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            if ($photo->getOwner()->getId() == $user->getId()) {
+                $formPhoto = new Photo();
+                $form = $this->getForm($formPhoto);
+                $form->bind($request);
+                if ($form->isValid()) {
+                    $photo->setCaption($formPhoto->getCaption());
+                    $hashtags = $em->getRepository('AdEntifyCoreBundle:Hashtag')->getHashtagsFromString($photo->getCaption());
+                    if (count($hashtags) > 0) {
+                        foreach($hashtags as $hashtag) {
+                            $photo->addHashtag($hashtag);
                         }
-                        if (array_key_exists('hashtags', $request->request->get('photo'))) {
-                            $oldPhoto->setHashtags($oldPhoto->getHashtags()->clear());
-                            $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
-                            $newPhoto = $request->request->get('photo');
-                            foreach (array_unique($newPhoto['hashtags']) as $hashtagName) {
-                                if (is_numeric($hashtagName)) {
-                                    $hashtag = $hashtagRepository->find($hashtagName);
-                                    if ($hashtag) {
-                                        $oldPhoto->addHashtag($hashtag);
-                                    }
-                                } else {
-                                    $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
-                                    if ($hashtag) {
-                                        $found = false;
-                                        if ($photo->getHashtags()) {
-                                            foreach($photo->getHashtags() as $ht) {
-                                                if ($ht->getId() == $hashtag->getId()) {
-                                                    $found = true;
-                                                    break;
-                                                }
+                    }
+                    if ($formPhoto->getCategories()) {
+                        $photo->setCategories($formPhoto->getCategories());
+                    }
+                    if (array_key_exists('hashtags', $request->request->get('photo'))) {
+                        $photo->setHashtags($photo->getHashtags()->clear());
+                        $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
+                        $newPhoto = $request->request->get('photo');
+                        foreach (array_unique($newPhoto['hashtags']) as $hashtagName) {
+                            if (is_numeric($hashtagName)) {
+                                $hashtag = $hashtagRepository->find($hashtagName);
+                                if ($hashtag) {
+                                    $photo->addHashtag($hashtag);
+                                }
+                            } else {
+                                $hashtag = $hashtagRepository->createIfNotExist($hashtagName);
+                                if ($hashtag) {
+                                    $found = false;
+                                    if ($formPhoto->getHashtags()) {
+                                        foreach($formPhoto->getHashtags() as $ht) {
+                                            if ($ht->getId() == $hashtag->getId()) {
+                                                $found = true;
+                                                break;
                                             }
                                         }
-                                        if (!$found)
-                                            $oldPhoto->addHashtag($hashtag);
                                     }
+                                    if (!$found)
+                                        $photo->addHashtag($hashtag);
                                 }
                             }
                         }
-
-                        $em->merge($oldPhoto);
-                        $em->flush();
-                        return $oldPhoto;
-                    } else {
-                        return $form;
                     }
-                } else
-                    throw new HttpException(403, 'You are not authorized to edit this photo');
+
+                    $em->merge($photo);
+                    $em->flush();
+                    return $photo;
+                } else {
+                    return $form;
+                }
             } else
-                throw new NotFoundHttpException('Photo not found');
+                throw new HttpException(403, 'You are not authorized to edit this photo');
         } else {
             throw new HttpException(401);
         }
@@ -717,7 +727,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -736,7 +746,7 @@ class PhotosController extends FosRestController
 
                 $em->merge($photo);
                 $em->flush();
-                return '';
+                return array('deleted' => true);
             } else {
                 throw new HttpException(403, 'You are not authorized to delete this photo');
             }
@@ -835,7 +845,7 @@ class PhotosController extends FosRestController
      *
      * @param $id
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getHashtagsAction($id)
     {
@@ -864,7 +874,7 @@ class PhotosController extends FosRestController
      *
      * GET all comments by photo ID
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @param $id
      * @return ArrayCollection|null
@@ -894,7 +904,7 @@ class PhotosController extends FosRestController
      *
      * GET all likers by photo ID
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @param $id
      * @return ArrayCollection|null
@@ -943,7 +953,7 @@ class PhotosController extends FosRestController
      *
      * GET all categories by photo ID
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="locale", default="en")
      *
      * @param $id
@@ -963,19 +973,17 @@ class PhotosController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @param $id
      * @return ArrayCollection|null
      */
     public function getLikesAction($id)
     {
-        // TODO : REMOVE LIKE WITH DELETED AT
-
-        $photo = $this->getAction($id);
-        if (!$photo)
-            return null;
-        return $photo->getLikes();
+	return $this->getDoctrine()->getManager()->createQuery('SELECT l FROM AdEntifyCoreBundle:Like l
+	    WHERE l.photo = :photoId AND l.deleted_at IS NULL')
+	    ->setParameter(':photoId', $id)
+	    ->getResult();
     }
 
     /**
@@ -993,7 +1001,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return bool
@@ -1033,7 +1041,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return bool
@@ -1070,7 +1078,7 @@ class PhotosController extends FosRestController
      *  section="Photo"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="tagged", default="true")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
@@ -1138,7 +1146,7 @@ class PhotosController extends FosRestController
      *  }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postFavoriteAction(Request $request)
     {

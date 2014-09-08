@@ -1,0 +1,18 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    {{ form(delete_form, { 'attr': {'style': 'display:none'} }) }}
+    {{ form_start(edit_form) }}
+    {{ form_row(edit_form._token) }}
+    <h1>
+        <i class="glyphicon glyphicon-edit"></i>
+        <a>{{ 'product.edit'|trans }} #{{ entity.id }}</a>
+        <span class="pull-right">
+            <a class="btn btn-default" href="{{ path ('product') ~ '/' ~ page}}">{{ 'Back to the list'|trans }}</a>
+            {{ form_widget(edit_form.submit) }}
+            <label class="btn btn-danger" for="form_delete">{{ 'Delete'|trans }}</label>
+        </span>
+    </h1>
+    {{ form_rest(edit_form) }}
+    {{ form_end(edit_form) }}
+{% endblock %}

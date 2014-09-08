@@ -193,3 +193,8 @@ profile/%id%/: profil/%id%/
 search/: recherche/
 search/keywords: recherche/%23%keywords%
 my/dashboard/: mon/dashboard/
+
+cgu:
+    terms_of_use: %terms_of_use%
+    privacy: %privacy%
+    legal_notices: %legal_notices%

@@ -21,7 +21,12 @@ use AdEntify\CoreBundle\Form\VenueType;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
+use FOS\UserBundle\FOSUserEvents;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -40,6 +45,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * Class UsersController
@@ -66,7 +72,52 @@ class UsersController extends FosRestController
      */
     public function getAction($id)
     {
-        return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:User')->find($id);
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+        if ($user) {
+            $lastPhoto = $em->createQuery('SELECT photo
+                                           FROM AdEntifyCoreBundle:Photo photo
+                                           WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
+                                           ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':userId' => $user->getId(),
+                ))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $user->setLastPhoto($lastPhoto);
+
+            $count = $em->createQuery('SELECT COUNT(DISTINCT photo)
+                                       FROM AdEntifyCoreBundle:Photo photo
+                                       WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
+                                       ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':userId' => $user->getId(),
+                ))
+                ->getSingleScalarResult();
+
+            $randomPhoto = $em->createQuery('SELECT DISTINCT photo
+                                             FROM AdEntifyCoreBundle:Photo photo
+                                             WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL AND photo.visibilityScope = :visibilityScope
+                                             ORDER BY photo.createdAt DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':userId' => $user->getId(),
+                ))
+                ->setFirstResult(rand(0, $count - 1))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $user->setRandomPhoto($randomPhoto);
+            return $user;
+        } else
+            throw new HttpException(404);
     }
 
     /**
@@ -101,7 +152,7 @@ class UsersController extends FosRestController
      *
      * @param $id
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
@@ -181,7 +232,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getFavoritesAction($page, $limit)
     {
@@ -235,17 +286,20 @@ class UsersController extends FosRestController
      *
      * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
-     * @View()
+     * @QueryParam(name="limit", requirements="\d+", default="50")
+     * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $page = 1, $limit = 10)
+    public function getSearchAction($query, $page = 1, $limit = 50)
     {
         $em = $this->getDoctrine()->getManager();
+        $securityContext = $this->container->get('security.context');
 
-        $query = $em->createQuery('SELECT u FROM AdEntify\CoreBundle\Entity\User u
-            WHERE u.firstname LIKE :query OR u.lastname LIKE :query')
+        $query = $em->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+                LEFT JOIN u.followings following WHERE u.id = :currentUserId AND following.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
+                WHERE user.firstname LIKE :query OR user.lastname LIKE :query')
             ->setParameters(array(
-                ':query' => '%'.$query.'%'
+                ':query' => '%'.$query.'%',
+                'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
@@ -257,8 +311,10 @@ class UsersController extends FosRestController
         $pagination = null;
         if ($count > 0) {
             $results = array();
-            foreach($paginator as $item) {
-                $results[] = $item;
+	        foreach ($paginator as $entry) {
+                $user = $entry[0];
+                $user->setFollowed($entry['followed'] > 0 ? true : false);
+                $results[] = $user;
             }
 
             $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this, 'api_v1_get_user_search', array(
@@ -279,7 +335,7 @@ class UsersController extends FosRestController
      * @param $id following id
      * @return mixed
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postFollowerAction($id)
     {
@@ -341,7 +397,7 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -382,7 +438,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function getLikedPhotosAction($id, $page = 1, $limit = 10)
     {
@@ -431,7 +487,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function getHashtagsAction($id, $page = 1, $limit = 10)
     {
@@ -501,7 +557,7 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -510,6 +566,7 @@ class UsersController extends FosRestController
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->container->get('security.context')->getToken()->getUser();
+            $request->setLocale($user->getLocale());
             if ($user->getId() == $id) {
                 $form = $this->createForm(new ChangePasswordFormType('AdEntify\\CoreBundle\\Entity\\User'));
                 $form->handleRequest($request);
@@ -519,13 +576,52 @@ class UsersController extends FosRestController
                     $this->container->get('fos_user.user_manager')->updateUser($user);
                     return $user;
                 } else {
-                    return $form->getErrorsAsString();
+                    return $form;
                 }
             } else
                 throw new HttpException(403);
         } else {
             throw new HttpException(401);
         }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="POST Send mail to reset a password",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
+     * @View(serializerGroups={"details"})
+     *
+     */
+    public function postResetPasswordAction(Request $request)
+    {
+        $username = $request->request->get('username');
+
+        /** @var $user UserInterface */
+        $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
+
+        if (null === $user) {
+            throw new HttpException(404);
+        }
+
+        if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
+            throw new HttpException(403);
+        }
+
+        if (null === $user->getConfirmationToken()) {
+            /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
+            $tokenGenerator = $this->container->get('fos_user.util.token_generator');
+            $user->setConfirmationToken($tokenGenerator->generateToken());
+        }
+
+        $this->container->get('fos_user.mailer')->sendResettingEmailMessage($user);
+        $user->setPasswordRequestedAt(new \DateTime());
+        $this->container->get('fos_user.user_manager')->updateUser($user);
+
+        return $user;
     }
 
     /**
@@ -539,34 +635,40 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="5")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      */
-    public function getFollowingsAction($id, $page = 1, $limit = 5)
+    public function getFollowingsAction($id, $page = 1, $limit = 50)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+	    $securityContext = $this->container->get('security.context');
         if ($user) {
-            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followers follower WHERE follower.id = :userId')
-                ->setParameters(array(
-                    'userId' => $user->getId()
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit);
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+            LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
+                LEFT JOIN user.followers follower WHERE follower.id = :userId')
+                    ->setParameters(array(
+                'userId' => $user->getId(),
+                'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
+                    ))
+                    ->setFirstResult(($page - 1) * $limit)
+                    ->setMaxResults($limit);
 
-            $paginator = new Paginator($query, $fetchJoinCollection = true);
-            $count = count($paginator);
+                $paginator = new Paginator($query, $fetchJoinCollection = true);
+                $count = count($paginator);
 
-            $users = null;
-            $pagination = null;
+                $users = null;
+                $pagination = null;
             if ($count > 0) {
                 $users = array();
-                foreach ($paginator as $user)
-                    $users[] = $user;
+                foreach ($paginator as $entry) {
+                    $user = $entry[0];
+                    $user->setFollowed($entry['followed'] > 0 ? true : false);
+                            $users[] = $user;
+                }
 
                 $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
                     'api_v1_get_user_followings', array(
@@ -590,34 +692,40 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="5")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      */
-    public function getFollowersAction($id, $page = 1, $limit = 5)
+    public function getFollowersAction($id, $page = 1, $limit = 50)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
+	    $securityContext = $this->container->get('security.context');
         if ($user) {
-            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followings following WHERE following.id = :userId')
-                ->setParameters(array(
-                    'userId' => $user->getId()
-                ))
-                ->setFirstResult(($page - 1) * $limit)
-                ->setMaxResults($limit);
+            $query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+            LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
+                LEFT JOIN user.followings following WHERE following.id = :userId')
+                    ->setParameters(array(
+                'userId' => $user->getId(),
+                'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
+                    ))
+                    ->setFirstResult(($page - 1) * $limit)
+                    ->setMaxResults($limit);
 
-            $paginator = new Paginator($query, $fetchJoinCollection = true);
-            $count = count($paginator);
+                $paginator = new Paginator($query, $fetchJoinCollection = true);
+                $count = count($paginator);
 
-            $users = null;
-            $pagination = null;
+                $users = null;
+                $pagination = null;
             if ($count > 0) {
                 $users = array();
-                foreach ($paginator as $user)
-                    $users[] = $user;
+                foreach ($paginator as $entry) {
+                    $user = $entry[0];
+                    $user->setFollowed($entry['followed'] > 0 ? true : false);
+                            $users[] = $user;
+                }
 
                 $pagination = PaginationTools::getNextPrevPagination($count, $page, $limit, $this,
                     'api_v1_get_user_followers', array(
@@ -638,7 +746,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"slight-list"})
      */
     public function getTopFollowersAction()
     {
@@ -659,7 +767,7 @@ class UsersController extends FosRestController
      * }
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -684,11 +792,10 @@ class UsersController extends FosRestController
      * @ApiDoc(
      *  resource=true,
      *  description="GET task progress for current logged user",
-     *  output="AdEntify\CoreBundle\Entity\Task",
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -701,7 +808,7 @@ class UsersController extends FosRestController
                 'user' => $currentUser->getId(),
                 'type' => Task::TYPE_UPLOAD
             ));
-            return $task ? $task->getProgress() : null;
+            return $task ? $task->getProgress() : '';
         } else {
             throw new HttpException(401);
         }
@@ -714,7 +821,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postBirthdayAction()
     {
@@ -742,7 +849,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="9")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getBrandsAction($id = 0, $page = 1, $limit = 9)
     {
@@ -783,7 +890,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getAnalyticsAction()
     {
@@ -833,7 +940,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getPointsAction()
     {
@@ -853,7 +960,7 @@ class UsersController extends FosRestController
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="begin")
      * @QueryParam(name="end")
@@ -934,11 +1041,39 @@ class UsersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
+     *  description="GET user dashboard for current logged user",
+     *  section="User"
+     * )
+     *
+     * @View(serializerGroups={"slight-list"})
+     *
+     * @QueryParam(name="begin")
+     * @QueryParam(name="end")
+     * @QueryParam(name="page", requirements="\d+", default="1")
+     * @QueryParam(name="limit", requirements="\d+", default="30")
+     */
+    public function getDashboardAction($begin, $end, $page = 1, $limit = 30)
+    {
+        $securityContext = $this->container->get('security.context');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return array(
+                'credits' => $this->getCreditsByDateRangeAction($begin, $end),
+                'analytics' => $this->getAnalyticsAction(),
+                'actions' => $this->getActionsAction($page, $limit)
+            );
+        } else {
+            throw new HttpException(401);
+        }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
      *  description="GET credits for current logged user by date",
      *  section="User"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"slight-list"})
      */
     public function getCreditsByDateAction($date)
     {
@@ -1003,7 +1138,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="5")
      *
-     * @View()
+     * @View(serializerGroups={"slight-list"})
      */
     public function getRewardsAction($id, $page = 1, $limit = 5)
     {
@@ -1052,7 +1187,7 @@ class UsersController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="30")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getActionsAction($page = 1, $limit = 30)
     {
@@ -1092,6 +1227,74 @@ class UsersController extends FosRestController
 
     /**
      * @View()
+     * @QueryParam(name="locale", default="en")
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Register a new user",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="User"
+     * )
+     *
+     * @param Request $request
+     */
+    public function postRegisterAction(Request $request, $locale = 'en') {
+        $request->setLocale($locale);
+
+        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
+        $formFactory = $this->container->get('fos_user.registration.form.factory');
+        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+        $userManager = $this->container->get('fos_user.user_manager');
+        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+        $dispatcher = $this->container->get('event_dispatcher');
+
+        $user = $userManager->createUser();
+        $user->setEnabled(true);
+
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
+
+        if (null !== $event->getResponse()) {
+            return $event->getResponse();
+        }
+
+        $form = $formFactory->createForm();
+        $form->setData($user);
+
+        if ('POST' === $request->getMethod()) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $event = new FormEvent($form, $request);
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+
+                $userManager->updateUser($user);
+
+                if (null === $response = $event->getResponse()) {
+                    $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
+                    $response = new RedirectResponse($url);
+                }
+
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+
+                $client = $this->container->get('fos_oauth_server.client_manager.default')->findClientBy(array(
+                    'name' => $this->container->getParameter('adentify_oauth_client_name')
+                ));
+                return $this->container
+                    ->get('fos_oauth_server.server')
+                    ->createAccessToken($client, $user);
+            } else {
+                return $form;
+            }
+        }
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @View(serializerGroups={"details"})
      */
     public function postIntroPlayedAction()
     {
@@ -1112,7 +1315,7 @@ class UsersController extends FosRestController
      * @return mixed
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postSettingsAction(Request $request)
     {
@@ -1133,6 +1336,23 @@ class UsersController extends FosRestController
         }
     }
 
+    private function getErrorsAsArray(\Symfony\Component\Form\Form $form)
+    {
+        $errors = array();
+
+        foreach ($form->getErrors() as $error) {
+            $errors[] = $error->getMessage();
+        }
+
+        foreach ($form->all() as $child) {
+            if ($err = $this->getErrorsAsArray($child)) {
+                $errors = array_merge($errors, $err);
+            }
+        }
+
+        return $errors;
+    }
+
     private function formatCredit(TagPoint $tagPoint = null, TagIncome $tagIncome = null)
     {
         $obj = $tagPoint ? $tagPoint : $tagIncome;
@@ -1149,4 +1369,5 @@ class UsersController extends FosRestController
             'income' => $tagIncome ? $tagIncome->getIncome() : 0
         );
     }
+
 }

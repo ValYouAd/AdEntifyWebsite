@@ -15,6 +15,7 @@ Tags count: Tags count
 Venues count: Venues count
 CPT: CPT
 Actions: Actions
+Descritption: Description
 
 #Categories
 Category list: Category list
@@ -37,3 +38,17 @@ user:
     createdat: Created at
     actions: Actions
     count: %count% utilisateurs
+
+#CGU
+cgu:
+    termsOfUse: Terms of use
+    privacy2: Privacy
+    legalsNotice: Legals notice
+    language: Language
+    End-user license agreement list: End-user license agreement list
+
+product:
+    edit: Product edit
+    list: Product list
+    creation: Creation of a new product
+    show: Product

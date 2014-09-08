@@ -47,7 +47,7 @@ class NotificationsController extends FOSRestController
      *  section="Notification"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return Notification
      */
@@ -65,7 +65,7 @@ class NotificationsController extends FOSRestController
      *  section="Notification"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function putAction($id, Request $request)
     {

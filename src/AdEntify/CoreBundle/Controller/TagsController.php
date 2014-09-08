@@ -16,6 +16,7 @@ use AdEntify\CoreBundle\Entity\SearchHistory;
 use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\PaginationTools;
+use AdEntify\CoreBundle\Util\TagValidator;
 use AdEntify\CoreBundle\Util\UserCacheManager;
 use AdEntify\CoreBundle\Validator\AgeValidator;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -56,7 +57,7 @@ class TagsController extends FosRestController
      *  section="Tag"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @return mixed
      */
@@ -73,7 +74,7 @@ class TagsController extends FosRestController
      *  section="Tag"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return Tag
      */
@@ -93,7 +94,7 @@ class TagsController extends FosRestController
      *  section="Tag"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -127,6 +128,7 @@ class TagsController extends FosRestController
                 $tag->getPhoto()->setTagsCount($tag->getPhoto()->getTagsCount() - 1);
                 $em->merge($tag->getPhoto());
                 $em->flush();
+                return array('deleted' => true);
             } else {
                 throw new HttpException(403, 'You are not authorized to delete this tag');
             }
@@ -149,7 +151,7 @@ class TagsController extends FosRestController
      *  section="Tag"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -159,6 +161,13 @@ class TagsController extends FosRestController
             $form = $this->getForm($tag);
             $form->handleRequest($request);
             if ($form->isValid()) {
+                // Check tag data
+                $tagValidation = TagValidator::isValidTag($tag);
+                if ($tagValidation !== true) {
+                    $form->addError(new FormError($tagValidation));
+                    return $form;
+                }
+
                 // Get current user
                 $user = $this->container->get('security.context')->getToken()->getUser();
                 $tag->setOwner($user);
@@ -251,7 +260,7 @@ class TagsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @param Request $request
@@ -298,7 +307,9 @@ class TagsController extends FosRestController
 
                 $this->container->get('ad_entify_core.income')->calculateIncome($tag, $user, $request);
 
-                return $tag->getValidationStatus();
+                return array(
+                    'validation_status' => $tag->getValidationStatus(),
+                );
             } else
                 throw new NotFoundHttpException('Tag not found');
         } else {
@@ -307,7 +318,7 @@ class TagsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return Venue|null
@@ -321,7 +332,7 @@ class TagsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return Product|null
@@ -335,7 +346,7 @@ class TagsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      * @return Person|null

@@ -43,7 +43,7 @@ use FOS\RestBundle\Controller\Annotations\Prefix,
 class TokenController extends FosRestController
 {
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postFacebookAction()
     {
@@ -76,7 +76,7 @@ class TokenController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postTwitterAction()
     {
@@ -108,7 +108,7 @@ class TokenController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postPasswordAction()
     {

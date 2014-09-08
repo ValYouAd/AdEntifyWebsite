@@ -259,6 +259,18 @@ class Venue
      */
     private $rewards;
 
+    /**
+     * @var
+     *
+     * @Serializer\Groups({"details"})
+     */
+    private $lastPhoto;
+
+    /**
+     * @Serializer\Groups({"details"})
+     */
+    private $randomPhoto;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
@@ -737,5 +749,37 @@ class Venue
     public function getRewards()
     {
         return $this->rewards;
+    }
+
+    /**
+     * @param mixed $lastPhoto
+     */
+    public function setLastPhoto($lastPhoto)
+    {
+        $this->lastPhoto = $lastPhoto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastPhoto()
+    {
+        return $this->lastPhoto;
+    }
+
+    /**
+     * @param mixed $randomPhoto
+     */
+    public function setRandomPhoto($randomPhoto)
+    {
+        $this->randomPhoto = $randomPhoto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRandomPhoto()
+    {
+        return $this->randomPhoto;
     }
 }

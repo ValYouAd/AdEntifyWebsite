@@ -38,6 +38,8 @@ class Reward
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $id;
 
@@ -46,6 +48,8 @@ class Reward
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="win_at", type="datetime")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $winAt;
 
@@ -53,6 +57,8 @@ class Reward
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $type = self::TYPE_ADDICT;
 
@@ -60,36 +66,50 @@ class Reward
      * @var boolean
      *
      * @ORM\Column(name="can_loose", type="boolean")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $canLoose = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Venue", inversedBy="rewards")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $venue;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Product", inversedBy="rewards")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $product;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductType", inversedBy="rewards")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $productType;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="rewards")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $person;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="rewards")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $brand;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="rewards")
+     *
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $owner;
 

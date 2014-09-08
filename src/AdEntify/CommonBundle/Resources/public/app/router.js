@@ -1019,12 +1019,13 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
                   $('#signupModal').modal('show');
                }, 500);
             });
+            app.appState().setCurrentUser(false);
          } else {
             // Get current user
             app.oauth.loadAccessToken({
                success: function() {
                   $.ajax({
-                     url: Routing.generate('api_v1_get_user', { id: currentUserId }),
+                     url: Routing.generate('api_v1_get_user_current'),
                      headers: {
                         "Authorization": app.oauth.getAuthorizationHeader()
                      },

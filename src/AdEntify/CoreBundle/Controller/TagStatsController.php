@@ -49,7 +49,7 @@ class TagStatsController extends FosRestController
      *  section="TagStats"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {

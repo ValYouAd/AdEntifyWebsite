@@ -251,6 +251,8 @@
       "addTitle": "Add comment",
       "placeholderBody": "Your comment",
       "addButton": "Add",
+      "deleteButton": "Delete all comments",
+      "deleteButtonLoading": "Deleting all comments...",
       "noBody": "You must type a message before adding a comment",
       "addButtonLoading": "Adding comment...",
       "errorCommentPost": "Error adding comment. Please try again."

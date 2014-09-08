@@ -46,7 +46,7 @@ class SecurityController  extends FosRestController
      * @param string $intention Intention (string key) to match form.
      * @return string $token CSRF Token
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function getCsrftokenAction($intention)
     {

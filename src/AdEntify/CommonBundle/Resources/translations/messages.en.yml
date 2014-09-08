@@ -174,3 +174,8 @@ profile/%id%/: profile/%id%/
 search/: search/
 search/keywords: search/%23%keywords%
 my/dashboard/: my/dashboard/
+
+cgu:
+    terms_of_use: %terms_of_use%
+    privacy: %privacy%
+    legal_notices: %legal_notices%

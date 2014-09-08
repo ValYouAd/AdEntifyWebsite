@@ -9,7 +9,8 @@ define([
    'app',
    'modules/reward',
    'modules/common',
-   'jquery.serializeJSON'
+   'jquery.serializeJSON',
+   'jquery.fileupload'
 ], function(app, Reward, Common) {
 
    var Brand = app.module();
@@ -386,10 +387,42 @@ define([
       },
 
       afterRender: function() {
-         $(this.el).i18n();
+         var that = this;
+
+          $(this.el).i18n();
          if (this.options.categories.length > 0) {
             this.$('.categories').select2();
          }
+
+         this.$('#logoupload').attr("data-url", Routing.generate('upload_logo_photo'));
+         this.$('#logoupload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+               if (data.result) {
+                  $('#logo-image').html('<img style="display:block; margin-top: 10px" src="' + data.result['photo-small'].filename + '" style="margin: 10px 0px;" class="logo-image" />');
+                  that.small_url = data.result['photo-small'].filename;
+                  that.medium_url = data.result['photo-medium'].filename;
+                  that.original_url = data.result.original;
+               } else {
+                   app.useLayout().setView('.alert-product', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.errorLogoImageUpload'),
+                     showClose: true
+                  })).render();
+               }
+            },
+            error: function () {
+                $('#logo-image').html('<strong class="logo-image-error" style="color:red; margin-left: 10px">Unsupported file type !</strong>');
+                $('.logo-image-error').fadeOut(5000);
+                that.small_url = null;
+                that.medium_url = null;
+                that.original_url = null;
+            }
+         });
+      },
+
+      triggerUpload: function() {
+         this.$('#logoupload').trigger('click');
       },
 
       formSubmit: function(e) {
@@ -402,6 +435,7 @@ define([
 
          var brand = new Brand.Model(this.$('form').serializeJSON());
          brand.set('categories', this.$('.categories').select2('val'));
+         brand.set('original_logo_url', this.original_url);
          brand.url = Routing.generate('api_v1_post_brand');
          brand.getToken('brand_item', function() {
             brand.save(null, {
@@ -457,7 +491,8 @@ define([
 
       events: {
          'click button[type="submit"]': 'formSubmit',
-         'click .facebookButton': 'loadFacebookData'
+         'click .facebookButton': 'loadFacebookData',
+         'click #uploadbutton': 'triggerUpload'
       }
    });
 

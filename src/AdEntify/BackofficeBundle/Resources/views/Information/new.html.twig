@@ -1,0 +1,27 @@
+{% extends '::base.admin.html.twig' %}
+
+{% block body -%}
+    {{ form_start(trans_form) }}
+    {{ form_row(trans_form._token) }}
+    <h1>
+        {{ 'Informations creation'|trans }}
+        <span class="pull-right">
+            <a class="btn btn-default" href="{{ path ('informations') }}">{{ 'Back to the list'|trans }}</a>
+            {{ form_widget(trans_form.submit) }}
+        </span>
+    </h1>
+    {{ form_rest(trans_form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/adentifybackoffice/ckeditor/ckeditor.js') }}"></script>
+    <script>
+          ($(".a2lix_translations").find("textarea").each(function(){
+              CKEDITOR.replace(this.id,
+                  {
+                      height: '500px'
+                  }
+              );
+          }));
+    </script>
+{% endblock %}

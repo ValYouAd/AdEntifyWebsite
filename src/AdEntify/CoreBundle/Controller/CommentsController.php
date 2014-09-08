@@ -47,7 +47,7 @@ class CommentsController extends FosRestController
      *  section="Comment"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function cgetAction()
     {
@@ -63,7 +63,7 @@ class CommentsController extends FosRestController
      *  section="Comment"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @return Comment
      */
@@ -82,39 +82,37 @@ class CommentsController extends FosRestController
      *  section="Comment"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
+            $comment = new Comment();
+            $form = $this->getForm($comment);
+            $form->bind($request);
+            if ($form->isValid()) {
+                $comment->setAuthor($user);
+
+                // COMMENT Action & notification
+                $sendNotification = $user->getId() != $comment->getPhoto()->getOwner()->getId();
+                $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_COMMENT,
+                    $user, $comment->getPhoto()->getOwner(), array($comment->getPhoto()),
+                    Action::getVisibilityWithPhotoVisibility($comment->getPhoto()->getVisibilityScope()), $comment->getPhoto()->getId(),
+                    $em->getClassMetadata(get_class($comment->getPhoto()))->getName(), $sendNotification, 'memberCommentPhoto');
+
+                $em->persist($comment);
+                $em->flush();
+
+                return $comment;
+            } else {
+                return $form;
+            }
         } else {
             throw new HttpException(401);
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->container->get('security.context')->getToken()->getUser();
-
-        $comment = new Comment();
-        $form = $this->getForm($comment);
-        $form->bind($request);
-        if ($form->isValid()) {
-            $comment->setAuthor($user);
-
-            // COMMENT Action & notification
-            $sendNotification = $user->getId() != $comment->getPhoto()->getOwner()->getId();
-            $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_COMMENT,
-                $user, $comment->getPhoto()->getOwner(), array($comment->getPhoto()),
-                Action::getVisibilityWithPhotoVisibility($comment->getPhoto()->getVisibilityScope()), $comment->getPhoto()->getId(),
-                $em->getClassMetadata(get_class($comment->getPhoto()))->getName(), $sendNotification, 'memberCommentPhoto');
-
-            $em->persist($comment);
-            $em->flush();
-
-            return $comment;
-        } else {
-            return $form;
         }
     }
 
@@ -129,7 +127,7 @@ class CommentsController extends FosRestController
      *  section="Comment"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @param $id
      */
@@ -142,7 +140,15 @@ class CommentsController extends FosRestController
                 throw new HttpException(404);
 
             $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getId() == $comment->getAuthor()->getId() && !$comment->getDeletedAt()) {
+            $roles = ['ROLE_TEAM', 'ROLE_SUPER_ADMIN', 'ROLE_ADMIN'];
+            $has_role_team = false;
+            foreach($roles as $role) {
+                if (array_search($role, $user->getRoles()) !== false) {
+                    $has_role_team = true;
+                    break;
+                }
+            }
+            if (($user->getId() == $comment->getAuthor()->getId() || $has_role_team) && !$comment->getDeletedAt()) {
                 $em = $this->getDoctrine()->getManager();
                 $comment->setDeletedAt(new \DateTime());
                 $em->merge($comment);

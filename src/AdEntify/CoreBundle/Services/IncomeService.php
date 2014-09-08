@@ -48,7 +48,7 @@ class IncomeService
                         $income = $tag->getPerson()->getCostPerTag() - ($tag->getPerson()->getCostPerTag() * ($tag->getPerson()->getAdentifyFees() / 100));
                     break;
                 case Tag::TYPE_PLACE:
-                    if ($tag->getVenue()->getCostPerTag() > 0)
+		    if ($tag->getVenue() && $tag->getVenue()->getCostPerTag() > 0)
                         $income = $tag->getVenue()->getCostPerTag() - ($tag->getVenue()->getCostPerTag() * ($tag->getVenue()->getAdentifyFees() / 100));
                     break;
             }

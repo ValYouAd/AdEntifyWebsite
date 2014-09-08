@@ -57,6 +57,7 @@ class PublicPhotosController extends FOSRestController
                 ':denied' => Tag::VALIDATION_DENIED
             ))
             ->getOneOrNullResult();
+
         $response->setJsonData($serializer->serialize($tags, 'json'));
         if ($this->getRequest()->getRequestFormat() && $this->getRequest()->query->get("callback")) {
             $response->setCallback($this->getRequest()->query->get("callback"));

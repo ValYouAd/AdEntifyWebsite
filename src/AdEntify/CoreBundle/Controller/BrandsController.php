@@ -58,7 +58,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="orderBy", default="null")
      * @QueryParam(name="way", requirements="DESC|ASC", default="ASC")
      */
@@ -86,7 +86,7 @@ class BrandsController extends FosRestController
     /**
      * Get brand by slug
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @ApiDoc(
      *  resource=true,
@@ -98,13 +98,113 @@ class BrandsController extends FosRestController
      */
     public function getAction($slug)
     {
-        $brand = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Brand')->findOneBy(array(
+        $em = $this->getDoctrine()->getManager();
+
+        $securityContext = $this->container->get('security.context');
+        $user = null;
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+        }
+
+        // If no user connected, 0 is default
+        $facebookFriendsIds = array(0);
+        $followings = array(0);
+        $followedBrands = array(0);
+
+        if ($user) {
+            // Get friends list (id) array
+            $facebookFriendsIds = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS);
+            if (!$facebookFriendsIds) {
+                $facebookFriendsIds = $em->getRepository('AdEntifyCoreBundle:User')->refreshFriends($user, $this->container->get('fos_facebook.api'));
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FB_FRIENDS, $facebookFriendsIds, UserCacheManager::USER_CACHE_TTL_FB_FRIENDS);
+            }
+
+            // Get followings ids
+            $followings = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
+            if (!$followings) {
+                $followings = $em->getRepository('AdEntifyCoreBundle:User')->getFollowingsIds($user, 0);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS, $followings, UserCacheManager::USER_CACHE_TTL_FOLLOWING);
+            }
+
+            // Get following brands ids
+            $followedBrands = UserCacheManager::getInstance()->getUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS);
+            if (!$followedBrands) {
+                $followedBrands = $em->getRepository('AdEntifyCoreBundle:User')->getFollowedBrandsIds($user);
+                UserCacheManager::getInstance()->setUserObject($user, UserCacheManager::USER_CACHE_KEY_BRAND_FOLLOWINGS, $followedBrands, UserCacheManager::USER_CACHE_TTL_BRAND_FOLLOWINGS);
+            }
+        }
+
+        $brand = $em->getRepository('AdEntifyCoreBundle:Brand')->findOneBy(array(
             'slug' => $slug,
             'validated' => true
         ));
-        if (!$brand)
+        if ($brand) {
+            $lastPhoto = $em->createQuery('SELECT photo
+                                           FROM AdEntifyCoreBundle:Photo photo
+                                           LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand
+                                           WHERE brand.id = :brandId AND photo.status = :status AND photo.deletedAt IS NULL
+                                              AND (photo.visibilityScope = :visibilityScope
+                                                OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                                OR owner.id IN (:followings)
+                                                OR brand.id IN (:followedBrands))
+                                           ORDER BY photo.id DESC')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':brandId' => $brand->getId(),
+                ))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $brand->setLastPhoto($lastPhoto);
+
+            $count = $em->createQuery('SELECT COUNT(DISTINCT photo)
+                                       FROM AdEntifyCoreBundle:Photo photo
+                                       LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand
+                                       WHERE brand.id = :brandId AND photo.status = :status AND photo.deletedAt IS NULL
+                                          AND (photo.visibilityScope = :visibilityScope
+                                            OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                            OR owner.id IN (:followings)
+                                            OR brand.id IN (:followedBrands))
+                                       ')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':brandId' => $brand->getId(),
+                ))
+                ->getSingleScalarResult();
+
+            $randomPhoto = $em->createQuery('SELECT DISTINCT photo
+                                             FROM AdEntifyCoreBundle:Photo photo
+                                             LEFT JOIN photo.tags tag INNER JOIN photo.owner owner LEFT JOIN tag.brand brand
+                                             WHERE brand.id = :brandId AND photo.status = :status AND photo.deletedAt IS NULL
+                                                AND (photo.visibilityScope = :visibilityScope
+                                                  OR (owner.facebookId IS NOT NULL AND owner.facebookId IN (:facebookFriendsIds))
+                                                  OR owner.id IN (:followings)
+                                                  OR brand.id IN (:followedBrands))
+                                             ')
+                ->setParameters(array(
+                    ':status' => Photo::STATUS_READY,
+                    ':visibilityScope' => Photo::SCOPE_PUBLIC,
+                    ':facebookFriendsIds' => $facebookFriendsIds,
+                    ':followings' => $followings,
+                    ':followedBrands' => $followedBrands,
+                    ':brandId' => $brand->getId(),
+                ))
+                ->setFirstResult(rand(0, $count - 1))
+                ->setMaxResults(1)
+                ->getOneOrNullResult();
+
+            $brand->setRandomPhoto($randomPhoto);
+            return $brand;
+        } else
             throw new HttpException(404);
-        return $brand;
     }
 
     /**
@@ -116,7 +216,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postAction(Request $request)
     {
@@ -125,11 +225,9 @@ class BrandsController extends FosRestController
         $form = $this->getForm($brand);
         $form->bind($request);
         if ($form->isValid()) {
-
-            $found = $em->createQuery('SELECT b FROM AdEntifyCoreBundle:Brand b WHERE b.name = :name')
-                ->setParameter('name', $brand->getName())->setMaxResults(1)->getResult();
+            $found = $em->getRepository('AdEntifyCoreBundle:Brand')->findOneBy(array('name' => $brand->getName()));
             if ($found) {
-                return $brand;
+                return $found;
             }
 
             if ($brand->getOriginalLogoUrl()) {
@@ -159,7 +257,7 @@ class BrandsController extends FosRestController
     /**
      * GET all categories by brand slug
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      * @QueryParam(name="locale", default="en")
      *
      * @param $id
@@ -190,16 +288,21 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
+     * @QueryParam(name="query")
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $page, $limit)
+    public function getSearchAction($query, $page, $limit = 50)
     {
+        if (empty($query)) {
+            throw new HttpException(500);
+        }
+
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand
             WHERE brand.name LIKE :query AND brand.validated = 1')
-            ->setParameter(':query', '%'.$query.'%')
+	    ->setParameter(':query', '%'.$query.'%')
             ->setMaxResults($limit)
             ->setFirstResult(($page - 1) * $limit);
 
@@ -220,24 +323,34 @@ class BrandsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"list"})
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of followers (user) for a brand",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="Brand"
+     * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      * @param $slug
      * @param $page
      * @param $limit
      * @return mixed
      */
-    public function getFollowersAction($slug, $page = 1, $limit = 10)
+    public function getFollowersAction($slug, $page = 1, $limit = 50)
     {
-        $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+	$securityContext = $this->container->get('security.context');
+	$query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
             JOIN user.followedBrands brand WHERE brand.slug = :slug ORDER BY user.followersCount DESC')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit)
             ->setParameters(array(
-                'slug' => $slug
+		'slug' => $slug,
+		'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
             ));
 
         $paginator = new Paginator($query, $fetchJoinCollection = true);
@@ -246,7 +359,9 @@ class BrandsController extends FosRestController
         $count = count($paginator);
         if ($count > 0) {
             $users = array();
-            foreach($paginator as $user) {
+	    foreach ($paginator as $entry) {
+		$user = $entry[0];
+		$user->setFollowed($entry['followed'] > 0 ? true : false);
                 $users[] = $user;
             }
 
@@ -259,25 +374,37 @@ class BrandsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"list"})
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get a collection of followings (User) for a brand",
+     *  output="AdEntify\CoreBundle\Entity\User",
+     *  section="Brand"
+     * )
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
-     * @QueryParam(name="limit", requirements="\d+", default="10")
+     * @QueryParam(name="limit", requirements="\d+", default="50")
      *
      * @param $slug
      * @param $page
      * @param $limit
      * @return mixed
      */
-    public function getFollowingsAction($slug, $page = 1, $limit = 10)
+    public function getFollowingsAction($slug, $page = 1, $limit = 50)
     {
         $brand = $this->getAction($slug);
         if (!$brand)
             throw new HttpException(404);
 
-        $query = $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
+	$securityContext = $this->container->get('security.context');
+	$query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
+		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
             LEFT JOIN user.followers follower WHERE follower.id = :brandUserId ORDER BY user.followersCount DESC')
-            ->setParameter('brandUserId', $brand->getAdmin() ? $brand->getAdmin()->getId() : 0)
+	    ->setParameters(array(
+		'brandUserId' => $brand->getAdmin() ? $brand->getAdmin()->getId() : 0,
+		'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
+	    ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 
@@ -287,7 +414,9 @@ class BrandsController extends FosRestController
         $count = count($paginator);
         if ($count > 0) {
             $users = array();
-            foreach($paginator as $user) {
+	    foreach ($paginator as $entry) {
+		$user = $entry[0];
+		$user->setFollowed($entry['followed'] > 0 ? true : false);
                 $users[] = $user;
             }
 
@@ -310,7 +439,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getProductsAction($slug)
     {
@@ -330,7 +459,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="20")
@@ -401,7 +530,7 @@ class BrandsController extends FosRestController
     }
 
     /**
-     * @View()
+     * @View(serializerGroups={"details"})
      *
      * @ApiDoc(
      *  resource=true,
@@ -442,7 +571,7 @@ class BrandsController extends FosRestController
      *  section="Brand"
      * )
      *
-     * @View()
+     * @View(serializerGroups={"details"})
      */
     public function postFollowerAction($slug)
     {
@@ -493,12 +622,22 @@ class BrandsController extends FosRestController
     }
 
     /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET rewards by user ID",
+     *  output="AdEntify\CoreBundle\Entity\Reward",
+     *  section="Brand",
+     * parameters={
+     *   {"name"="slug", "dataType"="string", "required"=true, "description"="brand slug"}
+     * }
+     * )
+     *
      * @param $slug
      *
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      *
-     * @View()
+     * @View(serializerGroups={"list"})
      */
     public function getRewardsAction($slug, $page = 1, $limit = 10)
     {

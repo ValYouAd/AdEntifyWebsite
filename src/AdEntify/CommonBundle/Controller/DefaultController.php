@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Doctrine\ORM\Query\ResultSetMapping;
+
 
 class DefaultController extends Controller
 {
@@ -294,7 +296,41 @@ class DefaultController extends Controller
      */
     public function legalAction()
     {
-        return array();
+        $terms_of_use = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :termsOfUse")
+            ->setParameter('termsOfUse', 'Terms of use')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        $privacy = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :privacy")
+            ->setParameter('privacy', 'Privacy')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        $legal_notices = $this->getDoctrine()->getManager()
+            ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :legalNotices")
+            ->setParameter('legalNotices', 'Legal notices')
+            ->useQueryCache(false)
+            ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
+            ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
+            ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
+            ->getResult();
+
+        return array(
+            'terms_of_use' => $terms_of_use[0]->getInfo(),
+            'privacy' => $privacy[0]->getInfo(),
+            'legal_notices' => $legal_notices[0]->getInfo(),
+        );
     }
 
     /**
@@ -313,40 +349,6 @@ class DefaultController extends Controller
         }
 
         return $locale;
-    }
-
-    /**
-     * @Route("/post-test")
-     * @Method({"POST"})
-     */
-    public function testAction()
-    {
-        $uploadedFile = $_FILES['file'];
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        $path = FileTools::getUserPhotosPath($user);
-        $filename = uniqid().$uploadedFile['name'];
-        $file = $this->getRequest()->files->get('file');
-
-        $url = $this->container->get('adentify_storage.file_manager')->upload($file, $path, $filename);
-        if ($url) {
-            $photo = new Photo();
-            $thumb = new Thumb();
-            $thumb->setOriginalPath($url);
-            $thumb->configure($photo);
-            $thumbs = $this->container->get('ad_entify_core.thumb')->generateUserPhotoThumb($thumb, $user, $filename);
-
-            // Add original
-            $originalImageSize = getimagesize($url);
-            $thumbs['original'] = array(
-                'filename' => $url,
-                'width' => $originalImageSize[0],
-                'height' => $originalImageSize[1],
-            );
-
-            $photo->fillThumbs($thumbs);
-        } else {
-            throw new HttpException(500, 'Can\'t upload photo.');
-        }
     }
 
     /**
