@@ -8,6 +8,7 @@
       "tagged_plural": "__count__ <span class='bold'>tagged</span>",
       "titleViewBrand": "Latest brand tags",
       "errorPhotosLoading": "Error loading brand photos.",
+      "errorLogoImageUpload": "Error uploading brand logo",
       "noPhotos": "No photos available for this brand yet.",
       "pageTitleViewBrand": "__name__ photos - AdEntify",
       "viewPhotos": "View photos",

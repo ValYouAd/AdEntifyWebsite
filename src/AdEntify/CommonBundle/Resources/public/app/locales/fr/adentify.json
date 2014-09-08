@@ -8,6 +8,7 @@
       "tagged_plural": "__count__ <span class='bold'>fois taguées</span>",
       "titleViewBrand": "Derniers tags de la marque",
       "errorPhotosLoading": "Erreur lors de la récupération des photos de la marque.",
+      "errorLogoImageUpload": "Erreur lors de l'envoi de la photo du logo.",
       "noPhotos": "Pas encore de photo pour cette marque.",
       "pageTitleViewBrand": "Photos de __name__ - AdEntify",
       "viewPhotos": "Voir les photos",
