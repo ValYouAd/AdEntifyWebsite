@@ -301,7 +301,7 @@ class BrandsController extends FosRestController
         }
 
         $query = $this->getDoctrine()->getManager()->createQuery('SELECT brand FROM AdEntify\CoreBundle\Entity\Brand brand
-            WHERE brand.name LIKE :query AND brand.validated = 1')
+            WHERE brand.name LIKE :query AND brand.validated = 1 ORDER BY brand.name')
 	    ->setParameter(':query', '%'.$query.'%')
             ->setMaxResults($limit)
             ->setFirstResult(($page - 1) * $limit);
