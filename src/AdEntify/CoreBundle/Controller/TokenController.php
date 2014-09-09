@@ -78,9 +78,10 @@ class TokenController extends FosRestController
     /**
      * @View(serializerGroups={"details"})
      */
-    public function postTwitterAction()
+    public function getTwitterAction()
     {
-        if (!$this->getRequest()->request->has('twitter_access_token')) {
+        if (!$this->getRequest()->request->has('twitter_access_token')
+            || !$this->getRequest()->request->has('twitter_access_token_secret')) {
             throw new HttpException(403);
         }
 
