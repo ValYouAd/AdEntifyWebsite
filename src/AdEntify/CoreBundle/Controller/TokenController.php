@@ -78,22 +78,24 @@ class TokenController extends FosRestController
     /**
      * @View(serializerGroups={"details"})
      */
-    public function postTwitterAction()
+    public function getTwitterAction()
     {
-        if (!$this->getRequest()->request->has('twitter_access_token')) {
+        if (!$this->getRequest()->request->has('twitter_access_token')
+            || !$this->getRequest()->request->has('twitter_access_token_secret')) {
             throw new HttpException(403);
         }
 
         // Get AdEntify OAuth client
         $oAuthClient = $this->getOAuthClient();
 
-        // Get OAuth token with facebook grant type
+        // Get OAuth token with twitter grant type
         $url = $this->generateUrl('fos_oauth_server_token', array(), true);
         $params = array(
             "client_id" => $oAuthClient->getPublicId(),
             "client_secret" => $oAuthClient->getSecret(),
-            "grant_type" => $this->container->getParameter('facebook_grant_extension_uri'),
-            "facebook_access_token" => $this->getRequest()->request->get('twitter_access_token')
+            "grant_type" => $this->container->getParameter('twitter_grant_extension_uri'),
+            "twitter_access_token" => $this->getRequest()->request->get('twitter_access_token'),
+            "twitter_access_token_secret" => $this->getRequest()->request->get('twitter_access_token_secret')
         );
         $result = CommonTools::postUrl($url, $params);
         $tokens = !empty($result) ? json_decode($result) : null;

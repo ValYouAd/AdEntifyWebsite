@@ -569,6 +569,25 @@ class User extends BaseUser
         }
     }
 
+    /**
+     * @param Array
+     */
+    public function setTwitterData($twitterData)
+    {
+        if (property_exists($twitterData, 'id')) {
+            $this->setTwitterId($twitterData->id);
+            $this->addRole('ROLE_TWITTER');
+        }
+        if (property_exists($twitterData, 'name')) {
+            $parts = explode(' ', $twitterData->name);
+            $this->setFirstname(array_shift($parts));
+            $this->setLastname(implode(' ', $parts));
+        }
+        $this->setEmail($twitterData->screen_name);
+        $this->setTwitterUsername($twitterData->screen_name);
+        $this->setUsername($twitterData->id);
+    }
+
     public function addPhoto(Photo $photo)
     {
         $this->photos[] = $photo;

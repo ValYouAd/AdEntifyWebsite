@@ -12,8 +12,9 @@ define([
    "modules/comment",
    'modules/category',
    'modules/hashtag',
-   "pinterest"
-], function(app, Tag, Common, Comment, Category, Hashtag) {
+   'moment',
+   'pinterest'
+], function(app, Tag, Common, Comment, Category, Hashtag, moment) {
 
    var Photo = app.module();
    var loaded = false;
@@ -288,7 +289,8 @@ define([
       serialize: function() {
          return {
             model: this.options.photo,
-            pageUrl: this.options.photo.get('link')
+            pageUrl: this.options.photo.get('link'),
+            publishDate: moment(this.options.photo.get('created_at')).format("LLL")
          };
       },
 
