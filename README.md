@@ -1,6 +1,6 @@
 1) Générer un client oAuth
 
-php app/console adentify:oauth:client:create --name "AdEntify" --redirect-uri "https://www.adentify.com/" --grant-type token --grant-type authorization_code --grant-type password --grant-type "http://grants.api.adentify.com/facebook_access_token"
+php app/console adentify:oauth:client:create --name "AdEntify" --redirect-uri "https://www.adentify.com/" --grant-type token --grant-type authorization_code --grant-type password --grant-type "http://grants.api.adentify.com/facebook_access_token" --grant-type "http://grants.api.adentify.com/twitter_access_token"
 php app/console adentify:oauth:client:create --name "Plugin Wordpress DEV" --redirect-uri "http://localhost/" --grant-type token --grant-type authorization_code
 
 2) Cron

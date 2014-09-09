@@ -257,7 +257,7 @@ define([
                         })).render();
                         $('input[type="password"]').val('');
                      },
-                     error: function(e, r) {
+                     error: function() {
                         app.useLayout().setView('.alert-changePassword', new Common.Views.Alert({
                            cssClass: Common.alertSuccess,
                            message: $.t('mySettings.currentPasswordError'),

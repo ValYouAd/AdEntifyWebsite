@@ -239,7 +239,7 @@ class PeopleController extends FosRestController
      * @QueryParam(name="limit", default="50")
      * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $limit)
+    public function getSearchAction($query, $limit = 50)
     {
         $securityContext = $this->container->get('security.context');
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {

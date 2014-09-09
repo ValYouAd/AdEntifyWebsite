@@ -187,6 +187,16 @@ services:
             facebookSdk: "@fos_facebook.api"
         tags:
             - { name: fos_oauth_server.grant_extension, uri: %facebook_grant_extension_uri% }
+    adEntify.oauth.twitter_extension:
+            class: AdEntify\CoreBundle\OAuth\TwitterGrantExtension
+            arguments:
+                userManager: "@fos_user.user_manager"
+                ownerMap: "hwi_oauth.resource_ownermap.main"
+                httpClient: "@buzz.client"
+                clientId: %twitter_consumer_key%
+                clientSecret: %twitter_consumer_secret%
+            tags:
+                - { name: fos_oauth_server.grant_extension, uri: %twitter_grant_extension_uri% }
     adEntify.twig.adentify_extension:
         class: AdEntify\BackofficeBundle\Twig\AdEntifyExtension
         tags:
