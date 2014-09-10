@@ -39,6 +39,7 @@
             <argument type="service" id="fos_user.security.login_manager" />
             <argument>%fos_user.firewall_name%</argument>
             <argument type="service" id="ad_entify_core.email" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
         <service id="adentify_authentication_handler" class="AdEntify\UserBundle\Security\AuthenticationHandler">

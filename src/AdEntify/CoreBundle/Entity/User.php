@@ -648,6 +648,7 @@ class User extends BaseUser
     public function setPerson($person)
     {
         $this->person = $person;
+        return $this;
     }
 
     /**
@@ -664,6 +665,7 @@ class User extends BaseUser
     public function setFacebookUsername($facebookUsername)
     {
         $this->facebookUsername = $facebookUsername;
+        return $this;
     }
 
     /**

@@ -192,7 +192,7 @@ class Person
      * @var string
      *
      * @ORM\Column(name="link", type="text", nullable=true)
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"details", "list", "slight-list"})
      */
     private $link;
 
@@ -538,6 +538,7 @@ class Person
     public function setLink($link)
     {
         $this->link = $link;
+        return $this;
     }
 
     /**

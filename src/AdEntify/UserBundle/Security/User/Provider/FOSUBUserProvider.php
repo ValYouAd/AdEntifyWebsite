@@ -103,6 +103,8 @@ class FOSUBUserProvider extends BaseClass
                 $this->container->get('ad_entify_core.email')->registerWithValidation($user);
             }
 
+            $this->container->get('doctrine.orm.entity_manager')->getRepository('AdEntifyCoreBundle:Person')->createFromUser($user);
+
             $this->userManager->updateUser($user);
             return $user;
         }
@@ -117,6 +119,8 @@ class FOSUBUserProvider extends BaseClass
         $user->$setter($response->getAccessToken());
 
         $user->setLoggedInCount($user->getLoggedInCount() + 1);
+
+        $this->container->get('doctrine.orm.entity_manager')->getRepository('AdEntifyCoreBundle:Person')->createFromUser($user);
 
         return $user;
     }

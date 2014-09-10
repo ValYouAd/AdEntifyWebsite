@@ -185,6 +185,7 @@ services:
         arguments:
             userManager: "@fos_user.user_manager"
             facebookSdk: "@fos_facebook.api"
+            em: "@doctrine.orm.entity_manager"
         tags:
             - { name: fos_oauth_server.grant_extension, uri: %facebook_grant_extension_uri% }
     adEntify.oauth.twitter_extension:
@@ -195,6 +196,7 @@ services:
                 httpClient: "@buzz.client"
                 clientId: %twitter_consumer_key%
                 clientSecret: %twitter_consumer_secret%
+                em: "@doctrine.orm.entity_manager"
             tags:
                 - { name: fos_oauth_server.grant_extension, uri: %twitter_grant_extension_uri% }
     adEntify.twig.adentify_extension:

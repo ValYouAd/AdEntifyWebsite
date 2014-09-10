@@ -26,14 +26,16 @@ class TwitterGrantExtension implements GrantExtensionInterface
     protected $clientId = null;
     protected $clientSecret = null;
     protected $httpClient = null;
+    protected $em = null;
 
-    public function __construct(UserManager $userManager, $ownerMap, HttpClientInterface $httpClient, $clientId, $clientSecret)
+    public function __construct(UserManager $userManager, $ownerMap, HttpClientInterface $httpClient, $clientId, $clientSecret, $em)
     {
         $this->userManager = $userManager;
         $this->ownerMap = $ownerMap;
         $this->httpClient = $httpClient;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
+        $this->em = $em;
     }
 
     /**
@@ -87,8 +89,10 @@ class TwitterGrantExtension implements GrantExtensionInterface
 
                 $user->setTwitterAccessToken($inputData['twitter_access_token']);
                 $user->setTwitterData($userInformation);
+                $this->em->getRepository('AdEntifyCoreBundle:Person')->createFromUser($user);
                 $this->userManager->updateUser($user);
-            }
+            } else
+                $this->em->getRepository('AdEntifyCoreBundle:Person')->createFromUser($user);
 
             return array(
                 'data' => $user
