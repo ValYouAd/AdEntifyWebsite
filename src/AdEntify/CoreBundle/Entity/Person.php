@@ -188,6 +188,14 @@ class Person
      */
     private $randomPhoto;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="link", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $link;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
@@ -522,5 +530,21 @@ class Person
     public function getRandomPhoto()
     {
         return $this->randomPhoto;
+    }
+
+    /**
+     * @param string $link
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 }

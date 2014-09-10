@@ -30,6 +30,9 @@ class PersonType extends AbstractType
             ))
             ->add('gender', 'text', array(
                 'required' => false
+            ))
+            ->add('link', 'text', array(
+                'required' => false
             ));
     }
 
