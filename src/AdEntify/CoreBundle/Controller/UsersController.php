@@ -185,8 +185,9 @@ class UsersController extends FosRestController
             }
         }
 
-        $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+        $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.owner owner
+                LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL AND tag.censored = false AND tag.validationStatus != :denied)
                 WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL
                 AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
@@ -197,7 +198,8 @@ class UsersController extends FosRestController
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
-                ':currentUserId' => $user ? $user->getId() : 0
+                ':currentUserId' => $user ? $user->getId() : 0,
+                ':denied' => Tag::VALIDATION_DENIED
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
