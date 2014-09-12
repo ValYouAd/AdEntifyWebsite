@@ -364,8 +364,25 @@ class TagsController extends FosRestController
      * @param null $tag
      * @return mixed
      */
-    protected function getForm($tag = null)
+    protected function getForm(Tag $tag = null)
     {
-        return $this->createForm(new TagType(), $tag);
+        $options = array();
+        if ($this->getRequest()->isMethod('POST')) {
+            $options['photoId'] = $this->getRequest()->get('tag')['photo'];
+            if ($tag->getPerson())
+                $options['personId'] = $this->getRequest()->get('tag')['person'];
+            if ($tag->getProduct())
+                $options['productId'] = $this->getRequest()->get('tag')['product'];
+            if ($tag->getProductType())
+                $options['productTypeId'] = $this->getRequest()->get('tag')['productType'];
+            if ($tag->getBrand())
+                $options['brandId'] = $this->getRequest()->get('tag')['brand'];
+            if ($tag->getVenue())
+                $options['venueId'] = $this->getRequest()->get('tag')['venue'];
+            if ($tag->getPhoto())
+                $options['photoId'] = $this->getRequest()->get('tag')['photo'];
+        }
+
+        return $this->createForm(new TagType(), $tag, $options);
     }
 }

@@ -4,6 +4,8 @@ namespace AdEntify\CommonBundle\Controller;
 
 use AdEntify\CommonBundle\Models\Contact;
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Entity\Tag;
+use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\FileTools;
@@ -330,6 +332,31 @@ class DefaultController extends Controller
             'terms_of_use' => $terms_of_use[0]->getInfo(),
             'privacy' => $privacy[0]->getInfo(),
             'legal_notices' => $legal_notices[0]->getInfo(),
+        );
+    }
+
+    /**
+     * @Route("/test", name="testlala")
+     * @Template()
+     */
+    public function testAction(Request $request) {
+        $tag = new Tag();
+
+        $form = $this->createForm(new TagType(), $tag, array(
+            'action' => $this->generateUrl('testlala'),
+            'method' => 'POST',
+            'photoId' => $this->getRequest()->isMethod('POST') ? $request->request->get('tag')['photo'] : null
+        ));
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            return array(
+                'lala' => 'toto'
+            );
+        }
+
+        return array(
+            'form' => $form->createView()
         );
     }
 

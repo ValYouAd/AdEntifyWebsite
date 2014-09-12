@@ -1,1 +1,7 @@
-<iframe src="https://adentify.com/iframe/photo-852.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="650" height="649" allowTransparency="true"></iframe>
+<?php
+
+for ($i=1; $i <= 16; $i++) {
+    echo '<p><a target="_blank" href="http://www.grandtheftauto5.fr/images/screenshots-officiels-ps4-pc-xbox-one/'.$i.'.jpg"><img src="http://www.grandtheftauto5.fr/images/screenshots-officiels-ps4-pc-xbox-one/medium/'.$i.'.jpg" /></a></p>';
+}
+
+?>

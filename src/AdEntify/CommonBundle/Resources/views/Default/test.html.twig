@@ -1,0 +1,13 @@
+{% if form %}
+    <form action="" method="POST" {{ form_enctype(form) }}>
+
+        {{ form_rest(form) }}
+        <select id="tag_photo" name="tag[photo]" multiple="true">
+            <option value="164">164</option>
+            <option value="165">165</option>
+            <option value="166">166</option>
+        </select>
+    </form>
+{% else %}
+douze
+{% endif %}
