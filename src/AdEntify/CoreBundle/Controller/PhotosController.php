@@ -670,9 +670,17 @@ class PhotosController extends FosRestController
                         $photo->setCategories($formPhoto->getCategories());
                     }
                     if (array_key_exists('hashtags', $request->request->get('photo'))) {
-                        $photo->setHashtags($photo->getHashtags()->clear());
                         $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
                         $newPhoto = $request->request->get('photo');
+                        $hashtagsC = $photo->getHashtags();
+                        while (!$photo->getHashtags()->isEmpty()) {
+                            $firstHT = $hashtagsC->first()->getName();
+                            if (!in_array($firstHT, (array_unique($newPhoto['hashtags'])))) {
+                                $removedHashtag = $hashtagRepository->findOneByName($firstHT);
+                                $removedHashtag->setUsedCount($removedHashtag->getUsedCount() - 1);
+                            }
+                            $hashtagsC->removeElement($hashtagsC->first());
+                        }
                         foreach (array_unique($newPhoto['hashtags']) as $hashtagName) {
                             if (is_numeric($hashtagName)) {
                                 $hashtag = $hashtagRepository->find($hashtagName);
