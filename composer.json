@@ -37,9 +37,7 @@
         "aws/aws-sdk-php": "2.*",
         "knplabs/gaufrette": "dev-master",
         "knplabs/knp-gaufrette-bundle": "dev-master",
-        "guzzle/guzzle": "dev-master",
-       "jns/xhprof-bundle": "1.0.*@dev",
-       "facebook/xhprof": "dev-master@dev"
+        "guzzle/guzzle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
