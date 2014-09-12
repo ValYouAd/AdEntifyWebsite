@@ -38,6 +38,9 @@ function(app, Facebook, HomePage, Photos, Upload, FacebookAlbums, FacebookPhotos
 
    var Router = Backbone.Router.extend({
       initialize: function() {
+         $.widget.bridge('uibutton', $.ui.button);
+         $.widget.bridge('uitooltip', $.ui.tooltip);
+
          this.listenTo(this, {
             'route': this.routeTriggered
          });
