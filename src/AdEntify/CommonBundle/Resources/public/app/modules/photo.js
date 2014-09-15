@@ -290,7 +290,7 @@ define([
          return {
             model: this.options.photo,
             pageUrl: this.options.photo.get('link'),
-            publishDate: moment(this.options.photo.get('created_at')).format("LLL")
+            publishDate: moment(this.options.photo.get('created_at')).fromNow()
          };
       },
 
