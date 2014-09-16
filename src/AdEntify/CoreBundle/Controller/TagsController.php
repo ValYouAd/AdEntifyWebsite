@@ -217,6 +217,14 @@ class TagsController extends FosRestController
                             ->setObjectType($em->getClassMetadata(get_class($photo))->getName())->setOwner($photo->getOwner())
                             ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                         $em->persist($notification);
+
+                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                        $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoTag', array(
+                            '%user%' => $user->getFullname()
+                        )), array(
+                            'photoId' => $tag->getPhoto()->getId()
+                        ));
+                        $pushNotificationService->sendToUser($tag->getPhoto()->getOwner(), $options);
                     } else {
                         throw new HttpException(403, 'You can\t add a tag to this photo');
                     }
@@ -283,7 +291,7 @@ class TagsController extends FosRestController
                 $status = $request->request->get('waiting_validation');
                 if ($status == Tag::VALIDATION_GRANTED) {
                     $tag->setValidationStatus(Tag::VALIDATION_GRANTED);
-                    $this->get('ad_entify_core.points')->calculateUserPoints($tag->getOwner(), $tag);
+                    $points = $this->get('ad_entify_core.points')->calculateUserPoints($tag->getOwner(), $tag);
                     $em->merge($tag);
 
                     if ($tag->getBrand()) {
@@ -296,6 +304,15 @@ class TagsController extends FosRestController
                             $user, $tag->getPhoto()->getOwner(), array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
                             $em->getClassMetadata(get_class($tag->getPhoto()))->getName(), false, 'tagPhoto');
                     }
+
+                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                    $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.tagValidated', array(
+                        '%user%' => $user->getFullname(),
+                        '%points%' => $points['tagPointTagger']
+                    )), array(
+                        'photoId' => $tag->getPhoto()->getId()
+                    ));
+                    $pushNotificationService->sendToUser($tag->getOwner(), $options);
 
                     $em->flush();
                 } else if ($status == Tag::VALIDATION_DENIED) {

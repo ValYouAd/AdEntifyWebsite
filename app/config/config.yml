@@ -131,13 +131,6 @@ fos_facebook:
     permissions: [%facebook_permissions%]
     culture:     fr_FR
 
-# Twitter
-fos_twitter:
-    file:
-    consumer_key:    %twitter_consumer_key%
-    consumer_secret: %twitter_consumer_secret%
-    callback_route:  "_security_check_twitter"
-
 fos_user:
     db_driver: orm
     firewall_name: main
@@ -216,6 +209,7 @@ twig:
         facebook_app_id:          %facebook_app_id%
         facebook_permissions:     %facebook_permissions%
         root_url:                 %root_url%
+        app_version:              %app_version%
 
 # Instagram
 ad_entify_instagram:
@@ -323,10 +317,10 @@ nelmio_api_doc:
         endpoint: %root_url_without_trailing%
 
 a2lix_translation_form:
-    locales: [en, fr]       # [1]
-    default_required: true      # [2]
-    manager_registry: doctrine      # [3]
-    templating: "A2lixTranslationFormBundle::default.html.twig"      # [4]
+    locales: [en, fr]                                             # [1]
+    default_required: true                                        # [2]
+    manager_registry: doctrine                                    # [3]
+    templating: "A2lixTranslationFormBundle::default.html.twig"   # [4]
 
 knp_gaufrette:
     adapters:

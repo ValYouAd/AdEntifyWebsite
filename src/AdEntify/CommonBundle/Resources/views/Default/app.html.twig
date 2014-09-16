@@ -286,6 +286,7 @@
         var currentUserId = {{ app.user ? app.user.id : 0 }};
         var currentUserBirthday = '{{ app.user and app.user.birthday ? app.user.birthday|date('m/d/Y') : '' }}';
         var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
+        var appVersion = '{{ app_version }}';
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR5q9gPkuTSC48dmCr1sBEKMOB2qExu3s&v=3&sensor=false"></script>
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
@@ -293,5 +294,5 @@
     </script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script data-main="{{ asset('bundles/adentifycommon/app/config.1.1.17') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
+    <script data-main="{{ asset('bundles/adentifycommon/app/config.' ~ app_version) }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
 {% endblock %}

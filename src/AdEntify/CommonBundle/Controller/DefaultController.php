@@ -3,6 +3,7 @@
 namespace AdEntify\CommonBundle\Controller;
 
 use AdEntify\CommonBundle\Models\Contact;
+use AdEntify\CoreBundle\Entity\DeviceRepository;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\TagType;
@@ -340,24 +341,15 @@ class DefaultController extends Controller
      * @Template()
      */
     public function testAction(Request $request) {
-        $tag = new Tag();
+        $push = $this->get('ad_entify_core.pushNotifications');
 
-        $form = $this->createForm(new TagType(), $tag, array(
-            'action' => $this->generateUrl('testlala'),
-            'method' => 'POST',
-            'photoId' => $this->getRequest()->isMethod('POST') ? $request->request->get('tag')['photo'] : null
+        $options = $push->getOptions($this->get('translator')->trans('pushNotification.photoLike', array(
+            '%user%' => $this->getUser()->getFullname()
+        )), array(
+            'photoId' => 2
         ));
 
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            return array(
-                'lala' => 'toto'
-            );
-        }
-
-        return array(
-            'form' => $form->createView()
-        );
+        $push->sendToUser($this->getUser(), $options);
     }
 
     /**

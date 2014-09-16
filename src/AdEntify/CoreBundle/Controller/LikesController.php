@@ -59,7 +59,7 @@ class LikesController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             if ($request->request->has('photoId') && is_numeric($request->request->get('photoId'))) {
                 $em = $this->getDoctrine()->getManager();
-                $user = $securityContext->getToken()->getUser();
+                $user = $this->getUser();
 
                 $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($request->request->get('photoId'));
                 if (!$photo)
@@ -92,6 +92,14 @@ class LikesController extends FosRestController
                         $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, $user ? 'memberLikedPhoto': 'anonymousLikedPhoto');
 
                     $em->flush();
+
+                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                    $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoLike', array(
+                        '%user%' => $user->getFullname()
+                    )), array(
+                        'photoId' => $like->getPhoto()->getId()
+                    ));
+                    $pushNotificationService->sendToUser($like->getPhoto()->getOwner(), $options);
 
                     return array(
                         'liked' => true

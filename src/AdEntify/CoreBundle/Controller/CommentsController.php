@@ -107,6 +107,14 @@ class CommentsController extends FosRestController
                 $em->persist($comment);
                 $em->flush();
 
+                $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoComment', array(
+                    '%user%' => $user->getFullname()
+                )), array(
+                    'photoId' => $comment->getPhoto()->getId()
+                ));
+                $pushNotificationService->sendToUser($comment->getPhoto()->getOwner(), $options);
+
                 return $comment;
             } else {
                 return $form;

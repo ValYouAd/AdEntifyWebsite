@@ -1176,6 +1176,14 @@ class PhotosController extends FosRestController
                         $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
                             $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                             $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, 'photoFav');
+
+                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                        $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoFavorite', array(
+                            '%user%' => $user->getFullname()
+                        )), array(
+                            'photoId' => $photo->getId()
+                        ));
+                        $pushNotificationService->sendToUser($photo->getOwner(), $options);
                     } else {
                         $user->removeFavoritePhoto($photo);
                         $favorites = false;

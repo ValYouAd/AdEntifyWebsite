@@ -76,6 +76,8 @@ class PointService
      */
     public function calculateUserPoints(User $user, Tag $tag)
     {
+        $wonPoints = array();
+
         $taggerIsPhotoOwner = $user->getId() == $tag->getPhoto()->getOwner()->getId();
         if ($taggerIsPhotoOwner) {
             $points = $this->getPoints($tag, $taggerIsPhotoOwner);
@@ -84,6 +86,8 @@ class PointService
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
                 $user, $user, array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
                 $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'tagPoints', array('count' => $points));
+
+            $wonPoints['tagPointOwner'] = $points;
         } else if ($tag->getValidationStatus() == Tag::VALIDATION_GRANTED) {
             $result = $this->getPoints($tag, false);
 
@@ -97,6 +101,8 @@ class PointService
             $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_USER_POINTS,
                 $tag->getPhoto()->getOwner(), $tag->getPhoto()->getOwner(), array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
                 $this->em->getClassMetadata(get_class($tag->getPhoto()))->getName(), true, 'publicTagPoints', array('count' => $result['tagPointOwner']->getPoints()));
+
+            $wonPoints = $result;
         }
 
         foreach ($tag->getPoints() as $tagPoint) {
@@ -109,6 +115,8 @@ class PointService
         $this->em->merge($tag->getPhoto());
 
         $this->em->merge($user);
+
+        return $wonPoints;
     }
 
     /**

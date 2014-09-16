@@ -362,6 +362,14 @@ class UsersController extends FosRestController
                 $em->merge($following);
                 $em->flush();
 
+                $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.userFollow', array(
+                    '%user%' => $follower->getFullname()
+                )), array(
+                    'userId' => $follower->getId()
+                ));
+                $pushNotificationService->sendToUser($following, $options);
+
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);
 

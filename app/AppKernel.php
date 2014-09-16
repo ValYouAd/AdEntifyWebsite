@@ -26,7 +26,6 @@ class AppKernel extends Kernel
             new FOS\FacebookBundle\FOSFacebookBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new FOS\TwitterBundle\FOSTwitterBundle(),
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
 
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
@@ -41,6 +40,8 @@ class AppKernel extends Kernel
             new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
 
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+
+            new Misd\GuzzleBundle\MisdGuzzleBundle(),
 
             new AdEntify\UserBundle\AdEntifyUserBundle(),
             new AdEntify\CoreBundle\AdEntifyCoreBundle(),
