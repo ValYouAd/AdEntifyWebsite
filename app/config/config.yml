@@ -37,18 +37,31 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
-        charset:  UTF8
+        default_connection: default
+        connections:
+            default:
+              driver:   %database_driver%
+              host:     %database_host%
+              port:     %database_port%
+              dbname:   %database_name%
+              user:     %database_user%
+              password: %database_password%
+              charset:  UTF8
+            LBJ:
+              driver:   %database_driver%
+              host:     %database_host%
+              port:     %database_port%
+              dbname:   %database_name_lbj%
+              user:     %database_user_lbj%
+              password: %database_password_lbj%
+              charset:  UTF8
 
     orm:
+        default_entity_manager: default
         auto_generate_proxy_classes: %kernel.debug%
         entity_managers:
             default:
+                connection: default
                 dql:
                     string_functions:
                         regexp: AdEntify\CoreBundle\Dql\RegExp
@@ -56,10 +69,50 @@ doctrine:
                         date:   AdEntify\CoreBundle\Dql\DateFunction
                     datetime_functions:
                         day:   AdEntify\CoreBundle\Dql\DayFunction
-                auto_mapping: true
+                mappings:
+                    FrameworkBundle: ~
+                    SecurityBundle: ~
+                    TwigBundle: ~
+                    MonologBundle: ~
+                    SwiftmailerBundle: ~
+                    AsseticBundle: ~
+                    DoctrineBundle: ~
+                    SensioFrameworkExtraBundle: ~
+                    JMSAopBundle: ~
+                    JMSDiExtraBundle: ~
+                    JMSSecurityExtraBundle: ~
+                    JMSSerializerBundle: ~
+                    FOSRestBundle: ~
+                    FOSFacebookBundle: ~
+                    FOSUserBundle: ~
+                    FOSJsRoutingBundle: ~
+                    FOSTwitterBundle: ~
+                    FOSOAuthServerBundle: ~
+                    StofDoctrineExtensionsBundle: ~
+                    AvalancheImagineBundle: ~
+                    HWIOAuthBundle: ~
+                    NelmioCorsBundle: ~
+                    NelmioApiDocBundle: ~
+                    A2lixTranslationFormBundle: ~
+                    KnpGaufretteBundle: ~
+                    AdEntifyUserBundle: ~
+                    AdEntifyCoreBundle: ~
+                    AdEntifyCommonBundle: ~
+                    AdEntifyInstagramBundle: ~
+                    AdEntifyFlickrBundle: ~
+                    AdEntifyEmbedJsBundle: ~
+                    AdEntifyBackofficeBundle: ~
+                    WebProfilerBundle: ~
+                    SensioDistributionBundle: ~
+                    SensioGeneratorBundle: ~
+                    JMSDebuggingBundle: ~
+                #auto_mapping: true
                 #metadata_cache_driver: apc
                 #result_cache_driver: apc
                 #query_cache_driver: apc
+            LBJ:
+                connection: LBJ
+                #mappings:
 
 # Swiftmailer Configuration
 swiftmailer:
