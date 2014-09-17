@@ -33,31 +33,32 @@ class BrandsSynchroCommand extends ContainerAwareCommand
         $rsm->addScalarResult('twitter_url', 'twitter_url');
         $rsm->addScalarResult('website_url', 'website_url');
 
-        $brands = $this->em_adEntify->createNativeQuery('SELECT * FROM brands WHERE original_logo_url IS NOT NULL', $rsm)->getResult();
+        //get all the brands name from LBJ's database and join them into one string
         $brands_lbj = $this->conn->executeQuery('SELECT * FROM brand')->fetchAll();
-
         $i = 0;
         $brands_name_lbj = array();
         foreach($brands_lbj as $brand_lbj)
             $brands_name_lbj[$i++] = $brand_lbj['name'];
+        $brands_name_lbj = join('", "', $brands_name_lbj);
 
+        //get all the brands, from AdEntify, which are not in the LBJ's database yet
+        $brands = $this->em_adEntify->createNativeQuery('SELECT * FROM brands WHERE original_logo_url IS NOT NULL AND name NOT IN ("'.$brands_name_lbj.'")', $rsm)->getResult();
+
+        //insert the brands from AdEntify into LBJ's database
         $count = 0;
         foreach($brands as $brand) {
-            if (!in_array($brand['name'], $brands_name_lbj)) {
-                $this->conn->insert('brand', array(
-                    'name' => $brand['name'],
-                    'slug' => $brand['slug'],
-                    'logo' => $brand['logo'],
-                    'description' => $brand['description'],
-                    'facebook_url' => $brand['facebook_url'],
-                    'twitter_url' => $brand['twitter_url'],
-                    'website_url' => $brand['website_url']
-                ));
-                $count++;
-            }
+            $this->conn->insert('brand', array(
+                'name' => $brand['name'],
+                'slug' => $brand['slug'],
+                'logo' => $brand['logo'],
+                'description' => $brand['description'],
+                'facebook_url' => $brand['facebook_url'],
+                'twitter_url' => $brand['twitter_url'],
+                'website_url' => $brand['website_url']
+            ));
+            $count++;
         }
 
-        $output->writeln('Database synchronization done!');
-        $output->writeln($count.' rows added!');
+        $output->writeln(date('Y-m-d').': '.$count.' rows added!');
     }
 }
