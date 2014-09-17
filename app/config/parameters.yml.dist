@@ -5,6 +5,7 @@ parameters:
     database_name:                adentify
     database_user:                adentify
     database_password:            H8Ff8tTpCcneTeG9
+    database_host_lbj:             127.0.0.1
     database_name_lbj:            littlebigjoe
     database_user_lbj:            littlebigjoe
     database_password_lbj:        tuD99QdqHwJhR9n4

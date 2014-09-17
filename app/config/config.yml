@@ -49,7 +49,7 @@ doctrine:
               charset:  UTF8
             LBJ:
               driver:   %database_driver%
-              host:     %database_host%
+              host:     %database_host_lbj%
               port:     %database_port%
               dbname:   %database_name_lbj%
               user:     %database_user_lbj%
@@ -101,10 +101,6 @@ doctrine:
                     AdEntifyFlickrBundle: ~
                     AdEntifyEmbedJsBundle: ~
                     AdEntifyBackofficeBundle: ~
-                    WebProfilerBundle: ~
-                    SensioDistributionBundle: ~
-                    SensioGeneratorBundle: ~
-                    JMSDebuggingBundle: ~
                 #auto_mapping: true
                 #metadata_cache_driver: apc
                 #result_cache_driver: apc

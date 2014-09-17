@@ -1185,6 +1185,7 @@ class PhotosController extends FosRestController
                             $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                             $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, 'photoFav');
 
+                        $this->getRequest()->setLocale($photo->getOwner()->getLocale());
                         $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
                         $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoFavorite', array(
                             '%user%' => $user->getFullname()

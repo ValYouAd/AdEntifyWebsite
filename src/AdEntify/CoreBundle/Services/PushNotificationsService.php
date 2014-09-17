@@ -63,8 +63,13 @@ class PushNotificationsService
         }
         if (is_numeric($badge) && $badge > 0)
             $options['badge'] = $badge;
-        if (is_array($customs) && count($customs) > 0)
-            $options['customs'] = array($customs);
+        if (is_array($customs) && count($customs) > 0) {
+            $options['customs'] = array();
+            foreach($customs as $key => $value) {
+                $options['customs'][]['key'] = $key;
+                $options['customs'][]['value'] = $value;
+            }
+        }
         return $options;
     }
 
@@ -85,12 +90,6 @@ class PushNotificationsService
             'notification' => $options
         )));
         $response = $this->client->send($request);
-
-        /*echo json_encode(array(
-            'notification' => $options
-        ));die;*/
-
-        echo $response->getBody();die;
 
         return $response->getStatusCode() == 200 ? true : false;
     }

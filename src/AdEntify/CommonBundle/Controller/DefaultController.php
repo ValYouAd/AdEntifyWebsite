@@ -337,37 +337,20 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/test", name="testlala")
-     * @Template()
-     */
-    public function testAction(Request $request) {
-        $push = $this->get('ad_entify_core.pushNotifications');
-
-        $options = $push->getOptions($this->get('translator')->trans('pushNotification.photoLike', array(
-            '%user%' => $this->getUser()->getFullname()
-        )), array(
-            'photoId' => 2
-        ));
-
-        $push->sendToUser($this->getUser(), $options);
-    }
-
-    /**
-     * Get current locale from user if logged and set, instead, get from request
+     * Get current locale from user if logged and set, instead, get from preferred language
      *
      * @return string
      */
     private function getCurrentLocale() {
-        $locale = $this->getRequest()->getLocale();
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getLocale()) {
-                $locale = $user->getLocale();
+        if ($this->getUser()) {
+            if ($this->getUser()->getLocale()) {
+                return $this->getUser()->getLocale();
             }
+        } else if ($this->getRequest()->getPreferredLanguage()) {
+            return $this->getRequest()->getPreferredLanguage();
         }
 
-        return $locale;
+        return $this->getRequest()->getLocale();
     }
 
     /**
@@ -376,11 +359,9 @@ class DefaultController extends Controller
      * @param $locale
      */
     private function setUserLocale($locale) {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $user->setLocale($locale);
-            $this->getDoctrine()->getManager()->merge($user);
+        if ($this->getUser()) {
+            $this->getUser()->setLocale($locale);
+            $this->getDoctrine()->getManager()->merge($this->getUser());
             $this->getDoctrine()->getManager()->flush();
         }
     }

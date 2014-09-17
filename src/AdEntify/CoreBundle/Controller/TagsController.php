@@ -218,6 +218,7 @@ class TagsController extends FosRestController
                             ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                         $em->persist($notification);
 
+                        $this->getRequest()->setLocale($tag->getPhoto()->getOwner()->getLocale());
                         $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
                         $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoTag', array(
                             '%user%' => $user->getFullname()
@@ -305,6 +306,7 @@ class TagsController extends FosRestController
                             $em->getClassMetadata(get_class($tag->getPhoto()))->getName(), false, 'tagPhoto');
                     }
 
+                    $this->getRequest()->setLocale($tag->getOwner()->getLocale());
                     $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
                     $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.tagValidated', array(
                         '%user%' => $user->getFullname(),
