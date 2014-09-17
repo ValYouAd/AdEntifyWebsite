@@ -86,7 +86,6 @@ doctrine:
                     FOSFacebookBundle: ~
                     FOSUserBundle: ~
                     FOSJsRoutingBundle: ~
-                    FOSTwitterBundle: ~
                     FOSOAuthServerBundle: ~
                     StofDoctrineExtensionsBundle: ~
                     AvalancheImagineBundle: ~
