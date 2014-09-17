@@ -364,9 +364,9 @@ class UsersController extends FosRestController
 
                 $this->getRequest()->setLocale($this->getUser()->getLocale());
                 $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.userFollow', array(
+                $options = $pushNotificationService->getOptions('pushNotification.userFollow', array(
                     '%user%' => $follower->getFullname()
-                )), array(
+                ), array(
                     'userId' => $follower->getId()
                 ));
                 $pushNotificationService->sendToUser($following, $options);

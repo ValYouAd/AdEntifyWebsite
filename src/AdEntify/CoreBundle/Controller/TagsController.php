@@ -220,9 +220,9 @@ class TagsController extends FosRestController
 
                         $this->getRequest()->setLocale($tag->getPhoto()->getOwner()->getLocale());
                         $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                        $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoTag', array(
+                        $options = $pushNotificationService->getOptions('pushNotification.photoTag', array(
                             '%user%' => $user->getFullname()
-                        )), array(
+                        ), array(
                             'photoId' => $tag->getPhoto()->getId()
                         ));
                         $pushNotificationService->sendToUser($tag->getPhoto()->getOwner(), $options);
@@ -308,10 +308,10 @@ class TagsController extends FosRestController
 
                     $this->getRequest()->setLocale($tag->getOwner()->getLocale());
                     $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                    $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.tagValidated', array(
+                    $options = $pushNotificationService->getOptions('pushNotification.tagValidated', array(
                         '%user%' => $user->getFullname(),
                         '%points%' => $points['tagPointTagger']
-                    )), array(
+                    ), array(
                         'photoId' => $tag->getPhoto()->getId()
                     ));
                     $pushNotificationService->sendToUser($tag->getOwner(), $options);

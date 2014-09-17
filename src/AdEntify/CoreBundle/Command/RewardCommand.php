@@ -70,10 +70,10 @@ class RewardCommand extends ContainerAwareCommand
                     $user, $user, null, Action::VISIBILITY_PUBLIC, null,
                     null, true, 'newReward', array('type' => $reward->getType()), null, $brand);
 
-                $options = $this->pushNotification->getOptions($this->translator->trans('pushNotification.brandReward', array(
+                $options = $this->pushNotification->getOptions('pushNotification.brandReward', array(
                     '%brand%' => $brand->getName(),
                     '%reward%' => $reward->getType()
-                )), array(
+                ), array(
                     'brandId' => $brand->getId()
                 ));
                 $this->pushNotification->sendToUser($user, $options);

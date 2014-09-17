@@ -109,9 +109,9 @@ class CommentsController extends FosRestController
 
                 $this->getRequest()->setLocale($comment->getPhoto()->getOwner()->getLocale());
                 $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoComment', array(
+                $options = $pushNotificationService->getOptions('pushNotification.photoComment', array(
                     '%user%' => $user->getFullname()
-                )), array(
+                ), array(
                     'photoId' => $comment->getPhoto()->getId()
                 ));
                 $pushNotificationService->sendToUser($comment->getPhoto()->getOwner(), $options);

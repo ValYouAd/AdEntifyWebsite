@@ -95,9 +95,9 @@ class LikesController extends FosRestController
 
                     $this->getRequest()->setLocale($like->getPhoto()->getOwner()->getLocale());
                     $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                    $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoLike', array(
+                    $options = $pushNotificationService->getOptions('pushNotification.photoLike', array(
                         '%user%' => $user->getFullname()
-                    )), array(
+                    ), array(
                         'photoId' => $like->getPhoto()->getId()
                     ));
                     $pushNotificationService->sendToUser($like->getPhoto()->getOwner(), $options);

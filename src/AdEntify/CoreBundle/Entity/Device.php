@@ -70,6 +70,14 @@ class Device
     private $owner;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="locale", type="string", length=10, nullable=true)
+     * @Serializer\Groups({"details"})
+     */
+    private $locale;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -187,6 +195,23 @@ class Device
     }
 
     /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
+    /**
      * @param Device $device
      */
     public function fillFromExisting(Device $device, User $user)
@@ -196,6 +221,6 @@ class Device
         $this->setPlatform($device->getPlatform());
         $this->setToken($device->getToken());
         $this->setOwner($user);
-
+        $this->setLocale($user->getLocale());
     }
 }

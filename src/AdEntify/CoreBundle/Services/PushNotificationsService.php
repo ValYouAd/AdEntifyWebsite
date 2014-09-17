@@ -17,19 +17,20 @@ class PushNotificationsService
     protected $apiKey;
     protected $client;
     protected $entityManager;
+    protected $translator;
     const URI = 'http://push.pikilabs.com/api/fr/iphone/notification.json';
 
-    public function __construct($apiKey, Client $client, $em)
+    public function __construct($apiKey, Client $client, $em, $translator)
     {
         $this->apiKey = $apiKey;
         $this->client = $client;
         $this->entityManager = $em;
+        $this->translator = $translator;
     }
 
     /**
      * @param $user
-     * @param $content
-     * @param int $badge
+     * @param $options
      * @param string $operatingSystem
      * @return bool
      */
@@ -46,15 +47,17 @@ class PushNotificationsService
     }
 
     /**
-     * @param $content
+     * @param $translation
+     * @param array $translationParameters
+     * @param null $customs
      * @param null $devices
      * @param int $badge
      * @return array
      */
-    public function getOptions($content, $customs = null, $devices = null, $badge = 1)
+    public function getOptions($translation, $translationParameters = array(), $customs = null, $devices = null, $badge = 1)
     {
         $options = array(
-            'content' => $content
+            'content' => $this->translator($translation, $translationParameters)
         );
         if (is_array($devices) && count($devices) > 0) {
             foreach($devices as $device) {
@@ -74,9 +77,7 @@ class PushNotificationsService
     }
 
     /**
-     * @param $content
-     * @param null $token
-     * @param null $badge
+     * @param $options
      * @return bool
      */
     public function send($options)
@@ -90,7 +91,6 @@ class PushNotificationsService
             'notification' => $options
         )));
         $response = $this->client->send($request);
-
         return $response->getStatusCode() == 200 ? true : false;
     }
 } 

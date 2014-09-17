@@ -1187,9 +1187,9 @@ class PhotosController extends FosRestController
 
                         $this->getRequest()->setLocale($photo->getOwner()->getLocale());
                         $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                        $options = $pushNotificationService->getOptions($this->get('translator')->trans('pushNotification.photoFavorite', array(
+                        $options = $pushNotificationService->getOptions('pushNotification.photoFavorite', array(
                             '%user%' => $user->getFullname()
-                        )), array(
+                        ), array(
                             'photoId' => $photo->getId()
                         ));
                         $pushNotificationService->sendToUser($photo->getOwner(), $options);

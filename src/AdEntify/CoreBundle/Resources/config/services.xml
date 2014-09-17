@@ -63,6 +63,7 @@
             <argument>%push_notifications_api_key%</argument>
             <argument type="service" id="guzzle.client"></argument>
             <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="translator" />
         </service>
         <!--<service id="ad_entify_core.oauth_event_listener" class="%ad_entify_core.oauthEventListener%">
             <argument type="service" id="fos_user.user_manager" />
