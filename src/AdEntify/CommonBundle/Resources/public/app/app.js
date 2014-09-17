@@ -13,7 +13,7 @@ define([
       var app = {
          // The root path to run the application.
          root: "/" + currentLocale + "/app/",
-         rootUrl: location.protocol + "//adentify.com/",
+         rootUrl: location.protocol + "//local.adentify.com/",
          beginUrl: location.protocol + "//" + location.host,
          secondsBetweenPoll: 15,
 	      version: appVersion
