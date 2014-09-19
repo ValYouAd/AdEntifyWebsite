@@ -25,11 +25,11 @@ monolog:
 assetic:
     use_controller: true
 
-jms_debugging:
+#jms_debugging:
     # You can set this to true if you want to automatically retrieve help
     # messages for public exceptions. If you leave this set to false, you have
     # to click the "search" button manually each time.
-    auto_help: true
+    #auto_help: true
 
 swiftmailer:
     delivery_address: huas.ly.valyouad@gmail.com

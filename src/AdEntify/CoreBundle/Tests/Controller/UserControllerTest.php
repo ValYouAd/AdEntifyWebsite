@@ -2,54 +2,77 @@
 
 namespace AdEntify\CoreBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AdEntify\CoreBundle\Tests\EnhancedWebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class UserControllerTest extends WebTestCase
+class UserControllerTest extends EnhancedWebTestCase
 {
-    /*
-    public function testCompleteScenario()
+    const USER_ID = 1;
+
+    public function testGet()
     {
         // Create a new client to browse the application
-        $client = static::createClient();
+        $client = $this->getClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/users/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /users/");
-        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
+        $client->request('GET', sprintf('/api/v1/users/%s', self::USER_ID));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /api/v1/users/1");
+        $this->assertJsonResponse($client->getResponse(), 200);
 
-        // Fill in the form and submit it
-        $form = $crawler->selectButton('Create')->form(array(
-            'adentify_corebundle_usertype[field_name]'  => 'Test',
-            // ... other fields to fill
-        ));
+        $content = $client->getResponse()->getContent();
 
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check data in the show view
-        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
-
-        // Edit the entity
-        $crawler = $client->click($crawler->selectLink('Edit')->link());
-
-        $form = $crawler->selectButton('Edit')->form(array(
-            'adentify_corebundle_usertype[field_name]'  => 'Foo',
-            // ... other fields to fill
-        ));
-
-        $client->submit($form);
-        $crawler = $client->followRedirect();
-
-        // Check the element contains an attribute with value equals "Foo"
-        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
-
-        // Delete the entity
-        $client->submit($crawler->selectButton('Delete')->form());
-        $crawler = $client->followRedirect();
-
-        // Check the entity has been delete on the list
-        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
+        $decoded = json_decode($content, true);
+        $this->assertTrue(isset($decoded['id']));
     }
 
-    */
+    public function testGetCurrent()
+    {
+        $client = $client = $this->getClient();
+
+        $client->request('GET', '/api/v1/user/current', array(), array(), array(
+            'HTTP_Authorization' => $this->getAuthorizationHeader()
+        ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /api/v1/user/current");
+        $this->assertJsonResponse($client->getResponse(), 200);
+
+        $content = $client->getResponse()->getContent();
+
+        $decoded = json_decode($content, true);
+        $this->assertTrue(isset($decoded['id']));
+    }
+
+    public function testGetPhotos()
+    {
+        // Create a new client to browse the application
+        $client = $this->getClient();
+        $this->login($client);
+
+        // Create a new entry in the database
+        $client->request('GET', sprintf('/api/v1/users/%s/photos', self::USER_ID));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), sprintf('Unexpected HTTP status code for GET /api/v1/users/%s/photos', self::USER_ID));
+        $this->assertJsonResponse($client->getResponse(), 200);
+
+        $content = $client->getResponse()->getContent();
+
+        $decoded = json_decode($content, true);
+        $this->assertTrue(isset($decoded['data']));
+    }
+
+    /**
+     * @param $client
+     */
+    private function logIn($client)
+    {
+        $session = $client->getContainer()->get('session');
+
+        $firewall = 'secured_area';
+        $token = new UsernamePasswordToken('admin', null, $firewall, array('ROLE_ADMIN'));
+        $session->set('_security_'.$firewall, serialize($token));
+        $session->save();
+
+        $cookie = new Cookie($session->getName(), $session->getId());
+        $client->getCookieJar()->set($cookie);
+    }
 }

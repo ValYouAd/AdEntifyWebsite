@@ -134,9 +134,8 @@ class UsersController extends FosRestController
      */
     public function getCurrentAction()
     {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $securityContext->getToken()->getUser();
+        if ($this->getUser()) {
+            return $this->getUser();
         } else {
             throw new HttpException(401);
         }

@@ -57,7 +57,7 @@ class PushNotificationsService
     public function getOptions($translation, $translationParameters = array(), $customs = null, $devices = null, $badge = 1)
     {
         $options = array(
-            'content' => $this->translator($translation, $translationParameters)
+            'content' => $this->translator->trans($translation, $translationParameters)
         );
         if (is_array($devices) && count($devices) > 0) {
             foreach($devices as $device) {
@@ -69,8 +69,10 @@ class PushNotificationsService
         if (is_array($customs) && count($customs) > 0) {
             $options['customs'] = array();
             foreach($customs as $key => $value) {
-                $options['customs'][]['key'] = $key;
-                $options['customs'][]['value'] = $value;
+                $options['customs'][] = array(
+                    'key' => $key,
+                    'value' => $value
+                );
             }
         }
         return $options;
@@ -90,6 +92,7 @@ class PushNotificationsService
         ), json_encode(array(
             'notification' => $options
         )));
+
         $response = $this->client->send($request);
         return $response->getStatusCode() == 200 ? true : false;
     }
