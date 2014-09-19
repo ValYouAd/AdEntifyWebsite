@@ -26,7 +26,6 @@
     <target name="clean" description="Cleanup build artifacts">
         <delete dir="${builddir}/api"/>
         <delete dir="${builddir}/code-browser"/>
-        <delete dir="${builddir}/coverage"/>
         <delete dir="${builddir}/logs"/>
         <delete dir="${builddir}/pdepend"/>
         <delete dir="${builddir}/docs/*"/>
@@ -35,7 +34,6 @@
     <target name="prepare" depends="clean" description="Prepare for build">
         <mkdir dir="${builddir}/api"/>
         <mkdir dir="${builddir}/code-browser"/>
-        <mkdir dir="${builddir}/coverage"/>
         <mkdir dir="${builddir}/logs"/>
         <mkdir dir="${builddir}/pdepend"/>
     </target>
