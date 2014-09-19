@@ -20,7 +20,8 @@ class DeviceType extends AbstractType
             ->add('token', 'text')
             ->add('platform', 'text')
             ->add('operatingSystem', 'text')
-            ->add('appVersion', 'text');
+            ->add('appVersion', 'text')
+            ->add('locale', 'text');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

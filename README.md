@@ -14,6 +14,8 @@ php app/console adentify:oauth:client:create --name "Plugin Wordpress DEV" --red
 - Tasks
 @reboot /var/www/adentify.com/dev/upload-loop.sh
 
+- Brands synchronization - Tous les jours à midi
+0 12 * * * php /Users/huas/Projets/AdEntifyWebsite/app/console adentify:brands-synchro >> /Users/huas/Projets/AdEntifyWebsite/app/logs/cron-brands-synchro.log
 
 3) Triggers
 

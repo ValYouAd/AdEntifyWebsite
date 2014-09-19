@@ -18,11 +18,13 @@ class FacebookGrantExtension implements GrantExtensionInterface
 {
     protected $userManager = null;
     protected $facebookSdk = null;
+    protected $em = null;
 
-    public function __construct(UserManager $userManager, \BaseFacebook $facebookSdk)
+    public function __construct(UserManager $userManager, \BaseFacebook $facebookSdk, $em)
     {
         $this->userManager = $userManager;
         $this->facebookSdk = $facebookSdk;
+        $this->em = $em;
     }
 
     /**
@@ -56,8 +58,10 @@ class FacebookGrantExtension implements GrantExtensionInterface
 
                 $user->setFacebookAccessToken($this->facebookSdk->getAccessToken());
                 $user->setFBData($fbData);
+                $this->em->getRepository('AdEntifyCoreBundle:Person')->createFromUser($user);
                 $this->userManager->updateUser($user);
-            }
+            } else
+                $this->em->getRepository('AdEntifyCoreBundle:Person')->createFromUser($user);
 
             return array(
                 'data' => $user

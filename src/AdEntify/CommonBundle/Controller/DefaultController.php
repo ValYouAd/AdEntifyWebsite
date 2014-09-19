@@ -3,7 +3,10 @@
 namespace AdEntify\CommonBundle\Controller;
 
 use AdEntify\CommonBundle\Models\Contact;
+use AdEntify\CoreBundle\Entity\DeviceRepository;
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Entity\Tag;
+use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\CommonTools;
 use AdEntify\CoreBundle\Util\FileTools;
@@ -26,6 +29,14 @@ class DefaultController extends Controller
      */
     public function indexNoLocaleAction()
     {
+        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+        $options = $pushNotificationService->getOptions('pushNotification.photoLike', array(
+            '%user%' => $this->getUser()->getFullname()
+        ), array(
+            'photoId' => 1
+        ));
+        $pushNotificationService->sendToUser($this->getUser(), $options);
+
         return $this->redirect($this->generateUrl('home_logoff', array(
             '_locale' => $this->getCurrentLocale()
         )));
@@ -334,21 +345,20 @@ class DefaultController extends Controller
     }
 
     /**
-     * Get current locale from user if logged and set, instead, get from request
+     * Get current locale from user if logged and set, instead, get from preferred language
      *
      * @return string
      */
     private function getCurrentLocale() {
-        $locale = $this->getRequest()->getLocale();
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            if ($user->getLocale()) {
-                $locale = $user->getLocale();
+        if ($this->getUser()) {
+            if ($this->getUser()->getLocale()) {
+                return $this->getUser()->getLocale();
             }
+        } else if ($this->getRequest()->getPreferredLanguage()) {
+            return $this->getRequest()->getPreferredLanguage();
         }
 
-        return $locale;
+        return $this->getRequest()->getLocale();
     }
 
     /**
@@ -357,11 +367,9 @@ class DefaultController extends Controller
      * @param $locale
      */
     private function setUserLocale($locale) {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $user->setLocale($locale);
-            $this->getDoctrine()->getManager()->merge($user);
+        if ($this->getUser()) {
+            $this->getUser()->setLocale($locale);
+            $this->getDoctrine()->getManager()->merge($this->getUser());
             $this->getDoctrine()->getManager()->flush();
         }
     }

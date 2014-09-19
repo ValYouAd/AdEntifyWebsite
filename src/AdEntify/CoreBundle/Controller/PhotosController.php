@@ -670,9 +670,17 @@ class PhotosController extends FosRestController
                         $photo->setCategories($formPhoto->getCategories());
                     }
                     if (array_key_exists('hashtags', $request->request->get('photo'))) {
-                        $photo->setHashtags($photo->getHashtags()->clear());
                         $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
                         $newPhoto = $request->request->get('photo');
+                        $hashtagsC = $photo->getHashtags();
+                        while (!$photo->getHashtags()->isEmpty()) {
+                            $firstHT = $hashtagsC->first()->getName();
+                            if (!in_array($firstHT, (array_unique($newPhoto['hashtags'])))) {
+                                $removedHashtag = $hashtagRepository->findOneByName($firstHT);
+                                $removedHashtag->setUsedCount($removedHashtag->getUsedCount() - 1);
+                            }
+                            $hashtagsC->removeElement($hashtagsC->first());
+                        }
                         foreach (array_unique($newPhoto['hashtags']) as $hashtagName) {
                             if (is_numeric($hashtagName)) {
                                 $hashtag = $hashtagRepository->find($hashtagName);
@@ -1176,6 +1184,15 @@ class PhotosController extends FosRestController
                         $em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_PHOTO_FAVORITE,
                             $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                             $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, 'photoFav');
+
+                        $this->getRequest()->setLocale($photo->getOwner()->getLocale());
+                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                        $options = $pushNotificationService->getOptions('pushNotification.photoFavorite', array(
+                            '%user%' => $user->getFullname()
+                        ), array(
+                            'photoId' => $photo->getId()
+                        ));
+                        $pushNotificationService->sendToUser($photo->getOwner(), $options);
                     } else {
                         $user->removeFavoritePhoto($photo);
                         $favorites = false;

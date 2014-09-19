@@ -37,18 +37,31 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
-        charset:  UTF8
+        default_connection: default
+        connections:
+            default:
+              driver:   %database_driver%
+              host:     %database_host%
+              port:     %database_port%
+              dbname:   %database_name%
+              user:     %database_user%
+              password: %database_password%
+              charset:  UTF8
+            LBJ:
+              driver:   %database_driver%
+              host:     %database_host_lbj%
+              port:     %database_port%
+              dbname:   %database_name_lbj%
+              user:     %database_user_lbj%
+              password: %database_password_lbj%
+              charset:  UTF8
 
     orm:
+        default_entity_manager: default
         auto_generate_proxy_classes: %kernel.debug%
         entity_managers:
             default:
+                connection: default
                 dql:
                     string_functions:
                         regexp: AdEntify\CoreBundle\Dql\RegExp
@@ -56,10 +69,45 @@ doctrine:
                         date:   AdEntify\CoreBundle\Dql\DateFunction
                     datetime_functions:
                         day:   AdEntify\CoreBundle\Dql\DayFunction
-                auto_mapping: true
+                mappings:
+                    FrameworkBundle: ~
+                    SecurityBundle: ~
+                    TwigBundle: ~
+                    MonologBundle: ~
+                    SwiftmailerBundle: ~
+                    AsseticBundle: ~
+                    DoctrineBundle: ~
+                    SensioFrameworkExtraBundle: ~
+                    JMSAopBundle: ~
+                    JMSDiExtraBundle: ~
+                    JMSSecurityExtraBundle: ~
+                    JMSSerializerBundle: ~
+                    FOSRestBundle: ~
+                    FOSFacebookBundle: ~
+                    FOSUserBundle: ~
+                    FOSJsRoutingBundle: ~
+                    FOSOAuthServerBundle: ~
+                    StofDoctrineExtensionsBundle: ~
+                    AvalancheImagineBundle: ~
+                    HWIOAuthBundle: ~
+                    NelmioCorsBundle: ~
+                    NelmioApiDocBundle: ~
+                    A2lixTranslationFormBundle: ~
+                    KnpGaufretteBundle: ~
+                    AdEntifyUserBundle: ~
+                    AdEntifyCoreBundle: ~
+                    AdEntifyCommonBundle: ~
+                    AdEntifyInstagramBundle: ~
+                    AdEntifyFlickrBundle: ~
+                    AdEntifyEmbedJsBundle: ~
+                    AdEntifyBackofficeBundle: ~
+                #auto_mapping: true
                 #metadata_cache_driver: apc
                 #result_cache_driver: apc
                 #query_cache_driver: apc
+            LBJ:
+                connection: LBJ
+                #mappings:
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -131,13 +179,6 @@ fos_facebook:
     permissions: [%facebook_permissions%]
     culture:     fr_FR
 
-# Twitter
-fos_twitter:
-    file:
-    consumer_key:    %twitter_consumer_key%
-    consumer_secret: %twitter_consumer_secret%
-    callback_route:  "_security_check_twitter"
-
 fos_user:
     db_driver: orm
     firewall_name: main
@@ -185,6 +226,7 @@ services:
         arguments:
             userManager: "@fos_user.user_manager"
             facebookSdk: "@fos_facebook.api"
+            em: "@doctrine.orm.entity_manager"
         tags:
             - { name: fos_oauth_server.grant_extension, uri: %facebook_grant_extension_uri% }
     adEntify.oauth.twitter_extension:
@@ -195,6 +237,7 @@ services:
                 httpClient: "@buzz.client"
                 clientId: %twitter_consumer_key%
                 clientSecret: %twitter_consumer_secret%
+                em: "@doctrine.orm.entity_manager"
             tags:
                 - { name: fos_oauth_server.grant_extension, uri: %twitter_grant_extension_uri% }
     adEntify.twig.adentify_extension:
@@ -214,6 +257,7 @@ twig:
         facebook_app_id:          %facebook_app_id%
         facebook_permissions:     %facebook_permissions%
         root_url:                 %root_url%
+        app_version:              %app_version%
 
 # Instagram
 ad_entify_instagram:
@@ -321,10 +365,10 @@ nelmio_api_doc:
         endpoint: %root_url_without_trailing%
 
 a2lix_translation_form:
-    locales: [en, fr]       # [1]
-    default_required: true      # [2]
-    manager_registry: doctrine      # [3]
-    templating: "A2lixTranslationFormBundle::default.html.twig"      # [4]
+    locales: [en, fr]                                             # [1]
+    default_required: true                                        # [2]
+    manager_registry: doctrine                                    # [3]
+    templating: "A2lixTranslationFormBundle::default.html.twig"   # [4]
 
 knp_gaufrette:
     adapters:

@@ -272,7 +272,8 @@
       "forbidden": "You are not authorized to view this photo",
       "detailsUpdateSuccess": "Photo's details updated successfully",
       "detailsUpdateError": "An error occurred, we can't update your photo's details",
-      "deleteTagsBeforePhoto": "To delete the photo, please delete tags on your photo first"
+      "deleteTagsBeforePhoto": "To delete the photo, please delete tags on your photo first",
+      "publishDate": "Published"
    },
    "externalServicePhotos": {
       "select": "Select",

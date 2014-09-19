@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("none")
  *
  * @ORM\Table(name="devices")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AdEntify\CoreBundle\Entity\DeviceRepository")
  */
 class Device
 {
@@ -68,6 +68,14 @@ class Device
      * @Serializer\Exclude
      */
     private $owner;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="locale", type="string", length=10, nullable=true)
+     * @Serializer\Groups({"details"})
+     */
+    private $locale;
 
     /**
      * Get id
@@ -187,6 +195,23 @@ class Device
     }
 
     /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
+    /**
      * @param Device $device
      */
     public function fillFromExisting(Device $device, User $user)
@@ -196,6 +221,6 @@ class Device
         $this->setPlatform($device->getPlatform());
         $this->setToken($device->getToken());
         $this->setOwner($user);
-
+        $this->setLocale($user->getLocale());
     }
 }

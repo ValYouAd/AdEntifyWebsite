@@ -48,7 +48,7 @@ class TagPoint
     /**
      * @Serializer\Exclude
      *
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="points", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="points", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $tag;

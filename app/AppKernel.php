@@ -26,7 +26,6 @@ class AppKernel extends Kernel
             new FOS\FacebookBundle\FOSFacebookBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new FOS\TwitterBundle\FOSTwitterBundle(),
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
 
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
@@ -42,6 +41,8 @@ class AppKernel extends Kernel
 
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
 
+            new Misd\GuzzleBundle\MisdGuzzleBundle(),
+
             new AdEntify\UserBundle\AdEntifyUserBundle(),
             new AdEntify\CoreBundle\AdEntifyCoreBundle(),
             new AdEntify\CommonBundle\AdEntifyCommonBundle(),
@@ -55,7 +56,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-            $bundles[] = new JMS\DebuggingBundle\JMSDebuggingBundle($this);
+            /*$bundles[] = new JMS\DebuggingBundle\JMSDebuggingBundle($this);*/
         }
 
         return $bundles;

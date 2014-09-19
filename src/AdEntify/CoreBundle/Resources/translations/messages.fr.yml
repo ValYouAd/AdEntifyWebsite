@@ -18,3 +18,11 @@ email:
         title: '%user% vient de s''enregistrer'
         content: '<p>Hello Team !</p><p><strong>%user%</strong> vient de s''inscrire sur AdEntify.com</p>'
 
+pushNotification:
+    photoLike: '%user% vient d''aimer ta photo'
+    photoComment: '%user% vient de commenter ta photo'
+    photoTag: '%user% vient de tagguer ta photo. Tu peux maintenant le valider'
+    userFollow: '%user% te suit désormais'
+    photoFavorite: '%user% vient d''ajouter ta photo ses favoris'
+    brandReward: 'Tu viens d''obtenir la récompense %reward% pour la marque %brand%'
+    tagValidated: '%user% vient de valider ton tag, tu gagnes %points% points'

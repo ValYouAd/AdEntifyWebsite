@@ -272,7 +272,8 @@
       "forbidden": "Vous n'êtes pas autorisé à voir cette photo",
       "detailsUpdateSuccess": "Les informations de votre photo sont maintenant à jour.",
       "detailsUpdateError": "Impossible de mettre à jour les informations de votre photo.",
-      "deleteTagsBeforePhoto": "Pour supprimer votre photo, vous devez tout d'abord supprimer les tags présents sur la photo"
+      "deleteTagsBeforePhoto": "Pour supprimer votre photo, vous devez tout d'abord supprimer les tags présents sur la photo",
+      "publishDate": "Publié"
    },
    "externalServicePhotos": {
       "select": "Sélectionner",

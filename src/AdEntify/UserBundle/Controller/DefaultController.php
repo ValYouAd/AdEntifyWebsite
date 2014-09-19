@@ -88,6 +88,8 @@ class DefaultController extends Controller
                     return $this->redirect($this->generateUrl("root_url"));
                 }
 
+                $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Person')->createFromUser($user);
+
                 if ($user->isEnabled()) {
                     if ($request->getSession()->has('_security.main.target_path')) {
                         return $this->redirect($request->getSession()->get('_security.main.target_path'));

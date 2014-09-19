@@ -8,8 +8,16 @@ DROP TRIGGER IF EXISTS  `likes_count`;
 CREATE TRIGGER likes_count AFTER INSERT ON `likes`
  FOR EACH ROW UPDATE photos SET likes_count = likes_count+1 WHERE id = NEW.photo_id;
 DROP TRIGGER IF EXISTS  `likes_count_delete`;
-CREATE TRIGGER likes_count_delete AFTER DELETE ON `likes`
- FOR EACH ROW UPDATE photos SET likes_count = likes_count-1 WHERE id = OLD.photo_id;
+DELIMITER //
+CREATE TRIGGER likes_count_delete AFTER UPDATE ON `likes`
+  FOR EACH ROW BEGIN
+    IF (NEW.deleted_at IS NOT NULL) THEN
+      UPDATE photos SET likes_count = likes_count-1 WHERE id = NEW.photo_id;
+    ELSE
+      UPDATE photos SET likes_count = likes_count+1 WHERE id = NEW.photo_id;
+    END IF;
+  END//
+DELIMITER ;
 
 # Mise à jour compteurs de tags
 DROP TRIGGER IF EXISTS `tags_count`;

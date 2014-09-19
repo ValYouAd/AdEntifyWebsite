@@ -60,4 +60,37 @@ class PersonRepository extends EntityRepository
         $this->getEntityManager()->flush();
         return $person;
     }
+
+    /**
+     * Create a Person from User Entity
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function createFromUser(User $user)
+    {
+        // Check that user doesn't already have a person linked
+        if ($user->getPerson())
+            return false;
+
+        $person = $this->findOneBy(array(
+            'facebookId' => $user->getFacebookId()
+        ));
+
+        if ($person) {
+            $user->setPerson($person);
+            $person->setUser($user);
+            $this->getEntityManager()->merge($person);
+        } else {
+            // Create the person entity and linked it to User
+            $person = new Person();
+
+            $person->setFirstname($user->getFirstname())->setLastname($user->getLastname())->setUser($user)
+                ->setName(sprintf('%s %s', $user->getFirstname(), $user->getLastname()))->setProfilePictureUrl($user->getProfilePicture())
+                ->setFacebookId($user->getFacebookId())->setGender($user->getGender());
+            $user->setPerson($person);
+
+            $this->getEntityManager()->persist($person);
+        }
+    }
 }

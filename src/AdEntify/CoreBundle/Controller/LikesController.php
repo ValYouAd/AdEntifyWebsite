@@ -59,7 +59,7 @@ class LikesController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             if ($request->request->has('photoId') && is_numeric($request->request->get('photoId'))) {
                 $em = $this->getDoctrine()->getManager();
-                $user = $securityContext->getToken()->getUser();
+                $user = $this->getUser();
 
                 $photo = $em->getRepository('AdEntifyCoreBundle:Photo')->find($request->request->get('photoId'));
                 if (!$photo)
@@ -82,7 +82,6 @@ class LikesController extends FosRestController
                         $em->persist($like);
                     } else {
                         $like->setDeletedAt(null);
-                        $photo->setLikesCount($photo->getLikesCount() + 1);
                         $em->merge($photo);
                         $em->merge($like);
                     }
@@ -94,12 +93,20 @@ class LikesController extends FosRestController
 
                     $em->flush();
 
+                    $this->getRequest()->setLocale($like->getPhoto()->getOwner()->getLocale());
+                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                    $options = $pushNotificationService->getOptions('pushNotification.photoLike', array(
+                        '%user%' => $user->getFullname()
+                    ), array(
+                        'photoId' => $like->getPhoto()->getId()
+                    ));
+                    $pushNotificationService->sendToUser($like->getPhoto()->getOwner(), $options);
+
                     return array(
                         'liked' => true
                     );
                 } else {
                     $like->setDeletedAt(new \DateTime());
-                    $photo->setLikesCount($photo->getLikesCount() - 1);
                     $em->merge($photo);
                     $em->merge($like);
                     $em->flush();

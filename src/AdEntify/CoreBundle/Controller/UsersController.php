@@ -134,9 +134,8 @@ class UsersController extends FosRestController
      */
     public function getCurrentAction()
     {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $securityContext->getToken()->getUser();
+        if ($this->getUser()) {
+            return $this->getUser();
         } else {
             throw new HttpException(401);
         }
@@ -185,8 +184,9 @@ class UsersController extends FosRestController
             }
         }
 
-        $query = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+        $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
                 LEFT JOIN photo.owner owner
+                LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL AND tag.censored = false AND tag.validationStatus != :denied)
                 WHERE photo.owner = :userId AND photo.status = :status AND photo.deletedAt IS NULL
                 AND (photo.owner = :currentUserId OR photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings))
@@ -197,7 +197,8 @@ class UsersController extends FosRestController
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
-                ':currentUserId' => $user ? $user->getId() : 0
+                ':currentUserId' => $user ? $user->getId() : 0,
+                ':denied' => Tag::VALIDATION_DENIED
             ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
@@ -359,6 +360,15 @@ class UsersController extends FosRestController
                 $em->merge($follower);
                 $em->merge($following);
                 $em->flush();
+
+                $this->getRequest()->setLocale($this->getUser()->getLocale());
+                $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                $options = $pushNotificationService->getOptions('pushNotification.userFollow', array(
+                    '%user%' => $follower->getFullname()
+                ), array(
+                    'userId' => $follower->getId()
+                ));
+                $pushNotificationService->sendToUser($following, $options);
 
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);

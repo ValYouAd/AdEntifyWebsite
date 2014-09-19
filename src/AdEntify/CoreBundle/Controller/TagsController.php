@@ -125,7 +125,6 @@ class TagsController extends FosRestController
 
                 $tag->setDeletedAt(new \DateTime());
                 $em->merge($tag);
-                $tag->getPhoto()->setTagsCount($tag->getPhoto()->getTagsCount() - 1);
                 $em->merge($tag->getPhoto());
                 $em->flush();
                 return array('deleted' => true);
@@ -218,6 +217,15 @@ class TagsController extends FosRestController
                             ->setObjectType($em->getClassMetadata(get_class($photo))->getName())->setOwner($photo->getOwner())
                             ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                         $em->persist($notification);
+
+                        $this->getRequest()->setLocale($tag->getPhoto()->getOwner()->getLocale());
+                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                        $options = $pushNotificationService->getOptions('pushNotification.photoTag', array(
+                            '%user%' => $user->getFullname()
+                        ), array(
+                            'photoId' => $tag->getPhoto()->getId()
+                        ));
+                        $pushNotificationService->sendToUser($tag->getPhoto()->getOwner(), $options);
                     } else {
                         throw new HttpException(403, 'You can\t add a tag to this photo');
                     }
@@ -284,7 +292,7 @@ class TagsController extends FosRestController
                 $status = $request->request->get('waiting_validation');
                 if ($status == Tag::VALIDATION_GRANTED) {
                     $tag->setValidationStatus(Tag::VALIDATION_GRANTED);
-                    $this->get('ad_entify_core.points')->calculateUserPoints($tag->getOwner(), $tag);
+                    $points = $this->get('ad_entify_core.points')->calculateUserPoints($tag->getOwner(), $tag);
                     $em->merge($tag);
 
                     if ($tag->getBrand()) {
@@ -297,6 +305,16 @@ class TagsController extends FosRestController
                             $user, $tag->getPhoto()->getOwner(), array($tag->getPhoto()), Action::getVisibilityWithPhotoVisibility($tag->getPhoto()->getVisibilityScope()), $tag->getPhoto()->getId(),
                             $em->getClassMetadata(get_class($tag->getPhoto()))->getName(), false, 'tagPhoto');
                     }
+
+                    $this->getRequest()->setLocale($tag->getOwner()->getLocale());
+                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                    $options = $pushNotificationService->getOptions('pushNotification.tagValidated', array(
+                        '%user%' => $user->getFullname(),
+                        '%points%' => $points['tagPointTagger']
+                    ), array(
+                        'photoId' => $tag->getPhoto()->getId()
+                    ));
+                    $pushNotificationService->sendToUser($tag->getOwner(), $options);
 
                     $em->flush();
                 } else if ($status == Tag::VALIDATION_DENIED) {
@@ -365,8 +383,25 @@ class TagsController extends FosRestController
      * @param null $tag
      * @return mixed
      */
-    protected function getForm($tag = null)
+    protected function getForm(Tag $tag = null)
     {
-        return $this->createForm(new TagType(), $tag);
+        $options = array();
+        if ($this->getRequest()->isMethod('POST')) {
+            $options['photoId'] = $this->getRequest()->get('tag')['photo'];
+            if ($tag->getPerson())
+                $options['personId'] = $this->getRequest()->get('tag')['person'];
+            if ($tag->getProduct())
+                $options['productId'] = $this->getRequest()->get('tag')['product'];
+            if ($tag->getProductType())
+                $options['productTypeId'] = $this->getRequest()->get('tag')['productType'];
+            if ($tag->getBrand())
+                $options['brandId'] = $this->getRequest()->get('tag')['brand'];
+            if ($tag->getVenue())
+                $options['venueId'] = $this->getRequest()->get('tag')['venue'];
+            if ($tag->getPhoto())
+                $options['photoId'] = $this->getRequest()->get('tag')['photo'];
+        }
+
+        return $this->createForm(new TagType(), $tag, $options);
     }
 }

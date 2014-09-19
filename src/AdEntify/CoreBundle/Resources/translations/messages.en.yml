@@ -12,3 +12,11 @@ email:
         title: '%user% just registered'
         content: '<p>Hi Team !</p><p><strong>%user%</strong> just registered on AdEntify.com</p>'
 
+pushNotification:
+    photoLike: '%user% liked your photo'
+    photoComment: '%user% commented on your photo'
+    photoTag: '%user% tagged your photo. You can now validate it'
+    userFollow: '%user% is now following you'
+    photoFavorite: '%user% added your photo to his favorites'
+    brandReward: 'You earned %reward% for the brand %brand%'
+    tagValidated: '%user% validated your tag, you earn %points% points'

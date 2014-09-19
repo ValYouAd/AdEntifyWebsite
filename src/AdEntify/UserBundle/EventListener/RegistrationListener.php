@@ -9,6 +9,7 @@
 namespace AdEntify\UserBundle\EventListener;
 
 use AdEntify\CoreBundle\Services\EmailService;
+use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -23,13 +24,16 @@ class RegistrationListener implements EventSubscriberInterface
     private $loginManager;
     private $firewallName;
     protected $emailer;
+    protected $em;
 
-    public function __construct(UrlGeneratorInterface $router, LoginManagerInterface $loginManager, $firewallName, EmailService $emailer)
+    public function __construct(UrlGeneratorInterface $router, LoginManagerInterface $loginManager, $firewallName,
+                                EmailService $emailer, EntityManager $em)
     {
         $this->router = $router;
         $this->loginManager = $loginManager;
         $this->firewallName = $firewallName;
         $this->emailer = $emailer;
+        $this->em = $em;
     }
 
     /**
@@ -47,6 +51,8 @@ class RegistrationListener implements EventSubscriberInterface
     {
         $user = $event->getForm()->getData();
         $user->setEnabled(true);
+
+        $this->em->getRepository('AdEntifyCoreBundle:Person')->createFromUser($user);
 
         if ($user->isEnabled()) {
             $this->emailer->register($user);

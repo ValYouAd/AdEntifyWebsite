@@ -23,6 +23,8 @@ class RewardCommand extends ContainerAwareCommand
     #region fields
 
     protected $em;
+    protected $pushNotification;
+    protected $translator;
 
     #endregion
 
@@ -67,6 +69,14 @@ class RewardCommand extends ContainerAwareCommand
                 $this->em->getRepository('AdEntifyCoreBundle:Action')->createAction(Action::TYPE_REWARD_NEW,
                     $user, $user, null, Action::VISIBILITY_PUBLIC, null,
                     null, true, 'newReward', array('type' => $reward->getType()), null, $brand);
+
+                $options = $this->pushNotification->getOptions('pushNotification.brandReward', array(
+                    '%brand%' => $brand->getName(),
+                    '%reward%' => $reward->getType()
+                ), array(
+                    'brandId' => $brand->getId()
+                ));
+                $this->pushNotification->sendToUser($user, $options);
             }
 
             $output->writeln(sprintf('%s nouvelles récompenses addict', count($newAddictedUsers)));
@@ -235,5 +245,7 @@ class RewardCommand extends ContainerAwareCommand
     private function setup()
     {
         $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $this->pushNotification = $this->getContainer()->get('ad_entify_core.pushNotifications');
+        $this->translator = $this->getContainer()->get('translator');
     }
 } 
