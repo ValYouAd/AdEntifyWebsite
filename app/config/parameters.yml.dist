@@ -43,8 +43,8 @@ parameters:
     root_url:                     "https://local.adentify.com/"
     root_url_without_trailing:    "https://local.adentify.com"
     facebook_grant_extension_uri: "http://grants.api.adentify.com/facebook_access_token"
-    twitter_grant_extension_uri: "http://grants.api.adentify.com/twitter_access_token"
+    twitter_grant_extension_uri:  "http://grants.api.adentify.com/twitter_access_token"
     adentify_oauth_client_name:   "AdEntify"
     team_email:                   team@valyouad.com
-    app_version: 1.1.18
-    push_notifications_api_key: naO8yCSHNVQU9itjlDC0YjC3zLC3b3NO8gEcIoNAUl1oWszu1vDiI6CBQBwDZlvH
+    app_version:                  1.1.19
+    push_notifications_api_key:   naO8yCSHNVQU9itjlDC0YjC3zLC3b3NO8gEcIoNAUl1oWszu1vDiI6CBQBwDZlvH
