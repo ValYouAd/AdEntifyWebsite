@@ -6,7 +6,7 @@
     <property name="builddir" value="${workspace}/app/build" />
 
     <target name="build"
-            depends="prepare,parameters,lint,phploc,pdepend,phpcpd,phpmd-ci,phpcs-ci,phpdoc,phpunit,clover,phpcb"/>
+            depends="prepare,parameters,lint,phploc,pdepend,phpcpd,phpmd-ci,phpcs-ci,phpdoc,phpunit,phpcb"/>
 
     <target name="build-parallel" depends="prepare,lint,tools-parallel,phpunit,phpcb"/>
 
@@ -123,14 +123,6 @@
         <exec executable="phpunit" failonerror="true">
             <arg value="-c" />
             <arg path="${basedir}/app/phpunit.xml" />
-        </exec>
-    </target>
-
-    <target name="clover" description="Run clover">
-        <exec executable="phpunit" failonerror="true">
-            <arg line="--coverage-clover ${basedir}/build/logs/clover.xml
-                --coverage-html ${basedir}/build/logs/
-                ."/>
         </exec>
     </target>
 
