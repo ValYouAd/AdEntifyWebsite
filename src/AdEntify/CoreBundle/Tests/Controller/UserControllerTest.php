@@ -18,6 +18,7 @@ class UserControllerTest extends EnhancedWebTestCase
         // Create a new entry in the database
         $client->request('GET', sprintf('/api/v1/users/%s', self::USER_ID));
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /api/v1/users/1");
+
         $this->assertJsonResponse($client->getResponse(), 200);
 
         $content = $client->getResponse()->getContent();

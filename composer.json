@@ -37,7 +37,8 @@
         "knplabs/gaufrette": "dev-master",
         "knplabs/knp-gaufrette-bundle": "dev-master",
         "guzzle/guzzle": "dev-master",
-        "misd/guzzle-bundle": "~1.0"
+        "misd/guzzle-bundle": "~1.0",
+        "phpunit/phpunit": "4.2.*"
     },
     "scripts": {
         "post-install-cmd": [
