@@ -126,6 +126,14 @@
         </exec>
     </target>
 
+    <target name="clover" description="Run clover">
+        <exec executable="phpunit" failonerror="true">
+            <arg line="--coverage-clover ${basedir}/build/logs/clover.xml
+                --coverage-html ${basedir}/build/logs/
+                ."/>
+        </exec>
+    </target>
+
     <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
         <exec executable="phpcb">
             <arg value="--log" />
