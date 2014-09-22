@@ -10,6 +10,22 @@ class UserControllerTest extends EnhancedWebTestCase
 {
     const USER_ID = 1;
 
+    /**
+     * @param $client
+     */
+    private function logIn($client)
+    {
+        $session = $client->getContainer()->get('session');
+
+        $firewall = 'secured_area';
+        $token = new UsernamePasswordToken('admin', null, $firewall, array('ROLE_ADMIN'));
+        $session->set('_security_'.$firewall, serialize($token));
+        $session->save();
+
+        $cookie = new Cookie($session->getName(), $session->getId());
+        $client->getCookieJar()->set($cookie);
+    }
+
     public function testGet()
     {
         // Create a new client to browse the application
@@ -24,12 +40,12 @@ class UserControllerTest extends EnhancedWebTestCase
         $content = $client->getResponse()->getContent();
 
         $decoded = json_decode($content, true);
-        $this->assertTrue(isset($decoded['id']));
+        $this->assertIsset($decoded, 'id');
     }
 
     public function testGetCurrent()
     {
-        $client = $client = $this->getClient();
+        $client = $this->getClient();
 
         $client->request('GET', '/api/v1/user/current', array(), array(), array(
             'HTTP_Authorization' => $this->getAuthorizationHeader()
@@ -41,7 +57,7 @@ class UserControllerTest extends EnhancedWebTestCase
         $content = $client->getResponse()->getContent();
 
         $decoded = json_decode($content, true);
-        $this->assertTrue(isset($decoded['id']));
+        $this->assertIsset($decoded, 'id');
     }
 
     public function testGetPhotos()
@@ -58,22 +74,44 @@ class UserControllerTest extends EnhancedWebTestCase
         $content = $client->getResponse()->getContent();
 
         $decoded = json_decode($content, true);
-        $this->assertTrue(isset($decoded['data']));
+        $this->assertIsset($decoded, 'data');
     }
 
-    /**
-     * @param $client
-     */
-    private function logIn($client)
+    public function testGetFavorites()
     {
-        $session = $client->getContainer()->get('session');
+        $client = $this->getCLient();
 
-        $firewall = 'secured_area';
-        $token = new UsernamePasswordToken('admin', null, $firewall, array('ROLE_ADMIN'));
-        $session->set('_security_'.$firewall, serialize($token));
-        $session->save();
+        $client->request('GET', '/api/v1/user/favorites', array(), array(), array('HTTP_Authorization' => $this->getAuthorizationHeader()));
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Unexpected HTTP status code for GET /api/v1/user/favorites');
+        $this->assertJsonResponse($client->getResponse(), 200);
 
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $client->getCookieJar()->set($cookie);
+        $content = $client->getResponse()->getContent();
+
+        $decoded = json_decode($content, true);
+        $this->assertIsset($decoded, 'data');
+    }
+
+    public function testGetSearch()
+    {
+        $http_method = 'GET';
+        $endpoint = '/api/v1/user/search';
+        $query_test = ["", "h", "pi", "8", "42", "ak47"];
+
+        $client = $this->getCLient();
+
+        foreach($query_test as $query)
+        {
+            $http_code = ($query == "") ? 400 : 200;
+            $client->request($http_method, sprintf($endpoint.'?query=%s', $query), array(), array(), array('HTTP_Authorization' => $this->getAuthorizationHeader()));
+            $this->assertEquals($http_code, $client->getResponse()->getStatusCode(), 'Unexpected HTTP status code for '.$http_method.' '.$endpoint.' with the query '.$query.' .');
+            $this->assertJsonResponse($client->getResponse(), $http_code);
+
+            if ($query != "") {
+                $content = $client->getResponse()->getContent();
+
+                $decoded = json_decode($content, true);
+                $this->assertIsset($decoded, 'data');
+            }
+        }
     }
 }

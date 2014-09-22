@@ -16,11 +16,11 @@ class EnhancedWebTestCase extends WebTestCase
     {
         $this->assertEquals(
             $statusCode, $response->getStatusCode(),
-            $response->getContent()
+            "Unexpected HTTP status code".PHP_EOL.$response->getContent()
         );
         $this->assertTrue(
             $response->headers->contains('Content-Type', 'application/json'),
-            $response->headers
+            "Not a JSON response".PHP_EOL.$response->headers
         );
     }
 
@@ -42,5 +42,10 @@ class EnhancedWebTestCase extends WebTestCase
             ))->getOneOrNullResult();
 
         return sprintf('Bearer %s', $token->getToken());
+    }
+
+    protected function assertIsset($decoded, $key)
+    {
+        $this->assertTrue(isset($decoded[$key]), "Undefined key: ".$key);
     }
 } 
