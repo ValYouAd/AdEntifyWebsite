@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Project Test Suite" tests="3" assertions="12" failures="0" errors="0" time="8.080895">
+    <testsuite name="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" tests="3" assertions="12" failures="0" errors="0" time="8.080895">
+      <testcase name="testGet" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="13" assertions="4" time="6.303400"/>
+      <testcase name="testGetCurrent" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="30" assertions="4" time="0.265180"/>
+      <testcase name="testGetPhotos" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="47" assertions="4" time="1.512315"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
