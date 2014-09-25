@@ -26,28 +26,14 @@ class UserControllerTest extends EnhancedWebTestCase
         $client->getCookieJar()->set($cookie);
     }
 
-    public function assertAllGet($endpoint, $key, $authorization, $http_code = 200)
+    private function getTestUsers()
     {
-        $client = $this->getCLient();
-
-        $http_authorization = ($authorization) ? array('HTTP_Authorization' => $this->getAuthorizationHeader()) : array();
-
-        $client->request('GET', $endpoint, array(), array(), $http_authorization);
-        $this->assertEquals($http_code, $client->getResponse()->getStatusCode(), sprintf("Unexpected HTTP status code for GET %s", $endpoint));
-        $this->assertJsonResponse($client->getResponse(), $http_code);
-
-        $content = $client->getResponse()->getContent();
-
-        if ($http_code != 400)
-        {
-            $decoded = json_decode($content, true);
-            $this->assertIsset($decoded, $key);
-        }
+        return array(1, 2, 3, 4, 5);
     }
 
     public function testGet()
     {
-        $this->assertAllGet(sprintf('/api/v1/users/%s', self::USER_ID), 'id', false);
+        $this->assertAllGet(sprintf('/api/v1/users/%s', self::USER_ID), 'id');
     }
 
     public function testGetCurrent()
@@ -57,7 +43,7 @@ class UserControllerTest extends EnhancedWebTestCase
 
     public function testGetPhotos()
     {
-        $this->assertAllGet(sprintf('/api/v1/users/%s/photos', self::USER_ID), 'data', false);
+        $this->assertAllGet(sprintf('/api/v1/users/%s/photos', self::USER_ID), 'data');
     }
 
     public function testGetFavorites()
@@ -71,11 +57,50 @@ class UserControllerTest extends EnhancedWebTestCase
         foreach($query_test as $query)
         {
             $http_code = ($query == "") ? 400 : 200;
-            $this->assertAllGet(sprintf('/api/v1/user/search?query=%s', $query), 'data', true, $http_code);
+            $this->assertAllGet(sprintf('/api/v1/user/search?query=%s', $query), 'data', true, $http_code, true);
         }
     }
     public function testGetIsFollowed()
     {
-        $this->assertAllGet('/api/v1/user/favorites', 'data', true);
+        foreach($this->getTestUsers() as $user)
+            $this->assertAllGet(sprintf('/api/v1/users/%s/is/followed', $user), 'followed', true);
     }
+
+    public function testGetLikedPhotos()
+    {
+        foreach($this->getTestUsers() as $user)
+            $this->assertAllGet(sprintf('/api/v1/users/%s/liked/photos', $user), 'data', false, 200, true);
+    }
+
+    public function testGetHashtags()
+    {
+        foreach($this->getTestUsers() as $user)
+            $this->assertAllGet(sprintf('/api/v1/users/%s/hashtags', $user), 'data', false, 200, true);
+    }
+
+    public function testGetNotifications()
+    {
+        $this->assertAllGet(sprintf('/api/v1/user/notifications'), null, true);
+    }
+
+    public function testGetFollowings()
+    {
+        $this->assertAllGet(sprintf('/api/v1/users/%s/followings', self::USER_ID), 'data', true, 200, true);
+    }
+
+    public function testGetFollowers()
+    {
+        $this->assertAllGet(sprintf('/api/v1/users/%s/followers', self::USER_ID), 'data', true, 200, true);
+    }
+
+    public function testGetTopFollowers()
+    {
+        $this->assertAllGet('/api/v1/user/top/followers');
+    }
+
+    public function testTaskProgress()
+    {
+//        $this->assertAllGet('/api/v1/users/progresses/task', );
+    }
+//    protected function assertAllGet($endpoint, $key, $authorization = false, $http_code = 200, $has_pagination = false)
 }
