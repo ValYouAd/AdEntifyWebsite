@@ -11,7 +11,8 @@ class UserControllerTest extends EnhancedWebTestCase
     const USER_ID = 1;
 
     private $options = array();
-    private $users = array(1, 2, 3, 4, 5);
+    private $users = array(1, 50000000);
+    private $dates = array("2014-09-08", "2014-09-09");
 
     public function __construct()
     {
@@ -20,22 +21,6 @@ class UserControllerTest extends EnhancedWebTestCase
         $this->options['http_code'] = 200;
         $this->options['has_pagination'] = false;
         $this->options['return_type'] = 'object';
-    }
-
-    /**
-     * @param $client
-     */
-    private function logIn($client)
-    {
-        $session = $client->getContainer()->get('session');
-
-        $firewall = 'secured_area';
-        $token = new UsernamePasswordToken('admin', null, $firewall, array('ROLE_ADMIN'));
-        $session->set('_security_'.$firewall, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $client->getCookieJar()->set($cookie);
     }
 
     public function testGet()
@@ -48,7 +33,7 @@ class UserControllerTest extends EnhancedWebTestCase
     {
         $this->options['key'] = 'id';
         $this->options['authorization'] = true;
-        $this->assertAllGet(sprintf('/api/v1/user/current'), $this->options);
+        $this->assertAllGet('/api/v1/user/current', $this->options);
     }
 
     public function testGetPhotos()
@@ -105,7 +90,7 @@ class UserControllerTest extends EnhancedWebTestCase
     {
         $this->options['authorization'] = true;
         $this->options['return_type'] = 'array';
-        $this->assertAllGet(sprintf('/api/v1/user/notifications'), $this->options);
+        $this->assertAllGet('/api/v1/user/notifications', $this->options);
     }
 
     public function testGetFollowings()
@@ -187,6 +172,22 @@ class UserControllerTest extends EnhancedWebTestCase
     {
         $this->options['return_type'] = 'array';
         $this->options['authorization'] = true;
-        $this->assertAllGet('api/v1/user/credits/by/date', $this->options);
+        foreach($this->dates as $date)
+            $this->assertAllGet(sprintf('api/v1/users/%s/credits/by/date', $date), $this->options);
+    }
+
+    public function testGetRewards()
+    {
+        $this->options['key'] = 'data';
+        $this->options['has_pagination'] = true;
+        $this->assertAllGet(sprintf('api/v1/users/%s/rewards', self::USER_ID), $this->options);
+    }
+
+    public function testGetActions()
+    {
+        $this->options['authorization'] = true;
+        $this->options['key'] = 'data';
+        $this->options['has_pagination'] = true;
+        $this->assertAllGet('api/v1/user/actions', $this->options);
     }
 }

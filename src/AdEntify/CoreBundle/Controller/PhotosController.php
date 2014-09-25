@@ -1138,8 +1138,6 @@ class PhotosController extends FosRestController
         }
     }
 
-
-
     /**
      * @ApiDoc(
      *  resource=true,
