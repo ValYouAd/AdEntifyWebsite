@@ -58,8 +58,8 @@ class PushNotificationsService
     {
         $options = array(
             'content' => array(
-                'en' => $this->translator->trans($translation, $translationParameters, null, 'fr'),
-                'fr' => $this->translator->trans($translation, $translationParameters, null, 'en')
+                'en' => $this->translator->trans($translation, $translationParameters, null, 'en'),
+                'fr' => $this->translator->trans($translation, $translationParameters, null, 'fr')
             )
         );
 
