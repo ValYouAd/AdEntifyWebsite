@@ -218,14 +218,15 @@ class TagsController extends FosRestController
                             ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                         $em->persist($notification);
 
-                        $this->getRequest()->setLocale($tag->getPhoto()->getOwner()->getLocale());
-                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                        $options = $pushNotificationService->getOptions('pushNotification.photoTag', array(
-                            '%user%' => $user->getFullname()
-                        ), array(
-                            'photoId' => $tag->getPhoto()->getId()
-                        ));
-                        $pushNotificationService->sendToUser($tag->getPhoto()->getOwner(), $options);
+                        if ($this->getUser()->getId() != $photo->getOwner()->getId()) {
+                            $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                            $options = $pushNotificationService->getOptions('pushNotification.photoTag', array(
+                                '%user%' => $user->getFullname()
+                            ), array(
+                                'photoId' => $tag->getPhoto()->getId()
+                            ));
+                            $pushNotificationService->sendToUser($tag->getPhoto()->getOwner(), $options);
+                        }
                     } else {
                         throw new HttpException(403, 'You can\t add a tag to this photo');
                     }
@@ -306,15 +307,16 @@ class TagsController extends FosRestController
                             $em->getClassMetadata(get_class($tag->getPhoto()))->getName(), false, 'tagPhoto');
                     }
 
-                    $this->getRequest()->setLocale($tag->getOwner()->getLocale());
-                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                    $options = $pushNotificationService->getOptions('pushNotification.tagValidated', array(
-                        '%user%' => $user->getFullname(),
-                        '%points%' => $points['tagPointTagger']
-                    ), array(
-                        'photoId' => $tag->getPhoto()->getId()
-                    ));
-                    $pushNotificationService->sendToUser($tag->getOwner(), $options);
+                    if ($this->getUser()->getId() != $tag->getOwner()->getId()) {
+                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                        $options = $pushNotificationService->getOptions('pushNotification.tagValidated', array(
+                            '%user%' => $user->getFullname(),
+                            '%points%' => $points['tagPointTagger']
+                        ), array(
+                            'photoId' => $tag->getPhoto()->getId()
+                        ));
+                        $pushNotificationService->sendToUser($tag->getOwner(), $options);
+                    }
 
                     $em->flush();
                 } else if ($status == Tag::VALIDATION_DENIED) {

@@ -361,14 +361,15 @@ class UsersController extends FosRestController
                 $em->merge($following);
                 $em->flush();
 
-                $this->getRequest()->setLocale($this->getUser()->getLocale());
-                $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                $options = $pushNotificationService->getOptions('pushNotification.userFollow', array(
-                    '%user%' => $follower->getFullname()
-                ), array(
-                    'userId' => $follower->getId()
-                ));
-                $pushNotificationService->sendToUser($following, $options);
+                if ($this->getUser()->getId() != $following->getId()) {
+                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                    $options = $pushNotificationService->getOptions('pushNotification.userFollow', array(
+                        '%user%' => $follower->getFullname()
+                    ), array(
+                        'userId' => $follower->getId()
+                    ));
+                    $pushNotificationService->sendToUser($following, $options);
+                }
 
                 // Empty followings cache
                 UserCacheManager::getInstance()->deleteUserObject($follower, UserCacheManager::USER_CACHE_KEY_FOLLOWINGS);

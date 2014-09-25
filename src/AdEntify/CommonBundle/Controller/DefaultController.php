@@ -6,6 +6,7 @@ use AdEntify\CommonBundle\Models\Contact;
 use AdEntify\CoreBundle\Entity\DeviceRepository;
 use AdEntify\CoreBundle\Entity\Photo;
 use AdEntify\CoreBundle\Entity\Tag;
+use AdEntify\CoreBundle\Entity\User;
 use AdEntify\CoreBundle\Form\TagType;
 use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\CommonTools;
@@ -29,14 +30,6 @@ class DefaultController extends Controller
      */
     public function indexNoLocaleAction()
     {
-        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-        $options = $pushNotificationService->getOptions('pushNotification.photoLike', array(
-            '%user%' => $this->getUser()->getFullname()
-        ), array(
-            'photoId' => 1
-        ));
-        $pushNotificationService->sendToUser($this->getUser(), $options);
-
         return $this->redirect($this->generateUrl('home_logoff', array(
             '_locale' => $this->getCurrentLocale()
         )));

@@ -1185,14 +1185,15 @@ class PhotosController extends FosRestController
                             $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                             $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, 'photoFav');
 
-                        $this->getRequest()->setLocale($photo->getOwner()->getLocale());
-                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                        $options = $pushNotificationService->getOptions('pushNotification.photoFavorite', array(
-                            '%user%' => $user->getFullname()
-                        ), array(
-                            'photoId' => $photo->getId()
-                        ));
-                        $pushNotificationService->sendToUser($photo->getOwner(), $options);
+                        if ($this->getUser()->getId() != $photo->getOwner()->getId()) {
+                            $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                            $options = $pushNotificationService->getOptions('pushNotification.photoFavorite', array(
+                                '%user%' => $user->getFullname()
+                            ), array(
+                                'photoId' => $photo->getId()
+                            ));
+                            $pushNotificationService->sendToUser($photo->getOwner(), $options);
+                        }
                     } else {
                         $user->removeFavoritePhoto($photo);
                         $favorites = false;
