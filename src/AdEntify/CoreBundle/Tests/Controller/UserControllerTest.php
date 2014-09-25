@@ -10,6 +10,18 @@ class UserControllerTest extends EnhancedWebTestCase
 {
     const USER_ID = 1;
 
+    private $options = array();
+    private $users = array(1, 2, 3, 4, 5);
+
+    public function __construct()
+    {
+        $this->options['key'] = null;
+        $this->options['authorization'] = false;
+        $this->options['http_code'] = 200;
+        $this->options['has_pagination'] = false;
+        $this->options['return_type'] = 'object';
+    }
+
     /**
      * @param $client
      */
@@ -26,81 +38,155 @@ class UserControllerTest extends EnhancedWebTestCase
         $client->getCookieJar()->set($cookie);
     }
 
-    private function getTestUsers()
-    {
-        return array(1, 2, 3, 4, 5);
-    }
-
     public function testGet()
     {
-        $this->assertAllGet(sprintf('/api/v1/users/%s', self::USER_ID), 'id');
+        $this->options['key'] = 'id';
+        $this->assertAllGet(sprintf('/api/v1/users/%s', self::USER_ID), $this->options);
     }
 
     public function testGetCurrent()
     {
-        $this->assertAllGet(sprintf('/api/v1/user/current'), 'id', true);
+        $this->options['key'] = 'id';
+        $this->options['authorization'] = true;
+        $this->assertAllGet(sprintf('/api/v1/user/current'), $this->options);
     }
 
     public function testGetPhotos()
     {
-        $this->assertAllGet(sprintf('/api/v1/users/%s/photos', self::USER_ID), 'data');
+        $this->options['key'] = 'data';
+        $this->options['has_pagination'] = true;
+        $this->assertAllGet(sprintf('/api/v1/users/%s/photos', self::USER_ID), $this->options);
     }
 
     public function testGetFavorites()
     {
-        $this->assertAllGet('/api/v1/user/favorites', 'data', true);
+        $this->options['key'] = 'data';
+        $this->options['authorization'] = true;
+        $this->assertAllGet('/api/v1/user/favorites', $this->options);
     }
 
     public function testGetSearch()
     {
         $query_test = ["", "h", "pi", "8", "42", "ak47"];
+        $this->options['key'] = 'data';
+        $this->options['authorization'] = true;
+        $this->options['has_pagination'] = true;
         foreach($query_test as $query)
         {
-            $http_code = ($query == "") ? 400 : 200;
-            $this->assertAllGet(sprintf('/api/v1/user/search?query=%s', $query), 'data', true, $http_code, true);
+            $this->options['http_code'] = ($query == "") ? 400 : 200;
+            $this->assertAllGet(sprintf('/api/v1/user/search?query=%s', $query), $this->options);
         }
     }
     public function testGetIsFollowed()
     {
-        foreach($this->getTestUsers() as $user)
-            $this->assertAllGet(sprintf('/api/v1/users/%s/is/followed', $user), 'followed', true);
+        $this->options['key'] = 'followed';
+        $this->options['authorization'] = true;
+        foreach($this->users as $user)
+            $this->assertAllGet(sprintf('/api/v1/users/%s/is/followed', $user), $this->options);
     }
 
     public function testGetLikedPhotos()
     {
-        foreach($this->getTestUsers() as $user)
-            $this->assertAllGet(sprintf('/api/v1/users/%s/liked/photos', $user), 'data', false, 200, true);
+        $this->options['key'] = 'data';
+        $this->options['has_pagination'] = true;
+        foreach($this->users as $user)
+            $this->assertAllGet(sprintf('/api/v1/users/%s/liked/photos', $user), $this->options);
     }
 
     public function testGetHashtags()
     {
-        foreach($this->getTestUsers() as $user)
-            $this->assertAllGet(sprintf('/api/v1/users/%s/hashtags', $user), 'data', false, 200, true);
+        $this->options['key'] = 'data';
+        $this->options['has_pagination'] = true;
+        foreach($this->users as $user)
+            $this->assertAllGet(sprintf('/api/v1/users/%s/hashtags', $user), $this->options);
     }
 
     public function testGetNotifications()
     {
-        $this->assertAllGet(sprintf('/api/v1/user/notifications'), null, true);
+        $this->options['authorization'] = true;
+        $this->options['return_type'] = 'array';
+        $this->assertAllGet(sprintf('/api/v1/user/notifications'), $this->options);
     }
 
     public function testGetFollowings()
     {
-        $this->assertAllGet(sprintf('/api/v1/users/%s/followings', self::USER_ID), 'data', true, 200, true);
+        $this->options['key'] = 'data';
+        $this->options['authorization'] = true;
+        $this->options['has_pagination'] = true;
+        $this->assertAllGet(sprintf('/api/v1/users/%s/followings', self::USER_ID), $this->options);
     }
 
     public function testGetFollowers()
     {
-        $this->assertAllGet(sprintf('/api/v1/users/%s/followers', self::USER_ID), 'data', true, 200, true);
+        $this->options['key'] = 'data';
+        $this->options['authorization'] = true;
+        $this->options['has_pagination'] = true;
+        $this->assertAllGet(sprintf('/api/v1/users/%s/followers', self::USER_ID), $this->options);
     }
 
     public function testGetTopFollowers()
     {
-        $this->assertAllGet('/api/v1/user/top/followers');
+        $this->options['return_type'] = 'array';
+        $this->assertAllGet('/api/v1/user/top/followers', $this->options);
     }
 
-    public function testTaskProgress()
+    public function testGetTaskProgress()
     {
-//        $this->assertAllGet('/api/v1/users/progresses/task', );
+        $this->options['return_type'] = 'percentage';
+        $this->options['authorization'] = true;
+        $this->assertAllGet('/api/v1/users/progresses/task', $this->options);
     }
-//    protected function assertAllGet($endpoint, $key, $authorization = false, $http_code = 200, $has_pagination = false)
+
+    public function testGetBrands()
+    {
+        $this->options['key'] = 'data';
+        $this->options['authorization'] = true;
+        $this->options['has_pagination'] = true;
+        $this->assertAllGet('/api/v1/user/brands', $this->options);
+    }
+
+    public function testGetAnalytics()
+    {
+        $this->options['key'] = 'taggedPhotos';
+        $this->options['authorization'] = true;
+        $this->assertAllGet('/api/v1/user/analytics', $this->options);
+    }
+
+    public function testGetPoints()
+    {
+        $this->options['return_type'] = 'integer';
+        $this->options['authorization'] = true;
+        $this->assertAllGet('api/v1/user/points', $this->options);
+    }
+
+    public function testGetCreditsByDateRange()
+    {
+        $this->options['return_type'] = 'array';
+        $this->options['authorization'] = true;
+        $this->assertAllGet('api/v1/user/credits/by/date/range', $this->options);
+    }
+
+    public function testGetDashboard()
+    {
+        $endpoint = 'api/v1/user/dashboard';
+
+        $client = $this->getCLient();
+        $client->request('GET', $endpoint, array(), array(), array('HTTP_Authorization' => $this->getAuthorizationHeader()));
+
+        $this->assertJsonResponse($client->getResponse(), $this->options['http_code'], $endpoint);
+
+        $content = $client->getResponse()->getContent();
+        $decoded = json_decode($content, true);
+
+        $this->assertIsset($decoded['actions'], 'data');
+        if (!empty($decoded['actions']['data']))
+            $this->assertPagination($decoded['actions']);
+    }
+
+    public function testGetCreditsByDate()
+    {
+        $this->options['return_type'] = 'array';
+        $this->options['authorization'] = true;
+        $this->assertAllGet('api/v1/user/credits/by/date', $this->options);
+    }
 }

@@ -12,15 +12,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EnhancedWebTestCase extends WebTestCase
 {
-    protected function assertJsonResponse($response, $statusCode = 200)
+    protected function assertJsonResponse($response, $statusCode = 200, $endpoint)
     {
         $this->assertEquals(
             $statusCode, $response->getStatusCode(),
-            "Unexpected HTTP status code".PHP_EOL.$response->getContent()
+            sprintf("Unexpected HTTP status code for GET %s", $endpoint)
         );
         $this->assertTrue(
             $response->headers->contains('Content-Type', 'application/json'),
-            "Not a JSON response".PHP_EOL.$response->headers
+            sprintf("Not a JSON response\n%s", $response->headers)
         );
     }
 
@@ -46,35 +46,44 @@ class EnhancedWebTestCase extends WebTestCase
 
     protected function assertIsset($decoded, $key)
     {
-        $this->assertTrue(isset($decoded[$key]), "Undefined key: ".$key);
+        $this->assertTrue(isset($decoded[$key]), sprintf("Undefined key: %s", $key));
     }
 
     protected function assertPagination($decoded)
     {
-        $this->assertTrue(isset($decoded['paging']), "Undefined key: paging");
+        $this->assertTrue(isset($decoded['paging']), sprintf("Undefined key: paging"));
     }
 
-    protected function assertAllGet($endpoint, $key = null, $authorization = false, $http_code = 200, $has_pagination = false)
+    protected function assertAllGet($endpoint, $options)
     {
         $client = $this->getCLient();
-
-        $http_authorization = ($authorization) ? array('HTTP_Authorization' => $this->getAuthorizationHeader()) : array();
-
+        $http_authorization = ($options['authorization']) ? array('HTTP_Authorization' => $this->getAuthorizationHeader()) : array();
         $client->request('GET', $endpoint, array(), array(), $http_authorization);
 
-        $this->assertEquals($http_code, $client->getResponse()->getStatusCode(), sprintf("Unexpected HTTP status code for GET %s", $endpoint));
-        $this->assertJsonResponse($client->getResponse(), $http_code);
+        $this->assertJsonResponse($client->getResponse(), $options['http_code'], $endpoint);
 
         $content = $client->getResponse()->getContent();
         $decoded = json_decode($content, true);
 
-        if (!$key)
-            $this->assertTrue(is_array($decoded));
-        else if ($http_code == 200)
+        switch($options['return_type'])
         {
-            $this->assertIsset($decoded, $key);
-            if ($has_pagination && !empty($decoded[$key]))
-                $this->assertPagination($decoded);
+            case 'object':
+                if ($options['http_code'] == 200)
+                {
+                    $this->assertIsset($decoded, $options['key']);
+                    if ($options['has_pagination'] && !empty($decoded[$options['key']]))
+                        $this->assertPagination($decoded);
+                }
+                break;
+            case 'array':
+                $this->assertTrue(is_array($decoded));
+                break;
+            case 'percentage':
+                $this->assertTrue($decoded <= 100 && $decoded >= 0);
+                break;
+            case 'integer':
+                $this->assertTrue(gettype($decoded) == 'integer');
+                break;
         }
     }
 } 
