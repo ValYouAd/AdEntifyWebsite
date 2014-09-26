@@ -57,6 +57,7 @@ class EnhancedWebTestCase extends WebTestCase
     protected function assertAllGet($endpoint, $options)
     {
         $client = $this->getCLient();
+//        print_r($this->getAuthorizationHeader());
         $http_authorization = ($options['authorization']) ? array('HTTP_Authorization' => $this->getAuthorizationHeader()) : array();
         $client->request('GET', $endpoint, array(), array(), $http_authorization);
 

@@ -52,7 +52,7 @@ class PhotosController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get all punlic or friends photos",
+     *  description="Get all public or friends photos",
      *  output="AdEntify\CoreBundle\Entity\Photo",
      *  section="Photo"
      * )
