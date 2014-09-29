@@ -40,6 +40,7 @@ class UserControllerTest extends EnhancedWebTestCase
     {
         $this->options['key'] = 'data';
         $this->options['has_pagination'] = true;
+        $this->options['authorization'] = true;
         $this->assertAllGet(sprintf('/api/v1/users/%s/photos', self::USER_ID), $this->options);
     }
 
