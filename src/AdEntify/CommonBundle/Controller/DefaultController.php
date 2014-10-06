@@ -29,14 +29,6 @@ class DefaultController extends Controller
      */
     public function indexNoLocaleAction()
     {
-        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-        $options = $pushNotificationService->getOptions('pushNotification.photoLike', array(
-            '%user%' => $this->getUser()->getFullname()
-        ), array(
-            'photoId' => 1
-        ));
-        $pushNotificationService->sendToUser($this->getUser(), $options);
-
         return $this->redirect($this->generateUrl('home_logoff', array(
             '_locale' => $this->getCurrentLocale()
         )));
@@ -355,7 +347,7 @@ class DefaultController extends Controller
                 return $this->getUser()->getLocale();
             }
         } else if ($this->getRequest()->getPreferredLanguage()) {
-            return $this->getRequest()->getPreferredLanguage();
+	    return substr($this->getRequest()->getPreferredLanguage(), 0, 2);
         }
 
         return $this->getRequest()->getLocale();
