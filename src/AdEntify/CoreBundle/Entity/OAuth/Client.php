@@ -36,6 +36,13 @@ class Client extends BaseClient
     protected $name;
 
     /**
+     * @ORM\Column(name="display_name", type="string", length=255, nullable=true)
+     *
+     * @var
+     */
+    protected $displayName;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="clients")
      */
     protected $users;
@@ -84,5 +91,22 @@ class Client extends BaseClient
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDisplayName()
+    {
+	return $this->displayName;
+    }
+
+    /**
+     * @param mixed $displayName
+     */
+    public function setDisplayName($displayName)
+    {
+	$this->displayName = $displayName;
+	return $this;
     }
 }
