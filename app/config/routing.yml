@@ -212,8 +212,8 @@ client:
     type: rest
     resource: AdEntify\CoreBundle\Controller\ClientsController
     options:
-	expose: true
-
+    expose: true
+    
 # OAuth
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
