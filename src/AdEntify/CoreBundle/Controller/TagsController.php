@@ -310,7 +310,7 @@ class TagsController extends FosRestController
                     $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
                     $options = $pushNotificationService->getOptions('pushNotification.tagValidated', array(
                         '%user%' => $user->getFullname(),
-                        '%points%' => $points['tagPointTagger']
+                        '%points%' => $points['tagPointTagger']->getPoints()
                     ), array(
                         'photoId' => $tag->getPhoto()->getId()
                     ));
