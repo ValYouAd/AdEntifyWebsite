@@ -11,11 +11,11 @@ define([
       // Provide a global location to place configuration settings and module
       // creation.
       var app = {
-         // The root path to run the application.
-         root: "/" + currentLocale + "/app/",
-         rootUrl: location.protocol + "//adentify.com/",
-         beginUrl: location.protocol + "//" + location.host,
-         secondsBetweenPoll: 15,
+	 // The root path to run the application.
+	 root: "/" + currentLocale + "/app/",
+	 rootUrl: location.protocol + "//local.adentify.com/",
+	 beginUrl: location.protocol + "//" + location.host,
+	 secondsBetweenPoll: 15,
 	      version: appVersion
       };
 

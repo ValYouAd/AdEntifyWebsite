@@ -302,38 +302,38 @@ class DefaultController extends Controller
     {
         $terms_of_use = $this->getDoctrine()->getManager()
             ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :termsOfUse")
-            ->setParameter('termsOfUse', 'Terms of use')
+	    ->setParameter('termsOfUse', 'terms-of-use')
             ->useQueryCache(false)
             ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
-            ->getResult();
+	    ->getOneOrNullResult();
 
         $privacy = $this->getDoctrine()->getManager()
             ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :privacy")
-            ->setParameter('privacy', 'Privacy')
+	    ->setParameter('privacy', 'privacy')
             ->useQueryCache(false)
             ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
-            ->getResult();
+	    ->getOneOrNullResult();
 
         $legal_notices = $this->getDoctrine()->getManager()
             ->createQuery("SELECT info FROM AdEntify\CoreBundle\Entity\Information info WHERE info.infoKey = :legalNotices")
-            ->setParameter('legalNotices', 'Legal notices')
+	    ->setParameter('legalNotices', 'legal-notices')
             ->useQueryCache(false)
             ->useResultCache(true, null, 'informations'.$this->getRequest()->getLocale())
             ->setHint(\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER, 'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker')
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE, $this->getRequest()->getLocale())
             ->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1)
-            ->getResult();
+	    ->getOneOrNullResult();
 
         return array(
-            'terms_of_use' => $terms_of_use[0]->getInfo(),
-            'privacy' => $privacy[0]->getInfo(),
-            'legal_notices' => $legal_notices[0]->getInfo(),
+	    'terms_of_use' => $terms_of_use->getInfo(),
+	    'privacy' => $privacy->getInfo(),
+	    'legal_notices' => $legal_notices->getInfo(),
         );
     }
 
@@ -348,7 +348,7 @@ class DefaultController extends Controller
                 return $this->getUser()->getLocale();
             }
         } else if ($this->getRequest()->getPreferredLanguage()) {
-            return $this->getRequest()->getPreferredLanguage();
+	    return substr($this->getRequest()->getPreferredLanguage(), 0, 2);
         }
 
         return $this->getRequest()->getLocale();

@@ -307,16 +307,15 @@ class TagsController extends FosRestController
                             $em->getClassMetadata(get_class($tag->getPhoto()))->getName(), false, 'tagPhoto');
                     }
 
-                    if ($this->getUser()->getId() != $tag->getOwner()->getId()) {
-                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                        $options = $pushNotificationService->getOptions('pushNotification.tagValidated', array(
-                            '%user%' => $user->getFullname(),
-                            '%points%' => $points['tagPointTagger']
-                        ), array(
-                            'photoId' => $tag->getPhoto()->getId()
-                        ));
-                        $pushNotificationService->sendToUser($tag->getOwner(), $options);
-                    }
+                    $this->getRequest()->setLocale($tag->getOwner()->getLocale());
+                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                    $options = $pushNotificationService->getOptions('pushNotification.tagValidated', array(
+                        '%user%' => $user->getFullname(),
+                        '%points%' => $points['tagPointTagger']->getPoints()
+                    ), array(
+                        'photoId' => $tag->getPhoto()->getId()
+                    ));
+                    $pushNotificationService->sendToUser($tag->getOwner(), $options);
 
                     $em->flush();
                 } else if ($status == Tag::VALIDATION_DENIED) {

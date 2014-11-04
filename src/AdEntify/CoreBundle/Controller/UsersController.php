@@ -285,7 +285,7 @@ class UsersController extends FosRestController
      * @param $query
      * @param int $limit
      *
-     * @QueryParam(name="query")
+     * @QueryParam(name="query", requirements=".{1,}", strict=true)
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="50")
      * @View(serializerGroups={"list"})

@@ -1,4 +1,4 @@
-<h2>{{ 'authorize.appname'|trans({ '%name%': client.name }, 'FOSOAuthServerBundle') }}</h2>
+<h2>{{ 'authorize.appname'|trans({ '%name%': client.displayName ? client.displayName : client.name }, 'FOSOAuthServerBundle') }}</h2>
 
 <form action="{{ path('fos_oauth_server_authorize') }}" method="POST" class="fos_oauth_server_authorize" {{ form_enctype(form) }}>
     <input type="submit" name="accepted" value="{{ 'authorize.accept'|trans({}, 'FOSOAuthServerBundle') }}" />
