@@ -11,31 +11,58 @@ namespace AdEntify\CoreBundle\Factory\Product;
 use AdEntify\CoreBundle\Entity\Brand;
 use AdEntify\CoreBundle\Entity\Product;
 use AdEntify\CoreBundle\Entity\ProductRetailer;
+use Guzzle;
 
 class ShopSenseFactory extends BaseProductFactory
 {
-    public function build($options)
+    const API_BASE_URL = 'http://www.shopstyle.com/browse/';
+
+    public function search($products, $options = array())
     {
-        parent::build($options);
+        $options['url'] = self::API_BASE_URL . $options['query'];
+        $request = parent::search($products, $options);
+
+        $request->getEventDispatcher()->addListener('request.success', function ($e) {
+            if ($e['response']) {
+                $body = $e['response'];
+                if (property_exists($body, 'products') && is_array($body->products) && count($body->products)) {
+                    foreach ($body->products as $product) {
+                        $product = $this->build(array(
+                            'json' => $product
+                        ));
+                        if ($product)
+                            $products[] = $product;
+                    }
+                }
+            }
+        });
+
+        return $request;
+    }
+
+    public function build($options = array())
+    {
+        $product = parent::build($options);
 
         if (array_key_exists('json', $options)) {
             $data = json_decode($options['json']);
-            $this->loadRetailer($data);
-            $this->loadBrand($data);
-            $this->loadBrand($data);
+            $this->loadRetailerFromJSON($product, $data);
+            $this->loadBrandFromJSON($product, $data);
+            $this->loadBrandFromJSON($product, $data);
         }
 
-        $this->getProduct()->setProviderName(Factory::FACTORY_SHOPSENSE);
+        $product->setProviderName(Factory::FACTORY_SHOPSENSE);
 
-        return $this->getProduct();
+        return $product;
     }
 
     /**
      * Load retailer
      *
+     * @param $product
      * @param $json
      */
-    protected function loadRetailer($json)
+    protected function loadRetailerFromJSON($product, $json, $persist = false)
     {
         if (property_exists($json, 'retailer')) {
             $retailer = $this->em->getRepository('AdEntifyCoreBundle:ProductRetailer')->findOneBy(array(
@@ -55,10 +82,11 @@ class ShopSenseFactory extends BaseProductFactory
                 if (array_key_exists('logo', $json->retailer))
                     $retailer->setLogo($json->retailer['logo']);
 
-                $this->em->persist($retailer);
+                if ($persist)
+                    $this->em->persist($retailer);
             }
 
-            $this->getProduct()->setProductRetailer($retailer);
+            $product->setProductRetailer($retailer);
 
             return $retailer;
         }
@@ -69,9 +97,11 @@ class ShopSenseFactory extends BaseProductFactory
     /**
      * Load brand
      *
+     * @param $product
      * @param $json
+     * @return
      */
-    protected function loadBrand($json)
+    protected function loadBrandFromJSON($product, $json, $persist = false)
     {
         if (property_exists($json, 'brand')) {
             $brand = $this->em->getRepository('AdEntifyCoreBundle:Brand')->findOneByProviderIdOrName($json->brand['id'], $json->brand['name']);
@@ -81,10 +111,11 @@ class ShopSenseFactory extends BaseProductFactory
                 $brand->setProviderId($json->brand['id'])
                     ->setName($json->brand['name']);
 
-                $this->em->persist($brand);
+                if ($persist)
+                    $this->em->persist($brand);
             }
 
-            $this->getProduct()->setBrand($brand);
+            $product->setBrand($brand);
 
             return $brand;
         }
@@ -97,19 +128,19 @@ class ShopSenseFactory extends BaseProductFactory
      *
      * @param $json
      */
-    protected function loadProduct($json)
+    protected function loadProductFromJSON($product, $json)
     {
-        $this->getProduct()->setName($json->name);
+        $product->setName($json->name);
 
         if (property_exists($json, 'description'))
-            $this->getProduct()->setDescription($json->description);
+            $product->setDescription($json->description);
         if (property_exists($json, 'clickUrl'))
-            $this->getProduct()->setPurchaseUrl($json->clickUrl);
+            $product->setPurchaseUrl($json->clickUrl);
         if (property_exists($json, 'currency'))
-            $this->getProduct()->setCurrency($json->currency);
+            $product->setCurrency($json->currency);
         if (property_exists($json, 'price'))
-            $this->getProduct()->setPrice($json->price);
+            $product->setPrice($json->price);
 
-        return $this->getProduct();
+        return $product;
     }
 } 

@@ -9,37 +9,27 @@
 namespace AdEntify\CoreBundle\Factory\Product;
 
 use AdEntify\CoreBundle\Entity\Product;
+use Guzzle\Http\Client;
 
 abstract class BaseProductFactory
 {
-    protected $product;
     protected $em;
+    protected $client;
 
-    public function __construct($em)
+    public function __construct($em, Client $client)
     {
         $this->em = $em;
+        $this->client = $client;
     }
 
-    public function build($options)
+    public function search($products, $options = array())
     {
-        $this->setProduct(new Product());
-        return $this->getProduct();
+        // Create a search request to the API
+        return $this->client->createRequest('GET', $options['url']);
     }
 
-    /**
-     * @return Product
-     */
-    public function getProduct()
+    public function build($options = array())
     {
-        return $this->product;
-    }
-
-    /**
-     * @param Product $product
-     */
-    public function setProduct($product)
-    {
-        $this->product = $product;
-        return $this;
+        return new Product();
     }
 } 

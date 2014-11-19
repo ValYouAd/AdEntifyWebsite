@@ -2,8 +2,10 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Factory\Product\Factory;
 use AdEntify\CoreBundle\Form\ProductType;
 use AdEntify\CoreBundle\Util\CommonTools;
+use Guzzle\Http\Exception\MultiTransferException;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -160,7 +162,42 @@ class ProductsController extends FosRestController
         }
         $qb->setParameters($parameters);
 
-        return $qb->setMaxResults($limit)->setFirstResult(($page - 1) * $limit)->getQuery()->getResult();
+        $products = $qb->setMaxResults($limit)->setFirstResult(($page - 1) * $limit)->getQuery()->getResult();
+
+        $products1 = array();
+        $products2 = array();
+        $productFactory = $this->get('ad_entify_core.productFactory')->getProductFactory(Factory::FACTORY_SHOPSENSE);
+
+        try {
+            $responses = $this->get('guzzle.client')->send(array(
+                $productFactory->search($products1, array(
+                    'query' => sprintf('?query=%s', $query)
+                )),
+                $productFactory->search($products2)
+            ));
+        } catch (MultiTransferException $e) {
+
+            echo "The following exceptions were encountered:\n";
+            foreach ($e as $exception) {
+                echo $exception->getMessage() . "\n";
+            }
+
+            echo "The following requests failed:\n";
+            foreach ($e->getFailedRequests() as $request) {
+                echo $request . "\n\n";
+            }
+
+            echo "The following requests succeeded:\n";
+            foreach ($e->getSuccessfulRequests() as $request) {
+                echo $request . "\n\n";
+            }
+        }
+
+        echo count($products1) . '<br>'. count($products2);
+
+        die;
+
+        return $products;
     }
 
     /**
