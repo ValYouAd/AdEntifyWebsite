@@ -12,8 +12,34 @@ use AdEntify\CoreBundle\Entity\Product;
 
 abstract class BaseProductFactory
 {
+    protected $product;
+    protected $em;
+
+    public function __construct($em)
+    {
+        $this->em = $em;
+    }
+
     public function build($options)
     {
-        return new Product();
+        $this->setProduct(new Product());
+        return $this->getProduct();
+    }
+
+    /**
+     * @return Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param Product $product
+     */
+    public function setProduct($product)
+    {
+        $this->product = $product;
+        return $this;
     }
 } 

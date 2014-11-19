@@ -28,6 +28,15 @@ class ProductRetailer
     private $id;
 
     /**
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     *
+     * @var integer
+     *
+     * @ORM\Column(name="provider_id", type="bigint", nullable=true)
+     */
+    private $providerId;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -173,6 +182,23 @@ class ProductRetailer
     {
         $this->id = $id;
 
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProviderId()
+    {
+        return $this->providerId;
+    }
+
+    /**
+     * @param int $providerId
+     */
+    public function setProviderId($providerId)
+    {
+        $this->providerId = $providerId;
         return $this;
     }
 }

@@ -72,7 +72,9 @@
             <tag name="kernel.event_listener" event="fos_oauth_server.post_authorization_process" method="onPostAuthorizationProcess" />
         </service>-->
 
-        <service id="ad_entify_core.productFactory" class="%ad_entify_core.productFactory.class%"></service>
+        <service id="ad_entify_core.productFactory" class="%ad_entify_core.productFactory.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
     </services>
 
 </container>
