@@ -215,42 +215,6 @@ class Product
      */
     private $price;
 
-    /**
-     * @return mixed
-     */
-    public function getProductRetailer()
-    {
-        return $this->productRetailer;
-    }
-
-    /**
-     * @param mixed $productRetailer
-     */
-    public function setProductRetailer($productRetailer)
-    {
-        $this->productRetailer = $productRetailer;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProductProvider()
-    {
-        return $this->productProvider;
-    }
-
-    /**
-     * @param mixed $productProvider
-     */
-    public function setProductProvider($productProvider)
-    {
-        $this->productProvider = $productProvider;
-
-        return $this;
-    }
-
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
@@ -579,6 +543,43 @@ class Product
     {
         $this->tagsCount = $tagsCount;
     
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getProductRetailer()
+    {
+        return $this->productRetailer;
+    }
+
+    /**
+     * @param mixed $productRetailer
+     */
+    public function setProductRetailer($productRetailer)
+    {
+        $this->productRetailer = $productRetailer;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductProvider()
+    {
+        return $this->productProvider;
+    }
+
+    /**
+     * @param mixed $productProvider
+     */
+    public function setProductProvider($productProvider)
+    {
+        $this->productProvider = $productProvider;
+
         return $this;
     }
 
