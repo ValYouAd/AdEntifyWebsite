@@ -31,7 +31,7 @@ class ProductProvider
     /**
      * @var string
      *
-     * @ORM\Column(name="providerKey", type="string", length=255)
+     * @ORM\Column(name="provider_key", type="string", length=255)
      * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $providerKey;
@@ -58,6 +58,8 @@ class ProductProvider
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -66,5 +68,7 @@ class ProductProvider
     public function setProviderKey($providerKey)
     {
         $this->providerKey = $providerKey;
+
+        return $this;
     }
 }

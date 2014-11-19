@@ -204,6 +204,8 @@ class Product
     public function setProductRetailer($productRetailer)
     {
         $this->productRetailer = $productRetailer;
+
+        return $this;
     }
 
     /**
@@ -220,6 +222,8 @@ class Product
     public function setProductProvider($productProvider)
     {
         $this->productProvider = $productProvider;
+
+        return $this;
     }
 
     public function __construct()

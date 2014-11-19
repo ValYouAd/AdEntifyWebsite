@@ -38,7 +38,7 @@ class ProductRetailer
     /**
      * @var bool
      *
-     * @ORM\Column(name="deepLinkSupport", type="boolean")
+     * @ORM\Column(name="deep_link_support", type="boolean")
      * @Serializer\Groups({"me", "details"})
      */
     private $deeplinkSupport;
@@ -46,7 +46,7 @@ class ProductRetailer
     /**
      * @var string
      *
-     * @ORM\Column(name="hostDomain", type="string", length=255)
+     * @ORM\Column(name="host_domain", type="string", length=255, nullable=true)
      * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $hostDomain;
@@ -54,7 +54,7 @@ class ProductRetailer
     /**
      * @var bool
      *
-     * @ORM\Column(name="mobileOptimized", type="boolean")
+     * @ORM\Column(name="mobile_optimized", type="boolean", nullable=true)
      * @Serializer\Groups({"me", "details"})
      */
     private $mobileOptimized;
@@ -63,7 +63,7 @@ class ProductRetailer
      *
      * @var string
      *
-     * @ORM\Column(name="logo", type="string", length=255)
+     * @ORM\Column(name="logo", type="string", length=255, nullable=true)
      * @Serializer\Groups({"me", "details" , "list", "slight-list"})
      */
     private $logo;
@@ -82,6 +82,8 @@ class ProductRetailer
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -98,6 +100,8 @@ class ProductRetailer
     public function setDeeplinkSupport($deeplinkSupport)
     {
         $this->deeplinkSupport = $deeplinkSupport;
+
+        return $this;
     }
 
     /**
@@ -114,6 +118,8 @@ class ProductRetailer
     public function setHostDomain($hostDomain)
     {
         $this->hostDomain = $hostDomain;
+
+        return $this;
     }
 
     /**
@@ -130,6 +136,8 @@ class ProductRetailer
     public function setMobileOptimized($mobileOptimized)
     {
         $this->mobileOptimized = $mobileOptimized;
+
+        return $this;
     }
 
     /**
@@ -146,6 +154,8 @@ class ProductRetailer
     public function setLogo($logo)
     {
         $this->logo = $logo;
+
+        return $this;
     }
 
     /**
@@ -162,5 +172,7 @@ class ProductRetailer
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 }
