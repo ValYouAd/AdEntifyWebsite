@@ -180,6 +180,48 @@ class Product
      */
     private $lastPhoto;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider")
+     */
+    private $productProvider;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductRetailer")
+     */
+    private $productRetailer;
+
+    /**
+     * @return mixed
+     */
+    public function getProductRetailer()
+    {
+        return $this->productRetailer;
+    }
+
+    /**
+     * @param mixed $productRetailer
+     */
+    public function setProductRetailer($productRetailer)
+    {
+        $this->productRetailer = $productRetailer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductProvider()
+    {
+        return $this->productProvider;
+    }
+
+    /**
+     * @param mixed $productProvider
+     */
+    public function setProductProvider($productProvider)
+    {
+        $this->productProvider = $productProvider;
+    }
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
