@@ -9,6 +9,7 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Entity\Analytic;
 use AdEntify\CoreBundle\Entity\TagStats;
 use AdEntify\CoreBundle\Form\TagType;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,7 @@ use Doctrine\Common\Collections\ArrayCollection,
 use AdEntify\CoreBundle\Entity\Tag;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class TagsController
@@ -57,53 +59,38 @@ class TagStatsController extends FosRestController
             && is_numeric($request->request->get('tagId'))) {
             $em = $this->getDoctrine()->getManager();
 
-            $qb = $em->getRepository('AdEntifyCoreBundle:TagStats')->createQueryBuilder('tagStats');
-            $qb->leftJoin('tagStats.tag', 'tag')
-                ->where('tag.id = :tagId')
-                ->andWhere('tagStats.ipAddress = :ipAddress')
-                ->andWhere('tagStats.type = :statType');
+            $analytic = new Analytic();
+            $analytic->setIpAddress($request->getClientIp())->setElement(Analytic::ELEMENT_TAG);
+            if ($this->getUser())
+                $analytic->setUser($this->getUser());
 
-            $parameters = array(
-                ':ipAddress' => $request->getClientIp(),
-                ':tagId' => $request->request->get('tagId'),
-                ':statType' => $request->request->get('statType')
-            );
-
-            if ($request->request->has('link')) {
-                $qb->andWhere('tagStats.link = :link');
-                $parameters['link'] = $request->request->get('link');
+            // Action
+            switch ($request->request->get('statType')) {
+                case TagStats::TYPE_CLICK:
+                    $analytic->setAction(Analytic::ACTION_CLICK);
+                    break;
+                case TagStats::TYPE_HOVER:
+                    $analytic->setAction(Analytic::ACTION_HOVER);
+                    break;
             }
+
+            // Platform
             if ($request->request->has('platform')) {
-                $qb->andWhere('tagStats.platform = :platform');
-                $parameters['platform'] = $request->request->get('platform');
+                $analytic->setPlatform($request->request->get('platform'));
             }
 
-            $tagStats = $qb->setMaxResults(1)->setParameters($parameters)->getQuery()->getOneOrNullResult();
-
-            if (!$tagStats) {
+            if (!$em->getRepository('AdEntifyCoreBundle:Analytic')->isAlreadyTracked($analytic)) {
                 $tag = $em->getRepository('AdEntifyCoreBundle:Tag')->find($request->request->get('tagId'));
                 if ($tag) {
-                    $tagStats = new TagStats();
-                    $tagStats->setIpAddress($request->getClientIp())->setTag($tag)
-                        ->setType($request->request->get('statType'));
-                    if ($request->request->has('platform'))
-                        $tagStats->setPlatform($request->request->get('platform'));
-                    if ($request->request->has('link'))
-                        $tagStats->setLink($request->request->get('link'));
-
-                    // Set user if logged in
-                    $securityContext = $this->container->get('security.context');
-                    if( $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED') ){
-                        $tagStats->setUser($this->container->get('security.context')->getToken()->getUser());
-                    }
-
-                    $em->persist($tagStats);
+                    $analytic->setTag($tag);
+                    $em->persist($analytic);
                     $em->flush();
-                    return $tagStats;
-                }
-            } else {
-                return $tagStats;
-            }
+
+                    return $analytic;
+                } else
+                    throw new HttpException('404', 'Tag not found');
+            } else
+                throw new HttpException('403', 'Already tracked');
         }
     }
 }

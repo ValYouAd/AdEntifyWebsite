@@ -346,6 +346,14 @@ class Photo
      */
     private $reports;
 
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Analytic", mappedBy="tag", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $analytics;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -355,6 +363,7 @@ class Photo
         $this->favoritesUsers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->hashtags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->analytics = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -1086,5 +1095,23 @@ class Photo
                     break;
             }
         }
+    }
+
+    public function addAnalytic(\AdEntify\CoreBundle\Entity\Analytic $analytic)
+    {
+        $this->analytics[] = $analytic;
+        $analytic->setPhoto($this);
+        return $this;
+    }
+
+    public function removeAnalytic(\AdEntify\CoreBundle\Entity\Analytic $analytic)
+    {
+        $this->analytics->removeElement($analytic);
+        $analytic->setPhoto(null);
+    }
+
+    public function getAnalytics()
+    {
+        return $this->analytics;
     }
 }

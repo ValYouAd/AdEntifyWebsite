@@ -16,6 +16,7 @@
         <!--<parameter key="ad_entify_core.oauthEventListener">AdEntify\CoreBundle\EventListener\OAuthEventListener</parameter>-->
         <parameter key="buzz.client.class">Buzz\Client\Curl</parameter>
         <parameter key="ad_entify_core.pushNotificationsService">AdEntify\CoreBundle\Services\PushNotificationsService</parameter>
+        <parameter key="ad_entify_core.productFactory.class">AdEntify\CoreBundle\Factory\Product\Factory</parameter>
     </parameters>
 
     <services>
@@ -70,6 +71,8 @@
             <tag name="kernel.event_listener" event="fos_oauth_server.pre_authorization_process" method="onPreAuthorizationProcess" />
             <tag name="kernel.event_listener" event="fos_oauth_server.post_authorization_process" method="onPostAuthorizationProcess" />
         </service>-->
+
+        <service id="ad_entify_core.productFactory" class="%ad_entify_core.productFactory.class%"></service>
     </services>
 
 </container>

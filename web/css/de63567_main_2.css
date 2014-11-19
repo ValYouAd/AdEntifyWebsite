@@ -1095,7 +1095,7 @@ html,body,.body-grey-background {
     height: 100%;
 }
 .modal .photo-full {
-    width: 100%;
+    max-width: 100%;
 }
 .photo-full {
     max-width: 100%;
@@ -4098,10 +4098,6 @@ label,
     color: #999797;
     font-size: 20px;
     font-family: 'asapregular', "Helvetica Neue", "Arial", sans-serif;
-}
-#deleteAllComments {
-    color: #a5a6a8;
-    font-size: 12px;
 }
 /* END : Commentaires
 ----------------------- */
