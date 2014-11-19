@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\XmlRoot("product-provider")
  * @Serializer\ExclusionPolicy("none")
  *
- * @ORM\Table(name="product_providers", indexes={@ORM\Index(name="search_idx", columns={"providerKey"})})
+ * @ORM\Table(name="product_providers", indexes={@ORM\Index(name="search_idx", columns={"provider_key"})})
  * @ORM\Entity
  */
 class ProductProvider
