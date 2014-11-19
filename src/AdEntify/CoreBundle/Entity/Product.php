@@ -256,7 +256,7 @@ class Product
     public function setName($name)
     {
         $this->name = $name;
-        return $this;hostDomain
+        return $this;
     }
 
     public function getName()
