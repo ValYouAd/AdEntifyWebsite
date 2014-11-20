@@ -144,7 +144,7 @@ class ProductsController extends FosRestController
      * )
      *
      * @QueryParam(name="query")
-     * @QueryParam(name="providers", requirements="[a-z\s]+")
+     * @QueryParam(name="providers")
      * @QueryParam(name="brandId", requirements="\d+", default="0")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
@@ -153,71 +153,55 @@ class ProductsController extends FosRestController
     public function getSearchAction($query, $providers, $page, $limit, $brandId = 0)
     {
         $em = $this->getDoctrine()->getManager();
-        $qb = $em->getRepository('AdEntifyCoreBundle:Product')->createQueryBuilder('p');
-        $qb->where('p.name LIKE :query');
-        $parameters = array(
-            ':query' => '%'.$query.'%'
-        );
-//        echo sprintf('("%s")', join('", "', explode(' ', $providers)));
+
+        $products = array();
         if (!empty($providers)) {
-            $qb = $em->getRepository('AdEntifyCoreBundle:ProductProvider')->createQueryBuilder('pp');
-            $qb->where('pp.providerKey IN (:providers)');
-            $parameters = array(
-                ':providers' => explode(' ', $providers)
-            );
-
-                /*$qb->innerJoin('p.productProvider', 'pp', 'WITH', 'p.productProvider IN :provider');
-                foreach($productProviders as $productProvider)
-                    $productProvidersId[] = $productProvider->getId();
-                $parameters[':provider'] = join('", "', $productProvidersId);
-                echo join('", "', $productProvidersId);die;*/
-        }
-
-        if ($brandId > 0) {
-            $qb->andWhere('p.brand = :brandId');
-            $parameters['brandId'] = $brandId;
-        }
-
-        $qb->setParameters($parameters);
-
-        $products = $qb->setMaxResults($limit)->setFirstResult(($page - 1) * $limit)->getQuery()->getResult();
-
-        $products1 = array();
-        $products2 = array();
-        $productFactory = $this->get('ad_entify_core.productFactory')->getProductFactory(Factory::FACTORY_SHOPSENSE);
-
-        try {
-            $responses = $this->get('guzzle.client')->send(array(
-                $productFactory->search($products1, array(
-                    'query' => sprintf('?fts=%s', $query)
-                )),
-                $productFactory->search($products2, array(
-                    'query' => sprintf('?fts=%s', $query)
-                ))
-            ));
-        } catch (MultiTransferException $e) {
-
-            echo "The following exceptions were encountered:\n";
-            foreach ($e as $exception) {
-                echo $exception->getMessage() . "\n";
+            $providers = explode(' ', $providers);
+            if (in_array('adentify', $providers)) {
+                $adentifyProducts = $em->getRepository('AdEntifyCoreBundle:Product')->searchProducts($query, $page, $limit, $brandId);
+                if ($adentifyProducts && count($adentifyProducts))
+                    $products = array_merge($adentifyProducts, $products);
             }
 
-            echo "The following requests failed:\n";
-            foreach ($e->getFailedRequests() as $request) {
-                echo $request . "\n\n";
+            $productProviders = $em->getRepository('AdEntifyCoreBundle:ProductProvider')->createQueryBuilder('pp')
+                ->where('pp.providerKey IN (:providers)')
+                ->setParameters(array(
+                        ':providers' => $providers
+                    ))
+                ->getQuery()->getResult();
+
+            // Get all search requests for selected providers
+            $requests = array();
+            foreach($productProviders as $productProvider) {
+                $requests[] = $this->get('ad_entify_core.productFactory')->getProductFactory($productProvider->getProviderKey())
+                    ->search($products, array(
+                        'keywords' => $query
+                    ));
             }
 
-            echo "The following requests succeeded:\n";
-            foreach ($e->getSuccessfulRequests() as $request) {
-                echo $request . "\n\n";
+            // Send requests in parallel
+            try {
+                $this->get('guzzle.client')->send($requests);
+            } catch (MultiTransferException $e) {
+                /*foreach ($e as $exception) {
+                    echo $exception->getMessage() . "\n";
+                }
+
+                echo "The following requests failed:\n";
+                foreach ($e->getFailedRequests() as $request) {
+                    echo $request . "\n\n";
+                }
+
+                echo "The following requests succeeded:\n";
+                foreach ($e->getSuccessfulRequests() as $request) {
+                    echo $request . "\n\n";
+                }*/
             }
+
+            return $products;
+        } else {
+            return $em->getRepository('AdEntifyCoreBundle:Product')->searchProducts($query, $page, $limit, $brandId);
         }
-
-        echo count($products1) . '<br>'. count($products2);
-
-        die;
-
-        return $products;
     }
 
     /**

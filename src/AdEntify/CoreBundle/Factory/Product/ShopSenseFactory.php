@@ -28,7 +28,7 @@ class ShopSenseFactory extends BaseProductFactory
 
     public function search(&$products, $options = array())
     {
-        $options['url'] = self::API_BASE_URL . '?pid=uid321-26129111-96' . '&' . $options['query'];
+        $options['url'] = sprintf('%s?pid=uid321-26129111-96&fts=%s', self::API_BASE_URL, $options['keywords']);
         $request = parent::search($products, $options);
         $request->getEventDispatcher()->addListener('request.success', function ($e) use (&$products) {
             if ($e['response']->getStatusCode() == 200) {

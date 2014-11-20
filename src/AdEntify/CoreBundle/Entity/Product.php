@@ -21,7 +21,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("none")
  *
  * @ORM\Table(name="products", indexes={@ORM\Index(name="search_idx", columns={"name"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AdEntify\CoreBundle\Entity\ProductRepository")
  */
 class Product
 {
