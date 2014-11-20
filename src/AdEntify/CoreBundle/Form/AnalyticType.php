@@ -52,7 +52,7 @@ class AnalyticType extends AbstractType
             ->add('photo', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Photo',
                 'multiple' => false,
-                'property' => 'name',
+                'property' => 'caption',
                 'required' => false,
                 'description' => 'Photo ID. Get the right id with the GET operations of photos endpoint',
                 'query_builder' => function(EntityRepository $er) use($options) {
