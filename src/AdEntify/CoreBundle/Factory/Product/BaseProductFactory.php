@@ -22,7 +22,7 @@ abstract class BaseProductFactory
         $this->client = $client;
     }
 
-    public function search($products, $options = array())
+    public function search(&$products, $options = array())
     {
         // Create a search request to the API
         return $this->client->createRequest('GET', $options['url']);
