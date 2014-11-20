@@ -129,8 +129,10 @@ class ProductsController extends FosRestController
 
     /**
      * @param $query
+     * @param $providers
      * @param int $page
      * @param int $limit
+     * @param $brandId
      *
      * @ApiDoc(
      *  resource=true,
@@ -140,24 +142,40 @@ class ProductsController extends FosRestController
      * )
      *
      * @QueryParam(name="query")
+     * @QueryParam(name="providers", requirements="[a-z\s]+")
      * @QueryParam(name="brandId", requirements="\d+", default="0")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View(serializerGroups={"list"})
      */
-    public function getSearchAction($query, $page, $limit, $brandId = 0)
+    public function getSearchAction($query, $providers, $page, $limit, $brandId = 0)
     {
-        $qb = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Product')->createQueryBuilder('p');
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->getRepository('AdEntifyCoreBundle:Product')->createQueryBuilder('p');
         $qb->where('p.name LIKE :query');
-
         $parameters = array(
             ':query' => '%'.$query.'%'
         );
+//        echo sprintf('("%s")', join('", "', explode(' ', $providers)));
+        if (!empty($providers)) {
+            $qb = $em->getRepository('AdEntifyCoreBundle:ProductProvider')->createQueryBuilder('pp');
+            $qb->where('pp.providerKey IN (:providers)');
+            $parameters = array(
+                ':providers' => explode(' ', $providers)
+            );
+
+                /*$qb->innerJoin('p.productProvider', 'pp', 'WITH', 'p.productProvider IN :provider');
+                foreach($productProviders as $productProvider)
+                    $productProvidersId[] = $productProvider->getId();
+                $parameters[':provider'] = join('", "', $productProvidersId);
+                echo join('", "', $productProvidersId);die;*/
+        }
 
         if ($brandId > 0) {
             $qb->andWhere('p.brand = :brandId');
             $parameters['brandId'] = $brandId;
         }
+
         $qb->setParameters($parameters);
 
         return $qb->setMaxResults($limit)->setFirstResult(($page - 1) * $limit)->getQuery()->getResult();

@@ -181,11 +181,13 @@ class Product
     private $lastPhoto;
 
     /**
+     * @Serializer\Groups({"details", "list"})
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider")
      */
     private $productProvider;
 
     /**
+     * @Serializer\Groups({"details", "list"})
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductRetailer")
      */
     private $productRetailer;
@@ -197,15 +199,6 @@ class Product
      * @Serializer\Groups({"details", "list"})
      */
     private $currency;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="provider_id", type="integer", length=255)
-     * @Serializer\Groups({"details", "list"})
-     */
-    private $providerId;
-
 
     /**
      * @var float
@@ -604,29 +597,6 @@ class Product
     public function getCurrency()
     {
         return $this->currency;
-    }
-
-    /**
-     * Set providerId
-     *
-     * @param integer $providerId
-     * @return Product
-     */
-    public function setProviderId($providerId)
-    {
-        $this->providerId = $providerId;
-    
-        return $this;
-    }
-
-    /**
-     * Get providerId
-     *
-     * @return integer 
-     */
-    public function getProviderId()
-    {
-        return $this->providerId;
     }
 
     /**
