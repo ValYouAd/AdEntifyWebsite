@@ -220,6 +220,12 @@ analytic:
     options:
         expose: true
 
+productproviders:
+    type: rest
+    resource: AdEntify\CoreBundle\Controller\ProductProvidersController
+    options:
+        expose: true
+
 # OAuth
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
