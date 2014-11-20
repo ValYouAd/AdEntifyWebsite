@@ -171,9 +171,11 @@ class ProductsController extends FosRestController
         try {
             $responses = $this->get('guzzle.client')->send(array(
                 $productFactory->search($products1, array(
-                    'query' => sprintf('?query=%s', $query)
+                    'query' => sprintf('?fts=%s', $query)
                 )),
-                $productFactory->search($products2)
+                $productFactory->search($products2, array(
+                    'query' => sprintf('?fts=%s', $query)
+                ))
             ));
         } catch (MultiTransferException $e) {
 
