@@ -47,7 +47,7 @@ class ProductRetailer
     /**
      * @var bool
      *
-     * @ORM\Column(name="deep_link_support", type="boolean")
+     * @ORM\Column(name="deep_link_support", type="boolean", nullable=true)
      * @Serializer\Groups({"me", "details"})
      */
     private $deeplinkSupport;

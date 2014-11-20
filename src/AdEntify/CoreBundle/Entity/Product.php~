@@ -181,13 +181,11 @@ class Product
     private $lastPhoto;
 
     /**
-     * @Serializer\Groups({"details", "list"})
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider")
      */
     private $productProvider;
 
     /**
-     * @Serializer\Groups({"details", "list"})
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductRetailer")
      */
     private $productRetailer;
@@ -201,12 +199,57 @@ class Product
     private $currency;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="provider_id", type="integer", length=255)
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $providerId;
+
+
+    /**
      * @var float
      *
      * @ORM\Column(name="price", type="float", length=255, nullable=true)
      * @Serializer\Groups({"details", "list"})
      */
     private $price;
+
+    /**
+     * @return mixed
+     */
+    public function getProductRetailer()
+    {
+        return $this->productRetailer;
+    }
+
+    /**
+     * @param mixed $productRetailer
+     */
+    public function setProductRetailer($productRetailer)
+    {
+        $this->productRetailer = $productRetailer;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductProvider()
+    {
+        return $this->productProvider;
+    }
+
+    /**
+     * @param mixed $productProvider
+     */
+    public function setProductProvider($productProvider)
+    {
+        $this->productProvider = $productProvider;
+
+        return $this;
+    }
 
     public function __construct()
     {
@@ -238,7 +281,6 @@ class Product
     public function setName($name)
     {
         $this->name = $name;
-        return $this;
     }
 
     public function getName()
@@ -540,43 +582,6 @@ class Product
         return $this;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getProductRetailer()
-    {
-        return $this->productRetailer;
-    }
-
-    /**
-     * @param mixed $productRetailer
-     */
-    public function setProductRetailer($productRetailer)
-    {
-        $this->productRetailer = $productRetailer;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProductProvider()
-    {
-        return $this->productProvider;
-    }
-
-    /**
-     * @param mixed $productProvider
-     */
-    public function setProductProvider($productProvider)
-    {
-        $this->productProvider = $productProvider;
-
-        return $this;
-    }
-
     /**
      * Set currency
      *
@@ -598,6 +603,29 @@ class Product
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * Set providerId
+     *
+     * @param integer $providerId
+     * @return Product
+     */
+    public function setProviderId($providerId)
+    {
+        $this->providerId = $providerId;
+    
+        return $this;
+    }
+
+    /**
+     * Get providerId
+     *
+     * @return integer 
+     */
+    public function getProviderId()
+    {
+        return $this->providerId;
     }
 
     /**
