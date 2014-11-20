@@ -144,10 +144,19 @@ class ShopSenseFactory extends BaseProductFactory
             $product->setDescription($json->description);
         if (property_exists($json, 'clickUrl'))
             $product->setPurchaseUrl($json->clickUrl);
-//        if (property_exists($json, 'currency'))
-//            $product->setCurrency($json->currency);
-//        if (property_exists($json, 'price'))
-//            $product->setPrice($json->price);
+        if (property_exists($json, 'currency'))
+            $product->setCurrency($json->currency);
+        if (property_exists($json, 'price'))
+            $product->setPrice($json->price);
+        if (property_exists($json, 'image') && property_exists($json->image, 'sizes')) {
+            $sizes = $json->image->sizes;
+            if (property_exists($sizes, 'Medium'))
+                $product->setMediumUrl($sizes->Medium->url);
+            if (property_exists($sizes, 'Original'))
+                $product->setOriginalUrl($sizes->Original->url);
+            if (property_exists($sizes, 'Small'))
+                $product->setSmallUrl($sizes->Small->url);
+        }
 
         return $product;
     }
