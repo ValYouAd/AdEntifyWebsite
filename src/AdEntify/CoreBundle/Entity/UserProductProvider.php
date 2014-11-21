@@ -21,7 +21,7 @@ class UserProductProvider
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider", inversedBy="users")
      * @ORM\JoinColumn(name="product_providers_id", referencedColumnName="id", nullable=false)
-     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $productProviders;
 
@@ -30,7 +30,7 @@ class UserProductProvider
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="productProviders")
      * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
-     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $users;
 
@@ -38,7 +38,7 @@ class UserProductProvider
      * @var string
      *
      * @ORM\Column(name="api_key", type="string", length=255, nullable=true)
-     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $apiKey;
 

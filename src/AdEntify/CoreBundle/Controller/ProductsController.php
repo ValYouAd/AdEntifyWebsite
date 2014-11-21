@@ -158,7 +158,7 @@ class ProductsController extends FosRestController
         $products = array();
 
         if (!empty($providers) && $this->getUser()) {
-            $providers = explode(' ', $providers);
+            $providers = explode('+', $providers);
             $activatedProviders = array();
 
             $userProductProviders = $em->createQuery('SELECT pp
