@@ -63,7 +63,7 @@ class Product
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="products", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups({"details", "list"})
      */
@@ -182,13 +182,13 @@ class Product
 
     /**
      * @Serializer\Groups({"details", "list"})
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider",cascade={"persist"})
      */
     private $productProvider;
 
     /**
      * @Serializer\Groups({"details", "list"})
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductRetailer")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductRetailer",cascade={"persist"})
      */
     private $productRetailer;
 
@@ -208,6 +208,14 @@ class Product
      */
     private $price;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="product_provider_id", type="integer", nullable=true)
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $productProviderId;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
@@ -222,6 +230,12 @@ class Product
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function setDescription($description)
@@ -621,5 +635,22 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * @return float
+     */
+    public function getProductProviderId()
+    {
+        return $this->productProviderId;
+    }
+
+    /**
+     * @param float $productProviderId
+     */
+    public function setProductProviderId($productProviderId)
+    {
+        $this->productProviderId = $productProviderId;
+        return $this;
     }
 }

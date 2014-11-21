@@ -12,6 +12,13 @@ use Doctrine\ORM\EntityRepository;
 
 class ProductRepository extends EntityRepository
 {
+    public function findProductByProductProviderId($productProviderId)
+    {
+        return $this->findOneBy(array(
+           'productProviderId' => $productProviderId
+        ));
+    }
+
     public function searchProducts($query, $page, $limit, $brandId = 0)
     {
         $qb = $this->createQueryBuilder('p');

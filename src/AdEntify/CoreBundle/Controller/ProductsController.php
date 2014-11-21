@@ -156,7 +156,7 @@ class ProductsController extends FosRestController
 
         $products = array();
         if (!empty($providers)) {
-            $providers = explode(' ', $providers);
+            $providers = explode('+', $providers);
             if (in_array('adentify', $providers)) {
                 $adentifyProducts = $em->getRepository('AdEntifyCoreBundle:Product')->searchProducts($query, $page, $limit, $brandId);
                 if ($adentifyProducts && count($adentifyProducts))
@@ -183,7 +183,7 @@ class ProductsController extends FosRestController
             try {
                 $this->get('guzzle.client')->send($requests);
             } catch (MultiTransferException $e) {
-                /*foreach ($e as $exception) {
+                foreach ($e as $exception) {
                     echo $exception->getMessage() . "\n";
                 }
 
@@ -195,7 +195,7 @@ class ProductsController extends FosRestController
                 echo "The following requests succeeded:\n";
                 foreach ($e->getSuccessfulRequests() as $request) {
                     echo $request . "\n\n";
-                }*/
+                }
             }
 
             return $products;
@@ -221,33 +221,47 @@ class ProductsController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->getUser()) {
             $em = $this->getDoctrine()->getManager();
             $product = new Product();
             $form = $this->getForm($product);
             $form->bind($request);
             if ($form->isValid()) {
-                // Add venue products
-                if ($product->getPurchaseUrl()) {
-                    $product->setPurchaseUrl(CommonTools::addScheme($product->getPurchaseUrl()));
+                // Get the product with his product provider id from the right provider
+                if ($product->getProductProviderId()) {
+                    // Check if product doesn't exist
+                    $newProduct = $em->getRepository('AdEntifyCoreBundle:Product')->findProductByProductProviderId($product->getProductProviderId());
+                    if ($newProduct)
+                        return $newProduct;
 
-                    $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
-                    if ($shortUrl)
-                        $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
-                            'id' => $shortUrl->getBase62Id()
-                        )));
+                    $newProduct = $this->get('ad_entify_core.productFactory')->getProductFactory($product->getProductProvider()->getProviderKey())
+                        ->getProductById($product->getProductProviderId());
+                    if ($newProduct) {
+                        $em->persist($newProduct);
+                        $em->flush();
+
+                        return $newProduct;
+                    }
+                } else {
+                    // Add venue products
+                    if ($product->getPurchaseUrl()) {
+                        $product->setPurchaseUrl(CommonTools::addScheme($product->getPurchaseUrl()));
+
+                        $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
+                        if ($shortUrl)
+                            $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
+                                'id' => $shortUrl->getBase62Id()
+                            )));
+                    }
+                    $em->persist($product);
+                    $em->flush();
+
+                    return $product;
                 }
-                $em->persist($product);
-                $em->flush();
-
-                return $product;
-            } else {
+            } else
                 return $form;
-            }
-        } else {
+        } else
             throw new HttpException(401);
-        }
     }
 
     /**

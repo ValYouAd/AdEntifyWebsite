@@ -28,6 +28,13 @@ class ProductType extends AbstractType
             ->add('brand', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Brand',
                 'property' => 'name'
+            ))
+            ->add('product_provider', 'entity', array(
+                'class' => 'AdEntifyCoreBundle:ProductProvider',
+                'property' => 'providerKey'
+            ))
+            ->add('product_provider_id', 'integer', array(
+                'required' => false
             ));
     }
 

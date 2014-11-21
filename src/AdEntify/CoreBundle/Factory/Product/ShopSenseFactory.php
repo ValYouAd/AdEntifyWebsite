@@ -16,7 +16,7 @@ use Guzzle\Http\Client;
 
 class ShopSenseFactory extends BaseProductFactory
 {
-    const API_BASE_URL = 'http://api.shopstyle.com/api/v2/products';
+    const API_BASE_URL = 'http://api.shopstyle.com/api/v2/';
 
     protected $productProvider = null;
 
@@ -28,14 +28,14 @@ class ShopSenseFactory extends BaseProductFactory
 
     public function search(&$products, $options = array())
     {
-        $options['url'] = sprintf('%s?pid=uid321-26129111-96&fts=%s', self::API_BASE_URL, $options['keywords']);
+        $options['url'] = sprintf('%sproducts?pid=uid321-26129111-96&fts=%s', self::API_BASE_URL, $options['keywords']);
         $request = parent::search($products, $options);
         $request->getEventDispatcher()->addListener('request.success', function ($e) use (&$products) {
             if ($e['response']->getStatusCode() == 200) {
                 $body = json_decode($e['response']->getBody());
                 if (property_exists($body, 'products') && is_array($body->products) && count($body->products)) {
                     foreach ($body->products as $product) {
-                        $product = $this->build(array(
+                        $product = $this->buildProduct(array(
                             'json' => $product
                         ));
                         if ($product)
@@ -48,14 +48,69 @@ class ShopSenseFactory extends BaseProductFactory
         return $request;
     }
 
-    public function build($options = array())
+    public function getProductById($id, $options = array())
     {
-        $product = parent::build($options);
+        $options['url'] = sprintf('%s/products/%s?pid=uid321-26129111-96', self::API_BASE_URL, $id);
+        $request = parent::getProductById($id, $options);
+        $request = $this->client->send($request);
+        if ($request && $request->getStatusCode() == 200) {
+            $body = json_decode($request->getBody());
+            return $this->buildProduct(array_merge(array(
+                'json' => $body
+            ), $options));
+        }
+
+        return null;
+    }
+
+    public function getBrandById($id, $options = array())
+    {
+        $options['url'] = sprintf('%s/brands/%s?pid=uid321-26129111-96', self::API_BASE_URL, $id);
+        $request = parent::getBrandId($id, $options);
+        $request = $this->client->send($request);
+        if ($request && $request->getStatusCode() == 200) {
+            $body = json_decode($request->getBody());
+            return $this->buildBrand(array(
+                'json' => $body
+            ));
+        }
+
+        return null;
+    }
+
+    public function getRetailerById($id, $options = array())
+    {
+        $options['url'] = sprintf('%s/retailers/%s?pid=uid321-26129111-96', self::API_BASE_URL, $id);
+        $request = parent::getRetailerById($id, $options);
+        $request = $this->client->send($request);
+        if ($request && $request->getStatusCode() == 200) {
+            $body = json_decode($request->getBody());
+            return $this->buildRetailer(array(
+                'json' => $body
+            ));
+        }
+
+        return null;
+    }
+
+    public function buildProduct($options = array())
+    {
+        $product = parent::buildProduct($options);
 
         if (array_key_exists('json', $options)) {
             $data = $options['json'];
-            $this->loadRetailerFromJSON($product, $data);
-            $this->loadBrandFromJSON($product, $data);
+            if (!array_key_exists('retailer', $options) || $options['retailer'] !== false) {
+                $retailer = $this->loadRetailerFromJSON($data);
+                if ($retailer)
+                    $product->setProductRetailer($retailer);
+            }
+            if (!array_key_exists('brand', $options) || $options['brand'] !== false) {
+                $brand = $this->loadBrandFromJSON($data);
+                if ($brand) {
+                    $product->setBrand($brand);
+                    $brand->setProductProvider($this->productProvider);
+                }
+            }
             $this->loadProductFromJSON($product, $data);
         }
 
@@ -64,37 +119,50 @@ class ShopSenseFactory extends BaseProductFactory
         return $product;
     }
 
+    public function buildBrand($options = array())
+    {
+        $brand = parent::buildBrand($options);
+
+        if (array_key_exists('json', $options)) {
+            $data = $options['json'];
+            $this->loadBrandFromJSON($brand, $data);
+        }
+
+        $brand->setProductProvider($this->productProvider);
+
+        return $brand;
+    }
+
     /**
      * Load retailer
      *
      * @param $product
      * @param $json
      */
-    protected function loadRetailerFromJSON($product, $json, $persist = false)
+    protected function loadRetailerFromJSON($json, $persist = false)
     {
-        if (property_exists($json, 'retailer')) {
+        if (property_exists($json, 'retailer') || property_exists($json, 'id')) {
+            $json = property_exists($json, 'retailer') ? $json->retailer : $json;
             $retailer = $this->em->getRepository('AdEntifyCoreBundle:ProductRetailer')->findOneBy(array(
-                'providerId' => $json->retailer->id
+                'providerId' => $json->id
             ));
             if (!$retailer) {
                 // Create new retailer
                 $retailer = new ProductRetailer();
-                $retailer->setProviderId($json->retailer->id)
-                    ->setName($json->retailer->name)
-                    ->setDeeplinkSupport(array_key_exists('deeplinkSupport', $json->retailer) ? $json->retailer->deeplinkSupport : false);
+                $retailer->setProviderId($json->id)
+                    ->setName($json->name)
+                    ->setDeeplinkSupport(array_key_exists('deeplinkSupport', $json) ? $json->deeplinkSupport : false);
 
-                if (property_exists($json->retailer, 'hostDomain'))
-                    $retailer->setHostDomain($json->retailer->hostDomain);
-                if (property_exists($json->retailer, 'mobileOptimized'))
-                    $retailer->setMobileOptimized($json->retailer->mobileOptimized);
-                if (property_exists($json->retailer, 'logo'))
-                    $retailer->setLogo($json->retailer->logo);
+                if (property_exists($json, 'hostDomain'))
+                    $retailer->setHostDomain($json->hostDomain);
+                if (property_exists($json, 'mobileOptimized'))
+                    $retailer->setMobileOptimized($json->mobileOptimized);
+                if (property_exists($json, 'logo'))
+                    $retailer->setLogo($json->logo);
 
                 if ($persist)
                     $this->em->persist($retailer);
             }
-
-            $product->setProductRetailer($retailer);
 
             return $retailer;
         }
@@ -109,21 +177,20 @@ class ShopSenseFactory extends BaseProductFactory
      * @param $json
      * @return
      */
-    protected function loadBrandFromJSON($product, $json, $persist = false)
+    protected function loadBrandFromJSON($json, $persist = false)
     {
-        if (property_exists($json, 'brand')) {
-            $brand = $this->em->getRepository('AdEntifyCoreBundle:Brand')->findOneByProviderIdOrName($json->brand->id, $json->brand->name);
+        if (property_exists($json, 'brand') || property_exists($json, 'id')) {
+            $json = property_exists($json, 'brand') ? $json->brand : $json;
+            $brand = $this->em->getRepository('AdEntifyCoreBundle:Brand')->findOneByProviderIdOrName($json->id, $json->name);
             if (!$brand) {
                 // Create new brand
                 $brand = new Brand();
-                $brand->setProviderId($json->brand->id)
-                    ->setName($json->brand->name);
+                $brand->setProviderId($json->id)
+                    ->setName($json->name);
 
                 if ($persist)
                     $this->em->persist($brand);
             }
-
-            $product->setBrand($brand);
 
             return $brand;
         }
@@ -136,9 +203,9 @@ class ShopSenseFactory extends BaseProductFactory
      *
      * @param $json
      */
-    protected function loadProductFromJSON($product, $json)
+    protected function loadProductFromJSON(Product $product, $json)
     {
-        $product->setName($json->name);
+        $product->setName($json->name)->setProductProviderId($json->id)->setId(0);
 
         if (property_exists($json, 'description'))
             $product->setDescription($json->description);

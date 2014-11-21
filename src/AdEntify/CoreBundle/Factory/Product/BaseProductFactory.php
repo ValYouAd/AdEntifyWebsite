@@ -8,6 +8,7 @@
 
 namespace AdEntify\CoreBundle\Factory\Product;
 
+use AdEntify\CoreBundle\Entity\Brand;
 use AdEntify\CoreBundle\Entity\Product;
 use Guzzle\Http\Client;
 
@@ -24,12 +25,37 @@ abstract class BaseProductFactory
 
     public function search(&$products, $options = array())
     {
-        // Create a search request to the API
-        return $this->client->createRequest('GET', $options['url']);
+        return $this->getRequest($options);
     }
 
-    public function build($options = array())
+    public function getProductById($id, $options = array())
+    {
+        return $this->getRequest($options);
+    }
+
+    public function getBrandById($id, $options = array())
+    {
+        return $this->getRequest($options);
+    }
+
+    public function getRetailerById($id, $options = array())
+    {
+        return $this->getRequest($options);
+    }
+
+    public function buildProduct($options = array())
     {
         return new Product();
+    }
+
+    public function buildBrand($options = array())
+    {
+        return new Brand();
+    }
+
+    protected function getRequest($options = array())
+    {
+        // Create a search request to the API
+        return $this->client->createRequest('GET', $options['url']);
     }
 } 
