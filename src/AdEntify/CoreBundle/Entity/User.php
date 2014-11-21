@@ -409,11 +409,9 @@ class User extends BaseUser
     private $analytics;
 
     /**
-     * @var array
      *
      * @Serializer\Exclude
-     * @ORM\Column(name="product_providers", type="array", nullable=true)
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\UserProductProvider", inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\UserProductProvider", mappedBy="users", cascade={"persist", "remove"})
      */
     private $productProviders;
 
@@ -440,7 +438,6 @@ class User extends BaseUser
         $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->analytics = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productProviders = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

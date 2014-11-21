@@ -156,20 +156,22 @@ class ProductsController extends FosRestController
         $em = $this->getDoctrine()->getManager();
 
         $products = array();
-        if (!empty($providers) && $user = $this->getUser()->getId()) {
-            $providers = explode('+', $providers);
+
+        if (!empty($providers) && $this->getUser()) {
+            $providers = explode(' ', $providers);
             $activatedProviders = array();
 
             $userProductProviders = $em->createQuery('SELECT pp
                                           FROM AdEntifyCoreBundle:UserProductProvider pp
-                                          WHERE pp.user = :id')
+                                          WHERE pp.users = :id')
                 ->setParameters(array(
-                    ':id' => $user->getId(),
+                    ':id' => $this->getUser()->getId(),
                 ))
                 ->getResult();
             foreach ($userProductProviders as $userProductProvider) {
-                $activatedProviders[] = $userProductProvider->getProviderKey();
+                $activatedProviders[] = $userProductProvider->getProductProviders()->getProviderKey();
             }
+
             $providers = array_intersect($providers, $activatedProviders);
 
             if (in_array('adentify', $providers)) {

@@ -409,9 +409,9 @@ class User extends BaseUser
     private $analytics;
 
     /**
-     * @Serializer\Exclude
      *
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\UsersProductProvider", inversedBy="user", cascade={"persist", "remove"})
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\UserProductProvider", mappedBy="users", cascade={"persist", "remove"})
      */
     private $productProviders;
 
@@ -1455,38 +1455,5 @@ class User extends BaseUser
     public function getFavoritesPhotos()
     {
         return $this->favoritesPhotos;
-    }
-
-    /**
-     * Add productProviders
-     *
-     * @param \AdEntify\CoreBundle\Entity\UsersProductProvider $productProviders
-     * @return User
-     */
-    public function addProductProvider(\AdEntify\CoreBundle\Entity\UsersProductProvider $productProviders)
-    {
-        $this->productProviders[] = $productProviders;
-    
-        return $this;
-    }
-
-    /**
-     * Remove productProviders
-     *
-     * @param \AdEntify\CoreBundle\Entity\UsersProductProvider $productProviders
-     */
-    public function removeProductProvider(\AdEntify\CoreBundle\Entity\UsersProductProvider $productProviders)
-    {
-        $this->productProviders->removeElement($productProviders);
-    }
-
-    /**
-     * Get productProviders
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProductProviders()
-    {
-        return $this->productProviders;
     }
 }

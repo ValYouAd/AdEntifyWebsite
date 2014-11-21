@@ -76,7 +76,7 @@ class ProductProvidersController extends FosRestController
         $em = $this->getDoctrine()->getManager();
         $productProviders = $em->createQuery('SELECT pp
                                               FROM AdEntifyCoreBundle:UserProductProvider pp
-                                              WHERE pp.user = :id')
+                                              WHERE pp.users = :id')
             ->setParameters(array(
                 ':id' => $user->getId(),
             ))

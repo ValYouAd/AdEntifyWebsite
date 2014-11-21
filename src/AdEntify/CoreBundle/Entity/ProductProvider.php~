@@ -45,6 +45,13 @@ class ProductProvider
     private $name;
 
     /**
+     *
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\UserProductProvider", mappedBy="productProviders", cascade={"persist", "remove"})
+     */
+    private $users;
+
+    /**
      * @return string
      */
     public function getProviderKey()
@@ -78,5 +85,28 @@ class ProductProvider
         $this->providerKey = $providerKey;
 
         return $this;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return ProductProvider
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
