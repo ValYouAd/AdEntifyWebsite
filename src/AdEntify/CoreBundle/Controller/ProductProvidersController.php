@@ -42,24 +42,46 @@ class ProductProvidersController extends FosRestController
      *  section="ProductProviders"
      * )
      *
+     * @param integer $id
      * @View(serializerGroups={"details"})
      */
     public function getAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $user = $em->getRepository('AdEntifyCoreBundle:User')->find($id);
-        if ($user) {
-            $productProviders = $em->createQuery('SELECT pp
-                                                  FROM AdEntifyCoreBundle:UsersProductProvider pp
-                                                  WHERE pp.user = :id')
-                ->setParameters(array(
-                    ':id' => $user->getId(),
-                ))
-                ->getResult();
-
-            return $productProviders;
+        if ($user = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:User')->find($id)) {
+            return self::getProductProviders($user);
         } else
             throw new HttpException(404);
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="Get current user's products providers",
+     *  output="AdEntify\CoreBundle\Entity\ProductProvider",
+     *  section="ProductProviders"
+     * )
+     *
+     * @View(serializerGroups={"details"})
+     */
+    public function getCurrentUserAction()
+    {
+        if ($user = $this->getUser()) {
+            return self::getProductProviders($user);
+        } else
+            throw new HttpException(403);
+    }
+
+    protected function getProductProviders($user)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $productProviders = $em->createQuery('SELECT pp
+                                              FROM AdEntifyCoreBundle:UsersProductProvider pp
+                                              WHERE pp.user = :id')
+            ->setParameters(array(
+                ':id' => $user->getId(),
+            ))
+            ->getResult();
+
+        return $productProviders;
     }
 }
