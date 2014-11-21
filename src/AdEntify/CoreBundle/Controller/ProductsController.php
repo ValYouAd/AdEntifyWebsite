@@ -149,14 +149,29 @@ class ProductsController extends FosRestController
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View(serializerGroups={"list"})
+     * @return Product collection
      */
     public function getSearchAction($query, $providers, $page, $limit, $brandId = 0)
     {
         $em = $this->getDoctrine()->getManager();
 
         $products = array();
-        if (!empty($providers)) {
+        if (!empty($providers) && $user = $this->getUser()->getId()) {
             $providers = explode('+', $providers);
+            $activatedProviders = array();
+
+            $userProductProviders = $em->createQuery('SELECT pp
+                                          FROM AdEntifyCoreBundle:UserProductProvider pp
+                                          WHERE pp.user = :id')
+                ->setParameters(array(
+                    ':id' => $user->getId(),
+                ))
+                ->getResult();
+            foreach ($userProductProviders as $userProductProvider) {
+                $activatedProviders[] = $userProductProvider->getProviderKey();
+            }
+            $providers = array_intersect($providers, $activatedProviders);
+
             if (in_array('adentify', $providers)) {
                 $adentifyProducts = $em->getRepository('AdEntifyCoreBundle:Product')->searchProducts($query, $page, $limit, $brandId);
                 if ($adentifyProducts && count($adentifyProducts))
@@ -166,13 +181,13 @@ class ProductsController extends FosRestController
             $productProviders = $em->getRepository('AdEntifyCoreBundle:ProductProvider')->createQueryBuilder('pp')
                 ->where('pp.providerKey IN (:providers)')
                 ->setParameters(array(
-                        ':providers' => $providers
-                    ))
+                    ':providers' => $providers
+                ))
                 ->getQuery()->getResult();
 
             // Get all search requests for selected providers
             $requests = array();
-            foreach($productProviders as $productProvider) {
+            foreach ($productProviders as $productProvider) {
                 $requests[] = $this->get('ad_entify_core.productFactory')->getProductFactory($productProvider->getProviderKey())
                     ->search($products, array(
                         'keywords' => $query
