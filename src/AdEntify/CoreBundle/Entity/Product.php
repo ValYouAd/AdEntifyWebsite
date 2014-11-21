@@ -196,7 +196,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="currency", type="string", length=255, nullable=true)
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"details"})
      */
     private $currency;
 
@@ -204,7 +204,7 @@ class Product
      * @var float
      *
      * @ORM\Column(name="price", type="float", length=255, nullable=true)
-     * @Serializer\Groups({"details", "list"})
+     * @Serializer\Groups({"details"})
      */
     private $price;
 

@@ -144,19 +144,20 @@ class ProductsController extends FosRestController
      * )
      *
      * @QueryParam(name="query")
-     * @QueryParam(name="providers")
+     * @QueryParam(name="p")
      * @QueryParam(name="brandId", requirements="\d+", default="0")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View(serializerGroups={"list"})
      * @return Product collection
      */
-    public function getSearchAction($query, $providers, $page, $limit, $brandId = 0)
+    public function getSearchAction($query, $p, $page, $limit, $brandId = 0)
     {
         $em = $this->getDoctrine()->getManager();
 
         $products = array();
-        if (!empty($providers) && $user = $this->getUser()->getId()) {
+        $providers = $p;
+        if (!empty($providers) && $this->getUser()) {
             $providers = explode('+', $providers);
             $activatedProviders = array();
 
@@ -164,9 +165,10 @@ class ProductsController extends FosRestController
                                           FROM AdEntifyCoreBundle:UserProductProvider pp
                                           WHERE pp.user = :id')
                 ->setParameters(array(
-                    ':id' => $user->getId(),
+                    ':id' => $this->getUser()->getId(),
                 ))
                 ->getResult();
+
             foreach ($userProductProviders as $userProductProvider) {
                 $activatedProviders[] = $userProductProvider->getProviderKey();
             }
@@ -178,27 +180,21 @@ class ProductsController extends FosRestController
                     $products = array_merge($adentifyProducts, $products);
             }
 
-            $productProviders = $em->getRepository('AdEntifyCoreBundle:ProductProvider')->createQueryBuilder('pp')
-                ->where('pp.providerKey IN (:providers)')
-                ->setParameters(array(
-                    ':providers' => $providers
-                ))
-                ->getQuery()->getResult();
-
             // Get all search requests for selected providers
             $requests = array();
-            foreach ($productProviders as $productProvider) {
-                $requests[] = $this->get('ad_entify_core.productFactory')->getProductFactory($productProvider->getProviderKey())
-                    ->search($products, array(
-                        'keywords' => $query
-                    ));
+            foreach ($providers as $productProvider) {
+                if (!empty($productProvider) && $productProvider != 'adentify')
+                    $requests[] = $this->get('ad_entify_core.productFactory')->getProductFactory($productProvider)
+                        ->search($products, array(
+                            'keywords' => $query
+                        ));
             }
 
             // Send requests in parallel
             try {
                 $this->get('guzzle.client')->send($requests);
             } catch (MultiTransferException $e) {
-                foreach ($e as $exception) {
+                /*foreach ($e as $exception) {
                     echo $exception->getMessage() . "\n";
                 }
 
@@ -210,7 +206,7 @@ class ProductsController extends FosRestController
                 echo "The following requests succeeded:\n";
                 foreach ($e->getSuccessfulRequests() as $request) {
                     echo $request . "\n\n";
-                }
+                }*/
             }
 
             return $products;
