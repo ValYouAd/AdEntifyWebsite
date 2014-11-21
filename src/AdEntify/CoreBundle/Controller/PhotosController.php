@@ -955,7 +955,7 @@ class PhotosController extends FosRestController
      *  section="Photo",
      *  parameters={
      *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"},
-     *   {"name"="localte", "dataType"="string", "required"=false, "description"="locale (en or fr)"}
+     *   {"name"="locale", "dataType"="string", "required"=false, "description"="locale (en or fr)"}
      *  }
      * )
      *
@@ -965,6 +965,7 @@ class PhotosController extends FosRestController
      * @QueryParam(name="locale", default="en")
      *
      * @param $id
+     * @param $locale
      * @return ArrayCollection|null
      */
     public function getCategoriesAction($id, $locale = 'en')
@@ -1147,9 +1148,6 @@ class PhotosController extends FosRestController
      *      401="Returned when authentication is required",
      *  },
      *  section="Photo",
-     *  parameters={
-     *   {"name"="photoId", "dataType"="integer", "required"=true, "description"="photo ID"}
-     *  }
      * )
      *
      * @View(serializerGroups={"details"})
