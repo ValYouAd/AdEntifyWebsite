@@ -413,7 +413,7 @@ class User extends BaseUser
      *
      * @Serializer\Exclude
      * @ORM\Column(name="product_providers", type="array", nullable=true)
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\UsersProductProvider", inversedBy="user", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\UserProductProvider", inversedBy="user", cascade={"persist", "remove"})
      */
     private $productProviders;
 
@@ -1463,10 +1463,10 @@ class User extends BaseUser
     /**
      * Add productProviders
      *
-     * @param \AdEntify\CoreBundle\Entity\UsersProductProvider $productProviders
+     * @param \AdEntify\CoreBundle\Entity\UserProductProvider $productProviders
      * @return User
      */
-    public function addProductProvider(\AdEntify\CoreBundle\Entity\UsersProductProvider $productProviders)
+    public function addProductProvider(\AdEntify\CoreBundle\Entity\UserProductProvider $productProviders)
     {
         $this->productProviders[] = $productProviders;
     
@@ -1476,9 +1476,9 @@ class User extends BaseUser
     /**
      * Remove productProviders
      *
-     * @param \AdEntify\CoreBundle\Entity\UsersProductProvider $productProviders
+     * @param \AdEntify\CoreBundle\Entity\UserProductProvider $productProviders
      */
-    public function removeProductProvider(\AdEntify\CoreBundle\Entity\UsersProductProvider $productProviders)
+    public function removeProductProvider(\AdEntify\CoreBundle\Entity\UserProductProvider $productProviders)
     {
         $this->productProviders->removeElement($productProviders);
     }

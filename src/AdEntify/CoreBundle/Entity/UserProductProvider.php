@@ -6,15 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * UsersProductProvider
+ * UserProductProvider
  *
- * @Serializer\XmlRoot("users-product-provider")
+ * @Serializer\XmlRoot("user-product-provider")
  * @Serializer\ExclusionPolicy("none")
  *
- * @ORM\Table(name="users_product_provider", indexes={@ORM\Index(name="search_idx", columns={"user"})})
+ * @ORM\Table(name="user_product_provider", indexes={@ORM\Index(name="search_idx", columns={"user"})})
  * @ORM\Entity
  */
-class UsersProductProvider
+class UserProductProvider
 {
     /**
      * @Serializer\Groups({"details", "list", "slight-list"})
@@ -66,7 +66,7 @@ class UsersProductProvider
      * Set providerKey
      *
      * @param string $providerKey
-     * @return UsersProductProvider
+     * @return UserProductProvider
      */
     public function setProviderKey($providerKey)
     {
@@ -89,7 +89,7 @@ class UsersProductProvider
      * Set user
      *
      * @param string $user
-     * @return UsersProductProvider
+     * @return UserProductProvider
      */
     public function setUser($user)
     {
@@ -112,7 +112,7 @@ class UsersProductProvider
      * Set apiKey
      *
      * @param string $apiKey
-     * @return UsersProductProvider
+     * @return UserProductProvider
      */
     public function setApiKey($apiKey)
     {
