@@ -239,6 +239,11 @@ header {
     padding-top: 15%;
     max-width: 480px;
 }
-
+#user-registration {
+    height: 86vh;
+    max-width: 500px;
+    margin: auto;
+    text-align: center;
+}
 /* End
 ----------------------- */
