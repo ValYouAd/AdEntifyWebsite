@@ -73,9 +73,11 @@ class PersonRepository extends EntityRepository
         if ($user->getPerson())
             return false;
 
-        $person = $this->findOneBy(array(
-            'facebookId' => $user->getFacebookId()
-        ));
+	$person = null;
+	if ($user->getFacebookId())
+	    $person = $this->findOneBy(array(
+		'facebookId' => $user->getFacebookId()
+	    ));
 
         if ($person) {
             $user->setPerson($person);
@@ -87,7 +89,7 @@ class PersonRepository extends EntityRepository
 
             $person->setFirstname($user->getFirstname())->setLastname($user->getLastname())->setUser($user)
                 ->setName(sprintf('%s %s', $user->getFirstname(), $user->getLastname()))->setProfilePictureUrl($user->getProfilePicture())
-                ->setFacebookId($user->getFacebookId())->setGender($user->getGender());
+		->setFacebookId($user->getFacebookId())->setGender($user->getGender())->setTwitterId($user->getTwitterId());
             $user->setPerson($person);
 
             $this->getEntityManager()->persist($person);

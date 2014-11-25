@@ -2,8 +2,10 @@
 
 namespace AdEntify\CoreBundle\Controller;
 
+use AdEntify\CoreBundle\Factory\Product\Factory;
 use AdEntify\CoreBundle\Form\ProductType;
 use AdEntify\CoreBundle\Util\CommonTools;
+use Guzzle\Http\Exception\MultiTransferException;
 use Symfony\Component\HttpFoundation\Request;
 
 use FOS\RestBundle\Controller\Annotations\Prefix,
@@ -129,8 +131,10 @@ class ProductsController extends FosRestController
 
     /**
      * @param $query
+     * @param $providers
      * @param int $page
      * @param int $limit
+     * @param $brandId
      *
      * @ApiDoc(
      *  resource=true,
@@ -140,27 +144,76 @@ class ProductsController extends FosRestController
      * )
      *
      * @QueryParam(name="query")
+     * @QueryParam(name="p")
      * @QueryParam(name="brandId", requirements="\d+", default="0")
      * @QueryParam(name="page", requirements="\d+", default="1")
      * @QueryParam(name="limit", requirements="\d+", default="10")
      * @View(serializerGroups={"list"})
+     * @return Product collection
      */
-    public function getSearchAction($query, $page, $limit, $brandId = 0)
+    public function getSearchAction($query, $p, $page, $limit, $brandId = 0)
     {
-        $qb = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Product')->createQueryBuilder('p');
-        $qb->where('p.name LIKE :query');
+        $em = $this->getDoctrine()->getManager();
 
-        $parameters = array(
-            ':query' => '%'.$query.'%'
-        );
+        $products = array();
+        $providers = $p;
+        if (!empty($providers) && $this->getUser()) {
+            $providers = explode('+', $providers);
+            $activatedProviders = array();
 
-        if ($brandId > 0) {
-            $qb->andWhere('p.brand = :brandId');
-            $parameters['brandId'] = $brandId;
+            $userProductProviders = $em->createQuery('SELECT pp
+                                          FROM AdEntifyCoreBundle:UserProductProvider pp
+                                          WHERE pp.users = :id')
+                ->setParameters(array(
+                    ':id' => $this->getUser()->getId(),
+                ))
+                ->getResult();
+
+            foreach ($userProductProviders as $userProductProvider) {
+                $activatedProviders[] = $userProductProvider->getProductProviders()->getProviderKey();
+            }
+
+            $providers = array_intersect($providers, $activatedProviders);
+
+            if (in_array('adentify', $providers)) {
+                $adentifyProducts = $em->getRepository('AdEntifyCoreBundle:Product')->searchProducts($query, $page, $limit, $brandId);
+                if ($adentifyProducts && count($adentifyProducts))
+                    $products = array_merge($adentifyProducts, $products);
+            }
+
+            // Get all search requests for selected providers
+            $requests = array();
+            foreach ($providers as $productProvider) {
+                if (!empty($productProvider) && $productProvider != 'adentify')
+                    $requests[] = $this->get('ad_entify_core.productFactory')->getProductFactory($productProvider)
+                        ->search($products, array(
+                            'keywords' => $query
+                        ));
+            }
+
+            // Send requests in parallel
+            try {
+                $this->get('guzzle.client')->send($requests);
+            } catch (MultiTransferException $e) {
+                /*foreach ($e as $exception) {
+                    echo $exception->getMessage() . "\n";
+                }
+
+                echo "The following requests failed:\n";
+                foreach ($e->getFailedRequests() as $request) {
+                    echo $request . "\n\n";
+                }
+
+                echo "The following requests succeeded:\n";
+                foreach ($e->getSuccessfulRequests() as $request) {
+                    echo $request . "\n\n";
+                }*/
+            }
+
+            return $products;
+        } else {
+            return $em->getRepository('AdEntifyCoreBundle:Product')->searchProducts($query, $page, $limit, $brandId);
         }
-        $qb->setParameters($parameters);
-
-        return $qb->setMaxResults($limit)->setFirstResult(($page - 1) * $limit)->getQuery()->getResult();
     }
 
     /**
@@ -180,33 +233,47 @@ class ProductsController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->getUser()) {
             $em = $this->getDoctrine()->getManager();
             $product = new Product();
             $form = $this->getForm($product);
             $form->bind($request);
             if ($form->isValid()) {
-                // Add venue products
-                if ($product->getPurchaseUrl()) {
-                    $product->setPurchaseUrl(CommonTools::addScheme($product->getPurchaseUrl()));
+                // Get the product with his product provider id from the right provider
+                if ($product->getProductProviderId()) {
+                    // Check if product doesn't exist
+                    $newProduct = $em->getRepository('AdEntifyCoreBundle:Product')->findProductByProductProviderId($product->getProductProviderId());
+                    if ($newProduct)
+                        return $newProduct;
 
-                    $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
-                    if ($shortUrl)
-                        $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
-                            'id' => $shortUrl->getBase62Id()
-                        )));
+                    $newProduct = $this->get('ad_entify_core.productFactory')->getProductFactory($product->getProductProvider()->getProviderKey())
+                        ->getProductById($product->getProductProviderId());
+                    if ($newProduct) {
+                        $em->persist($newProduct);
+                        $em->flush();
+
+                        return $newProduct;
+                    }
+                } else {
+                    // Add venue products
+                    if ($product->getPurchaseUrl()) {
+                        $product->setPurchaseUrl(CommonTools::addScheme($product->getPurchaseUrl()));
+
+                        $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
+                        if ($shortUrl)
+                            $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
+                                'id' => $shortUrl->getBase62Id()
+                            )));
+                    }
+                    $em->persist($product);
+                    $em->flush();
+
+                    return $product;
                 }
-                $em->persist($product);
-                $em->flush();
-
-                return $product;
-            } else {
+            } else
                 return $form;
-            }
-        } else {
+        } else
             throw new HttpException(401);
-        }
     }
 
     /**

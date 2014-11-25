@@ -71,9 +71,9 @@ class RegistrationController extends BaseController
                 ));
             }
         }
-
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(
-                'form' => $form->createView(),
+        $template = sprintf('FOSUserBundle:Registration:%s.html.twig', ($this->container->get('request')->get('_route') == "fos_user_registration_register") ? 'user_register' : 'register');
+        return $this->container->get('templating')->renderResponse($template, array(
+                'form' => $form->createView()
             ));
     }
 

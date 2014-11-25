@@ -93,14 +93,15 @@ class LikesController extends FosRestController
 
                     $em->flush();
 
-                    $this->getRequest()->setLocale($like->getPhoto()->getOwner()->getLocale());
-                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                    $options = $pushNotificationService->getOptions('pushNotification.photoLike', array(
-                        '%user%' => $user->getFullname()
-                    ), array(
-                        'photoId' => $like->getPhoto()->getId()
-                    ));
-                    $pushNotificationService->sendToUser($like->getPhoto()->getOwner(), $options);
+                    if ($this->getUser()->getId() != $like->getPhoto()->getOwner()->getId()) {
+                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                        $options = $pushNotificationService->getOptions('pushNotification.photoLike', array(
+                            '%user%' => $user->getFullname()
+                        ), array(
+                            'photoId' => $like->getPhoto()->getId()
+                        ));
+                        $pushNotificationService->sendToUser($like->getPhoto()->getOwner(), $options);
+                    }
 
                     return array(
                         'liked' => true

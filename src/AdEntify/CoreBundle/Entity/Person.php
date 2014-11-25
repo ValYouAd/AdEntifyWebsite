@@ -89,6 +89,14 @@ class Person
     /**
      * @var integer
      *
+     * @ORM\Column(name="twitter_id", type="bigint", nullable=true, unique=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $twitterId;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="instagram_id", type="bigint", nullable=true, unique=true)
      * @Serializer\Groups({"details", "list", "slight-list"})
      */
@@ -547,5 +555,22 @@ class Person
     public function getLink()
     {
         return $this->link;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTwitterId()
+    {
+	return $this->twitterId;
+    }
+
+    /**
+     * @param int $twitterId
+     */
+    public function setTwitterId($twitterId)
+    {
+	$this->twitterId = $twitterId;
+	return $this;
     }
 }

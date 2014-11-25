@@ -21,7 +21,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("none")
  *
  * @ORM\Table(name="products", indexes={@ORM\Index(name="search_idx", columns={"name"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AdEntify\CoreBundle\Entity\ProductRepository")
  */
 class Product
 {
@@ -63,7 +63,7 @@ class Product
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="products", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups({"details", "list"})
      */
@@ -180,6 +180,42 @@ class Product
      */
     private $lastPhoto;
 
+    /**
+     * @Serializer\Groups({"details", "list"})
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider",cascade={"persist"})
+     */
+    private $productProvider;
+
+    /**
+     * @Serializer\Groups({"details", "list"})
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductRetailer",cascade={"persist"})
+     */
+    private $productRetailer;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="currency", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"details"})
+     */
+    private $currency;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="price", type="float", length=255, nullable=true)
+     * @Serializer\Groups({"details"})
+     */
+    private $price;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="product_provider_id", type="integer", nullable=true)
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $productProviderId;
+
     public function __construct()
     {
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
@@ -196,6 +232,12 @@ class Product
         return $this->id;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function setDescription($description)
     {
         $this->description = $description;
@@ -210,6 +252,7 @@ class Product
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getName()
@@ -496,5 +539,118 @@ class Product
     public function getLastPhoto()
     {
         return $this->lastPhoto;
+    }
+
+    /**
+     * Set tagsCount
+     *
+     * @param integer $tagsCount
+     * @return Product
+     */
+    public function setTagsCount($tagsCount)
+    {
+        $this->tagsCount = $tagsCount;
+    
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getProductRetailer()
+    {
+        return $this->productRetailer;
+    }
+
+    /**
+     * @param mixed $productRetailer
+     */
+    public function setProductRetailer($productRetailer)
+    {
+        $this->productRetailer = $productRetailer;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductProvider()
+    {
+        return $this->productProvider;
+    }
+
+    /**
+     * @param mixed $productProvider
+     */
+    public function setProductProvider($productProvider)
+    {
+        $this->productProvider = $productProvider;
+
+        return $this;
+    }
+
+    /**
+     * Set currency
+     *
+     * @param string $currency
+     * @return Product
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
+    
+        return $this;
+    }
+
+    /**
+     * Get currency
+     *
+     * @return string 
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * Set price
+     *
+     * @param float $price
+     * @return Product
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return float 
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @return float
+     */
+    public function getProductProviderId()
+    {
+        return $this->productProviderId;
+    }
+
+    /**
+     * @param float $productProviderId
+     */
+    public function setProductProviderId($productProviderId)
+    {
+        $this->productProviderId = $productProviderId;
+        return $this;
     }
 }

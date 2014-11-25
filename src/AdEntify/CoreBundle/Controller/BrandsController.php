@@ -225,30 +225,42 @@ class BrandsController extends FosRestController
         $form = $this->getForm($brand);
         $form->bind($request);
         if ($form->isValid()) {
-            $found = $em->getRepository('AdEntifyCoreBundle:Brand')->findOneBy(array('name' => $brand->getName()));
+            $found = $em->getRepository('AdEntifyCoreBundle:Brand')->findOneByProviderIdOrName($brand->getProviderId(), $brand->getName());
             if ($found) {
                 return $found;
             }
 
-            if ($brand->getOriginalLogoUrl()) {
-                $thumb = new Thumb();
-                $filename = urlencode($brand->getName()).'.jpg';
-                $thumb->setOriginalPath($brand->getOriginalLogoUrl());
-                $thumb->addThumbSize(FileTools::LOGO_TYPE_LARGE);
-                $thumb->addThumbSize(FileTools::LOGO_TYPE_MEDIUM);
-                $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);
-                $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
-                $brand->setSmallLogoUrl($thumbs[FileTools::LOGO_TYPE_SMALLL]['filename']);
-                $brand->setMediumLogoUrl($thumbs[FileTools::LOGO_TYPE_MEDIUM]['filename']);
-                $brand->setLargeLogoUrl($thumbs[FileTools::LOGO_TYPE_LARGE]['filename']);
+            // Get the product with his product provider id from the right provider
+            if ($brand->getProviderId()) {
+                $newBrand = $this->get('ad_entify_core.productFactory')->getProductFactory($brand->getProductProvider()->getProviderKey())
+                    ->getBrandById($brand->getProviderId());
+                if ($newBrand) {
+                    $em->persist($newBrand);
+                    $em->flush();
+
+                    return $newBrand;
+                }
+            } else {
+                if ($brand->getOriginalLogoUrl()) {
+                    $thumb = new Thumb();
+                    $filename = urlencode($brand->getName()) . '.jpg';
+                    $thumb->setOriginalPath($brand->getOriginalLogoUrl());
+                    $thumb->addThumbSize(FileTools::LOGO_TYPE_LARGE);
+                    $thumb->addThumbSize(FileTools::LOGO_TYPE_MEDIUM);
+                    $thumb->addThumbSize(FileTools::LOGO_TYPE_SMALLL);
+                    $thumbs = $this->container->get('ad_entify_core.thumb')->generateBrandLogoThumb($thumb, $filename);
+                    $brand->setSmallLogoUrl($thumbs[FileTools::LOGO_TYPE_SMALLL]['filename']);
+                    $brand->setMediumLogoUrl($thumbs[FileTools::LOGO_TYPE_MEDIUM]['filename']);
+                    $brand->setLargeLogoUrl($thumbs[FileTools::LOGO_TYPE_LARGE]['filename']);
+                }
+
+                $brand->setValidated(true);
+
+                $em->persist($brand);
+                $em->flush();
+
+                return $brand;
             }
-
-            $brand->setValidated(true);
-
-            $em->persist($brand);
-            $em->flush();
-
-            return $brand;
         } else {
             return $form;
         }

@@ -57,8 +57,12 @@ class PushNotificationsService
     public function getOptions($translation, $translationParameters = array(), $customs = null, $devices = null, $badge = 1)
     {
         $options = array(
-            'content' => $this->translator->trans($translation, $translationParameters)
+            'content' => array(
+                'en' => $this->translator->trans($translation, $translationParameters, null, 'en'),
+                'fr' => $this->translator->trans($translation, $translationParameters, null, 'fr')
+            )
         );
+
         if (is_array($devices) && count($devices) > 0) {
             foreach($devices as $device) {
                 $options['token'] = $device->getToken();

@@ -21,11 +21,6 @@ var jam = {
             "main": "moment.min.js"
         },
         {
-            "name": "jquery",
-            "location": "../vendor/jam/jquery",
-            "main": "dist/jquery.js"
-        },
-        {
             "name": "jquery-ui",
             "location": "../vendor/jam/jquery-ui",
             "main": "dist/jquery-ui.min.js"
@@ -87,11 +82,6 @@ if (typeof require !== "undefined" && require.config) {
             "main": "moment.min.js"
         },
         {
-            "name": "jquery",
-            "location": "../vendor/jam/jquery",
-            "main": "dist/jquery.js"
-        },
-        {
             "name": "jquery-ui",
             "location": "../vendor/jam/jquery-ui",
             "main": "dist/jquery-ui.min.js"
@@ -150,11 +140,6 @@ else {
             "name": "jamjs-moment",
             "location": "../vendor/jam/jamjs-moment",
             "main": "moment.min.js"
-        },
-        {
-            "name": "jquery",
-            "location": "../vendor/jam/jquery",
-            "main": "dist/jquery.js"
         },
         {
             "name": "jquery-ui",

@@ -107,14 +107,15 @@ class CommentsController extends FosRestController
                 $em->persist($comment);
                 $em->flush();
 
-                $this->getRequest()->setLocale($comment->getPhoto()->getOwner()->getLocale());
-                $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                $options = $pushNotificationService->getOptions('pushNotification.photoComment', array(
-                    '%user%' => $user->getFullname()
-                ), array(
-                    'photoId' => $comment->getPhoto()->getId()
-                ));
-                $pushNotificationService->sendToUser($comment->getPhoto()->getOwner(), $options);
+                if ($this->getUser()->getId() != $comment->getPhoto()->getOwner()->getId()) {
+                    $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                    $options = $pushNotificationService->getOptions('pushNotification.photoComment', array(
+                        '%user%' => $user->getFullname()
+                    ), array(
+                        'photoId' => $comment->getPhoto()->getId()
+                    ));
+                    $pushNotificationService->sendToUser($comment->getPhoto()->getOwner(), $options);
+                }
 
                 return $comment;
             } else {

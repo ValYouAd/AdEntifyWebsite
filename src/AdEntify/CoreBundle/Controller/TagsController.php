@@ -218,14 +218,15 @@ class TagsController extends FosRestController
                             ->setAuthor($user)->setMessage('notification.friendTagPhoto');
                         $em->persist($notification);
 
-                        $this->getRequest()->setLocale($tag->getPhoto()->getOwner()->getLocale());
-                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                        $options = $pushNotificationService->getOptions('pushNotification.photoTag', array(
-                            '%user%' => $user->getFullname()
-                        ), array(
-                            'photoId' => $tag->getPhoto()->getId()
-                        ));
-                        $pushNotificationService->sendToUser($tag->getPhoto()->getOwner(), $options);
+                        if ($this->getUser()->getId() != $photo->getOwner()->getId()) {
+                            $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                            $options = $pushNotificationService->getOptions('pushNotification.photoTag', array(
+                                '%user%' => $user->getFullname()
+                            ), array(
+                                'photoId' => $tag->getPhoto()->getId()
+                            ));
+                            $pushNotificationService->sendToUser($tag->getPhoto()->getOwner(), $options);
+                        }
                     } else {
                         throw new HttpException(403, 'You can\t add a tag to this photo');
                     }
@@ -310,7 +311,7 @@ class TagsController extends FosRestController
                     $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
                     $options = $pushNotificationService->getOptions('pushNotification.tagValidated', array(
                         '%user%' => $user->getFullname(),
-                        '%points%' => $points['tagPointTagger']
+                        '%points%' => $points['tagPointTagger']->getPoints()
                     ), array(
                         'photoId' => $tag->getPhoto()->getId()
                     ));

@@ -37,6 +37,21 @@ class Brand
     private $id;
 
     /**
+     * @Serializer\Groups({"me", "details", "list", "slight-list"})
+     *
+     * @var integer
+     *
+     * @ORM\Column(name="provider_id", type="bigint", nullable=true)
+     */
+    private $providerId;
+
+    /**
+     * @Serializer\Groups({"details", "list"})
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider",cascade={"persist"})
+     */
+    private $productProvider;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
@@ -1049,5 +1064,40 @@ class Brand
     public function getRandomPhoto()
     {
         return $this->randomPhoto;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProviderId()
+    {
+        return $this->providerId;
+    }
+
+    /**
+     * @param int $providerId
+     */
+    public function setProviderId($providerId)
+    {
+        $this->providerId = $providerId;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductProvider()
+    {
+        return $this->productProvider;
+    }
+
+    /**
+     * @param mixed $productProvider
+     */
+    public function setProductProvider($productProvider)
+    {
+        $this->productProvider = $productProvider;
+
+        return $this;
     }
 }

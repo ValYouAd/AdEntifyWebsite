@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+
+{% block bodyAttr %} class="body-grey-background"{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+
+    {% if error %}
+        <div class="text-center">{{ error|trans({}, 'FOSUserBundle') }}</div>
+    {% endif %}
+    <div id="user-login">
+        <div class="form-container">
+            <div class="form-overlay"></div>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="signinModalLabel"><div class="signin-badge pull-left modal-badge"></div> Login</h4>
+                </div>
+                <div class="grey-transparent-background social-buttons">
+                    <div class="text-center">
+                        <a class="btn btn-facebook" href="https://www.facebook.com/dialog/oauth?client_id=159587157398776&amp;redirect_uri=https%3A%2F%2Flocal.adentify.com%2Ffacebook%2Flogin-check&amp;scope=email,user_birthday,user_photos,read_friendlists,publish_actions&amp;response_type=code"><i class="facebook-icon icon"></i> Facebook</a>
+                        <a class="btn btn-twitter" href="../../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
+                    </div>
+                </div>
+                {% include "FOSUserBundle:Security:login.html.twig" %}
+        </div>
+    </div>
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+{% endblock %}

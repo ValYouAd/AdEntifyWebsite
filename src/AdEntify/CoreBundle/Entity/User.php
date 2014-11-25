@@ -400,6 +400,21 @@ class User extends BaseUser
      */
     private $devices;
 
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Analytic", mappedBy="tag", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $analytics;
+
+    /**
+     *
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\UserProductProvider", mappedBy="users", cascade={"persist", "remove"})
+     */
+    private $productProviders;
+
     public function __construct()
     {
         parent::__construct();
@@ -422,6 +437,7 @@ class User extends BaseUser
         $this->tagPoints = new \Doctrine\Common\Collections\ArrayCollection();
         $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->analytics = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -1378,5 +1394,99 @@ class User extends BaseUser
     public function getDevices()
     {
         return $this->devices;
+    }
+
+    public function addAnalytic(\AdEntify\CoreBundle\Entity\Analytic $analytic)
+    {
+        $this->analytics[] = $analytic;
+        $analytic->setUser($this);
+        return $this;
+    }
+
+    public function removeAnalytic(\AdEntify\CoreBundle\Entity\Analytic $analytic)
+    {
+        $this->analytics->removeElement($analytic);
+        $analytic->setUser(null);
+    }
+
+    public function getAnalytics()
+    {
+        return $this->analytics;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add favoritesPhotos
+     *
+     * @param \AdEntify\CoreBundle\Entity\Photo $favoritesPhotos
+     * @return User
+     */
+    public function addFavoritesPhoto(\AdEntify\CoreBundle\Entity\Photo $favoritesPhotos)
+    {
+        $this->favoritesPhotos[] = $favoritesPhotos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove favoritesPhotos
+     *
+     * @param \AdEntify\CoreBundle\Entity\Photo $favoritesPhotos
+     */
+    public function removeFavoritesPhoto(\AdEntify\CoreBundle\Entity\Photo $favoritesPhotos)
+    {
+        $this->favoritesPhotos->removeElement($favoritesPhotos);
+    }
+
+    /**
+     * Get favoritesPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFavoritesPhotos()
+    {
+        return $this->favoritesPhotos;
+    }
+
+    /**
+     * Add productProviders
+     *
+     * @param \AdEntify\CoreBundle\Entity\UserProductProvider $productProviders
+     * @return User
+     */
+    public function addProductProvider(\AdEntify\CoreBundle\Entity\UserProductProvider $productProviders)
+    {
+        $this->productProviders[] = $productProviders;
+    
+        return $this;
+    }
+
+    /**
+     * Remove productProviders
+     *
+     * @param \AdEntify\CoreBundle\Entity\UserProductProvider $productProviders
+     */
+    public function removeProductProvider(\AdEntify\CoreBundle\Entity\UserProductProvider $productProviders)
+    {
+        $this->productProviders->removeElement($productProviders);
+    }
+
+    /**
+     * Get productProviders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductProviders()
+    {
+        return $this->productProviders;
     }
 }

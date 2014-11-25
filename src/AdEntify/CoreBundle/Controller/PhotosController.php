@@ -52,7 +52,7 @@ class PhotosController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get all punlic or friends photos",
+     *  description="Get all public or friends photos",
      *  output="AdEntify\CoreBundle\Entity\Photo",
      *  section="Photo"
      * )
@@ -955,7 +955,7 @@ class PhotosController extends FosRestController
      *  section="Photo",
      *  parameters={
      *   {"name"="id", "dataType"="integer", "required"=true, "description"="photo ID"},
-     *   {"name"="localte", "dataType"="string", "required"=false, "description"="locale (en or fr)"}
+     *   {"name"="locale", "dataType"="string", "required"=false, "description"="locale (en or fr)"}
      *  }
      * )
      *
@@ -965,6 +965,7 @@ class PhotosController extends FosRestController
      * @QueryParam(name="locale", default="en")
      *
      * @param $id
+     * @param $locale
      * @return ArrayCollection|null
      */
     public function getCategoriesAction($id, $locale = 'en')
@@ -1138,8 +1139,6 @@ class PhotosController extends FosRestController
         }
     }
 
-
-
     /**
      * @ApiDoc(
      *  resource=true,
@@ -1149,9 +1148,6 @@ class PhotosController extends FosRestController
      *      401="Returned when authentication is required",
      *  },
      *  section="Photo",
-     *  parameters={
-     *   {"name"="photoId", "dataType"="integer", "required"=true, "description"="photo ID"}
-     *  }
      * )
      *
      * @View(serializerGroups={"details"})
@@ -1185,14 +1181,15 @@ class PhotosController extends FosRestController
                             $user, $photo->getOwner(), array($photo), Action::getVisibilityWithPhotoVisibility($photo->getVisibilityScope()), $photo->getId(),
                             $em->getClassMetadata(get_class($photo))->getName(), $sendNotification, 'photoFav');
 
-                        $this->getRequest()->setLocale($photo->getOwner()->getLocale());
-                        $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
-                        $options = $pushNotificationService->getOptions('pushNotification.photoFavorite', array(
-                            '%user%' => $user->getFullname()
-                        ), array(
-                            'photoId' => $photo->getId()
-                        ));
-                        $pushNotificationService->sendToUser($photo->getOwner(), $options);
+                        if ($this->getUser()->getId() != $photo->getOwner()->getId()) {
+                            $pushNotificationService = $this->get('ad_entify_core.pushNotifications');
+                            $options = $pushNotificationService->getOptions('pushNotification.photoFavorite', array(
+                                '%user%' => $user->getFullname()
+                            ), array(
+                                'photoId' => $photo->getId()
+                            ));
+                            $pushNotificationService->sendToUser($photo->getOwner(), $options);
+                        }
                     } else {
                         $user->removeFavoritePhoto($photo);
                         $favorites = false;

@@ -1096,7 +1096,7 @@ html,body,.body-grey-background {
     height: 100%;
 }
 .modal .photo-full {
-    width: 100%;
+    max-width: 100%;
 }
 .photo-full {
     max-width: 100%;

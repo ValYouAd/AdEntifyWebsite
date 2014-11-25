@@ -197,6 +197,14 @@ class Tag
     /**
      * @Serializer\Exclude
      *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Analytic", mappedBy="tag", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $analytics;
+
+    /**
+     * @Serializer\Exclude
+     *
      * @var bool
      *
      * @ORM\Column(name="revenue_assigned", type="boolean")
@@ -247,6 +255,7 @@ class Tag
         $this->incomes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->points = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->analytics = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -687,5 +696,23 @@ class Tag
     public function getReports()
     {
         return $this->reports;
+    }
+
+    public function addAnalytic(\AdEntify\CoreBundle\Entity\Analytic $analytic)
+    {
+        $this->analytics[] = $analytic;
+        $analytic->setTag($this);
+        return $this;
+    }
+
+    public function removeAnalytic(\AdEntify\CoreBundle\Entity\Analytic $analytic)
+    {
+        $this->analytics->removeElement($analytic);
+        $analytic->setTag(null);
+    }
+
+    public function getAnalytics()
+    {
+        return $this->analytics;
     }
 }

@@ -41,23 +41,26 @@ class CacheManager
      */
     public function getObject($key)
     {
-        $value = apc_fetch($key, $success);
+        if (extension_loaded('apc'))
+            $value = apc_fetch($key, $success);
+        else
+            $success = false;
         return $success === true ? $value : null;
 
-    }
+}
 
-    /**
-     * Set an object to the cache
-     *
-     * @param $key
-     * @param $value
-     * @param int $ttl
-     * @return array|bool
-     */
-    public function setObject($key, $value, $ttl = 0)
-    {
-        return apc_store($key, $value, $ttl);
-    }
+/**
+ * Set an object to the cache
+ *
+ * @param $key
+ * @param $value
+ * @param int $ttl
+ * @return array|bool
+ */
+public function setObject($key, $value, $ttl = 0)
+{
+    return extension_loaded('apc') ? apc_store($key, $value, $ttl) : true;
+}
 
     /**
      * Delete object from the cache
@@ -66,6 +69,6 @@ class CacheManager
      */
     public function deleteObject($key)
     {
-        return apc_delete($key);
+        return extension_loaded('apc') ? apc_delete($key) : true;
     }
 }

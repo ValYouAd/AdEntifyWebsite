@@ -64,6 +64,14 @@ fos_user_security_password:
     options:
         expose: true
 
+fos_user_registration_register:
+    path:      /user/register
+    defaults:  { _controller: FOSUserBundle:Registration:Register }
+
+fos_user_security_login:
+    path:      /user/login
+    defaults:  { _controller: FOSUserBundle:Security:Login }
+
 ad_entify_embed_js:
     resource: "@AdEntifyEmbedJsBundle/Controller/"
     type:     annotation
@@ -205,6 +213,24 @@ info:
 device:
     type: rest
     resource: AdEntify\CoreBundle\Controller\DevicesController
+    options:
+        expose: true
+
+client:
+    type: rest
+    resource: AdEntify\CoreBundle\Controller\ClientsController
+    options:
+        expose: true
+
+analytic:
+    type: rest
+    resource: AdEntify\CoreBundle\Controller\AnalyticsController
+    options:
+        expose: true
+
+productproviders:
+    type: rest
+    resource: AdEntify\CoreBundle\Controller\ProductProvidersController
     options:
         expose: true
 
