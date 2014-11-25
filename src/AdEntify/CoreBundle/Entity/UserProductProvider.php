@@ -11,102 +11,36 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\XmlRoot("user-product-provider")
  * @Serializer\ExclusionPolicy("none")
  *
- * @ORM\Table(name="user_product_provider", indexes={@ORM\Index(name="search_idx", columns={"user"})})
+ * @ORM\Table(name="user_product_provider")
  * @ORM\Entity
  */
 class UserProductProvider
 {
     /**
-     * @Serializer\Groups({"details", "list", "slight-list"})
-     *
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Id()
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductProvider", inversedBy="users")
+     * @ORM\JoinColumn(name="product_providers_id", referencedColumnName="id", nullable=false)
+     * @Serializer\Groups({"me", "details" , "list"})
      */
-    private $id;
+    private $productProviders;
+
+    /**
+     * @var integer
+     * @ORM\Id()
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="productProviders")
+     * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
+     * @Serializer\Groups({"me", "details" , "list"})
+     */
+    private $users;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="provider_key", type="string", length=255)
-     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
-     */
-    private $providerKey;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="user", type="string", length=255)
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="productProviders")
-     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
-     */
-    private $user;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="api_key", type="string", length=255)
-     * @Serializer\Groups({"me", "details" , "list", "slight-list"})
+     * @ORM\Column(name="api_key", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"me", "details" , "list"})
      */
     private $apiKey;
-    
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set providerKey
-     *
-     * @param string $providerKey
-     * @return UserProductProvider
-     */
-    public function setProviderKey($providerKey)
-    {
-        $this->providerKey = $providerKey;
-    
-        return $this;
-    }
-
-    /**
-     * Get providerKey
-     *
-     * @return string 
-     */
-    public function getProviderKey()
-    {
-        return $this->providerKey;
-    }
-
-    /**
-     * Set user
-     *
-     * @param string $user
-     * @return UserProductProvider
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return string 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
 
     /**
      * Set apiKey
@@ -129,5 +63,51 @@ class UserProductProvider
     public function getApiKey()
     {
         return $this->apiKey;
+    }
+
+    /**
+     * Set productProviders
+     *
+     * @param \AdEntify\CoreBundle\Entity\ProductProvider $productProviders
+     * @return UserProductProvider
+     */
+    public function setProductProviders(\AdEntify\CoreBundle\Entity\ProductProvider $productProviders)
+    {
+        $this->productProviders = $productProviders;
+    
+        return $this;
+    }
+
+    /**
+     * Get productProviders
+     *
+     * @return \AdEntify\CoreBundle\Entity\ProductProvider 
+     */
+    public function getProductProviders()
+    {
+        return $this->productProviders;
+    }
+
+    /**
+     * Set users
+     *
+     * @param \AdEntify\CoreBundle\Entity\User $users
+     * @return UserProductProvider
+     */
+    public function setUsers(\AdEntify\CoreBundle\Entity\User $users)
+    {
+        $this->users = $users;
+    
+        return $this;
+    }
+
+    /**
+     * Get users
+     *
+     * @return \AdEntify\CoreBundle\Entity\User 
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

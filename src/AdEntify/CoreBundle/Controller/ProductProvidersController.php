@@ -37,31 +37,12 @@ class ProductProvidersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="Get a user's products providers",
-     *  output="AdEntify\CoreBundle\Entity\ProductProvider",
-     *  section="ProductProviders"
-     * )
-     *
-     * @param integer $id
-     * @View(serializerGroups={"details"})
-     */
-    public function getAction($id)
-    {
-        if ($user = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:User')->find($id)) {
-            return self::getProductProviders($user);
-        } else
-            throw new HttpException(404);
-    }
-
-    /**
-     * @ApiDoc(
-     *  resource=true,
      *  description="Get current user's products providers",
      *  output="AdEntify\CoreBundle\Entity\ProductProvider",
      *  section="ProductProviders"
      * )
      *
-     * @View(serializerGroups={"details"})
+     * @View(serializerGroups={"list"})
      */
     public function getCurrentUserAction()
     {
@@ -76,7 +57,7 @@ class ProductProvidersController extends FosRestController
         $em = $this->getDoctrine()->getManager();
         $productProviders = $em->createQuery('SELECT pp
                                               FROM AdEntifyCoreBundle:UserProductProvider pp
-                                              WHERE pp.user = :id')
+                                              WHERE pp.users = :id')
             ->setParameters(array(
                 ':id' => $user->getId(),
             ))

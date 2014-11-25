@@ -45,6 +45,13 @@ class ProductProvider
     private $name;
 
     /**
+     *
+     * @Serializer\Exclude
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\UserProductProvider", mappedBy="productProviders", cascade={"persist", "remove"})
+     */
+    private $users;
+
+    /**
      * @return string
      */
     public function getProviderKey()
@@ -101,5 +108,45 @@ class ProductProvider
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add users
+     *
+     * @param \AdEntify\CoreBundle\Entity\UserProductProvider $users
+     * @return ProductProvider
+     */
+    public function addUser(\AdEntify\CoreBundle\Entity\UserProductProvider $users)
+    {
+        $this->users[] = $users;
+    
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \AdEntify\CoreBundle\Entity\UserProductProvider $users
+     */
+    public function removeUser(\AdEntify\CoreBundle\Entity\UserProductProvider $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

@@ -1,0 +1,25 @@
+{% extends "::base.html.twig" %}
+
+{% block bodyAttr %} class="body-grey-background"{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+    <div id="user-registration">
+        <div class="form-container">
+            <div class="form-overlay"></div>
+            <div class="modal-header header-shadow">
+                <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> Sign up</h4>
+            </div>
+            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+        </div>
+    </div>
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+{% endblock %}
