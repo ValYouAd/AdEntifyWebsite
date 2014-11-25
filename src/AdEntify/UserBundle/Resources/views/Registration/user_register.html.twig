@@ -5,7 +5,6 @@
 {% block stylesheets %}
     {% stylesheets filter='cssrewrite'
     'bundles/adentifycommon/css/common.css'
-    'bundles/adentifycommon/css/contact.css'
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
     {% endstylesheets %}
@@ -13,8 +12,14 @@
 
 {% block body %}
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
-    {% block fos_user_content %}
-        {% include "FOSUserBundle:Registration:register_content.html.twig" %}
-    {% endblock fos_user_content %}
+    <div id="user-registration">
+        <div class="form-container">
+            <div class="form-overlay"></div>
+            <div class="modal-header header-shadow">
+                <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> Sign up</h4>
+            </div>
+            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+        </div>
+    </div>
     {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
 {% endblock %}
