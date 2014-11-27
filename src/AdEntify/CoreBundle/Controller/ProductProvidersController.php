@@ -49,7 +49,23 @@ class ProductProvidersController extends FosRestController
     public function getCurrentUserAction()
     {
         if ($this->getUser()) {
-            return $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:UserProductProvider')->findByUser($this->getUser());
+            $providers = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:UserProductProvider')->findByUser($this->getUser());
+            if (empty($providers))
+            {
+                $defaultProviders = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:ProductProvider')->findBy(array(
+                    'providerKey' => array('adentify', 'shopsense')
+                ));
+                foreach ($defaultProviders as $defaultProvider)
+                {
+                    $userProductProvider = new UserProductProvider();
+                    $userProductProvider->setUsers($this->getUser());
+                    $userProductProvider->setProductProviders($defaultProvider);
+                    $this->getDoctrine()->getManager()->persist($userProductProvider);
+                    $this->getDoctrine()->getManager()->flush();
+                    $providers[] = $userProductProvider;
+                }
+            }
+            return $providers;
         } else
             throw new HttpException(403);
     }
