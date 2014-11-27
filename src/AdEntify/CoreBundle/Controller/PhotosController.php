@@ -659,16 +659,19 @@ class PhotosController extends FosRestController
                 $form = $this->getForm($formPhoto);
                 $form->bind($request);
                 if ($form->isValid()) {
-                    $photo->setCaption($formPhoto->getCaption());
+                    $photo->setHashtags(new ArrayCollection())->setCaption($formPhoto->getCaption());
+
                     $hashtags = $em->getRepository('AdEntifyCoreBundle:Hashtag')->getHashtagsFromString($photo->getCaption());
                     if (count($hashtags) > 0) {
                         foreach($hashtags as $hashtag) {
                             $photo->addHashtag($hashtag);
                         }
                     }
+
                     if ($formPhoto->getCategories()) {
                         $photo->setCategories($formPhoto->getCategories());
                     }
+
                     if (array_key_exists('hashtags', $request->request->get('photo'))) {
                         $hashtagRepository = $em->getRepository('AdEntifyCoreBundle:Hashtag');
                         $newPhoto = $request->request->get('photo');
