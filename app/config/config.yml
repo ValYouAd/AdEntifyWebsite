@@ -30,7 +30,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ 'AdEntifyCommonBundle', 'FOSUserBundle', 'TwigBundle' ]
+    bundles:        [ 'AdEntifyCommonBundle', 'FOSUserBundle', 'TwigBundle', 'FOSOAuthServerBundle' ]
     filters:
         cssrewrite: ~
 
