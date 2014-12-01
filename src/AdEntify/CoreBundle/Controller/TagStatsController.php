@@ -77,6 +77,8 @@ class TagStatsController extends FosRestController
             // Platform
             if ($request->request->has('platform')) {
                 $analytic->setPlatform($request->request->get('platform'));
+            } else {
+                $analytic->setPlatform('adentify');
             }
 
             if (!$em->getRepository('AdEntifyCoreBundle:Analytic')->isAlreadyTracked($analytic)) {
