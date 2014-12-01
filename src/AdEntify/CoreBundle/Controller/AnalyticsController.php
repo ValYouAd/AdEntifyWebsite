@@ -54,6 +54,10 @@ class AnalyticsController extends FosRestController
      */
     public function postAction(Request $request)
     {
+        // Check if its a bot
+        if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT']))
+            throw new HttpException('403', 'Bot or spider');
+
         $em = $this->getDoctrine()->getManager();
         $analytic = new Analytic();
         $form = $this->getForm($analytic);
