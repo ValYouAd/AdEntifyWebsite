@@ -23,7 +23,10 @@ class DashboardController extends Controller
     {
         if ($this->getUser())
         {
-
+            $analytics = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Analytic')->findBy(array(
+                'user' => $this->getUser()->getId()
+            ));
+            return $analytics;
         }
         else
             throw new HttpException(403);

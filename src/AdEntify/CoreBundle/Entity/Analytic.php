@@ -21,9 +21,9 @@ class Analytic
     const ELEMENT_PHOTO = 'photo';
     const ELEMENT_TAG = 'tag';
 
-    const PLATFORM_ADENTIFY_WEB = 'adentify-web';
-    const PLATFORM_ADENTIFY_EMEBED = 'adentify-embed';
-    const PLATFORM_ADENTIFY_WORDPRESS = 'adentify-wordpress';
+    const PLATFORM_ADENTIFY_WEB = 'web';
+    const PLATFORM_ADENTIFY_EMBED = 'embed';
+    const PLATFORM_ADENTIFY_WORDPRESS = 'wordpress';
 
     /**
      * @var integer

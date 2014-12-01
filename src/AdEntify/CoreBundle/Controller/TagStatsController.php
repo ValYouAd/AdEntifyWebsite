@@ -76,21 +76,34 @@ class TagStatsController extends FosRestController
 
             // Platform
             if ($request->request->has('platform')) {
-                $analytic->setPlatform($request->request->get('platform'));
-            } else {
-                $analytic->setPlatform('adentify');
+                switch ($request->request->get('platform'))
+                {
+                    case TagStats::PLATFORM_ADENTIFY_EMEBED:
+                        $platform = Analytic::PLATFORM_ADENTIFY_EMBED;
+                        break;
+                    case TagStats::PLATFORM_ADENTIFY_WORDPRESS:
+                        $platform = Analytic::PLATFORM_ADENTIFY_WORDPRESS;
+                        break;
+                    case TagStats::PLATFORM_ADENTIFY_WEB:
+                    default:
+                        $platform = Analytic::PLATFORM_ADENTIFY_WEB;
+                        break;
+                }
+                $analytic->setPlatform($platform);
             }
 
-            if (!$em->getRepository('AdEntifyCoreBundle:Analytic')->isAlreadyTracked($analytic)) {
-                $tag = $em->getRepository('AdEntifyCoreBundle:Tag')->find($request->request->get('tagId'));
-                if ($tag) {
-                    $analytic->setTag($tag);
-                    $em->persist($analytic);
-                    $em->flush();
+            // Get tag
+            $tag = $em->getRepository('AdEntifyCoreBundle:Tag')->find($request->request->get('tagId'));
+            if ($tag) {
+                $analytic->setTag($tag);
+            } else
+                throw new HttpException('404', 'Tag not found');
 
-                    return $analytic;
-                } else
-                    throw new HttpException('404', 'Tag not found');
+            if (!$em->getRepository('AdEntifyCoreBundle:Analytic')->isAlreadyTracked($analytic)) {
+                $em->persist($analytic);
+                $em->flush();
+
+                return $analytic;
             } else
                 throw new HttpException('403', 'Already tracked');
         }
