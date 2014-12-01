@@ -1,3 +1,8 @@
+ad_entify_dashboard:
+    resource: "@AdEntifyDashboardBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 ad_entify_backoffice:
     resource: "@AdEntifyBackofficeBundle/Controller/"
     type:     annotation
