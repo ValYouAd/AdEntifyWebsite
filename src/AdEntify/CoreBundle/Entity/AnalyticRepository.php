@@ -58,4 +58,91 @@ class AnalyticRepository extends EntityRepository
 
         return $analytic ? true : false;
     }
+
+    public function findGlobalAnalyticsByUser(User $user)
+    {
+        $analytics = array(
+            'photosViews' => $this->getPhotosCountByAction(Analytic::ACTION_VIEW, $user),
+            'photosHovers' => $this->getPhotosCountByAction(Analytic::ACTION_HOVER, $user),
+            'tagsHovers' => $this->getTagsCountByAction(Analytic::ACTION_HOVER, $user),
+            'tagsClicks' => $this->getTagsCountByAction(Analytic::ACTION_CLICK, $user),
+            'photosHoversPercentage' => 0,
+            'tagsHoversPercentage' => 0,
+            'tagsClicksPercentage' => 0
+        );
+
+        // Calculate percentages
+        if ($analytics['photosViews'] > 0)
+            $analytics['photosHoversPercentage'] = ($analytics['photosHovers'] / $analytics['photosViews']) * 100;
+        if ($analytics['photosHovers'] > 0)
+            $analytics['tagsHoversPercentage'] = ($analytics['tagsHovers'] / $analytics['photosHovers']) * 100;
+        if ($analytics['tagsHovers'] > 0)
+            $analytics['tagsClicksPercentage'] = ($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100;
+
+        return $analytics;
+    }
+
+    private function getPhotosCountByAction($action, $user)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.element = :element')
+            ->andWhere('a.action = :action');
+
+        if ($user->getBrand()) {
+            return $qb
+                ->leftJoin('a.photo', 'p')
+                ->leftJoin('p.tags', 't')
+                ->leftJoin('t.brand', 'b')
+                ->andWhere('b = :brand')
+                ->setParameters(array(
+                    'element' => Analytic::ELEMENT_PHOTO,
+                    'action' => $action,
+                    'brand' => $user->getBrand()->getId()
+                ))
+                ->getQuery()->getSingleScalarResult();
+        } else {
+            return $qb
+                ->leftJoin('a.photo', 'p')
+                ->leftJoin('p.owner', 'u')
+                ->andWhere('u = :user')
+                ->setParameters(array(
+                    'element' => Analytic::ELEMENT_PHOTO,
+                    'action' => $action,
+                    'user' => $user->getId()
+                ))
+                ->getQuery()->getSingleScalarResult();
+        }
+    }
+
+    private function getTagsCountByAction($action, $user)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.element = :element')
+            ->andWhere('a.action = :action');
+
+        if ($user->getBrand()) {
+            return $qb
+                ->leftJoin('a.tag', 't')
+                ->andWhere('b = :brand')
+                ->setParameters(array(
+                    'element' => Analytic::ELEMENT_TAG,
+                    'action' => $action,
+                    'brand' => $user->getBrand()->getId()
+                ))
+                ->getQuery()->getSingleScalarResult();
+        } else {
+            return $qb
+                ->leftJoin('a.tag', 't')
+                ->leftJoin('t.owner', 'u')
+                ->andWhere('u = :user')
+                ->setParameters(array(
+                    'element' => Analytic::ELEMENT_TAG,
+                    'action' => $action,
+                    'user' => $user->getId()
+                ))
+                ->getQuery()->getSingleScalarResult();
+        }
+    }
 }
