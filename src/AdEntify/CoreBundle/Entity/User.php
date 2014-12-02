@@ -480,9 +480,13 @@ class User extends BaseUser
     }
 
     public function getFullname() {
-        if (empty($this->firstname) || empty($this->lastname))
-            return false;
-        return $this->getFirstname() . ' ' . $this->getLastname();
+        $fullname = array();
+        if (!empty($this->firstname))
+            $fullname[] = $this->firstname;
+        if (!empty($this->lastname))
+            $fullname[] = $this->lastname;
+
+        return implode(' ', $fullname);
     }
 
     /**
