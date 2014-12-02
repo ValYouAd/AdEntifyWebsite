@@ -28,20 +28,15 @@ class DashboardController extends Controller
                 'nbUsers' => 0,
                 'nbPhotos' => 0
             );
-            $isBrand = false;
             $em = $this->getDoctrine()->getManager();
             $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
 
-            if ($this->getUser()->getBrand())
-            {
-                $isBrand = true;
-                $result['nbTagged'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandTags($this->getUser()->getBrand());
-                $result['nbUsers'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandTaggers($this->getUser()->getBrand());
-                $result['nbPhotos'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandPhotos($this->getUser()->getBrand());
-            }
+            $result['nbTagged'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBySelector($this->getUser(), 'id');
+            $result['nbUsers'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBySelector($this->getUser(), 'owner', 'DISTINCT');
+            $result['nbPhotos'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBySelector($this->getUser(), 'photo', 'DISTINCT');
             return array(
                     'analytics' => $result,
-                    'isBrand' => $isBrand,
+                    'isBrand' => ($this->getUser()->getBrand()) ? true : false,
                     'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser())
                 );
         }

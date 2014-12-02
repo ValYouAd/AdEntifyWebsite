@@ -125,6 +125,7 @@ class AnalyticRepository extends EntityRepository
         if ($user->getBrand()) {
             return $qb
                 ->leftJoin('a.tag', 't')
+                ->leftJoin('t.brand', 'b')
                 ->andWhere('b = :brand')
                 ->setParameters(array(
                     'element' => Analytic::ELEMENT_TAG,

@@ -9,41 +9,30 @@
 namespace AdEntify\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use AdEntify\CoreBundle\Entity\Tag;
+use AdEntify\CoreBundle\Entity\User;
 
 
 class TagRepository extends EntityRepository{
 
-    public function countBrandTags(Brand $brand)
+    public function countBySelector(User $user, $selector, $distinct = '')
     {
-        return $this->getEntityManager()->createQuery('SELECT COUNT(t.id)
-                                                       FROM AdEntifyCoreBundle:Tag t
-                                                       WHERE t.brand = :brand')
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('COUNT('.$distinct.' t.'.$selector.')');
+        if ($user->getBrand())
+        {
+            $qb->where('t.brand = :brand')
                 ->setParameters(array(
-                    ':brand' => $brand
-                ))
-                ->getSingleScalarResult();
-    }
-
-    public function countBrandTaggers(Brand $brand)
-    {
-        return $this->getEntityManager()->createQuery('SELECT COUNT(distinct t.owner)
-                                                       FROM AdEntifyCoreBundle:Tag t
-                                                       WHERE t.brand = :brand')
-            ->setParameters(array(
-                ':brand' => $brand
-            ))
-            ->getSingleScalarResult();
-    }
-
-    public function countBrandPhotos(Brand $brand)
-    {
-        return $this->getEntityManager()->createQuery('SELECT COUNT(distinct t.photo)
-                                                       FROM AdEntifyCoreBundle:Tag t
-                                                       WHERE t.brand = :brand')
-            ->setParameters(array(
-                ':brand' => $brand
-            ))
-            ->getSingleScalarResult();
+                    'brand' => $user->getBrand()
+            ));
+        }
+        else
+        {
+            $qb->leftJoin('t.photo', 'p')
+                ->where('p.owner = :user')
+                ->setParameters(array(
+                    'user' => $user
+                ));
+        }
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }
