@@ -32,16 +32,18 @@ class DashboardController extends Controller
             $photos = array();
 
             $em = $this->getDoctrine()->getManager();
-            $analytics = $em->getRepository('AdEntifyCoreBundle:Analytic')->findBy(array(
-                'user' => $this->getUser()->getId()
-            ));
+            $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
+
             if ($this->getUser()->getBrand())
             {
                 $result['nbTagged'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandTags($this->getUser()->getBrand());
                 $result['nbUsers'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandTaggers($this->getUser()->getBrand());
                 $result['nbPhotos'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandPhotos($this->getUser()->getBrand());
             }
-            return array('analytics' => $result);
+            return array(
+                'analytics' => $result,
+                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser())
+            );
         }
         else
             throw new HttpException(403);

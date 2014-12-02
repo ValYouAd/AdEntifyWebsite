@@ -22,6 +22,35 @@
             <div class="dashboard-statistiques">
                 <div class="stats-sum">{{ 'dashboard.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|raw }}</div>
             </div>
+            <div class="dashboard-global-analytics">
+                <div class="row">
+                    <div class="col-xs-6 col-md-3">
+                        {{ globalAnalytics.photosViews }} impressions images
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        {{ globalAnalytics.photosHovers }} survols images
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        {{ globalAnalytics.tagsHovers }} survols tags
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        {{ globalAnalytics.tagsClicks }} clics tags
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-md-3">
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        {{ globalAnalytics.photosHoversPercentage }}% survols images
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        {{ globalAnalytics.tagsHoversPercentage }}% survols tags
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        {{ globalAnalytics.tagsClicksPercentage }}% clics tags
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}

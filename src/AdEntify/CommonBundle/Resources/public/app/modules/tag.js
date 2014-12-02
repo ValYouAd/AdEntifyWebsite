@@ -230,7 +230,7 @@ define([
             var popover = this.$('.popover');
             var popoverArrow = this.$('.tag-popover-arrow');
             this.setupPopover(popover, popoverArrow);
-            app.tagStats().hover(this.model);
+            app.analytic().hover(this.model);
          }
       },
 
@@ -244,7 +244,7 @@ define([
       },
 
       clickTag: function(e) {
-         app.tagStats().click(this.model, e);
+         app.analytic().click(this.model, e);
       },
 
       validateTag: function() {
@@ -308,7 +308,7 @@ define([
             if (!$('#map' + this.model.get('id')).hasClass('loaded')) {
                Tag.Common.setupGoogleMap(this.model);
             }
-            app.tagStats().hover(this.model);
+            app.analytic().hover(this.model);
          }
       },
 
@@ -322,7 +322,7 @@ define([
       },
 
       clickTag: function(e) {
-         app.tagStats().click(this.model, e);
+         app.analytic().click(this.model, e);
       },
 
       validateTag: function() {
@@ -386,7 +386,7 @@ define([
             if (this.model.has('venue') && !$('#map' + this.model.get('id')).hasClass('loaded')) {
                Tag.Common.setupGoogleMap(this.model);
             }
-            app.tagStats().hover(this.model);
+            app.analytic().hover(this.model);
          }
       },
 
@@ -400,7 +400,7 @@ define([
       },
 
       clickTag: function(e) {
-         app.tagStats().click(this.model, e);
+         app.analytic().click(this.model, e);
       },
 
       validateTag: function() {
