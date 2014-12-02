@@ -28,20 +28,22 @@ class DashboardController extends Controller
                 'nbUsers' => 0,
                 'nbPhotos' => 0
             );
-            $owners = array();
-            $photos = array();
-
+            $isBrand = false;
             $em = $this->getDoctrine()->getManager();
             $analytics = $em->getRepository('AdEntifyCoreBundle:Analytic')->findBy(array(
                 'user' => $this->getUser()->getId()
             ));
             if ($this->getUser()->getBrand())
             {
+                $isBrand = true;
                 $result['nbTagged'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandTags($this->getUser()->getBrand());
                 $result['nbUsers'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandTaggers($this->getUser()->getBrand());
                 $result['nbPhotos'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandPhotos($this->getUser()->getBrand());
             }
-            return array('analytics' => $result);
+            return array(
+                    'analytics' => $result,
+                    'isBrand' => $isBrand
+                );
         }
         else
             throw new HttpException(403);

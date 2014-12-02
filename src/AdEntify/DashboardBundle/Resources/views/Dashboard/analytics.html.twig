@@ -13,8 +13,8 @@
 
 {% block body %}
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
-
     <div class="dashboard-stats-container">
+        {% if isBrand %}<div class="dashboard-logo">toto</div>{% endif %}
         <div class="dashboard-content">
             <div class="dashboard-tab">
                 <div>STATISTIQUES</div>

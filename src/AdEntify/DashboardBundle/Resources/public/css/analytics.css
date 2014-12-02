@@ -10,9 +10,13 @@
     position: relative;
     top: 100px;
 }
+.dashboard-logo {
+    background:lightblue;
+}
 .dashboard-tab {
     text-align: center;
     font-weight: bold;
+    background:lightgrey;
 }
 .stats-sum {
     padding-top: 20px;
