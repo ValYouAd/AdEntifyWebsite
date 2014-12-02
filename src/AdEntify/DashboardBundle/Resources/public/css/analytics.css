@@ -1,0 +1,21 @@
+/* Dashboard
+----------------------- */
+.dashboard-stats-container {
+    height: 86vh;
+    width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.dashboard-tab {
+    text-align: center;
+    font-weight: bold;
+}
+.dashboard-content {
+    position: relative;
+    top: 100px;
+}
+.stats-sum {
+    text-align: center;
+    font-family: 'asapregular', sans-serif;
+    color: #85888b;
+}

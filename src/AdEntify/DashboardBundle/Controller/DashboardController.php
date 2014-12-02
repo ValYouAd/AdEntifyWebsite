@@ -16,17 +16,43 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class DashboardController extends Controller
 {
     /**
-     * @Route("{_locale}/app/my/dashboard/stats", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"}, name="dashboard_stats")
+     * @Route("{_locale}/app/my/dashboard/analytics", defaults={"_locale" = "en"}, requirements={"_locale" = "en|fr"}, name="dashboard_stats")
      * @Template()
      */
-    public function dashboardAction()
+    public function analyticsAction()
     {
         if ($this->getUser())
         {
-            $analytics = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Analytic')->findBy(array(
+            $result = array(
+                'nbTagged' => 0,
+                'nbUsers' => 0,
+                'nbPhotos' => 0
+            );
+            $owners = array();
+            $photos = array();
+
+            $em = $this->getDoctrine()->getManager();
+            $analytics = $em->getRepository('AdEntifyCoreBundle:Analytic')->findBy(array(
                 'user' => $this->getUser()->getId()
             ));
-            return $analytics;
+            if ($this->getUser()->getBrand())
+            {
+                $brandTags = $em->getRepository('AdEntifyCoreBundle:Tag')->findBy(array(
+                    'brand' => $this->getUser()->getBrand()
+                ));
+                if (!empty($brandTags))
+                {
+                    foreach ($brandTags as $brandTag)
+                    {
+                        $owners[] = $brandTag->getOwner()->getId();
+                        $photos[] = $brandTag->getPhoto()->getId();
+                    }
+                    $result['nbTagged'] = count($brandTags);
+                    $result['nbUsers'] = count(array_unique($owners));
+                    $result['nbPhotos'] = count(array_unique($photos));
+                }
+            }
+            return array('analytics' => $result);
         }
         else
             throw new HttpException(403);

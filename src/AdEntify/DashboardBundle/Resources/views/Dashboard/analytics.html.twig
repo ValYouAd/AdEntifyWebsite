@@ -4,7 +4,8 @@
 
 {% block stylesheets %}
     {% stylesheets filter='cssrewrite'
-    'bundles/adentifycommon/css/common.css'
+        'bundles/adentifycommon/css/common.css'
+        '@AdEntifyDashboardBundle/Resources/public/css/analytics.css'
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
     {% endstylesheets %}
@@ -13,6 +14,16 @@
 {% block body %}
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
 
+    <div class="dashboard-stats-container">
+        <div class="dashboard-content">
+            <div class="dashboard-tab">
+                <div>STATISTIQUES</div>
+            </div>
+            <div class="dashboard-statistiques">
+                <div class="stats-sum">{{ 'dashboard.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|raw }}</div>
+            </div>
+        </div>
+    </div>
 {#    {% if error %}
         <div class="text-center">{{ error|trans({}, 'FOSUserBundle') }}</div>
     {% endif %}
@@ -31,6 +42,9 @@
             {% include "FOSUserBundle:Security:login.html.twig" with( { 'showRegisterLink': true } ) %}
         </div>
     </div>#}
+    {#{% for analytic in analytics %}
+        {{ analytic.id }}
+    {% endfor %}#}
     {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
 {% endblock %}
 
