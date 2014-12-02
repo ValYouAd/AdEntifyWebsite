@@ -21,7 +21,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("none")
  *
  * @ORM\Table(name="tags", indexes={@ORM\Index(name="search_idx", columns={"tag_type","visible"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AdEntify\CoreBundle\Entity\TagRepository")
  */
 class Tag
 {

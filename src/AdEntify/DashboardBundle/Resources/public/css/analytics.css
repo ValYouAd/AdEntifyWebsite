@@ -6,16 +6,21 @@
     margin-left: auto;
     margin-right: auto;
 }
-.dashboard-tab {
-    text-align: center;
-    font-weight: bold;
-}
 .dashboard-content {
     position: relative;
     top: 100px;
 }
+.dashboard-tab {
+    text-align: center;
+    font-weight: bold;
+}
 .stats-sum {
+    padding-top: 20px;
+    padding-bottom: 20px;
     text-align: center;
     font-family: 'asapregular', sans-serif;
     color: #85888b;
+}
+strong {
+    color: red;
 }

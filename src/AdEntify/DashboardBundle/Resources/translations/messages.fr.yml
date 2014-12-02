@@ -1,3 +1,0 @@
-dashboard:
-  stats:
-    sum: 'Taguée <strong>%nbTagged%</strong> fois par %nbUsers% utilisateurs AdEntify pour un total de %nbPhotos% photos'

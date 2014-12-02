@@ -37,20 +37,9 @@ class DashboardController extends Controller
             ));
             if ($this->getUser()->getBrand())
             {
-                $brandTags = $em->getRepository('AdEntifyCoreBundle:Tag')->findBy(array(
-                    'brand' => $this->getUser()->getBrand()
-                ));
-                if (!empty($brandTags))
-                {
-                    foreach ($brandTags as $brandTag)
-                    {
-                        $owners[] = $brandTag->getOwner()->getId();
-                        $photos[] = $brandTag->getPhoto()->getId();
-                    }
-                    $result['nbTagged'] = count($brandTags);
-                    $result['nbUsers'] = count(array_unique($owners));
-                    $result['nbPhotos'] = count(array_unique($photos));
-                }
+                $result['nbTagged'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandTags($this->getUser()->getBrand());
+                $result['nbUsers'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandTaggers($this->getUser()->getBrand());
+                $result['nbPhotos'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBrandPhotos($this->getUser()->getBrand());
             }
             return array('analytics' => $result);
         }
