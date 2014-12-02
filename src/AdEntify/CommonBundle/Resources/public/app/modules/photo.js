@@ -311,6 +311,7 @@ define([
                });
                this.setView('.tags-container', this.tagsView).render();
             }
+            app.analytic().view(this.model);
          }
 
          // Comments
@@ -472,6 +473,7 @@ define([
 
       showTags: function() {
          $(this.el).find('.tags').stop().fadeIn(100);
+         app.analytic().hover(null, this.model);
       },
 
       hideTags: function() {

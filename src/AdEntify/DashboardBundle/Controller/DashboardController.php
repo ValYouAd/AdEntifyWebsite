@@ -30,9 +30,8 @@ class DashboardController extends Controller
             );
             $isBrand = false;
             $em = $this->getDoctrine()->getManager();
-            $analytics = $em->getRepository('AdEntifyCoreBundle:Analytic')->findBy(array(
-                'user' => $this->getUser()->getId()
-            ));
+            $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
+
             if ($this->getUser()->getBrand())
             {
                 $isBrand = true;
@@ -42,7 +41,8 @@ class DashboardController extends Controller
             }
             return array(
                     'analytics' => $result,
-                    'isBrand' => $isBrand
+                    'isBrand' => $isBrand,
+                    'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser())
                 );
         }
         else
