@@ -29,15 +29,17 @@ class DashboardController extends Controller
                 'nbPhotos' => 0
             );
             $em = $this->getDoctrine()->getManager();
+            $tagRepository = $em->getRepository('AdEntifyCoreBundle:Tag');
             $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
 
-            $result['nbTagged'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBySelector($this->getUser(), 'id');
-            $result['nbUsers'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBySelector($this->getUser(), 'owner', 'DISTINCT');
-            $result['nbPhotos'] = $em->getRepository('AdEntifyCoreBundle:Tag')->countBySelector($this->getUser(), 'photo', 'DISTINCT');
+            $result['nbTagged'] = $tagRepository->countBySelector($this->getUser(), 'id');
+            $result['nbUsers'] = $tagRepository->countBySelector($this->getUser(), 'owner', 'DISTINCT');
+            $result['nbPhotos'] = $tagRepository->countBySelector($this->getUser(), 'photo', 'DISTINCT');
             return array(
                     'analytics' => $result,
-                    'isBrand' => ($this->getUser()->getBrand()) ? true : false,
-                    'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser())
+                    'brand' => $this->getUser()->getBrand(),
+                    'user' => $this->getUser(),
+                    'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser()),
                 );
         }
         else

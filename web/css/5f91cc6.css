@@ -239,7 +239,42 @@ header {
     padding-top: 15%;
     max-width: 480px;
 }
-
+.user-registration-header {
+    padding: 15px;
+}
+#user-registration, #user-login, #auth-content-container {
+    height: 86vh;
+    max-width: 500px;
+    margin: auto;
+}
+#user-login, #auth-content-container {
+    padding-top: 20vh;
+}
+#user-registration {
+    padding-top: 10vh;
+}
+.form-container {
+    position: relative;
+    border-top: 5px solid #ff3838;
+}
+.form-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 15px rgba(0,0,0,.1),inset 0 0 0 1px rgba(0,0,0,.05);
+    pointer-events: none;
+}
+.auth-content {
+    padding: 15px;
+}
+.auth-confirmation {
+    margin: 5px;
+}
+.auth-confirmation-container {
+    text-align: center;
+}
 /* End
 ----------------------- */
 .resetting {

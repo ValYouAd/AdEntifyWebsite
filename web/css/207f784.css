@@ -277,3 +277,84 @@ header {
 }
 /* End
 ----------------------- */
+/* Dashboard
+----------------------- */
+.dashboard-stats-container {
+    height: 86vh;
+    width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+    background: white;
+}
+.dashboard-content {
+    position: relative;
+    top: 100px;
+}
+.dashboard-logo {
+    height: 80px;
+    width: 100px;
+    position: absolute;
+    left: 50%;
+    margin-top: 15px;
+    margin-left: -50px;
+    background: no-repeat center;
+    background-size: contain;
+    /*background:lightblue;*/
+}
+.dashboard-tab {
+    text-align: center;
+    font-weight: bold;
+    font-size: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /*background:lightgrey;*/
+}
+.dashboard-statistiques {
+    border-top: 1px solid #D9DDE0;
+}
+.stats-sum {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    font-family: 'asapregular', sans-serif;
+    color: #85888b;
+}
+.dashboard-global-analytics {
+    border-bottom: 1px solid #D9DDE0;
+    border-top: 1px solid #D9DDE0;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+.dashboard-content h2 {
+    font-family: 'pacificoregular', sans-serif;
+    color: #85888b;
+    font-size: 18px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    /*background: lightcyan;*/
+}
+.global-analytics {
+    text-align: center;
+    /*background: lightgoldenrodyellow;*/
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.global-analytics p {
+    font-family: 'robotolight', sans-serif;
+    font-size: 30px;
+    margin: 0;
+}
+.global-analytics label {
+    font-family: 'robotolight', sans-serif;
+    color: #85888b;
+    font-size: 13px;
+    font-weight: 500;
+}
+strong {
+    color: red;
+    font-size: 17px;
+}
+.stats-by-img {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}

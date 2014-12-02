@@ -14,41 +14,57 @@
 {% block body %}
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
     <div class="dashboard-stats-container">
-        {% if isBrand %}<div class="dashboard-logo">toto</div>{% endif %}
+        {% if brand and brand.originalLogoUrl %}<div class="dashboard-logo" style="background-image: url('{{ brand.originalLogoUrl }}')"></div>
+        {% elseif brand %} <h1>{{ brand.name }}</h1>
+        {% else %}<h1>{{ user.fullname }}</h1>
+        {% endif %}
         <div class="dashboard-content">
             <div class="dashboard-tab">
                 <div>STATISTIQUES</div>
             </div>
             <div class="dashboard-statistiques">
                 <div class="stats-sum">{{ 'dashboard.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|raw }}</div>
-            </div>
-            <div class="dashboard-global-analytics">
-                <div class="row">
-                    <div class="col-xs-6 col-md-3">
-                        {{ globalAnalytics.photosViews }} impressions images
+                <div class="dashboard-global-analytics">
+                    <div>
+                        <h2>Statistiques de tags</h2>
                     </div>
-                    <div class="col-xs-6 col-md-3">
-                        {{ globalAnalytics.photosHovers }} survols images
+                    <div class="row">
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.photosViews }}</p>
+                            <label>Impressions images</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.photosHovers }}</p>
+                            <label>Survols d'images avec la marque</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.tagsHovers }}</p>
+                            <label>Survols de tags de la marque</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.tagsClicks }}</p>
+                            <label>Clics sur les tags de la marque</label>
+                        </div>
                     </div>
-                    <div class="col-xs-6 col-md-3">
-                        {{ globalAnalytics.tagsHovers }} survols tags
-                    </div>
-                    <div class="col-xs-6 col-md-3">
-                        {{ globalAnalytics.tagsClicks }} clics tags
+                    <div class="row">
+                        <div class="global-analytics col-xs-6 col-md-3">
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.photosHoversPercentage }}%</p>
+                            <label>Taux de survol</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.tagsHoversPercentage }}%</p>
+                            <label>Taux de survol</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.tagsClicksPercentage }}%</p>
+                            <label>Taux de clics</label>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 col-md-3">
-                    </div>
-                    <div class="col-xs-6 col-md-3">
-                        {{ globalAnalytics.photosHoversPercentage }}% survols images
-                    </div>
-                    <div class="col-xs-6 col-md-3">
-                        {{ globalAnalytics.tagsHoversPercentage }}% survols tags
-                    </div>
-                    <div class="col-xs-6 col-md-3">
-                        {{ globalAnalytics.tagsClicksPercentage }}% clics tags
-                    </div>
+                <div class="stats-by-img">
+                    <h2>Statistiques par image</h2>
                 </div>
             </div>
         </div>
