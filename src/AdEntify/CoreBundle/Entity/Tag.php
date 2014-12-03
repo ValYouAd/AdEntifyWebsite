@@ -249,6 +249,30 @@ class Tag
      */
     private $reports;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="hovers_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="clicks_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $clicksCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="interaction_time", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $interactionTime = 0;
+
     public function __construct()
     {
         $this->stats = new \Doctrine\Common\Collections\ArrayCollection();
@@ -714,5 +738,56 @@ class Tag
     public function getAnalytics()
     {
         return $this->analytics;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClicksCount()
+    {
+        return $this->clicksCount;
+    }
+
+    /**
+     * @param int $clicksCount
+     */
+    public function setClicksCount($clicksCount)
+    {
+        $this->clicksCount = $clicksCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHoversCount()
+    {
+        return $this->hoversCount;
+    }
+
+    /**
+     * @param int $hoversCount
+     */
+    public function setHoversCount($hoversCount)
+    {
+        $this->hoversCount = $hoversCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInteractionTime()
+    {
+        return $this->interactionTime;
+    }
+
+    /**
+     * @param int $interactionTime
+     */
+    public function setInteractionTime($interactionTime)
+    {
+        $this->interactionTime = $interactionTime;
+        return $this;
     }
 }

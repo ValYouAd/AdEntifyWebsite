@@ -386,6 +386,14 @@ class Photo
      */
     private $tagsClicksCount = 0;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="interaction_time", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $interactionTime = 0;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1177,8 +1185,8 @@ class Photo
      */
     public function setTagsClicksCount($tagsClicksCount)
     {
-	$this->tagsClicksCount = $tagsClicksCount;
-	return $this;
+        $this->tagsClicksCount = $tagsClicksCount;
+        return $this;
     }
 
     /**
@@ -1186,7 +1194,7 @@ class Photo
      */
     public function getTagsHoversCount()
     {
-	return $this->tagsHoversCount;
+	    return $this->tagsHoversCount;
     }
 
     /**
@@ -1194,8 +1202,8 @@ class Photo
      */
     public function setTagsHoversCount($tagsHoversCount)
     {
-	$this->tagsHoversCount = $tagsHoversCount;
-	return $this;
+        $this->tagsHoversCount = $tagsHoversCount;
+        return $this;
     }
 
     /**
@@ -1203,7 +1211,7 @@ class Photo
      */
     public function getViewsCount()
     {
-	return $this->viewsCount;
+	    return $this->viewsCount;
     }
 
     /**
@@ -1211,7 +1219,24 @@ class Photo
      */
     public function setViewsCount($viewsCount)
     {
-	$this->viewsCount = $viewsCount;
-	return $this;
+        $this->viewsCount = $viewsCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInteractionTime()
+    {
+        return $this->interactionTime;
+    }
+
+    /**
+     * @param int $interactionTime
+     */
+    public function setInteractionTime($interactionTime)
+    {
+        $this->interactionTime = $interactionTime;
+        return $this;
     }
 }
