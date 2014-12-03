@@ -25,8 +25,7 @@ class DashboardController extends Controller
      */
     public function analyticsAction($page = 1)
     {
-        if ($this->getUser())
-        {
+        if ($this->getUser()) {
             $result = array(
                 'nbTagged' => 0,
                 'nbUsers' => 0,
@@ -40,20 +39,13 @@ class DashboardController extends Controller
             $result['nbUsers'] = $tagRepository->countBySelector($this->getUser(), 'owner', 'DISTINCT');
             $result['nbPhotos'] = $tagRepository->countBySelector($this->getUser(), 'photo', 'DISTINCT');
             $result['photos'] = $em->getRepository('AdEntifyCoreBundle:Photo')->getPhotos($this->getUser(), $page);
-
-//            echo "<pre>";
-//            print_r($result['photos']);
-//            echo "</pre>";
-//            die;
-
             return array(
-                    'analytics' => $result,
-                    'brand' => $this->getUser()->getBrand(),
-                    'user' => $this->getUser(),
-                    'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser()),
-                );
-        }
-        else
+                'analytics' => $result,
+                'brand' => $this->getUser()->getBrand(),
+                'user' => $this->getUser(),
+                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser()),
+            );
+        } else
             throw new HttpException(403);
     }
 }

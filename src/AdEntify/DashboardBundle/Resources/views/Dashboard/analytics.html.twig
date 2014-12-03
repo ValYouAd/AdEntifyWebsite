@@ -87,13 +87,13 @@
                                     <img src="{{ photo.smallUrl }}" />
                                 </td>
                                 <td>
-                                    {{ photo.caption }}
+                                    {{ photo.caption }} par {{ photo.owner.fullname }}
                                 </td>
                                 <td>
                                     {{ photo.viewsCount }}
                                 </td>
                                 <td>
-                                    {{ photo.tagsClicsCount }}
+                                    {{ photo.tagsClicksCount }}
                                 </td>
                                 <td>
                                     <a href="" class="btn btn-primary">Details</a>
@@ -102,6 +102,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% include 'AdEntifyBackofficeBundle:Common:pagination.html.twig' with {'count': analytics.photos.count, 'pageLimit': analytics.photos.pageLimit, route: 'dashboard_stats'} %}
             </div>
         </div>
     </div>
