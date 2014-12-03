@@ -66,9 +66,44 @@
                 <div class="stats-by-img">
                     <h2>Statistiques par image</h2>
                 </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Date de publication</td>
+                            <td>Photo</td>
+                            <td>Infos</td>
+                            <td>Impressions</td>
+                            <td>Clics</td>
+                            <td>Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for photo in analytics.photos.photos %}
+                            <tr>
+                                <td>
+                                    {{ photo.createdAt|date }}
+                                </td>
+                                <td>
+                                    <img src="{{ photo.smallUrl }}" />
+                                </td>
+                                <td>
+                                    {{ photo.caption }}
+                                </td>
+                                <td>
+                                    {{ photo.viewsCount }}
+                                </td>
+                                <td>
+                                    {{ photo.tagsClicsCount }}
+                                </td>
+                                <td>
+                                    <a href="" class="btn btn-primary">Details</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
     {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
 {% endblock %}
-

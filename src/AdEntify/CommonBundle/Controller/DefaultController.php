@@ -331,9 +331,9 @@ class DefaultController extends Controller
 	    ->getOneOrNullResult();
 
         return array(
-	    'terms_of_use' => $terms_of_use->getInfo(),
-	    'privacy' => $privacy->getInfo(),
-	    'legal_notices' => $legal_notices->getInfo(),
+	    'terms_of_use' => ($terms_of_use) ? $terms_of_use->getInfo() : null,
+	    'privacy' => ($privacy) ? $privacy->getInfo() : null,
+	    'legal_notices' => ($legal_notices) ? $legal_notices->getInfo() : null,
         );
     }
 

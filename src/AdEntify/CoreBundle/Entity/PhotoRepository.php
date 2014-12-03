@@ -9,9 +9,12 @@
 namespace AdEntify\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class PhotoRepository extends EntityRepository
 {
+    const PAGE_LIMIT = 10;
+
     public function deleteLinkedData($photo)
     {
         $em = $this->getEntityManager();
@@ -42,4 +45,31 @@ class PhotoRepository extends EntityRepository
             }
         }
     }
-} 
+
+    public function getPhotos(User $user, $page, $limit = 10)
+    {
+        if ($user->getBrand())
+        {
+            $qb = $this->createQueryBuilder('p');
+            $qb->select('p')
+                ->leftJoin('p.tags', 't')
+                ->where('t.brand = :brand')
+                ->orderBy('p.createdAt', 'DESC')
+                ->setParameters(array(
+                    ':brand' => $user->getBrand()
+                ))
+                ->setFirstResult(($page - 1) * $limit)
+                ->setMaxResults($limit);
+            $photos = new Paginator($qb);
+            $c = count($photos);
+            return array(
+                'photos' => $photos,
+                'count' => $c
+            );
+        }
+        else
+            return $this->findBy(array(
+                'owner' => $user
+            ));
+    }
+}

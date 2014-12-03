@@ -11,7 +11,6 @@ namespace AdEntify\CoreBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use AdEntify\CoreBundle\Entity\User;
 
-
 class TagRepository extends EntityRepository{
 
     public function countBySelector(User $user, $selector, $distinct = '')
