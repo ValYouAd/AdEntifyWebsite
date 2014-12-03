@@ -354,6 +354,38 @@ class Photo
      */
     private $analytics;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="views_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $viewsCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="hovers_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tags_hovers_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $tagsHoversCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tags_clicks_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $tagsClicksCount = 0;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1113,5 +1145,73 @@ class Photo
     public function getAnalytics()
     {
         return $this->analytics;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHoversCount()
+    {
+	return $this->hoversCount;
+    }
+
+    /**
+     * @param int $hoversCount
+     */
+    public function setHoversCount($hoversCount)
+    {
+	$this->hoversCount = $hoversCount;
+	return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsClicksCount()
+    {
+	return $this->tagsClicksCount;
+    }
+
+    /**
+     * @param int $tagsClicksCount
+     */
+    public function setTagsClicksCount($tagsClicksCount)
+    {
+	$this->tagsClicksCount = $tagsClicksCount;
+	return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsHoversCount()
+    {
+	return $this->tagsHoversCount;
+    }
+
+    /**
+     * @param int $tagsHoversCount
+     */
+    public function setTagsHoversCount($tagsHoversCount)
+    {
+	$this->tagsHoversCount = $tagsHoversCount;
+	return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getViewsCount()
+    {
+	return $this->viewsCount;
+    }
+
+    /**
+     * @param int $viewsCount
+     */
+    public function setViewsCount($viewsCount)
+    {
+	$this->viewsCount = $viewsCount;
+	return $this;
     }
 }
