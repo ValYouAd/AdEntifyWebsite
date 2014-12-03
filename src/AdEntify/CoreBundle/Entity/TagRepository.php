@@ -10,6 +10,7 @@ namespace AdEntify\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use AdEntify\CoreBundle\Entity\User;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class TagRepository extends EntityRepository{
 
@@ -33,5 +34,25 @@ class TagRepository extends EntityRepository{
                 ));
         }
         return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function findTagsByPhoto($photo, $page, $limit = 10)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('t')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->where('t.photo = :photo')
+            ->setParameters(array(
+                    ':photo' => $photo
+            ));
+        $tags = new Paginator($qb);
+        $c = count($tags);
+        return array(
+            'tags' => $tags,
+            'count' => $c,
+            'pageLimit' => $limit
+        );
     }
 }

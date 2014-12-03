@@ -4,8 +4,8 @@
 
 {% block stylesheets %}
     {% stylesheets filter='cssrewrite'
-        'bundles/adentifycommon/css/common.css'
-        '@AdEntifyDashboardBundle/Resources/public/css/analytics.css'
+    'bundles/adentifycommon/css/common.css'
+    '@AdEntifyDashboardBundle/Resources/public/css/analytics.css'
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
     {% endstylesheets %}
@@ -20,15 +20,15 @@
         {% endif %}
         <div class="dashboard-content">
             <div class="dashboard-tab">
-                <div>STATISTIQUES</div>
+                <div>STATISTIQUES DE LA PHOTO {{ photoId }}</div>
             </div>
             <div class="dashboard-statistiques">
                 <div class="stats-sum">{{ 'dashboard.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|raw }}</div>
                 <div class="dashboard-global-analytics">
                     <div>
-                        <h2>Statistiques de tags</h2>
+                        <h2>Statistiques de la photo</h2>
                     </div>
-                    <div class="row">
+                    {#<div class="row">
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ globalAnalytics.photosViews }}</p>
                             <label>Impressions images</label>
@@ -61,56 +61,63 @@
                             <p>{{ globalAnalytics.tagsClicksPercentage }}%</p>
                             <label>Taux de clics</label>
                         </div>
-                    </div>
+                    </div>#}
                 </div>
                 <div class="stats-by-img">
-                    <h2>Statistiques par image</h2>
+                    <h2>Tags</h2>
                 </div>
                 <table class="table">
                     <thead>
-                        <tr>
-                            <td>Date de publication</td>
-                            <td>Photo</td>
-                            <td>Infos</td>
-                            <td>Impressions</td>
-                            <td>Clics</td>
-                            <td>Temps d'interaction</td>
-                            <td>Source</td>
-                            <td>Actions</td>
-                        </tr>
+                    <tr>
+                        <td>Date de publication</td>
+                        <td>Type</td>
+                        <td>Lien</td>
+                        <td>Titre</td>
+                        <td>Taux de survols</td>
+                        <td>Clics</td>
+                        <td>Taux de clics</td>
+                        <td>Temps d'interaction</td>
+                    </tr>
                     </thead>
                     <tbody>
-                        {% for photo in analytics.photos.photos %}
-                            <tr>
-                                <td>
-                                    {{ photo.createdAt|date }}
-                                </td>
-                                <td>
-                                    <img src="{{ photo.smallUrl }}" />
-                                </td>
-                                <td>
-                                    {{ photo.caption }} par {{ photo.owner.fullname }}
-                                </td>
-                                <td>
-                                    {{ photo.viewsCount }}
-                                </td>
-                                <td>
-                                    {{ photo.tagsClicksCount }}
-                                </td>
-                                <td>
-                                    {#{{ photo.interactionTime }}#}
-                                </td>
-                                <td>
-                                    {{ photo.source }}
-                                </td>
-                                <td>
-                                    <a href="{{ path('dashboard_details', { 'photo': photo.id }) }}" class="btn btn-primary">Details</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {% for tag in tags.tags %}
+                        <tr>
+                            <td>
+                                {{ tag.createdAt|date }}
+                            </td>
+                            <td>
+                                {{ tag.type }}
+                            </td>
+                            <td>
+                                <a href="{{ tag.link }}">{{ tag.link }}</a>
+                            </td>
+                            <td>
+                                {{ tag.title }}
+                            </td>
+                            <td>
+                                {#{{ tag.hoversCount }}#}
+                            </td>
+                            <td>
+                                {#{{ tag.clicks }}#}
+                            </td>
+                            <td>
+                                {#{{ tag.clicksCount }}#}
+                            </td>
+                            <td>
+                                {#{{ tag.interactionTime }}#}
+                            </td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
-                {% include 'AdEntifyBackofficeBundle:Common:pagination.html.twig' with {'count': analytics.photos.count, 'pageLimit': analytics.photos.pageLimit, route: 'dashboard_stats'} %}
+                {% if tags.count > tags.tags.pageLimit %}
+                    <ul class="pagination">
+                        {% set pages = (tags.count / tags.pageLimit)|ceil %}
+                        {% for i in 1..pages %}
+                            <li><a href="{{ path('dashboard_details', { 'photo': photoId, 'page': i }) }}">{{ i }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
         </div>
     </div>

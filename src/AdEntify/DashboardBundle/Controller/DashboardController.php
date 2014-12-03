@@ -48,4 +48,24 @@ class DashboardController extends Controller
         } else
             throw new HttpException(403);
     }
+
+    /**
+     * @Route("{_locale}/app/my/dashboard/analytics/details/{photo}/{page}",
+     *  defaults={"_locale" = "en", "page" = "1"},
+     *  requirements={"_locale" = "en|fr", "photo" = "\d+", "page" = "\d+"},
+     *  name="dashboard_details")
+     * @Template()
+     */
+    public function detailsAction($photo, $page = 1)
+    {
+        if ($this->getUser())
+        {
+            return array(
+                    'tags' => $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Tag')->findTagsByPhoto($photo, $page),
+                    'photoId' => $photo
+                );
+        }
+        else
+            throw new HttpException(403);
+    }
 }
