@@ -38,16 +38,34 @@ class AnalyticsCommand extends ContainerAwareCommand
 	$this->setup();
 
 	$output->writeln('Update photos analytics');
-	$sql = 'UPDATE photos as p SET views_count = (SELECT COUNT(a.id) FROM analytics as a WHERE a.photo_id = p.id AND a.action = :view AND a.element = :photoElement),
-		    hovers_count = (SELECT COUNT(a.id) FROM analytics as a WHERE a.photo_id = p.id AND a.action = :hover AND a.element = :photoElement),
-		    tags_hovers_count = (SELECT COUNT(a.id) FROM analytics as a LEFT JOIN tags as t ON a.tag_id = t.id WHERE t.photo_id = p.id AND a.action = :hover AND a.element = :tagElement),
-		    tags_clicks_count = (SELECT COUNT(a.id) FROM analytics as a LEFT JOIN tags as t ON a.tag_id = t.id WHERE t.photo_id = p.id AND a.action = :clic AND a.element = :tagElement)';
+	$sql = 'UPDATE photos as p SET
+		views_count = (SELECT COUNT(a.id) FROM analytics as a WHERE a.photo_id = p.id AND a.action = :view AND a.element = :photoElement),
+		hovers_count = (SELECT COUNT(a.id) FROM analytics as a WHERE a.photo_id = p.id AND a.action = :hover AND a.element = :photoElement),
+		tags_hovers_count = (SELECT COUNT(a.id) FROM analytics as a LEFT JOIN tags as t ON a.tag_id = t.id WHERE t.photo_id = p.id AND a.action = :hover AND a.element = :tagElement),
+		tags_clicks_count = (SELECT COUNT(a.id) FROM analytics as a LEFT JOIN tags as t ON a.tag_id = t.id WHERE t.photo_id = p.id AND a.action = :click AND a.element = :tagElement),
+		interaction_time = (SELECT AVG(a.action_value) FROM analytics as a WHERE a.photo_id = p.id AND a.action = :interaction AND a.element = :photoElement AND a.action_value IS NOT NULL)';
 	$this->em->getConnection()->executeUpdate($sql, array(
 	    'photoElement' => Analytic::ELEMENT_PHOTO,
 	    'tagElement' => Analytic::ELEMENT_TAG,
 	    'hover' => Analytic::ACTION_HOVER,
-	    'clic' => Analytic::ACTION_CLICK,
-	    'view' => Analytic::ACTION_VIEW
+	    'click' => Analytic::ACTION_CLICK,
+	    'view' => Analytic::ACTION_VIEW,
+	    'interaction' => Analytic::ACTION_INTERACTION
+	));
+
+	$this->em->flush();
+
+	$output->writeln('Update tags analytics');
+	$sql = 'UPDATE tags as t SET
+		hovers_count = (SELECT COUNT(a.id) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :hover AND a.element = :tagElement),
+		clicks_count = (SELECT COUNT(a.id) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :click AND a.element = :tagElement),
+		interaction_time = (SELECT AVG(a.action_value) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :interaction AND a.element = :tagElement AND a.action_value IS NOT NULL)';
+	$this->em->getConnection()->executeUpdate($sql, array(
+	    'photoElement' => Analytic::ELEMENT_PHOTO,
+	    'tagElement' => Analytic::ELEMENT_TAG,
+	    'hover' => Analytic::ACTION_HOVER,
+	    'click' => Analytic::ACTION_CLICK,
+	    'interaction' => Analytic::ACTION_INTERACTION
 	));
 
 	$this->em->flush();
@@ -58,6 +76,6 @@ class AnalyticsCommand extends ContainerAwareCommand
      */
     private function setup()
     {
-	$this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
+	    $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 }
