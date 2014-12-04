@@ -27,40 +27,40 @@
                     <div>
                         <h2>Statistiques de la photo</h2>
                     </div>
-                    {#<div class="row">
+                    <div class="row">
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.photosViews }}</p>
+                            <p>{{ photo.viewsCount }}</p>
                             <label>Impressions images</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.photosHovers }}</p>
-                            <label>Survols d'images avec la marque</label>
+                            <p>{{ photo.hoversCount }}</p>
+                            <label>Survols de l'image</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.tagsHovers }}</p>
-                            <label>Survols de tags de la marque</label>
+                            <p>{{ analytics.tagsHovers }}</p>
+                            <label>Survols de tags de l'image</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.tagsClicks }}</p>
-                            <label>Clics sur les tags de la marque</label>
+                            <p>{{ analytics.tagsClicks }}</p>
+                            <label>Clics sur les tags de l'image</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="global-analytics col-xs-6 col-md-3">
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.photosHoversPercentage }}%</p>
+                            <p>{{ analytics.photosHoversPercentage }}%</p>
                             <label>Taux de survol</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.tagsHoversPercentage }}%</p>
+                            <p>{{ analytics.tagsHoversPercentage }}%</p>
                             <label>Taux de survol</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.tagsClicksPercentage }}%</p>
+                            <p>{{ analytics.tagsClicksPercentage }}%</p>
                             <label>Taux de clics</label>
                         </div>
-                    </div>#}
+                    </div>
                 </div>
                 <div class="stats-by-img">
                     <h2>Tags</h2>
@@ -94,13 +94,13 @@
                                 {{ tag.title }}
                             </td>
                             <td>
-                                hover Rate
+                                {#hover Rate#}
                             </td>
                             <td>
                                 {{ tag.clicksCount }}
                             </td>
                             <td>
-                                clicks rate
+                                {#clicks rate#}
                                 {#{{ tag.clicksCount }}#}
                             </td>
                             <td>
@@ -114,11 +114,11 @@
                     <ul class="pagination">
                         {% set pages = (tags.count / tags.pageLimit)|ceil %}
                         {% for i in 1..pages %}
-                            <li><a href="{{ path('dashboard_details', { 'photo': photoId, 'page': i }) }}">{{ i }}</a></li>
+                            <li><a href="{{ path('dashboard_details', { 'photoId': photoId, 'page': i }) }}">{{ i }}</a></li>
                         {% endfor %}
                     </ul>
                 {% endif %}
-                <a href="{{ path('dashboard_stats') }}" class="btn btn-primary">Precedent</a>
+                <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary">Precedent</a>
             </div>
         </div>
     </div>

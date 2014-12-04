@@ -147,8 +147,39 @@ class AnalyticRepository extends EntityRepository
         }
     }
 
-    public function getTagsCount()
+    public function findAnalyticsByPhoto($photo)
     {
+        $analytics = array(
+            'tagsHovers' => $this->getPhotoTagsCountByAction(Analytic::ACTION_HOVER, $photo),
+            'tagsClicks' => $this->getPhotoTagsCountByAction(Analytic::ACTION_CLICK, $photo),
+            'photosHoversPercentage' => 0,
+            'tagsHoversPercentage' => 0,
+            'tagsClicksPercentage' => 0
+        );
 
+        // Calculate percentages
+        if ($photo->getViewsCount() > 0)
+            $analytics['photosHoversPercentage'] = ($photo->getHoversCount() / $photo->getViewsCount()) * 100;
+        if ($photo->getHoversCount() > 0)
+            $analytics['tagsHoversPercentage'] = ($analytics['tagsHovers'] / $photo->getHoversCount()) * 100;
+        if ($analytics['tagsHovers'] > 0)
+            $analytics['tagsClicksPercentage'] = ($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100;
+
+        return $analytics;
+    }
+
+    private function getPhotoTagsCountByAction($action, $photo)
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->where('a.photo = :photo')
+            ->andWhere('a.element = :element')
+            ->andWhere('a.action = :action')
+            ->setParameters(array(
+                'element' => Analytic::ELEMENT_TAG,
+                'action' => $action,
+                'photo' => $photo
+            ))
+            ->getQuery()->getSingleScalarResult();
     }
 }

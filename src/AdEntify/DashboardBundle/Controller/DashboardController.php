@@ -39,6 +39,7 @@ class DashboardController extends Controller
             $result['nbUsers'] = $tagRepository->countBySelector($this->getUser(), 'owner', 'DISTINCT');
             $result['nbPhotos'] = $tagRepository->countBySelector($this->getUser(), 'photo', 'DISTINCT');
             $result['photos'] = $em->getRepository('AdEntifyCoreBundle:Photo')->getPhotos($this->getUser(), $page);
+            $this->get('session')->set('dashboardPage', $page);
             return array(
                 'analytics' => $result,
                 'brand' => $this->getUser()->getBrand(),
@@ -50,24 +51,27 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("{_locale}/app/my/dashboard/analytics/details/{photo}/{page}",
+     * @Route("{_locale}/app/my/dashboard/analytics/details/{photoId}/{page}",
      *  defaults={"_locale" = "en", "page" = "1"},
-     *  requirements={"_locale" = "en|fr", "photo" = "\d+", "page" = "\d+"},
+     *  requirements={"_locale" = "en|fr", "photoId" = "\d+", "page" = "\d+"},
      *  name="dashboard_details")
      * @Template()
      */
-    public function detailsAction($photo, $page = 1)
+    public function detailsAction($photoId, $page = 1)
     {
         if ($this->getUser())
         {
             $tagRepository = $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Tag');
+            $photo = $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Photo')->find($photoId);
 
             return array(
-                    'photo' => $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Photo')->find($photo),
+                    'photo' => $photo,
                     'tags' => $tagRepository->findTagsByPhoto($photo, $page),
                     'nbTaggers' => $tagRepository->getTaggersCountByPhoto($photo),
-                    'photoId' => $photo
-                );
+                    'photoId' => $photoId,
+                    'analytics' => $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Analytic')->findAnalyticsByPhoto($photo),
+                    'page' => $this->get('session')->get('dashboardPage')
+            );
         }
         else
             throw new HttpException(403);

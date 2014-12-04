@@ -98,13 +98,13 @@
                                     {{ photo.tagsClicksCount }}
                                 </td>
                                 <td>
-                                    {#{{ photo.interactionTime }}#}
+                                    {{ photo.interactionTime }}
                                 </td>
                                 <td>
                                     {{ photo.source }}
                                 </td>
                                 <td>
-                                    <a href="{{ path('dashboard_details', { 'photo': photo.id }) }}" class="btn btn-primary">Details</a>
+                                    <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}" class="btn btn-primary">Details</a>
                                 </td>
                             </tr>
                         {% endfor %}
