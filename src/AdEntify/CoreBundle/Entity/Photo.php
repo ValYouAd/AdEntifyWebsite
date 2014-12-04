@@ -394,6 +394,30 @@ class Photo
      */
     private $interactionTime = 0;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="hovers_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversPercentage = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="tags_hovers_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $tagsHoversPercentage = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="tags_clicks_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $tagsClicksPercentage = 0;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1238,5 +1262,120 @@ class Photo
     {
         $this->interactionTime = $interactionTime;
         return $this;
+    }
+
+    /**
+     * Set hoversPercentage
+     *
+     * @param float $hoversPercentage
+     * @return Photo
+     */
+    public function setHoversPercentage($hoversPercentage)
+    {
+        $this->hoversPercentage = $hoversPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get hoversPercentage
+     *
+     * @return float 
+     */
+    public function getHoversPercentage()
+    {
+        return $this->hoversPercentage;
+    }
+
+    /**
+     * Set tagsHoversPercentage
+     *
+     * @param float $tagsHoversPercentage
+     * @return Photo
+     */
+    public function setTagsHoversPercentage($tagsHoversPercentage)
+    {
+        $this->tagsHoversPercentage = $tagsHoversPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get tagsHoversPercentage
+     *
+     * @return float 
+     */
+    public function getTagsHoversPercentage()
+    {
+        return $this->tagsHoversPercentage;
+    }
+
+    /**
+     * Set tagsClicksPercentage
+     *
+     * @param float $tagsClicksPercentage
+     * @return Photo
+     */
+    public function setTagsClicksPercentage($tagsClicksPercentage)
+    {
+        $this->tagsClicksPercentage = $tagsClicksPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get tagsClicksPercentage
+     *
+     * @return float 
+     */
+    public function getTagsClicksPercentage()
+    {
+        return $this->tagsClicksPercentage;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \AdEntify\CoreBundle\Entity\Category $categories
+     * @return Photo
+     */
+    public function addCategorie(\AdEntify\CoreBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+    
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \AdEntify\CoreBundle\Entity\Category $categories
+     */
+    public function removeCategorie(\AdEntify\CoreBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Add favoritesUsers
+     *
+     * @param \AdEntify\CoreBundle\Entity\User $favoritesUsers
+     * @return Photo
+     */
+    public function addFavoritesUser(\AdEntify\CoreBundle\Entity\User $favoritesUsers)
+    {
+        $this->favoritesUsers[] = $favoritesUsers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove favoritesUsers
+     *
+     * @param \AdEntify\CoreBundle\Entity\User $favoritesUsers
+     */
+    public function removeFavoritesUser(\AdEntify\CoreBundle\Entity\User $favoritesUsers)
+    {
+        $this->favoritesUsers->removeElement($favoritesUsers);
     }
 }
