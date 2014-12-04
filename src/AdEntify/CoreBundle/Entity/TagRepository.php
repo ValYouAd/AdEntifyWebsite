@@ -55,4 +55,15 @@ class TagRepository extends EntityRepository{
             'pageLimit' => $limit
         );
     }
+
+    public function getTaggersCountByPhoto($photo)
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb->select('COUNT(DISTINCT t.owner)')
+            ->where('t.photo = :photo')
+            ->setParameters(array(
+                'photo' => $photo
+            ));
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

@@ -14,16 +14,15 @@
 {% block body %}
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
     <div class="dashboard-stats-container">
-        {% if brand and brand.originalLogoUrl %}<div class="dashboard-logo" style="background-image: url('{{ brand.originalLogoUrl }}')"></div>
-        {% elseif brand %} <h1>{{ brand.name }}</h1>
-        {% else %}<h1>{{ user.fullname }}</h1>
+        {% if photo %}
+            <div class="dashboard-photo-details" style="background-image: url('{{ photo.largeUrl }}')"></div>
         {% endif %}
         <div class="dashboard-content">
             <div class="dashboard-tab">
                 <div>STATISTIQUES DE LA PHOTO {{ photoId }}</div>
             </div>
             <div class="dashboard-statistiques">
-                <div class="stats-sum">{{ 'dashboard.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|raw }}</div>
+                <div class="stats-sum">{{ 'dashboard.stats.detailsSum'|trans({'%nbTagged%': tags.count, '%nbUsers%': nbTaggers })|raw }}</div>
                 <div class="dashboard-global-analytics">
                     <div>
                         <h2>Statistiques de la photo</h2>
@@ -95,16 +94,17 @@
                                 {{ tag.title }}
                             </td>
                             <td>
-                                {#{{ tag.hoversCount }}#}
+                                hover Rate
                             </td>
                             <td>
-                                {#{{ tag.clicks }}#}
+                                {{ tag.clicksCount }}
                             </td>
                             <td>
+                                clicks rate
                                 {#{{ tag.clicksCount }}#}
                             </td>
                             <td>
-                                {#{{ tag.interactionTime }}#}
+                                {{ tag.interactionTime }}
                             </td>
                         </tr>
                     {% endfor %}
@@ -118,6 +118,7 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
+                <a href="{{ path('dashboard_stats') }}" class="btn btn-primary">Precedent</a>
             </div>
         </div>
     </div>

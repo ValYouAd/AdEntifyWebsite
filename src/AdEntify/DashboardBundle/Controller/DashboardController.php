@@ -60,8 +60,12 @@ class DashboardController extends Controller
     {
         if ($this->getUser())
         {
+            $tagRepository = $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Tag');
+
             return array(
-                    'tags' => $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:Tag')->findTagsByPhoto($photo, $page),
+                    'photo' => $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Photo')->find($photo),
+                    'tags' => $tagRepository->findTagsByPhoto($photo, $page),
+                    'nbTaggers' => $tagRepository->getTaggersCountByPhoto($photo),
                     'photoId' => $photo
                 );
         }

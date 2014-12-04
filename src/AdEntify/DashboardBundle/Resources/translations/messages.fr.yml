@@ -1,3 +1,4 @@
 dashboard:
   stats:
     sum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
+    detailsSum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify'

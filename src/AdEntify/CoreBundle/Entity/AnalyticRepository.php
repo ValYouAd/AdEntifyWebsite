@@ -146,4 +146,9 @@ class AnalyticRepository extends EntityRepository
                 ->getQuery()->getSingleScalarResult();
         }
     }
+
+    public function getTagsCount()
+    {
+
+    }
 }

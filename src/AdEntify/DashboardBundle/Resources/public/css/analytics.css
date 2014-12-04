@@ -81,3 +81,10 @@ strong {
     padding-top: 20px;
     padding-bottom: 40px;
 }
+.dashboard-photo-details {
+    height: 300px;
+    width: 500px;
+    margin: 0px auto 15px auto;
+    background: no-repeat center;
+    background-size: contain;
+}
