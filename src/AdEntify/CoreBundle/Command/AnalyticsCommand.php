@@ -27,13 +27,13 @@ class AnalyticsCommand extends ContainerAwareCommand
 
     #endregion
 
-    protected function configure ()
+    protected function configure()
     {
         $this->setName('adentify:analytics')
             ->setDescription('Consolidate analytics');
     }
 
-    protected function execute (InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->setup();
 
@@ -59,13 +59,18 @@ class AnalyticsCommand extends ContainerAwareCommand
         $sql = 'UPDATE tags as t SET
             hovers_count = (SELECT COUNT(a.id) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :hover AND a.element = :tagElement),
             clicks_count = (SELECT COUNT(a.id) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :click AND a.element = :tagElement),
+            hovers_percentage = (((SELECT COUNT(a.id) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :hover AND a.element = :tagElement) /
+                                  (SELECT COUNT(a.id) FROM analytics as a WHERE t.photo_id = a.photo_id AND a.action = :photoView AND a.element = :photoElement)) * 100),
+            clicks_percentage = (((SELECT COUNT(a.id) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :click AND a.element = :tagElement) /
+                                  (SELECT COUNT(a.id) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :hover AND a.element = :tagElement)) * 100),
             interaction_time = (SELECT AVG(a.action_value) FROM analytics as a WHERE t.id = a.tag_id AND a.action = :interaction AND a.element = :tagElement AND a.action_value IS NOT NULL)';
         $this->em->getConnection()->executeUpdate($sql, array(
             'photoElement' => Analytic::ELEMENT_PHOTO,
             'tagElement' => Analytic::ELEMENT_TAG,
             'hover' => Analytic::ACTION_HOVER,
             'click' => Analytic::ACTION_CLICK,
-            'interaction' => Analytic::ACTION_INTERACTION
+            'interaction' => Analytic::ACTION_INTERACTION,
+            'photoView' => Analytic::ACTION_VIEW
         ));
 
         $this->em->flush();
@@ -76,6 +81,6 @@ class AnalyticsCommand extends ContainerAwareCommand
      */
     private function setup()
     {
-	    $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 }

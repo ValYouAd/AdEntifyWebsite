@@ -276,10 +276,10 @@ class Tag
     /**
      * @var float
      *
-     * @ORM\Column(name="hovers_percentage", type="float")
+     * @ORM\Column(name="hover_percentage", type="float")
      * @Serializer\Groups({"details", "list"})
      */
-    private $hoversPercentage = 0;
+    private $hoverPercentage = 0;
 
     /**
      * @var float
@@ -805,51 +805,5 @@ class Tag
     {
         $this->interactionTime = $interactionTime;
         return $this;
-    }
-
-    /**
-     * Set hoversPercentage
-     *
-     * @param float $hoversPercentage
-     * @return Tag
-     */
-    public function setHoversPercentage($hoversPercentage)
-    {
-        $this->hoversPercentage = $hoversPercentage;
-    
-        return $this;
-    }
-
-    /**
-     * Get hoversPercentage
-     *
-     * @return float 
-     */
-    public function getHoversPercentage()
-    {
-        return $this->hoversPercentage;
-    }
-
-    /**
-     * Set clicksPercentage
-     *
-     * @param float $clicksPercentage
-     * @return Tag
-     */
-    public function setClicksPercentage($clicksPercentage)
-    {
-        $this->clicksPercentage = $clicksPercentage;
-    
-        return $this;
-    }
-
-    /**
-     * Get clicksPercentage
-     *
-     * @return float 
-     */
-    public function getClicksPercentage()
-    {
-        return $this->clicksPercentage;
     }
 }

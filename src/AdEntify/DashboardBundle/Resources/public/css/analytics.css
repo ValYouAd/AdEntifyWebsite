@@ -88,3 +88,10 @@ strong {
     background: no-repeat center;
     background-size: contain;
 }
+.btn-go-back {
+    position: relative;
+    float: right;
+    top: 50%;
+    margin-top: -19px;
+    margin-right: -200px;
+}

@@ -14,9 +14,9 @@
 {% block body %}
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
     <div class="dashboard-stats-container">
-        {% if photo %}
-            <div class="dashboard-photo-details" style="background-image: url('{{ photo.largeUrl }}')"></div>
-        {% endif %}
+        <div class="dashboard-photo-details" style="background-image: url('{{ photo.largeUrl }}')">
+            <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary btn-go-back">Precedent</a>
+        </div>
         <div class="dashboard-content">
             <div class="dashboard-tab">
                 <div>STATISTIQUES DE LA PHOTO {{ photoId }}</div>
@@ -94,14 +94,13 @@
                                 {{ tag.title }}
                             </td>
                             <td>
-                                {#hover Rate#}
+                                {{ tag.hoversPercentage }}
                             </td>
                             <td>
                                 {{ tag.clicksCount }}
                             </td>
                             <td>
-                                {#clicks rate#}
-                                {#{{ tag.clicksCount }}#}
+                                {{ tag.clicksPercentage }}
                             </td>
                             <td>
                                 {{ tag.interactionTime }}
@@ -118,7 +117,6 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
-                <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary">Precedent</a>
             </div>
         </div>
     </div>

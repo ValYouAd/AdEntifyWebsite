@@ -394,6 +394,22 @@ class Photo
      */
     private $interactionTime = 0;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="hovers_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversPercentage = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="clicks_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $clicksPercentage = 0;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1238,5 +1254,74 @@ class Photo
     {
         $this->interactionTime = $interactionTime;
         return $this;
+    }
+
+    /**
+     * Set clicksPercentage
+     *
+     * @param float $clicksPercentage
+     * @return Photo
+     */
+    public function setClicksPercentage($clicksPercentage)
+    {
+        $this->clicksPercentage = $clicksPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get clicksPercentage
+     *
+     * @return float 
+     */
+    public function getClicksPercentage()
+    {
+        return $this->clicksPercentage;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \AdEntify\CoreBundle\Entity\Category $categories
+     * @return Photo
+     */
+    public function addCategorie(\AdEntify\CoreBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+    
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \AdEntify\CoreBundle\Entity\Category $categories
+     */
+    public function removeCategorie(\AdEntify\CoreBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Add favoritesUsers
+     *
+     * @param \AdEntify\CoreBundle\Entity\User $favoritesUsers
+     * @return Photo
+     */
+    public function addFavoritesUser(\AdEntify\CoreBundle\Entity\User $favoritesUsers)
+    {
+        $this->favoritesUsers[] = $favoritesUsers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove favoritesUsers
+     *
+     * @param \AdEntify\CoreBundle\Entity\User $favoritesUsers
+     */
+    public function removeFavoritesUser(\AdEntify\CoreBundle\Entity\User $favoritesUsers)
+    {
+        $this->favoritesUsers->removeElement($favoritesUsers);
     }
 }
