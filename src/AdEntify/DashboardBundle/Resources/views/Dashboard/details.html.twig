@@ -37,11 +37,11 @@
                             <label>Survols de l'image</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ analytics.tagsHovers }}</p>
+                            <p>{{ photo.tagsHoversCount }}</p>
                             <label>Survols de tags de l'image</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ analytics.tagsClicks }}</p>
+                            <p>{{ photo.tagsClicksCount }}</p>
                             <label>Clics sur les tags de l'image</label>
                         </div>
                     </div>
@@ -49,15 +49,15 @@
                         <div class="global-analytics col-xs-6 col-md-3">
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ analytics.photosHoversPercentage }}%</p>
+                            <p>{{ photo.hoversPercentage|round(2) }}%</p>
                             <label>Taux de survol</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ analytics.tagsHoversPercentage }}%</p>
+                            <p>{{ photo.tagsHoversPercentage|round(2) }}%</p>
                             <label>Taux de survol</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ analytics.tagsClicksPercentage }}%</p>
+                            <p>{{ photo.tagsClicksPercentage|round(2) }}%</p>
                             <label>Taux de clics</label>
                         </div>
                     </div>
@@ -94,13 +94,13 @@
                                 {{ tag.title }}
                             </td>
                             <td>
-                                {{ tag.hoversPercentage }}
+                                {{ tag.hoversPercentage|round(2) }}
                             </td>
                             <td>
                                 {{ tag.clicksCount }}
                             </td>
                             <td>
-                                {{ tag.clicksPercentage }}
+                                {{ tag.clicksPercentage|round(2) }}
                             </td>
                             <td>
                                 {{ tag.interactionTime }}

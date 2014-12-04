@@ -69,7 +69,7 @@ class DashboardController extends Controller
                     'tags' => $tagRepository->findTagsByPhoto($photo, $page),
                     'nbTaggers' => $tagRepository->getTaggersCountByPhoto($photo),
                     'photoId' => $photoId,
-                    'analytics' => $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Analytic')->findAnalyticsByPhoto($photo),
+//                    'analytics' => $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Analytic')->findAnalyticsByPhoto($photo),
                     'page' => $this->get('session')->get('dashboardPage')
             );
         }

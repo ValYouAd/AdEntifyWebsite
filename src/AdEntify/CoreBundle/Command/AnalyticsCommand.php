@@ -44,7 +44,8 @@ class AnalyticsCommand extends ContainerAwareCommand
             tags_hovers_count = (SELECT COUNT(a.id) FROM analytics as a LEFT JOIN tags as t ON a.tag_id = t.id WHERE t.photo_id = p.id AND a.action = :hover AND a.element = :tagElement),
             tags_clicks_count = (SELECT COUNT(a.id) FROM analytics as a LEFT JOIN tags as t ON a.tag_id = t.id WHERE t.photo_id = p.id AND a.action = :click AND a.element = :tagElement),
             hovers_percentage = ((p.hovers_count / NULLIF(p.views_count, 0)) * 100),
-            tags_hovers_percentage = (((p.tags_hovers_count / (SELECT COUNT(t.id) FROM tags as t WHERE t.photo_id = p.id)) / NULLIF(p.hovers_count, 0)) * 100),
+            tags_hovers_percentage = (((p.tags_hovers_count / NULLIF((SELECT COUNT(t.id) FROM tags as t WHERE t.photo_id = p.id), 0)) / NULLIF(p.hovers_count, 0)) * 100),
+            tags_clicks_percentage = (((p.tags_clicks_count / NULLIF((SELECT COUNT(t.id) FROM tags as t WHERE t.photo_id = p.id), 0)) / NULLIF(p.tags_hovers_count, 0)) * 100),
             interaction_time = (SELECT AVG(a.action_value) FROM analytics as a WHERE a.photo_id = p.id AND a.action = :interaction AND a.element = :photoElement AND a.action_value IS NOT NULL)';
         $this->em->getConnection()->executeUpdate($sql, array(
             'photoElement' => Analytic::ELEMENT_PHOTO,
