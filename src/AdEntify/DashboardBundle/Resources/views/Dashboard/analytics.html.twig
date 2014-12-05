@@ -74,7 +74,7 @@
                             <td>Infos</td>
                             <td>Impressions</td>
                             <td>Clics</td>
-                            <td>Temps d'interaction</td>
+			    <td>Temps d'interaction moyen</td>
                             <td>Source</td>
                             <td>Actions</td>
                         </tr>
@@ -106,7 +106,7 @@
                                     <div class="dashboard-percentage">{{ photo.tagsClicksCount }}</div>
                                 </td>
                                 <td class="dashboard-percentage-td">
-                                    <div class="dashboard-percentage">{{ photo.interactionTime }}</div>
+				    <div class="dashboard-percentage">{{ photo.interactionTime/1000 }}s</div>
                                 </td>
                                 <td>
                                     {{ photo.source }} - {{ photo.sourceUrl }}

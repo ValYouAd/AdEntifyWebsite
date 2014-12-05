@@ -75,7 +75,7 @@
                         <td>Taux de survols</td>
                         <td>Clics</td>
                         <td>Taux de clics</td>
-                        <td>Temps d'interaction</td>
+			<td>Temps d'interaction moyen</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -107,7 +107,7 @@
                                 <span class="photo-details-percentage">{{ tag.clicksPercentage|round(2) }}</span>
                             </td>
                             <td>
-                                <span>{{ tag.interactionTime }}</span>
+				<span>{{ tag.interactionTime/1000 }}s</span>
                             </td>
                         </tr>
                     {% endfor %}

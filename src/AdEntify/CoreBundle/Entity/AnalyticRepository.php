@@ -17,6 +17,9 @@ class AnalyticRepository extends EntityRepository
         $yesterday = new \DateTime();
         $yesterday = $yesterday->sub(new \DateInterval('P1D'));
 
+	if ($analytic->getAction() == Analytic::ACTION_INTERACTION)
+	    return false;
+
         $qb = $this->createQueryBuilder('analytic');
         $qb->where('analytic.ipAddress = :ipAddress')
             ->andWhere('analytic.createdAt > :yesterday')
