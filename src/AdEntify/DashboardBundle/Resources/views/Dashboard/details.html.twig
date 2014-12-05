@@ -14,8 +14,8 @@
 {% block body %}
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
     <div class="dashboard-stats-container">
-        <div class="dashboard-photo-details" style="background-image: url('{{ photo.largeUrl }}')">
-            <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary btn-go-back">Precedent</a>
+        <div class="dashboard-photo-details">
+            <img class="photo-details-img" src="{{ photo.largeUrl }}" />
         </div>
         <div class="dashboard-content">
             <div class="dashboard-tab">
@@ -121,6 +121,7 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
+                <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary btn-go-back">Precedent</a>
             </div>
         </div>
     </div>

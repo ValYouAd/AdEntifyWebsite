@@ -86,14 +86,18 @@
                                     <div class="dashboard-date">{{ photo.createdAt|date }}</div>
                                 </td>
                                 <td class="dashboard-photo-preview-td">
-                                    <div class="dashboard-photo-preview" style="background: url({{ photo.smallUrl }})"></div>
+                                    <div class="dashboard-photo-preview">
+                                        <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}">
+                                            <img src="{{ photo.smallUrl }}"/>
+                                            {#<div class="dashboard-photo-preview" style="background: url({{ photo.smallUrl }})"></div>#}
+                                        </a>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="dashboard-photo-caption">
                                         {{ photo.caption }}
                                         <div class="dashboard-photo-author">par {{ photo.owner.fullname }}</div>
                                     </div>
-
                                 </td>
                                 <td class="dashboard-percentage-td">
                                     <div class="dashboard-percentage">{{ photo.viewsCount }}</div>
