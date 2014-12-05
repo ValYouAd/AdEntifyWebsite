@@ -26,6 +26,10 @@ class PhotoType extends AbstractType
                 'required' => false,
                 'description' => 'Source of the photo : facebook|flickr|instagram|googleplus|local|wordpress|mobile'
             ))
+            ->add('source_url', 'text', array(
+                'required' => false,
+                'description' => 'Url source of the photo'
+            ))
             ->add('photo_source_id', 'text', array(
                 'required' => false,
                 'description' => 'Photo ID of the source'

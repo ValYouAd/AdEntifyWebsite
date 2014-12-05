@@ -354,9 +354,6 @@ strong {
     width: 500px;
     margin: 0px auto 15px auto;
     text-align: center;
-    /*background: no-repeat center;*/
-    /*background-size: contain;*/
-    /*box-shadow: 1px 1px 8px 0px #656565;*/
 }
 .photo-details-img {
     max-height: 300px;
