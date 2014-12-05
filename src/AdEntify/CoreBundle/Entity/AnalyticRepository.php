@@ -15,11 +15,9 @@ class AnalyticRepository extends EntityRepository
     public function isAlreadyTracked(Analytic $analytic)
     {
         $sinceDate = new \DateTime();
-
         switch ($analytic->getAction())
         {
             case Analytic::ACTION_INTERACTION:
-                return false;
             case Analytic::ACTION_HOVER:
                 $sinceDate = $sinceDate->sub(new \DateInterval('PT2S'));
             case Analytic::ACTION_VIEW:
@@ -30,7 +28,7 @@ class AnalyticRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('analytic');
         $qb->where('analytic.ipAddress = :ipAddress')
-            ->andWhere('analytic.createdAt > :yesterday')
+            ->andWhere('analytic.createdAt > :sinceDate')
             ->andWhere('analytic.element = :element')
             ->andWhere('analytic.action = :action');
 
