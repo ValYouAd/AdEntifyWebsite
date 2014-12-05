@@ -88,10 +88,14 @@
                                 {{ tag.type }}
                             </td>
                             <td>
-                                <a href="{{ tag.link }}">{{ tag.link }}</a>
+                                <div class="dashboard-photo-details-link">
+                                    <a href="{{ tag.link }}">{{ tag.link }}</a>
+                                </div>
                             </td>
                             <td>
-                                {{ tag.title }}
+                                <div class="dashboard-photo-details-title">
+                                    {{ tag.title }}
+                                </div>
                             </td>
                             <td>
                                 {{ tag.hoversPercentage|round(2) }}
