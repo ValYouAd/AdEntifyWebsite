@@ -25,7 +25,7 @@ class AnalyticRepository extends EntityRepository
             case Analytic::ACTION_VIEW:
             case Analytic::ACTION_CLICK:
             default:
-                $sinceDate = $sinceDate->sub(new \DateInterval('P1D'));
+                $sinceDate = $sinceDate->sub(new \DateInterval('PT1H'));
         }
 
         $qb = $this->createQueryBuilder('analytic');
