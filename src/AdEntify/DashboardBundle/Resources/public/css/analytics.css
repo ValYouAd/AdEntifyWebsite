@@ -8,20 +8,12 @@
     padding: 20px 0 20px 0;
     background: white;
 }
-.dashboard-content {
-    /*position: relative;*/
-    /*top: 100px;*/
-}
 .dashboard-logo {
     height: 80px;
     width: 100px;
-    /*position: absolute;*/
-    /*left: 50%;*/
     margin: 0px auto 15px auto;
-    /*margin-left: -50px;*/
     background: no-repeat center;
     background-size: contain;
-    /*background:lightblue;*/
 }
 .dashboard-tab {
     text-align: center;
@@ -29,7 +21,6 @@
     font-size: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
-    /*background:lightgrey;*/
 }
 .dashboard-statistiques {
     border-top: 1px solid #D9DDE0;
@@ -53,11 +44,9 @@
     font-size: 18px;
     margin-left: 20px;
     margin-bottom: 20px;
-    /*background: lightcyan;*/
 }
 .global-analytics {
     text-align: center;
-    /*background: lightgoldenrodyellow;*/
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -94,4 +83,50 @@ strong {
     top: 50%;
     margin-top: -19px;
     margin-right: -200px;
+}
+.dashboard-content table {
+    table-layout: fixed;
+}
+.dashboard-content table td {
+    vertical-align: middle!important;
+    padding: 8px!important;
+    text-align: center;
+}
+.dashboard-content table a {
+    text-decoration: initial;
+    color: white;
+}
+.dashboard-content .dashboard-photo-list .dashboard-photo-caption{
+    overflow: scroll;
+    height: 85px;
+}
+.dashboard-content .dashboard-photo-list td:nth-child(1),
+.dashboard-content .dashboard-table-photo-details td:nth-child(1)
+{
+    width: 165px;
+}
+.dashboard-content .dashboard-photo-list td:nth-child(2),
+.dashboard-content .dashboard-table-photo-details td:nth-child(2)
+{
+    width: 103px;
+}
+.dashboard-content .dashboard-photo-list td:nth-child(n+4):nth-child(-n+6),
+.dashboard-content .dashboard-table-photo-details td:nth-child(n+5) {
+    width: 80px;
+}
+.dashboard-content .dashboard-photo-list td:nth-child(8) {
+    width: 150px;
+}
+
+.dashboard-content table .dashboard-photo-preview-td {
+    padding: 1px!important;
+}
+.dashboard-content table .dashboard-photo-preview {
+    min-height: 100px;
+    background-repeat: no-repeat!important;
+    background-position: center!important;
+    background-size: contain!important;
+}
+.dashboard-content .pagination {
+    margin: 0 0 0 10px;
 }

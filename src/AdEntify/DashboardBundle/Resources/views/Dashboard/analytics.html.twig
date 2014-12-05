@@ -66,7 +66,7 @@
                 <div class="stats-by-img">
                     <h2>Statistiques par image</h2>
                 </div>
-                <table class="table">
+                <table class="table dashboard-photo-list">
                     <thead>
                         <tr>
                             <td>Date de publication</td>
@@ -83,22 +83,24 @@
                         {% for photo in analytics.photos.photos %}
                             <tr>
                                 <td>
-                                    {{ photo.createdAt|date }}
+                                    <div class="dashboard-date">{{ photo.createdAt|date }}</div>
+                                </td>
+                                <td class="dashboard-photo-preview-td">
+                                    <div class="dashboard-photo-preview" style="background: url({{ photo.smallUrl }})"></div>
                                 </td>
                                 <td>
-                                    <img src="{{ photo.smallUrl }}" />
+                                    <div class="dashboard-photo-caption">
+                                        {{ photo.caption }} par {{ photo.owner.fullname }}
+                                    </div>
                                 </td>
-                                <td>
-                                    {{ photo.caption }} par {{ photo.owner.fullname }}
+                                <td class="dashboard-percentage-td">
+                                    <div class="dashboard-percentage">{{ photo.viewsCount }}</div>
                                 </td>
-                                <td>
-                                    {{ photo.viewsCount }}
+                                <td class="dashboard-percentage-td">
+                                    <div class="dashboard-percentage">{{ photo.tagsClicksCount }}</div>
                                 </td>
-                                <td>
-                                    {{ photo.tagsClicksCount }}
-                                </td>
-                                <td>
-                                    {{ photo.interactionTime }}
+                                <td class="dashboard-percentage-td">
+                                    <div class="dashboard-percentage">{{ photo.interactionTime }}</div>
                                 </td>
                                 <td>
                                     {{ photo.source }}
