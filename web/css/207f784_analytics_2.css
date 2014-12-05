@@ -97,8 +97,13 @@ strong {
     color: white;
 }
 .dashboard-content .dashboard-photo-list .dashboard-photo-caption {
-    overflow: scroll;
-    height: 85px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height: 52px;
+}
+.dashboard-photo-author {
+    margin-top: 15px;
 }
 .dashboard-content .dashboard-photo-details-link,
 .dashboard-content .dashboard-photo-details-title {
@@ -139,6 +144,9 @@ strong {
     background-repeat: no-repeat!important;
     background-position: center!important;
     background-size: contain!important;
+}
+.photo-details-percentage::after {
+    content: " %"
 }
 .dashboard-content .pagination {
     margin: 0 0 0 10px;

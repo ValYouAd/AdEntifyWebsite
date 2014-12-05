@@ -418,6 +418,13 @@ class Photo
      */
     private $tagsClicksPercentage = 0;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="source_url", type="text", nullable=true)
+     */
+    private $sourceUrl;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1377,5 +1384,28 @@ class Photo
     public function removeFavoritesUser(\AdEntify\CoreBundle\Entity\User $favoritesUsers)
     {
         $this->favoritesUsers->removeElement($favoritesUsers);
+    }
+
+    /**
+     * Set sourceUrl
+     *
+     * @param string $sourceUrl
+     * @return Photo
+     */
+    public function setSourceUrl($sourceUrl)
+    {
+        $this->sourceUrl = $sourceUrl;
+    
+        return $this;
+    }
+
+    /**
+     * Get sourceUrl
+     *
+     * @return string 
+     */
+    public function getSourceUrl()
+    {
+        return $this->sourceUrl;
     }
 }

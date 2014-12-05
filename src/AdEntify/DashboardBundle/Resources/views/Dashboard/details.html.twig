@@ -70,8 +70,8 @@
                     <tr>
                         <td>Date de publication</td>
                         <td>Type</td>
-                        <td>Lien</td>
                         <td>Titre</td>
+                        <td>Lien</td>
                         <td>Taux de survols</td>
                         <td>Clics</td>
                         <td>Taux de clics</td>
@@ -88,26 +88,26 @@
                                 {{ tag.type }}
                             </td>
                             <td>
-                                <div class="dashboard-photo-details-link">
-                                    <a href="{{ tag.link }}">{{ tag.link }}</a>
-                                </div>
-                            </td>
-                            <td>
                                 <div class="dashboard-photo-details-title">
                                     {{ tag.title }}
                                 </div>
                             </td>
                             <td>
-                                {{ tag.hoversPercentage|round(2) }}
+                                <div class="dashboard-photo-details-link">
+                                    <a href="{{ tag.link }}">{{ tag.link }}</a>
+                                </div>
                             </td>
                             <td>
-                                {{ tag.clicksCount }}
+                                <span class="photo-details-percentage">{{ tag.hoversPercentage|round(2) }}</span>
                             </td>
                             <td>
-                                {{ tag.clicksPercentage|round(2) }}
+                                <span>{{ tag.clicksCount }}</span>
                             </td>
                             <td>
-                                {{ tag.interactionTime }}
+                                <span class="photo-details-percentage">{{ tag.clicksPercentage|round(2) }}</span>
+                            </td>
+                            <td>
+                                <span>{{ tag.interactionTime }}</span>
                             </td>
                         </tr>
                     {% endfor %}

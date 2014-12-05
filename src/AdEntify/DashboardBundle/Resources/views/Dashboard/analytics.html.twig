@@ -90,8 +90,10 @@
                                 </td>
                                 <td>
                                     <div class="dashboard-photo-caption">
-                                        {{ photo.caption }} par {{ photo.owner.fullname }}
+                                        {{ photo.caption }}
+                                        <div class="dashboard-photo-author">par {{ photo.owner.fullname }}</div>
                                     </div>
+
                                 </td>
                                 <td class="dashboard-percentage-td">
                                     <div class="dashboard-percentage">{{ photo.viewsCount }}</div>
@@ -103,7 +105,7 @@
                                     <div class="dashboard-percentage">{{ photo.interactionTime }}</div>
                                 </td>
                                 <td>
-                                    {{ photo.source }}
+                                    {{ photo.source }} - {{ photo.sourceUrl }}
                                 </td>
                                 <td>
                                     <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}" class="btn btn-primary dashboard-detail-btn">Details</a>

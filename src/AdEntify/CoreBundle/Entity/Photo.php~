@@ -418,6 +418,13 @@ class Photo
      */
     private $tagsClicksPercentage = 0;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="source_url", type="text", nullable=true)
+     */
+    private $sourceUrl;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
