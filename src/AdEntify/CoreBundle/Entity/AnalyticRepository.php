@@ -17,8 +17,12 @@ class AnalyticRepository extends EntityRepository
         $yesterday = new \DateTime();
         $yesterday = $yesterday->sub(new \DateInterval('P1D'));
 
-	if ($analytic->getAction() == Analytic::ACTION_INTERACTION)
-	    return false;
+	switch ($analytic->getAction())
+	{
+	    case Analytic::ACTION_INTERACTION:
+	    case Analytic::ACTION_HOVER:
+		return false;
+	}
 
         $qb = $this->createQueryBuilder('analytic');
         $qb->where('analytic.ipAddress = :ipAddress')
