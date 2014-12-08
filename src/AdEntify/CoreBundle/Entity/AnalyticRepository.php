@@ -20,6 +20,7 @@ class AnalyticRepository extends EntityRepository
             case Analytic::ACTION_INTERACTION:
             case Analytic::ACTION_HOVER:
                 $sinceDate = $sinceDate->sub(new \DateInterval('PT2S'));
+		break;
             case Analytic::ACTION_VIEW:
             case Analytic::ACTION_CLICK:
             default:
