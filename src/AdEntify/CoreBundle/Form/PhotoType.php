@@ -28,7 +28,7 @@ class PhotoType extends AbstractType
             ))
             ->add('source_url', 'text', array(
                 'required' => false,
-                'description' => 'Url source of the photo'
+                'description' => 'Source  url of the photo'
             ))
             ->add('photo_source_id', 'text', array(
                 'required' => false,
