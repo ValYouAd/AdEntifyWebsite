@@ -23,6 +23,12 @@ class AnalyticType extends AbstractType
             ->add('link', 'text', array(
                 'required' => false
             ))
+	    ->add('sourceUrl', 'text', array(
+		'required' => false
+	    ))
+	    ->add('actionValue', 'integer', array(
+		'required' => false
+	    ))
             ->add('tag', 'entity', array(
                 'class' => 'AdEntifyCoreBundle:Tag',
                 'multiple' => false,

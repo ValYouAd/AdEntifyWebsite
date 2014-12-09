@@ -9,6 +9,7 @@
 namespace AdEntify\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class PhotoRepository extends EntityRepository
 {
@@ -42,4 +43,35 @@ class PhotoRepository extends EntityRepository
             }
         }
     }
-} 
+
+    public function getPhotos(User $user, $page, $limit = 10)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->leftJoin('p.tags', 't')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+        if ($user->getBrand())
+        {
+            $qb->where('t.brand = :brand')
+                ->setParameters(array(
+                    ':brand' => $user->getBrand()
+                ));
+        }
+        else
+        {
+            $qb->where('p.owner = :user')
+                ->setParameters(array(
+                    ':user' => $user
+                ));
+        }
+        $photos = new Paginator($qb);
+        $c = count($photos);
+        return array(
+            'photos' => $photos,
+            'count' => $c,
+            'pageLimit' => $limit
+        );
+    }
+}

@@ -17,6 +17,7 @@ class Analytic
     const ACTION_VIEW = 'view';
     const ACTION_HOVER = 'hover';
     const ACTION_CLICK = 'click';
+    const ACTION_INTERACTION = 'interaction';
 
     const ELEMENT_PHOTO = 'photo';
     const ELEMENT_TAG = 'tag';
@@ -40,6 +41,13 @@ class Analytic
      * @ORM\Column(name="action", type="string", length=50)
      */
     private $action;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="action_value", type="integer", nullable=true)
+     */
+    private $actionValue;
 
     /**
      * @var string
@@ -76,6 +84,13 @@ class Analytic
      * @ORM\Column(name="link", type="text", nullable=true)
      */
     private $link;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="source_url", type="text", nullable=true)
+     */
+    private $sourceUrl;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="analytics")
@@ -277,5 +292,39 @@ class Analytic
     public function getPhoto()
     {
         return $this->photo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActionValue()
+    {
+	return $this->actionValue;
+    }
+
+    /**
+     * @param string $actionValue
+     */
+    public function setActionValue($actionValue)
+    {
+	$this->actionValue = $actionValue;
+	return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceUrl()
+    {
+	return $this->sourceUrl;
+    }
+
+    /**
+     * @param string $sourceUrl
+     */
+    public function setSourceUrl($sourceUrl)
+    {
+	$this->sourceUrl = $sourceUrl;
+	return $this;
     }
 }

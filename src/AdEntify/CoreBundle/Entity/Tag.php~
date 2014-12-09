@@ -1,0 +1,809 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: pierrickmartos
+ * Date: 16/04/2013
+ * Time: 12:09
+ * To change this template use File | Settings | File Templates.
+ */
+
+namespace AdEntify\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as Serializer;
+
+/**
+ * Tag
+ *
+ * @Serializer\XmlRoot("tag")
+ * @Serializer\ExclusionPolicy("none")
+ *
+ * @ORM\Table(name="tags", indexes={@ORM\Index(name="search_idx", columns={"tag_type","visible"})})
+ * @ORM\Entity(repositoryClass="AdEntify\CoreBundle\Entity\TagRepository")
+ */
+class Tag
+{
+    const TYPE_PLACE =   "place";
+    const TYPE_PRODUCT = "product";
+    const TYPE_PERSON =  "person";
+    const TYPE_BRAND =  "brand";
+
+    const VALIDATION_NONE =    "none";
+    const VALIDATION_WAITING = "waiting";
+    const VALIDATION_DENIED =  "denied";
+    const VALIDATION_GRANTED = "granted";
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tag_type", type="string", length=25)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $type = self::TYPE_PRODUCT;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(message="tag.title.notblank")
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="link", type="text", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $link;
+
+    /**
+     * @Serializer\Exclude
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ShortUrl")
+     */
+    private $shortUrl;
+
+    /**
+     * @var datetime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $createdAt;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $deletedAt;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="visible", type="boolean")
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $visible = true;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="censored", type="boolean")
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $censored = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="waiting_validation", type="boolean")
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $waitingValidation = false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="validation_status", type="string", length=25)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $validationStatus = self::VALIDATION_NONE;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="x_position", type="decimal", scale=8)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $xPosition;
+
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="y_position", type="decimal", scale=8)
+     * @Serializer\Groups({"details", "list", "slight-list"})
+     */
+    private $yPosition;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="tags", cascade={"persist"})
+     * @Serializer\Exclude()
+     */
+    private $photo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Venue", inversedBy="tags")
+     * @ORM\JoinColumn(nullable=true)
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $venue;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Product", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\ProductType", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $productType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Person", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $person;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $brand;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagStats", mappedBy="tag", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $stats;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Analytic", mappedBy="tag", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $analytics;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @var bool
+     *
+     * @ORM\Column(name="revenue_assigned", type="boolean")
+     */
+    private $revenueAssigned = false;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagIncome", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $incomes;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\TagPoint", mappedBy="tag", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private $points;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @var
+     *
+     * @ORM\Column(name="total_points", type="decimal", scale=4, precision=15)
+     */
+    private $totalPoints = 0;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="tags")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $owner;
+
+    /**
+     * @Serializer\Exclude
+     *
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Report", mappedBy="tag", cascade={"remove"})
+     */
+    private $reports;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="hovers_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="clicks_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $clicksCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="interaction_time", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $interactionTime = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="hover_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoverPercentage = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="clicks_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $clicksPercentage = 0;
+
+    public function __construct()
+    {
+        $this->stats = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->incomes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->points = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reports = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->analytics = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $link
+     * @return Tag
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param \AdEntify\CoreBundle\Entity\datetime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return \AdEntify\CoreBundle\Entity\datetime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \AdEntify\CoreBundle\Entity\datetime $deletedAt
+     */
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+        return $this;
+    }
+
+    /**
+     * @return \AdEntify\CoreBundle\Entity\datetime
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    /**
+     * @param boolean $visible
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getVisible()
+    {
+        return $this->visible;
+    }
+
+    /**
+     * @param \AdEntify\CoreBundle\Entity\decimal $xPosition
+     */
+    public function setXPosition($xPosition)
+    {
+        $this->xPosition = $xPosition;
+        return $this;
+    }
+
+    /**
+     * @return \AdEntify\CoreBundle\Entity\decimal
+     */
+    public function getXPosition()
+    {
+        return $this->xPosition;
+    }
+
+    /**
+     * @param \AdEntify\CoreBundle\Entity\decimal $yPosition
+     */
+    public function setYPosition($yPosition)
+    {
+        $this->yPosition = $yPosition;
+        return $this;
+    }
+
+    /**
+     * @return \AdEntify\CoreBundle\Entity\decimal
+     */
+    public function getYPosition()
+    {
+        return $this->yPosition;
+    }
+
+    /**
+     * @param $photo
+     * @return Tag
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    public function setVenue($venue)
+    {
+        $this->venue = $venue;
+        return $venue;
+    }
+
+    public function getVenue()
+    {
+        return $this->venue;
+    }
+
+    /**
+     * @param boolean $censored
+     */
+    public function setCensored($censored)
+    {
+        $this->censored = $censored;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getCensored()
+    {
+        return $this->censored;
+    }
+
+    public function setPerson($person)
+    {
+        $this->person = $person;
+        return $this;
+    }
+
+    public function getPerson()
+    {
+        return $this->person;
+    }
+
+    public function setProduct($product)
+    {
+        $this->product = $product;
+        return $this;
+    }
+
+    /**
+     * @return Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * @param mixed $brand
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * @param string $validationStatus
+     */
+    public function setValidationStatus($validationStatus)
+    {
+        $this->validationStatus = $validationStatus;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidationStatus()
+    {
+        return $this->validationStatus;
+    }
+
+    /**
+     * @param boolean $waitingValidation
+     */
+    public function setWaitingValidation($waitingValidation)
+    {
+        $this->waitingValidation = $waitingValidation;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getWaitingValidation()
+    {
+        return $this->waitingValidation;
+    }
+
+    public function addStat(\AdEntify\CoreBundle\Entity\TagStats $stat)
+    {
+        $this->stats[] = $stat;
+        $stat->setTag($this);
+        return $this;
+    }
+
+    public function removeStat(\AdEntify\CoreBundle\Entity\TagStats $stat)
+    {
+        $this->stats->removeElement($stat);
+        $stat->setTag(null);
+    }
+
+    public function getStats()
+    {
+        return $this->stats;
+    }
+
+    /**
+     * @param mixed $shortUrl
+     */
+    public function setShortUrl($shortUrl)
+    {
+        $this->shortUrl = $shortUrl;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShortUrl()
+    {
+        return $this->shortUrl;
+    }
+
+    /**
+     * @param boolean $revenueAssigned
+     */
+    public function setRevenueAssigned($revenueAssigned)
+    {
+        $this->revenueAssigned = $revenueAssigned;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getRevenueAssigned()
+    {
+        return $this->revenueAssigned;
+    }
+
+    /**
+     * @param mixed $owner
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param mixed $productType
+     */
+    public function setProductType($productType)
+    {
+        $this->productType = $productType;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductType()
+    {
+        return $this->productType;
+    }
+
+    public function addIncome(TagIncome $tagIncome)
+    {
+        $this->incomes[] = $tagIncome;
+        $tagIncome->setTag($this);
+        return $this;
+    }
+
+    public function removeIncome(TagIncome $tagIncome)
+    {
+        $this->incomes->removeElement($tagIncome);
+        $tagIncome->setTag(null);
+    }
+
+    public function getIncomes()
+    {
+        return $this->incomes;
+    }
+
+    public function addPoint(TagPoint $tagPoint)
+    {
+        $this->points[] = $tagPoint;
+        $tagPoint->setTag($this);
+        return $this;
+    }
+
+    public function removePoint(TagPoint $tagPoint)
+    {
+        $this->points->removeElement($tagPoint);
+        $tagPoint->setTag(null);
+    }
+
+    public function getPoints()
+    {
+        return $this->points;
+    }
+
+    /**
+     * @param mixed $totalPoints
+     */
+    public function setTotalPoints($totalPoints)
+    {
+        $this->totalPoints = $totalPoints;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalPoints()
+    {
+        return $this->totalPoints;
+    }
+
+    public function addReport(Report $report)
+    {
+        $this->reports[] = $report;
+        $report->setTag($this);
+        return $this;
+    }
+
+    public function removeReport(Report $report)
+    {
+        $this->reports->removeElement($report);
+        $report->setTag(null);
+    }
+
+    public function getReports()
+    {
+        return $this->reports;
+    }
+
+    public function addAnalytic(\AdEntify\CoreBundle\Entity\Analytic $analytic)
+    {
+        $this->analytics[] = $analytic;
+        $analytic->setTag($this);
+        return $this;
+    }
+
+    public function removeAnalytic(\AdEntify\CoreBundle\Entity\Analytic $analytic)
+    {
+        $this->analytics->removeElement($analytic);
+        $analytic->setTag(null);
+    }
+
+    public function getAnalytics()
+    {
+        return $this->analytics;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClicksCount()
+    {
+        return $this->clicksCount;
+    }
+
+    /**
+     * @param int $clicksCount
+     */
+    public function setClicksCount($clicksCount)
+    {
+        $this->clicksCount = $clicksCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHoversCount()
+    {
+        return $this->hoversCount;
+    }
+
+    /**
+     * @param int $hoversCount
+     */
+    public function setHoversCount($hoversCount)
+    {
+        $this->hoversCount = $hoversCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInteractionTime()
+    {
+        return $this->interactionTime;
+    }
+
+    /**
+     * @param int $interactionTime
+     */
+    public function setInteractionTime($interactionTime)
+    {
+        $this->interactionTime = $interactionTime;
+        return $this;
+    }
+}

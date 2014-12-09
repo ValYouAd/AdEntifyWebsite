@@ -32,13 +32,13 @@ define([
          }
 
          if (element && elementName && haystack && !this.findExisting(element, haystack)) {
-            this.postAnalytic('hover', elementName, null, element.get('id'), null);
+            this.postAnalytic('hover', elementName, tag ? tag.get('id') : null, photo ? photo.get('id') : null, null);
          }
       },
 
       click: function(tag, e) {
          if (!this.findExisting(tag, this.clickedTags)) {
-            this.postAnalytic('click', 'tag', null, tag.get('id'), $(e.currentTarget).attr('href'));
+            this.postAnalytic('click', 'tag', tag.get('id'), null, $(e.currentTarget).attr('href'));
          }
       },
 

@@ -354,6 +354,77 @@ class Photo
      */
     private $analytics;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="views_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $viewsCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="hovers_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tags_hovers_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $tagsHoversCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tags_clicks_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $tagsClicksCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="interaction_time", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $interactionTime = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="hovers_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversPercentage = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="tags_hovers_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $tagsHoversPercentage = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="tags_clicks_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $tagsClicksPercentage = 0;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="source_url", type="text", nullable=true)
+     */
+    private $sourceUrl;
+
     public function __construct()
     {
         $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -1053,8 +1124,8 @@ class Photo
     {
         return $this->retinaWidth;
     }
-    
-    public function fillThumbs($generatedThumbs) 
+
+    public function fillThumbs($generatedThumbs)
     {
         foreach($generatedThumbs as $key => $value) {
             switch ($key) {
@@ -1113,5 +1184,228 @@ class Photo
     public function getAnalytics()
     {
         return $this->analytics;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHoversCount()
+    {
+	return $this->hoversCount;
+    }
+
+    /**
+     * @param int $hoversCount
+     */
+    public function setHoversCount($hoversCount)
+    {
+	$this->hoversCount = $hoversCount;
+	return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsClicksCount()
+    {
+	return $this->tagsClicksCount;
+    }
+
+    /**
+     * @param int $tagsClicksCount
+     */
+    public function setTagsClicksCount($tagsClicksCount)
+    {
+        $this->tagsClicksCount = $tagsClicksCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTagsHoversCount()
+    {
+	    return $this->tagsHoversCount;
+    }
+
+    /**
+     * @param int $tagsHoversCount
+     */
+    public function setTagsHoversCount($tagsHoversCount)
+    {
+        $this->tagsHoversCount = $tagsHoversCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getViewsCount()
+    {
+	    return $this->viewsCount;
+    }
+
+    /**
+     * @param int $viewsCount
+     */
+    public function setViewsCount($viewsCount)
+    {
+        $this->viewsCount = $viewsCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInteractionTime()
+    {
+        return $this->interactionTime;
+    }
+
+    /**
+     * @param int $interactionTime
+     */
+    public function setInteractionTime($interactionTime)
+    {
+        $this->interactionTime = $interactionTime;
+        return $this;
+    }
+
+    /**
+     * Set hoversPercentage
+     *
+     * @param float $hoversPercentage
+     * @return Photo
+     */
+    public function setHoversPercentage($hoversPercentage)
+    {
+        $this->hoversPercentage = $hoversPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get hoversPercentage
+     *
+     * @return float 
+     */
+    public function getHoversPercentage()
+    {
+        return $this->hoversPercentage;
+    }
+
+    /**
+     * Set tagsHoversPercentage
+     *
+     * @param float $tagsHoversPercentage
+     * @return Photo
+     */
+    public function setTagsHoversPercentage($tagsHoversPercentage)
+    {
+        $this->tagsHoversPercentage = $tagsHoversPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get tagsHoversPercentage
+     *
+     * @return float 
+     */
+    public function getTagsHoversPercentage()
+    {
+        return $this->tagsHoversPercentage;
+    }
+
+    /**
+     * Set tagsClicksPercentage
+     *
+     * @param float $tagsClicksPercentage
+     * @return Photo
+     */
+    public function setTagsClicksPercentage($tagsClicksPercentage)
+    {
+        $this->tagsClicksPercentage = $tagsClicksPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get tagsClicksPercentage
+     *
+     * @return float 
+     */
+    public function getTagsClicksPercentage()
+    {
+        return $this->tagsClicksPercentage;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \AdEntify\CoreBundle\Entity\Category $categories
+     * @return Photo
+     */
+    public function addCategorie(\AdEntify\CoreBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+    
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \AdEntify\CoreBundle\Entity\Category $categories
+     */
+    public function removeCategorie(\AdEntify\CoreBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Add favoritesUsers
+     *
+     * @param \AdEntify\CoreBundle\Entity\User $favoritesUsers
+     * @return Photo
+     */
+    public function addFavoritesUser(\AdEntify\CoreBundle\Entity\User $favoritesUsers)
+    {
+        $this->favoritesUsers[] = $favoritesUsers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove favoritesUsers
+     *
+     * @param \AdEntify\CoreBundle\Entity\User $favoritesUsers
+     */
+    public function removeFavoritesUser(\AdEntify\CoreBundle\Entity\User $favoritesUsers)
+    {
+        $this->favoritesUsers->removeElement($favoritesUsers);
+    }
+
+    /**
+     * Set sourceUrl
+     *
+     * @param string $sourceUrl
+     * @return Photo
+     */
+    public function setSourceUrl($sourceUrl)
+    {
+        $this->sourceUrl = $sourceUrl;
+    
+        return $this;
+    }
+
+    /**
+     * Get sourceUrl
+     *
+     * @return string 
+     */
+    public function getSourceUrl()
+    {
+        return $this->sourceUrl;
     }
 }
