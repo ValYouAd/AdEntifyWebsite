@@ -67,7 +67,7 @@ class DefaultController extends Controller
         if ($photo) {
             return array(
                 'photo' => $photo,
-                'showTags' => $showTags,
+                'showTags' => true,
                 'showLikes' => $showLikes,
                 'cover' => $cover
             );

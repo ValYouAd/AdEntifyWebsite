@@ -1,0 +1,15 @@
+body.plugin {
+    background: transparent;
+}
+body {
+    line-height: 1.28px;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    direction: ltr;
+    unicode-bidi: embed
+}
+#embed-photo {
+    max-height: 100%;
+    max-width: 100%;
+}
