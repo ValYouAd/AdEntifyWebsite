@@ -336,8 +336,8 @@ body {
             border: 0px;
             border-radius: 0px;
             font-family: "asapregular", "Helvetica Neue", "Arial", sans-serif;
-            max-width: none;
-            min-width: 150px;
+            /*max-width: none;*/
+            /*min-width: 150px;*/
             -webkit-transition: opacity 0.3s ease-out;
             -moz-transition: opacity 0.3s ease-out;
             -ms-transition: opacity 0.3s ease-out;

@@ -53,6 +53,7 @@
                '.adentify-pastille {background: url("'+ AdEntify.rootUrl +'img/adentify-pastille.png") no-repeat;}' +
                (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
                '.tag {background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");}' +
+               '.tag .popover {max-width: ' + window.innerWidth * 0.7 + 'px; max-height: ' + window.innerHeight * 0.7 + 'px;}' +
                '[class^="icon-"],[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings.png");}' +
                '.icon-white,.nav-pills>.active>a>[class^="icon-"],.nav-pills>.active>a>[class*=" icon-"],.nav-list>.active>a>[class^="icon-"],.nav-list>.active>a>[class*=" icon-"],.navbar-inverse .nav>.active>a>[class^="icon-"],.navbar-inverse .nav>.active>a>[class*=" icon-"],.dropdown-menu>li>a:hover>[class^="icon-"],.dropdown-menu>li>a:focus>[class^="icon-"],.dropdown-menu>li>a:hover>[class*=" icon-"],.dropdown-menu>li>a:focus>[class*=" icon-"],.dropdown-menu>.active>a>[class^="icon-"],.dropdown-menu>.active>a>[class*=" icon-"],.dropdown-submenu:hover>a>[class^="icon-"],.dropdown-submenu:focus>a>[class^="icon-"],.dropdown-submenu:hover>a>[class*=" icon-"],.dropdown-submenu:focus>a>[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings-white.png");}' +
                '.tag-buttons {background: url("'+ AdEntify.rootUrl +'img/dark-grey-tag-background.jpg") repeat;}' +
@@ -244,7 +245,7 @@
          var popover = jQuery(tag).find('.popover');
          var tagOffset = jQuery(tag).offset();
 
-         jQuery(popover).offset({ top:0, left: 0});
+         jQuery(popover).offset({ top: window.innerHeight * 0.5, left: window.innerWidth * 0.5}); //TODO: add margin top and left
       },
 
       getValue: function(key) {
