@@ -1,13 +1,39 @@
-<h2>{{ 'authorize.appname'|trans({ '%name%': client.displayName ? client.displayName : client.name }, 'FOSOAuthServerBundle') }}</h2>
+{% extends "::base.html.twig" %}
 
-<form action="{{ path('fos_oauth_server_authorize') }}" method="POST" class="fos_oauth_server_authorize" {{ form_enctype(form) }}>
-    <input type="submit" name="accepted" value="{{ 'authorize.accept'|trans({}, 'FOSOAuthServerBundle') }}" />
-    <input type="submit" name="rejected" value="{{ 'authorize.reject'|trans({}, 'FOSOAuthServerBundle') }}" />
+{% block bodyAttr %} class="body-grey-background"{% endblock %}
 
-    {{ form_row(form.client_id) }}
-    {{ form_row(form.response_type) }}
-    {{ form_row(form.redirect_uri) }}
-    {{ form_row(form.state) }}
-    {{ form_row(form.scope) }}
-    {{ form_rest(form) }}
-</form>
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/adentifycommon/css/common.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+    <div id="auth-content-container">
+        <div class="form-container">
+            <div class="form-overlay"></div>
+            <div class="modal-header header-shadow">
+                <h4 class="modal-title"><div class="pull-left modal-badge"></div>Request for permission</h4>
+            </div>
+            <div class="auth-content">
+                <p>{{ 'authorize.appname'|trans({ '%name%': client.displayName ? client.displayName : client.name }, 'FOSOAuthServerBundle') }}.</p>
+                <form action="{{ path('fos_oauth_server_authorize') }}" method="POST" class="fos_oauth_server_authorize" {{ form_enctype(form) }}>
+                    <div class="auth-confirmation-container">
+                        <input type="submit" name="rejected" class="btn btn-link" value="{{ 'authorize.reject'|trans({}, 'FOSOAuthServerBundle') }}" />
+                        <input type="submit" name="accepted" class="btn btn-red-grey-border" value="{{ 'authorize.accept'|trans({}, 'FOSOAuthServerBundle') }}" />
+                    </div>
+                    {{ form_row(form.client_id) }}
+                    {{ form_row(form.response_type) }}
+                    {{ form_row(form.redirect_uri) }}
+                    {{ form_row(form.state) }}
+                    {{ form_row(form.scope) }}
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+{% endblock %}

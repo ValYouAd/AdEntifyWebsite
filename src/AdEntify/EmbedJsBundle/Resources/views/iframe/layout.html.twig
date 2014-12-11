@@ -5,10 +5,11 @@
     <meta name="robots" content="noodp, noydir" />
     <meta name="referrer" content="default" id="meta_referrer" />
     <title>AdEntify</title>
-    <style>
-        body.plugin { background: transparent; }
-        body { line-height:1.28;margin:0;padding:0;text-align:left;direction:ltr;unicode-bidi:embed}
-    </style>
+    {% stylesheets filter='cssrewrite'
+        '@AdEntifyEmbedJsBundle/Resources/public/css/iframe.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmrQ05zbn-02aT8wxp6Olh5MEn27ULHDg&sensor=false"></script>
 </head>
 <body class="plugin">

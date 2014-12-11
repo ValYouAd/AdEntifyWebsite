@@ -1,6 +1,6 @@
 html, body {
     background: #FFFFFF;
-    height: 100%;
+    min-height: 100%;
     margin: 0;
 }
 
@@ -242,12 +242,12 @@ header {
 .user-registration-header {
     padding: 15px;
 }
-#user-registration, #user-login {
+#user-registration, #user-login, #auth-content-container {
     height: 86vh;
     max-width: 500px;
     margin: auto;
 }
-#user-login {
+#user-login, #auth-content-container {
     padding-top: 20vh;
 }
 #user-registration {
@@ -265,6 +265,15 @@ header {
     height: 100%;
     box-shadow: inset 0 0 15px rgba(0,0,0,.1),inset 0 0 0 1px rgba(0,0,0,.05);
     pointer-events: none;
+}
+.auth-content {
+    padding: 15px;
+}
+.auth-confirmation {
+    margin: 5px;
+}
+.auth-confirmation-container {
+    text-align: center;
 }
 /* End
 ----------------------- */

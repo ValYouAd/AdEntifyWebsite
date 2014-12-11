@@ -28,7 +28,7 @@
                         <a class="btn btn-twitter" href="../../login/twitter"><i class="twitter-icon icon"></i> Twitter</a>
                     </div>
                 </div>
-                {% include "FOSUserBundle:Security:login.html.twig" %}
+                {% include "FOSUserBundle:Security:login.html.twig" with( { 'showRegisterLink': true } ) %}
         </div>
     </div>
     {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}

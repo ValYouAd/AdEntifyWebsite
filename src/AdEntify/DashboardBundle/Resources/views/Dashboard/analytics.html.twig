@@ -1,0 +1,132 @@
+{% extends "::base.html.twig" %}
+
+{% block bodyAttr %} class="body-grey-background"{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets filter='cssrewrite'
+        'bundles/adentifycommon/css/common.css'
+        '@AdEntifyDashboardBundle/Resources/public/css/analytics.css'
+    %}
+    <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+    <div class="dashboard-stats-container">
+        {% if brand and brand.originalLogoUrl %}<div class="dashboard-logo" style="background-image: url('{{ brand.originalLogoUrl }}')"></div>
+        {% elseif brand %} <h1>{{ brand.name }}</h1>
+        {% else %}<h1>{{ user.fullname }}</h1>
+        {% endif %}
+        <div class="dashboard-content">
+            <div class="dashboard-tab">
+                <div>STATISTIQUES</div>
+            </div>
+            <div class="dashboard-statistiques">
+                <div class="stats-sum">{{ 'dashboard.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|raw }}</div>
+                <div class="dashboard-global-analytics">
+                    <div>
+                        <h2>Statistiques de tags</h2>
+                    </div>
+                    <div class="row">
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.photosViews }}</p>
+                            <label>Impressions images</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.photosHovers }}</p>
+                            <label>Survols d'images avec la marque</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.tagsHovers }}</p>
+                            <label>Survols de tags de la marque</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.tagsClicks }}</p>
+                            <label>Clics sur les tags de la marque</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="global-analytics col-xs-6 col-md-3">
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.photosHoversPercentage|round(2) }}%</p>
+                            <label>Taux de survol</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.tagsHoversPercentage|round(2) }}%</p>
+                            <label>Taux de survol</label>
+                        </div>
+                        <div class="global-analytics col-xs-6 col-md-3">
+                            <p>{{ globalAnalytics.tagsClicksPercentage|round(2) }}%</p>
+                            <label>Taux de clics</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-by-img">
+                    <h2>Statistiques par image</h2>
+                </div>
+                <table class="table dashboard-photo-list">
+                    <thead>
+                        <tr>
+                            <td>Date de publication</td>
+                            <td>Photo</td>
+                            <td>Infos</td>
+                            <td>Impressions</td>
+                            <td>Clics</td>
+			                <td>Temps d'interaction moyen</td>
+                            <td>Source</td>
+                            <td>Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for photo in analytics.photos.photos %}
+                            <tr>
+                                <td>
+                                    <div class="dashboard-date">{{ photo.createdAt|date }}</div>
+                                </td>
+                                <td class="dashboard-photo-preview-td">
+                                    <div class="dashboard-photo-preview">
+                                        <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}">
+                                            <img src="{{ photo.smallUrl }}"/>
+                                            {#<div class="dashboard-photo-preview" style="background: url({{ photo.smallUrl }})"></div>#}
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dashboard-photo-caption">
+                                        {{ photo.caption }}
+                                        <div class="dashboard-photo-author">par {{ photo.owner.fullname }}</div>
+                                    </div>
+                                </td>
+                                <td class="dashboard-percentage-td">
+                                    <div class="dashboard-percentage">{{ photo.viewsCount }}</div>
+                                </td>
+                                <td class="dashboard-percentage-td">
+                                    <div class="dashboard-percentage">{{ photo.tagsClicksCount }}</div>
+                                </td>
+                                <td class="dashboard-percentage-td">
+				                   <div class="dashboard-percentage">{{ (photo.interactionTime/1000)|round(2)  }}s</div>
+                                </td>
+                                <td>
+                                    <div class="dashboard-photo-source">
+                                        {% if photo.sourceUrl %}
+                                            {{ photo.sourceUrl }}
+                                        {% else %}
+                                            {{ photo.source }}
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}" class="btn btn-primary dashboard-detail-btn">Details</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% include 'AdEntifyBackofficeBundle:Common:pagination.html.twig' with {'count': analytics.photos.count, 'pageLimit': analytics.photos.pageLimit, route: 'dashboard_stats'} %}
+            </div>
+        </div>
+    </div>
+    {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}
+{% endblock %}

@@ -38,7 +38,7 @@ security:
                 resource_owners:
                     twitter:         "/login/check-twitter"
                     flickr:          "/login/check-flickr"
-                login_path:          loggedInHome
+                login_path:          fos_user_security_login #loggedInHome
                 failure_path:        home_logoff
                 oauth_user_provider:
                     service: adentify_user.fos_ub_user_provider

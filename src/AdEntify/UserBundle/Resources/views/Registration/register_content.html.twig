@@ -49,7 +49,11 @@
 
         <div class="form-group">
             <div>
+                {% if hideCancel is not defined or not hideCancel %}
                 <button type="button" class="btn btn-link" data-dismiss="modal">{{ 'Cancel'|trans }}</button>
+                {% else %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {% endif %}
                 <input type="submit" id="_submit" class="btn btn-red-grey-border" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
             </div>
         </div>

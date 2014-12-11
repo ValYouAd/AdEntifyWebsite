@@ -9,11 +9,11 @@ require([
 
    // App State
    "modules/appState",
-   "modules/tagStats",
+   "modules/analytic",
    'modules/common'
 ],
 
-function(app, Router, i18n, AppState, TagStats, Common) {
+function(app, Router, i18n, AppState, Analytic, Common) {
 
    // Extend App
    _.extend(app, {
@@ -22,10 +22,10 @@ function(app, Router, i18n, AppState, TagStats, Common) {
             this.appstate = new AppState.Model();
          return this.appstate;
       },
-      tagStats: function() {
-         if (typeof this.tagstats === 'undefined')
-            this.tagstats = new TagStats.Model();
-         return this.tagstats;
+      analytic: function() {
+         if (typeof this.analyticModel === 'undefined')
+            this.analyticModel = new Analytic.Model();
+         return this.analyticModel;
       },
       formatDate: function(stringDate) {
          var date = new Date(stringDate);

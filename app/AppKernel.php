@@ -50,6 +50,7 @@ class AppKernel extends Kernel
             new AdEntify\FlickrBundle\AdEntifyFlickrBundle(),
             new AdEntify\EmbedJsBundle\AdEntifyEmbedJsBundle(),
             new AdEntify\BackofficeBundle\AdEntifyBackofficeBundle(),
+            new AdEntify\DashboardBundle\AdEntifyDashboardBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

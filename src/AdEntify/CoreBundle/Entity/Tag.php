@@ -21,7 +21,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("none")
  *
  * @ORM\Table(name="tags", indexes={@ORM\Index(name="search_idx", columns={"tag_type","visible"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AdEntify\CoreBundle\Entity\TagRepository")
  */
 class Tag
 {
@@ -248,6 +248,46 @@ class Tag
      * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Report", mappedBy="tag", cascade={"remove"})
      */
     private $reports;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="hovers_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="clicks_count", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $clicksCount = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="interaction_time", type="integer")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $interactionTime = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="hovers_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $hoversPercentage = 0;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="clicks_percentage", type="float")
+     * @Serializer\Groups({"details", "list"})
+     */
+    private $clicksPercentage = 0;
 
     public function __construct()
     {
@@ -714,5 +754,102 @@ class Tag
     public function getAnalytics()
     {
         return $this->analytics;
+    }
+
+    /**
+     * @return int
+     */
+    public function getClicksCount()
+    {
+        return $this->clicksCount;
+    }
+
+    /**
+     * @param int $clicksCount
+     */
+    public function setClicksCount($clicksCount)
+    {
+        $this->clicksCount = $clicksCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHoversCount()
+    {
+        return $this->hoversCount;
+    }
+
+    /**
+     * @param int $hoversCount
+     */
+    public function setHoversCount($hoversCount)
+    {
+        $this->hoversCount = $hoversCount;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInteractionTime()
+    {
+        return $this->interactionTime;
+    }
+
+    /**
+     * @param int $interactionTime
+     */
+    public function setInteractionTime($interactionTime)
+    {
+        $this->interactionTime = $interactionTime;
+        return $this;
+    }
+
+    /**
+     * Set hoversPercentage
+     *
+     * @param float $hoversPercentage
+     * @return Tag
+     */
+    public function setHoversPercentage($hoversPercentage)
+    {
+        $this->hoversPercentage = $hoversPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get hoversPercentage
+     *
+     * @return float 
+     */
+    public function getHoversPercentage()
+    {
+        return $this->hoversPercentage;
+    }
+
+    /**
+     * Set clicksPercentage
+     *
+     * @param float $clicksPercentage
+     * @return Tag
+     */
+    public function setClicksPercentage($clicksPercentage)
+    {
+        $this->clicksPercentage = $clicksPercentage;
+    
+        return $this;
+    }
+
+    /**
+     * Get clicksPercentage
+     *
+     * @return float 
+     */
+    public function getClicksPercentage()
+    {
+        return $this->clicksPercentage;
     }
 }

@@ -24,6 +24,9 @@
             </div>
             <div class="col-md-6">
                 <input type="submit" id="_submit" class="btn btn-red-grey-border" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+                {% if showRegisterLink is defined and showRegisterLink %}
+                <a href="{{ path('fos_user_registration_register') }}" class="btn btn-red-grey-border">{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}</a>
+                {% endif %}
             </div>
             <div class="clearfix"></div>
         </div>

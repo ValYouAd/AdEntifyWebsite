@@ -18,7 +18,7 @@
             <div class="modal-header header-shadow">
                 <h4 class="modal-title" id="signupModalLabel"><div class="signup_badge pull-left modal-badge"></div> Sign up</h4>
             </div>
-            {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+            {% include "FOSUserBundle:Registration:register_content.html.twig" with({ 'hideCancel': true }) %}
         </div>
     </div>
     {% include 'AdEntifyCommonBundle:Default:footer.html.twig' %}

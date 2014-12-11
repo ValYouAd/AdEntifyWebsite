@@ -194,6 +194,15 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/{_locale}/business", name="business")
+     * @Template()
+     */
+    public function businessAction()
+    {
+        return $this->redirect("http://business.adentify.com/");
+    }
+
+    /**
      * @Route("/{_locale}/who-we-are", name="press")
      * @Template()
      */
@@ -331,9 +340,9 @@ class DefaultController extends Controller
 	    ->getOneOrNullResult();
 
         return array(
-	    'terms_of_use' => $terms_of_use->getInfo(),
-	    'privacy' => $privacy->getInfo(),
-	    'legal_notices' => $legal_notices->getInfo(),
+	    'terms_of_use' => ($terms_of_use) ? $terms_of_use->getInfo() : null,
+	    'privacy' => ($privacy) ? $privacy->getInfo() : null,
+	    'legal_notices' => ($legal_notices) ? $legal_notices->getInfo() : null,
         );
     }
 
