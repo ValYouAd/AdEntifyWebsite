@@ -15,7 +15,7 @@
     <style type="text/css">
         .box {
             float: left;
-            border: 1px solid black;
+            /*border: 1px solid black;*/
         }
     </style>
 </head>

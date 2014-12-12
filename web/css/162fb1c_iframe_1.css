@@ -13,8 +13,6 @@ body {
     float: left;
 }
 #embed-photo {
-    max-height: 100%;
-    max-width: 100%;
     display: block;
 }
 @media screen and (max-width: 200px){
@@ -330,31 +328,31 @@ body {
             position: absolute;
         }
         .tag .tag-brand-icon{
-            top: 9px;
+            top: 10px;
             left: 11px;
-            background-position: -181px -109px;
-            width: 12px;
-            height: 17px;
+            background-position: -25px -46px;
+            width: 14px;
+            height: 14px;
         }
         .tag .tag-place-icon{
-            left: 12px;
-            top: 10px;
-            background-position: -163px -127px;
-            width: 11px;
+            left: 10px;
+            top: 11px;
+            background-position: -24px -72px;
+            width: 14px;
             height: 14px;
         }
         .tag .tag-text-icon{
             left: 12px;
             top: 10px;
-            background-position: -163px -127px;
+            background-position: -30px -46px;
             width: 11px;
             height: 14px;
         }
         .tag .tag-user-icon{
-            left: 11px;
-            top: 10px;
-            background-position: -163px -127px;
-            width: 11px;
+            left: 10px;
+            top: 11px;
+            background-position: -168px 0;
+            width: 14px;
             height: 14px;
         }
         .tag .tag-video-icon{
@@ -368,10 +366,10 @@ body {
             width: 270px;
             height: 260px;
         }
-        /*.tag-brand-icon{
-            background-position: -181px -109px;
-            width: 12px;
-            height: 17px;
+/*        .tag-brand-icon{
+            background-position: -25px -46px;
+            width: 14px;
+            height: 14px;
         }
         .tag-place-icon{
             background-position: -163px -127px;
