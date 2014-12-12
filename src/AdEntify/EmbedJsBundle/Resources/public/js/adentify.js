@@ -50,8 +50,9 @@
                '@font-face {font-family: "asapregular";src: url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.svg#asapregular") format("svg");font-weight: normal;font-style: normal;}' +
                '@font-face {font-family: "robotobold";src: url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.svg#robotobold") format("svg");font-weight: normal;font-style: normal;}' +
                '@font-face {font-family: "asapbold";src: url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.svg#asapbold") format("svg");font-weight: normal;font-style: normal;}' +
+               '#embed-photo {max-height: ' + window.innerHeight + 'px; max-width: ' + window.innerWidth + 'px}' +
                '.adentify-pastille {background: url("'+ AdEntify.rootUrl +'img/adentify-pastille.png") no-repeat;}' +
-               //(AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
+               (AdEntify.showTags === true ? '.adentify-photo-container .tags {opacity: 1;}' : '.adentify-photo-container .tags {opacity: 0;}') +
                '.tag {background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");}' +
                '.tag .popover {width: ' + window.innerWidth * 0.85 + 'px;}' +
                '[class^="icon-"],[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings.png");}' +
@@ -63,7 +64,7 @@
             $head.append('<meta property="adentify-loaded" content="true">');
          }
 
-         jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="width: 100%; position: relative;display: inline-block;" />');
+         jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="position: relative;display: inline-block;" />');
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
          $tags = jQuery('<ul class="tags" data-state="hidden" data-always-visible="no" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
          $pastilleWrapper = jQuery('<div class="adentify-pastille-wrapper" />').insertBefore(this.getValue('selector'));
@@ -263,7 +264,7 @@
 
             if (!popover.is(':visible'))
                popover.show();
-            jQuery(popover).offset({ top: window.innerHeight * 0.5, left: window.innerWidth * 0.5}); //TODO: add margin top and left
+            jQuery(popover).offset({ top: window.innerHeight * 0.5, left: window.innerWidth * 0.5});
             popover.css({margin: '-' + (jQuery(popover).find('.popover-inner').outerHeight(true) / 2) + 'px -' + (jQuery(popover).find('.popover-inner').outerWidth(true) / 2) + 'px'});
             if (popover.is(':visible'))
                popover.hide();

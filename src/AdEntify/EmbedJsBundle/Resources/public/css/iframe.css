@@ -13,8 +13,6 @@ body {
     float: left;
 }
 #embed-photo {
-    max-height: 100%;
-    max-width: 100%;
     display: block;
 }
 @media screen and (max-width: 200px){
