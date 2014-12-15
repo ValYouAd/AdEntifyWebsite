@@ -22,7 +22,7 @@
 <!--    <iframe src="https://local.adentify.com/iframe/photo-434.html?show-tags=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="1024" height="525" allowTransparency="true"></iframe>-->
 </div>
 <div class="box">
-    <iframe src="https://local.adentify.com/iframe/photo-692.html?show-tags=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="400" height="350" allowTransparency="true"></iframe>
+    <iframe src="https://local.adentify.com/iframe/photo-692.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="400" height="350" allowTransparency="true"></iframe>
 </div>
 </body>
 
