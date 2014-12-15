@@ -20,11 +20,13 @@ body {
         font-size: 12px;
     }
 }
-.popover {
+.adentify-photo-container .popover {
     position: absolute;
-    display:none;
+    display: none;
     background-color:#ffffff;
     box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
+    max-width: none;
+    padding: 0;
 }
 .popover-product {
     /*min-width: 250px;*/
@@ -328,17 +330,17 @@ body {
             position: absolute;
         }
         .tag .tag-brand-icon{
-            top: 10px;
+            top: 11px;
             left: 11px;
-            background-position: -25px -46px;
             width: 14px;
             height: 14px;
+            color: #606366;
         }
         .tag .tag-place-icon{
-            left: 10px;
-            top: 11px;
-            background-position: -24px -72px;
-            width: 14px;
+            left: 11px;
+            top: 10px;
+            background-position: -162px -126px;
+            width: 11px;
             height: 14px;
         }
         .tag .tag-text-icon{
@@ -349,9 +351,9 @@ body {
             height: 14px;
         }
         .tag .tag-user-icon{
-            left: 10px;
-            top: 11px;
-            background-position: -168px 0;
+            left: 11px;
+            top: 10px;
+            background-position: -142px -125px;
             width: 14px;
             height: 14px;
         }
