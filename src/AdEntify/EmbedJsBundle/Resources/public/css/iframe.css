@@ -33,7 +33,7 @@ body {
 }
 .popover-product .product-image {
     max-height: 100px;
-    margin: 15px 15px 15px 5px;
+    margin: 5px 15px 5px 5px;
 }
 @media screen and (min-height: 300px){
     .popover-product .product-image {
@@ -405,7 +405,7 @@ body {
 /*****************/
 .tag .popover p {
     text-decoration: none;
-    margin-top: 10px;
+    margin: 10px 0 20px 0;
     font-family: "lato", sans-serif;
     font-size: 15px;
     color: grey;
