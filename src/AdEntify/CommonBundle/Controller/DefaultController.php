@@ -203,6 +203,15 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/{_locale}/support", name="support")
+     * @Template()
+     */
+    public function supportAction()
+    {
+        return $this->redirect("http://support.adentify.com");
+    }
+
+    /**
      * @Route("/{_locale}/who-we-are", name="press")
      * @Template()
      */
