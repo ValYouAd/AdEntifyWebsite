@@ -201,10 +201,10 @@
                   //(tag.description ? '<p>' + tag.description + '</p>' : '') +
                   '</div></div></div>');
                } else if (tag.type == 'product') {
-                  $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon glyphicon glyphicon-tag tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.brand ? ' - ' + tag.brand.name : '') + '</a></span>' + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
+                  $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon glyphicon glyphicon-tag tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + '</a></span>' + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
                   (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                  (tag.brand ? typeof tag.brand.small_logo_url !== 'undefined' ? '<div class="brand pull-right"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div>' : '' : '') +
-                  (tag.product ? '<div class="popover-details"><a target="_blank" href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div>' : '') +
+                  (tag.brand ? typeof tag.brand.small_logo_url !== 'undefined' ? '<div class="brand"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div>' : '' : '') +
+                  //(tag.product ? '<div class="popover-details"><a target="_blank" href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div>' : '') +
                   '</div></div></div>');
                } else {
                   jQuery($tags).append('');
@@ -244,12 +244,12 @@
          var i = 0;
 
          // Create a deferred for all images
-         jQuery('.adentify-photo-container').find('img').each(function() {
+         jQuery(tag).find('img').each(function() {
             deferreds.push(new jQuery.Deferred());
          });
 
          // When image is loaded, resolve the next deferred
-         jQuery('.adentify-photo-container').find('img').load(function() {
+         jQuery(tag).find('img').load(function() {
             if (typeof deferreds[i] !== 'undefined')
                deferreds[i].resolve();
             i++;
