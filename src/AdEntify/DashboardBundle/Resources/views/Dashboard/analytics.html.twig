@@ -69,18 +69,21 @@
                 <table class="table dashboard-photo-list">
                     <thead>
                         <tr>
-                            <td>Date de publication</td>
+                            <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>
+                                {{ knp_pagination_sortable(pagination, 'Date de publication', 'p.createdAt') }}
+                                <span class="sort-direction glyphicon glyphicon-arrow-up"></span>
+                            </td>
                             <td>Photo</td>
                             <td>Infos</td>
-                            <td>Impressions</td>
-                            <td>Clics</td>
-			                <td>Temps d'interaction moyen</td>
-                            <td>Source</td>
+                            <td{% if pagination.isSorted('p.viewsCount') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Impressions', 'p.viewsCount' ) }}</td>
+                            <td{% if pagination.isSorted('p.tagsClicksCount') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Clics', 'p.tagsClicksCount' ) }}</td>
+			                <td{% if pagination.isSorted('p.interactionTime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 'p.interactionTime' ) }}</td>
+                            <td{% if pagination.isSorted('p.source') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Source', 'p.source' ) }}</td>
                             <td>Actions</td>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for photo in analytics.photos.photos %}
+                        {% for photo in pagination %}
                             <tr>
                                 <td>
                                     <div class="dashboard-date">{{ photo.createdAt|date }}</div>
@@ -124,7 +127,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                {% include 'AdEntifyBackofficeBundle:Common:pagination.html.twig' with {'count': analytics.photos.count, 'pageLimit': analytics.photos.pageLimit, route: 'dashboard_stats'} %}
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
             </div>
         </div>
     </div>

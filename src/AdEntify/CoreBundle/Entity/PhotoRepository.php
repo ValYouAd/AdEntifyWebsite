@@ -44,14 +44,12 @@ class PhotoRepository extends EntityRepository
         }
     }
 
-    public function getPhotos(User $user, $page, $limit = 10)
+    public function getPhotos(User $user)
     {
         $qb = $this->createQueryBuilder('p');
         $qb->select('p')
             ->leftJoin('p.tags', 't')
-            ->orderBy('p.createdAt', 'DESC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit);
+            ->orderBy('p.createdAt', 'DESC');
         if ($user->getBrand())
         {
             $qb->where('t.brand = :brand')
@@ -66,12 +64,6 @@ class PhotoRepository extends EntityRepository
                     ':user' => $user
                 ));
         }
-        $photos = new Paginator($qb);
-        $c = count($photos);
-        return array(
-            'photos' => $photos,
-            'count' => $c,
-            'pageLimit' => $limit
-        );
+        return $qb->getQuery();
     }
 }
