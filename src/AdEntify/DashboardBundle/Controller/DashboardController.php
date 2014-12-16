@@ -87,7 +87,10 @@ class DashboardController extends Controller
             $pagination = $this->get('knp_paginator')->paginate(
                 $tagRepository->findTagsByPhoto($photo),
                 $this->get('request')->query->get('page', 1),
-                $this->container->getParameter('analytics')['nb_elements_by_page']
+                $this->container->getParameter('analytics')['nb_elements_by_page'],
+                array(
+                    'wrap-queries' => true
+                )
             );
 
             return array(
