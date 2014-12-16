@@ -44,6 +44,7 @@ Account disabled: Account under validation
 Close: Close
 Your account is currently under validation.: Your account is currently under validation.
 My dashboard: My dashboard
+My stats: My statistics
 Firstname: First Name
 Lastname: Last Name
 All brands: All brands
@@ -174,6 +175,7 @@ profile/%id%/: profile/%id%/
 search/: search/
 search/keywords: search/%23%keywords%
 my/dashboard/: my/dashboard/
+my/dashboard/analytics: my/dashboard/analytics
 
 cgu:
     terms_of_use: %terms_of_use%
