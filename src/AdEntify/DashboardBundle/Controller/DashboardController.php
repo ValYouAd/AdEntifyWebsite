@@ -42,10 +42,15 @@ class DashboardController extends Controller
 
             $this->get('session')->set('dashboardPage', (array_key_exists('page', $_GET)) ? $_GET['page'] : 1);
 
+            $options = array();
+            if ($this->getRequest()->query->has('daterange')) {
+                $options['daterange'] = $this->getRequest()->query->get('daterange');
+            }
+
             $pagination = $this->get('knp_paginator')->paginate(
-                $em->getRepository('AdEntifyCoreBundle:Photo')->getPhotos($this->getUser()),
+                $em->getRepository('AdEntifyCoreBundle:Photo')->getPhotos($this->getUser(), $options),
                 $this->get('request')->query->get('page', 1),
-                $this->container->getParameter('nb_elements_by_page')
+                $this->container->getParameter('analytics')['nb_elements_by_page']
             );
 
             return array(
@@ -53,7 +58,8 @@ class DashboardController extends Controller
                 'brand' => $this->getUser()->getBrand(),
                 'user' => $this->getUser(),
                 'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser()),
-                'pagination' => $pagination
+                'pagination' => $pagination,
+                'daterange' => array_key_exists('daterange', $options) ? $options['daterange'] : null
             );
         } else
             throw new HttpException(403);
@@ -81,7 +87,7 @@ class DashboardController extends Controller
             $pagination = $this->get('knp_paginator')->paginate(
                 $tagRepository->findTagsByPhoto($photo),
                 $this->get('request')->query->get('page', 1),
-                $this->container->getParameter('nb_elements_by_page')
+                $this->container->getParameter('analytics')['nb_elements_by_page']
             );
 
             return array(

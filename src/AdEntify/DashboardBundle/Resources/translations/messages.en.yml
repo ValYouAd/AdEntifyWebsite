@@ -1,4 +1,8 @@
 dashboard:
-  stats:
-    sum: 'Tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
-    detailsSum: 'Tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users'
+    stats:
+        sum: 'Tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
+        detailsSum: 'Tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users'
+        none: 'No analytics'
+    date:
+        filter_label: 'Date range'
+        filter_button: 'Filter by date range'

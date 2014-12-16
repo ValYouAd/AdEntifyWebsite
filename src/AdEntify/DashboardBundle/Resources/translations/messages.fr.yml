@@ -1,4 +1,8 @@
 dashboard:
-  stats:
-    sum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
-    detailsSum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify'
+    stats:
+        sum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
+        detailsSum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify'
+        none: 'Aucune statistique à afficher'
+    date:
+        filter_label: 'Tri par date'
+        filter_button: 'Filtrer suivant les dates'
