@@ -44,34 +44,32 @@ class PhotoRepository extends EntityRepository
         }
     }
 
-    public function getPhotos(User $user, $page, $limit = 10)
+    public function getPhotos(User $user, $options = array())
     {
         $qb = $this->createQueryBuilder('p');
         $qb->select('p')
             ->leftJoin('p.tags', 't')
-            ->orderBy('p.createdAt', 'DESC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit);
-        if ($user->getBrand())
-        {
+            ->orderBy('p.createdAt', 'DESC');
+
+        if ($user->getBrand()) {
             $qb->where('t.brand = :brand')
-                ->setParameters(array(
-                    ':brand' => $user->getBrand()
-                ));
-        }
-        else
-        {
+                ->setParameter(':brand', $user->getBrand());
+        } else {
             $qb->where('p.owner = :user')
-                ->setParameters(array(
-                    ':user' => $user
-                ));
+                ->setParameter(':user', $user);
         }
-        $photos = new Paginator($qb);
-        $c = count($photos);
-        return array(
-            'photos' => $photos,
-            'count' => $c,
-            'pageLimit' => $limit
-        );
+
+        if (array_key_exists('daterange', $options)) {
+            $dates = explode(' - ', $options['daterange']);
+            $from = new \DateTime($dates[0]);
+            $to = new \DateTime($dates[1]);
+
+            $qb->andwhere('p.createdAt >= :from')
+                ->andWhere('p.createdAt <= :to')
+                ->setParameter('from', $from)
+                ->setParameter('to', $to);
+        }
+
+        return $qb->getQuery();
     }
 }

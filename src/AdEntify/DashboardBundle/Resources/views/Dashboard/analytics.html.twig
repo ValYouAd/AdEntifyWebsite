@@ -6,9 +6,50 @@
     {% stylesheets filter='cssrewrite'
         'bundles/adentifycommon/css/common.css'
         '@AdEntifyDashboardBundle/Resources/public/css/analytics.css'
+        '@AdEntifyDashboardBundle/Resources/public/css/daterangepicker-bs3.css'
     %}
     <link href="{{ asset_url }}" media="screen" rel="stylesheet" />
     {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    {% javascripts
+        '@AdEntifyDashboardBundle/Resources/public/js/moment.min.js'
+        '@AdEntifyDashboardBundle/Resources/public/js/daterangepicker.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left',
+                ranges: getRanges()
+            });
+        });
+
+        function getRanges() {
+            {% if app.request.locale == 'fr' %}
+                return {
+                    'Aujourd\'hui': [new Date(), new Date()],
+                    'Hier': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                    'Les 7 derniers jours': [moment().subtract('days', 6), new Date()],
+                    'Les 30 derniers jours': [moment().subtract('days', 29), new Date()],
+                    'Ce mois': [moment().startOf('month'), moment().endOf('month')],
+                    'Le mois dernier': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                };
+            {% else %}
+                return {
+                    'Today': [new Date(), new Date()],
+                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                    'Last 7 Days': [moment().subtract('days', 6), new Date()],
+                    'Last 30 Days': [moment().subtract('days', 29), new Date()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                };
+            {% endif %}
+        }
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -64,23 +105,38 @@
                     </div>
                 </div>
                 <div class="stats-by-img">
-                    <h2>Statistiques par image</h2>
+                    <div class="pull-right">
+                        <form class="form-inline" role="form">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="sr-only">{{ 'dashboard.date.filter_label'|trans }}</label>
+                                    <input class="form-control" type="text" name="daterange" value="{{ daterange }}" />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">{{ 'dashboard.date.filter_button'|trans }}</button>
+                        </form>
+                    </div>
+                    <h2>{{ 'Analytics per images'|trans }}</h2>
                 </div>
+
                 <table class="table dashboard-photo-list">
                     <thead>
                         <tr>
-                            <td>Date de publication</td>
+                            <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>
+                                {{ knp_pagination_sortable(pagination, 'Date de publication', 'p.createdAt') }}
+                                <span class="sort-direction glyphicon glyphicon-arrow-up"></span>
+                            </td>
                             <td>Photo</td>
                             <td>Infos</td>
-                            <td>Impressions</td>
-                            <td>Clics</td>
-			                <td>Temps d'interaction moyen</td>
-                            <td>Source</td>
+                            <td{% if pagination.isSorted('p.viewsCount') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Impressions', 'p.viewsCount' ) }}</td>
+                            <td{% if pagination.isSorted('p.tagsClicksCount') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Clics', 'p.tagsClicksCount' ) }}</td>
+			                <td{% if pagination.isSorted('p.interactionTime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 'p.interactionTime' ) }}</td>
+                            <td{% if pagination.isSorted('p.source') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Source', 'p.source' ) }}</td>
                             <td>Actions</td>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for photo in analytics.photos.photos %}
+                        {% for photo in pagination %}
                             <tr>
                                 <td>
                                     <div class="dashboard-date">{{ photo.createdAt|date }}</div>
@@ -121,10 +177,18 @@
                                     <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}" class="btn btn-primary dashboard-detail-btn">Details</a>
                                 </td>
                             </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8">
+                                    <p class="text-center text-warning">{{ 'dashboard.stats.none'|trans }}</p>
+                                </td>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                {% include 'AdEntifyBackofficeBundle:Common:pagination.html.twig' with {'count': analytics.photos.count, 'pageLimit': analytics.photos.pageLimit, route: 'dashboard_stats'} %}
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
             </div>
         </div>
     </div>

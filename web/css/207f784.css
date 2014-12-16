@@ -449,3 +449,12 @@ strong {
     float: left;
     margin: 0 0 0 10px;
 }
+.dashboard-content .table .sortable,
+.dashboard-content .table a {
+    text-decoration: none;
+}
+.dashboard-content .table .sortable:hover,
+.dashboard-content .table a:hover {
+    text-decoration: none;
+    color: lightskyblue;
+}

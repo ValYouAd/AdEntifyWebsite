@@ -38,7 +38,8 @@
         "knplabs/knp-gaufrette-bundle": "dev-master",
         "guzzle/guzzle": "dev-master",
         "misd/guzzle-bundle": "~1.0",
-        "phpunit/phpunit": "4.2.*"
+        "phpunit/phpunit": "4.2.*",
+        "knplabs/knp-paginator-bundle": "~2.4"
     },
     "scripts": {
         "post-install-cmd": [

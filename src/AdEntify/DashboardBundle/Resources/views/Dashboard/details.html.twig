@@ -70,18 +70,18 @@
                 <table class="table dashboard-table-photo-details">
                     <thead>
                     <tr>
-                        <td>Date de publication</td>
-                        <td>Type</td>
-                        <td>Titre</td>
-                        <td>Lien</td>
-                        <td>Taux de survols</td>
-                        <td>Clics</td>
-                        <td>Taux de clics</td>
-			            <td>Temps d'interaction moyen</td>
+                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date de publication', 'tag.createdAt') }}</td>
+                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Type', 'tag.type') }}</td>
+                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Titre', 'tag.title') }}</td>
+                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Lien', 'tag.link') }}</td>
+                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Taux de survols', 'tag.hoversPercentage') }}</td>
+                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Clics', 'tag.clicksPercentage') }}</td>
+                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Taux de clics', 'tag.clicksPercentage') }}</td>
+			            <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 'tag.interactionTime') }}</td>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for tag in tags.tags %}
+                    {% for tag in pagination %}
                         <tr>
                             <td>
                                 {{ tag.createdAt|date }}
@@ -115,14 +115,9 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                {% if tags.count > tags.tags.pageLimit %}
-                    <ul class="pagination">
-                        {% set pages = (tags.count / tags.pageLimit)|ceil %}
-                        {% for i in 1..pages %}
-                            <li><a href="{{ path('dashboard_details', { 'photoId': photoId, 'page': i }) }}">{{ i }}</a></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
                 <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary btn-go-back">Precedent</a>
             </div>
         </div>

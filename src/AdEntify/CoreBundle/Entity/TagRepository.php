@@ -36,24 +36,16 @@ class TagRepository extends EntityRepository{
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findTagsByPhoto($photo, $page, $limit = 10)
+    public function findTagsByPhoto($photo)
     {
         $qb = $this->createQueryBuilder('t');
         $qb->select('t')
             ->orderBy('t.createdAt', 'DESC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit)
             ->where('t.photo = :photo')
             ->setParameters(array(
                     ':photo' => $photo
             ));
-        $tags = new Paginator($qb);
-        $c = count($tags);
-        return array(
-            'tags' => $tags,
-            'count' => $c,
-            'pageLimit' => $limit
-        );
+        return $qb->getQuery()->getResult();
     }
 
     public function getTaggersCountByPhoto($photo)
