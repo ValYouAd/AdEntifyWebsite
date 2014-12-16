@@ -189,7 +189,7 @@
                                 <td>
                                     <div class="dashboard-photo-source">
                                         {% if photo.sourceUrl %}
-                                            {{ photo.sourceUrl }}
+                                            {{ photo.sourceUrl }}{% if photo.source %} - {{ photo.source }}{% endif %}
                                         {% else %}
                                             {{ photo.source }}
                                         {% endif %}

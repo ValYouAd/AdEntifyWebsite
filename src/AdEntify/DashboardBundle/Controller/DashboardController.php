@@ -43,7 +43,7 @@ class DashboardController extends Controller
             $this->get('session')->set('dashboardPage', (array_key_exists('page', $_GET)) ? $_GET['page'] : 1);
 
             $options = array();
-            if ($this->getRequest()->query->has('daterange')) {
+            if ($this->getRequest()->query->has('daterange') && $this->getRequest()->query->get('daterange')) {
                 $options['daterange'] = $this->getRequest()->query->get('daterange');
             }
 

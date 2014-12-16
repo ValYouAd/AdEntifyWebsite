@@ -5,4 +5,4 @@ dashboard:
         none: 'Aucune statistique à afficher'
     date:
         filter_label: 'Tri par date'
-        filter_button: 'Filtrer suivant les dates'
+        filter_button: 'Filtrer par dates'
