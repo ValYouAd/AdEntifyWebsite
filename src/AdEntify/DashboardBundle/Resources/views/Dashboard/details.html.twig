@@ -19,10 +19,10 @@
         </div>
         <div class="dashboard-content">
             <div class="dashboard-tab">
-                <div>STATISTIQUES DE LA PHOTO {{ photoId }}</div>
+                <div>STATISTIQUES DE LA PHOTO</div>
             </div>
             <div class="dashboard-statistiques">
-                <div class="stats-sum">{{ 'dashboard.stats.detailsSum'|trans({'%nbTagged%': tags.count, '%nbUsers%': nbTaggers })|raw }}</div>
+                <div class="stats-sum">{{ 'dashboard.stats.detailsSum'|trans({'%nbTagged%': tags.count|default(0), '%nbUsers%': nbTaggers })|raw }}</div>
                 <div class="dashboard-global-analytics">
                     <div>
                         <h2>Statistiques de la photo</h2>
@@ -110,6 +110,12 @@
                             </td>
                             <td>
 				                <span class="photo-details-time">{{ (tag.interactionTime/1000)|round(2) }}</span>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">
+                                <p class="text-center text-warning">{{ 'dashboard.stats.none'|trans }}</p>
                             </td>
                         </tr>
                     {% endfor %}
