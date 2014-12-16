@@ -122,7 +122,7 @@
                 <table class="table dashboard-photo-list">
                     <thead>
                         <tr>
-                            <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>
+                            <td>
                                 {{ knp_pagination_sortable(pagination, 'Date de publication', 'p.createdAt') }}
                                 {% if pagination.isSorted('p.createdAt') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
@@ -130,25 +130,25 @@
                             </td>
                             <td>Photo</td>
                             <td>Infos</td>
-                            <td{% if pagination.isSorted('p.viewsCount') %} class="sorted"{% endif %}>
+                            <td>
                                 {{ knp_pagination_sortable(pagination, 'Impressions', 'p.viewsCount' ) }}
                                 {% if pagination.isSorted('p.viewsCount') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                 {% endif %}
                             </td>
-                            <td{% if pagination.isSorted('p.tagsClicksCount') %} class="sorted"{% endif %}>
+                            <td>
                                 {{ knp_pagination_sortable(pagination, 'Clics', 'p.tagsClicksCount' ) }}
                                 {% if pagination.isSorted('p.tagsClicksCount') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                 {% endif %}
                             </td>
-			                <td{% if pagination.isSorted('p.interactionTime') %} class="sorted"{% endif %}>
+			                <td>
                                 {{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 'p.interactionTime' ) }}
                                 {% if pagination.isSorted('p.interactionTime') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                 {% endif %}
                             </td>
-                            <td{% if pagination.isSorted('p.source') %} class="sorted"{% endif %}>
+                            <td>
                                 {{ knp_pagination_sortable(pagination, 'Source', 'p.source' ) }}
                                 {% if pagination.isSorted('p.source') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
