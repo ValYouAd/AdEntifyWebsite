@@ -124,14 +124,36 @@
                         <tr>
                             <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>
                                 {{ knp_pagination_sortable(pagination, 'Date de publication', 'p.createdAt') }}
-                                <span class="sort-direction glyphicon glyphicon-arrow-up"></span>
+                                {% if pagination.isSorted('p.createdAt') %}
+                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                {% endif %}
                             </td>
                             <td>Photo</td>
                             <td>Infos</td>
-                            <td{% if pagination.isSorted('p.viewsCount') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Impressions', 'p.viewsCount' ) }}</td>
-                            <td{% if pagination.isSorted('p.tagsClicksCount') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Clics', 'p.tagsClicksCount' ) }}</td>
-			                <td{% if pagination.isSorted('p.interactionTime') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 'p.interactionTime' ) }}</td>
-                            <td{% if pagination.isSorted('p.source') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Source', 'p.source' ) }}</td>
+                            <td{% if pagination.isSorted('p.viewsCount') %} class="sorted"{% endif %}>
+                                {{ knp_pagination_sortable(pagination, 'Impressions', 'p.viewsCount' ) }}
+                                {% if pagination.isSorted('p.viewsCount') %}
+                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                {% endif %}
+                            </td>
+                            <td{% if pagination.isSorted('p.tagsClicksCount') %} class="sorted"{% endif %}>
+                                {{ knp_pagination_sortable(pagination, 'Clics', 'p.tagsClicksCount' ) }}
+                                {% if pagination.isSorted('p.tagsClicksCount') %}
+                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                {% endif %}
+                            </td>
+			                <td{% if pagination.isSorted('p.interactionTime') %} class="sorted"{% endif %}>
+                                {{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 'p.interactionTime' ) }}
+                                {% if pagination.isSorted('p.interactionTime') %}
+                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                {% endif %}
+                            </td>
+                            <td{% if pagination.isSorted('p.source') %} class="sorted"{% endif %}>
+                                {{ knp_pagination_sortable(pagination, 'Source', 'p.source' ) }}
+                                {% if pagination.isSorted('p.source') %}
+                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                {% endif %}
+                            </td>
                             <td>Actions</td>
                         </tr>
                     </thead>
@@ -139,7 +161,7 @@
                         {% for photo in pagination %}
                             <tr>
                                 <td>
-                                    <div class="dashboard-date">{{ photo.createdAt|date }}</div>
+                                    <div class="dashboard-date">{{ photo.createdAt|date("d/m/y") }}</div>
                                 </td>
                                 <td class="dashboard-photo-preview-td">
                                     <div class="dashboard-photo-preview">

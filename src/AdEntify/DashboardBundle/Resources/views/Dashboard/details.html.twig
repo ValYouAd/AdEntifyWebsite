@@ -70,21 +70,61 @@
                 <table class="table dashboard-table-photo-details">
                     <thead>
                     <tr>
-                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Date de publication', 'tag.createdAt') }}</td>
-                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Type', 'tag.type') }}</td>
-                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Titre', 'tag.title') }}</td>
-                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Lien', 'tag.link') }}</td>
-                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Taux de survols', 'tag.hoversPercentage') }}</td>
-                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Clics', 'tag.clicksPercentage') }}</td>
-                        <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Taux de clics', 'tag.clicksPercentage') }}</td>
-			            <td{% if pagination.isSorted('p.createdAt') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 'tag.interactionTime') }}</td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'Date de publication', 't.createdAt') }}
+                            {% if pagination.isSorted('t.createdAt') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'Type', 't.type') }}
+                            {% if pagination.isSorted('t.type') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'Titre', 't.title') }}
+                            {% if pagination.isSorted('t.title') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'Lien', 't.link') }}
+                            {% if pagination.isSorted('t.link') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'Taux de survols', 't.hoversPercentage') }}
+                            {% if pagination.isSorted('t.hoversPercentage') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'Clics', 't.clicksCount') }}
+                            {% if pagination.isSorted('t.clicksCount') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'Taux de clics', 't.clicksPercentage') }}
+                            {% if pagination.isSorted('t.clicksPercentage') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+			            <td>
+                            {{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 't.interactionTime') }}
+                            {% if pagination.isSorted('t.interactionTime') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
                     </tr>
                     </thead>
                     <tbody>
                     {% for tag in pagination %}
                         <tr>
                             <td>
-                                {{ tag.createdAt|date }}
+                                {{ tag.createdAt|date("d/m/y") }}
                             </td>
                             <td>
                                 {{ tag.type }}

@@ -45,7 +45,7 @@ class TagRepository extends EntityRepository{
             ->setParameters(array(
                     ':photo' => $photo
             ));
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery();
     }
 
     public function getTaggersCountByPhoto($photo)
