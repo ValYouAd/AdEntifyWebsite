@@ -50,19 +50,21 @@
                '@font-face {font-family: "asapregular";src: url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/asap-regular-webfont.svg#asapregular") format("svg");font-weight: normal;font-style: normal;}' +
                '@font-face {font-family: "robotobold";src: url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/Roboto-Bold-webfont.svg#robotobold") format("svg");font-weight: normal;font-style: normal;}' +
                '@font-face {font-family: "asapbold";src: url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.eot");src: url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.eot?#iefix") format("embedded-opentype"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.woff") format("woff"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.ttf") format("truetype"),url("'+ AdEntify.rootUrl +'fonts/asap-bold-webfont.svg#asapbold") format("svg");font-weight: normal;font-style: normal;}' +
+               '#embed-photo {max-height: ' + window.innerHeight + 'px; max-width: ' + window.innerWidth + 'px}' +
                '.adentify-pastille {background: url("'+ AdEntify.rootUrl +'img/adentify-pastille.png") no-repeat;}' +
-               (AdEntify.showTags === true ? '.tags {display: block;}' : '.tags {display: none;}') +
+               (AdEntify.showTags === true ? '.adentify-photo-container .tags {opacity: 1;}' : '.adentify-photo-container .tags {opacity: 0;}') +
                '.tag {background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");}' +
+               '.tag .popover {width: ' + window.innerWidth * 0.85 + 'px;}' +
                '[class^="icon-"],[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings.png");}' +
                '.icon-white,.nav-pills>.active>a>[class^="icon-"],.nav-pills>.active>a>[class*=" icon-"],.nav-list>.active>a>[class^="icon-"],.nav-list>.active>a>[class*=" icon-"],.navbar-inverse .nav>.active>a>[class^="icon-"],.navbar-inverse .nav>.active>a>[class*=" icon-"],.dropdown-menu>li>a:hover>[class^="icon-"],.dropdown-menu>li>a:focus>[class^="icon-"],.dropdown-menu>li>a:hover>[class*=" icon-"],.dropdown-menu>li>a:focus>[class*=" icon-"],.dropdown-menu>.active>a>[class^="icon-"],.dropdown-menu>.active>a>[class*=" icon-"],.dropdown-submenu:hover>a>[class^="icon-"],.dropdown-submenu:focus>a>[class^="icon-"],.dropdown-submenu:hover>a>[class*=" icon-"],.dropdown-submenu:focus>a>[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings-white.png");}' +
                '.tag-buttons {background: url("'+ AdEntify.rootUrl +'img/dark-grey-tag-background.jpg") repeat;}' +
                // sprites
-               '.arrow-top-adentify-pastille-hover, .add-tag-icon, .like-icon, .share-icon, .favorite-icon, .tag-place-icon, .tag-user-icon, .tag-brand-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top { background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");}' +
+               '.arrow-top-adentify-pastille-hover, .add-tag-icon, .like-icon, .share-icon, .favorite-icon, .tag-place-icon, .tag-user-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top { background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");}' +
                '</style>');
             $head.append('<meta property="adentify-loaded" content="true">');
          }
 
-         jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="width: 100%; position: relative;display: inline-block;" />');
+         jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="position: relative;display: inline-block;" />');
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
          $tags = jQuery('<ul class="tags" data-state="hidden" data-always-visible="no" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
          $pastilleWrapper = jQuery('<div class="adentify-pastille-wrapper" />').insertBefore(this.getValue('selector'));
@@ -135,8 +137,6 @@
          });
          $tags = jQuery('.tags');
          $tags.on('mouseenter', '.tag', function() {
-            //var popover = jQuery(this).find('.popover');
-            //popover.css({top: jQuery(this).data('y') > 0.5 ? '-'+popover.height()+'px' : '30px', left: jQuery(this).data('x') > 0.5 ? '-'+popover.width()+'px' : '30px'});
 
             // Load map if found
             var map = jQuery(this).find('.map');
@@ -197,16 +197,15 @@
                } else if (tag.type == 'person') {
                   $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%">\
                               <div class="tag-user-icon tag-icon"></div><div class="popover"><div class="tag-popover-arrow"></div>\
-                              <div class="popover-inner"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
-                  (tag.description ? '<p>' + tag.description + '</p>' : '') +
+                              <div class="popover-inner"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="person-title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
+                  //(tag.description ? '<p>' + tag.description + '</p>' : '') +
                   '</div></div></div>');
                } else if (tag.type == 'product') {
-                  $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + (tag.brand ? ' - ' + tag.brand.name : '') + '</a></span>' + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
+                  $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon glyphicon glyphicon-tag tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + '</a></span>' + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
                   (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                  '</div><div class="clearfix"></div>' +
-                  (tag.brand ? typeof tag.brand.small_logo_url !== 'undefined' ? '<div class="brand pull-right"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div>' : '' : '') +
-                  (tag.product ? '<div class="popover-details"><a target="_blank" href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div>' : '') +
-                  '</div></div>');
+                  (tag.brand ? typeof tag.brand.small_logo_url !== 'undefined' ? '<div class="brand"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div>' : '' : '') +
+                  //(tag.product ? '<div class="popover-details"><a target="_blank" href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div>' : '') +
+                  '</div></div></div>');
                } else {
                   jQuery($tags).append('');
                }
@@ -241,10 +240,35 @@
       },
 
       positionTagPopover: function(tag) {
-         var popover = jQuery(tag).find('.popover');
-         var tagOffset = jQuery(tag).offset();
+         var deferreds = [];
+         var i = 0;
 
-         jQuery(popover).offset({ top:0, left: 0});
+         // Create a deferred for all images
+         jQuery(tag).find('img').each(function() {
+            deferreds.push(new jQuery.Deferred());
+         });
+
+         // When image is loaded, resolve the next deferred
+         jQuery(tag).find('img').load(function() {
+            if (typeof deferreds[i] !== 'undefined')
+               deferreds[i].resolve();
+            i++;
+         }).each(function() {
+            if(this.complete)
+               jQuery(this).load();
+         });
+
+         // When all deferreds are done (all images loaded) do some stuff
+         jQuery.when.apply(null, deferreds).done(function() {
+            var popover = jQuery(tag).find('.popover');
+
+            if (!popover.is(':visible'))
+               popover.show();
+            jQuery(popover).offset({ top: window.innerHeight * 0.5, left: window.innerWidth * 0.5});
+            popover.css({margin: '-' + (jQuery(popover).find('.popover-inner').outerHeight(true) / 2) + 'px -' + (jQuery(popover).find('.popover-inner').outerWidth(true) / 2) + 'px'});
+            if (popover.is(':visible'))
+               popover.hide();
+         });
       },
 
       getValue: function(key) {
