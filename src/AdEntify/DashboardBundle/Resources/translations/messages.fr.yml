@@ -1,4 +1,8 @@
 dashboard:
+    title:
+        main: 'STATISTIQUES'
+        stats: 'Statistiques de tags'
+        analytics: 'Analytics par image'
     stats:
         sum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
         detailsSum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify'
@@ -6,3 +10,19 @@ dashboard:
     date:
         filter_label: 'Tri par date'
         filter_button: 'Filtrer par dates'
+    tagStats:
+        photosViews: 'Impressions d''images'
+        photosHovers: 'Survols d''images'
+        tagsHovers: 'Survols de tags'
+        tagsClicks: 'Clics sur les tags'
+        hoverRate: 'Taux de survol'
+        clicksRate: 'Taux de clics'
+    photoTab:
+        date: 'Date de publication'
+        photo: 'Photo'
+        info: 'Infos'
+        views: 'Impressions'
+        clicks: 'Clicks'
+        interactionTime: 'Temps d''interaction moyen'
+        source: 'Source'
+        action: 'Action'

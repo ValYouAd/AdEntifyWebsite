@@ -1,4 +1,8 @@
 dashboard:
+    title:
+        main: 'STATISTICS'
+        stats: 'Tags statistics'
+        analytics: 'Images analytics'
     stats:
         sum: 'Tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
         detailsSum: 'Tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users'
@@ -6,3 +10,19 @@ dashboard:
     date:
         filter_label: 'Date range'
         filter_button: 'Filter by date range'
+    tagStats:
+        photosViews: 'Photos views'
+        photosHovers: 'Mouse over on photos'
+        tagsHovers: 'Mouse over on tags'
+        tagsClicks: 'Number of clicks on tags'
+        hoverRate: 'Mouse over rate'
+        clicksRate: 'Click through rate'
+    photoTab:
+        date: 'Publication date'
+        photo: 'Photo'
+        info: 'Infos'
+        views: 'Views'
+        clicks: 'Clicks'
+        interactionTime: 'Average interaction time'
+        source: 'Source'
+        action: 'Action'
