@@ -63,7 +63,6 @@ class DashboardController extends Controller
             );
         } else
             throw new HttpException(403);
-
     }
 
     /**

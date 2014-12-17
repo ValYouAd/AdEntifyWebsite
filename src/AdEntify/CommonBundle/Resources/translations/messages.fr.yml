@@ -44,6 +44,7 @@ Account disabled: Compte non validé
 Close: Fermer
 Your account is currently under validation.: Votre compte est en attente de validation et n'est donc pas actif pour le moment.
 My dashboard: Mon dashboard
+My stats: Mes statistiques
 Firstname: Prénom
 Lastname: Nom
 All brands: Toutes les marques
@@ -193,6 +194,7 @@ profile/%id%/: profil/%id%/
 search/: recherche/
 search/keywords: recherche/%23%keywords%
 my/dashboard/: mon/dashboard/
+my/dashboard/analytics: my/dashboard/analytics
 
 cgu:
     terms_of_use: %terms_of_use%
