@@ -9,51 +9,39 @@ body {
     direction: ltr;
     unicode-bidi: embed
 }
+.pull-left {
+    float: left;
+}
 #embed-photo {
-    max-height: 100%;
-    max-width: 100%;
     display: block;
 }
-.popover {
+@media screen and (max-width: 200px){
+    .popover {
+        font-size: 12px;
+    }
+}
+.adentify-photo-container .popover {
     position: absolute;
-    /*display: none;*/
-    padding: 4px 6px;
-    -webkit-transition: opacity 0.3s ease-out;
-    -moz-transition: opacity 0.3s ease-out;
-    -ms-transition: opacity 0.3s ease-out;
-    -o-transition: opacity 0.3s ease-out;
-    transition: opacity 0.3s ease-out;
+    display: none;
+    background-color:#ffffff;
+    box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
+    max-width: none;
+    padding: 0;
 }
 .popover-product {
-    min-width: 250px;
+    /*min-width: 250px;*/
 }
 .popover-product .product-image {
-    max-width: 250px;
+    max-height: 100px;
+    margin: 5px 15px 5px 5px;
+}
+@media screen and (min-height: 300px){
+    .popover-product .product-image {
+        max-height: 200px;
+    }
 }
 .popover-product .brand-logo {
     max-height: 50px;
-}
-.popover {
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:1010;
-    max-width:276px;
-    padding:1px;
-    text-align:left;
-    background-color:#ffffff;
-    -webkit-background-clip:padding-box;
-    -moz-background-clip:padding;
-    background-clip:padding-box;
-    border:1px solid #ccc;
-    border:1px solid rgba(0, 0, 0, 0.2);
-    -webkit-border-radius:6px;
-    -moz-border-radius:6px;
-    border-radius:6px;
-    -webkit-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
-    box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
-    white-space:normal;
 }
 .popover.top {
     margin-top:-10px;
@@ -290,7 +278,7 @@ body {
 .popover-product .brand-logo {
     max-height: 50px;
 }
-.brand-logo,.product-image {
+.brand-logo {
     max-height: 100px;
 }
 .product-photo {
@@ -309,11 +297,14 @@ body {
 /* tags
 /*****************/
 .adentify-photo-container .tags {
-    /*opacity: 0;*/
+    opacity: 0;
     transition: opacity .3s linear;
 }
 .adentify-photo-container:hover .tags {
     opacity: 1;
+}
+.tag:hover .popover {
+    display: block!important;
 }
 .tags li {
     margin: 0;
@@ -326,53 +317,51 @@ body {
         background-position: -102px -109px;
         width: 35px;
         height: 36px;
+        margin-left: -17px;
+        margin-top: -17px;
     }
         .tag .popover {
-            position: absolute;
-            /*top: 30px;*/
-            /*left: -50%;*/
-            z-index: 2000;
-            padding: 0px;
+            z-index: 3;
             border: 0px;
             border-radius: 0px;
             font-family: "asapregular", "Helvetica Neue", "Arial", sans-serif;
-            max-width: none;
-            min-width: 150px;
-            -webkit-transition: opacity 0.3s ease-out;
-            -moz-transition: opacity 0.3s ease-out;
-            -ms-transition: opacity 0.3s ease-out;
-            -o-transition: opacity 0.3s ease-out;
             transition: opacity 0.3s ease-out;
         }
+            .tag .popover .popover-inner {
+                position: absolute;
+                background: white;
+                padding: 10px;
+                box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
+            }
         .tag .tag-icon {
             position: absolute;
         }
         .tag .tag-brand-icon{
-            top: 9px;
+            top: 11px;
             left: 11px;
-            background-position: -181px -109px;
-            width: 12px;
-            height: 17px;
+            width: 14px;
+            height: 14px;
+            color: #606366;
         }
         .tag .tag-place-icon{
-            left: 12px;
+            left: 11px;
             top: 10px;
-            background-position: -163px -127px;
+            background-position: -162px -126px;
             width: 11px;
             height: 14px;
         }
         .tag .tag-text-icon{
             left: 12px;
             top: 10px;
-            background-position: -163px -127px;
+            background-position: -30px -46px;
             width: 11px;
             height: 14px;
         }
         .tag .tag-user-icon{
             left: 11px;
             top: 10px;
-            background-position: -163px -127px;
-            width: 11px;
+            background-position: -142px -125px;
+            width: 14px;
             height: 14px;
         }
         .tag .tag-video-icon{
@@ -386,10 +375,10 @@ body {
             width: 270px;
             height: 260px;
         }
-        /*.tag-brand-icon{
-            background-position: -181px -109px;
-            width: 12px;
-            height: 17px;
+/*        .tag-brand-icon{
+            background-position: -25px -46px;
+            width: 14px;
+            height: 14px;
         }
         .tag-place-icon{
             background-position: -163px -127px;
@@ -414,6 +403,17 @@ body {
 /*****************/
 /* popover
 /*****************/
+.tag .popover p {
+    text-decoration: none;
+    margin: 10px 0 20px 0;
+    font-family: "lato", sans-serif;
+    font-size: 15px;
+    color: grey;
+    text-align: justify;
+}
+.tag .text-center {
+    display: inline-block;
+}
 .tag:hover .popover {
     display: block;
 }
@@ -440,23 +440,31 @@ body {
     width: 10px;
     height: 10px;
 }
-.tag .popover-inner {
-    padding: 6px;
+.tag .popover .person-title {
+    position: relative;
+    float: right;
+    top: 15px;
+    margin-left: 10px;
 }
-.tag .popover .title {
-    font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;
-    font-size: 14px;
+.tag .popover a {
+
+    font-family: "lato", sans-serif;
+    font-size: 15px;
+    text-align: justify;
     color: #181616;
+}
+.tag .popover a:hover {
+    text-decoration: none;
 }
 .tag .popover address {
     margin-bottom: 0px;
     color: #5b5756;
     font-size: 12px;
 }
-.tag .popover a {
-    color: #000000;
-    font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;
-}
+/*.tag .popover a {*/
+    /*color: #000000;*/
+    /*font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;*/
+/*}*/
 .add-tag-icon {
     background-position: -83px -174px;
     width: 19px;
