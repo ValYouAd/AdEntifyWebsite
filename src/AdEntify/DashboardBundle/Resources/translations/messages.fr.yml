@@ -1,3 +1,7 @@
+#pagination
+Next: 'Suivant'
+Previous: 'Précédent'
+
 dashboard:
     main:
         title:
