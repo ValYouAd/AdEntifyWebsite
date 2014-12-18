@@ -14,16 +14,27 @@
 .dashboard-logo {
     height: 80px;
     width: 100px;
-    margin: 0px auto 15px auto;
+    margin: 0px auto 20px auto;
     background: no-repeat center;
     background-size: contain;
 }
 .dashboard-tab {
+    /*width: 188px;*/
+    /*margin: auto;*/
+    font-weight: bold;
+    font-size: 10px;
+}
+.dashboard-tab .nav-tabs {
+    margin-left: 5px;
+}
+.dashboard-details-title {
     text-align: center;
     font-weight: bold;
     font-size: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 8px;
+}
+.dashboard-content {
+    padding: 0 10px;
 }
 .dashboard-statistiques {
     border-top: 1px solid #D9DDE0;
@@ -150,10 +161,6 @@ strong {
 .dashboard-content table .dashboard-photo-preview-td {
     padding: 1px!important;
 }
-/*.dashboard-content table .dashboard-photo-preview {*/
-    /*display: table-cell;*/
-    /*vertical-align: middle;*/
-/*}*/
 .dashboard-content table .dashboard-photo-preview img {
     max-width: 100px;
     max-height: 100px;
@@ -186,5 +193,12 @@ strong {
     color: red;
 }
 .dashboard-content .date-range {
-    padding: 15px 20px;
+    padding: 15px 5px;
+}
+.dashboard-content .tab-content {
+    padding: 0;
+    border-bottom: none;
+    border-top: none;
+    background: white;
+    margin: 0;
 }
