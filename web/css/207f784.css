@@ -461,7 +461,9 @@ strong {
     text-decoration: none;
     color: lightskyblue;
 }
-
 .dashboard-content .table .sort-direction {
     color: red;
+}
+.dashboard-content .date-range {
+    padding: 15px 20px;
 }

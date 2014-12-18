@@ -461,9 +461,11 @@ strong {
     text-decoration: none;
     color: lightskyblue;
 }
-
 .dashboard-content .table .sort-direction {
     color: red;
+}
+.dashboard-content .date-range {
+    padding: 15px 20px;
 }
 /*!
  * Stylesheet for the Date Range Picker, for use with Bootstrap 3.x
