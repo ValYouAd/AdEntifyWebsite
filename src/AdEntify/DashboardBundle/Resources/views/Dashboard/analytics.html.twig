@@ -61,30 +61,30 @@
         {% endif %}
         <div class="dashboard-content">
             <div class="dashboard-tab">
-                <div>STATISTIQUES</div>
+                <div>{% filter upper %}{{ 'dashboard.main.title.main'|trans }}{% endfilter %}</div>
             </div>
             <div class="dashboard-statistiques">
-                <div class="stats-sum">{{ 'dashboard.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|raw }}</div>
+                <div class="stats-sum">{{ 'dashboard.main.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}</div>
                 <div class="dashboard-global-analytics">
                     <div>
-                        <h2>Statistiques de tags</h2>
+                        <h2>{{ 'dashboard.main.title.stats'|trans|capitalize }}</h2>
                     </div>
                     <div class="row">
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ globalAnalytics.photosViews }}</p>
-                            <label>Impressions images</label>
+                            <label>{{ 'dashboard.main.stats.photos_views'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ globalAnalytics.photosHovers }}</p>
-                            <label>Survols d'images avec la marque</label>
+                            <label>{{ 'dashboard.main.stats.photos_hovers'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ globalAnalytics.tagsHovers }}</p>
-                            <label>Survols de tags de la marque</label>
+                            <label>{{ 'dashboard.main.stats.tags_hovers'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ globalAnalytics.tagsClicks }}</p>
-                            <label>Clics sur les tags de la marque</label>
+                            <label>{{ 'dashboard.main.stats.tags_clicks'|trans|capitalize }}</label>
                         </div>
                     </div>
                     <div class="row">
@@ -92,69 +92,69 @@
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ globalAnalytics.photosHoversPercentage|round(2) }}%</p>
-                            <label>Taux de survol</label>
+                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ globalAnalytics.tagsHoversPercentage|round(2) }}%</p>
-                            <label>Taux de survol</label>
+                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ globalAnalytics.tagsClicksPercentage|round(2) }}%</p>
-                            <label>Taux de clics</label>
+                            <label>{{ 'dashboard.main.stats.clicks_rate'|trans|capitalize }}</label>
                         </div>
                     </div>
                 </div>
                 <div class="stats-by-img">
-                    <div class="pull-right">
+                    <div class="pull-right date-range">
                         <form class="form-inline" role="form">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <label class="sr-only">{{ 'dashboard.date.filter_label'|trans }}</label>
+                                    <label class="sr-only">{{ 'dashboard.main.date.filter_label'|trans }}</label>
                                     <input class="form-control" type="text" name="daterange" value="{{ daterange }}" />
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">{{ 'dashboard.date.filter_button'|trans }}</button>
+                            <button type="submit" class="btn btn-primary">{{ 'dashboard.main.date.filter_button'|trans }}</button>
                         </form>
                     </div>
-                    <h2>{{ 'Analytics per images'|trans }}</h2>
+                    <h2>{{ 'dashboard.main.title.analytics'|trans|capitalize }}</h2>
                 </div>
 
                 <table class="table dashboard-photo-list">
                     <thead>
                         <tr>
                             <td>
-                                {{ knp_pagination_sortable(pagination, 'Date de publication', 'p.createdAt') }}
+                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.date'|trans|capitalize, 'p.createdAt') }}
                                 {% if pagination.isSorted('p.createdAt') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                 {% endif %}
                             </td>
-                            <td>Photo</td>
-                            <td>Infos</td>
+                            <td>{{ 'dashboard.main.tab.photo'|trans|capitalize }}</td>
+                            <td>{{ 'dashboard.main.tab.info'|trans|capitalize }}</td>
                             <td>
-                                {{ knp_pagination_sortable(pagination, 'Impressions', 'p.viewsCount' ) }}
+                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.views'|trans|capitalize, 'p.viewsCount' ) }}
                                 {% if pagination.isSorted('p.viewsCount') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                 {% endif %}
                             </td>
                             <td>
-                                {{ knp_pagination_sortable(pagination, 'Clics', 'p.tagsClicksCount' ) }}
+                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.clicks'|trans|capitalize, 'p.tagsClicksCount' ) }}
                                 {% if pagination.isSorted('p.tagsClicksCount') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                 {% endif %}
                             </td>
 			                <td>
-                                {{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 'p.interactionTime' ) }}
+                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.interaction_time'|trans|capitalize, 'p.interactionTime' ) }}
                                 {% if pagination.isSorted('p.interactionTime') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                 {% endif %}
                             </td>
                             <td>
-                                {{ knp_pagination_sortable(pagination, 'Source', 'p.source' ) }}
+                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.source'|trans|capitalize, 'p.source' ) }}
                                 {% if pagination.isSorted('p.source') %}
                                     <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                 {% endif %}
                             </td>
-                            <td>Actions</td>
+                            <td>{{ 'dashboard.main.tab.action'|trans|capitalize }}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -167,7 +167,6 @@
                                     <div class="dashboard-photo-preview">
                                         <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}">
                                             <img src="{{ photo.smallUrl }}"/>
-                                            {#<div class="dashboard-photo-preview" style="background: url({{ photo.smallUrl }})"></div>#}
                                         </a>
                                     </div>
                                 </td>
@@ -196,13 +195,15 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}" class="btn btn-primary dashboard-detail-btn">Details</a>
+                                    <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}" class="btn btn-primary dashboard-detail-btn">
+                                        {% filter upper %}{{ 'dashboard.main.tab.detail_button'|trans }}{% endfilter %}
+                                    </a>
                                 </td>
                             </tr>
                         {% else %}
                             <tr>
                                 <td colspan="8">
-                                    <p class="text-center text-warning">{{ 'dashboard.stats.none'|trans }}</p>
+                                    <p class="text-center text-warning">{{ 'dashboard.main.stats.none'|trans|capitalize }}</p>
                                 </td>
                             </tr>
                         {% endfor %}

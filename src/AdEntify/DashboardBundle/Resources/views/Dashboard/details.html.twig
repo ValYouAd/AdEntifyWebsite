@@ -19,48 +19,48 @@
         </div>
         <div class="dashboard-content">
             <div class="dashboard-tab">
-                <div>STATISTIQUES DE LA PHOTO</div>
+                <div>{% filter upper %}{{ 'dashboard.details.title.main'|trans }}{% endfilter %}</div>
             </div>
             <div class="dashboard-statistiques">
-                <div class="stats-sum">{{ 'dashboard.stats.detailsSum'|trans({'%nbTagged%': tags.count|default(0), '%nbUsers%': nbTaggers })|raw }}</div>
+                <div class="stats-sum">{{ 'dashboard.details.stats.sum'|trans({'%nbTagged%': tags.count|default(0), '%nbUsers%': nbTaggers })|capitalize|raw }}</div>
                 <div class="dashboard-global-analytics">
                     <div>
-                        <h2>Statistiques de la photo</h2>
+                        <h2>{{ 'dashboard.details.title.main'|trans|capitalize }}</h2>
                     </div>
                     <div class="row">
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ photo.viewsCount }}</p>
-                            <label>Impressions images</label>
+                            <label>{{ 'dashboard.details.stats.views'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ photo.hoversCount }}</p>
-                            <label>Survols de l'image</label>
+                            <label>{{ 'dashboard.details.stats.hover'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ photo.tagsHoversCount }}</p>
-                            <label>Survols de tags de l'image</label>
+                            <label>{{ 'dashboard.details.stats.tags_hover'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ photo.tagsClicksCount }}</p>
-                            <label>Clics sur les tags de l'image</label>
+                            <label>{{ 'dashboard.details.stats.tags_clicks'|trans|capitalize }}</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-time">{{ (photo.interactionTime/1000)|round(2) }}</p>
-                            <label>Temps d'interaction moyen</label>
+                            <label>{{ 'dashboard.main.tab.interaction_time'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.hoversPercentage|round(2) }}</p>
-                            <label>Taux de survol</label>
+                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.tagsHoversPercentage|round(2) }}</p>
-                            <label>Taux de survol</label>
+                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.tagsClicksPercentage|round(2) }}</p>
-                            <label>Taux de clics</label>
+                            <label>{{ 'dashboard.main.stats.clicks_rate'|trans|capitalize }}</label>
                         </div>
                     </div>
                 </div>
@@ -71,49 +71,49 @@
                     <thead>
                     <tr>
                         <td>
-                            {{ knp_pagination_sortable(pagination, 'Date de publication', 't.createdAt') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.date'|trans|capitalize, 't.createdAt') }}
                             {% if pagination.isSorted('t.createdAt') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
                         </td>
                         <td>
-                            {{ knp_pagination_sortable(pagination, 'Type', 't.type') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.details.tab.type'|trans|capitalize, 't.type') }}
                             {% if pagination.isSorted('t.type') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
                         </td>
                         <td>
-                            {{ knp_pagination_sortable(pagination, 'Titre', 't.title') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.details.tab.title'|trans|capitalize, 't.title') }}
                             {% if pagination.isSorted('t.title') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
                         </td>
                         <td>
-                            {{ knp_pagination_sortable(pagination, 'Lien', 't.link') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.details.tab.link'|trans|capitalize, 't.link') }}
                             {% if pagination.isSorted('t.link') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
                         </td>
                         <td>
-                            {{ knp_pagination_sortable(pagination, 'Taux de survols', 't.hoversPercentage') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.stats.hover_rate'|trans|capitalize, 't.hoversPercentage') }}
                             {% if pagination.isSorted('t.hoversPercentage') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
                         </td>
                         <td>
-                            {{ knp_pagination_sortable(pagination, 'Clics', 't.clicksCount') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.clicks'|trans|capitalize, 't.clicksCount') }}
                             {% if pagination.isSorted('t.clicksCount') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
                         </td>
                         <td>
-                            {{ knp_pagination_sortable(pagination, 'Taux de clics', 't.clicksPercentage') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.stats.clicks_rate'|trans|capitalize, 't.clicksPercentage') }}
                             {% if pagination.isSorted('t.clicksPercentage') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
                         </td>
 			            <td>
-                            {{ knp_pagination_sortable(pagination, 'Temps d\'interaction moyen', 't.interactionTime') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.interaction_time'|trans|capitalize, 't.interactionTime') }}
                             {% if pagination.isSorted('t.interactionTime') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
@@ -155,7 +155,7 @@
                     {% else %}
                         <tr>
                             <td colspan="8">
-                                <p class="text-center text-warning">{{ 'dashboard.stats.none'|trans }}</p>
+                                <p class="text-center text-warning">{{ 'dashboard.main.stats.none'|trans }}</p>
                             </td>
                         </tr>
                     {% endfor %}
@@ -164,7 +164,7 @@
                 <div class="navigation">
                     {{ knp_pagination_render(pagination) }}
                 </div>
-                <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary btn-go-back">Precedent</a>
+                <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary btn-go-back">{{ 'dashboard.details.back_button'|trans }}</a>
             </div>
         </div>
     </div>
