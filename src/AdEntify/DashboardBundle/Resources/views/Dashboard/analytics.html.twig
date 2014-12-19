@@ -16,6 +16,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/chart.js/0.2/Chart.min.js?v=1.1.22"></script>
     {% javascripts
         '@AdEntifyDashboardBundle/Resources/public/js/moment.min.js'
         '@AdEntifyDashboardBundle/Resources/public/js/daterangepicker.js'
@@ -51,6 +52,33 @@
                 };
             {% endif %}
         }
+        var dataViews = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [
+                {
+                    label: "My First dataset",
+                    fillColor: "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: [65, 59, 80, 81, 56, 55, 40]
+                },
+                {
+                    label: "My Second dataset",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: [28, 48, 40, 19, 86, 27, 90]
+                }
+            ]
+        };
+        var ctx = document.getElementById("dashboard-activity-chart").getContext("2d");
+        new Chart(ctx).Line(dataViews);
     </script>
 {% endblock %}
 
@@ -73,7 +101,50 @@
                 </ul>
             </div>
             <div class="tab-content">
-                <div id="dashboard-activity" class="tab-pane"><p>toto</p></div>
+                {# ===================== ACTIVITY ===================== #}
+                <div id="dashboard-activity" class="tab-pane">
+                    <div class="date-range">
+                        <form class="form-inline" role="form">
+                            <button type="submit" class="btn btn-primary">{{ 'dashboard.main.date.filter_button'|trans }}</button>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="sr-only">{{ 'dashboard.main.date.filter_label'|trans }}</label>
+                                    <input class="form-control" type="text" name="daterange" value="{{ daterange }}" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div>toto
+                        {% for photo in globalAnalytics.photosViewsEntity %}
+                            {{ photo.id }}
+                        {% endfor %}
+                    </div>
+                    <div class="dashboard-global-analytics">
+                        <div>
+                            <h2>{{ 'dashboard.main.title.stats'|trans|capitalize }}</h2>
+                        </div>
+                        <div class="row">
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.photosViews }}</p>
+                                <label>{{ 'dashboard.main.stats.photos_views'|trans|capitalize }}</label>
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.photosHovers }}</p>
+                                <label>{{ 'dashboard.main.stats.photos_hovers'|trans|capitalize }}</label>
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.tagsClicks }}</p>
+                                <label>{{ 'dashboard.main.stats.tags_clicks'|trans|capitalize }}</label>
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p class="stats-time">{{ (globalAnalytics.interactionTime/1000)|round(2) }}</p>
+                                <label>{{ 'dashboard.main.tab.interaction_time'|trans|capitalize }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <canvas id="dashboard-activity-chart" width="900" height="400"></canvas>
+                </div>
+                {# ===================== STATS ===================== #}
                 <div id="dashboard-stats" class="dashboard-statistiques tab-pane active">
                     <div class="stats-sum">{{ 'dashboard.main.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}</div>
                     <div class="dashboard-global-analytics">
@@ -187,14 +258,14 @@
                                             <div class="dashboard-photo-author">par {{ photo.owner.fullname }}</div>
                                         </div>
                                     </td>
-                                    <td class="dashboard-percentage-td">
-                                        <div class="dashboard-percentage">{{ photo.viewsCount }}</div>
+                                    <td>
+                                        <div>{{ photo.viewsCount }}</div>
                                     </td>
-                                    <td class="dashboard-percentage-td">
-                                        <div class="dashboard-percentage">{{ photo.tagsClicksCount }}</div>
+                                    <td>
+                                        <div>{{ photo.tagsClicksCount }}</div>
                                     </td>
-                                    <td class="dashboard-percentage-td">
-                                       <div class="dashboard-percentage">{{ (photo.interactionTime/1000)|round(2)  }}s</div>
+                                    <td>
+                                       <div class="stats-time">{{ (photo.interactionTime/1000)|round(2)  }}</div>
                                     </td>
                                     <td>
                                         <div class="dashboard-photo-source">

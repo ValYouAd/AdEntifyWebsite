@@ -452,7 +452,7 @@ strong {
 .photo-details-percentage::after {
     content: "%"
 }
-.photo-details-time::after {
+.photo-details-time::after, .stats-time::after {
     content: "s"
 }
 .dashboard-content .pagination {
@@ -480,4 +480,8 @@ strong {
     border-top: none;
     background: white;
     margin: 0;
+}
+#dashboard-activity-chart {
+    display: block;
+    margin: auto;
 }
