@@ -53,27 +53,18 @@
             {% endif %}
         }
         var dataViews = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            labels: $('#dashboard-activity-chart').attr('data-views-labels').split(','),
+//                   labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
             datasets: [
                 {
-                    label: "My First dataset",
+                    label: "Photos views",
                     fillColor: "rgba(220,220,220,0.2)",
                     strokeColor: "rgba(220,220,220,1)",
                     pointColor: "rgba(220,220,220,1)",
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: [65, 59, 80, 81, 56, 55, 40]
-                },
-                {
-                    label: "My Second dataset",
-                    fillColor: "rgba(151,187,205,0.2)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(151,187,205,1)",
-                    data: [28, 48, 40, 19, 86, 27, 90]
+                    data: $('#dashboard-activity-chart').attr('data-views').split(',')
                 }
             ]
         };
@@ -114,11 +105,6 @@
                             </div>
                         </form>
                     </div>
-                    <div>toto
-                        {% for photo in globalAnalytics.photosViewsEntity %}
-                            {{ photo.id }}
-                        {% endfor %}
-                    </div>
                     <div class="dashboard-global-analytics">
                         <div>
                             <h2>{{ 'dashboard.main.title.stats'|trans|capitalize }}</h2>
@@ -142,7 +128,10 @@
                             </div>
                         </div>
                     </div>
-                    <canvas id="dashboard-activity-chart" width="900" height="400"></canvas>
+                    <canvas id="dashboard-activity-chart" width="900" height="400"
+                            data-views="{% for view in globalAnalytics.photosViewsGraph.data %}{{ view }}{% if not loop.last %},{% endif %}{% endfor %}"
+                            data-views-labels="{% for label in globalAnalytics.photosViewsGraph.labels %}{{ label }}{% if not loop.last %},{% endif %}{% endfor %}">
+                    </canvas>
                 </div>
                 {# ===================== STATS ===================== #}
                 <div id="dashboard-stats" class="dashboard-statistiques tab-pane active">

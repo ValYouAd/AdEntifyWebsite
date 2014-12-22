@@ -69,39 +69,100 @@ class AnalyticRepository extends EntityRepository
         return $analytic ? true : false;
     }
 
-    public function findGlobalAnalyticsByUser(User $user)
+    private function parseDataForGraph($data, $options)
     {
+        $result = $options['defaultLabels'];
+        foreach($data as $d) {
+            $result[$d['period']] = $d['data'];
+        }
+
+        return $result;
+    }
+
+    private function fillGraphLabelsArray($data = array())
+    {
+        return array_keys($data);
+    }
+
+    private function getStatsPeriod(&$options = array())
+    {
+        $options['sqlDateFormat'] = '%M %Y';
+        $options['phpDateFormat'] = 'F Y';
+
+        if (array_key_exists('daterange', $options)) {
+            $dates = explode(' - ', $options['daterange']);
+            $from = new \DateTime($dates[0]);
+            $to = new \DateTime($dates[1]);
+            $diff = date_diff($from, $to)->format('%a');
+            if ($diff > 365 * 3) {
+                $options['sqlDateFormat'] = 'YEAR';
+                $options['graphRange'] = intval($diff / 365); //TODO
+            } else if ($diff > 120) {
+                $options['sqlDateFormat'] = 'MONTH';
+                $options['graphRange'] = intval($diff / 30);
+            } else {
+                $options['sqlDateFormat'] = 'DAY'; //TODO
+                $options['graphRange'] = $diff;
+            }
+        } else {
+            $options['toDate'] = new \DateTime();
+            $options['fromDate'] = (new \DateTime())->sub(new \DateInterval('P6M'));
+
+            $labels = array();
+            $labels[$options['fromDate']->format($options['phpDateFormat'])] = 0;
+            do {
+                $nextMonth = $options['fromDate']->add(new \DateInterval('P1M'));
+                $labels[$nextMonth->format($options['phpDateFormat'])] = 0;
+            } while ($nextMonth < $options['toDate']);
+
+            $options['defaultLabels'] = $labels;
+        }
+
+        return $options;
+    }
+
+    public function findGlobalAnalyticsByUser(User $user, $options = array())
+    {
+        $this->getStatsPeriod($options);
+        $photosViewsGraph = $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
+            'element' => Analytic::ELEMENT_PHOTO,
+            'action' => Analytic::ACTION_VIEW,
+            'graph' => true
+        ), $options)), $options);
+
         $analytics = array(
-            'photosViews' => $this->findOrCountByAction($user, array(
-                'count' => true,
+            'photosViews' => $this->getElementCountByAction($user, array(
                 'element' => Analytic::ELEMENT_PHOTO,
                 'action' => Analytic::ACTION_VIEW
             )),
-            'photosHovers' => $this->findOrCountByAction($user, array(
-                'count' => true,
+            'photosHovers' => $this->getElementCountByAction($user, array(
                 'element' => Analytic::ELEMENT_PHOTO,
                 'action' => Analytic::ACTION_HOVER
             )),
-            'tagsHovers' => $this->findOrCountByAction($user, array(
-                'count' => true,
+            'tagsHovers' => $this->getElementCountByAction($user, array(
                 'element' => Analytic::ELEMENT_TAG,
                 'action' => Analytic::ACTION_HOVER
             )),
-            'tagsClicks' => $this->findOrCountByAction($user, array(
-                'count' => true,
+            'tagsClicks' => $this->getElementCountByAction($user, array(
                 'element' => Analytic::ELEMENT_TAG,
                 'action' => Analytic::ACTION_CLICK
             )),
-            'photosViewsEntity' => $this->findOrCountByAction($user, array(
-                'count' => false,
+            'photosViewsGraph' => array(
+                'data' => $photosViewsGraph,
+                'labels' => $this->fillGraphLabelsArray($photosViewsGraph)
+            ),
+            'photosHoversGraph' => $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
                 'element' => Analytic::ELEMENT_PHOTO,
-                'action' => Analytic::ACTION_VIEW
-            )),
+                'action' => Analytic::ACTION_HOVER,
+                'graph' => true
+            ), $options)), $options),
             'photosHoversPercentage' => 0,
             'tagsHoversPercentage' => 0,
             'tagsClicksPercentage' => 0,
             'interactionTime' => $this->getAvgInteractionTime($user),
         );
+//        echo "<pre>";
+//        print_r($analytics);die;
         // Calculate percentages
         if ($analytics['photosViews'] > 0)
             $analytics['photosHoversPercentage'] = ($analytics['photosHovers'] / $analytics['photosViews']) * 100;
@@ -113,56 +174,67 @@ class AnalyticRepository extends EntityRepository
         return $analytics;
     }
 
-    private function findOrCountByAction(User $user, $options = array())
+    private function getElementCountByAction(User $user, $options = array())
     {
         $qb = $this->createQueryBuilder('a')
-            ->select(($options['count']) ? 'COUNT(a.id)' : 'a')
-            ->andWhere('a.element = :element')
+            ->select('COUNT(DISTINCT a.id)')
+            ->Where('a.element = :element')
             ->andWhere('a.action = :action');
+        if ($options['element'] == Analytic::ELEMENT_PHOTO)
+            $qb->andWhere($qb->expr()->isNotNull('a.photo'));
 
         if ($user->getBrand()) {
-            if ($options['element'] == Analytic::ELEMENT_PHOTO)
-            {
+            $parameters['element'] = $options['element'];
+            $parameters['action'] = $options['action'];
+            $parameters['brand'] = $user->getBrand()->getId();
+
+            if ($options['element'] == Analytic::ELEMENT_PHOTO) {
+                $parameters['user'] = $user;
+
                 $qb->leftJoin('a.photo', 'p')
-                    ->leftJoin('p.tags', 't');
+                    ->leftJoin('p.tags', 't')
+                    ->andWhere('b = :brand OR p.owner = :user');
             }
             else
-                $qb->leftJoin('a.tag', 't');
-
+                $qb->leftJoin('a.tag', 't')
+                    ->andWhere('b = :brand');
             $qb->leftJoin('t.brand', 'b')
-                ->andWhere('b = :brand')
-                ->orWhere('a.user = :user')
-                ->setParameters(array(
-                    'element' => $options['element'],
-                    'action' => $options['action'],
-                    'brand' => $user->getBrand()->getId(),
-                    'user' => $user
-                ));
-            if ($options['count'])
-                return $qb->getQuery()->getSingleScalarResult();
-            else
-                return $qb->getQuery()->getResult();
+                ->setParameters($parameters);
         } else {
-            if ($options['element'] == Analytic::ELEMENT_PHOTO) {
+            if ($options['element'] == Analytic::ELEMENT_PHOTO)
                 $qb->leftJoin('a.photo', 'p')
                     ->leftJoin('p.owner', 'u');
-            }
             else
-            {
                 $qb->leftJoin('a.tag', 't')
                     ->leftJoin('t.owner', 'u');
-            }
+
             $qb->andWhere('u = :user')
                 ->setParameters(array(
                     'element' => $options['element'],
                     'action' => $options['action'],
                     'user' => $user->getId()
                 ));
-            if ($options['count'])
-                return $qb->getQuery()->getSingleScalarResult();
-            else
-                return $qb->getQuery()->getResult();
         }
+        if (array_key_exists('daterange', $options)) {
+            $dates = explode(' - ', $options['daterange']);
+            $from = new \DateTime($dates[0]);
+            $to = new \DateTime($dates[1]);
+
+            $qb->andwhere('a.createdAt >= :from')
+                ->andWhere('a.createdAt <= :to')
+                ->setParameter('from', $from)
+                ->setParameter('to', $to);
+        }
+        if (array_key_exists('graph', $options))
+        {
+            return $qb->select('COUNT(DISTINCT a.id) as data, DATE_FORMAT(a.createdAt, :sqlDateFormat) as period')
+                ->groupBy('period')
+                ->setParameter('sqlDateFormat', $options['sqlDateFormat'])
+                ->orderBy('a.createdAt')
+                ->getQuery()->getScalarResult();
+        }
+        else
+            return $qb->getQuery()->getSingleScalarResult();
     }
 
     public function findAnalyticsByPhoto($photo)
