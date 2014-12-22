@@ -16,7 +16,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script src="//cdn.jsdelivr.net/chart.js/0.2/Chart.min.js?v=1.1.22"></script>
+    <script src="//cdn.jsdelivr.net/chart.js/1.0.1-beta.4/Chart.min.js"></script>
     {% javascripts
         '@AdEntifyDashboardBundle/Resources/public/js/moment.min.js'
         '@AdEntifyDashboardBundle/Resources/public/js/daterangepicker.js'
@@ -58,7 +58,7 @@
                 labels: $(element).attr('data-views-labels').split(','),
                 datasets: [
                     {
-                        label: "Photos views",
+                        label: "Views",
                         fillColor: "rgba(220,220,220,0.2)",
                         strokeColor: "rgba(220,220,220,1)",
                         pointColor: "rgba(220,220,220,1)",
