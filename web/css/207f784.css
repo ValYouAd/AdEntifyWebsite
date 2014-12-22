@@ -471,8 +471,16 @@ strong {
 .dashboard-content .table .sort-direction {
     color: red;
 }
+.dashboard-content #dashboard-activity .date-range {
+    border-top: 1px solid #D9DDE0;
+    border-bottom: 1px solid #D9DDE0;
+}
 .dashboard-content .date-range {
     padding: 15px 5px;
+}
+.dashboard-content .date-range-form {
+    width: 366px;
+    margin: auto;
 }
 .dashboard-content .tab-content {
     padding: 0;

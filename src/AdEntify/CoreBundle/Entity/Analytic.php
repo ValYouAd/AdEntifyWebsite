@@ -26,8 +26,6 @@ class Analytic
     const PLATFORM_ADENTIFY_EMBED = 'embed';
     const PLATFORM_ADENTIFY_WORDPRESS = 'wordpress';
 
-    const ANALYTICS_RANGE = 6;
-
     /**
      * @var integer
      *

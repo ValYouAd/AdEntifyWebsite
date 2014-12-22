@@ -71,17 +71,24 @@ class AnalyticRepository extends EntityRepository
 
     private function parseDataForGraph($data, $options)
     {
-        $result = $options['defaultLabels'];
+        $result = $options['labels'];
         foreach($data as $d) {
-            $result[$d['period']] = $d['data'];
+            if (array_key_exists($d['period'], $options['labels']))
+                $result[$d['period']] = $d['data'];
         }
-
         return $result;
     }
 
-    private function fillGraphLabelsArray($data = array())
+    private function initializeGraphData($options = array())
     {
-        return array_keys($data);
+        $labels = array();
+        $labels[$options['fromDate']->format($options['phpDateFormat'])] = 0;
+        do {
+            $nextMonth = $options['fromDate']->add(new \DateInterval($options['dateInterval']));
+            $labels[$nextMonth->format($options['phpDateFormat'])] = 0;
+        } while ($nextMonth < $options['toDate']);
+
+        return $labels;
     }
 
     private function getStatsPeriod(&$options = array())
@@ -91,34 +98,49 @@ class AnalyticRepository extends EntityRepository
 
         if (array_key_exists('daterange', $options)) {
             $dates = explode(' - ', $options['daterange']);
-            $from = new \DateTime($dates[0]);
-            $to = new \DateTime($dates[1]);
-            $diff = date_diff($from, $to)->format('%a');
+            $options['fromDate'] = new \DateTime($dates[0]);
+            $options['toDate'] = new \DateTime($dates[1]);
+            $diff = date_diff($options['fromDate'], $options['toDate'])->format('%a');
             if ($diff > 365 * 3) {
-                $options['sqlDateFormat'] = 'YEAR';
-                $options['graphRange'] = intval($diff / 365); //TODO
-            } else if ($diff > 120) {
-                $options['sqlDateFormat'] = 'MONTH';
-                $options['graphRange'] = intval($diff / 30);
+                $options['sqlDateFormat'] = '%Y';
+                $options['phpDateFormat'] = 'Y';
+                $options['dateInterval'] = 'P1Y';
+            } else if ($diff > 90) {
+                $options['sqlDateFormat'] = '%M %Y';
+                $options['phpDateFormat'] = 'F Y';
+                $options['dateInterval'] = 'P1M';
             } else {
-                $options['sqlDateFormat'] = 'DAY'; //TODO
-                $options['graphRange'] = $diff;
+                $options['sqlDateFormat'] = '%d %M';
+                $options['phpDateFormat'] = 'd F';
+                $options['dateInterval'] = 'P1D';
             }
         } else {
             $options['toDate'] = new \DateTime();
             $options['fromDate'] = (new \DateTime())->sub(new \DateInterval('P6M'));
-
-            $labels = array();
-            $labels[$options['fromDate']->format($options['phpDateFormat'])] = 0;
-            do {
-                $nextMonth = $options['fromDate']->add(new \DateInterval('P1M'));
-                $labels[$nextMonth->format($options['phpDateFormat'])] = 0;
-            } while ($nextMonth < $options['toDate']);
-
-            $options['defaultLabels'] = $labels;
+            $options['dateInterval'] = 'P1M';
         }
-
+        $options['labels'] = $this->initializeGraphData($options);
         return $options;
+    }
+
+    public function getGraphLabels($photosViewsGraph, $options)
+    {
+        if ($options['dateInterval'] != 'P1D')
+            return array_keys($photosViewsGraph);
+        else
+        {
+            $i = 3;
+            $result = array();
+            foreach(array_keys($photosViewsGraph) as $key)
+            {
+                if ($i % 3 == 0)
+                    $result[] = $key;
+                else
+                    $result[] = '';
+                $i++;
+            }
+            return $result;
+        }
     }
 
     public function findGlobalAnalyticsByUser(User $user, $options = array())
@@ -129,6 +151,20 @@ class AnalyticRepository extends EntityRepository
             'action' => Analytic::ACTION_VIEW,
             'graph' => true
         ), $options)), $options);
+
+        $photosHoversGraph = $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
+            'element' => Analytic::ELEMENT_PHOTO,
+            'action' => Analytic::ACTION_HOVER,
+            'graph' => true
+        ), $options)), $options);
+
+        $photosClicksGraph = $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
+            'element' => Analytic::ELEMENT_TAG,
+            'action' => Analytic::ACTION_CLICK,
+            'graph' => true
+        ), $options)), $options);
+
+        $photosInteractionGraph = $this->parseDataForGraph($this->getAvgInteractionTime($user, $options), $options);
 
         $analytics = array(
             'photosViews' => $this->getElementCountByAction($user, array(
@@ -149,20 +185,27 @@ class AnalyticRepository extends EntityRepository
             )),
             'photosViewsGraph' => array(
                 'data' => $photosViewsGraph,
-                'labels' => $this->fillGraphLabelsArray($photosViewsGraph)
+                'labels' => $this->getGraphLabels($photosViewsGraph, $options)
             ),
-            'photosHoversGraph' => $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
-                'element' => Analytic::ELEMENT_PHOTO,
-                'action' => Analytic::ACTION_HOVER,
-                'graph' => true
-            ), $options)), $options),
+            'photosHoversGraph' => array(
+                'data' => $photosHoversGraph,
+                'labels' => $this->getGraphLabels($photosHoversGraph, $options)
+            ),
+            'photosClicksGraph' => array(
+                'data' => $photosClicksGraph,
+                'labels' => $this->getGraphLabels($photosClicksGraph, $options)
+            ),
+            'photosInteractionGraph' => array(
+                'data' => $photosInteractionGraph,
+                'labels' => $this->getGraphLabels($photosInteractionGraph, $options)
+            ),
             'photosHoversPercentage' => 0,
             'tagsHoversPercentage' => 0,
             'tagsClicksPercentage' => 0,
-            'interactionTime' => $this->getAvgInteractionTime($user),
+//            'interactionTime' => $this->getAvgInteractionTime($user, $options),
         );
-//        echo "<pre>";
-//        print_r($analytics);die;
+
+//        print_r($this->getAvgInteractionTime($user, $options));die;
         // Calculate percentages
         if ($analytics['photosViews'] > 0)
             $analytics['photosHoversPercentage'] = ($analytics['photosHovers'] / $analytics['photosViews']) * 100;
@@ -273,33 +316,33 @@ class AnalyticRepository extends EntityRepository
             ->getQuery()->getSingleScalarResult();
     }
 
-    private function getAvgInteractionTime($user)
+    private function getAvgInteractionTime($user, $options)
     {
         $qb = $this->createQueryBuilder('a')
-            ->select('AVG(a.actionValue)')
+            ->select('AVG(a.actionValue)/1000 as data, DATE_FORMAT(a.createdAt, :sqlDateFormat) as period')
             ->where('a.action = :interaction');
 
         if ($user->getBrand()) {
-            return $qb
-                ->leftJoin('a.photo', 'p')
+            $qb->leftJoin('a.photo', 'p')
                 ->leftJoin('p.tags', 't')
                 ->leftJoin('t.brand', 'b')
                 ->andWhere('b = :brand')
                 ->setParameters(array(
                     'interaction' => Analytic::ACTION_INTERACTION,
                     'brand' => $user->getBrand()->getId(),
-                ))
-                ->getQuery()->getSingleScalarResult();
+                ));
+
         } else {
-            return $qb
-                ->leftJoin('a.photo', 'p')
+            $qb->leftJoin('a.photo', 'p')
                 ->leftJoin('p.owner', 'u')
                 ->andWhere('u = :user')
                 ->setParameters(array(
                     'interaction' => Analytic::ACTION_INTERACTION,
                     'user' => $user->getId()
-                ))
-                ->getQuery()->getSingleScalarResult();
+                ));
         }
+        return $qb->groupBy('period')
+            ->setParameter('sqlDateFormat', $options['sqlDateFormat'])
+            ->getQuery()->getScalarResult();
     }
 }
