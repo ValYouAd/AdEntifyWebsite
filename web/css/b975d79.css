@@ -478,7 +478,7 @@ strong {
     padding: 15px 5px;
 }
 .dashboard-content .date-range-form {
-    width: 366px;
+    width: 380px;
     margin: auto;
 }
 .dashboard-content .tab-content {
@@ -506,6 +506,9 @@ strong {
     color: #606366;
     font-family: 'robotolight', sans-serif;
     font-size: 17px;
+}
+.date-range input{
+    width: 168px!important;
 }
 /*!
  * Stylesheet for the Date Range Picker, for use with Bootstrap 3.x

@@ -87,6 +87,7 @@ class AnalyticRepository extends EntityRepository
             $nextMonth = $options['fromDate']->add(new \DateInterval($options['dateInterval']));
             $labels[$nextMonth->format($options['phpDateFormat'])] = 0;
         } while ($nextMonth < $options['toDate']);
+        $options['fromDate']->sub(new \DateInterval('P6M'));
 
         return $labels;
     }
@@ -151,7 +152,7 @@ class AnalyticRepository extends EntityRepository
         return $result;
     }
 
-    public function findGlobalAnalyticsByUser(User $user, $options = array())
+    public function findGlobalAnalyticsByUser(User $user, &$options = array())
     {
         $this->getStatsPeriod($options);
         $photosViewsGraph = $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
@@ -217,7 +218,6 @@ class AnalyticRepository extends EntityRepository
             'interactionTime' => $this->getAvgInteractionTime($user, $options),
         );
 
-//        print_r($this->getAvgInteractionTime($user, $options));die;
         // Calculate percentages
         if ($analytics['photosViews'] > 0)
             $analytics['photosHoversPercentage'] = ($analytics['photosHovers'] / $analytics['photosViews']) * 100;
@@ -225,6 +225,9 @@ class AnalyticRepository extends EntityRepository
             $analytics['tagsHoversPercentage'] = ($analytics['tagsHovers'] / $analytics['photosHovers']) * 100;
         if ($analytics['tagsHovers'] > 0)
             $analytics['tagsClicksPercentage'] = ($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100;
+
+        if (!array_key_exists('daterange', $options))
+            $options['daterangeActivity'] = $options['fromDate']->format('m/d/Y').' - '.$options['toDate']->format('m/d/Y');
 
         return $analytics;
     }

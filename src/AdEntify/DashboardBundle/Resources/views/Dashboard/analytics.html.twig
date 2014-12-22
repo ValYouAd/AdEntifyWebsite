@@ -77,6 +77,16 @@
             };
             new Chart(document.getElementById(element.id).getContext("2d")).Line(dataViews, options);
         });
+
+        // store the currently selected tab in the hash value
+        $("#dashboard-stats-tab a, #dashboard-activity-tab a").on("shown.bs.tab", function (e) {
+            window.location.hash = $(e.target).attr("href").substr(1);
+        });
+
+        // on load of the page: switch to the currently selected tab
+        var hash = (window.location.hash.length == 0) ? '#dashboard-stats' : window.location.hash;
+        $(hash).addClass('active');
+        $('' + hash + '-tab').addClass('active');
     </script>
 {% endblock %}
 
@@ -90,12 +100,12 @@
         <div class="dashboard-content">
             <div class="dashboard-tab">
                 <ul class="nav nav-tabs">
-                    <li role="presentation" class="active">
+                    <li id="dashboard-stats-tab" role="presentation">
                         <a href="#dashboard-stats" data-toggle="tab">
                             {% filter upper %}{{ 'dashboard.main.title.main'|trans }}{% endfilter %}
                         </a>
                     </li>
-                    <li role="presentation">
+                    <li id="dashboard-activity-tab" role="presentation">
                         <a href="#dashboard-activity" data-toggle="tab">
                             {% filter upper %}{{ 'dashboard.main.title.activity'|trans }}{% endfilter %}
                         </a>
@@ -110,35 +120,12 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="sr-only">{{ 'dashboard.main.date.filter_label'|trans }}</label>
-                                    <input class="form-control" type="text" name="daterange" value="{{ daterange }}" />
+                                    <input class="form-control" type="text" name="daterange" value="{% if daterangeActivity %}{{ daterangeActivity }}{% else %}{{ daterange }}{% endif %}" />
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">{{ 'dashboard.main.date.filter_button'|trans }}</button>
                         </form>
                     </div>
-{#                    <div class="dashboard-global-analytics">
-                        <div>
-                            <h2>{{ 'dashboard.main.title.stats'|trans|capitalize }}</h2>
-                        </div>
-                        <div class="row">
-                            <div class="global-analytics col-xs-6 col-md-3">
-                                <p>{{ globalAnalytics.photosViews }}</p>
-                                <label>{{ 'dashboard.main.stats.photos_views'|trans|capitalize }}</label>
-                            </div>
-                            <div class="global-analytics col-xs-6 col-md-3">
-                                <p>{{ globalAnalytics.photosHovers }}</p>
-                                <label>{{ 'dashboard.main.stats.photos_hovers'|trans|capitalize }}</label>
-                            </div>
-                            <div class="global-analytics col-xs-6 col-md-3">
-                                <p>{{ globalAnalytics.tagsClicks }}</p>
-                                <label>{{ 'dashboard.main.stats.tags_clicks'|trans|capitalize }}</label>
-                            </div>
-                            <div class="global-analytics col-xs-6 col-md-3">
-                                <p class="stats-time">{{ (globalAnalytics.interactionTime/1000)|round(2) }}</p>
-                                <label>{{ 'dashboard.main.tab.interaction_time'|trans|capitalize }}</label>
-                            </div>
-                        </div>
-                    </div>#}
                     <div class="dashboard-tab">
                         <ul class="nav nav-tabs">
                             <li role="presentation" class="active">
@@ -196,7 +183,7 @@
                     </div>
                 </div>
                 {# ===================== STATS ===================== #}
-                <div id="dashboard-stats" class="dashboard-statistiques tab-pane active">
+                <div id="dashboard-stats" class="dashboard-statistiques tab-pane">
                     <div class="stats-sum">{{ 'dashboard.main.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}</div>
                     <div class="dashboard-global-analytics">
                         <div>

@@ -59,7 +59,8 @@ class DashboardController extends Controller
                 'user' => $this->getUser(),
                 'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser(), $options),
                 'pagination' => $pagination,
-                'daterange' => array_key_exists('daterange', $options) ? $options['daterange'] : null
+                'daterange' => array_key_exists('daterange', $options) ? $options['daterange'] : null,
+                'daterangeActivity' => array_key_exists('daterangeActivity', $options) ? $options['daterangeActivity'] : null
             );
         } else
             throw new HttpException(403);
