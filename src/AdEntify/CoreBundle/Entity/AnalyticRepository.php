@@ -143,6 +143,14 @@ class AnalyticRepository extends EntityRepository
         }
     }
 
+    public function getTotalAction($datas = array())
+    {
+        $result = 0;
+        foreach($datas as $data)
+            $result += $data;
+        return $result;
+    }
+
     public function findGlobalAnalyticsByUser(User $user, $options = array())
     {
         $this->getStatsPeriod($options);
@@ -185,24 +193,28 @@ class AnalyticRepository extends EntityRepository
             )),
             'photosViewsGraph' => array(
                 'data' => $photosViewsGraph,
-                'labels' => $this->getGraphLabels($photosViewsGraph, $options)
+                'labels' => $this->getGraphLabels($photosViewsGraph, $options),
+                'total' => $this->getTotalAction($photosViewsGraph)
             ),
             'photosHoversGraph' => array(
                 'data' => $photosHoversGraph,
-                'labels' => $this->getGraphLabels($photosHoversGraph, $options)
+                'labels' => $this->getGraphLabels($photosHoversGraph, $options),
+                'total' => $this->getTotalAction($photosHoversGraph)
             ),
             'photosClicksGraph' => array(
                 'data' => $photosClicksGraph,
-                'labels' => $this->getGraphLabels($photosClicksGraph, $options)
+                'labels' => $this->getGraphLabels($photosClicksGraph, $options),
+                'total' => $this->getTotalAction($photosClicksGraph)
             ),
             'photosInteractionGraph' => array(
                 'data' => $photosInteractionGraph,
-                'labels' => $this->getGraphLabels($photosInteractionGraph, $options)
+                'labels' => $this->getGraphLabels($photosInteractionGraph, $options),
+                'total' => $this->getTotalAction($photosInteractionGraph, true)
             ),
             'photosHoversPercentage' => 0,
             'tagsHoversPercentage' => 0,
             'tagsClicksPercentage' => 0,
-//            'interactionTime' => $this->getAvgInteractionTime($user, $options),
+            'interactionTime' => $this->getAvgInteractionTime($user, $options),
         );
 
 //        print_r($this->getAvgInteractionTime($user, $options));die;

@@ -473,7 +473,6 @@ strong {
 }
 .dashboard-content #dashboard-activity .date-range {
     border-top: 1px solid #D9DDE0;
-    border-bottom: 1px solid #D9DDE0;
 }
 .dashboard-content .date-range {
     padding: 15px 5px;
@@ -492,6 +491,21 @@ strong {
 #dashboard-activity-chart {
     display: block;
     margin: auto;
+}
+#dashboard-activity .dashboard-tab {
+    margin: 15px 0 15px 0;
+    border-bottom: 1px solid #D9DDE0;
+}
+
+#dashboard-activity .activity-graph {
+    margin: auto;
+    width: 900px;
+}
+#dashboard-activity .tab-content p {
+    text-align: center;
+    color: #606366;
+    font-family: 'robotolight', sans-serif;
+    font-size: 17px;
 }
 /*!
  * Stylesheet for the Date Range Picker, for use with Bootstrap 3.x
