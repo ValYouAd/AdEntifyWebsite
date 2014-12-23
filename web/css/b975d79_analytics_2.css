@@ -1,5 +1,16 @@
 /* Dashboard
 ----------------------- */
+.dashboard-sub-logo {
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    bottom: -11px;
+    right: 2px;
+    font-family: 'pacificoregular',Helvetica Neue,Helvetica,Arial;
+}
+.logo-nav {
+    margin: 9px 0 0 0;
+}
 .dashboard-stats-container {
     min-height: 740px;
     width: 1024px;
