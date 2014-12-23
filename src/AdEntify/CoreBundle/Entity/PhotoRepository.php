@@ -44,19 +44,19 @@ class PhotoRepository extends EntityRepository
         }
     }
 
-    public function getPhotos(User $user, $options = array())
+    public function getPhotos($profile, $options = array())
     {
         $qb = $this->createQueryBuilder('p');
         $qb->select('p')
             ->leftJoin('p.tags', 't')
             ->orderBy('p.createdAt', 'DESC');
 
-        if ($user->getBrand()) {
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand')) {
             $qb->where('t.brand = :brand')
-                ->setParameter(':brand', $user->getBrand());
+                ->setParameter(':brand', $profile);
         } else {
             $qb->where('p.owner = :user')
-                ->setParameter(':user', $user);
+                ->setParameter(':user', $profile);
         }
 
         if (array_key_exists('daterange', $options)) {

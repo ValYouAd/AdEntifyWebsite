@@ -14,15 +14,16 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class TagRepository extends EntityRepository{
 
-    public function countBySelector(User $user, $selector, $distinct = '')
+    public function countBySelector($profile, $selector, $distinct = '')
     {
         $qb = $this->createQueryBuilder('t');
         $qb->select('COUNT('.$distinct.' t.'.$selector.')');
-        if ($user->getBrand())
+
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand'))
         {
             $qb->where('t.brand = :brand')
                 ->setParameters(array(
-                    'brand' => $user->getBrand()
+                    'brand' => $profile
             ));
         }
         else
@@ -30,7 +31,7 @@ class TagRepository extends EntityRepository{
             $qb->leftJoin('t.photo', 'p')
                 ->where('p.owner = :user')
                 ->setParameters(array(
-                    'user' => $user
+                    'user' => $profile
                 ));
         }
         return $qb->getQuery()->getSingleScalarResult();

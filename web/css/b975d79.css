@@ -290,6 +290,11 @@ header {
 .dashboard-stats-container h1 {
     text-align: center;
 }
+.dashboard-stats-container .logo-center {
+    width: 300px;
+    height: 80px;
+    margin: 0px auto 20px auto;
+}
 .dashboard-logo {
     height: 80px;
     width: 100px;

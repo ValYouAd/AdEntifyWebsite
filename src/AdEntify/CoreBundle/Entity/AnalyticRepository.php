@@ -152,43 +152,43 @@ class AnalyticRepository extends EntityRepository
         return $result;
     }
 
-    public function findGlobalAnalyticsByUser(User $user, &$options = array())
+    public function findGlobalAnalyticsByUser($profile, &$options = array())
     {
         $this->getStatsPeriod($options);
-        $photosViewsGraph = $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
+        $photosViewsGraph = $this->parseDataForGraph($this->getElementCountByAction($profile, array_merge(array(
             'element' => Analytic::ELEMENT_PHOTO,
             'action' => Analytic::ACTION_VIEW,
             'graph' => true
         ), $options)), $options);
 
-        $photosHoversGraph = $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
+        $photosHoversGraph = $this->parseDataForGraph($this->getElementCountByAction($profile, array_merge(array(
             'element' => Analytic::ELEMENT_PHOTO,
             'action' => Analytic::ACTION_HOVER,
             'graph' => true
         ), $options)), $options);
 
-        $photosClicksGraph = $this->parseDataForGraph($this->getElementCountByAction($user, array_merge(array(
+        $photosClicksGraph = $this->parseDataForGraph($this->getElementCountByAction($profile, array_merge(array(
             'element' => Analytic::ELEMENT_TAG,
             'action' => Analytic::ACTION_CLICK,
             'graph' => true
         ), $options)), $options);
 
-        $photosInteractionGraph = $this->parseDataForGraph($this->getAvgInteractionTime($user, $options), $options);
+        $photosInteractionGraph = $this->parseDataForGraph($this->getAvgInteractionTime($profile, $options), $options);
 
         $analytics = array(
-            'photosViews' => $this->getElementCountByAction($user, array(
+            'photosViews' => $this->getElementCountByAction($profile, array(
                 'element' => Analytic::ELEMENT_PHOTO,
                 'action' => Analytic::ACTION_VIEW
             )),
-            'photosHovers' => $this->getElementCountByAction($user, array(
+            'photosHovers' => $this->getElementCountByAction($profile, array(
                 'element' => Analytic::ELEMENT_PHOTO,
                 'action' => Analytic::ACTION_HOVER
             )),
-            'tagsHovers' => $this->getElementCountByAction($user, array(
+            'tagsHovers' => $this->getElementCountByAction($profile, array(
                 'element' => Analytic::ELEMENT_TAG,
                 'action' => Analytic::ACTION_HOVER
             )),
-            'tagsClicks' => $this->getElementCountByAction($user, array(
+            'tagsClicks' => $this->getElementCountByAction($profile, array(
                 'element' => Analytic::ELEMENT_TAG,
                 'action' => Analytic::ACTION_CLICK
             )),
@@ -215,7 +215,7 @@ class AnalyticRepository extends EntityRepository
             'photosHoversPercentage' => 0,
             'tagsHoversPercentage' => 0,
             'tagsClicksPercentage' => 0,
-            'interactionTime' => $this->getAvgInteractionTime($user, $options),
+            'interactionTime' => $this->getAvgInteractionTime($profile, $options),
         );
 
         // Calculate percentages
@@ -232,7 +232,7 @@ class AnalyticRepository extends EntityRepository
         return $analytics;
     }
 
-    private function getElementCountByAction(User $user, $options = array())
+    private function getElementCountByAction($profile, $options = array())
     {
         $qb = $this->createQueryBuilder('a')
             ->select('COUNT(DISTINCT a.id)')
@@ -241,17 +241,15 @@ class AnalyticRepository extends EntityRepository
         if ($options['element'] == Analytic::ELEMENT_PHOTO)
             $qb->andWhere($qb->expr()->isNotNull('a.photo'));
 
-        if ($user->getBrand()) {
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand')) {
             $parameters['element'] = $options['element'];
             $parameters['action'] = $options['action'];
-            $parameters['brand'] = $user->getBrand()->getId();
+            $parameters['brand'] = $profile->getId();
 
             if ($options['element'] == Analytic::ELEMENT_PHOTO) {
-                $parameters['user'] = $user;
-
                 $qb->leftJoin('a.photo', 'p')
                     ->leftJoin('p.tags', 't')
-                    ->andWhere('b = :brand OR p.owner = :user');
+                    ->andWhere('b = :brand');
             }
             else
                 $qb->leftJoin('a.tag', 't')
@@ -270,7 +268,7 @@ class AnalyticRepository extends EntityRepository
                 ->setParameters(array(
                     'element' => $options['element'],
                     'action' => $options['action'],
-                    'user' => $user->getId()
+                    'user' => $profile->getId()
                 ));
         }
         if (array_key_exists('daterange', $options)) {
@@ -331,20 +329,20 @@ class AnalyticRepository extends EntityRepository
             ->getQuery()->getSingleScalarResult();
     }
 
-    private function getAvgInteractionTime($user, $options)
+    private function getAvgInteractionTime($profile, $options)
     {
         $qb = $this->createQueryBuilder('a')
             ->select('AVG(a.actionValue)/1000 as data, DATE_FORMAT(a.createdAt, :sqlDateFormat) as period')
             ->where('a.action = :interaction');
 
-        if ($user->getBrand()) {
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand')) {
             $qb->leftJoin('a.photo', 'p')
                 ->leftJoin('p.tags', 't')
                 ->leftJoin('t.brand', 'b')
                 ->andWhere('b = :brand')
                 ->setParameters(array(
                     'interaction' => Analytic::ACTION_INTERACTION,
-                    'brand' => $user->getBrand()->getId(),
+                    'brand' => $profile->getId(),
                 ));
 
         } else {
@@ -353,7 +351,7 @@ class AnalyticRepository extends EntityRepository
                 ->andWhere('u = :user')
                 ->setParameters(array(
                     'interaction' => Analytic::ACTION_INTERACTION,
-                    'user' => $user->getId()
+                    'user' => $profile->getId()
                 ));
         }
         return $qb->groupBy('period')

@@ -96,9 +96,9 @@
         <div class="pull-right">
             {{ render(controller('AdEntifyDashboardBundle:Block:changeUser')) }}
         </div>
-        {% if brand and brand.originalLogoUrl %}<div class="dashboard-logo" style="background-image: url('{{ brand.originalLogoUrl }}')"></div>
-        {% elseif brand %} <h1>{{ brand.name }}</h1>
-        {% else %}<h1>{{ user.fullname }}</h1>
+        {% if brand and brand.originalLogoUrl and app.request.query.get('brand') %}<div class="dashboard-logo" style="background-image: url('{{ brand.originalLogoUrl }}')"></div>
+        {% elseif brand and app.request.query.get('brand') %} <h1 class="logo-center">{{ brand.name }}</h1>
+        {% else %}<h1 class="logo-center">{{ user.fullname }}</h1>
         {% endif %}
         <div class="dashboard-content">
             <div class="dashboard-tab">
@@ -123,6 +123,11 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="sr-only">{{ 'dashboard.main.date.filter_label'|trans }}</label>
+                                    {% if app.request.query.get('user') %}
+                                        <input class="form-control" type="hidden" name="user" value="{{ app.request.query.get('user') }}" />
+                                    {% elseif app.request.query.get('brand') %}
+                                        <input class="form-control" type="hidden" name="brand" value="{{ app.request.query.get('brand') }}" />
+                                    {% endif %}
                                     <input class="form-control" type="text" name="daterange" value="{% if daterangeActivity %}{{ daterangeActivity }}{% else %}{{ daterange }}{% endif %}" />
                                 </div>
                             </div>
@@ -187,7 +192,13 @@
                 </div>
                 {# ===================== STATS ===================== #}
                 <div id="dashboard-stats" class="dashboard-statistiques tab-pane">
-                    <div class="stats-sum">{{ 'dashboard.main.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}</div>
+                    <div class="stats-sum">
+                        {% if app.request.query.get('brand') %}
+                            {{ 'dashboard.main.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}
+                        {% else %}
+                            {{ 'dashboard.main.stats.userSum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}
+                        {% endif %}
+                    </div>
                     <div class="dashboard-global-analytics">
                         <div>
                             <h2>{{ 'dashboard.main.title.stats'|trans|capitalize }}</h2>
@@ -233,6 +244,11 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <label class="sr-only">{{ 'dashboard.main.date.filter_label'|trans }}</label>
+                                        {% if app.request.query.get('user') %}
+                                            <input class="form-control" type="hidden" name="user" value="{{ app.request.query.get('user') }}" />
+                                        {% elseif app.request.query.get('brand') %}
+                                            <input class="form-control" type="hidden" name="brand" value="{{ app.request.query.get('brand') }}" />
+                                        {% endif %}
                                         <input class="form-control" type="text" name="daterange" value="{{ daterange }}" />
                                     </div>
                                 </div>
