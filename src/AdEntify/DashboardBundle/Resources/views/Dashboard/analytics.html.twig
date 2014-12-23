@@ -71,9 +71,10 @@
             };
             var options = {
                 scaleOverride: true,
-                scaleSteps: Math.max.apply(Math, $(element).attr('data-views').split(',')),
-                scaleStepWidth: 1,
-                scaleStartValue: 0
+                scaleSteps: 10,
+                scaleStepWidth: Math.ceil(Math.max.apply(Math, $(element).attr('data-views').split(',')) / 10),
+                scaleStartValue: 0,
+                scaleLabel: "   <%=value%>"
             };
             new Chart(document.getElementById(element.id).getContext("2d")).Line(dataViews, options);
         });
