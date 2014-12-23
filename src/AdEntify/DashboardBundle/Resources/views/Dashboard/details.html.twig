@@ -16,6 +16,7 @@
     <div class="dashboard-stats-container">
         <div class="dashboard-photo-details">
             <img class="photo-details-img" src="{{ photo.largeUrl }}" />
+            {% if photo.sourceUrl %}Envoyée depuis : {{ photo.sourceUrl }}{% endif %}
         </div>
         <div class="dashboard-content">
             <div class="dashboard-details-title">
