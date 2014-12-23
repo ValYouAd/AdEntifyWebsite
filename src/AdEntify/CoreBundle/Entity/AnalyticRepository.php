@@ -83,19 +83,19 @@ class AnalyticRepository extends EntityRepository
     {
         $labels = array();
         $labels[$options['fromDate']->format($options['phpDateFormat'])] = 0;
+        $copyFromDate = clone $options['fromDate'];
         do {
-            $nextMonth = $options['fromDate']->add(new \DateInterval($options['dateInterval']));
+            $nextMonth = $copyFromDate->add(new \DateInterval($options['dateInterval']));
             $labels[$nextMonth->format($options['phpDateFormat'])] = 0;
         } while ($nextMonth < $options['toDate']);
-        $options['fromDate']->sub(new \DateInterval('P6M'));
 
         return $labels;
     }
 
     private function getStatsPeriod(&$options = array())
     {
-        $options['sqlDateFormat'] = '%M %Y';
-        $options['phpDateFormat'] = 'F Y';
+        $options['sqlDateFormat'] = '%d %M';
+        $options['phpDateFormat'] = 'd F';
 
         if (array_key_exists('daterange', $options)) {
             $dates = explode(' - ', $options['daterange']);
@@ -117,8 +117,8 @@ class AnalyticRepository extends EntityRepository
             }
         } else {
             $options['toDate'] = new \DateTime();
-            $options['fromDate'] = (new \DateTime())->sub(new \DateInterval('P6M'));
-            $options['dateInterval'] = 'P1M';
+            $options['fromDate'] = (new \DateTime())->sub(new \DateInterval('P1M'));
+            $options['dateInterval'] = 'P1D';
         }
         $options['labels'] = $this->initializeGraphData($options);
         return $options;
