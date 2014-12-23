@@ -173,7 +173,7 @@
                             </canvas>
                         </div>
                         <div id="photo-interaction-time-tab" class="activity-graph tab-pane">
-                            <p class="stats-time">{{ (globalAnalytics.photosInteractionGraph.total)|round(2) }} {{ 'dashboard.main.tab.interaction_time'|trans|capitalize }}</p>
+                            <p class="stats-time">{{ (globalAnalytics.photosInteractionGraph.total)|round(2) }}s {{ 'dashboard.main.tab.interaction_time'|trans|capitalize }}</p>
                             <canvas id="photo-interaction-chart" width="900" height="450"
                                     data-views="{% for view in globalAnalytics.photosInteractionGraph.data %}{{ view }}{% if not loop.last %},{% endif %}{% endfor %}"
                                     data-views-labels="{% for label in globalAnalytics.photosInteractionGraph.labels %}{{ label }}{% if not loop.last %},{% endif %}{% endfor %}">
