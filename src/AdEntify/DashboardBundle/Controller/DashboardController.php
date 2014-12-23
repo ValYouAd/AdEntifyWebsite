@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 class DashboardController extends Controller
 {
@@ -23,6 +23,7 @@ class DashboardController extends Controller
      *  requirements={"_locale" = "en|fr"},
      *  name="dashboard_stats")
      * @Template()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function analyticsAction()
     {
@@ -76,6 +77,7 @@ class DashboardController extends Controller
      * @return array
      *
      * @Template()
+     * @Secure("ROLE_USER, ROLE_FACEBOOK, ROLE_TWITTER")
      */
     public function detailsAction($photoId)
     {
