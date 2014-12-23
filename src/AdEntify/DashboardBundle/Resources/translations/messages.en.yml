@@ -8,6 +8,7 @@ dashboard:
             main: 'statistics'
             stats: 'tags statistics'
             analytics: 'images analytics'
+            activity: 'activity'
         stats:
             sum: 'tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
             none: 'no analytics'

@@ -14,16 +14,27 @@
 .dashboard-logo {
     height: 80px;
     width: 100px;
-    margin: 0px auto 15px auto;
+    margin: 0px auto 20px auto;
     background: no-repeat center;
     background-size: contain;
 }
 .dashboard-tab {
+    /*width: 188px;*/
+    /*margin: auto;*/
+    font-weight: bold;
+    font-size: 10px;
+}
+.dashboard-tab .nav-tabs {
+    margin-left: 5px;
+}
+.dashboard-details-title {
     text-align: center;
     font-weight: bold;
     font-size: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 8px;
+}
+.dashboard-content {
+    padding: 0 10px;
 }
 .dashboard-statistiques {
     border-top: 1px solid #D9DDE0;
@@ -150,10 +161,6 @@ strong {
 .dashboard-content table .dashboard-photo-preview-td {
     padding: 1px!important;
 }
-/*.dashboard-content table .dashboard-photo-preview {*/
-    /*display: table-cell;*/
-    /*vertical-align: middle;*/
-/*}*/
 .dashboard-content table .dashboard-photo-preview img {
     max-width: 100px;
     max-height: 100px;
@@ -166,7 +173,7 @@ strong {
 .photo-details-percentage::after {
     content: "%"
 }
-.photo-details-time::after {
+.photo-details-time::after, .stats-time::after {
     content: "s"
 }
 .dashboard-content .pagination {
@@ -185,6 +192,42 @@ strong {
 .dashboard-content .table .sort-direction {
     color: red;
 }
+.dashboard-content #dashboard-activity .date-range {
+    border-top: 1px solid #D9DDE0;
+}
 .dashboard-content .date-range {
-    padding: 15px 20px;
+    padding: 15px 5px;
+}
+.dashboard-content .date-range-form {
+    width: 380px;
+    margin: auto;
+}
+.dashboard-content .tab-content {
+    padding: 0;
+    border-bottom: none;
+    border-top: none;
+    background: white;
+    margin: 0;
+}
+#dashboard-activity-chart {
+    display: block;
+    margin: auto;
+}
+#dashboard-activity .dashboard-tab {
+    margin: 15px 0 15px 0;
+    border-bottom: 1px solid #D9DDE0;
+}
+
+#dashboard-activity .activity-graph {
+    margin: auto;
+    width: 900px;
+}
+#dashboard-activity .tab-content p {
+    text-align: center;
+    color: #606366;
+    font-family: 'robotolight', sans-serif;
+    font-size: 17px;
+}
+.date-range input{
+    width: 168px!important;
 }

@@ -83,6 +83,48 @@ header {
     }
 /* End Header
 ----------------------- */
+
+/* Mobile app */
+.mobile-app {
+    background: url('../../bundles/adentifycommon/images/mobile-app-background.png') repeat-x;
+    width: 100%;
+    height: 70px;
+    vertical-align: middle;
+    line-height: 70px;
+    text-align: center;
+    color: #8c8988;
+    font-family: 'asapbold', "Helvetica Neue", "Arial", sans-serif;
+    text-transform: uppercase;
+}
+    .mobile-app a {
+        background: #252323;
+        border-radius: 8px;
+        color: #8c8988;
+        padding: 4px 20px;
+        margin-left: 6px;
+    }
+    .mobile-app a:hover {
+        text-decoration: none;
+    }
+    .mobile-app i.arrow-right {
+        position: relative;
+        margin-left: 6px;
+    }
+    .mobile-app i.arrow-right:after {
+        left: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(140, 137, 136, 0);
+        border-left-color: #8c8988;
+        border-width: 5px;
+        margin-top: -5px;
+    }
+
 h2 {
     color: #999797;
 }

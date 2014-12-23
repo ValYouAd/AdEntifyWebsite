@@ -66,9 +66,11 @@ doctrine:
                     string_functions:
                         regexp: AdEntify\CoreBundle\Dql\RegExp
                     datetime_functions:
-                        date:   AdEntify\CoreBundle\Dql\DateFunction
-                    datetime_functions:
+                        date:  AdEntify\CoreBundle\Dql\DateFunction
                         day:   AdEntify\CoreBundle\Dql\DayFunction
+                        month: AdEntify\CoreBundle\Dql\MonthFunction
+                        year:  AdEntify\CoreBundle\Dql\YearFunction
+                        date_format:  AdEntify\CoreBundle\Dql\DateFormatFunction
                 mappings:
                     FrameworkBundle: ~
                     SecurityBundle: ~

@@ -14,6 +14,9 @@
 
 {% block javascripts %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/chart.js/1.0.1-beta.4/Chart.min.js"></script>
     {% javascripts
         '@AdEntifyDashboardBundle/Resources/public/js/moment.min.js'
         '@AdEntifyDashboardBundle/Resources/public/js/daterangepicker.js'
@@ -30,25 +33,60 @@
 
         function getRanges() {
             {% if app.request.locale == 'fr' %}
-                return {
-                    'Aujourd\'hui': [new Date(), new Date()],
-                    'Hier': [moment().subtract('days', 1), moment().subtract('days', 1)],
-                    'Les 7 derniers jours': [moment().subtract('days', 6), new Date()],
-                    'Les 30 derniers jours': [moment().subtract('days', 29), new Date()],
-                    'Ce mois': [moment().startOf('month'), moment().endOf('month')],
-                    'Le mois dernier': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-                };
+            return {
+                'Aujourd\'hui': [new Date(), new Date()],
+                'Hier': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                'Les 7 derniers jours': [moment().subtract('days', 6), new Date()],
+                'Les 30 derniers jours': [moment().subtract('days', 29), new Date()],
+                'Ce mois': [moment().startOf('month'), moment().endOf('month')],
+                'Le mois dernier': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+            };
             {% else %}
-                return {
-                    'Today': [new Date(), new Date()],
-                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-                    'Last 7 Days': [moment().subtract('days', 6), new Date()],
-                    'Last 30 Days': [moment().subtract('days', 29), new Date()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-                };
+            return {
+                'Today': [new Date(), new Date()],
+                'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                'Last 7 Days': [moment().subtract('days', 6), new Date()],
+                'Last 30 Days': [moment().subtract('days', 29), new Date()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+            };
             {% endif %}
         }
+
+        $('#dashboard-activity canvas').each(function(index, element) {
+            var dataViews = {
+                labels: $(element).attr('data-views-labels').split(','),
+                datasets: [
+                    {
+                        label: "Views",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: $(element).attr('data-views').split(',')
+                    }
+                ]
+            };
+            var options = {
+                scaleOverride: true,
+                scaleSteps: Math.max.apply(Math, $(element).attr('data-views').split(',')),
+                scaleStepWidth: 1,
+                scaleStartValue: 0
+            };
+            new Chart(document.getElementById(element.id).getContext("2d")).Line(dataViews, options);
+        });
+
+        // store the currently selected tab in the hash value
+        $("#dashboard-stats-tab a, #dashboard-activity-tab a").on("shown.bs.tab", function (e) {
+            window.location.hash = $(e.target).attr("href").substr(1);
+        });
+
+        // on load of the page: switch to the currently selected tab
+        var hash = (window.location.hash.length == 0) ? '#dashboard-stats' : window.location.hash;
+        $(hash).addClass('active');
+        $('' + hash + '-tab').addClass('active');
     </script>
 {% endblock %}
 
@@ -61,156 +99,239 @@
         {% endif %}
         <div class="dashboard-content">
             <div class="dashboard-tab">
-                <div>{% filter upper %}{{ 'dashboard.main.title.main'|trans }}{% endfilter %}</div>
+                <ul class="nav nav-tabs">
+                    <li id="dashboard-stats-tab" role="presentation">
+                        <a href="#dashboard-stats" data-toggle="tab">
+                            {% filter upper %}{{ 'dashboard.main.title.main'|trans }}{% endfilter %}
+                        </a>
+                    </li>
+                    <li id="dashboard-activity-tab" role="presentation">
+                        <a href="#dashboard-activity" data-toggle="tab">
+                            {% filter upper %}{{ 'dashboard.main.title.activity'|trans }}{% endfilter %}
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <div class="dashboard-statistiques">
-                <div class="stats-sum">{{ 'dashboard.main.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}</div>
-                <div class="dashboard-global-analytics">
-                    <div>
-                        <h2>{{ 'dashboard.main.title.stats'|trans|capitalize }}</h2>
-                    </div>
-                    <div class="row">
-                        <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.photosViews }}</p>
-                            <label>{{ 'dashboard.main.stats.photos_views'|trans|capitalize }}</label>
-                        </div>
-                        <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.photosHovers }}</p>
-                            <label>{{ 'dashboard.main.stats.photos_hovers'|trans|capitalize }}</label>
-                        </div>
-                        <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.tagsHovers }}</p>
-                            <label>{{ 'dashboard.main.stats.tags_hovers'|trans|capitalize }}</label>
-                        </div>
-                        <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.tagsClicks }}</p>
-                            <label>{{ 'dashboard.main.stats.tags_clicks'|trans|capitalize }}</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="global-analytics col-xs-6 col-md-3">
-                        </div>
-                        <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.photosHoversPercentage|round(2) }}%</p>
-                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
-                        </div>
-                        <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.tagsHoversPercentage|round(2) }}%</p>
-                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
-                        </div>
-                        <div class="global-analytics col-xs-6 col-md-3">
-                            <p>{{ globalAnalytics.tagsClicksPercentage|round(2) }}%</p>
-                            <label>{{ 'dashboard.main.stats.clicks_rate'|trans|capitalize }}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="stats-by-img">
-                    <div class="pull-right date-range">
-                        <form class="form-inline" role="form">
+            <div class="tab-content">
+                {# ===================== ACTIVITY ===================== #}
+                <div id="dashboard-activity" class="tab-pane">
+                    <div class="date-range">
+                        <form class="date-range-form form-inline" role="form">
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="sr-only">{{ 'dashboard.main.date.filter_label'|trans }}</label>
-                                    <input class="form-control" type="text" name="daterange" value="{{ daterange }}" />
+                                    <input class="form-control" type="text" name="daterange" value="{% if daterangeActivity %}{{ daterangeActivity }}{% else %}{{ daterange }}{% endif %}" />
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">{{ 'dashboard.main.date.filter_button'|trans }}</button>
                         </form>
                     </div>
-                    <h2>{{ 'dashboard.main.title.analytics'|trans|capitalize }}</h2>
-                </div>
+                    <div class="dashboard-tab">
+                        <ul class="nav nav-tabs">
+                            <li role="presentation" class="active">
+                                <a href="#photo-views-tab" data-toggle="tab">
+                                    {% filter upper %}{{ 'dashboard.main.stats.photos_views'|trans|raw }}{% endfilter %}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#photo-hovers-tab" data-toggle="tab">
+                                    {% filter upper %}{{ 'dashboard.main.stats.photos_hovers'|trans|raw }}{% endfilter %}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#photo-clicks-tab" data-toggle="tab">
+                                    {% filter upper %}{{ 'dashboard.main.stats.tags_clicks'|trans|raw }}{% endfilter %}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#photo-interaction-time-tab" data-toggle="tab">
+                                    {% filter upper %}{{ 'dashboard.main.tab.interaction_time'|trans|raw }}{% endfilter %}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div id="photo-views-tab" class="activity-graph tab-pane active">
+                            <p>{{ globalAnalytics.photosViewsGraph.total }} {{ 'dashboard.main.stats.photos_views'|trans|capitalize }}</p>
+                            <canvas id="photo-views-chart" width="900" height="450"
+                                    data-views="{% for view in globalAnalytics.photosViewsGraph.data %}{{ view }}{% if not loop.last %},{% endif %}{% endfor %}"
+                                    data-views-labels="{% for label in globalAnalytics.photosViewsGraph.labels %}{{ label }}{% if not loop.last %},{% endif %}{% endfor %}">
+                            </canvas>
+                        </div>
+                        <div id="photo-hovers-tab" class="activity-graph tab-pane">
+                            <p>{{ globalAnalytics.photosHoversGraph.total }} {{ 'dashboard.main.stats.photos_hovers'|trans|capitalize }}</p>
+                            <canvas id="photo-hovers-chart" width="900" height="450"
+                                    data-views="{% for view in globalAnalytics.photosHoversGraph.data %}{{ view }}{% if not loop.last %},{% endif %}{% endfor %}"
+                                    data-views-labels="{% for label in globalAnalytics.photosHoversGraph.labels %}{{ label }}{% if not loop.last %},{% endif %}{% endfor %}">
+                            </canvas>
+                        </div>
+                        <div id="photo-clicks-tab" class="activity-graph tab-pane">
+                            <p>{{ globalAnalytics.photosClicksGraph.total }} {{ 'dashboard.main.stats.tags_clicks'|trans|capitalize }}</p>
+                            <canvas id="photo-clicks-chart" width="900" height="450"
+                                    data-views="{% for view in globalAnalytics.photosClicksGraph.data %}{{ view }}{% if not loop.last %},{% endif %}{% endfor %}"
+                                    data-views-labels="{% for label in globalAnalytics.photosClicksGraph.labels %}{{ label }}{% if not loop.last %},{% endif %}{% endfor %}">
+                            </canvas>
+                        </div>
+                        <div id="photo-interaction-time-tab" class="activity-graph tab-pane">
+                            <p class="stats-time">{{ (globalAnalytics.photosInteractionGraph.total)|round(2) }} {{ 'dashboard.main.tab.interaction_time'|trans|capitalize }}</p>
+                            <canvas id="photo-interaction-chart" width="900" height="450"
+                                    data-views="{% for view in globalAnalytics.photosInteractionGraph.data %}{{ view }}{% if not loop.last %},{% endif %}{% endfor %}"
+                                    data-views-labels="{% for label in globalAnalytics.photosInteractionGraph.labels %}{{ label }}{% if not loop.last %},{% endif %}{% endfor %}">
+                            </canvas>
+                        </div>
 
-                <table class="table dashboard-photo-list">
-                    <thead>
-                        <tr>
-                            <td>
-                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.date'|trans|capitalize, 'p.createdAt') }}
-                                {% if pagination.isSorted('p.createdAt') %}
-                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
-                                {% endif %}
-                            </td>
-                            <td>{{ 'dashboard.main.tab.photo'|trans|capitalize }}</td>
-                            <td>{{ 'dashboard.main.tab.info'|trans|capitalize }}</td>
-                            <td>
-                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.views'|trans|capitalize, 'p.viewsCount' ) }}
-                                {% if pagination.isSorted('p.viewsCount') %}
-                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.clicks'|trans|capitalize, 'p.tagsClicksCount' ) }}
-                                {% if pagination.isSorted('p.tagsClicksCount') %}
-                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
-                                {% endif %}
-                            </td>
-			                <td>
-                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.interaction_time'|trans|capitalize, 'p.interactionTime' ) }}
-                                {% if pagination.isSorted('p.interactionTime') %}
-                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.source'|trans|capitalize, 'p.source' ) }}
-                                {% if pagination.isSorted('p.source') %}
-                                    <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
-                                {% endif %}
-                            </td>
-                            <td>{{ 'dashboard.main.tab.action'|trans|capitalize }}</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for photo in pagination %}
+                    </div>
+                </div>
+                {# ===================== STATS ===================== #}
+                <div id="dashboard-stats" class="dashboard-statistiques tab-pane">
+                    <div class="stats-sum">{{ 'dashboard.main.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}</div>
+                    <div class="dashboard-global-analytics">
+                        <div>
+                            <h2>{{ 'dashboard.main.title.stats'|trans|capitalize }}</h2>
+                        </div>
+                        <div class="row">
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.photosViews }}</p>
+                                <label>{{ 'dashboard.main.stats.photos_views'|trans|capitalize }}</label>
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.photosHovers }}</p>
+                                <label>{{ 'dashboard.main.stats.photos_hovers'|trans|capitalize }}</label>
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.tagsHovers }}</p>
+                                <label>{{ 'dashboard.main.stats.tags_hovers'|trans|capitalize }}</label>
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.tagsClicks }}</p>
+                                <label>{{ 'dashboard.main.stats.tags_clicks'|trans|capitalize }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="global-analytics col-xs-6 col-md-3">
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.photosHoversPercentage|round(2) }}%</p>
+                                <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.tagsHoversPercentage|round(2) }}%</p>
+                                <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
+                            </div>
+                            <div class="global-analytics col-xs-6 col-md-3">
+                                <p>{{ globalAnalytics.tagsClicksPercentage|round(2) }}%</p>
+                                <label>{{ 'dashboard.main.stats.clicks_rate'|trans|capitalize }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stats-by-img">
+                        <div class="pull-right date-range">
+                            <form class="form-inline" role="form">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label class="sr-only">{{ 'dashboard.main.date.filter_label'|trans }}</label>
+                                        <input class="form-control" type="text" name="daterange" value="{{ daterange }}" />
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">{{ 'dashboard.main.date.filter_button'|trans }}</button>
+                            </form>
+                        </div>
+                        <h2>{{ 'dashboard.main.title.analytics'|trans|capitalize }}</h2>
+                    </div>
+
+                    <table class="table dashboard-photo-list">
+                        <thead>
                             <tr>
                                 <td>
-                                    <div class="dashboard-date">{{ photo.createdAt|date("d/m/y") }}</div>
+                                    {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.date'|trans|capitalize, 'p.createdAt') }}
+                                    {% if pagination.isSorted('p.createdAt') %}
+                                        <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                    {% endif %}
                                 </td>
-                                <td class="dashboard-photo-preview-td">
-                                    <div class="dashboard-photo-preview">
-                                        <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}">
-                                            <img src="{{ photo.smallUrl }}"/>
+                                <td>{{ 'dashboard.main.tab.photo'|trans|capitalize }}</td>
+                                <td>{{ 'dashboard.main.tab.info'|trans|capitalize }}</td>
+                                <td>
+                                    {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.views'|trans|capitalize, 'p.viewsCount' ) }}
+                                    {% if pagination.isSorted('p.viewsCount') %}
+                                        <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.clicks'|trans|capitalize, 'p.tagsClicksCount' ) }}
+                                    {% if pagination.isSorted('p.tagsClicksCount') %}
+                                        <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.interaction_time'|trans|capitalize, 'p.interactionTime' ) }}
+                                    {% if pagination.isSorted('p.interactionTime') %}
+                                        <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.source'|trans|capitalize, 'p.source' ) }}
+                                    {% if pagination.isSorted('p.source') %}
+                                        <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ 'dashboard.main.tab.action'|trans|capitalize }}</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for photo in pagination %}
+                                <tr>
+                                    <td>
+                                        <div class="dashboard-date">{{ photo.createdAt|date("d/m/y") }}</div>
+                                    </td>
+                                    <td class="dashboard-photo-preview-td">
+                                        <div class="dashboard-photo-preview">
+                                            <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}">
+                                                <img src="{{ photo.smallUrl }}"/>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="dashboard-photo-caption">
+                                            {{ photo.caption }}
+                                            <div class="dashboard-photo-author">par {{ photo.owner.fullname }}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>{{ photo.viewsCount }}</div>
+                                    </td>
+                                    <td>
+                                        <div>{{ photo.tagsClicksCount }}</div>
+                                    </td>
+                                    <td>
+                                       <div class="stats-time">{{ (photo.interactionTime/1000)|round(2)  }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="dashboard-photo-source">
+                                            {% if photo.sourceUrl %}
+                                                {{ photo.sourceUrl }}{% if photo.source %} - {{ photo.source }}{% endif %}
+                                            {% else %}
+                                                {{ photo.source }}
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}" class="btn btn-primary dashboard-detail-btn">
+                                            {% filter upper %}{{ 'dashboard.main.tab.detail_button'|trans }}{% endfilter %}
                                         </a>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dashboard-photo-caption">
-                                        {{ photo.caption }}
-                                        <div class="dashboard-photo-author">par {{ photo.owner.fullname }}</div>
-                                    </div>
-                                </td>
-                                <td class="dashboard-percentage-td">
-                                    <div class="dashboard-percentage">{{ photo.viewsCount }}</div>
-                                </td>
-                                <td class="dashboard-percentage-td">
-                                    <div class="dashboard-percentage">{{ photo.tagsClicksCount }}</div>
-                                </td>
-                                <td class="dashboard-percentage-td">
-				                   <div class="dashboard-percentage">{{ (photo.interactionTime/1000)|round(2)  }}s</div>
-                                </td>
-                                <td>
-                                    <div class="dashboard-photo-source">
-                                        {% if photo.sourceUrl %}
-                                            {{ photo.sourceUrl }}{% if photo.source %} - {{ photo.source }}{% endif %}
-                                        {% else %}
-                                            {{ photo.source }}
-                                        {% endif %}
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="{{ path('dashboard_details', { 'photoId': photo.id }) }}" class="btn btn-primary dashboard-detail-btn">
-                                        {% filter upper %}{{ 'dashboard.main.tab.detail_button'|trans }}{% endfilter %}
-                                    </a>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="8">
-                                    <p class="text-center text-warning">{{ 'dashboard.main.stats.none'|trans|capitalize }}</p>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div class="navigation">
-                    {{ knp_pagination_render(pagination) }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="8">
+                                        <p class="text-center text-warning">{{ 'dashboard.main.stats.none'|trans|capitalize }}</p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="navigation">
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
                 </div>
             </div>
         </div>
