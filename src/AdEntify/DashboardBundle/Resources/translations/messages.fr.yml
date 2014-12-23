@@ -45,3 +45,8 @@ dashboard:
             title: 'titre'
             link: 'lien'
         back_button: 'précédent'
+
+accounts:
+    label: Sélectionnez votre compte
+    button:
+        name: Valider

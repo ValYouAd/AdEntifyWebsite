@@ -28,6 +28,13 @@ class DashboardController extends Controller
     public function analyticsAction()
     {
         if ($this->getUser()) {
+            if ($this->getRequest()->query->has('brand')
+                && (!$this->getUser()->getBrand() || $this->getUser()->getBrand()->getSlug() != $this->getRequest()->query->get('brand'))) {
+                throw new HttpException(403);
+            } else if ($this->getRequest()->query->has('user') && ($this->getUser()->getId() != $this->getRequest()->query->get('user'))) {
+                throw new HttpException(403);
+            }
+
             $result = array(
                 'nbTagged' => 0,
                 'nbUsers' => 0,

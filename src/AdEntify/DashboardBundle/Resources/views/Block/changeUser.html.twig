@@ -1,0 +1,20 @@
+{% if accounts|length > 1 %}
+
+<form class="form-inline">
+    <div class="form-group">
+        <label>{{ 'accounts.label'|trans }}</label>
+        <select class="accounts-selector">
+            {% for account in accounts %}
+                <option value="{{ account.link }}">{{ account.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="change-account-btn btn btn-primary">{{ 'accounts.button.name'|trans }}</button>
+    </div>
+</form>
+{% javascripts
+    '@AdEntifyDashboardBundle/Resources/public/js/changeUser.js'
+%}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% endif %}

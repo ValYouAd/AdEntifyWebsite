@@ -45,3 +45,8 @@ dashboard:
             title: 'title'
             link: 'link'
         back_button: 'back'
+
+accounts:
+    label: Choose your account
+    button:
+        name: Submit

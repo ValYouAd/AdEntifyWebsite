@@ -93,6 +93,9 @@
 {% block body %}
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
     <div class="dashboard-stats-container">
+        <div class="pull-right">
+            {{ render(controller('AdEntifyDashboardBundle:Block:changeUser')) }}
+        </div>
         {% if brand and brand.originalLogoUrl %}<div class="dashboard-logo" style="background-image: url('{{ brand.originalLogoUrl }}')"></div>
         {% elseif brand %} <h1>{{ brand.name }}</h1>
         {% else %}<h1>{{ user.fullname }}</h1>
