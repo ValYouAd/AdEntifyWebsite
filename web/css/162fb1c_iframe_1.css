@@ -23,6 +23,7 @@ body {
 .adentify-photo-container .popover {
     position: absolute;
     display: none;
+    /*display: block;*/
     background-color:#ffffff;
     box-shadow:0 5px 10px rgba(0, 0, 0, 0.2);
     max-width: none;
