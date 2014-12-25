@@ -265,17 +265,28 @@
             failPosition = ((failPosition.indexOf('r') > -1) && (popoverInnerOffset.left - popoverInner.outerWidth(true) + 35  < 0)) ? failPosition.replace('r', 'l') : failPosition;
             failPosition = ((failPosition.indexOf('b') > -1) && (popoverInnerOffset.top - popoverInner.outerHeight(true) - 5 < 0)) ? failPosition.replace('b', 't') : failPosition;
 
+            failPosition += (failPosition.indexOf('t') > -1) && ((popoverInnerOffset.left + popoverInner.outerWidth(true) + 40) > jQuery('.adentify-photo-container').width()) ? 'd' : '';
+            failPosition = ((failPosition.indexOf('d') > -1) && (popoverInnerOffset.left - popoverInner.outerWidth(true) + 35  < 0)) ? failPosition.replace('d', '') : failPosition;
+
+
             if (failPosition.indexOf('r') > -1)
                left = popoverInnerOffset.left - popoverInner.outerWidth(true) + 35;
             if (failPosition.indexOf('b') > -1) {
                top = popoverInnerOffset.top - popoverInner.outerHeight(true) - 5;
                jQuery(popover).find('.tag-popover-arrow').removeClass('tag-popover-arrow-top').addClass('tag-popover-arrow-bottom').css({top: '-5px'});
             }
-            if (failPosition.indexOf('l') > -1) {
+            if (failPosition.indexOf('l') > -1)
                left = jQuery('.adentify-photo-container').width() * 0.5 - popoverInner.outerWidth(true) / 2;
-            }
-            if (failPosition.indexOf('t') > -1)
+            if (failPosition.indexOf('t') > -1) {
                top = jQuery('.adentify-photo-container').height() * 0.5 - popoverInner.outerHeight(true) / 2;
+               left = popoverInnerOffset.left + 40;
+               jQuery(popover).find('.tag-popover-arrow').removeClass('tag-popover-arrow-top').addClass('tag-popover-arrow-left').css({top: '14px', left: '30px'});
+            }
+
+            if (failPosition.indexOf('d') > -1) {
+               left = popoverInnerOffset.left - popoverInner.outerWidth(true) - 5;
+               jQuery(popover).find('.tag-popover-arrow').removeClass('tag-popover-arrow-top').addClass('tag-popover-arrow-right').css({top: '14px', left: '-6px'});
+            }
 
             jQuery(popoverInner).offset({ top: top, left: left});
 

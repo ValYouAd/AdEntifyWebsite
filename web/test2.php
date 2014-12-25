@@ -21,10 +21,10 @@
 </head>
 <body>
 <div class="box">
-    <iframe src="https://local.adentify.com/iframe/photo-325.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="960" height="640" allowTransparency="true"></iframe>
+<!--    <iframe src="https://local.adentify.com/iframe/photo-374.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="1024" height="640" allowTransparency="true"></iframe>-->
 <!--    <iframe src="https://local.adentify.com/iframe/photo-323.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="1024" height="939" allowTransparency="true"></iframe>-->
 <!--    <iframe src="https://local.adentify.com/iframe/photo-407.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="1024" height="576" allowTransparency="true"></iframe>-->
-<!--    <iframe src="https://local.adentify.com/iframe/photo-391.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="851" height="315" allowTransparency="true"></iframe><div class="box">-->
+    <iframe src="https://local.adentify.com/iframe/photo-391.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="851" height="315" allowTransparency="true"></iframe><div class="box">
 <!--    <iframe src="https://local.adentify.com/iframe/photo-434.html?show-tags=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="512" height="262.5" allowTransparency="true"></iframe>-->
 </div>
 <div class="box">
