@@ -259,7 +259,7 @@
             var popoverInnerOffset = jQuery(popoverInner).offset();
             var left = popoverInnerOffset.left;
             var top = popoverInnerOffset.top + 40;
-            var failPosition = ''; // r: right, b: bottom, l: left, t: top
+            var failPosition = ''; // r: right, b: bottom, l: left, t: top, d: droite
             failPosition += ((popoverInnerOffset.left + popoverInner.outerWidth(true)) > jQuery('.adentify-photo-container').width()) ? 'r' : '';
             failPosition += ((popoverInnerOffset.top + popoverInner.outerHeight(true) + 40) > jQuery('.adentify-photo-container').height()) ? 'b' : '';
             failPosition = ((failPosition.indexOf('r') > -1) && (popoverInnerOffset.left - popoverInner.outerWidth(true) + 35  < 0)) ? failPosition.replace('r', 'l') : failPosition;
