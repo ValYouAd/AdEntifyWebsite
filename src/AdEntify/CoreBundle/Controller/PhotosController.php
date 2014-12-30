@@ -415,7 +415,7 @@ class PhotosController extends FosRestController
             AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.validationStatus != :denied AND
             (LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
-            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)' . implode('', $whereClauses) . $orderByQuery)
+            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)' . implode('', $whereClauses) . ')' . $orderByQuery)
                 ->setParameters(array_merge(array(
                     ':query' => '%'.$query.'%',
                     ':denied' => Tag::VALIDATION_DENIED,
