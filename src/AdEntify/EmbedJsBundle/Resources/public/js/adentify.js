@@ -55,6 +55,7 @@
                (AdEntify.showTags === true ? '.adentify-photo-container .tags {opacity: 1;}' : '.adentify-photo-container .tags {opacity: 0;}') +
                '.tag {background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");}' +
                '.tag .popover {width: ' + window.innerWidth * 0.85 + 'px;}' +
+               '.tag .popover p {max-width: 400px;}' +
                '[class^="icon-"],[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings.png");}' +
                '.icon-white,.nav-pills>.active>a>[class^="icon-"],.nav-pills>.active>a>[class*=" icon-"],.nav-list>.active>a>[class^="icon-"],.nav-list>.active>a>[class*=" icon-"],.navbar-inverse .nav>.active>a>[class^="icon-"],.navbar-inverse .nav>.active>a>[class*=" icon-"],.dropdown-menu>li>a:hover>[class^="icon-"],.dropdown-menu>li>a:focus>[class^="icon-"],.dropdown-menu>li>a:hover>[class*=" icon-"],.dropdown-menu>li>a:focus>[class*=" icon-"],.dropdown-menu>.active>a>[class^="icon-"],.dropdown-menu>.active>a>[class*=" icon-"],.dropdown-submenu:hover>a>[class^="icon-"],.dropdown-submenu:focus>a>[class^="icon-"],.dropdown-submenu:hover>a>[class*=" icon-"],.dropdown-submenu:focus>a>[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings-white.png");}' +
                '.tag-buttons {background: url("'+ AdEntify.rootUrl +'img/dark-grey-tag-background.jpg") repeat;}' +
@@ -187,13 +188,13 @@
                if (tag.type == 'place') {
                   $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-place-icon tag-icon"></div><div class="popover"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title">'+ (tag.link ? '<a href="'+ tag.link +'" target="_blank">'+ tag.title +'</a>' : tag.title) +'</span>'
                   + (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                  '</div><div id="map' + tag.id + '" class="map" data-lng="' + tag.venue.lng + '" data-lat="' + tag.venue.lat + '"></div>\
+                  '<div id="map' + tag.id + '" class="map" data-lng="' + tag.venue.lng + '" data-lat="' + tag.venue.lat + '"></div>\
                               <div class="popover-details">\
                                  <address>\
                                  <strong>' + tag.title + '</strong><br>\
                                    ' + (tag.venue.address ? tag.venue.address + '<br>' : '') +
                   (tag.venue.postal_code ? tag.venue.postal_code + ' ' : '') + (tag.venue.city ? tag.venue.city + ' ' : '') + (tag.venue.country ? tag.venue.country + ' ' : '') +
-                  '</address></div></div></div>');
+                  '</address></div></div></div></div>');
                } else if (tag.type == 'person') {
                   $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%">\
                               <div class="tag-user-icon tag-icon"></div><div class="popover"><div class="tag-popover-arrow"></div>\
@@ -209,22 +210,11 @@
                } else {
                   jQuery($tags).append('');
                }
-
                if ($tag) {
-                  var popoverArrow = $tag.find('.tag-popover-arrow');
-                  // Arrow position
-                  if (tag.y_position > 0.5) {
-                     popoverArrow.addClass('tag-popover-arrow-bottom');
-                     popoverArrow.css({bottom: '-10px'});
-                  } else {
-                     popoverArrow.css({top: '-10px'});
-                     popoverArrow.addClass('tag-popover-arrow-top');
-                  }
-                  if (tag.x_position > 0.5) {
-                     popoverArrow.css({right: '20px'});
-                  } else {
-                     popoverArrow.css({left: '20px'});
-                  }
+                  var popoverArrow = $tag.find('[data-tag-id="'+ tag.id + '"] .tag-popover-arrow');
+                  popoverArrow.addClass('tag-popover-arrow-top');
+                  popoverArrow.css({top: '30px'});
+                  popoverArrow.css({left: '12px'});
                }
 
                if (typeof popover !== 'undefined') {
@@ -261,11 +251,45 @@
          // When all deferreds are done (all images loaded) do some stuff
          jQuery.when.apply(null, deferreds).done(function() {
             var popover = jQuery(tag).find('.popover');
+            var popoverInner = jQuery(popover).find('.popover-inner');
 
             if (!popover.is(':visible'))
                popover.show();
-            jQuery(popover).offset({ top: window.innerHeight * 0.5, left: window.innerWidth * 0.5});
-            popover.css({margin: '-' + (jQuery(popover).find('.popover-inner').outerHeight(true) / 2) + 'px -' + (jQuery(popover).find('.popover-inner').outerWidth(true) / 2) + 'px'});
+
+            var popoverInnerOffset = jQuery(popoverInner).offset();
+            var left = popoverInnerOffset.left;
+            var top = popoverInnerOffset.top + 40;
+            var failPosition = ''; // r: right, b: bottom, l: left, t: top, d: droite
+            failPosition += ((popoverInnerOffset.left + popoverInner.outerWidth(true)) > jQuery('.adentify-photo-container').width()) ? 'r' : '';
+            failPosition += ((popoverInnerOffset.top + popoverInner.outerHeight(true) + 40) > jQuery('.adentify-photo-container').height()) ? 'b' : '';
+            failPosition = ((failPosition.indexOf('r') > -1) && (popoverInnerOffset.left - popoverInner.outerWidth(true) + 35  < 0)) ? failPosition.replace('r', 'l') : failPosition;
+            failPosition = ((failPosition.indexOf('b') > -1) && (popoverInnerOffset.top - popoverInner.outerHeight(true) - 5 < 0)) ? failPosition.replace('b', 't') : failPosition;
+
+            failPosition += (failPosition.indexOf('t') > -1) && ((popoverInnerOffset.left + popoverInner.outerWidth(true) + 40) > jQuery('.adentify-photo-container').width()) ? 'd' : '';
+            failPosition = ((failPosition.indexOf('d') > -1) && (popoverInnerOffset.left - popoverInner.outerWidth(true) + 35  < 0)) ? failPosition.replace('d', '') : failPosition;
+
+
+            if (failPosition.indexOf('r') > -1)
+               left = popoverInnerOffset.left - popoverInner.outerWidth(true) + 35;
+            if (failPosition.indexOf('b') > -1) {
+               top = popoverInnerOffset.top - popoverInner.outerHeight(true) - 5;
+               jQuery(popover).find('.tag-popover-arrow').removeClass('tag-popover-arrow-top').addClass('tag-popover-arrow-bottom').css({top: '-5px'});
+            }
+            if (failPosition.indexOf('l') > -1)
+               left = jQuery('.adentify-photo-container').width() * 0.5 - popoverInner.outerWidth(true) / 2;
+            if (failPosition.indexOf('t') > -1) {
+               top = jQuery('.adentify-photo-container').height() * 0.5 - popoverInner.outerHeight(true) / 2;
+               left = popoverInnerOffset.left + 40;
+               jQuery(popover).find('.tag-popover-arrow').removeClass('tag-popover-arrow-top').addClass('tag-popover-arrow-left').css({top: '14px', left: '30px'});
+            }
+
+            if (failPosition.indexOf('d') > -1) {
+               left = popoverInnerOffset.left - popoverInner.outerWidth(true) - 5;
+               jQuery(popover).find('.tag-popover-arrow').removeClass('tag-popover-arrow-top').addClass('tag-popover-arrow-right').css({top: '14px', left: '-6px'});
+            }
+
+            jQuery(popoverInner).offset({ top: top, left: left});
+
             if (popover.is(':visible'))
                popover.hide();
          });
