@@ -32,13 +32,13 @@
 
     {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
 
-    <div class="story red-patchwork">
+    {#<div class="story red-patchwork">
         <div class="container">
             <div class="story-text">
                 <p class="quote">{{ 'press.quote'|trans }}</p>
             </div>
         </div>
-    </div>
+    </div>#}
 
     <div class="team polygon-background">
         <div class="container">
@@ -46,28 +46,94 @@
                 <h2>{{ 'Team'|trans }}</h2>
             </div>
             <div class="row">
-                <div class="col-sm-3 text-center">
+                <div class="col-sm-4 text-center">
                     <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 5 }) }}"><img src="https://graph.facebook.com/jeremie.lf/picture?width=140&height=140" class="profile-picture" /></a>
                     <h3>Jérémie Le Febvre</h3>
                     <p class="text-center links"><a target="_blank" href="https://twitter.com/jeremie_lf"><i class="fa fa-twitter"></i></a> <a href="http://www.linkedin.com/in/jeremielefebvre/"><i class="fa fa-linkedin"></i></a></p>
                 </div>
-                <div class="col-sm-3 text-center">
+                <div class="col-sm-4 text-center">
                     <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 1 }) }}"><img src="https://graph.facebook.com/pierrick.martos/picture?width=140&height=140" class="profile-picture" /></a>
                     <h3>Pierrick Martos</h3>
                     <p class="text-center links"><a target="_blank" href="https://twitter.com/pierrickmartos"><i class="fa fa-twitter"></i></a> <a href="http://fr.linkedin.com/in/pierrickmartos"><i class="fa fa-linkedin"></i></a></p>
                 </div>
-                <div class="col-sm-3 text-center">
+                <div class="col-sm-4 text-center">
                     <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 7 }) }}"><img src="https://s3-eu-west-1.amazonaws.com/cdn.adentify.com/uploads/photos/users/7/profile-picture/532f17b296e78P" class="profile-picture" /></a>
                     <h3>Raphaelle de Marliave Armstrong</h3>
                     <p class="text-center links"><a target="_blank" href="https://twitter.com/Raphaelle_DM"><i class="fa fa-twitter"></i></a> <a href="http://fr.linkedin.com/in/demarliave"><i class="fa fa-linkedin"></i></a></p>
                 </div>
-                <div class="col-sm-3 text-center">
-                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 23 }) }}"><img src="https://graph.facebook.com/1182226467/picture?width=140&height=140" class="profile-picture" /></a>
-                    <h3>Sophie Palacios</h3>
-                    <p class="text-center links"><a href="http://fr.linkedin.com/in/sophiepalacios/"><i class="fa fa-linkedin"></i></a></p>
-                </div>
             </div>
             <p class="text-center mt3"><a class="btn-around-corner btn-red-grey-border" href="{{ path('jobs') }}">{{ 'Join the team'|trans }}</a></p>
+        </div>
+    </div>
+
+    {#<div class="photos-videos polygon-background">
+        <div class="container">
+            <div class="text-center">
+                <h2>{{ 'Photos & videos'|trans }}</h2>
+            </div>
+
+            <div class="row photos">
+                {% for photo in photos %}
+                    <div class="col-xs-6 col-sm-4 col-md-4 photo-wrapper">
+                        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="photo" style="background-image: url({{ photo.mediumUrl }})"></a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>#}
+
+    <div class="team polygon-background">
+        <div class="container">
+            <div class="text-center">
+                <h2>{{ 'Contributors'|trans }}</h2>
+            </div>
+            <div class="row contributors">
+                <div class="contributor col-sm-3 text-center">
+                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 21 }) }}"><img src="https://graph.facebook.com/624220322/picture?width=140&height=140" class="profile-picture" /></a>
+                    <h3>Clémentine Le Febvre</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <img src="https://adentify.com/img/anonymous-profile-picture.png" class="profile-picture" />
+                    <h3>Christophe Montandon</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="https://www.linkedin.com/in/lisakimperes/en"><img src="https://adentify.com/img/anonymous-profile-picture.png" class="profile-picture" /></a>
+                    <h3>Lisa Kim Peres</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 2 }) }}"><img src="https://graph.facebook.com/1017441103/picture?width=140&height=140" class="profile-picture" /></a>
+                    <h3>Mickael Samama</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="https://www.linkedin.com/in/laurentbrieu"><img src="http://www.valyouad.com/wp-content/uploads/2013/05/LB1.png" class="profile-picture" /></a>
+                    <h3>Laurent Brieu</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 16 }) }}"><img src="https://s3-eu-west-1.amazonaws.com/cdn.adentify.com/uploads/photos/users/16/profile-picture/53314faaecb75C" class="profile-picture" /></a>
+                    <h3>Auriane Denis</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 17 }) }}"><img src="https://graph.facebook.com/515964960/picture?width=140&height=140" class="profile-picture" /></a>
+                    <h3>Alessandra Cocito</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 22 }) }}"><img src="https://graph.facebook.com/628827523/picture?width=140&height=140" class="profile-picture" /></a>
+                    <h3>Marie-Reine</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 24 }) }}"><img src="https://graph.facebook.com/721222036/picture?width=140&height=140" class="profile-picture" /></a>
+                    <h3>Emmanuel Castellani</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 23 }) }}"><img src="https://graph.facebook.com/1182226467/picture?width=140&height=140" class="profile-picture" /></a>
+                    <h3>Sophie Palacios</h3>
+                </div>
+                <div class="contributor col-sm-3 text-center">
+                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 23 }) }}"><img src="https://adentify.com/img/anonymous-profile-picture.png" class="profile-picture" /></a>
+                    <h3>Christophe Montandon</h3>
+                </div>
+            </div>
+            <p class="text-center mt3"><a class="btn-around-corner btn-red-grey-border" href="http://www.valyouad.com/about/" target="_blank">{{ 'Learn more'|trans }}</a></p>
         </div>
     </div>
 
@@ -117,68 +183,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    {#<div class="photos-videos polygon-background">
-        <div class="container">
-            <div class="text-center">
-                <h2>{{ 'Photos & videos'|trans }}</h2>
-            </div>
-
-            <div class="row photos">
-                {% for photo in photos %}
-                    <div class="col-xs-6 col-sm-4 col-md-4 photo-wrapper">
-                        <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="photo" style="background-image: url({{ photo.mediumUrl }})"></a>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>#}
-
-    <div class="team polygon-background">
-        <div class="container">
-            <div class="text-center">
-                <h2>{{ 'Contributors'|trans }}</h2>
-            </div>
-            <div class="row contributors">
-                <div class="contributor col-sm-3 text-center">
-                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 21 }) }}"><img src="https://graph.facebook.com/624220322/picture?width=140&height=140" class="profile-picture" /></a>
-                    <h3>Clémentine Le Febvre</h3>
-                </div>
-                <div class="contributor col-sm-3 text-center">
-                    <img src="https://adentify.com/img/anonymous-profile-picture.png" class="profile-picture" />
-                    <h3>Christophe Montandon</h3>
-                </div>
-                <div class="contributor col-sm-3 text-center">
-                    <img src="https://adentify.com/img/anonymous-profile-picture.png" class="profile-picture" />
-                    <h3>Kim</h3>
-                </div>
-                <div class="contributor col-sm-3 text-center">
-                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 2 }) }}"><img src="https://graph.facebook.com/1017441103/picture?width=140&height=140" class="profile-picture" /></a>
-                    <h3>Mickael Samama</h3>
-                </div>
-                <div class="contributor col-sm-3 text-center">
-                    <img src="https://adentify.com/img/anonymous-profile-picture.png" class="profile-picture" />
-                    <h3>Laurent Brieu</h3>
-                </div>
-                <div class="contributor col-sm-3 text-center">
-                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 16 }) }}"><img src="https://s3-eu-west-1.amazonaws.com/cdn.adentify.com/uploads/photos/users/16/profile-picture/53314faaecb75C" class="profile-picture" /></a>
-                    <h3>Auriane Denis</h3>
-                </div>
-                <div class="contributor col-sm-3 text-center">
-                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 17 }) }}"><img src="https://graph.facebook.com/515964960/picture?width=140&height=140" class="profile-picture" /></a>
-                    <h3>Alessandra Cocito</h3>
-                </div>
-                <div class="contributor col-sm-3 text-center">
-                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 22 }) }}"><img src="https://graph.facebook.com/628827523/picture?width=140&height=140" class="profile-picture" /></a>
-                    <h3>Marie-Reine</h3>
-                </div>
-                <div class="contributor col-sm-3 text-center">
-                    <a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'profile/%id%/'|trans({ '%id%': 24 }) }}"><img src="https://graph.facebook.com/721222036/picture?width=140&height=140" class="profile-picture" /></a>
-                    <h3>Emmanuel Castellani</h3>
-                </div>
-            </div>
         </div>
     </div>
 
