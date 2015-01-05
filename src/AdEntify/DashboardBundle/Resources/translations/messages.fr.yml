@@ -11,6 +11,7 @@ dashboard:
             activity: 'activité'
         stats:
             sum: 'taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
+            userSum: 'Photos taguées <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
             none: 'aucune statistiques à afficher'
             photos_views: 'impressions d''images'
             photos_hovers: 'survols d''images'

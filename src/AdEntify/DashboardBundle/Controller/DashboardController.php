@@ -13,6 +13,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use AdEntify\CoreBundle\Entity\AnalyticRepository;
+
 
 class DashboardController extends Controller
 {
@@ -34,7 +36,7 @@ class DashboardController extends Controller
             } else if ($this->getRequest()->query->has('user') && ($this->getUser()->getId() != $this->getRequest()->query->get('user'))) {
                 throw new HttpException(403);
             }
-
+            $profile = ($this->getRequest()->query->has('brand')) ? $this->getUser()->getBrand() : $this->getUser();
             $result = array(
                 'nbTagged' => 0,
                 'nbUsers' => 0,
@@ -44,9 +46,9 @@ class DashboardController extends Controller
             $tagRepository = $em->getRepository('AdEntifyCoreBundle:Tag');
             $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
 
-            $result['nbTagged'] = $tagRepository->countBySelector($this->getUser(), 'id');
-            $result['nbUsers'] = $tagRepository->countBySelector($this->getUser(), 'owner', 'DISTINCT');
-            $result['nbPhotos'] = $tagRepository->countBySelector($this->getUser(), 'photo', 'DISTINCT');
+            $result['nbTagged'] = $tagRepository->countBySelector($profile, 'id');
+            $result['nbUsers'] = $tagRepository->countBySelector($profile, 'owner', 'DISTINCT');
+            $result['nbPhotos'] = $tagRepository->countBySelector($profile, 'photo', 'DISTINCT');
 
             $this->get('session')->set('dashboardPage', (array_key_exists('page', $_GET)) ? $_GET['page'] : 1);
 
@@ -56,7 +58,7 @@ class DashboardController extends Controller
             }
 
             $pagination = $this->get('knp_paginator')->paginate(
-                $em->getRepository('AdEntifyCoreBundle:Photo')->getPhotos($this->getUser(), $options),
+                $em->getRepository('AdEntifyCoreBundle:Photo')->getPhotos($profile, $options),
                 $this->get('request')->query->get('page', 1),
                 $this->container->getParameter('analytics')['nb_elements_by_page']
             );
@@ -65,7 +67,7 @@ class DashboardController extends Controller
                 'analytics' => $result,
                 'brand' => $this->getUser()->getBrand(),
                 'user' => $this->getUser(),
-                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser(), $options),
+                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile, $options),
                 'pagination' => $pagination,
                 'daterange' => array_key_exists('daterange', $options) ? $options['daterange'] : null,
                 'daterangeActivity' => array_key_exists('daterangeActivity', $options) ? $options['daterangeActivity'] : null

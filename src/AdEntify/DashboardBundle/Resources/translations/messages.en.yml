@@ -11,6 +11,7 @@ dashboard:
             activity: 'activity'
         stats:
             sum: 'tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
+            userSum: 'Photos tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
             none: 'no analytics'
             photos_views: 'photos views'
             photos_hovers: 'mouse over on photos'
