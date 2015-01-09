@@ -157,6 +157,7 @@ didacticiel:
 index:
     pageHeading: Tag and share photos on AdEntify.com
     quote1: Empower your content with tags and reveal the brand ambassador in you!
+    downloadAppStore: Available on the App Store
 
 #Routing
 photos/untagged/: photos/untagged/

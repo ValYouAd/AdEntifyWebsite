@@ -2,7 +2,7 @@
 
 <form class="form-inline">
     <div class="form-group">
-        <label>{{ 'accounts.label'|trans }}</label>
+        <label>{{ 'accounts.label'|trans }}</label><br>
         <select class="accounts-selector">
             {% for account in accounts %}
                 <option value="{{ account.link }}">{{ account.name }}</option>
