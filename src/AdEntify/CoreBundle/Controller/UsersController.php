@@ -1347,6 +1347,45 @@ class UsersController extends FosRestController
         }
     }
 
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET brand's analytics of the current user",
+     *  section="User"
+     * )
+     *
+     * @param $id
+     *
+     * @View(serializerGroups={"details"})
+     */
+    public function getAnalyticsForMyBrandAction()
+    {
+        if ($this->getUser()) {
+            if ($this->getUser()->getBrand()) {
+                $result = array(
+                    'nbTagged' => 0,
+                    'nbUsers' => 0,
+                    'nbPhotos' => 0
+                );
+                $em = $this->getDoctrine()->getManager();
+                $tagRepository = $em->getRepository('AdEntifyCoreBundle:Tag');
+                $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
+
+                $result['nbTagged'] = $tagRepository->countBySelector($this->getUser()->getBrand(), 'id');
+                $result['nbUsers'] = $tagRepository->countBySelector($this->getUser()->getBrand(), 'owner', 'DISTINCT');
+                $result['nbPhotos'] = $tagRepository->countBySelector($this->getUser()->getBrand(), 'photo', 'DISTINCT');
+
+                return array(
+                    'brand' => $this->getUser()->getBrand(),
+                    'analytics' => $result,
+                    'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser()->getBrand()),
+                );
+            } else
+                throw new HttpException(403);
+        } else
+            throw new HttpException(401);
+    }
+
     private function getErrorsAsArray(\Symfony\Component\Form\Form $form)
     {
         $errors = array();
