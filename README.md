@@ -11,8 +11,8 @@ php app/console adentify:oauth:client:create --name "Plugin Wordpress DEV" --red
 - Récompenses - Toutes les heures
 0 * * * * php /var/www/adentify.com/htdocs/app/console adentify:reward --env=prod > /var/www/adentify.com/htdocs/app/logs/cron-reward.log
 
-
-0 * * * * php /var/www/adentify.com/htdocs/app/console adentify:analytics --env=prod > /var/www/adentify.com/htdocs/app/logs/cron-analytics.log
+- Analytivs toutes les 5 mins
+*/5 * * * * php /var/www/adentify.com/htdocs/app/console adentify:analytics --env=prod > /var/www/adentify.com/htdocs/app/logs/cron-analytics.log
 
 - Tasks
 @reboot /var/www/adentify.com/dev/upload-loop.sh
