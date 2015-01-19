@@ -39,10 +39,6 @@
          AdEntify.showLikes = typeof jQuery(this.getValue('selector')).attr('data-adentify-likes') !== 'undefined';
          AdEntify.cover = typeof jQuery(this.getValue('selector')).attr('data-cover') === 'undefined';
 
-         //if (AdEntify.cover) {
-         //   jQuery(this.getValue('selector')).height(document.documentElement.clientHeight);
-         //}
-
          // Load CSS
          if (jQuery('meta[property="adentitfy-loaded"]').length == 0) {
             $head = jQuery('head');
@@ -160,21 +156,79 @@
                   map: gMap
                });
             }
+         });
 
-            var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'api/v1/tagstats');
-            if (xhr) {
-               xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-               xhr.send('tagId=' + jQuery(this).data('tag-id') + '&statType=hover&platform=adentify-embed');
+         var photoEnterTime = {};
+         var tagEnterTime = {};
+         var $photos = jQuery(this.getValue('selector'));
+
+         // Photos hover in/out
+         $photos.hover(function() {
+            photoEnterTime[$photos.data('adentify-photo-id')] = Date.now();
+            that.postAnalytic('hover', 'photo', null, $photos.data('adentify-photo-id'));
+         }, function() {
+            if (photoEnterTime[$photos.data('adentify-photo-id')]) {
+               var interactionTime = Date.now() - photoEnterTime[$photos.data('adentify-photo-id')];
+               if (interactionTime > 200)
+                  that.postAnalytic('interaction', 'photo', null, $photos.data('adentify-photo-id'), null, interactionTime)
             }
          });
 
+         // Tags hover in/out
+         $tags.hover(function() {
+            tagEnterTime[jQuery(this).data('tag-id')] = Date.now();
+            that.postAnalytic('hover', 'tag', jQuery(this).data('tag-id'), null);
+         }, function() {
+            if (tagEnterTime[jQuery(this).data('tag-id')]) {
+               var interactionTime = Date.now() - tagEnterTime[jQuery(this).data('tag-id')];
+               if (interactionTime > 200)
+                  that.postAnalytic('interaction', 'tag', jQuery(this).data('tag-id'), null, null, interactionTime)
+            }
+         });
+
+         // Tags click
          $tags.on('click', 'a[href]', function() {
-            var xhr = AdEntify.createCORSRequest('POST', AdEntify.rootUrl + 'api/v1/tagstats');
-            if (xhr) {
-               xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-               xhr.send('tagId=' + jQuery(this).parents('.tag').data('tag-id') + '&statType=click&platform=adentify-embed&link=' + encodeURIComponent(jQuery(this).attr('href')));
+            that.postAnalytic('click', 'tag', jQuery(this).parents('.tag').data('tag-id'), null, jQuery(this).attr('href'));
+         });
+
+         // Post photo view
+         that.postAnalytic('view', 'photo', null, $photos.data('adentify-photo-id'));
+      },
+
+      postAnalytic: function(action, element, tag, photo, link, actionValue) {
+         var analytic = {
+            'platform': 'embed',
+            'element': element,
+            'action': action,
+            'sourceUrl': this.getParentUrl()
+         };
+         if (tag)
+            analytic.tag = tag;
+         if (photo)
+            analytic.photo = photo;
+         if (link)
+            analytic.link = link;
+         if (actionValue)
+            analytic.actionValue = actionValue;
+
+         jQuery.ajax({
+            type: 'POST',
+            url: AdEntify.rootUrl + 'api/v1/analytics',
+            data: {
+               'analytic': analytic
             }
          });
+      },
+
+      getParentUrl: function() {
+         var isInIframe = (parent !== window),
+            parentUrl = null;
+
+         if (isInIframe) {
+            parentUrl = document.referrer;
+         }
+
+         return parentUrl;
       },
 
       addTag: function(photo) {
