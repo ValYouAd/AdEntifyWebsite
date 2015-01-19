@@ -53,3 +53,5 @@ accounts:
     label: Choose your account
     button:
         name: Submit
+    brands: Brands
+    users: Users

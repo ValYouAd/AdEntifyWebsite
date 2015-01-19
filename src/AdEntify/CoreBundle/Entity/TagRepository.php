@@ -27,14 +27,14 @@ class TagRepository extends EntityRepository{
             $qb->andWhere('t.brand = :brand')
                 ->setParameters(array(
                     'brand' => $profile,
-                    ':denied' => Tag::VALIDATION_DENIED,
+                    'denied' => Tag::VALIDATION_DENIED,
             ));
         } else {
             $qb->leftJoin('t.photo', 'p')
-                ->where('p.owner = :user')
+                ->andWhere('p.owner = :user')
                 ->setParameters(array(
                     'user' => $profile,
-                    ':denied' => Tag::VALIDATION_DENIED,
+                    'denied' => Tag::VALIDATION_DENIED,
                 ));
         }
 
@@ -52,8 +52,8 @@ class TagRepository extends EntityRepository{
             ->andWhere('t.validationStatus != :denied')
             ->andWhere('t.photo = :photo')
             ->setParameters(array(
-                ':photo' => $photo,
-                ':denied' => Tag::VALIDATION_DENIED,
+                'photo' => $photo,
+                'denied' => Tag::VALIDATION_DENIED,
             ));
 
         return $qb->getQuery();
@@ -70,7 +70,7 @@ class TagRepository extends EntityRepository{
             ->andWhere('t.photo = :photo')
             ->setParameters(array(
                 'photo' => $photo,
-                ':denied' => Tag::VALIDATION_DENIED,
+                'denied' => Tag::VALIDATION_DENIED,
             ));
         return $qb->getQuery()->getSingleScalarResult();
     }

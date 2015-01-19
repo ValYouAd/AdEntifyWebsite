@@ -21,25 +21,29 @@ class BlockController extends Controller
      * @return array
      * @throws HttpException
      */
-    public function changeUserAction()
+    public function changeUserAction($currentProfile, $currentProfileType)
     {
         if ($this->getUser()) {
             $accounts = array();
             if ($this->getUser()->getBrand()) {
-                $accounts[] = array(
+                $accounts['accounts.brands'] = array(array(
                     'link' => $this->generateUrl('dashboard_stats', array(
                         'brand' => $this->getUser()->getBrand()->getSlug()
                     ), true),
+                    'type' => 'brand',
+                    'selected' => $currentProfileType == 'brand' && $currentProfile->getId() == $this->getUser()->getBrand()->getId() ? true : false,
                     'name' => $this->getUser()->getBrand()->getName()
-                );
+                ));
             }
 
-            $accounts[] = array(
+            $accounts['accounts.users'] = array(array(
                 'link' => $this->generateUrl('dashboard_stats', array(
                     'user' => $this->getUser()->getId()
                 ), true),
+                'type' => 'user',
+                'selected' => $currentProfileType == 'user' && $currentProfile->getId() == $this->getUser()->getId() ? true : false,
                 'name' => $this->getUser()->getFullname()
-            );
+            ));
 
             return array(
                 'accounts' => $accounts

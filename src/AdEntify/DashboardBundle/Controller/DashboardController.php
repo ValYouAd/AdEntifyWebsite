@@ -36,7 +36,14 @@ class DashboardController extends Controller
             } else if ($this->getRequest()->query->has('user') && ($this->getUser()->getId() != $this->getRequest()->query->get('user'))) {
                 throw new HttpException(403);
             }
-            $profile = ($this->getRequest()->query->has('brand')) ? $this->getUser()->getBrand() : $this->getUser();
+            if ($this->getRequest()->query->has('brand')) {
+                $profile = $this->getUser()->getBrand();
+                $currentProfileType = 'brand';
+            } else {
+                $profile = $this->getUser();
+                $currentProfileType = 'user';
+            }
+
             $result = array(
                 'nbTagged' => 0,
                 'nbUsers' => 0,
@@ -65,6 +72,8 @@ class DashboardController extends Controller
 
             return array(
                 'analytics' => $result,
+                'currentProfile' => $profile,
+                'currentProfileType' => $currentProfileType,
                 'brand' => $this->getUser()->getBrand(),
                 'user' => $this->getUser(),
                 'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile, $options),

@@ -53,3 +53,5 @@ accounts:
     label: Sélectionnez votre compte
     button:
         name: Valider
+    brands: Marques
+    users: Utilisateurs
