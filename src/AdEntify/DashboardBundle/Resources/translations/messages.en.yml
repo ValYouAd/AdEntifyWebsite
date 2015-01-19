@@ -46,6 +46,8 @@ dashboard:
             title: 'title'
             link: 'link'
         back_button: 'back'
+        viewPhoto: 'View photo'
+        sentFrom: 'Sent from'
 
 accounts:
     label: Choose your account

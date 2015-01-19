@@ -17,23 +17,27 @@ class TagRepository extends EntityRepository{
     public function countBySelector($profile, $selector, $distinct = '')
     {
         $qb = $this->createQueryBuilder('t');
-        $qb->select('COUNT('.$distinct.' t.'.$selector.')');
+        $qb->select('COUNT('.$distinct.' t.'.$selector.')')
+            ->where('t.deletedAt IS NULL')
+            ->andWhere('t.visible = true')
+            ->andWhere('t.censored = false')
+            ->andWhere('t.validationStatus != :denied');
 
-        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand'))
-        {
-            $qb->where('t.brand = :brand')
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand')) {
+            $qb->andWhere('t.brand = :brand')
                 ->setParameters(array(
-                    'brand' => $profile
+                    'brand' => $profile,
+                    ':denied' => Tag::VALIDATION_DENIED,
             ));
-        }
-        else
-        {
+        } else {
             $qb->leftJoin('t.photo', 'p')
                 ->where('p.owner = :user')
                 ->setParameters(array(
-                    'user' => $profile
+                    'user' => $profile,
+                    ':denied' => Tag::VALIDATION_DENIED,
                 ));
         }
+
         return $qb->getQuery()->getSingleScalarResult();
     }
 
@@ -42,10 +46,16 @@ class TagRepository extends EntityRepository{
         $qb = $this->createQueryBuilder('t');
         $qb->select('t')
             ->orderBy('t.createdAt', 'DESC')
-            ->where('t.photo = :photo')
+            ->where('t.deletedAt IS NULL')
+            ->andWhere('t.visible = true')
+            ->andWhere('t.censored = false')
+            ->andWhere('t.validationStatus != :denied')
+            ->andWhere('t.photo = :photo')
             ->setParameters(array(
-                    ':photo' => $photo
+                ':photo' => $photo,
+                ':denied' => Tag::VALIDATION_DENIED,
             ));
+
         return $qb->getQuery();
     }
 
@@ -53,9 +63,14 @@ class TagRepository extends EntityRepository{
     {
         $qb = $this->createQueryBuilder('t');
         $qb->select('COUNT(DISTINCT t.owner)')
-            ->where('t.photo = :photo')
+            ->where('t.deletedAt IS NULL')
+            ->andWhere('t.visible = true')
+            ->andWhere('t.censored = false')
+            ->andWhere('t.validationStatus != :denied')
+            ->andWhere('t.photo = :photo')
             ->setParameters(array(
-                'photo' => $photo
+                'photo' => $photo,
+                ':denied' => Tag::VALIDATION_DENIED,
             ));
         return $qb->getQuery()->getSingleScalarResult();
     }
