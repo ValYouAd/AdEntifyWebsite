@@ -12,11 +12,11 @@
 {% endblock %}
 
 {% block body %}
-    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+    {% include 'AdEntifyDashboardBundle:Common:navbar.html.twig' %}
     <div class="dashboard-stats-container">
         <div class="dashboard-photo-details">
             <img class="photo-details-img" src="{{ photo.largeUrl }}" />
-            {% if photo.sourceUrl %}Envoyée depuis : {{ photo.sourceUrl }}{% endif %}
+            {% if photo.sourceUrl %}<br>Envoyée depuis : {{ photo.sourceUrl }}{% endif %}
         </div>
         <div class="dashboard-content">
             <div class="dashboard-details-title">

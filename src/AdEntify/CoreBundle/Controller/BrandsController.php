@@ -11,6 +11,7 @@ namespace AdEntify\CoreBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Action;
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Entity\Tag;
 use AdEntify\CoreBundle\Form\BrandType;
 use AdEntify\CoreBundle\Model\Thumb;
 use AdEntify\CoreBundle\Util\FileTools;
@@ -512,7 +513,8 @@ class BrandsController extends FosRestController
         }
 
         $query = $em->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag LEFT JOIN photo.owner owner LEFT JOIN tag.brand tagBrand LEFT JOIN tag.brand brand
+                LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL AND tag.censored = false AND tag.validationStatus != :denied)
+                LEFT JOIN photo.owner owner LEFT JOIN tag.brand tagBrand LEFT JOIN tag.brand brand
                 WHERE brand.validated = 1 AND (brand.slug = :slug OR tagBrand.slug = :slug) AND photo.status = :status AND photo.deletedAt IS NULL
                 AND photo.tagsCount > 0 AND (photo.visibilityScope = :visibilityScope OR (owner.facebookId IS NOT NULL
                 AND owner.facebookId IN (:facebookFriendsIds)) OR owner.id IN (:followings)) ORDER BY photo.createdAt DESC')
@@ -521,7 +523,8 @@ class BrandsController extends FosRestController
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
                 ':facebookFriendsIds' => $facebookFriendsIds,
                 ':followings' => $followings,
-                ':slug' => $slug
+                ':slug' => $slug,
+                ':denied' => Tag::VALIDATION_DENIED,
             ));
 
         $paginator = new Paginator($query, $fetchJoinCollection = true);
