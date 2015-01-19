@@ -175,7 +175,7 @@
          });
 
          // Tags hover in/out
-         $tags.hover(function() {
+         jQuery('.tags .tag').hover(function() {
             tagEnterTime[jQuery(this).data('tag-id')] = Date.now();
             that.postAnalytic('hover', 'tag', jQuery(this).data('tag-id'), null);
          }, function() {
@@ -187,7 +187,7 @@
          });
 
          // Tags click
-         $tags.on('click', 'a[href]', function() {
+         $tags.on('click', '.tag a[href]', function() {
             that.postAnalytic('click', 'tag', jQuery(this).parents('.tag').data('tag-id'), null, jQuery(this).attr('href'));
          });
 
@@ -253,13 +253,12 @@
                   $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%">\
                               <div class="tag-user-icon tag-icon"></div><div class="popover"><div class="tag-popover-arrow"></div>\
                               <div class="popover-inner"><div class="text-center"><img src="https://graph.facebook.com/' + tag.person.facebook_id + '/picture?type=square" /></div><span class="person-title"><a href="' + tag.link + '" target="_blank">'+ tag.title +'</a></span>' +
-                  //(tag.description ? '<p>' + tag.description + '</p>' : '') +
                   '</div></div></div>');
                } else if (tag.type == 'product') {
-                  $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon glyphicon glyphicon-tag tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title"><a href="'+ tag.link +'" target="_blank">' + tag.title + '</a></span>' + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
+                  $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon glyphicon glyphicon-tag tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title">' +
+                  (typeof tag.link !== 'undefined' ? '<a href="'+ tag.link +'" target="_blank">' + tag.title + '</a></span>' : '</span>') + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
                   (tag.description ? '<p>' + tag.description + '</p>' : '') +
                   (tag.brand ? typeof tag.brand.small_logo_url !== 'undefined' ? '<div class="brand"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div>' : '' : '') +
-                  //(tag.product ? '<div class="popover-details"><a target="_blank" href="' + tag.product.purchase_url + '" class="btn btn-small btn-primary"><i class="icon-shopping-cart icon-white"></i> Acheter</a></div>' : '') +
                   '</div></div></div>');
                } else {
                   jQuery($tags).append('');

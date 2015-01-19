@@ -17,7 +17,7 @@
         <div class="dashboard-photo-details">
             <img class="photo-details-img" src="{{ photo.largeUrl }}" />
             {% if photo.sourceUrl %}<br>{{ 'dashboard.details.sentFrom'|trans }} : {{ photo.sourceUrl }}{% endif %}
-            <br><br><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="btn btn-red">{{ 'dashboard.details.viewPhoto'|trans }}</a><br><br>
+            <br><br><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="btn btn-red">{{ 'dashboard.details.viewPhoto'|trans }}</a><br>
             <div class="clearfix"></div>
         </div>
         <div class="dashboard-content">

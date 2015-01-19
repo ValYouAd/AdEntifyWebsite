@@ -3,6 +3,7 @@
 namespace AdEntify\EmbedJsBundle\Controller;
 
 use AdEntify\CoreBundle\Entity\Photo;
+use AdEntify\CoreBundle\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -18,12 +19,15 @@ class DefaultController extends Controller
     public function embedAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $photo = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo LEFT JOIN photo.owner owner
+        $photo = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo
+                LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL AND tag.censored = false AND tag.validationStatus != :denied)
+                LEFT JOIN photo.owner owner
                 WHERE photo.id = :id AND photo.status = :status AND photo.visibilityScope = :visibilityScope')
             ->setParameters(array(
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':id' => $id
+                ':id' => $id,
+                ':denied' => Tag::VALIDATION_DENIED,
             ))
             ->getOneOrNullResult();
 
@@ -56,11 +60,13 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $photo = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo LEFT JOIN photo.owner owner
+                LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL AND tag.censored = false AND tag.validationStatus != :denied)
                 WHERE photo.id = :id AND photo.status = :status AND photo.visibilityScope = :visibilityScope')
             ->setParameters(array(
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':id' => $id
+                ':id' => $id,
+                ':denied' => Tag::VALIDATION_DENIED,
             ))
             ->getOneOrNullResult();
 
