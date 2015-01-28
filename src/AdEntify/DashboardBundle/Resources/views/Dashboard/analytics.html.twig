@@ -289,7 +289,7 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.source'|trans|capitalize, 'p.source' ) }}
+                                    {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.upload_source'|trans|capitalize, 'p.source' ) }}
                                     {% if pagination.isSorted('p.source') %}
                                         <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                     {% endif %}

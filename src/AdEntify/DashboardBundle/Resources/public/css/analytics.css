@@ -183,7 +183,6 @@ strong {
 }
 .dashboard-content .dashboard-photo-source {
     text-overflow: ellipsis;
-    white-space: nowrap;
     overflow: hidden;
 }
 .photo-details-percentage::after {

@@ -14,10 +14,10 @@ dashboard:
             userSum: 'Photos tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
             none: 'no analytics'
             photos_views: 'photos views'
-            photos_hovers: 'mouse over on photos'
-            tags_hovers: 'mouse over on tags'
+            photos_hovers: 'mouse hover on photos'
+            tags_hovers: 'mouse hover on tags'
             tags_clicks: 'number of clicks on tags'
-            hover_rate: 'mouse over rate'
+            hover_rate: 'mouse hover rate'
             clicks_rate: 'click through rate'
         date:
             filter_label: 'date range'
@@ -29,7 +29,7 @@ dashboard:
             views: 'views'
             clicks: 'clicks'
             interaction_time: 'average interaction time'
-            source: 'source'
+            upload_source: 'source'
             action: 'action'
             detail_button: 'details'
     details:
@@ -45,9 +45,13 @@ dashboard:
             type: 'type'
             title: 'title'
             link: 'link'
+            url: 'URL'
+            count: 'Count'
         back_button: 'back'
         viewPhoto: 'View photo'
         sentFrom: 'Sent from'
+        sources:
+            title: 'Analytics sources'
 
 accounts:
     label: Choose your account

@@ -29,7 +29,7 @@ dashboard:
             views: 'impressions'
             clicks: 'clics'
             interaction_time: 'temps d''interaction moyen'
-            source: 'source'
+            upload_source: 'Envoyée depuis'
             action: 'action'
             detail_button: 'details'
     details:
@@ -45,9 +45,13 @@ dashboard:
             type: 'type'
             title: 'titre'
             link: 'lien'
+            url: 'URL'
+            count: 'Nombre d''occurences'
         back_button: 'précédent'
         viewPhoto: 'Voir la photo'
         sentFrom: 'Envoyée depuis'
+        sources:
+            title: 'Sources des statistiques'
 
 accounts:
     label: Sélectionnez votre compte

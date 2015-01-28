@@ -256,7 +256,7 @@
                   '</div></div></div>');
                } else if (tag.type == 'product') {
                   $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon glyphicon glyphicon-tag tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title">' +
-                  (typeof tag.link !== 'undefined' ? '<a href="'+ tag.link +'" target="_blank">' + tag.title + '</a></span>' : '</span>') + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
+                  (typeof tag.link !== 'undefined' ? '<a href="'+ tag.link +'" target="_blank">' + tag.title + '</a></span>' : tag.title + '</span>') + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
                   (tag.description ? '<p>' + tag.description + '</p>' : '') +
                   (tag.brand ? typeof tag.brand.small_logo_url !== 'undefined' ? '<div class="brand"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div>' : '' : '') +
                   '</div></div></div>');

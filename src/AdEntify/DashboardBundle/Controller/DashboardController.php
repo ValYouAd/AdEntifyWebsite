@@ -116,6 +116,7 @@ class DashboardController extends Controller
             return array(
                 'photo' => $photo,
                 'pagination' => $pagination,
+                'sources' => $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Analytic')->findSourcesByPhoto($photo, false),
                 'nbTaggers' => $tagRepository->getTaggersCountByPhoto($photo),
                 'photoId' => $photoId,
                 'page' => $this->get('session')->get('dashboardPage')

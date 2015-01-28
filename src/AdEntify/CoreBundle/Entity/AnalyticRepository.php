@@ -314,6 +314,22 @@ class AnalyticRepository extends EntityRepository
         return $analytics;
     }
 
+    public function findSourcesByPhoto($photo, $returnQueryBuilder = true)
+    {
+        $qb = $this->getEntityManager()->createQuery(
+            'SELECT (SELECT COUNT(aa.id) FROM AdEntifyCoreBundle:Analytic aa WHERE aa.sourceUrl = a.sourceUrl) occurences,
+              a.sourceUrl url FROM AdEntifyCoreBundle:Analytic a WHERE a.sourceUrl IS NOT NULL AND a.photo = :photo
+               GROUP BY a.sourceUrl ORDER BY occurences')
+            ->setParameters(array(
+                'photo' => $photo->getId()
+            ));
+
+        if ($returnQueryBuilder)
+            return $qb;
+
+        return $qb->getArrayResult();
+    }
+
     private function getPhotoTagsCountByAction($action, $photo)
     {
         return $this->createQueryBuilder('a')

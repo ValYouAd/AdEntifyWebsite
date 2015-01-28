@@ -28,7 +28,7 @@ use AdEntify\CoreBundle\Util\JsonResponse;
 use AdEntify\CoreBundle\Entity\Photo;
 
 /**
- * @package AdEntify\CoreBundle\Controller
+ * @package AdEntify\EmbedJsBundle\Controller
  *
  * @Prefix("public-api/v1")
  *
@@ -46,15 +46,16 @@ class PublicPhotosController extends FOSRestController
     {
         $response = new JsonResponse();
         $serializer = $this->container->get('serializer');
-        $tags = $this->getDoctrine()->getManager()->createQuery('SELECT photo, tag FROM AdEntify\CoreBundle\Entity\Photo photo
-                LEFT JOIN photo.tags tag
-                WHERE photo.id = :id AND photo.status = :status AND photo.visibilityScope = :visibilityScope AND (tag IS NULL OR tag.visible = true
-                AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.validationStatus != :denied)')
+        $tags = $this->getDoctrine()->getManager()->createQuery('SELECT photo FROM AdEntifyCoreBundle:Photo photo
+                LEFT JOIN photo.owner owner LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL
+                  AND tag.censored = false AND tag.validationStatus != :denied AND tag.validationStatus != :waiting)
+                WHERE photo.id = :id AND photo.deletedAt IS NULL AND photo.status = :status AND photo.visibilityScope = :visibilityScope')
             ->setParameters(array(
                 ':id' => $id,
                 ':status' => Photo::STATUS_READY,
                 ':visibilityScope' => Photo::SCOPE_PUBLIC,
-                ':denied' => Tag::VALIDATION_DENIED
+                ':denied' => Tag::VALIDATION_DENIED,
+                ':waiting' => Tag::VALIDATION_WAITING
             ))
             ->getOneOrNullResult();
 

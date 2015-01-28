@@ -50,6 +50,7 @@
     padding: 8px;
 }
 .dashboard-content {
+    margin-top: 10px;
     padding: 0 10px;
 }
 .dashboard-statistiques {
@@ -101,7 +102,6 @@ strong {
     padding-bottom: 40px;
 }
 .dashboard-photo-details {
-    max-height: 300px;
     width: 500px;
     margin: 0px auto 15px auto;
     text-align: center;
@@ -183,7 +183,6 @@ strong {
 }
 .dashboard-content .dashboard-photo-source {
     text-overflow: ellipsis;
-    white-space: nowrap;
     overflow: hidden;
 }
 .photo-details-percentage::after {
