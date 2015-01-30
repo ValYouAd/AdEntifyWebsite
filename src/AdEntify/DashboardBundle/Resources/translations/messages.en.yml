@@ -59,3 +59,4 @@ accounts:
         name: Submit
     brands: Brands
     users: Users
+    sources: Sources

@@ -1350,7 +1350,7 @@ class UsersController extends FosRestController
     /**
      * @ApiDoc(
      *  resource=true,
-     *  description="GET brand's analytics of the current user",
+     *  description="GET analytics for dashboard",
      *  section="User"
      * )
      *
@@ -1358,30 +1358,42 @@ class UsersController extends FosRestController
      *
      * @View(serializerGroups={"details"})
      */
-    public function getAnalyticsForMyBrandAction()
+    public function getDashboardAnalyticsAction()
     {
         if ($this->getUser()) {
-            if ($this->getUser()->getBrand()) {
-                $result = array(
-                    'nbTagged' => 0,
-                    'nbUsers' => 0,
-                    'nbPhotos' => 0
-                );
-                $em = $this->getDoctrine()->getManager();
-                $tagRepository = $em->getRepository('AdEntifyCoreBundle:Tag');
-                $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
-
-                $result['nbTagged'] = $tagRepository->countBySelector($this->getUser()->getBrand(), 'id');
-                $result['nbUsers'] = $tagRepository->countBySelector($this->getUser()->getBrand(), 'owner', 'DISTINCT');
-                $result['nbPhotos'] = $tagRepository->countBySelector($this->getUser()->getBrand(), 'photo', 'DISTINCT');
-
-                return array(
-                    'brand' => $this->getUser()->getBrand(),
-                    'analytics' => $result,
-                    'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser()->getBrand()),
-                );
-            } else
+            if ($this->getRequest()->query->has('brand')
+                && (!$this->getUser()->getBrand() || $this->getUser()->getBrand()->getSlug() != $this->getRequest()->query->get('brand'))) {
                 throw new HttpException(403);
+            } else if ($this->getRequest()->query->has('user') && ($this->getUser()->getId() != $this->getRequest()->query->get('user'))) {
+                throw new HttpException(403);
+            }
+            if ($this->getRequest()->query->has('brand')) {
+                $profile = $this->getUser()->getBrand();
+                $currentProfileType = 'brand';
+            } else {
+                $profile = $this->getUser();
+                $currentProfileType = 'user';
+            }
+
+            $result = array(
+                'nbTagged' => 0,
+                'nbUsers' => 0,
+                'nbPhotos' => 0
+            );
+            $em = $this->getDoctrine()->getManager();
+            $tagRepository = $em->getRepository('AdEntifyCoreBundle:Tag');
+            $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
+
+            $result['nbTagged'] = $tagRepository->countBySelector($profile, 'id');
+            $result['nbUsers'] = $tagRepository->countBySelector($profile, 'owner', 'DISTINCT');
+            $result['nbPhotos'] = $tagRepository->countBySelector($profile, 'photo', 'DISTINCT');
+
+            return array(
+                'currentProfile' => $profile,
+                'currentProfileType' => $currentProfileType,
+                'analytics' => $result,
+                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser()->getBrand()),
+            );
         } else
             throw new HttpException(401);
     }
