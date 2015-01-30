@@ -165,11 +165,11 @@ class AnalyticRepository extends EntityRepository
 
         // Calculate percentages
         if ($analytics['photosViews'] > 0)
-            $analytics['photosHoversPercentage'] = ($analytics['photosHovers'] / $analytics['photosViews']) * 100;
+            $analytics['photosHoversPercentage'] = round(($analytics['photosHovers'] / $analytics['photosViews']) * 100);
         if ($analytics['photosHovers'] > 0)
-            $analytics['tagsHoversPercentage'] = ($analytics['tagsHovers'] / $analytics['photosHovers']) * 100;
+            $analytics['tagsHoversPercentage'] = round(($analytics['tagsHovers'] / $analytics['photosHovers']) * 100);
         if ($analytics['tagsHovers'] > 0)
-            $analytics['tagsClicksPercentage'] = ($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100;
+            $analytics['tagsClicksPercentage'] = round(($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100);
 
         if (!array_key_exists('daterange', $options))
             $options['daterangeActivity'] = $options['fromDate']->format('m/d/Y').' - '.$options['toDate']->format('m/d/Y');
@@ -189,11 +189,11 @@ class AnalyticRepository extends EntityRepository
 
         // Calculate percentages
         if ($photo->getViewsCount() > 0)
-            $analytics['photosHoversPercentage'] = ($photo->getHoversCount() / $photo->getViewsCount()) * 100;
+            $analytics['photosHoversPercentage'] = round(($photo->getHoversCount() / $photo->getViewsCount()) * 100);
         if ($photo->getHoversCount() > 0)
-            $analytics['tagsHoversPercentage'] = ($analytics['tagsHovers'] / $photo->getHoversCount()) * 100;
+            $analytics['tagsHoversPercentage'] = round(($analytics['tagsHovers'] / $photo->getHoversCount()) * 100);
         if ($analytics['tagsHovers'] > 0)
-            $analytics['tagsClicksPercentage'] = ($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100;
+            $analytics['tagsClicksPercentage'] = round(($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100);
 
         return $analytics;
     }
