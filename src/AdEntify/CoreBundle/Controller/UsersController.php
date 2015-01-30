@@ -1392,7 +1392,7 @@ class UsersController extends FosRestController
                 'currentProfile' => $profile,
                 'currentProfileType' => $currentProfileType,
                 'analytics' => $result,
-                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($this->getUser()->getBrand()),
+                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile),
             );
         } else
             throw new HttpException(401);
