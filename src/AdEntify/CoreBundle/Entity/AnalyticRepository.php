@@ -201,11 +201,21 @@ class AnalyticRepository extends EntityRepository
     public function findSourcesByPhoto($photo, $returnQueryBuilder = true)
     {
         $qb = $this->getEntityManager()->createQuery(
-            'SELECT (SELECT COUNT(aa.id) FROM AdEntifyCoreBundle:Analytic aa WHERE aa.sourceUrl = a.sourceUrl) occurences,
+            'SELECT (SELECT COUNT(aa.id) FROM AdEntifyCoreBundle:Analytic aa LEFT JOIN aa.tag t LEFT JOIN t.photo p
+                        WHERE aa.sourceUrl = a.sourceUrl AND aa.action = :actionClick AND (p.id = :photo OR aa.photo = :photo)) clicks,
+                    (SELECT COUNT(aaa.id) FROM AdEntifyCoreBundle:Analytic aaa LEFT JOIN aaa.tag tt LEFT JOIN tt.photo pp
+                        WHERE aaa.sourceUrl = a.sourceUrl AND aaa.action = :actionHover AND aaa.element = :elementTag
+                        AND (pp.id = :photo OR aaa.photo = :photo)) hovers,
+                    (SELECT AVG(aaaa.actionValue)/1000 FROM AdEntifyCoreBundle:Analytic aaaa LEFT JOIN aaaa.tag ttt LEFT JOIN ttt.photo ppp
+                        WHERE aaaa.sourceUrl = a.sourceUrl AND aaaa.action = :actionInteraction AND (ppp.id = :photo OR aaaa.photo = :photo)) interactionTime,
               a.sourceUrl url FROM AdEntifyCoreBundle:Analytic a WHERE a.sourceUrl IS NOT NULL AND a.photo = :photo
-               GROUP BY a.sourceUrl ORDER BY occurences')
+               GROUP BY a.sourceUrl')
             ->setParameters(array(
-                'photo' => $photo->getId()
+                'photo' => $photo->getId(),
+                'actionClick' => Analytic::ACTION_CLICK,
+                'actionHover' => Analytic::ACTION_HOVER,
+                'elementTag' => Analytic::ELEMENT_TAG,
+                'actionInteraction' => Analytic::ACTION_INTERACTION
             ));
 
         if ($returnQueryBuilder)

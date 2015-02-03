@@ -176,7 +176,13 @@
                                 {{ 'dashboard.details.tab.url'|trans }}
                             </th>
                             <th>
-                                {{ 'dashboard.details.tab.count'|trans }}
+                                {{ 'dashboard.main.tab.clicks'|trans }}
+                            </th>
+                            <th>
+                                {{ 'dashboard.main.stats.clicks_rate'|trans }}
+                            </th>
+                            <th>
+                                {{ 'dashboard.main.tab.interaction_time'|trans }}
                             </th>
                         </tr>
                     </thead>
@@ -184,7 +190,9 @@
                         {% for source in sources %}
                             <tr>
                                 <td>{{ source.url }}</td>
-                                <td>{{ source.occurences }}</td>
+                                <td>{{ source.clicks }}</td>
+                                <td>{% if source.hovers > 0 %}{{ ((source.clicks/source.hovers)*100) }}{% else %}0{% endif %}%</td>
+                                <td>{{ (source.interactionTime)|round(2) }}s</td>
                             </tr>
                         {% else %}
                             <tr>
