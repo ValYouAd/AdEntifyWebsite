@@ -69,15 +69,23 @@ class AnalyticRepository extends EntityRepository
         return $analytic ? true : false;
     }
 
-    public function getGraphLabels($photosViewsGraph, $options)
+    private function getGraphData($graph) {
+        $data = array();
+        foreach($graph as $entry) {
+            $data[] = $entry;
+        }
+        return $data;
+    }
+
+    private function getGraphLabels($graph, $options)
     {
         if ($options['dateInterval'] != 'P1D')
-            return array_keys($photosViewsGraph);
+            return array_keys($graph);
         else
         {
             $i = 3;
             $result = array();
-            foreach(array_keys($photosViewsGraph) as $key)
+            foreach(array_keys($graph) as $key)
             {
                 if ($i % 3 == 0)
                     $result[] = $key;
@@ -138,22 +146,22 @@ class AnalyticRepository extends EntityRepository
                 'action' => Analytic::ACTION_CLICK
             ), $options)),
             'photosViewsGraph' => array(
-                'data' => $photosViewsGraph,
+                'data' => $this->getGraphData($photosViewsGraph),
                 'labels' => $this->getGraphLabels($photosViewsGraph, $options),
                 'total' => $this->getTotalAction($photosViewsGraph)
             ),
             'photosHoversGraph' => array(
-                'data' => $photosHoversGraph,
+                'data' => $this->getGraphData($photosHoversGraph),
                 'labels' => $this->getGraphLabels($photosHoversGraph, $options),
                 'total' => $this->getTotalAction($photosHoversGraph)
             ),
             'photosClicksGraph' => array(
-                'data' => $photosClicksGraph,
+                'data' => $this->getGraphData($photosClicksGraph),
                 'labels' => $this->getGraphLabels($photosClicksGraph, $options),
                 'total' => $this->getTotalAction($photosClicksGraph)
             ),
             'photosInteractionGraph' => array(
-                'data' => $photosInteractionGraph,
+                'data' => $this->getGraphData($photosInteractionGraph),
                 'labels' => $this->getGraphLabels($photosInteractionGraph, $options),
                 'total' => $this->getTotalAction($photosInteractionGraph, true)
             ),
@@ -348,7 +356,6 @@ class AnalyticRepository extends EntityRepository
             $labels[$nextMonth->format($options['phpDateFormat'])] = 0;
         } while ($nextMonth < $options['toDate']);
 
-
         return $labels;
     }
 
@@ -429,8 +436,16 @@ class AnalyticRepository extends EntityRepository
                 ->andWhere('u = :profile')
                 ->setParameters($parameters);
         }
-        return $qb->groupBy('period')
+
+        $data = $qb->groupBy('period')
             ->setParameter('sqlDateFormat', $options['sqlDateFormat'])
             ->getQuery()->getScalarResult();
+
+        // Round 2 decimals
+        foreach ($data as &$entry) {
+            $entry['data'] = round($entry['data'], 2);
+        }
+
+        return $data;
     }
 }
