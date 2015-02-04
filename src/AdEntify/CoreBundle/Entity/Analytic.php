@@ -25,6 +25,7 @@ class Analytic
     const PLATFORM_ADENTIFY_WEB = 'web';
     const PLATFORM_ADENTIFY_EMBED = 'embed';
     const PLATFORM_ADENTIFY_WORDPRESS = 'wordpress';
+    const PLATFORM_ADENTIFY_IPHONE = 'iphone';
 
     /**
      * @var integer

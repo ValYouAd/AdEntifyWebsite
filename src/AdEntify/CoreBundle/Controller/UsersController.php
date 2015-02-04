@@ -762,7 +762,7 @@ class UsersController extends FosRestController
     public function getTopFollowersAction()
     {
         return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-              ORDER BY user.followersCount DESC')
+              WHERE user.id != 1 ORDER BY user.followersCount DESC')
             ->setMaxResults(10)
             ->getResult();
     }
