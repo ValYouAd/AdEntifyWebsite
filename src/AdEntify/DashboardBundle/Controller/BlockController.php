@@ -21,7 +21,7 @@ class BlockController extends Controller
      * @return array
      * @throws HttpException
      */
-    public function changeUserAction($currentProfile, $currentProfileType)
+    public function changeUserAction($currentProfile, $currentProfileType, $sources, $source)
     {
         if ($this->getUser()) {
             $accounts = array();
@@ -44,6 +44,20 @@ class BlockController extends Controller
                 'selected' => $currentProfileType == 'user' && $currentProfile->getId() == $this->getUser()->getId() ? true : false,
                 'name' => $this->getUser()->getFullname()
             ));
+
+            if ($sources && is_array($sources) && count($sources) > 0) {
+                $accounts['accounts.sources'] = array();
+                foreach($sources as $s) {
+                    $accounts['accounts.sources'][] = array(
+                        'link' => $this->generateUrl('dashboard_stats', array(
+                            'source' => $s
+                        ), true),
+                        'selected' => $source == $s,
+                        'type' => 'source',
+                        'name' => $s
+                    );
+                }
+            }
 
             return array(
                 'accounts' => $accounts

@@ -71,7 +71,6 @@ define([
                   headers: { 'Authorization': app.oauth.getAuthorizationHeader() },
                   url: Routing.generate('api_v1_post_analytics'),
                   data: {
-                     'action': 'ad_analytics',
                      'analytic': analytic
                   }
                });

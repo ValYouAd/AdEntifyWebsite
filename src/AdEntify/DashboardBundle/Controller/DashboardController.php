@@ -18,7 +18,6 @@ use AdEntify\CoreBundle\Entity\AnalyticRepository;
 
 class DashboardController extends Controller
 {
-
     /**
      * @Route("{_locale}/app/my/dashboard/analytics",
      *  defaults={"_locale" = "en"},
@@ -63,6 +62,9 @@ class DashboardController extends Controller
             if ($this->getRequest()->query->has('daterange') && $this->getRequest()->query->get('daterange')) {
                 $options['daterange'] = $this->getRequest()->query->get('daterange');
             }
+            if ($this->getRequest()->query->has('source')) {
+                $options['source'] = $this->getRequest()->query->get('source');
+            }
 
             $pagination = $this->get('knp_paginator')->paginate(
                 $em->getRepository('AdEntifyCoreBundle:Photo')->getPhotos($profile, $options),
@@ -79,7 +81,9 @@ class DashboardController extends Controller
                 'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile, $options),
                 'pagination' => $pagination,
                 'daterange' => array_key_exists('daterange', $options) ? $options['daterange'] : null,
-                'daterangeActivity' => array_key_exists('daterangeActivity', $options) ? $options['daterangeActivity'] : null
+                'daterangeActivity' => array_key_exists('daterangeActivity', $options) ? $options['daterangeActivity'] : null,
+                'sources' => $analyticRepository->findSourcesByProfile($profile),
+                'currentSource' => $this->getRequest()->query->has('source') ? $this->getRequest()->query->get('source') : null
             );
         } else
             throw new HttpException(403);

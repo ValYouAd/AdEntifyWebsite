@@ -33,6 +33,7 @@ class Analytic
      * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"details"})
      */
     private $id;
 
@@ -40,6 +41,7 @@ class Analytic
      * @var string
      *
      * @ORM\Column(name="action", type="string", length=50)
+     * @Serializer\Groups({"details"})
      */
     private $action;
 
@@ -47,6 +49,7 @@ class Analytic
      * @var string
      *
      * @ORM\Column(name="action_value", type="integer", nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $actionValue;
 
@@ -54,6 +57,7 @@ class Analytic
      * @var string
      *
      * @ORM\Column(name="element", type="string", length=50)
+     * @Serializer\Groups({"details"})
      */
     private $element;
 
@@ -62,6 +66,7 @@ class Analytic
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
+     * @Serializer\Groups({"details"})
      */
     private $createdAt;
 
@@ -69,6 +74,7 @@ class Analytic
      * @var string
      *
      * @ORM\Column(name="ip_address", type="string", length=50)
+     * @Serializer\Groups({"details"})
      */
     private $ipAddress;
 
@@ -76,6 +82,7 @@ class Analytic
      * @var string
      *
      * @ORM\Column(name="platform", type="string", length=100)
+     * @Serializer\Groups({"details"})
      */
     private $platform;
 
@@ -83,6 +90,7 @@ class Analytic
      * @var string
      *
      * @ORM\Column(name="link", type="text", nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $link;
 
@@ -90,21 +98,25 @@ class Analytic
      * @var string
      *
      * @ORM\Column(name="source_url", type="text", nullable=true)
+     * @Serializer\Groups({"details"})
      */
     private $sourceUrl;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="analytics")
+     * @Serializer\Exclude
      */
     private $photo;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Tag", inversedBy="analytics")
+     * @Serializer\Exclude
      */
     private $tag;
 
     /**
      * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="analytics")
+     * @Serializer\Exclude
      */
     private $user;
 
