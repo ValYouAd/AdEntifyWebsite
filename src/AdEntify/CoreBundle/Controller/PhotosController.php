@@ -748,14 +748,16 @@ class PhotosController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $photo = $this->getAction($id);
             $user = $this->container->get('security.context')->getToken()->getUser();
-            // Check if current user is the owner oh the photo and that no tags are link to the photo
+            // Check if current user is the owner of the photo and that no tags are link to the photo
             if ($user->getId() == $photo->getOwner()->getId() && count($photo->getTags()) == 0) {
                 $em = $this->getDoctrine()->getManager();
                 $photo->setDeletedAt(new \DateTime());
+                $user->changePhotosCount(-1);
 
                 $em->getRepository('AdEntifyCoreBundle:Photo')->deleteLinkedData($photo);
 
                 $em->merge($photo);
+                $em->merge($user);
                 $em->flush();
                 return array('deleted' => true);
             } else {

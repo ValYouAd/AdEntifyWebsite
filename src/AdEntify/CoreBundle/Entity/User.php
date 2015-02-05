@@ -804,6 +804,11 @@ class User extends BaseUser
         return $this->followings;
     }
 
+    public function changePhotosCount($count)
+    {
+        $this->photosCount += $count;
+    }
+
     /**
      * @param int $photosCount
      */
