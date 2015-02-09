@@ -596,6 +596,11 @@ class Venue
         return $this->photos;
     }
 
+    public function changePhotosCount($count)
+    {
+        $this->photosCount += $count;
+    }
+
     /**
      * @param int $photosCount
      */

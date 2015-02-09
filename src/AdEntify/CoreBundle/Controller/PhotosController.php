@@ -752,7 +752,6 @@ class PhotosController extends FosRestController
             if ($user->getId() == $photo->getOwner()->getId() && count($photo->getTags()) == 0) {
                 $em = $this->getDoctrine()->getManager();
                 $photo->setDeletedAt(new \DateTime());
-                $user->changePhotosCount(-1);
 
                 $em->getRepository('AdEntifyCoreBundle:Photo')->deleteLinkedData($photo);
 

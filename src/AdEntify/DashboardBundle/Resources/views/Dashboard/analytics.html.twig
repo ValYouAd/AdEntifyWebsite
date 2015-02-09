@@ -270,6 +270,7 @@
                                 </td>
                                 <td>{{ 'dashboard.main.tab.photo'|trans|capitalize }}</td>
                                 <td>{{ 'dashboard.main.tab.info'|trans|capitalize }}</td>
+                                {% if not currentSource %}
                                 <td>
                                     {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.views'|trans|capitalize, 'p.viewsCount' ) }}
                                     {% if pagination.isSorted('p.viewsCount') %}
@@ -288,6 +289,7 @@
                                         <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                                     {% endif %}
                                 </td>
+                                {% endif %}
                                 <td>
                                     {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.upload_source'|trans|capitalize, 'p.source' ) }}
                                     {% if pagination.isSorted('p.source') %}
@@ -316,6 +318,7 @@
                                             <div class="dashboard-photo-author">par {{ photo.owner.fullname }}</div>
                                         </div>
                                     </td>
+                                    {% if not currentSource %}
                                     <td>
                                         <div>{{ photo.viewsCount }}</div>
                                     </td>
@@ -325,6 +328,7 @@
                                     <td>
                                        <div class="stats-time">{{ (photo.interactionTime/1000)|round(2)  }}</div>
                                     </td>
+                                    {% endif %}
                                     <td>
                                         <div class="dashboard-photo-source">
                                             {% if photo.sourceUrl %}
@@ -342,7 +346,7 @@
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="8">
+                                    <td colspan="{% if not currentSource %}8{% else %}5{% endif %}">
                                         <p class="text-center text-warning">{{ 'dashboard.main.stats.none'|trans|capitalize }}</p>
                                     </td>
                                 </tr>

@@ -32,7 +32,7 @@ class PhotoRepository extends EntityRepository
 
         // Delete notifications
         $notifications = $em->createQuery('SELECT notif FROM AdEntify\CoreBundle\Entity\Notification notif
-                    LEFT JOIN notif.photos photo WHERE photo.id = :photoId OR (notif.objectId = :photoId AND notif.objectType = :linkedObjectType)')
+                    LEFT JOIN notif.photos photo WHERE photo.id = :photoId OR getPhotos(notif.objectId = :photoId AND notif.objectType = :linkedObjectType)')
             ->setParameters(array(
                 ':photoId' => $photo->getId(),
                 'linkedObjectType' => 'AdEntify\CoreBundle\Entity\Photo'
@@ -68,6 +68,17 @@ class PhotoRepository extends EntityRepository
                 ->andWhere('p.createdAt <= :to')
                 ->setParameter('from', $from)
                 ->setParameter('to', $to);
+        }
+
+        if (array_key_exists('source', $options)) {
+            $qb2 = $this->getEntityManager()->getRepository('AdEntifyCoreBundle:Analytic')->createQueryBuilder('a')
+                ->select('a.id')
+                ->where('a.photo = p.id')
+                ->andWhere($qb->expr()->like('a.sourceUrl', ':source'))
+                ->setMaxResults(1);
+
+            $qb->andWhere($qb->expr()->exists($qb2->getDQL()))
+                ->setParameter('source', '%'.$options['source'].'%');
         }
 
         return $qb->getQuery();
