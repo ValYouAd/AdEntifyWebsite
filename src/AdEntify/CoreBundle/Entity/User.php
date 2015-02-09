@@ -317,7 +317,7 @@ class User extends BaseUser
     private $profilePicture;
 
     /**
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", mappedBy="admin")
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="admin", cascade={"persist"})
      * @Serializer\Groups({"me"})
      */
     private $brand;
@@ -403,7 +403,7 @@ class User extends BaseUser
     /**
      * @Serializer\Exclude
      *
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Analytic", mappedBy="tag", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Analytic", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\OrderBy({"createdAt" = "ASC"})
      */
     private $analytics;

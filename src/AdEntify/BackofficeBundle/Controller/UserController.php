@@ -198,8 +198,9 @@ class UserController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
         if ($editForm->isValid()) {
+            $em->persist($entity->getBrand());
+            $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('users_edit', array('id' => $id)));

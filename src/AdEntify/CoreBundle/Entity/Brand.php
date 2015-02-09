@@ -264,7 +264,7 @@ class Brand
     private $legalNotice;
 
     /**
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", inversedBy="brand")
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="brand", cascade={"persist"})
      * @Serializer\Exclude
      */
     private $admin;

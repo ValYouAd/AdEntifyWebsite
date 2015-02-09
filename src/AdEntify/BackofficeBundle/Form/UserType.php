@@ -40,6 +40,11 @@ class UserType extends AbstractType
             ->add('tagsCount')
             ->add('followedBrandsCount')
             ->add('points')
+            ->add('brand', 'entity', array(
+                'class' => 'AdEntifyCoreBundle:Brand',
+                'property' => 'name',
+                'required' => false
+            ))
             ->add('roles', 'choice', array(
                 'required' => true,
                 'multiple' => true,
