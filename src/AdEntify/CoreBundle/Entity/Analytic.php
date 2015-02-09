@@ -103,8 +103,9 @@ class Analytic
     private $sourceUrl;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="analytics")
+     * @ORM\ManyToOne(targetEntity="AdEntify\CoreBundle\Entity\Photo", inversedBy="analytics", cascade={"remove"})
      * @Serializer\Exclude
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $photo;
 

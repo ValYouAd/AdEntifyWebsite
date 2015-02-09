@@ -349,8 +349,9 @@ class Photo
     /**
      * @Serializer\Exclude
      *
-     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Analytic", mappedBy="tag", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AdEntify\CoreBundle\Entity\Analytic", mappedBy="tag", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"createdAt" = "ASC"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $analytics;
 

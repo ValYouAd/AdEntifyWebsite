@@ -84,7 +84,7 @@ class ReportController extends Controller
                 throw $this->createNotFoundException('Unable to find report entity.');
             }
 
-            $em->getRepository('AdEntifyCoreBundle:Photo')->deleteLinkedData($entity->getPhoto());
+            /*$em->getRepository('AdEntifyCoreBundle:Photo')->deleteLinkedData($entity->getPhoto());*/
 
             $this->get('adentify_storage.file_manager')->deleteFromUrl($entity->getPhoto()->getLargeUrl());
             $this->get('adentify_storage.file_manager')->deleteFromUrl($entity->getPhoto()->getMediumUrl());

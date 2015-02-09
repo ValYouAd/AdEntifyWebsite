@@ -87,8 +87,11 @@ class Notification
     private $author;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo")
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Photo", cascade={"remove"})
      * @Serializer\Groups({"details", "list", "slight-list"})
+     * @ORM\JoinTable(joinColumns={@ORM\JoinColumn(onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(onDelete="CASCADE")}
+     * )
      */
     private $photos;
 
