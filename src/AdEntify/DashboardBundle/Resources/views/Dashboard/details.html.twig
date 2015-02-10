@@ -204,7 +204,7 @@
                     </tbody>
                 </table>
 
-                <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary btn-go-back">{{ 'dashboard.details.back_button'|trans }}</a>
+                <button onClick="history.go(-1);return true;" class="btn btn-primary btn-go-back">{{ 'dashboard.details.back_button'|trans }}</button>
             </div>
         </div>
     </div>
