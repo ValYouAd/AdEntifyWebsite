@@ -14,55 +14,63 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class TagRepository extends EntityRepository{
 
-    public function countBySelector(User $user, $selector, $distinct = '')
+    public function countBySelector($profile, $selector, $distinct = '')
     {
         $qb = $this->createQueryBuilder('t');
-        $qb->select('COUNT('.$distinct.' t.'.$selector.')');
-        if ($user->getBrand())
-        {
-            $qb->where('t.brand = :brand')
+        $qb->select('COUNT('.$distinct.' t.'.$selector.')')
+            ->where('t.deletedAt IS NULL')
+            ->andWhere('t.visible = true')
+            ->andWhere('t.censored = false')
+            ->andWhere('t.validationStatus != :denied');
+
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand')) {
+            $qb->andWhere('t.brand = :brand')
                 ->setParameters(array(
-                    'brand' => $user->getBrand()
+                    'brand' => $profile,
+                    'denied' => Tag::VALIDATION_DENIED,
             ));
-        }
-        else
-        {
+        } else {
             $qb->leftJoin('t.photo', 'p')
-                ->where('p.owner = :user')
+                ->andWhere('p.owner = :user')
                 ->setParameters(array(
-                    'user' => $user
+                    'user' => $profile,
+                    'denied' => Tag::VALIDATION_DENIED,
                 ));
         }
+
         return $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function findTagsByPhoto($photo, $page, $limit = 10)
+    public function findTagsByPhoto($photo)
     {
         $qb = $this->createQueryBuilder('t');
         $qb->select('t')
             ->orderBy('t.createdAt', 'DESC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit)
-            ->where('t.photo = :photo')
+            ->where('t.deletedAt IS NULL')
+            ->andWhere('t.visible = true')
+            ->andWhere('t.censored = false')
+            ->andWhere('t.validationStatus != :denied')
+            ->andWhere('t.photo = :photo')
             ->setParameters(array(
-                    ':photo' => $photo
+                'photo' => $photo,
+                'denied' => Tag::VALIDATION_DENIED,
             ));
-        $tags = new Paginator($qb);
-        $c = count($tags);
-        return array(
-            'tags' => $tags,
-            'count' => $c,
-            'pageLimit' => $limit
-        );
+
+        return $qb->getQuery();
     }
 
     public function getTaggersCountByPhoto($photo)
     {
         $qb = $this->createQueryBuilder('t');
         $qb->select('COUNT(DISTINCT t.owner)')
-            ->where('t.photo = :photo')
+            ->where('t.deletedAt IS NULL')
+            ->andWhere('t.visible = true')
+            ->andWhere('t.censored = false')
+            ->andWhere('t.validationStatus != :denied')
+            ->andWhere('t.photo = :photo')
             ->setParameters(array(
-                'photo' => $photo
+                'photo' => $photo,
+                'denied' => Tag::VALIDATION_DENIED,
             ));
         return $qb->getQuery()->getSingleScalarResult();
     }

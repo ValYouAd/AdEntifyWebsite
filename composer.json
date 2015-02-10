@@ -7,7 +7,7 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
+        "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "1.2.*",
         "twig/extensions": "1.0.*",
         "symfony/assetic-bundle": "2.3.*",
@@ -38,7 +38,8 @@
         "knplabs/knp-gaufrette-bundle": "dev-master",
         "guzzle/guzzle": "dev-master",
         "misd/guzzle-bundle": "~1.0",
-        "phpunit/phpunit": "4.2.*"
+        "phpunit/phpunit": "4.2.*",
+        "knplabs/knp-paginator-bundle": "~2.4"
     },
     "scripts": {
         "post-install-cmd": [

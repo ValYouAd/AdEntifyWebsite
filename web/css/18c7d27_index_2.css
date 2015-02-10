@@ -83,6 +83,22 @@ header {
     }
 /* End Header
 ----------------------- */
+
+/* Mobile app */
+.mobile-app {
+    background: url('../../bundles/adentifycommon/images/mobile-app-background.png') repeat-x;
+    width: 100%;
+    height: 70px;
+    vertical-align: middle;
+    line-height: 70px;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    font-family: 'asapitalic', "Helvetica Neue", "Arial", sans-serif;
+}
+.mobile-app .download-app-store {
+    margin-left: 15px;
+}
 h2 {
     color: #999797;
 }

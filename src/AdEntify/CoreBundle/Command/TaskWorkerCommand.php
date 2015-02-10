@@ -41,12 +41,11 @@ class TaskWorkerCommand extends ContainerAwareCommand
     {
         $this->setup();
 
-        // Get current tasks in progress or with error
+        // Get current tasks in progress
         $currentTasks = $this->em->createQuery('SELECT COUNT(task.id) FROM AdEntify\CoreBundle\Entity\Task task
-            WHERE (task.status = :status1 OR task.status = :status2) AND task.attempt <= 3')
+            WHERE task.status = :status1 AND task.attempt <= 3')
             ->setParameters(array(
-                'status1' => Task::STATUS_WAITING,
-                'status2' => Task::STATUS_ERROR
+                'status1' => Task::STATUS_INPROGRESS
             ))
             ->getSingleScalarResult();
 

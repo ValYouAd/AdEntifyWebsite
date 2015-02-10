@@ -419,11 +419,12 @@ class VenuesController extends FosRestController
             ':followings' => $followings,
             ':followedBrands' => $followedBrands,
             ':venue_id' => $id,
+            ':denied' => Tag::VALIDATION_DENIED,
         );
 
         $sql = sprintf('SELECT photo
                         FROM AdEntify\CoreBundle\Entity\Photo photo
-                        LEFT JOIN photo.tags tag
+                        LEFT JOIN photo.tags tag WITH (tag.visible = true AND tag.deletedAt IS NULL AND tag.censored = false AND tag.validationStatus != :denied)
                         INNER JOIN photo.owner owner
                         LEFT JOIN tag.brand brand %s
                         WHERE tag.venue = :venue_id

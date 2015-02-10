@@ -19,8 +19,8 @@ class AnalyticRepository extends EntityRepository
         {
             case Analytic::ACTION_INTERACTION:
             case Analytic::ACTION_HOVER:
-                $sinceDate = $sinceDate->sub(new \DateInterval('PT2S'));
-			break;
+                $sinceDate = $sinceDate->sub(new \DateInterval('PT5S'));
+			    break;
             case Analytic::ACTION_VIEW:
             case Analytic::ACTION_CLICK:
             default:
@@ -69,92 +69,120 @@ class AnalyticRepository extends EntityRepository
         return $analytic ? true : false;
     }
 
-    public function findGlobalAnalyticsByUser(User $user)
+    private function getGraphData($graph) {
+        $data = array();
+        foreach($graph as $entry) {
+            $data[] = $entry;
+        }
+        return $data;
+    }
+
+    private function getGraphLabels($graph, $options)
     {
+        if ($options['dateInterval'] != 'P1D')
+            return array_keys($graph);
+        else
+        {
+            $i = 3;
+            $result = array();
+            foreach(array_keys($graph) as $key)
+            {
+                if ($i % 3 == 0)
+                    $result[] = $key;
+                else
+                    $result[] = '';
+                $i++;
+            }
+            return $result;
+        }
+    }
+
+    public function getTotalAction($datas = array())
+    {
+        $result = 0;
+        foreach($datas as $data)
+            $result += $data;
+        return $result;
+    }
+
+    public function findGlobalAnalyticsByUser($profile, &$options = array())
+    {
+        $this->getStatsPeriod($options);
+        $photosViewsGraph = $this->parseDataForGraph($this->getElementCountByAction($profile, array_merge(array(
+            'element' => Analytic::ELEMENT_PHOTO,
+            'action' => Analytic::ACTION_VIEW,
+            'graph' => true
+        ), $options)), $options);
+
+        $photosHoversGraph = $this->parseDataForGraph($this->getElementCountByAction($profile, array_merge(array(
+            'element' => Analytic::ELEMENT_PHOTO,
+            'action' => Analytic::ACTION_HOVER,
+            'graph' => true
+        ), $options)), $options);
+
+        $photosClicksGraph = $this->parseDataForGraph($this->getElementCountByAction($profile, array_merge(array(
+            'element' => Analytic::ELEMENT_TAG,
+            'action' => Analytic::ACTION_CLICK,
+            'graph' => true
+        ), $options)), $options);
+
+        $photosInteractionGraph = $this->parseDataForGraph($this->getAvgInteractionTime($profile, $options), $options);
+
         $analytics = array(
-            'photosViews' => $this->getPhotosCountByAction(Analytic::ACTION_VIEW, $user),
-            'photosHovers' => $this->getPhotosCountByAction(Analytic::ACTION_HOVER, $user),
-            'tagsHovers' => $this->getTagsCountByAction(Analytic::ACTION_HOVER, $user),
-            'tagsClicks' => $this->getTagsCountByAction(Analytic::ACTION_CLICK, $user),
+            'photosViews' => $this->getElementCountByAction($profile, array_merge(array(
+                'element' => Analytic::ELEMENT_PHOTO,
+                'action' => Analytic::ACTION_VIEW
+            ), $options)),
+            'photosHovers' => $this->getElementCountByAction($profile, array_merge(array(
+                'element' => Analytic::ELEMENT_PHOTO,
+                'action' => Analytic::ACTION_HOVER
+            ), $options)),
+            'tagsHovers' => $this->getElementCountByAction($profile, array_merge(array(
+                'element' => Analytic::ELEMENT_TAG,
+                'action' => Analytic::ACTION_HOVER
+            ), $options)),
+            'tagsClicks' => $this->getElementCountByAction($profile, array_merge(array(
+                'element' => Analytic::ELEMENT_TAG,
+                'action' => Analytic::ACTION_CLICK
+            ), $options)),
+            'photosViewsGraph' => array(
+                'data' => $this->getGraphData($photosViewsGraph),
+                'labels' => $this->getGraphLabels($photosViewsGraph, $options),
+                'total' => $this->getTotalAction($photosViewsGraph)
+            ),
+            'photosHoversGraph' => array(
+                'data' => $this->getGraphData($photosHoversGraph),
+                'labels' => $this->getGraphLabels($photosHoversGraph, $options),
+                'total' => $this->getTotalAction($photosHoversGraph)
+            ),
+            'photosClicksGraph' => array(
+                'data' => $this->getGraphData($photosClicksGraph),
+                'labels' => $this->getGraphLabels($photosClicksGraph, $options),
+                'total' => $this->getTotalAction($photosClicksGraph)
+            ),
+            'photosInteractionGraph' => array(
+                'data' => $this->getGraphData($photosInteractionGraph),
+                'labels' => $this->getGraphLabels($photosInteractionGraph, $options),
+                'total' => $this->getTotalAction($photosInteractionGraph, true)
+            ),
             'photosHoversPercentage' => 0,
             'tagsHoversPercentage' => 0,
-            'tagsClicksPercentage' => 0
+            'tagsClicksPercentage' => 0,
+            'interactionTime' => $this->getAvgInteractionTime($profile, $options),
         );
 
         // Calculate percentages
         if ($analytics['photosViews'] > 0)
-            $analytics['photosHoversPercentage'] = ($analytics['photosHovers'] / $analytics['photosViews']) * 100;
+            $analytics['photosHoversPercentage'] = round(($analytics['photosHovers'] / $analytics['photosViews']) * 100);
         if ($analytics['photosHovers'] > 0)
-            $analytics['tagsHoversPercentage'] = ($analytics['tagsHovers'] / $analytics['photosHovers']) * 100;
+            $analytics['tagsHoversPercentage'] = round(($analytics['tagsHovers'] / $analytics['photosHovers']) * 100);
         if ($analytics['tagsHovers'] > 0)
-            $analytics['tagsClicksPercentage'] = ($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100;
+            $analytics['tagsClicksPercentage'] = round(($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100);
+
+        if (!array_key_exists('daterange', $options))
+            $options['daterangeActivity'] = $options['fromDate']->format('m/d/Y').' - '.$options['toDate']->format('m/d/Y');
 
         return $analytics;
-    }
-
-    private function getPhotosCountByAction($action, $user)
-    {
-        $qb = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)')
-            ->andWhere('a.element = :element')
-            ->andWhere('a.action = :action');
-
-        if ($user->getBrand()) {
-            return $qb
-                ->leftJoin('a.photo', 'p')
-                ->leftJoin('p.tags', 't')
-                ->leftJoin('t.brand', 'b')
-                ->andWhere('b = :brand')
-                ->setParameters(array(
-                    'element' => Analytic::ELEMENT_PHOTO,
-                    'action' => $action,
-                    'brand' => $user->getBrand()->getId()
-                ))
-                ->getQuery()->getSingleScalarResult();
-        } else {
-            return $qb
-                ->leftJoin('a.photo', 'p')
-                ->leftJoin('p.owner', 'u')
-                ->andWhere('u = :user')
-                ->setParameters(array(
-                    'element' => Analytic::ELEMENT_PHOTO,
-                    'action' => $action,
-                    'user' => $user->getId()
-                ))
-                ->getQuery()->getSingleScalarResult();
-        }
-    }
-
-    private function getTagsCountByAction($action, $user)
-    {
-        $qb = $this->createQueryBuilder('a')
-            ->select('COUNT(a.id)')
-            ->andWhere('a.element = :element')
-            ->andWhere('a.action = :action');
-
-        if ($user->getBrand()) {
-            return $qb
-                ->leftJoin('a.tag', 't')
-                ->leftJoin('t.brand', 'b')
-                ->andWhere('b = :brand')
-                ->setParameters(array(
-                    'element' => Analytic::ELEMENT_TAG,
-                    'action' => $action,
-                    'brand' => $user->getBrand()->getId()
-                ))
-                ->getQuery()->getSingleScalarResult();
-        } else {
-            return $qb
-                ->leftJoin('a.tag', 't')
-                ->leftJoin('t.owner', 'u')
-                ->andWhere('u = :user')
-                ->setParameters(array(
-                    'element' => Analytic::ELEMENT_TAG,
-                    'action' => $action,
-                    'user' => $user->getId()
-                ))
-                ->getQuery()->getSingleScalarResult();
-        }
     }
 
     public function findAnalyticsByPhoto($photo)
@@ -169,13 +197,198 @@ class AnalyticRepository extends EntityRepository
 
         // Calculate percentages
         if ($photo->getViewsCount() > 0)
-            $analytics['photosHoversPercentage'] = ($photo->getHoversCount() / $photo->getViewsCount()) * 100;
+            $analytics['photosHoversPercentage'] = round(($photo->getHoversCount() / $photo->getViewsCount()) * 100);
         if ($photo->getHoversCount() > 0)
-            $analytics['tagsHoversPercentage'] = ($analytics['tagsHovers'] / $photo->getHoversCount()) * 100;
+            $analytics['tagsHoversPercentage'] = round(($analytics['tagsHovers'] / $photo->getHoversCount()) * 100);
         if ($analytics['tagsHovers'] > 0)
-            $analytics['tagsClicksPercentage'] = ($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100;
+            $analytics['tagsClicksPercentage'] = round(($analytics['tagsClicks'] / $analytics['tagsHovers']) * 100);
 
         return $analytics;
+    }
+
+    public function findSourcesByPhoto($photo, $returnQueryBuilder = true)
+    {
+        $qb = $this->getEntityManager()->createQuery(
+            'SELECT (SELECT COUNT(aa.id) FROM AdEntifyCoreBundle:Analytic aa LEFT JOIN aa.tag t LEFT JOIN t.photo p
+                        WHERE aa.sourceUrl = a.sourceUrl AND aa.action = :actionClick AND (p.id = :photo OR aa.photo = :photo)) clicks,
+                    (SELECT COUNT(aaa.id) FROM AdEntifyCoreBundle:Analytic aaa LEFT JOIN aaa.tag tt LEFT JOIN tt.photo pp
+                        WHERE aaa.sourceUrl = a.sourceUrl AND aaa.action = :actionHover AND aaa.element = :elementTag
+                        AND (pp.id = :photo OR aaa.photo = :photo)) hovers,
+                    (SELECT AVG(aaaa.actionValue)/1000 FROM AdEntifyCoreBundle:Analytic aaaa LEFT JOIN aaaa.tag ttt LEFT JOIN ttt.photo ppp
+                        WHERE aaaa.sourceUrl = a.sourceUrl AND aaaa.action = :actionInteraction AND (ppp.id = :photo OR aaaa.photo = :photo)) interactionTime,
+              a.sourceUrl url FROM AdEntifyCoreBundle:Analytic a WHERE a.sourceUrl IS NOT NULL AND a.photo = :photo
+               GROUP BY a.sourceUrl')
+            ->setParameters(array(
+                'photo' => $photo->getId(),
+                'actionClick' => Analytic::ACTION_CLICK,
+                'actionHover' => Analytic::ACTION_HOVER,
+                'elementTag' => Analytic::ELEMENT_TAG,
+                'actionInteraction' => Analytic::ACTION_INTERACTION
+            ));
+
+        if ($returnQueryBuilder)
+            return $qb;
+
+        return $qb->getArrayResult();
+    }
+
+    public function findSourcesByProfile($profile)
+    {
+        $sources = array();
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand')) {
+            $sources = $this->createQueryBuilder('a')
+                ->select('DISTINCT a.sourceUrl')
+                ->leftJoin('a.photo', 'p')
+                ->leftJoin('p.tags', 't')
+                ->where('a.sourceUrl IS NOT NULL')
+                ->andWhere('t.brand = :brand')
+                ->setParameters(array(
+                    'brand' => $profile->getId()
+                ))->getQuery()->getArrayResult();
+        } else if (is_a($profile, 'AdEntify\CoreBundle\Entity\User')) {
+            $sources = $this->createQueryBuilder('a')
+                ->select('DISTINCT a.sourceUrl')
+                ->leftJoin('a.photo', 'p')
+                ->where('a.sourceUrl IS NOT NULL')
+                ->andWhere('p.owner = :user')
+                ->setParameters(array(
+                    'user' => $profile->getId()
+                ))->getQuery()->getArrayResult();
+        }
+
+        if (count($sources) > 0) {
+            foreach($sources as &$source) {
+                $parsedSource = parse_url($source['sourceUrl']);
+                if (array_key_exists('host', $parsedSource))
+                    $source = $parsedSource['host'];
+            }
+        }
+
+        return $sources;
+    }
+
+    private function getElementCountByAction($profile, $options = array())
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('COUNT(DISTINCT a.id)')
+            ->Where('a.element = :element')
+            ->andWhere('a.action = :action');
+
+        // Element
+        if ($options['element'] == Analytic::ELEMENT_PHOTO)
+            $qb->andWhere($qb->expr()->isNotNull('a.photo'));
+
+        // Restrict analytic to a source
+        if (array_key_exists('source', $options)) {
+            $qb->andWhere($qb->expr()->like('a.sourceUrl', ':source'));
+            $parameters['source'] = '%'.$options['source'].'%';
+        }
+
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand')) {
+            $parameters['element'] = $options['element'];
+            $parameters['action'] = $options['action'];
+            $parameters['brand'] = $profile->getId();
+
+            if ($options['element'] == Analytic::ELEMENT_PHOTO) {
+                $qb->leftJoin('a.photo', 'p')
+                    ->leftJoin('p.tags', 't')
+                    ->andWhere('b = :brand');
+            }
+            else
+                $qb->leftJoin('a.tag', 't')
+                    ->andWhere('b = :brand');
+            $qb->leftJoin('t.brand', 'b')
+                ->setParameters($parameters);
+        } else {
+            $parameters['element'] = $options['element'];
+            $parameters['action'] = $options['action'];
+            $parameters['user'] = $profile->getId();
+
+            if ($options['element'] == Analytic::ELEMENT_PHOTO)
+                $qb->leftJoin('a.photo', 'p')
+                    ->leftJoin('p.owner', 'u');
+            else
+                $qb->leftJoin('a.tag', 't')
+                    ->leftJoin('t.owner', 'u');
+
+            $qb->andWhere('u = :user')
+                ->setParameters($parameters);
+        }
+        if (array_key_exists('daterange', $options)) {
+            $dates = explode(' - ', $options['daterange']);
+            $from = new \DateTime($dates[0]);
+            $to = new \DateTime($dates[1]);
+
+            $qb->andwhere('a.createdAt >= :from')
+                ->andWhere('a.createdAt <= :to')
+                ->setParameter('from', $from)
+                ->setParameter('to', $to);
+        }
+        if (array_key_exists('graph', $options))
+        {
+            return $qb->select('COUNT(DISTINCT a.id) as data, DATE_FORMAT(a.createdAt, :sqlDateFormat) as period')
+                ->groupBy('period')
+                ->setParameter('sqlDateFormat', $options['sqlDateFormat'])
+                ->orderBy('a.createdAt')
+                ->getQuery()->getScalarResult();
+        }
+        else
+            return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function parseDataForGraph($data, $options)
+    {
+        $result = $options['labels'];
+        foreach($data as $d) {
+            if (array_key_exists($d['period'], $options['labels']))
+                $result[$d['period']] = $d['data'];
+        }
+        return $result;
+    }
+
+    private function initializeGraphData($options = array())
+    {
+        $labels = array();
+        $labels[$options['fromDate']->format($options['phpDateFormat'])] = 0;
+        $copyFromDate = clone $options['fromDate'];
+        do {
+            $nextMonth = $copyFromDate->add(new \DateInterval($options['dateInterval']));
+            $labels[$nextMonth->format($options['phpDateFormat'])] = 0;
+        } while ($nextMonth < $options['toDate']);
+
+        return $labels;
+    }
+
+    private function getStatsPeriod(&$options = array())
+    {
+        $options['sqlDateFormat'] = '%d %M';
+        $options['phpDateFormat'] = 'd F';
+
+        if (array_key_exists('daterange', $options)) {
+            $dates = explode(' - ', $options['daterange']);
+            $options['fromDate'] = new \DateTime($dates[0]);
+            $options['toDate'] = new \DateTime($dates[1]);
+            $diff = date_diff($options['fromDate'], $options['toDate'])->format('%a');
+            if ($diff > 365 * 3) {
+                $options['sqlDateFormat'] = '%Y';
+                $options['phpDateFormat'] = 'Y';
+                $options['dateInterval'] = 'P1Y';
+            } else if ($diff > 90) {
+                $options['sqlDateFormat'] = '%M %Y';
+                $options['phpDateFormat'] = 'F Y';
+                $options['dateInterval'] = 'P1M';
+            } else {
+                $options['sqlDateFormat'] = '%d %M';
+                $options['phpDateFormat'] = 'd F';
+                $options['dateInterval'] = 'P1D';
+            }
+        } else {
+            $options['toDate'] = new \DateTime();
+            $options['fromDate'] = (new \DateTime())->sub(new \DateInterval('P1M'));
+            $options['dateInterval'] = 'P1D';
+        }
+        $options['labels'] = $this->initializeGraphData($options);
+        return $options;
     }
 
     private function getPhotoTagsCountByAction($action, $photo)
@@ -191,5 +404,48 @@ class AnalyticRepository extends EntityRepository
                 'photo' => $photo
             ))
             ->getQuery()->getSingleScalarResult();
+    }
+
+    private function getAvgInteractionTime($profile, $options)
+    {
+        $parameters = array(
+            'interaction' => Analytic::ACTION_INTERACTION,
+            'profile' => $profile->getId(),
+        );
+
+        $qb = $this->createQueryBuilder('a')
+            ->select('AVG(a.actionValue)/1000 as data, DATE_FORMAT(a.createdAt, :sqlDateFormat) as period')
+            ->where('a.action = :interaction');
+
+        // Restrict analytic to a source
+        if (array_key_exists('source', $options)) {
+            $qb->andWhere($qb->expr()->like('a.sourceUrl', ':source'));
+            $parameters['source'] = '%'.$options['source'].'%';
+        }
+
+        if (is_a($profile, 'AdEntify\CoreBundle\Entity\Brand')) {
+            $qb->leftJoin('a.photo', 'p')
+                ->leftJoin('p.tags', 't')
+                ->leftJoin('t.brand', 'b')
+                ->andWhere('b = :profile')
+                ->setParameters($parameters);
+
+        } else {
+            $qb->leftJoin('a.photo', 'p')
+                ->leftJoin('p.owner', 'u')
+                ->andWhere('u = :profile')
+                ->setParameters($parameters);
+        }
+
+        $data = $qb->groupBy('period')
+            ->setParameter('sqlDateFormat', $options['sqlDateFormat'])
+            ->getQuery()->getScalarResult();
+
+        // Round 2 decimals
+        foreach ($data as &$entry) {
+            $entry['data'] = round($entry['data'], 2);
+        }
+
+        return $data;
     }
 }

@@ -199,7 +199,16 @@ class DefaultController extends Controller
      */
     public function businessAction()
     {
-        return $this->redirect("http://business.adentify.com/");
+        return $this->redirect("http://business.adentify.com/", 301);
+    }
+
+    /**
+     * @Route("/{_locale}/support", name="support")
+     * @Template()
+     */
+    public function supportAction()
+    {
+        return $this->redirect("http://support.adentify.com");
     }
 
     /**
@@ -356,9 +365,11 @@ class DefaultController extends Controller
             if ($this->getUser()->getLocale()) {
                 return $this->getUser()->getLocale();
             }
-        } else if ($this->getRequest()->getPreferredLanguage()) {
-	    return substr($this->getRequest()->getPreferredLanguage(), 0, 2);
-        }
+        } /*else if ($this->getRequest()->getPreferredLanguage()) {
+	        return substr($this->getRequest()->getPreferredLanguage(), 0, 2);
+        }*/
+
+        return 'en'; // Default language
 
         return $this->getRequest()->getLocale();
     }

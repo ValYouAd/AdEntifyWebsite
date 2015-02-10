@@ -132,6 +132,9 @@ html,body,.body-grey-background {
 
 /* NAV
 ----------------------- */
+.navbar-adentify .navbar-nav>li>a {
+    padding-left: 14px;
+}
 .navbar-adentify {
     background: url('../img/menu_top_background.png') repeat-x;
     height: 65px;

@@ -12,55 +12,58 @@
 {% endblock %}
 
 {% block body %}
-    {% include 'AdEntifyCommonBundle:Common:navbar.html.twig' %}
+    {% include 'AdEntifyDashboardBundle:Common:navbar.html.twig' %}
     <div class="dashboard-stats-container">
         <div class="dashboard-photo-details">
             <img class="photo-details-img" src="{{ photo.largeUrl }}" />
+            {% if photo.sourceUrl %}<br>{{ 'dashboard.details.sentFrom'|trans }} : {{ photo.sourceUrl }}{% endif %}
+            <br><br><a href="{{ path('loggedInHome', {'_locale': app.request.locale}) }}{{ 'photo/%id%/'|trans({ '%id%': photo.id }) }}" class="btn btn-red">{{ 'dashboard.details.viewPhoto'|trans }}</a><br>
+            <div class="clearfix"></div>
         </div>
         <div class="dashboard-content">
-            <div class="dashboard-tab">
-                <div>STATISTIQUES DE LA PHOTO {{ photoId }}</div>
+            <div class="dashboard-details-title">
+                <div>{% filter upper %}{{ 'dashboard.details.title.main'|trans }}{% endfilter %}</div>
             </div>
             <div class="dashboard-statistiques">
-                <div class="stats-sum">{{ 'dashboard.stats.detailsSum'|trans({'%nbTagged%': tags.count, '%nbUsers%': nbTaggers })|raw }}</div>
+                <div class="stats-sum">{{ 'dashboard.details.stats.sum'|trans({'%nbTagged%': pagination.getTotalItemCount|default(0), '%nbUsers%': nbTaggers })|capitalize|raw }}</div>
                 <div class="dashboard-global-analytics">
                     <div>
-                        <h2>Statistiques de la photo</h2>
+                        <h2>{{ 'dashboard.details.title.main'|trans|capitalize }}</h2>
                     </div>
                     <div class="row">
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ photo.viewsCount }}</p>
-                            <label>Impressions images</label>
+                            <label>{{ 'dashboard.details.stats.views'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ photo.hoversCount }}</p>
-                            <label>Survols de l'image</label>
+                            <label>{{ 'dashboard.details.stats.hover'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ photo.tagsHoversCount }}</p>
-                            <label>Survols de tags de l'image</label>
+                            <label>{{ 'dashboard.details.stats.tags_hover'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p>{{ photo.tagsClicksCount }}</p>
-                            <label>Clics sur les tags de l'image</label>
+                            <label>{{ 'dashboard.details.stats.tags_clicks'|trans|capitalize }}</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-time">{{ (photo.interactionTime/1000)|round(2) }}</p>
-                            <label>Temps d'interaction moyen</label>
+                            <label>{{ 'dashboard.main.tab.interaction_time'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.hoversPercentage|round(2) }}</p>
-                            <label>Taux de survol</label>
+                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.tagsHoversPercentage|round(2) }}</p>
-                            <label>Taux de survol</label>
+                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.tagsClicksPercentage|round(2) }}</p>
-                            <label>Taux de clics</label>
+                            <label>{{ 'dashboard.main.stats.clicks_rate'|trans|capitalize }}</label>
                         </div>
                     </div>
                 </div>
@@ -70,21 +73,61 @@
                 <table class="table dashboard-table-photo-details">
                     <thead>
                     <tr>
-                        <td>Date de publication</td>
-                        <td>Type</td>
-                        <td>Titre</td>
-                        <td>Lien</td>
-                        <td>Taux de survols</td>
-                        <td>Clics</td>
-                        <td>Taux de clics</td>
-			            <td>Temps d'interaction moyen</td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.date'|trans|capitalize, 't.createdAt') }}
+                            {% if pagination.isSorted('t.createdAt') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'dashboard.details.tab.type'|trans|capitalize, 't.type') }}
+                            {% if pagination.isSorted('t.type') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'dashboard.details.tab.title'|trans|capitalize, 't.title') }}
+                            {% if pagination.isSorted('t.title') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'dashboard.details.tab.link'|trans|capitalize, 't.link') }}
+                            {% if pagination.isSorted('t.link') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.stats.hover_rate'|trans|capitalize, 't.hoversPercentage') }}
+                            {% if pagination.isSorted('t.hoversPercentage') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.clicks'|trans|capitalize, 't.clicksCount') }}
+                            {% if pagination.isSorted('t.clicksCount') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.stats.clicks_rate'|trans|capitalize, 't.clicksPercentage') }}
+                            {% if pagination.isSorted('t.clicksPercentage') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
+			            <td>
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.tab.interaction_time'|trans|capitalize, 't.interactionTime') }}
+                            {% if pagination.isSorted('t.interactionTime') %}
+                                <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
+                            {% endif %}
+                        </td>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for tag in tags.tags %}
+                    {% for tag in pagination %}
                         <tr>
                             <td>
-                                {{ tag.createdAt|date }}
+                                {{ tag.createdAt|date("d/m/y") }}
                             </td>
                             <td>
                                 {{ tag.type }}
@@ -112,18 +155,56 @@
 				                <span class="photo-details-time">{{ (tag.interactionTime/1000)|round(2) }}</span>
                             </td>
                         </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">
+                                <p class="text-center text-warning">{{ 'dashboard.main.stats.none'|trans }}</p>
+                            </td>
+                        </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-                {% if tags.count > tags.tags.pageLimit %}
-                    <ul class="pagination">
-                        {% set pages = (tags.count / tags.pageLimit)|ceil %}
-                        {% for i in 1..pages %}
-                            <li><a href="{{ path('dashboard_details', { 'photoId': photoId, 'page': i }) }}">{{ i }}</a></li>
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+
+                <h2>{{ 'dashboard.details.sources.title'|trans }}</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                {{ 'dashboard.details.tab.url'|trans }}
+                            </th>
+                            <th>
+                                {{ 'dashboard.main.tab.clicks'|trans }}
+                            </th>
+                            <th>
+                                {{ 'dashboard.main.stats.clicks_rate'|trans }}
+                            </th>
+                            <th>
+                                {{ 'dashboard.main.tab.interaction_time'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for source in sources %}
+                            <tr>
+                                <td>{{ source.url }}</td>
+                                <td>{{ source.clicks }}</td>
+                                <td>{% if source.hovers > 0 %}{{ ((source.clicks/source.hovers)*100) }}{% else %}0{% endif %}%</td>
+                                <td>{{ (source.interactionTime)|round(2) }}s</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">
+                                    <p class="text-center text-warning">{{ 'dashboard.main.stats.none'|trans }}</p>
+                                </td>
+                            </tr>
                         {% endfor %}
-                    </ul>
-                {% endif %}
-                <a href="{{ path('dashboard_stats', { 'page': page }) }}" class="btn btn-primary btn-go-back">Precedent</a>
+                    </tbody>
+                </table>
+
+                <button onClick="history.go(-1);return true;" class="btn btn-primary btn-go-back">{{ 'dashboard.details.back_button'|trans }}</button>
             </div>
         </div>
     </div>

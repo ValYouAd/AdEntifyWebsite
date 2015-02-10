@@ -415,7 +415,7 @@ class PhotosController extends FosRestController
             AND tag.deletedAt IS NULL AND tag.censored = FALSE AND tag.validationStatus != :denied AND
             (LOWER(tag.title) LIKE LOWER(:query) OR LOWER(venue.name) LIKE LOWER(:query) OR LOWER(person.firstname)
             LIKE LOWER(:query) OR LOWER(person.lastname) LIKE LOWER(:query) OR LOWER(product.name) LIKE LOWER(:query)
-            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)' . implode('', $whereClauses) . $orderByQuery)
+            OR LOWER(brand.name) LIKE LOWER(:query) OR hashtag.name LIKE LOWER(:query)' . implode('', $whereClauses) . ')' . $orderByQuery)
                 ->setParameters(array_merge(array(
                     ':query' => '%'.$query.'%',
                     ':denied' => Tag::VALIDATION_DENIED,
@@ -748,7 +748,7 @@ class PhotosController extends FosRestController
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $photo = $this->getAction($id);
             $user = $this->container->get('security.context')->getToken()->getUser();
-            // Check if current user is the owner oh the photo and that no tags are link to the photo
+            // Check if current user is the owner of the photo and that no tags are link to the photo
             if ($user->getId() == $photo->getOwner()->getId() && count($photo->getTags()) == 0) {
                 $em = $this->getDoctrine()->getManager();
                 $photo->setDeletedAt(new \DateTime());
@@ -756,6 +756,7 @@ class PhotosController extends FosRestController
                 $em->getRepository('AdEntifyCoreBundle:Photo')->deleteLinkedData($photo);
 
                 $em->merge($photo);
+                $em->merge($user);
                 $em->flush();
                 return array('deleted' => true);
             } else {

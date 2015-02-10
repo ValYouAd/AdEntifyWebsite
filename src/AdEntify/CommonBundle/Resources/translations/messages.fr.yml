@@ -31,6 +31,7 @@ People to follow: Personnes à suivre
 Already: Déjà
 Most tagged Brands: Marques les plus taguées
 Business: Business
+Support: Support
 Press: Qui sommes-nous ?
 Contact: Contact
 Legal notice: Mentions légales
@@ -44,6 +45,7 @@ Account disabled: Compte non validé
 Close: Fermer
 Your account is currently under validation.: Votre compte est en attente de validation et n'est donc pas actif pour le moment.
 My dashboard: Mon dashboard
+My stats: Mes statistiques
 Firstname: Prénom
 Lastname: Nom
 All brands: Toutes les marques
@@ -80,6 +82,7 @@ Win points: Gagne des points
 Win cash: Gagne du cash
 RewardsEarningsText: Tag tes marques préférées et...
 Ready? Go!: Prêt ? Partez !
+Learn more: En savoir plus
 
 #Contact
 contact:
@@ -113,7 +116,7 @@ Logos HD: Logos HD
 Screenshots: Screenshots
 Communiqué de presse: Communiqué de presse
 Story: Histoire
-Team: Qui sommes-nous ?
+Team: Equipe
 Photos & videos: Photos & vidéos
 
 # HP offline
@@ -167,6 +170,7 @@ didacticiel:
 index:
     pageHeading: Taguez et partagez des photos sur AdEntify.com
     quote1: Enrichissez vos photos avec des tags et révélez l’ambassadeur de marque en vous !
+    downloadAppStore: Dispo sur l'App Store
 Post: Poste
 a picture: une photo
 Tag: Tag
@@ -193,6 +197,7 @@ profile/%id%/: profil/%id%/
 search/: recherche/
 search/keywords: recherche/%23%keywords%
 my/dashboard/: mon/dashboard/
+my/dashboard/analytics: my/dashboard/analytics
 
 cgu:
     terms_of_use: %terms_of_use%

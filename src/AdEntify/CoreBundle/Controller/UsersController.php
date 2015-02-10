@@ -762,7 +762,7 @@ class UsersController extends FosRestController
     public function getTopFollowersAction()
     {
         return $this->getDoctrine()->getManager()->createQuery('SELECT user FROM AdEntify\CoreBundle\Entity\User user
-              ORDER BY user.followersCount DESC')
+              WHERE user.id != 1 ORDER BY user.followersCount DESC')
             ->setMaxResults(10)
             ->getResult();
     }
@@ -1345,6 +1345,57 @@ class UsersController extends FosRestController
         } else {
             throw new HttpException(401);
         }
+    }
+
+    /**
+     * @ApiDoc(
+     *  resource=true,
+     *  description="GET analytics for dashboard",
+     *  section="User"
+     * )
+     *
+     * @param $id
+     *
+     * @View(serializerGroups={"details"})
+     */
+    public function getDashboardAnalyticsAction()
+    {
+        if ($this->getUser()) {
+            if ($this->getRequest()->query->has('brand')
+                && (!$this->getUser()->getBrand() || $this->getUser()->getBrand()->getSlug() != $this->getRequest()->query->get('brand'))) {
+                throw new HttpException(403);
+            } else if ($this->getRequest()->query->has('user') && ($this->getUser()->getId() != $this->getRequest()->query->get('user'))) {
+                throw new HttpException(403);
+            }
+            if ($this->getRequest()->query->has('brand')) {
+                $profile = $this->getUser()->getBrand();
+                $currentProfileType = 'brand';
+            } else {
+                $profile = $this->getUser();
+                $currentProfileType = 'user';
+            }
+
+            $result = array(
+                'nbTagged' => 0,
+                'nbUsers' => 0,
+                'nbPhotos' => 0
+            );
+            $em = $this->getDoctrine()->getManager();
+            $tagRepository = $em->getRepository('AdEntifyCoreBundle:Tag');
+            $analyticRepository = $em->getRepository('AdEntifyCoreBundle:Analytic');
+
+            $result['nbTagged'] = $tagRepository->countBySelector($profile, 'id');
+            $result['nbUsers'] = $tagRepository->countBySelector($profile, 'owner', 'DISTINCT');
+            $result['nbPhotos'] = $tagRepository->countBySelector($profile, 'photo', 'DISTINCT');
+
+            return array(
+                'currentProfile' => $profile,
+                'currentProfileType' => $currentProfileType,
+                'analytics' => $result,
+                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile),
+            );
+        } else
+            throw new HttpException(401);
     }
 
     private function getErrorsAsArray(\Symfony\Component\Form\Form $form)

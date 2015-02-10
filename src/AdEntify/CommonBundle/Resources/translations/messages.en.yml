@@ -31,6 +31,7 @@ People to follow: People to follow
 Already: Already
 Most tagged Brands: Most tagged brands
 Business: Business
+Support: Support
 Who we are: Who we are
 Contact: Contact
 Legal notice: Legal
@@ -44,6 +45,7 @@ Account disabled: Account under validation
 Close: Close
 Your account is currently under validation.: Your account is currently under validation.
 My dashboard: My dashboard
+My stats: My analytics
 Firstname: First Name
 Lastname: Last Name
 All brands: All brands
@@ -72,8 +74,9 @@ HowItWorksStep2: <strong>Enrich</strong> your photos with tags and share them
 HowItWorksStep3: <strong>Discover</strong> photos with your favorite brands
 Win points: Earn points
 Win cash: Earn cash
-RewardsEarningsText: Tag your favorite brands ...
+RewardsEarningsText: Tag your favorite brands...
 Ready? Go!: Ready? Go!
+Learn more: Learn more
 
 #Contact
 contact:
@@ -104,7 +107,7 @@ Logos HD: HD Logos
 Screenshots: Screenshots
 Communiqué de presse: Press release
 Story: Story
-Team: Who we are
+Team: Team
 Logos and press kit: Logos and press kit
 
 #HP Offline
@@ -154,6 +157,7 @@ didacticiel:
 index:
     pageHeading: Tag and share photos on AdEntify.com
     quote1: Empower your content with tags and reveal the brand ambassador in you!
+    downloadAppStore: Available on the App Store
 
 #Routing
 photos/untagged/: photos/untagged/
@@ -174,6 +178,7 @@ profile/%id%/: profile/%id%/
 search/: search/
 search/keywords: search/%23%keywords%
 my/dashboard/: my/dashboard/
+my/dashboard/analytics: my/dashboard/analytics
 
 cgu:
     terms_of_use: %terms_of_use%

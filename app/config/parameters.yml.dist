@@ -14,7 +14,7 @@ parameters:
     mailer_host:                  smtp.office365.com
     mailer_port:                  587
     mailer_user:                  no-reply@adentify.com
-    mailer_password:              Adentify75$
+    mailer_password:              Adentify75$75
     mailer_encryption:            tls
 
     contact_email:                contact@adentify.com
@@ -48,3 +48,5 @@ parameters:
     team_email:                   team@valyouad.com
     app_version:                  1.1.19
     push_notifications_api_key:   naO8yCSHNVQU9itjlDC0YjC3zLC3b3NO8gEcIoNAUl1oWszu1vDiI6CBQBwDZlvH
+    analytics:
+        nb_elements_by_page: 10

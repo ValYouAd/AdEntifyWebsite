@@ -1,4 +1,62 @@
+#pagination
+Next: 'Suivant'
+Previous: 'Précédent'
+
 dashboard:
-  stats:
-    sum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
-    detailsSum: 'Taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify'
+    main:
+        title:
+            main: 'statistiques'
+            stats: 'statistiques de tags'
+            analytics: 'analytics par image'
+            activity: 'activité'
+        stats:
+            sum: 'taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
+            userSum: 'Photos taguées <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify pour un total de <strong>%nbPhotos%</strong> photos'
+            none: 'aucune statistiques à afficher'
+            photos_views: 'impressions d''images'
+            photos_hovers: 'survols d''images'
+            tags_hovers: 'survols de tags'
+            tags_clicks: 'clics sur les tags'
+            hover_rate: 'taux de survols'
+            clicks_rate: 'taux de clics'
+        date:
+            filter_label: 'tri par date'
+            filter_button: 'filtrer par dates'
+        tab:
+            date: 'date de publication'
+            photo: 'photo'
+            info: 'infos'
+            views: 'impressions'
+            clicks: 'clics'
+            interaction_time: 'temps d''interaction moyen'
+            upload_source: 'Envoyée depuis'
+            action: 'action'
+            detail_button: 'details'
+    details:
+        title:
+            main: 'statistiques de la photo'
+        stats:
+            sum: 'taguée <strong>%nbTagged%</strong> fois par <strong>%nbUsers%</strong> utilisateurs AdEntify'
+            views: 'impressions de l''image'
+            hover: 'survols de''image'
+            tags_hover: 'survols des tags de l''image'
+            tags_clicks: 'clics sur les tags de l''image'
+        tab:
+            type: 'type'
+            title: 'titre'
+            link: 'lien'
+            url: 'URL'
+            count: 'Nombre d''occurences'
+        back_button: 'précédent'
+        viewPhoto: 'Voir la photo'
+        sentFrom: 'Envoyée depuis'
+        sources:
+            title: 'Sources des statistiques'
+
+accounts:
+    label: Sélectionnez votre compte
+    button:
+        name: Valider
+    brands: Marques
+    users: Utilisateurs
+    sources: Sources

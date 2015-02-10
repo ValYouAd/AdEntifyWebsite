@@ -1,4 +1,62 @@
+#pagination
+Next: 'Next'
+Previous: 'Previous'
+
 dashboard:
-  stats:
-    sum: 'Tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
-    detailsSum: 'Tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users'
+    main:
+        title:
+            main: 'statistics'
+            stats: 'tags statistics'
+            analytics: 'images analytics'
+            activity: 'activity'
+        stats:
+            sum: 'tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
+            userSum: 'Photos tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users for a total of <strong>%nbPhotos%</strong> photos'
+            none: 'no analytics'
+            photos_views: 'photos views'
+            photos_hovers: 'mouse hover on photos'
+            tags_hovers: 'mouse hover on tags'
+            tags_clicks: 'number of clicks on tags'
+            hover_rate: 'mouse hover rate'
+            clicks_rate: 'click through rate'
+        date:
+            filter_label: 'date range'
+            filter_button: 'filter by date range'
+        tab:
+            date: 'publication date'
+            photo: 'photo'
+            info: 'infos'
+            views: 'views'
+            clicks: 'clicks'
+            interaction_time: 'average interaction time'
+            upload_source: 'source'
+            action: 'action'
+            detail_button: 'details'
+    details:
+        title:
+            main: 'photo statistics'
+        stats:
+            sum: 'tagged <strong>%nbTagged%</strong> time by <strong>%nbUsers%</strong> AdEntify users'
+            views: 'photo views'
+            hover: 'mouse over'
+            tags_hover: 'mouse over on tags'
+            tags_clicks: 'number of clicks on tags'
+        tab:
+            type: 'type'
+            title: 'title'
+            link: 'link'
+            url: 'URL'
+            count: 'Count'
+        back_button: 'back'
+        viewPhoto: 'View photo'
+        sentFrom: 'Sent from'
+        sources:
+            title: 'Analytics sources'
+
+accounts:
+    label: Choose your account
+    button:
+        name: Submit
+    brands: Brands
+    users: Users
+    sources: Sources

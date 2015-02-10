@@ -48,7 +48,7 @@ DROP TRIGGER IF EXISTS `tags_count_update`;
 DELIMITER $$
 CREATE TRIGGER tags_count_update AFTER UPDATE ON `tags`
  FOR EACH ROW BEGIN
-    IF (NEW.deleted_at IS NOT NULL) THEN
+    IF (OLD.deleted_at IS NULL AND NEW.deleted_at IS NOT NULL) THEN
       UPDATE photos SET tags_count = tags_count-1 WHERE id = NEW.photo_id;
       UPDATE venues SET tags_count = tags_count-1 WHERE id = NEW.venue_id;
       UPDATE products SET tags_count = tags_count-1 WHERE id = NEW.product_id;
@@ -83,7 +83,7 @@ DROP TRIGGER IF EXISTS  `photos_count_update`;
 DELIMITER $$
 CREATE TRIGGER photos_count_update AFTER UPDATE ON `photos`
  FOR EACH ROW BEGIN
-    IF (NEW.deleted_at IS NOT NULL) THEN
+    IF (OLD.deleted_at IS NULL AND NEW.deleted_at IS NOT NULL) THEN
       UPDATE users u SET photos_count = photos_count-1 WHERE u.id = NEW.owner_id;
       UPDATE venues v SET photos_count = photos_count-1 WHERE v.id = NEW.venue_id;
     END IF;

@@ -76,6 +76,7 @@
                                                     <li><a href="{{ full_root_url }}{{ 'profile/%id%/'|trans({ '%id%': app.user.id }) }}"><i class="icon people-icon"></i> {{ 'My profile'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/'|trans }}"><i class="icon my-pictures"></i> {{ 'My photos'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/dashboard/'|trans }}"><i class="icon dashboard-icon"></i> {{ 'My dashboard'|trans }}</a></li>
+                                                    <li><a href="{{ full_root_url }}{{ 'my/dashboard/analytics'|trans }}" data-bypass=""><i class="icon glyphicon glyphicon-signal"></i> {{ 'My stats'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/photos/favorites/'|trans }}"><i class="icon favorites-icon"></i> {{ 'My favorites'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/brands/'|trans }}"><i class="icon glyphicon glyphicon-tag"></i> {{ 'My brands'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}"><i class="icon parameters-icon"></i> {{ 'My settings'|trans }}</a></li>
@@ -144,13 +145,18 @@
                             </div>
                             <div class="pull-right">
                                 <i class="pull-right glyphicon glyphicon-question-sign showDidacticiel" data-toggle="tooltip" title="{{ 'didacticiel.show'|trans }}"></i>
-                                <a href="{{ path('contact') }}"><a href="{{ path('about') }}">{{ 'How it works'|trans }}</a> • <a href="{{ path('press') }}">{{ 'Who we are'|trans }}</a> • <a href="{{ path('jobs') }}">{{ 'Jobs'|trans }}</a> • <a href="{{ path('contact') }}">Contact</a> • {{ 'Business'|trans }}</a> • <a href="{{ path('legal') }}">{{ 'Legal notice'|trans }}</a>
+                                <a href="{{ path('about') }}">{{ 'How it works'|trans }}</a> •
+                                <a href="{{ path('press') }}">{{ 'Who we are'|trans }}</a> •
+                                <a href="http://business.adentify.com" target="_blank">{{ 'Business'|trans }}</a> •
+                                <a href="http://support.adentify.com" target="_blank">{{ 'Support'|trans }}</a> •
+                                <a href="{{ path('jobs') }}">{{ 'Jobs'|trans }}</a> •
+                                <a href="{{ path('contact') }}">Contact</a> •
+                                <a href="{{ path('legal') }}">{{ 'Legal notice'|trans }}</a>
                                 <span class="copyright"> © {{ date|date('Y') }} AdEntify</span>
                             </div>
                             <div class="clearfix"></div>
                         </footer>
                     </div>
-
                 </div>
             </div>
 
@@ -288,7 +294,7 @@
         var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
         var appVersion = '{{ app_version }}';
     </script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR5q9gPkuTSC48dmCr1sBEKMOB2qExu3s&v=3&sensor=false"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe0qbULIaxm2zV74LqAatdq1-uIW_iFLU&v=3&sensor=false"></script>
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
         {parsetags: 'explicit'}
     </script>
