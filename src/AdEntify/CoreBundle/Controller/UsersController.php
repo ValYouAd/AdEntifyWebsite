@@ -1367,12 +1367,19 @@ class UsersController extends FosRestController
             } else if ($this->getRequest()->query->has('user') && ($this->getUser()->getId() != $this->getRequest()->query->get('user'))) {
                 throw new HttpException(403);
             }
+
             if ($this->getRequest()->query->has('brand')) {
                 $profile = $this->getUser()->getBrand();
                 $currentProfileType = 'brand';
             } else {
                 $profile = $this->getUser();
                 $currentProfileType = 'user';
+            }
+
+            // Source
+            $options = array();
+            if ($this->getRequest()->query->has('source')) {
+                $options['source'] = $this->getRequest()->query->get('source');
             }
 
             $result = array(
@@ -1392,7 +1399,8 @@ class UsersController extends FosRestController
                 'currentProfile' => $profile,
                 'currentProfileType' => $currentProfileType,
                 'analytics' => $result,
-                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile),
+                'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile, $options),
+                'sources' => $analyticRepository->findSourcesByProfile($profile),
             );
         } else
             throw new HttpException(401);
