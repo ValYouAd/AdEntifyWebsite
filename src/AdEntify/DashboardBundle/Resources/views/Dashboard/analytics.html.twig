@@ -193,6 +193,7 @@
                 </div>
                 {# ===================== STATS ===================== #}
                 <div id="dashboard-stats" class="dashboard-statistiques tab-pane">
+                    {% if not currentSource %}
                     <div class="stats-sum">
                         {% if app.request.query.get('brand') %}
                             {{ 'dashboard.main.stats.sum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}
@@ -200,6 +201,7 @@
                             {{ 'dashboard.main.stats.userSum'|trans({'%nbTagged%': analytics.nbTagged, '%nbUsers%': analytics.nbUsers, '%nbPhotos%': analytics.nbPhotos })|capitalize|raw }}
                         {% endif %}
                     </div>
+                    {% endif %}
                     <div class="dashboard-global-analytics">
                         <div>
                             <h2>{{ 'dashboard.main.title.stats'|trans|capitalize }}</h2>
@@ -227,11 +229,11 @@
                             </div>
                             <div class="global-analytics col-xs-6 col-md-3">
                                 <p>{{ globalAnalytics.photosHoversPercentage }}%</p>
-                                <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
+                                <label>{{ 'dashboard.main.stats.hover_rate_photos'|trans|capitalize }}</label>
                             </div>
                             <div class="global-analytics col-xs-6 col-md-3">
                                 <p>{{ globalAnalytics.tagsHoversPercentage }}%</p>
-                                <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
+                                <label>{{ 'dashboard.main.stats.hover_rate_tags'|trans|capitalize }}</label>
                             </div>
                             <div class="global-analytics col-xs-6 col-md-3">
                                 <p>{{ globalAnalytics.tagsClicksPercentage }}%</p>

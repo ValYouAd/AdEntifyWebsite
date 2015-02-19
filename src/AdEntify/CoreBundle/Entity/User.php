@@ -415,6 +415,13 @@ class User extends BaseUser
      */
     private $productProviders;
 
+    /**
+     * @var string
+     *
+     * @Serializer\Groups({"me"})
+     */
+    protected $sources = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -1497,5 +1504,22 @@ class User extends BaseUser
     public function getProductProviders()
     {
         return $this->productProviders;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSources()
+    {
+        return $this->sources;
+    }
+
+    /**
+     * @param string $sources
+     */
+    public function setSources($sources)
+    {
+        $this->sources = $sources;
+        return $this;
     }
 }

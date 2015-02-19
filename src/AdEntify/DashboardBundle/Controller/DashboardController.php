@@ -82,7 +82,7 @@ class DashboardController extends Controller
                 'pagination' => $pagination,
                 'daterange' => array_key_exists('daterange', $options) ? $options['daterange'] : null,
                 'daterangeActivity' => array_key_exists('daterangeActivity', $options) ? $options['daterangeActivity'] : null,
-                'sources' => $analyticRepository->findSourcesByProfile($profile),
+                'sources' => $analyticRepository->findSourcesByProfile($this->getUser()),
                 'currentSource' => $this->getRequest()->query->has('source') ? $this->getRequest()->query->get('source') : null
             );
         } else

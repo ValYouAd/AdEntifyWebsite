@@ -135,7 +135,13 @@ class UsersController extends FosRestController
     public function getCurrentAction()
     {
         if ($this->getUser()) {
-            return $this->getUser();
+            $user = $this->getUser();
+
+            // Add user sources
+            $analyticRepository = $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Analytic');
+            $user->setSources($analyticRepository->findSourcesByProfile($user));
+
+            return $user;
         } else {
             throw new HttpException(401);
         }
@@ -1400,7 +1406,7 @@ class UsersController extends FosRestController
                 'currentProfileType' => $currentProfileType,
                 'analytics' => $result,
                 'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile, $options),
-                'sources' => $analyticRepository->findSourcesByProfile($profile),
+                'sources' => $analyticRepository->findSourcesByProfile($this->getUser()),
             );
         } else
             throw new HttpException(401);
