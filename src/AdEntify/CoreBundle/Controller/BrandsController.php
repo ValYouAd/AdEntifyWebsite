@@ -413,10 +413,9 @@ class BrandsController extends FosRestController
 	$securityContext = $this->container->get('security.context');
 	$query = $this->getDoctrine()->getManager()->createQuery('SELECT user, (SELECT COUNT(u.id) FROM AdEntifyCoreBundle:User u
 		LEFT JOIN u.followings f WHERE u.id = :currentUserId AND f.id = user.id) as followed FROM AdEntify\CoreBundle\Entity\User user
-            LEFT JOIN user.followers follower WHERE follower.id = :brandUserId ORDER BY user.followersCount DESC')
+        ORDER BY user.followersCount DESC')
 	    ->setParameters(array(
-		'brandUserId' => $brand->getAdmin() ? $brand->getAdmin()->getId() : 0,
-		'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
+            'currentUserId' => $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ? $this->container->get('security.context')->getToken()->getUser()->getId() : 0
 	    ))
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);

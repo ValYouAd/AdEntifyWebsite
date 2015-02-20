@@ -317,10 +317,10 @@ class User extends BaseUser
     private $profilePicture;
 
     /**
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="admin", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\Brand", inversedBy="admins", cascade={"persist"})
      * @Serializer\Groups({"me"})
      */
-    private $brand;
+    private $brands;
 
     /**
      * @var integer
@@ -415,6 +415,13 @@ class User extends BaseUser
      */
     private $productProviders;
 
+    /**
+     * @var string
+     *
+     * @Serializer\Groups({"me"})
+     */
+    protected $sources = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -438,6 +445,7 @@ class User extends BaseUser
         $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
         $this->devices = new \Doctrine\Common\Collections\ArrayCollection();
         $this->analytics = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->brands = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -1153,23 +1161,6 @@ class User extends BaseUser
     }
 
     /**
-     * @param mixed $brand
-     */
-    public function setBrand($brand)
-    {
-        $this->brand = $brand;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBrand()
-    {
-        return $this->brand;
-    }
-
-    /**
      * @param \AdEntify\CoreBundle\Entity\datetime $birthday
      */
     public function setBirthday($birthday)
@@ -1497,5 +1488,71 @@ class User extends BaseUser
     public function getProductProviders()
     {
         return $this->productProviders;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSources()
+    {
+        return $this->sources;
+    }
+
+    /**
+     * @param string $sources
+     */
+    public function setSources($sources)
+    {
+        $this->sources = $sources;
+        return $this;
+    }
+
+    /**
+     * @param Brand $brand
+     * @return $this
+     */
+    public function addBrand(Brand $brand)
+    {
+        $this->brands[] = $brand;
+        $brand->addAdmin($this);
+        return $this;
+    }
+
+    /**
+     * @param Brand $brand
+     */
+    public function removeBrand(Brand $brand)
+    {
+        $this->brands->removeElement($brand);
+        $brand->removeAdmin($this);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getBrands()
+    {
+        return $this->brands;
+    }
+
+    /**
+     * @param $slug
+     */
+    public function isAdmin($slug)
+    {
+        foreach($this->brands as $brand) {
+            if ($brand->getSlug() === $slug)
+                return true;
+        }
+        return false;
+    }
+
+    public function getBrandBySlug($slug)
+    {
+        foreach ($this->brands as $brand) {
+            if ($brand->getSlug() === $slug)
+                return $brand;
+        }
+        return false;
     }
 }

@@ -63,18 +63,10 @@ class PhotosControllerTest extends EnhancedWebTestCase
     public function testGetAction()
     {
         $this->options['key'] = 'id';
-        for($i = 0; $i < 2; $i++)
-        {
+        for ($i = 0; $i < 2; $i++) {
             $this->options['authorization'] = ($i) ? true : false;
             $photo = ($i) ? $this->photos['private'] : $this->photos['public'];
             $this->assertAllGet(sprintf('api/v1/photos/%s', $photo), $this->options);
         }
     }
-
-//    public function testGetSearch()
-//    {
-//        $this->options['key'] = 'data';
-//        $this->options['authorization'] = true;
-//        $this->options['has_pagination'] = true;
-//    }
 }

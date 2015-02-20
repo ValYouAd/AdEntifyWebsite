@@ -199,7 +199,7 @@ class UserController extends Controller
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
         if ($editForm->isValid()) {
-            $em->persist($entity->getBrand());
+            /*$em->persist($entity->getBrand()); // TODO change to getBrands()*/
             $em->persist($entity);
             $em->flush();
 

@@ -55,11 +55,11 @@
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.hoversPercentage|round(2) }}</p>
-                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
+                            <label>{{ 'dashboard.main.stats.hover_rate_photos'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.tagsHoversPercentage|round(2) }}</p>
-                            <label>{{ 'dashboard.main.stats.hover_rate'|trans|capitalize }}</label>
+                            <label>{{ 'dashboard.main.stats.hover_rate_tags'|trans|capitalize }}</label>
                         </div>
                         <div class="global-analytics col-xs-6 col-md-3">
                             <p class="photo-details-percentage">{{ photo.tagsClicksPercentage|round(2) }}</p>
@@ -98,7 +98,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            {{ knp_pagination_sortable(pagination, 'dashboard.main.stats.hover_rate'|trans|capitalize, 't.hoversPercentage') }}
+                            {{ knp_pagination_sortable(pagination, 'dashboard.main.stats.hover_rate_photos'|trans|capitalize, 't.hoversPercentage') }}
                             {% if pagination.isSorted('t.hoversPercentage') %}
                                 <span class="sort-direction glyphicon glyphicon-arrow{% if pagination.getDirection  == 'asc' %}-up{% else %}-down{% endif %}"></span>
                             {% endif %}
@@ -189,9 +189,9 @@
                     <tbody>
                         {% for source in sources %}
                             <tr>
-                                <td>{{ source.url }}</td>
+                                <td width="60%">{{ source.url }}</td>
                                 <td>{{ source.clicks }}</td>
-                                <td>{% if source.hovers > 0 %}{{ ((source.clicks/source.hovers)*100) }}{% else %}0{% endif %}%</td>
+                                <td>{% if source.hovers > 0 %}{{ ((source.clicks/source.hovers)*100)|round(2) }}{% else %}0{% endif %}%</td>
                                 <td>{{ (source.interactionTime)|round(2) }}s</td>
                             </tr>
                         {% else %}

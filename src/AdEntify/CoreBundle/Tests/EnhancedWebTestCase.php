@@ -68,8 +68,7 @@ class EnhancedWebTestCase extends WebTestCase
         switch($options['return_type'])
         {
             case 'object':
-                if ($options['http_code'] == 200)
-                {
+                if ($options['http_code'] == 200) {
                     $this->assertIsset($decoded, $options['key']);
                     if ($options['has_pagination'] && !empty($decoded[$options['key']]))
                         $this->assertPagination($decoded);

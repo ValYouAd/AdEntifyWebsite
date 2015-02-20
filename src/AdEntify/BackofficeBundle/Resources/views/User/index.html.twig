@@ -39,6 +39,7 @@
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-default" href="{{ path('users_show', { 'id': entity.id }) }}">{{ 'show'|trans }}</a>
+                        <a class="btn btn-primary" href="{{ path('users_edit', { 'id': entity.id }) }}">{{ 'Edit'|trans }}</a>
                         {% if entity.enabled %}
                             <a class="btn btn-danger" href="{{ path('users_enable', { 'id': entity.id, 'active': 0 }) }}">{{ 'disable'|trans }}</a>
                         {% else %}

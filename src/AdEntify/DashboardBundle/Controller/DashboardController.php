@@ -30,13 +30,13 @@ class DashboardController extends Controller
     {
         if ($this->getUser()) {
             if ($this->getRequest()->query->has('brand')
-                && (!$this->getUser()->getBrand() || $this->getUser()->getBrand()->getSlug() != $this->getRequest()->query->get('brand'))) {
+                && (!$this->getUser()->isAdmin($this->getRequest()->query->get('brand')))) {
                 throw new HttpException(403);
             } else if ($this->getRequest()->query->has('user') && ($this->getUser()->getId() != $this->getRequest()->query->get('user'))) {
                 throw new HttpException(403);
             }
             if ($this->getRequest()->query->has('brand')) {
-                $profile = $this->getUser()->getBrand();
+                $profile = $this->getUser()->getBrandBySlug($this->getRequest()->query->get('brand'));
                 $currentProfileType = 'brand';
             } else {
                 $profile = $this->getUser();
@@ -76,13 +76,13 @@ class DashboardController extends Controller
                 'analytics' => $result,
                 'currentProfile' => $profile,
                 'currentProfileType' => $currentProfileType,
-                'brand' => $this->getUser()->getBrand(),
+                'brands' => $this->getUser()->getBrands(),
                 'user' => $this->getUser(),
                 'globalAnalytics' => $analyticRepository->findGlobalAnalyticsByUser($profile, $options),
                 'pagination' => $pagination,
                 'daterange' => array_key_exists('daterange', $options) ? $options['daterange'] : null,
                 'daterangeActivity' => array_key_exists('daterangeActivity', $options) ? $options['daterangeActivity'] : null,
-                'sources' => $analyticRepository->findSourcesByProfile($profile),
+                'sources' => $analyticRepository->findSourcesByProfile($this->getUser()),
                 'currentSource' => $this->getRequest()->query->has('source') ? $this->getRequest()->query->get('source') : null
             );
         } else
@@ -103,8 +103,7 @@ class DashboardController extends Controller
      */
     public function detailsAction($photoId)
     {
-        if ($this->getUser())
-        {
+        if ($this->getUser()) {
             $tagRepository = $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Tag');
             $photo = $this->getDoctrine()->getRepository('AdEntifyCoreBundle:Photo')->find($photoId);
 
@@ -125,8 +124,7 @@ class DashboardController extends Controller
                 'photoId' => $photoId,
                 'page' => $this->get('session')->get('dashboardPage')
             );
-        }
-        else
+        } else
             throw new HttpException(403);
     }
 }

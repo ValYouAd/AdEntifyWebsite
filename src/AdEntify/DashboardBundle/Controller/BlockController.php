@@ -25,15 +25,18 @@ class BlockController extends Controller
     {
         if ($this->getUser()) {
             $accounts = array();
-            if ($this->getUser()->getBrand()) {
-                $accounts['accounts.brands'] = array(array(
-                    'link' => $this->generateUrl('dashboard_stats', array(
-                        'brand' => $this->getUser()->getBrand()->getSlug()
-                    ), true),
-                    'type' => 'brand',
-                    'selected' => $currentProfileType == 'brand' && $currentProfile->getId() == $this->getUser()->getBrand()->getId() ? true : false,
-                    'name' => $this->getUser()->getBrand()->getName()
-                ));
+            if (count($this->getUser()->getBrands())) {
+                $accounts['accounts.brands'] = array();
+                foreach ($this->getUser()->getBrands() as $brand) {
+                    $accounts['accounts.brands'][] = array(
+                        'link' => $this->generateUrl('dashboard_stats', array(
+                            'brand' => $brand->getSlug(),
+                        ), true),
+                        'type' => 'brand',
+                        'selected' => $currentProfileType == 'brand' && $currentProfile->getId() == $brand->getId() ? true : false,
+                        'name' => $brand->getName()
+                    );
+                }
             }
 
             $accounts['accounts.users'] = array(array(

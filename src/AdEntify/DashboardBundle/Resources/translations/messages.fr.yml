@@ -18,6 +18,8 @@ dashboard:
             tags_hovers: 'survols de tags'
             tags_clicks: 'clics sur les tags'
             hover_rate: 'taux de survols'
+            hover_rate_photos: 'taux de survols photos'
+            hover_rate_tags: 'taux de survols tags'
             clicks_rate: 'taux de clics'
         date:
             filter_label: 'tri par date'
