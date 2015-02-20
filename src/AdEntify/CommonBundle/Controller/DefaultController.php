@@ -41,8 +41,7 @@ class DefaultController extends Controller
      */
     public function indexAction() {
         // Automatic redirect
-        $securityContext = $this->container->get('security.context');
-        if($securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+        if ($this->getUser()){
             return $this->redirect($this->generateUrl('loggedInHome', array(
                 '_locale' => $this->getCurrentLocale()
             )));
