@@ -189,7 +189,7 @@
                     <tbody>
                         {% for source in sources %}
                             <tr>
-                                <td width="60%">{{ source.url }}</td>
+                                <td width="65%">{{ source.url }}</td>
                                 <td>{{ source.clicks }}</td>
                                 <td>{% if source.hovers > 0 %}{{ ((source.clicks/source.hovers)*100)|round(2) }}{% else %}0{% endif %}%</td>
                                 <td>{{ (source.interactionTime)|round(2) }}s</td>
