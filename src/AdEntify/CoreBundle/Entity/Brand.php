@@ -264,10 +264,10 @@ class Brand
     private $legalNotice;
 
     /**
-     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="brand", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AdEntify\CoreBundle\Entity\User", mappedBy="brands", cascade={"persist"})
      * @Serializer\Exclude
      */
-    private $admin;
+    private $admins;
 
     /**
      * @var boolean
@@ -365,6 +365,7 @@ class Brand
         $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -826,22 +827,6 @@ class Brand
     }
 
     /**
-     * @param mixed $admin
-     */
-    public function setAdmin($admin)
-    {
-        $this->admin = $admin;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAdmin()
-    {
-        return $this->admin;
-    }
-
-    /**
      * @param int $minAge
      */
     public function setMinAge($minAge)
@@ -1099,5 +1084,31 @@ class Brand
         $this->productProvider = $productProvider;
 
         return $this;
+    }
+
+    /**
+     * @param Admin $admin
+     * @return $this
+     */
+    public function addAdmin(User $admin)
+    {
+        $this->admins[] = $admin;
+        return $this;
+    }
+
+    /**
+     * @param Admin $admin
+     */
+    public function removeAdmin(User $admin)
+    {
+        $this->admins->removeElement($admin);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getAdmins()
+    {
+        return $this->admins;
     }
 }

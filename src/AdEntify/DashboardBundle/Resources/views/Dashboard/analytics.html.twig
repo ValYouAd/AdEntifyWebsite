@@ -97,8 +97,8 @@
         <div class="pull-right">
             {{ render(controller('AdEntifyDashboardBundle:Block:changeUser', { currentProfile: currentProfile, currentProfileType: currentProfileType, sources: sources, source: currentSource })) }}
         </div>
-        {% if brand and brand.originalLogoUrl and app.request.query.get('brand') %}<div class="dashboard-logo" style="background-image: url('{{ brand.originalLogoUrl }}')"></div>
-        {% elseif brand and app.request.query.get('brand') %} <h1 class="logo-center">{{ brand.name }}</h1>
+        {% if currentProfileType == 'brand' and currentProfile.originalLogoUrl %}<div class="dashboard-logo" style="background-image: url('{{ asset(currentProfile.originalLogoUrl) }}')"></div>
+        {% elseif currentProfileType == 'brand' %} <h1 class="logo-center">{{ currentProfile.name }}</h1>
         {% else %}<h1 class="logo-center">{{ user.fullname }}</h1>
         {% endif %}
         <div class="dashboard-content">

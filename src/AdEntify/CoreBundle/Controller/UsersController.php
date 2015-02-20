@@ -1368,14 +1368,14 @@ class UsersController extends FosRestController
     {
         if ($this->getUser()) {
             if ($this->getRequest()->query->has('brand')
-                && (!$this->getUser()->getBrand() || $this->getUser()->getBrand()->getSlug() != $this->getRequest()->query->get('brand'))) {
+                && (!$this->getUser()->isAdmin($this->getRequest()->query->get('brand')))) {
                 throw new HttpException(403);
             } else if ($this->getRequest()->query->has('user') && ($this->getUser()->getId() != $this->getRequest()->query->get('user'))) {
                 throw new HttpException(403);
             }
 
             if ($this->getRequest()->query->has('brand')) {
-                $profile = $this->getUser()->getBrand();
+                $profile = $this->getUser()->getBrandBySlug($this->getRequest()->query->get('brand'));
                 $currentProfileType = 'brand';
             } else {
                 $profile = $this->getUser();
