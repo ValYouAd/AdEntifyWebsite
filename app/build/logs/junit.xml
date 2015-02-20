@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Project Test Suite" tests="3" assertions="12" failures="0" errors="0" time="8.080895">
-    <testsuite name="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" tests="3" assertions="12" failures="0" errors="0" time="8.080895">
-      <testcase name="testGet" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="13" assertions="4" time="6.303400"/>
-      <testcase name="testGetCurrent" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="30" assertions="4" time="0.265180"/>
-      <testcase name="testGetPhotos" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="47" assertions="4" time="1.512315"/>
+  <testsuite name="Project Test Suite" tests="24" assertions="110" failures="2" errors="0" time="28.563644">
+    <testsuite name="AdEntify\CoreBundle\Tests\Controller\PhotosControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/PhotosControllerTest.php" tests="2" assertions="9" failures="1" errors="0" time="10.178359">
+      <testcase name="testCget" class="AdEntify\CoreBundle\Tests\Controller\PhotosControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/PhotosControllerTest.php" line="52" assertions="8" time="9.630103"/>
+      <testcase name="testGetAction" class="AdEntify\CoreBundle\Tests\Controller\PhotosControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/PhotosControllerTest.php" line="63" assertions="1" time="0.548256">
+        <failure type="PHPUnit_Framework_ExpectationFailedException">AdEntify\CoreBundle\Tests\Controller\PhotosControllerTest::testGetAction
+Unexpected HTTP status code for GET api/v1/photos/464
+Failed asserting that 403 matches expected 200.
+
+/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/EnhancedWebTestCase.php:20
+/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/EnhancedWebTestCase.php:63
+/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/PhotosControllerTest.php:70
+</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" tests="21" assertions="100" failures="0" errors="0" time="17.216280">
+      <testcase name="testGet" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="26" assertions="3" time="0.663340"/>
+      <testcase name="testGetCurrent" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="32" assertions="3" time="0.578083"/>
+      <testcase name="testGetPhotos" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="39" assertions="7" time="2.822556"/>
+      <testcase name="testGetFavorites" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="51" assertions="3" time="0.441236"/>
+      <testcase name="testGetSearch" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="58" assertions="19" time="2.601557"/>
+      <testcase name="testGetIsFollowed" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="70" assertions="6" time="1.090457"/>
+      <testcase name="testGetLikedPhotos" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="78" assertions="7" time="1.125483"/>
+      <testcase name="testGetHashtags" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="86" assertions="7" time="0.800760"/>
+      <testcase name="testGetNotifications" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="94" assertions="3" time="0.541362"/>
+      <testcase name="testGetFollowings" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="101" assertions="4" time="0.497918"/>
+      <testcase name="testGetFollowers" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="109" assertions="4" time="0.421873"/>
+      <testcase name="testGetTopFollowers" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="117" assertions="3" time="0.537415"/>
+      <testcase name="testGetTaskProgress" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="123" assertions="3" time="0.540520"/>
+      <testcase name="testGetBrands" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="130" assertions="3" time="0.586364"/>
+      <testcase name="testGetAnalytics" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="138" assertions="3" time="0.548430"/>
+      <testcase name="testGetPoints" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="145" assertions="3" time="0.403632"/>
+      <testcase name="testGetCreditsByDateRange" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="152" assertions="3" time="0.482009"/>
+      <testcase name="testGetDashboard" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="159" assertions="3" time="0.460927"/>
+      <testcase name="testGetCreditsByDate" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="176" assertions="6" time="0.914726"/>
+      <testcase name="testGetRewards" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="184" assertions="4" time="0.671225"/>
+      <testcase name="testGetActions" class="AdEntify\CoreBundle\Tests\Controller\UserControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Tests/Controller/UserControllerTest.php" line="191" assertions="3" time="0.486406"/>
+    </testsuite>
+    <testsuite name="AdEntify\DashboardBundle\Tests\Controller\DefaultControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/DashboardBundle/Tests/Controller/DefaultControllerTest.php" tests="1" assertions="1" failures="1" errors="0" time="1.169005">
+      <testcase name="testIndex" class="AdEntify\DashboardBundle\Tests\Controller\DefaultControllerTest" file="/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/DashboardBundle/Tests/Controller/DefaultControllerTest.php" line="9" assertions="1" time="1.169005">
+        <failure type="PHPUnit_Framework_ExpectationFailedException">AdEntify\DashboardBundle\Tests\Controller\DefaultControllerTest::testIndex
+Failed asserting that false is true.
+
+/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/DashboardBundle/Tests/Controller/DefaultControllerTest.php:15
+</failure>
+      </testcase>
     </testsuite>
   </testsuite>
 </testsuites>
