@@ -16,3 +16,5 @@ error:
         invalidTag: The person tag is invalid, please try again.
     venue:
         invalidTag: The venue tag is invalid, please try again.
+    advertising:
+        invalidRole: 'Invalid role, you can''t create this type of tag'

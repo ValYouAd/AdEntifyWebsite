@@ -430,6 +430,77 @@ define([
       }
    });
 
+   Tag.Views.AdvertisingItem = Tag.Views.Item.extend({
+      template: "tag/types/advertising",
+      tagName: "li",
+      hoverTimeout: null,
+
+      serialize: function() {
+         return {
+            model: this.model,
+            popoverDesactivated: this.popoverDesactivated
+         };
+      },
+
+      beforeRender: function() {
+
+      },
+
+      initialize: function(options) {
+         this.constructor.__super__.initialize.apply(this, [options]);
+         this.listenTo(this.model, "change", this.render);
+      },
+
+      hoverIn: function() {
+         if (!this.popoverDesactivated) {
+            clearTimeout(this.hoverTimeout);
+            var popover = this.$('.popover');
+            var popoverArrow = this.$('.tag-popover-arrow');
+            this.setupPopover(popover, popoverArrow);
+            app.analytic().hover(this.model);
+         }
+      },
+
+      hoverOut: function() {
+         if (!this.popoverDesactivated) {
+            var that = this;
+            this.hoverTimeout = setTimeout(function() {
+               $(that.el).find('.popover').hide();
+            }, 200);
+         }
+      },
+
+      clickTag: function(e) {
+         app.analytic().click(this.model, e);
+      },
+
+      validateTag: function() {
+         this.model.changeValidationStatus('granted');
+      },
+
+      refuseTag: function() {
+         this.model.changeValidationStatus('denied');
+      },
+
+      deleteTag: function() {
+         this.model.delete();
+      },
+
+      reportTag: function() {
+         Tag.Common.reportTag(this.model);
+      },
+
+      events: {
+         "mouseenter .tag": "hoverIn",
+         "mouseleave .tag": "hoverOut",
+         "click a[href]": "clickTag",
+         "click .validateTagButton": "validateTag",
+         "click .refuseTagButton": "refuseTag",
+         "click .deleteTagButton": "deleteTag",
+         'click .reportTagButton': 'reportTag'
+      }
+   });
+
    Tag.Views.List = Backbone.View.extend({
       template: "tag/list",
 
@@ -479,6 +550,11 @@ define([
                }));
             } else if (tag.get('type')  == 'product' || tag.get('type') == 'brand') {
                this.insertView(".tags", new Tag.Views.ProductItem({
+                  model: tag,
+                  desactivatePopover: this.desactivatePopover
+               }));
+            } else if (tag.get('type') == 'advertising') {
+               this.insertView('.tags', new Tag.Views.AdvertisingItem({
                   model: tag,
                   desactivatePopover: this.desactivatePopover
                }));
@@ -839,6 +915,17 @@ define([
                return selectedItem;
             }
          });
+
+         this.$('#ad-formats').change(function () {
+            if ($(this).val() !== 'custom') {
+               var format = $(this).val().split('-');
+               that.$('#ad-width').val(format[0]);
+               that.$('#ad-height').val(format[1]);
+            } else {
+               that.$('#ad-width').val('');
+               that.$('#ad-height').val('');
+            }
+         });
       },
 
       venueSource: function(query, process, loadingDiv) {
@@ -943,6 +1030,27 @@ define([
          var that = this;
          $activePane = this.$('.tab-content .active');
          switch ($activePane.attr('id')) {
+            case 'advertising':
+               $submit = $('#submit-advertising');
+               that.removeView('.alert-advertising');
+               $submit.button('loading');
+               if (that.$('#ad-width').val() && that.$('#ad-height').val() && that.$('#ad-code').val()) {
+                  that.postAdvertising({
+                     width: that.$('#ad-width').val(),
+                     height: that.$('#ad-height').val(),
+                     code: that.$('#ad-code').val()
+                  }, function() {
+                     $submit.button('reset');
+                  });
+               } else {
+                  $submit.button('reset');
+                  that.setView('.alert-advertising', new Common.Views.Alert({
+                     cssClass: Common.alertError,
+                     message: $.t('tag.advertisingFillAllFields'),
+                     showClose: true
+                  })).render();
+               }
+               break;
             case 'product':
                $submit = $('#submit-product');
                that.removeView('.alert-product');
@@ -1085,6 +1193,56 @@ define([
                }
                break;
          }
+      },
+
+      postAdvertising: function(tagInfo, complete) {
+         var that = this;
+
+         currentTag.set('photo', app.appState().getCurrentPhotoModel().get('id'));
+         currentTag.set('tagInfo', tagInfo);
+         currentTag.set('type', 'advertising');
+         currentTag.set('title', 'advertising');
+
+         currentTag.url = Routing.generate('api_v1_post_tag');
+         currentTag.getToken('tag_item', function() {
+            currentTag.save(null, {
+               success: function() {
+                  currentTag.set('persisted', '');
+                  currentTag.setup();
+                  app.trigger('tagMenuTools:tagAdded', app.appState().getCurrentPhotoModel());
+               },
+               error: function(e, r) {
+                  delete currentTag.id;
+                  $submit.button('reset');
+                  if (r.status === 403) {
+                     that.setView('.alert-advertising', new Common.Views.Alert({
+                        cssClass: Common.alertError,
+                        message: $.t('tag.forbiddenTagPost'),
+                        showClose: true
+                     })).render();
+                  } else {
+                     var json = $.parseJSON(r.responseText);
+                     if (json && typeof json.errors !== 'undefined') {
+                        that.setView('.alert-advertising', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: Common.Tools.getHtmlErrors(json.errors),
+                           showClose: true
+                        })).render();
+                     } else {
+                        that.setView('.alert-advertising', new Common.Views.Alert({
+                           cssClass: Common.alertError,
+                           message: $.t('tag.errorTagPost'),
+                           showClose: true
+                        })).render();
+                     }
+                  }
+               },
+               complete: function() {
+                  if (typeof complete !== 'undefined')
+                     complete();
+               }
+            });
+         });
       },
 
       submitNewProduct: function() {

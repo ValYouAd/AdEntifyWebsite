@@ -14,6 +14,7 @@
                 <li class="active"><a href="#product" data-toggle="tab" data-bypass="" data-i18n="tag.product"></a></li>
                 <li><a href="#venue" data-toggle="tab" data-bypass="" data-i18n="tag.place"></a></li>
                 <li><a href="#person" data-toggle="tab" data-bypass="" data-i18n="tag.person"></a></li>
+                <li><a href="#advertising" data-toggle="tab" data-bypass="" data-i18n="tag.advertising"></a></li>
             </ul>
             <div class="tab-content">
                 <!-- Produit -->
@@ -114,6 +115,37 @@
                             <button class="btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button></p>
                     </div>
                     <div class="fb-loggedout alert alert-danger fade-out" data-i18n="[html]tag.textNoFacebookConnect"></div>
+                </div>
+                <!-- Publicité -->
+                <div class="tab-pane" id="advertising">
+                    <div class="alert-advertising"></div>
+
+                    <div class="form-group">
+                        <label data-i18n="tag.labelAdvertisingFormats"></label>
+                        <select id="ad-formats" class="form-control">
+                            <option value="300-250">300x250</option>
+                            <option value="320-100">320x100</option>
+                            <option value="custom"><%= $.t('tag.advertisingCustomFormat') %></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label data-i18n="tag.labelAdvertisingWidth"></label>
+                                <input class="form-control" type="text" id="ad-width" value="300">
+                            </div>
+                            <div class="col-xs-6">
+                                <label data-i18n="tag.labelAdvertisingHeight"></label>
+                                <input class="form-control" type="text" id="ad-height" value="250">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="tag.labelAdvertisingCode"></label>
+                        <textarea class="form-control" id="ad-code"></textarea>
+                    </div>
+                    <p><button id="submit-advertising" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn-around-corner btn-red-grey-border submitTagButton"><i class="glyphicon glyphicon-ok"></i> <span data-i18n="tag.submitAdvertising"></span></button>
+                        <button class="btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button></p>
                 </div>
             </div>
         </div>

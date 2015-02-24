@@ -16,5 +16,7 @@ error:
         invalidTag: Le tag personne est invalide, veuillez réesayer s'il vous plaît.
     venue:
         invalidTag: Le tag lieu est invalide, veuillez réesayer s'il vous plaît.
+    advertising:
+        invalidRole: 'Votre rôle est invalide pour créer ce type de tag'
 
 This value should be the user current password.: Le mot de passe actuel ne corresponds pas.

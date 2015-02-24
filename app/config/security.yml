@@ -7,10 +7,10 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_FACEBOOK:    ROLE_USER
-        ROLE_TWITTER:     ROLE_USER
-        ROLE_TEAM:        ROLE_USER
-        ROLE_ANOUNCER:    ROLE_USER
+        ROLE_FACEBOOK:    [ROLE_USER]
+        ROLE_TWITTER:     [ROLE_USER]
+        ROLE_ANNOUNCER:   [ROLE_USER]
+        ROLE_TEAM:        [ROLE_USER]
         ROLE_ADMIN:       [ROLE_USER, ROLE_TEAM]
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_TEAM, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
