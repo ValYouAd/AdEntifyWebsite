@@ -434,16 +434,22 @@ define([
       template: "tag/types/advertising",
       tagName: "li",
       hoverTimeout: null,
+      dimensions: {},
 
       serialize: function() {
          return {
             model: this.model,
+            dimensions: this.dimensions,
             popoverDesactivated: this.popoverDesactivated
          };
       },
 
       beforeRender: function() {
-
+         if (this.model.has('tag_info') && typeof this.model.get('tag_info').info !== 'undefined'
+            && typeof this.model.get('tag_info').info.dimensions !== 'undefined') {
+            this.model.set('popoverInnerStyle', 'width: ' + this.model.get('tag_info').info.dimensions.width
+               + 'px; height: ' + this.model.get('tag_info').info.dimensions.height + 'px; overflow: hidden;')
+         }
       },
 
       initialize: function(options) {
@@ -636,6 +642,23 @@ define([
 
    Tag.Views.AddTagForm = Backbone.View.extend({
       template: "tag/addForm",
+      showAdvertisingTag: false,
+
+      serialize: function() {
+         return {
+            showAdvertisingTag: this.showAdvertisingTag
+         };
+      },
+
+      beforeRender: function() {
+         if (app.appState().getCurrentUser() && app.appState().getCurrentUser().roles.length > 0) {
+            var found = _.find(app.appState().getCurrentUser().roles, function(role) {
+               return role == 'ROLE_TEAM' || role == 'ROLE_ADMIN' || role == 'ROLE_ANNOUNCER' || role == 'ROLE_SUPER_ADMIN';
+            });
+            if (typeof found !== 'undefined')
+               this.showAdvertisingTag = true;
+         }
+      },
 
       initialize: function() {
          this.photo = this.options.photo;

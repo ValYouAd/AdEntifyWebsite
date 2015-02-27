@@ -1,11 +1,11 @@
 <% if (model) { %>
 <div class="tag advertising-tag-container <%= model.get("cssClass") %>" style="<%= model.get('cssStyle') %>">
-<div class="glyphicon glyphicon-eur tag-icon"></div>
+<div class="glyphicon glyphicon-euro tag-icon"></div>
 <% if (!popoverDesactivated) { %>
 <div class="popover">
     <div class="tag-popover-arrow"></div>
-    <div class="popover-inner">
-        Pub
+    <div class="popover-inner" style="<%= model.get('popoverInnerStyle') %>">
+        <%= model.get('tag_info').info.code %>
     </div>
     <div class="clearfix"></div>
     <div class="tag-buttons">

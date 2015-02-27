@@ -1324,10 +1324,14 @@ html,body,.body-grey-background {
     top: 9px;
     left: 11px;
 }
-.tag .glyphicon-tag {
+.tag .glyphicon,
+.tag .glyphicon-tag{
     top: 10px;
-    left: 11px;
+    left: 10px;
     color: #606366;
+}
+.tag .glyphicon-tag {
+    left: 11px;
 }
 .tag .tag-place-icon{
     left: 12px;
@@ -1415,6 +1419,15 @@ html,body,.body-grey-background {
 }
 .tag .popover a.link-google-maps:hover {
     text-decoration: none;
+}
+.advertising-tag-container .popover {
+    width: auto;
+}
+.advertising-tag-container .popover-inner {
+    padding: 0px;
+}
+.advertising-tag-container .tag-buttons {
+    margin: 0px;
 }
 .person-tag-container .popover {
     width: 250px;
@@ -1519,6 +1532,9 @@ html,body,.body-grey-background {
 .add-tag-form .help-block {
     font-size: 10px;
     font-style: italic;
+}
+.add-tag-form .nav-tabs>li>a {
+    padding: 10px;
 }
 /*
 ----------------------- */
