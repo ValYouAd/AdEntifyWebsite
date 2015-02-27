@@ -1578,7 +1578,7 @@ define([
    });
 
    Tag.Common = {
-      tagRadius: 17,
+      tagRadius: 12,
 
       addTag: function(evt, photo, photoCategories, photoHashtags) {
          if (evt)
