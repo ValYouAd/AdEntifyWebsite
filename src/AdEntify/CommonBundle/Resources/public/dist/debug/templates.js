@@ -4,7 +4,7 @@ this["JST"]["app/templates/action/item.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
 __p+='';
- if (model.has('brandModel')) { 
+ if (model.has('brandModel') && model.get('brandModel').has('small_logo_url')) { 
 ;__p+='\n<div class="pull-left">\n    <a href="'+
 ( model.get('brandModel').get('link') )+
 '"><img src="'+
@@ -102,7 +102,7 @@ __p+='';
 '" class=\'photo-link photo-'+
 ( index )+
 '\'><img src="'+
-( index > 0 ? photo.get('small_url') : photo.get('medium_url') )+
+( photo.get('small_url') )+
 '" alt="'+
 ( photo.get('caption') )+
 '" /></a>\n    ';
@@ -116,7 +116,7 @@ this["JST"]["app/templates/action/itemWithSmallPhoto.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
 __p+='';
- if (model.has('brandModel')) { 
+ if (model.has('brandModel') && model.get('brandModel').has('small_logo_url')) { 
 ;__p+='\n<div class="pull-left">\n    <a href="'+
 ( model.get('brandModel').get('link') )+
 '"><img src="'+
@@ -138,7 +138,7 @@ __p+='';
 ;__p+='\n<div class="pull-right">\n    <a href="'+
 ( model.get('photo').get('link') )+
 '" data-bypass="" class="photo-link">\n        <div style="background-image: url(\''+
-( model.get('photo').get('small_url') )+
+( model.get('photo').get('medium_url') )+
 '\');" class="small-photo"></div>\n    </a>\n</div>\n';
  } 
 ;__p+='\n'+
@@ -197,7 +197,7 @@ return __p;
 this["JST"]["app/templates/brand/create.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<div class="modal-body-wrapper mt2">\n    <div class="alert-success-brand"></div>\n    <form role="form">\n\n    <div class="alert-add-brand"></div>\n\n    <div class="row form-group">\n        <div class="col-md-6">\n            <input type="text" name="name" placeholder="'+
+__p+='<div class="modal-body-wrapper mt2">\n    <div class="alert-success-brand"></div>\n    <form role="form" enctype="multipart/form-data">\n\n    <div class="alert-add-brand"></div>\n\n    <div class="row form-group">\n        <div class="col-md-6">\n            <input type="text" name="name" placeholder="'+
 ( $.t('brand.placeholderName') )+
 '" class="form-control" />\n        </div>\n        <div class="col-md-6">\n            <input type="hidden" name="original_logo_url">\n            <img class="brand-logo fade-out" />\n        </div>\n    </div>\n\n    <div class="row form-group">\n        <div class="col-md-6">\n            <textarea name="description" placeholder="'+
 ( $.t('brand.placeholderDescription') )+
@@ -225,7 +225,7 @@ __p+='<div class="modal-body-wrapper mt2">\n    <div class="alert-success-brand"
 ( $.t('brand.placeholderInstagramUrl') )+
 '" class="form-control" />\n    </div>\n\n    <div class="form-group">\n        <input type="text" name="tumblr_url" placeholder="'+
 ( $.t('brand.placeholderTumblrUrl') )+
-'" class="form-control" />\n    </div>\n\n    <button type="submit" data-i18n="[data-loading-text]brand.addInProgress" class="btn-around-corner btn-red-grey-border" data-toggle="button">'+
+'" class="form-control" />\n    </div>\n\n    <div class="form-group">\n        <input id="logoupload" type="file" accept="image/jpg, image/gif, image/png" name="original_logo_url" style="display: none"/>\n        <div id="uploadbutton" class="btn btn-primary btn-xs">Upload your brand\'s logo</div>\n        <div id="logo-image" style="display:inline" class="text-left"></div>\n    </div>\n\n    <button type="submit" data-i18n="[data-loading-text]brand.addInProgress" class="btn-around-corner btn-red-grey-border" data-toggle="button">'+
 ( $.t('common.submit') )+
 '</button>\n</form>\n</div>';
 }
@@ -263,15 +263,27 @@ return __p;
 this["JST"]["app/templates/brand/item.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<div class="table-center">\n    <div class="table-center-cell text-center">\n        <a href="'+
+__p+='';
+ if (showTagsCount) { 
+;__p+='\n<div class="table-center">\n    <div class="table-center-cell text-center">\n        <a href="'+
 ( model.get('link') )+
 '" class="thumbnail">\n            <img src="'+
-( model.get("medium_logo_url") )+
+( model.get("small_logo_url") )+
 '" alt="'+
 ( model.get("name") )+
 '" class="brand-logo" />\n            <div class="tagged-count text-center"><span data-i18n="[html]brand.tagged" data-i18n-options=\'{"count": '+
 ( model.get("tags_count") )+
-'}\'></span></div>\n        </a>\n    </div>\n</div>';
+'}\'></span></div>\n        </a>\n    </div>\n</div>\n';
+ } else { 
+;__p+='\n<div class="table-center">\n    <div class="table-center-cell text-center">\n        <a href="'+
+( model.get('link') )+
+'">\n            <img src="'+
+( model.get("small_logo_url") )+
+'" alt="'+
+( model.get("name") )+
+'" class="brand-logo" />\n        </a>\n    </div>\n</div>\n';
+ } 
+;__p+='';
 }
 return __p;
 };
@@ -279,7 +291,13 @@ return __p;
 this["JST"]["app/templates/brand/list.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<div class="alert-brands"></div>\n<ul id="brands" class="row list-unstyled"></ul>';
+__p+='<div class="alert-brands"></div>\n<div class="block-white-background">\n    <ul id="brands" class="row list-unstyled"></ul>\n    ';
+ if (showAllButton) { 
+;__p+='\n    <a data-bypass="" class="viewMore link-grey-whith-red-arrow">'+
+( $.t('brand.viewAllBrands') )+
+'</a>\n    ';
+ } 
+;__p+='\n</div>';
 }
 return __p;
 };
@@ -319,7 +337,7 @@ __p+='<div class="loading-gif-container">\n    <div class="loader rotate"></div>
 ( $.t('profile.followersIndicator') )+
 '</div>\n                    </div>\n                    <div class="col-xs-6">\n                        <div class="separator-sm-horizontal"></div>\n                        <div class="indicator-value"></div>\n                        <div class="indicator-label"></div>\n                    </div>\n                </div>\n            </div>\n\n        </div>\n    </div>\n    <div class="block-white-bottom"></div>\n\n    <h2>'+
 ( $.t('brand.rewards') )+
-'</h2>\n    <div class="rewards"></div>\n\n    <hr class="menu-left-hr">\n\n    <h2>'+
+' <i class="glyphicon glyphicon-question-sign pointer rewards-hiw-link"></i></h2>\n    <div class="rewards"></div>\n\n    <hr class="menu-left-hr">\n\n    <h2>'+
 ( $.t('brand.followersTitle') )+
 '</h2>\n    <div class="followers"></div>\n</aside>';
 }
@@ -398,7 +416,7 @@ __p+='';
 '">\n</a>\n';
  } 
 ;__p+='\n<div class="media-body">\n    ';
- if (model.isAuthor()) { 
+ if (model.isAuthor() || has_role_team()) { 
 ;__p+='\n    <div class="pull-right">\n        <button type="button" class="close" aria-hidden="true">&times;</button>\n    </div>\n    ';
  } 
 ;__p+='\n    <h4 class="media-heading"><span class="fullname">'+
@@ -417,7 +435,13 @@ var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
 __p+='<div class="alert-comments"></div>\n<div class="add-comment">\n    <form>\n        <fieldset>\n            <div class="alert-add-comment"></div>\n            <textarea data-i18n="[placeholder]comment.placeholderBody" class="comment-body form-control" name="comment-body"></textarea>\n            <div class="text-center mt1 mb1">\n                <button type="submit" class="btn-around-corner btn-red-grey-border add-comment-button" data-i18n="[data-loading-text]comment.addButtonLoading"><i class="icon white-pencil-icon"></i> '+
 ( $.t('comment.addButton') )+
-'</button>\n            </div>\n        </fieldset>\n    </form>\n</div>\n<ul class="comments-list media-list"></ul>';
+'</button>\n                ';
+ if (has_role_team()) { 
+;__p+='\n                    <small><a id="deleteAllComments" class="pull-right delete-comment-button">'+
+( $.t('comment.deleteButton') )+
+'</a></small>\n                ';
+ } 
+;__p+='\n            </div>\n        </fieldset>\n    </form>\n</div>\n<ul class="comments-list media-list"></ul>';
 }
 return __p;
 };
@@ -428,7 +452,7 @@ with(obj||{}){
 __p+='<div class="clearfix"></div>\n<div class="alert '+
 ( model.get('cssClass') )+
 ' fade in">\n    ';
- if (model.get('close')) { 
+ if (model.get('showClose')) { 
 ;__p+='\n    <button type="button" class="close" data-dismiss="alert">×</button>\n    ';
  } 
 ;__p+='\n    '+
@@ -453,11 +477,15 @@ __p+='<div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-
 ( title )+
 '"></h4>\n                ';
  } 
-;__p+='\n            </div>\n            <div class="modal-body">\n                ';
+;__p+='\n            </div>\n            <div class="modal-body">\n                <div class="modal-body-view"></div>\n                ';
  if (content) { 
 ;__p+='\n                <div class="modal-body-wrapper mt2">\n                    <p data-i18n="[html]'+
 ( content )+
 '"></p>\n                </div>\n                ';
+ } 
+;__p+='\n                ';
+ if (isPaginationEnabled) { 
+;__p+='\n                <div class="pagination-wrapper"></div>\n                ';
  } 
 ;__p+='\n            </div>\n            ';
  if (showFooter) { 
@@ -643,7 +671,13 @@ return __p;
 this["JST"]["app/templates/hashtag/list.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<div class="hashtags-alert"></div>\n<ul class="hashtags-list list-unstyled"></ul>\n<div class="clearfix"></div>';
+__p+='<div class="hashtags-alert"></div>\n<ul class="hashtags-list list-unstyled"></ul>\n<div class="clearfix"></div>\n';
+ if (showAllButton) { 
+;__p+='\n<a data-bypass="" class="viewMore link-grey-whith-red-arrow">'+
+( $.t('hashtag.viewAllHashtags') )+
+'</a>\n';
+ } 
+;__p+='';
 }
 return __p;
 };
@@ -657,7 +691,7 @@ __p+='<div class="top-grey-title-container">\n    <h1 data-i18n="mySettings.gene
 ( $.t('mySettings.partnersNewsletters') )+
 '\n                    </label>\n                </div>\n            </div>\n        </div>\n\n        <div class="form-group">\n            <div class="col-sm-offset-4 col-sm-8">\n                <button type="submit" class="btn-around-corner btn-red-grey-border submitSettings"><i class="glyphicon glyphicon-ok"></i> '+
 ( $.t('mySettings.submitChangeLang') )+
-'</button>\n            </div>\n        </div>\n    </fieldset>\n</form>\n\n<hr>\n\n<form class="form-horizontal changePasswordForm fade-out">\n    <fieldset>\n        <legend data-i18n="mySettings.changePasswordLegend"></legend>\n        <div class="alert-changePassword"></div>\n        <div class="form-group">\n            <label class="col-sm-2 control-label" data-i18n="mySettings.actualPassword"></label>\n            <div class="col-sm-10">\n                <input class="form-control" type="password" name="current_password" class="currentPassword">\n            </div>\n        </div>\n        <div class="form-group">\n            <label class="col-sm-2 control-label" data-i18n="mySettings.newPassword"></label>\n            <div class="col-sm-10">\n                <input class="form-control" type="password" name="new[first]" class="newPasswordFirst">\n            </div>\n        </div>\n        <div class="form-group">\n            <label class="col-sm-2 control-label" data-i18n="mySettings.confirmPassword"></label>\n            <div class="col-sm-10">\n                <input class="form-control" type="password" name="new[second]" class="newPasswordSecond">\n            </div>\n        </div>\n        <div class="form-group">\n            <div class="col-sm-offset-2 col-sm-10">\n                <button type="submit" class="btn-around-corner btn-red-grey-border changePasswordButton"><i class="glyphicon glyphicon-ok"></i> '+
+'</button>\n            </div>\n        </div>\n    </fieldset>\n</form>\n\n<hr>\n\n<form class="form-horizontal changePasswordForm fade-out">\n    <fieldset>\n        <legend data-i18n="mySettings.changePasswordLegend"></legend>\n        <div class="alert-changePassword"></div>\n        <div class="form-group">\n            <label class="col-sm-2 control-label" data-i18n="mySettings.actualPassword"></label>\n            <div class="col-sm-10">\n                <input class="form-control currentPassword" type="password" name="current_password">\n            </div>\n        </div>\n        <div class="form-group">\n            <label class="col-sm-2 control-label" data-i18n="mySettings.newPassword"></label>\n            <div class="col-sm-10">\n                <input class="form-control newPasswordFirst" type="password" name="plainPassword[first]">\n            </div>\n        </div>\n        <div class="form-group">\n            <label class="col-sm-2 control-label" data-i18n="mySettings.confirmPassword"></label>\n            <div class="col-sm-10">\n                <input class="form-control newPasswordSecond" type="password" name="plainPassword[second]">\n            </div>\n        </div>\n        <div class="form-group">\n            <div class="col-sm-offset-2 col-sm-10">\n                <button type="submit" class="btn-around-corner btn-red-grey-border changePasswordButton"><i class="glyphicon glyphicon-ok"></i> '+
 ( $.t('mySettings.submitChangePassword') )+
 '</button>\n            </div>\n        </div>\n    </fieldset>\n</form>\n\n<div class="mt3 text-center">\n    <button class="btn-around-corner btn-grey delete-account-button">'+
 ( $.t('mySettings.deleteAccount') )+
@@ -765,7 +799,15 @@ return __p;
 this["JST"]["app/templates/pagination/nextpage.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<div class="loading-gif-container fade-out">\n    <div class="loader rotate"></div>\n</div>';
+__p+='<div class="loading-gif-container fade-out">\n    <div class="loader rotate"></div>\n</div>\n';
+ if (showLoadMoreButton) { 
+;__p+='\n    <div class="text-center">\n        <button class="loadMore btn-around-corner btn-red-grey-border" data-loading-text="'+
+( $.t(model.get('loadingText')) )+
+'">'+
+( $.t(model.get('buttonText')) )+
+'</button>\n    </div>\n';
+ } 
+;__p+='';
 }
 return __p;
 };
@@ -773,13 +815,13 @@ return __p;
 this["JST"]["app/templates/photo/edit.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<div class="edit-photo-wrapper">\n    <div class="photo-container">\n        <div class="photo-overlay">\n            <div class="tags-container"></div>\n        </div>\n        <img src="'+
+__p+='<div class="edit-photo-wrapper">\n    <div class="photo-container text-center">\n        <div class="photo-overlay">\n            <div class="tags-container"></div>\n        </div>\n        <img src="'+
 ( model.get('large_url') )+
 '" alt="'+
 ( model.get('caption') )+
 '" class="photo-full" />\n    </div>\n</div>\n';
  if (model.isOwner()) { 
-;__p+='\n<div class="photo-details">\n    <form id="form-details">\n        <fieldset>\n            <div class="form-group">\n                <input class="form-control" data-i18n="[placeholder]myPhotos.labelCaption" type="text" id="photo-caption" value="'+
+;__p+='\n<div class="photo-details">\n    <div class="alert-photo-details"></div>\n\n    <form id="form-details">\n        <fieldset>\n            <div class="form-group">\n                <input class="form-control" data-i18n="[placeholder]myPhotos.labelCaption" type="text" id="photo-caption" value="'+
 ( model.get('caption') )+
 '">\n            </div>\n            <div class="form-group">\n                <div class="row">\n                    <div class="col-sm-6">\n                        ';
  if (categories && categories.length) { 
@@ -821,7 +863,7 @@ __p+='<div class="top-photo-buttons pull-right">\n    <div class="like-button pu
 ( $.t('tag.addNewTag') )+
 '</button>\n    </div>\n</div>\n<h1 class="lead">'+
 ( model.get("caption") )+
-'</h1>\n<div class="loading-gif-container">\n    <div class="loader rotate"></div>\n</div>\n<div class="full-photo text-center fade-out">\n    <div class="photo-container">\n        <div class="adentify-pastille-wrapper">\n            ';
+'</h1>\n<div class="clearfix"></div>\n<div class="loading-gif-container">\n    <div class="loader rotate"></div>\n</div>\n<div class="full-photo text-center fade-out">\n    <div class="photo-container">\n        <div class="adentify-pastille-wrapper">\n            ';
  if (model.get("tags_count") > 0) { 
 ;__p+='\n            <div class="adentify-pastille"></div>\n            ';
  } else { 
@@ -851,7 +893,11 @@ __p+='<div class="top-photo-buttons pull-right">\n    <div class="like-button pu
 ( model.get("source") )+
 '</span> <button class="btn btn-link report-button" data-toggle="tooltip" data-original-title="'+
 ( $.t('photo.report') )+
-'"><i class="glyphicon glyphicon-warning-sign"></i></button>\n    </div>\n    <div class="clearfix"></div>\n    <div class="categories-hashtags">\n        <div class="categories pull-left"></div>\n        <div class="hashtags pull-left"></div>\n        <div class="clearfix"></div>\n    </div>\n</div>\n\n<ul class="nav nav-tabs" id="photo-tabs">\n    <li class="active"><a href="#comments" data-bypass=""><i class="icon grey-comment-icon"></i> '+
+'"><i class="glyphicon glyphicon-warning-sign"></i></button>\n    </div>\n    <div class="clearfix"></div>\n    <div class="categories-hashtags">\n        <div class="categories pull-left"></div>\n        <div class="hashtags pull-left"></div>\n        <div class="pull-right alert-info">'+
+( $.t('photo.publishDate') )+
+' '+
+( publishDate )+
+'</div>\n        <div class="clearfix"></div>\n    </div>\n</div>\n\n<ul class="nav nav-tabs" id="photo-tabs">\n    <li class="active"><a href="#comments" data-bypass=""><i class="icon grey-comment-icon"></i> '+
 ( $.t('photo.comments') )+
 '</a></li>\n    <li><a href="#share" data-bypass=""><i class="icon grey-share-icon"></i> '+
 ( $.t('photo.share') )+
@@ -920,10 +966,14 @@ this["JST"]["app/templates/photo/report.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
 __p+='<div class="modal-body-wrapper">\n    <form class="form-horizontal mt2" role="form">\n        <fieldset>\n\n            ';
- if (model.isOwner() && model.get('tags_count') == 0) { 
+ if (model.isOwner() && (model.get('tags_count') === 0 || (model.has('tags') && model.get('tags').length === 0))) { 
 ;__p+='\n            <div class="form-group">\n                <div class="col-md-12 text-center">\n                    <button type="button" data-bypass="" class="btn-around-corner btn-red-grey-border deletePhotoButton">'+
 ( $.t('photo.deletePhoto') )+
 '</button>\n                </div>\n            </div>\n            ';
+ } else if (model.isOwner() && model.get('tags_count') > 0) { 
+;__p+='\n            <div class="form-group">\n                <div class="col-md-12 text-center">\n                    <p>'+
+( $.t('photo.deleteTagsBeforePhoto') )+
+'</p>\n                </div>\n            </div>\n            ';
  } 
 ;__p+='\n\n            <div class="form-group">\n                <div class="col-md-10 col-md-offset-2">\n                    <div class="radio">\n                        <label>\n                            <input type="radio" name="reportOptions" id="reportOptions1" value="photo.reportDontLike">\n                            '+
 ( $.t('photo.reportDontLike') )+
@@ -1165,11 +1215,93 @@ var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
 __p+='<div class="rewards-alert"></div>\n<div class="block-white-background">\n    <ul class="rewards list-unstyled striped"></ul>\n    ';
  if (showAllButton) { 
-;__p+='\n    <a data-bypass="" class="showAllRewards link-grey-whith-red-arrow">'+
+;__p+='\n    <a data-bypass="" class="viewMore link-grey-whith-red-arrow">'+
 ( $.t('brand.viewAllRewards') )+
 '</a>\n    ';
  } 
 ;__p+='\n</div>';
+}
+return __p;
+};
+
+this["JST"]["app/templates/reward/presentation.html"] = function(obj){
+var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
+with(obj||{}){
+__p+='<div class="rewards-presentation">\n    <h2 class="text-center">'+
+( $.t('reward.presentationTitle') )+
+'</h2>\n    <ul class="nav nav-tabs">\n        <li class="active"><a href="#presentation" data-bypass="" data-toggle="tab">'+
+( $.t('reward.presentationTab') )+
+'</a></li>\n        <li><a href="#points" data-bypass="" data-toggle="tab">'+
+( $.t('reward.pointsTab') )+
+'</a></li>\n        <li><a href="#badges" data-bypass="" data-toggle="tab">'+
+( $.t('reward.badgesTab') )+
+'</a></li>\n        <li><a href="#cash" data-bypass="" data-toggle="tab">'+
+( $.t('reward.cashTab') )+
+'</a></li>\n    </ul>\n\n    <!-- Tab panes -->\n    <div class="tab-content">\n        <div class="tab-pane fade in active" id="presentation">\n            '+
+( $.t('reward.presentationIntro') )+
+'\n        </div>\n        <div class="tab-pane fade" id="points">\n            <table class="table table-striped">\n                <thead>\n                    <tr>\n                        <th></th>\n                        <th>'+
+( $.t('reward.pointsTableYourPhoto') )+
+'</th>\n                        <th colspan="2">'+
+( $.t('reward.pointsTableAnotherUserPhoto') )+
+'</th>\n                    </tr>\n                    <tr>\n                        <th>'+
+( $.t('reward.pointsTableTypeOfTag') )+
+'</th>\n                        <th>'+
+( $.t('reward.pointsTableYouWin') )+
+'</th>\n                        <th>'+
+( $.t('reward.pointsTableYouWin') )+
+'</th>\n                        <th>'+
+( $.t('reward.pointsTablePhotoOwnerWins') )+
+'</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr>\n                        <td>'+
+( $.t('reward.pointsTableProduct') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable10Pts') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable5pts') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable5pts') )+
+'</td>\n                    </tr>\n                    <tr>\n                        <td>'+
+( $.t('reward.pointsTableProductWithDetails') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable15pts') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable10Pts') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable5pts') )+
+'</td>\n                    </tr>\n                    <tr>\n                        <td>'+
+( $.t('reward.pointsTablePlace') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable10Pts') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable5pts') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable5pts') )+
+'</td>\n                    </tr>\n                    <tr>\n                        <td>'+
+( $.t('reward.pointsTablePerson') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable10Pts') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable5pts') )+
+'</td>\n                        <td>'+
+( $.t('reward.pointsTable5pts') )+
+'</td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n        <div class="tab-pane fade" id="badges">\n            <table class="table table-striped">\n                <thead>\n                <tr>\n                    <th>'+
+( $.t('reward.badgesBadge') )+
+'</th>\n                    <th>'+
+( $.t('reward.badgesRanking') )+
+'</th>\n                </tr>\n                </thead>\n                <tbody>\n                    <tr>\n                        <td><i class="icon icon-middle reward-gold"></i> <span class="icon-middle">'+
+( $.t('brand.gold') )+
+'</span></td>\n                        <td>'+
+( $.t('reward.badgesTop10') )+
+'</td>\n                    </tr>\n                    <tr>\n                        <td><i class="icon icon-middle reward-silver"></i> <span class="icon-middle">'+
+( $.t('brand.silver') )+
+'</span></td>\n                        <td>'+
+( $.t('reward.badgesTop20') )+
+'</td>\n                    </tr>\n                    <tr>\n                        <td><i class="icon icon-middle reward-bronze"></i> <span class="icon-middle">'+
+( $.t('brand.bronze') )+
+'</span></td>\n                        <td>'+
+( $.t('reward.badgesTop30') )+
+'</td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n        <div class="tab-pane fade" id="cash">\n            <p>'+
+( $.t('reward.cashSoon') )+
+'</p>\n        </div>\n    </div>\n</div>';
 }
 return __p;
 };
@@ -1397,15 +1529,27 @@ var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
 __p+='<form class="add-tag-form">\n    <fieldset>\n        <legend class="pacifico-adentify"><i class="adentify-flat-pastille icon"></i> '+
 ( $.t('tag.legendAddTag') )+
-'</legend>\n        <div class="alert-container"></div>\n        <div class="tag-text text-center">\n            <p data-i18n="tag.textAddTagToPhoto"></p>\n        </div>\n        <div class="tag-tabs fade-out">\n            <ul class="nav nav-tabs">\n                <li class="active"><a href="#product" data-toggle="tab" data-bypass="" data-i18n="tag.product"></a></li>\n                <li><a href="#venue" data-toggle="tab" data-bypass="" data-i18n="tag.place"></a></li>\n                <li><a href="#person" data-toggle="tab" data-bypass="" data-i18n="tag.person"></a></li>\n            </ul>\n            <div class="tab-content">\n                <!-- Produit -->\n                <div class="tab-pane active" id="product">\n                    <div class="alert-product"></div>\n\n                    <div class="form-group">\n                        <label><span data-i18n="tag.labelBrandName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="loading-brand"></i></label>\n                        <input class="form-control" id="brand-name" name="brand-name" type="text" data-i18n="[placeholder]tag.placeholderBrandName">\n                    </div>\n                    <div id="brand-logo" class="text-center"></div>\n\n                    <div class="form-group">\n                        <label><span data-i18n="tag.labelProductName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="loading-product"></i></label>\n                        <input class="form-control" id="product-name" name="product-text" type="text" data-i18n="[placeholder]tag.placeholderProductName">\n                    </div>\n\n                    <p class="text-center">\n                        <label data-i18n="tag.tellUsMore"></label>\n                        <button class="btn-around-corner btn-dark-grey more-details-button" data-bypass="" data-toggle="collapse" data-target=".more-product-details"><i class="glyphicon glyphicon-plus-sign"></i> <span>'+
+'</legend>\n        <div class="alert-container"></div>\n        <div class="tag-text">\n            <ol class="add-tag-info">\n                <li><span>'+
+( $.t('tag.addTagInfoStep1') )+
+'</span></li>\n                <li><span>'+
+( $.t('tag.addTagInfoStep2') )+
+'</span></li>\n                <li><span>'+
+( $.t('tag.addTagInfoStep3') )+
+'</span></li>\n            </ol>\n        </div>\n        <div class="tag-tabs fade-out">\n            <ul class="nav nav-tabs">\n                <li class="active"><a href="#product" data-toggle="tab" data-bypass="" data-i18n="tag.product"></a></li>\n                <li><a href="#venue" data-toggle="tab" data-bypass="" data-i18n="tag.place"></a></li>\n                <li><a href="#person" data-toggle="tab" data-bypass="" data-i18n="tag.person"></a></li>\n                ';
+ if (showAdvertisingTag) { 
+;__p+='\n                <li><a href="#advertising" data-toggle="tab" data-bypass="" data-i18n="tag.advertising"></a></li>\n                ';
+ } 
+;__p+='\n            </ul>\n            <div class="tab-content">\n                <!-- Produit -->\n                <div class="tab-pane active" id="product">\n                    <div class="alert-product"></div>\n\n                    <div class="form-group">\n                        <label><span data-i18n="tag.labelBrandName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="loading-brand"></i></label>\n                        <input class="form-control" id="brand-name" name="brand-name" type="text" data-i18n="[placeholder]tag.placeholderBrandName">\n                    </div>\n                    <div id="brand-logo" class="text-center"></div>\n\n                    <div class="form-group">\n                        <label><span data-i18n="tag.labelProductName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="loading-product"></i></label>\n                        <input class="form-control" id="product-name" name="product-text" type="text" data-i18n="[placeholder]tag.placeholderProductName">\n                    </div>\n\n                    <p class="text-center">\n                        <label data-i18n="tag.tellUsMore"></label>\n                        <button class="btn-around-corner btn-dark-grey more-details-button" data-bypass="" data-toggle="collapse" data-target=".more-product-details"><i class="glyphicon glyphicon-plus-sign"></i> <span>'+
 ( $.t('tag.placeMoreDetails') )+
-'</span></button>\n                    </p>\n\n                    <div class="more-product-details collapse">\n                        <span class="btn btn-success fileinput-button">\n                            <i class="glyphicon glyphicon-plus"></i>\n                            <span data-i18n="tag.productImageUploadLabel"></span>\n                            <!-- The file input field used as target for the file upload widget -->\n                            <input id="fileupload" type="file" name="files[]">\n                        </span>\n                        <div id="product-image" class="text-center"></div>\n                        <div class="form-group">\n                            <label data-i18n="tag.labelProductPurchaseUrl"></label>\n                            <input class="form-control" id="product-purchase-url" name="product-purchase-url" type="text" data-i18n="[placeholder]tag.placeholderProductPurchaseUrl">\n                        </div>\n                        <div class="form-group">\n                            <label data-i18n="tag.labelProductDescription"></label>\n                            <textarea class="form-control" id="product-description" name="product-description" ></textarea>\n                        </div>\n                        <label data-i18n="tag.productBuyPlace"></label>\n                        <p class="support-geolocation">\n                            <span><small data-i18n="tag.textGeolocation"></small></span><br>\n                            <button class="btn-around-corner btn-dark-grey btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="glyphicon glyphicon-map-marker"></i> <span data-i18n="tag.useGeolocation"></span></button>\n                        </p>\n                        <p class="fade-out not-support-geolocation" data-i18n="tag.noSupportGeolocation"></p>\n                        <div class="form-group">\n                            <label><span data-i18n="tag.labelPlaceName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="product-loading-venue"></i></label>\n                            <input class="form-control" id="product-venue-name" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderProductPlaceName">\n                            <p class="help-block"><img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_16x16.png" /> '+
+'</span></button>\n                    </p>\n\n                    <div class="more-product-details collapse">\n                        <span class="btn btn-success fileinput-button">\n                            <i class="glyphicon glyphicon-plus"></i>\n                            <span data-i18n="tag.productImageUploadLabel"></span>\n                            <!-- The file input field used as target for the file upload widget -->\n                            <input id="fileupload" type="file" name="files[]" accept="image/jpg, image/gif, image/png">\n                        </span>\n                        <div id="product-image" class="text-center" style="display: inline"></div>\n                        <div class="form-group">\n                            <label data-i18n="tag.labelProductPurchaseUrl"></label>\n                            <input class="form-control" id="product-purchase-url" name="product-purchase-url" type="text" data-i18n="[placeholder]tag.placeholderProductPurchaseUrl">\n                        </div>\n                        <div class="form-group">\n                            <label data-i18n="tag.labelProductDescription"></label>\n                            <textarea class="form-control" id="product-description" name="product-description" ></textarea>\n                        </div>\n                        <label data-i18n="tag.productBuyPlace"></label>\n                        <p class="support-geolocation">\n                            <span><small data-i18n="tag.textGeolocation"></small></span><br>\n                            <button class="btn-around-corner btn-dark-grey btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="glyphicon glyphicon-map-marker"></i> <span data-i18n="tag.useGeolocation"></span></button>\n                        </p>\n                        <p class="fade-out not-support-geolocation" data-i18n="tag.noSupportGeolocation"></p>\n                        <div class="form-group">\n                            <label><span data-i18n="tag.labelPlaceName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="product-loading-venue"></i></label>\n                            <input class="form-control" id="product-venue-name" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderProductPlaceName">\n                            <p class="help-block"><img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_16x16.png" /> '+
 ( $.t('tag.poweredByFoursquare') )+
 '</p>\n                        </div>\n                        <div id="product-previsualisation-tag-map"></div>\n                        <div id="product-venue-informations"></div>\n                    </div>\n                    <p><button id="submit-product" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn-around-corner btn-red-grey-border submitTagButton"><i class="glyphicon glyphicon-ok"></i> <span data-i18n="tag.submitProduct"></span></button>\n                        <button class="btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button>\n                    </p>\n                </div>\n                <!-- Lieu -->\n                <div class="tab-pane" id="venue">\n                    <div class="alert-venue"></div>\n                    <div class="support-geolocation">\n                        <p><small data-i18n="tag.textGeolocation"></small></p>\n                        <p class="text-center">\n                            <button class="btn-around-corner btn-dark-grey btn-geolocation" data-i18n="[data-loading-text]tag.loadingGeolocalization"><i class="glyphicon glyphicon-map-marker"></i> '+
 ( $.t('tag.useGeolocation') )+
 '</button>\n                        </p>\n                    </div>\n                    <p class="fade-out not-support-geolocation" data-i18n="tag.noSupportGeolocation"></p>\n                    <div class="form-group">\n                        <label><span data-i18n="tag.labelPlaceName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="loading-venue"></i></label>\n                        <input class="form-control" id="venue-name" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPlaceName">\n                        <p class="help-block"><img src="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_16x16.png" /> '+
 ( $.t('tag.poweredByFoursquare') )+
-'</p>\n                    </div>\n                    <div id="previsualisation-tag-map"></div>\n                    <div id="venue-informations"></div>\n                    <div class="form-group">\n                        <label data-i18n="tag.labelPlaceDescription"></label>\n                        <textarea class="form-control" id="venue-description"></textarea>\n                    </div>\n                    <div class="form-group">\n                        <label data-i18n="tag.labelPlaceLink"></label>\n                        <input class="form-control" data-i18n="[placeholder]tag.placeLinkPlaceholder" id="venue-link" type="text">\n                    </div>\n                    <p><button id="submit-venue" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn-around-corner btn-red-grey-border submitTagButton"><i class="glyphicon glyphicon-ok"></i> <span data-i18n="tag.submitPlace"></span></button>\n                        <button class="btn btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button></p>\n                </div>\n                <!-- Personne -->\n                <div class="tab-pane" id="person">\n                    <div class="alert-person"></div>\n                    <div class="fb-loggedin">\n                        <div class="form-group">\n                            <label><span data-i18n="tag.labelPersonName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="loading-person"></i></label>\n                            <input class="form-control" id="person-text" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPersonName">\n                        </div>\n                        <p><button id="submit-person" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn-around-corner btn-red-grey-border submitTagButton"><i class="glyphicon glyphicon-ok"></i> <span data-i18n="tag.submitPerson"></span></button>\n                            <button class="btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button></p>\n                    </div>\n                    <div class="fb-loggedout alert alert-danger fade-out" data-i18n="[html]tag.textNoFacebookConnect"></div>\n                </div>\n            </div>\n        </div>\n\n    </fieldset>\n</form>';
+'</p>\n                    </div>\n                    <div id="previsualisation-tag-map"></div>\n                    <div id="venue-informations"></div>\n                    <div class="form-group">\n                        <label data-i18n="tag.labelPlaceDescription"></label>\n                        <textarea class="form-control" id="venue-description"></textarea>\n                    </div>\n                    <div class="form-group">\n                        <label data-i18n="tag.labelPlaceLink"></label>\n                        <input class="form-control" data-i18n="[placeholder]tag.placeLinkPlaceholder" id="venue-link" type="text">\n                    </div>\n                    <p><button id="submit-venue" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn-around-corner btn-red-grey-border submitTagButton"><i class="glyphicon glyphicon-ok"></i> <span data-i18n="tag.submitPlace"></span></button>\n                        <button class="btn btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button></p>\n                </div>\n                <!-- Personne -->\n                <div class="tab-pane" id="person">\n                    <div class="alert-person"></div>\n                    <div class="fb-loggedin">\n                        <div class="form-group">\n                            <label><span data-i18n="tag.labelPersonName"></span> <i class="glyphicon glyphicon-refresh fade-out rotate" id="loading-person"></i></label>\n                            <input class="form-control" id="person-text" autocomplete="off" data-provide="typeahead" type="text" data-i18n="[placeholder]tag.placeholderPersonName">\n                        </div>\n                        <div class="form-group">\n                            <label data-i18n="tag.labelPersonLink"></label>\n                            <input class="form-control" data-i18n="[placeholder]tag.personLinkPlaceholder" id="person-link" type="text">\n                        </div>\n                        <p><button id="submit-person" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn-around-corner btn-red-grey-border submitTagButton"><i class="glyphicon glyphicon-ok"></i> <span data-i18n="tag.submitPerson"></span></button>\n                            <button class="btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button></p>\n                    </div>\n                    <div class="fb-loggedout alert alert-danger fade-out" data-i18n="[html]tag.textNoFacebookConnect"></div>\n                </div>\n                <!-- Publicité -->\n                <div class="tab-pane" id="advertising">\n                    <div class="alert-advertising"></div>\n\n                    <div class="form-group">\n                        <label data-i18n="tag.labelAdvertisingFormats"></label>\n                        <select id="ad-formats" class="form-control">\n                            <option value="300-250">300x250</option>\n                            <option value="320-100">320x100</option>\n                            <option value="custom">'+
+( $.t('tag.advertisingCustomFormat') )+
+'</option>\n                        </select>\n                    </div>\n                    <div class="form-group">\n                        <div class="row">\n                            <div class="col-xs-6">\n                                <label data-i18n="tag.labelAdvertisingWidth"></label>\n                                <input class="form-control" type="text" id="ad-width" value="300">\n                            </div>\n                            <div class="col-xs-6">\n                                <label data-i18n="tag.labelAdvertisingHeight"></label>\n                                <input class="form-control" type="text" id="ad-height" value="250">\n                            </div>\n                        </div>\n                    </div>\n                    <div class="form-group">\n                        <label data-i18n="tag.labelAdvertisingCode"></label>\n                        <textarea class="form-control" id="ad-code"></textarea>\n                    </div>\n                    <p><button id="submit-advertising" data-i18n="[data-loading-text]tag.addingInProgress" type="submit" class="btn-around-corner btn-red-grey-border submitTagButton"><i class="glyphicon glyphicon-ok"></i> <span data-i18n="tag.submitAdvertising"></span></button>\n                        <button class="btn btn-link cancel-add-tag"><span data-i18n="common.cancel"></span></button></p>\n                </div>\n            </div>\n        </div>\n\n    </fieldset>\n</form>';
 }
 return __p;
 };
@@ -1452,6 +1596,48 @@ __p+='<div class="modal-body-wrapper">\n    <form class="form-horizontal mt2" ro
 return __p;
 };
 
+this["JST"]["app/templates/tag/types/advertising.html"] = function(obj){
+var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
+with(obj||{}){
+__p+='';
+ if (model) { 
+;__p+='\n<div class="tag advertising-tag-container '+
+( model.get("cssClass") )+
+'" style="'+
+( model.get('cssStyle') )+
+'">\n<div class="glyphicon glyphicon-euro tag-icon"></div>\n';
+ if (!popoverDesactivated) { 
+;__p+='\n<div class="popover">\n    <div class="tag-popover-arrow"></div>\n    <div class="popover-inner" style="'+
+( model.get('popoverInnerStyle') )+
+'">\n        '+
+( model.get('tag_info').info.code )+
+'\n    </div>\n    <div class="clearfix"></div>\n    <div class="tag-buttons">\n        ';
+ if (model.has('ownerModel')) { 
+;__p+='\n        <span class="tagged-by">'+
+( $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) )+
+'</span>\n        ';
+ } 
+;__p+='\n        <div class="btn-group">\n            ';
+ if (model.isWaitingValidation()) { 
+;__p+='\n            <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>\n            <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                <span class="caret"></span>\n                <span class="sr-only">Toggle Dropdown</span>\n            </button>\n            <ul class="dropdown-menu" role="menu">\n                <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>\n                <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n            </ul>\n            ';
+ } else { 
+;__p+='\n            <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                '+
+( $.t('tag.actions') )+
+' <span class="caret"></span>\n            </button>\n            <ul class="dropdown-menu" role="menu">\n                ';
+ if (model.isOwner()) { 
+;__p+='\n                <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>\n                ';
+ } 
+;__p+='\n                <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n            </ul>\n            ';
+ } 
+;__p+='\n        </div>\n    </div>\n</div>\n';
+ } 
+;__p+='\n</div>\n';
+ } 
+;__p+='';
+}
+return __p;
+};
+
 this["JST"]["app/templates/tag/types/item.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
@@ -1459,11 +1645,9 @@ __p+='';
  if (model) { 
 ;__p+='\n<div class="tag '+
 ( model.get("cssClass") )+
-'" style="left: '+
-( model.get("x_position") * 100 )+
-'%; top: '+
-( model.get("y_position") * 100 )+
-'%">\n    <div class="tag-text-icon tag-icon"></div>\n    <div class="popover">\n        <div class="tag-popover-arrow"></div>\n        <div class="tag-buttons">\n            ';
+'" style="'+
+( model.get('cssStyle') )+
+'">\n    <div class="tag-text-icon tag-icon"></div>\n    <div class="popover">\n        <div class="tag-popover-arrow"></div>\n        <div class="tag-buttons">\n            ';
  if (model.isOwner()) { 
 ;__p+='\n            <i class="glyphicon glyphicon-remove deleteTagButton"></i>\n            ';
  } 
@@ -1477,13 +1661,25 @@ __p+='';
 ( model.get("description") )+
 '</p>\n        ';
  } 
-;__p+='\n        ';
- if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isOwner()) { 
-;__p+='\n        <div class="tag-validation">\n            <span class="tagged-by">'+
-( $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) )+
-'</span>\n            <div class="btn-group">\n                <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>\n                <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                    <span class="caret"></span>\n                    <span class="sr-only">Toggle Dropdown</span>\n                </button>\n                <ul class="dropdown-menu" role="menu">\n                    <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>\n                    <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                </ul>\n            </div>\n        </div>\n        ';
+;__p+='\n        <div class="tag-buttons">\n            ';
+ if (model.has('ownerModel')) { 
+;__p+='\n            <span class="tagged-by">'+
+( $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) )+
+'</span>\n            ';
  } 
-;__p+='\n    </div>\n</div>\n';
+;__p+='\n            <div class="btn-group">\n                ';
+ if (model.isWaitingValidation()) { 
+;__p+='\n                <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>\n                <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                    <span class="caret"></span>\n                    <span class="sr-only">Toggle Dropdown</span>\n                </button>\n                <ul class="dropdown-menu" role="menu">\n                    <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>\n                    <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                </ul>\n                ';
+ } else { 
+;__p+='\n                <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                    '+
+( $.t('tag.actions') )+
+' <span class="caret"></span>\n                </button>\n                <ul class="dropdown-menu" role="menu">\n                    ';
+ if (model.isOwner()) { 
+;__p+='\n                    <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>\n                    ';
+ } 
+;__p+='\n                    <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                </ul>\n                ';
+ } 
+;__p+='\n            </div>\n        </div>\n    </div>\n</div>\n';
  } 
 ;__p+='';
 }
@@ -1495,11 +1691,9 @@ var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
 __p+='<div class="tag '+
 ( model.get("cssClass") )+
-'" style="left: '+
-( model.get("x_position") * 100 )+
-'%; top: '+
-( model.get("y_position") * 100 )+
-'%">\n<div class="'+
+'" style="'+
+( model.get('cssStyle') )+
+'">\n<div class="'+
 ( model.get('tagIcon') )+
 ' tag-icon"></div>\n</div>';
 }
@@ -1513,37 +1707,45 @@ __p+='';
  if (model) { 
 ;__p+='\n<div class="tag person-tag-container '+
 ( model.get("cssClass") )+
-'" style="left: '+
-( model.get("x_position") * 100 )+
-'%; top: '+
-( model.get("y_position") * 100 )+
-'%">\n    <div class="tag-user-icon tag-icon"></div>\n    ';
+'" style="'+
+( model.get('cssStyle') )+
+'">\n    <div class="tag-user-icon tag-icon"></div>\n    ';
  if (!popoverDesactivated) { 
-;__p+='\n        <div class="popover">\n            <div class="tag-popover-arrow"></div>\n            <div class="tag-top-buttons">\n                ';
- if (model.isOwner()) { 
-;__p+='\n                <i class="glyphicon glyphicon-remove deleteTagButton" data-toggle="tooltip" title data-original-title="'+
-( $.t('tag.deleteTooltip') )+
-'"></i>\n                ';
- } 
-;__p+='\n            </div>\n            <div class="popover-inner">\n                <a class="person-picture" href="'+
-( (model.has('person') && typeof model.get('person').user !== 'undefined') ? rootUrl + $.t('routing.profile/id/', { id: model.get('person').user.id }) : model.get("link") )+
+;__p+='\n        <div class="popover">\n            <div class="tag-popover-arrow"></div>\n            <div class="popover-inner">\n                ';
+ if (model.has('link') || model.get('person').has('link')) { 
+;__p+='\n                <a class="person-picture" href="'+
+( model.has('link') ? model.get("link") : model.get('person').get('link') )+
 '" target="_blank"><img src="'+
 ( model.get('personModel').get('largeProfilePicture') )+
 '" /></a>\n                <span class="title"><a href="'+
-( (model.has('person') && typeof model.get('person').user !== 'undefined') ? rootUrl + $.t('routing.profile/id/', { id: model.get('person').user.id }) : model.get("link") )+
+( model.has('link') ? model.get("link") : model.get('person').get('link') )+
 '" target="_blank">'+
 ( model.get("title") )+
-'</a></span>\n                <div class="clearfix"></div>\n            </div>\n            <div class="tag-buttons">\n                ';
+'</a></span>\n                ';
+ } else { 
+;__p+='\n                <div class="person-picture"><img src="'+
+( model.get('personModel').get('largeProfilePicture') )+
+'" /></div>\n                <span class="title">'+
+( model.get("title") )+
+'</span>\n                ';
+ } 
+;__p+='\n                <div class="clearfix"></div>\n            </div>\n            <div class="tag-buttons">\n                ';
  if (model.has('ownerModel')) { 
 ;__p+='\n                <span class="tagged-by">'+
 ( $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) )+
 '</span>\n                ';
  } 
 ;__p+='\n                <div class="btn-group">\n                    ';
- if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { 
+ if (model.isWaitingValidation()) { 
 ;__p+='\n                    <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>\n                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                        <span class="caret"></span>\n                        <span class="sr-only">Toggle Dropdown</span>\n                    </button>\n                    <ul class="dropdown-menu" role="menu">\n                        <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>\n                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                    </ul>\n                    ';
  } else { 
-;__p+='\n                        <button class="btn btn-black btn-sm reportTagButton"><i class="glyphicon glyphicon-warning-sign"></i></button>\n                    ';
+;__p+='\n                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                        '+
+( $.t('tag.actions') )+
+' <span class="caret"></span>\n                    </button>\n                    <ul class="dropdown-menu" role="menu">\n                        ';
+ if (model.isOwner()) { 
+;__p+='\n                        <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>\n                        ';
+ } 
+;__p+='\n                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                    </ul>\n                    ';
  } 
 ;__p+='\n                </div>\n            </div>\n        </div>\n    ';
  } 
@@ -1561,71 +1763,93 @@ __p+='';
  if (model) { 
 ;__p+='\n<div class="tag product-tag-container '+
 ( model.get("cssClass") )+
-'" style="left: '+
-( model.get("x_position") * 100 )+
-'%; top: '+
-( model.get("y_position") * 100 )+
-'%">\n    <div class="glyphicon glyphicon-tag tag-icon"></div>\n    ';
+'" style="'+
+( model.get('cssStyle') )+
+'">\n    <div class="glyphicon glyphicon-tag tag-icon"></div>\n    ';
  if (!popoverDesactivated) { 
-;__p+='\n        <div class="popover">\n            <div class="tag-popover-arrow"></div>\n            <div class="tag-top-buttons">\n                ';
- if (model.isOwner()) { 
-;__p+='\n                <i class="glyphicon glyphicon-remove deleteTagButton" data-toggle="tooltip" title data-original-title="'+
-( $.t('tag.deleteTooltip') )+
-'"></i>\n                ';
- } 
-;__p+='\n            </div>\n            <div class="popover-inner">\n                <span class="title"><a href="'+
+;__p+='\n        <div class="popover">\n            <div class="tag-popover-arrow"></div>\n            <div class="popover-inner">\n\n                ';
+ if (model.get('link')) { 
+;__p+='\n                <span class="title"><a href="'+
 ( model.get("link") )+
 '" target="_blank">'+
 ( model.get("title") )+
-'';
- if (model.has('product') && model.get("product").get("brand")) { 
-;__p+=' - '+
-( model.get("product").get("brand")["name"] )+
-'';
+'</a></span>\n                ';
+ } else { 
+;__p+='\n                <span class="title">'+
+( model.get("title") )+
+'</span>\n                ';
  } 
-;__p+='</a></span>\n                ';
+;__p+='\n\n                ';
  if (model.has("product") && model.get("product").get("small_url")) { 
-;__p+='\n                <div class="pull-left">\n                    <img src="'+
-( model.get("product").get("small_url") )+
-'" class="product-photo" />\n                </div>\n                ';
+;__p+='\n                <div class="pull-left">\n                    ';
+ if (model.get('link')) { 
+;__p+='<a href="'+
+( model.get("link") )+
+'" target="_blank">';
  } 
-;__p+='\n                ';
+;__p+='\n                    <img src="'+
+( model.get("product").get("small_url") )+
+'" class="product-photo" />\n                    ';
+ if (model.get('link')) { 
+;__p+='</a>';
+ } 
+;__p+='\n                </div>\n                ';
+ } 
+;__p+='\n\n                ';
  if (model.has('description') && model.get("description")) { 
-;__p+='\n                <p>'+
+;__p+='\n                <p class="tag-description">'+
 ( model.get("description") )+
 '</p>\n                ';
+ } else if (model.has('product') && model.get('product').has('description') && model.get('product').get('description')) { 
+;__p+='\n                <p class="tag-description">'+
+( model.get('product').get('description') )+
+'</p>\n                ';
  } 
-;__p+='\n                ';
- if (model.has("brandModel") && model.get('brandModel').has('small_logo_url')) { 
-;__p+='\n                <div class="brand pull-right">\n                    <a href="'+
+;__p+='\n\n                ';
+ if (model.has("brandModel") && model.get('brandModel')) { 
+;__p+='\n                <div class="brand">\n                    <a href="'+
 ( model.get('brandModel').get('link') )+
-'"><img src="'+
+'">\n                        ';
+ if (!model.get('brandModel').has('small_logo_url')) { 
+;__p+='\n                        '+
+( model.get("brandModel").get('name') )+
+'\n                        ';
+ } else { 
+;__p+='\n                        <img src="'+
 ( model.get("brandModel").get('small_logo_url') )+
 '" alt="'+
-( model.get("brand")["name"] )+
-'" class="brand-logo" /></a>\n                </div>\n                ';
+( model.get("brandModel").get('name') )+
+'" class="brand-logo" />\n                        ';
  } 
-;__p+='\n            </div>\n            <div class="clearfix"></div>\n            ';
- if (model.has("product")) { 
+;__p+='\n                    </a>\n                </div>\n                ';
+ } 
+;__p+='\n\n            </div>\n            <div class="clearfix"></div>\n            ';
+ if ((model.has('product') && model.get('product').get('purchase_url'))
+                    || (model.has('product') && model.get('product').get('legal_notice'))
+                    || (model.has("brandModel") && model.get("brandModel").get('legal_notice'))) { 
 ;__p+='\n            <div class="popover-details">\n                ';
- if (model.get('product').get('purchase_url')) { 
-;__p+='\n                <a href="'+
-( model.get("product").get("purchase_url") )+
-'" class="buy-link"><i class="icon-shopping-cart icon-white"></i> '+
-( $.t('tag.buy') )+
-'</a>\n                ';
+ if (model.has('product') && model.get('product').get('purchase_url')) { 
+;__p+='\n                <p>\n                    <a href="'+
+( model.get('link') )+
+'" target="_blank" class="more-info"><i class="icon-shopping-cart icon-white"></i> '+
+( $.t('tag.moreInfo') )+
+'</a>\n                </p>\n                <div class="row">\n                    <div class="col-xs-6 more-info-url-wrapper">\n                        <a href="'+
+( model.get('link') )+
+'" target="_blank" class="more-info-url"><i class="glyphicon glyphicon-globe icon"></i> '+
+( model.get('link') )+
+'</a>\n                    </div>\n                    <div class="col-xs-6">\n                        <div class="venue-adress-wrapper"></div>\n                    </div>\n                </div>\n                ';
  } 
 ;__p+='\n                ';
- if (model.get('product').get('legal_notice')) { 
-;__p+='\n                <br><small><em>'+
+ if (model.has('product') && model.get('product').get('legal_notice')) { 
+;__p+='\n                <div class="legal-notice"><small><em>'+
 ( $.t('legalNotice.' + model.get('product').get('legal_notice')) )+
-'</em></small>\n                ';
+'</em></small></div>\n                ';
  } 
 ;__p+='\n                ';
  if (model.has("brandModel") && model.get("brandModel").get('legal_notice')) { 
-;__p+='\n                <br><small><em>'+
+;__p+='\n                <div class="legal-notice"><small><em>'+
 ( $.t('legalNotice.' + model.get("brandModel").get('legal_notice')) )+
-'</em></small>\n                ';
+'</em></small></div>\n                ';
  } 
 ;__p+='\n            </div>\n            ';
  } 
@@ -1636,10 +1860,16 @@ __p+='';
 '</span>\n                ';
  } 
 ;__p+='\n                <div class="btn-group">\n                    ';
- if (model.get("validation_status") == "waiting" && model.get("waiting_validation") && model.isPhotoOwner()) { 
+ if (model.isWaitingValidation()) { 
 ;__p+='\n                    <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>\n                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                        <span class="caret"></span>\n                        <span class="sr-only">Toggle Dropdown</span>\n                    </button>\n                    <ul class="dropdown-menu" role="menu">\n                        <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>\n                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                    </ul>\n                    ';
  } else { 
-;__p+='\n                    <button class="btn btn-black btn-sm reportTagButton"><i class="glyphicon glyphicon-warning-sign"></i></button>\n                    ';
+;__p+='\n                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                        '+
+( $.t('tag.actions') )+
+' <span class="caret"></span>\n                    </button>\n                    <ul class="dropdown-menu" role="menu">\n                        ';
+ if (model.isOwner()) { 
+;__p+='\n                        <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>\n                        ';
+ } 
+;__p+='\n                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                    </ul>\n                    ';
  } 
 ;__p+='\n                </div>\n            </div>\n        </div>\n    ';
  } 
@@ -1657,19 +1887,11 @@ __p+='';
  if (model) { 
 ;__p+='\n<div class="tag venue-tag-container '+
 ( model.get("cssClass") )+
-'" style="left: '+
-( model.get("x_position") * 100 )+
-'%; top: '+
-( model.get("y_position") * 100 )+
-'%">\n    <div class="tag-place-icon tag-icon"></div>\n    ';
+'" style="'+
+( model.get('cssStyle') )+
+'">\n    <div class="tag-place-icon tag-icon"></div>\n    ';
  if (!popoverDesactivated) { 
-;__p+='\n        <div class="popover">\n            <div class="tag-popover-arrow"></div>\n            <div class="tag-top-buttons">\n                ';
- if (model.isOwner()) { 
-;__p+='\n                <i class="glyphicon glyphicon-remove deleteTagButton" data-toggle="tooltip" title data-original-title="'+
-( $.t('tag.deleteTooltip') )+
-'"></i>\n                ';
- } 
-;__p+='\n            </div>\n            <div class="popover-inner">\n                <span class="title">';
+;__p+='\n        <div class="popover">\n            <div class="tag-popover-arrow"></div>\n            <div class="popover-inner">\n                <span class="title">';
  if (model.get("link")) { 
 ;__p+='<a href="'+
 ( model.get("link") )+
@@ -1689,43 +1911,23 @@ __p+='';
  } 
 ;__p+='\n            </div>\n            <div id="map'+
 ( model.get("id") )+
-'" class="map"></div>\n            <div class="popover-details">\n                <address>\n                    <strong>'+
-( model.get('title') )+
-'</strong><br>\n                    ';
- if (model.get('venue').address) { 
-;__p+=''+
-( model.get('venue').address )+
-'<br>';
- } 
-;__p+='\n                    ';
- if (model.get('venue').postalCode) { 
-;__p+=''+
-( model.get('venue').postalCode )+
-'';
- } 
-;__p+=' ';
- if (model.get('venue').city) { 
-;__p+=''+
-( model.get('venue').city )+
-'';
- } 
-;__p+=' ';
- if (model.get('venue').country) { 
-;__p+=''+
-( model.get('venue').country )+
-'';
- } 
-;__p+='\n                </address>\n            </div>\n            <div class="tag-buttons">\n                ';
+'"></div>\n            <div class="popover-details"></div>\n            <div class="tag-buttons">\n                ';
  if (model.has('ownerModel')) { 
 ;__p+='\n                <span class="tagged-by">'+
 ( $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) )+
 '</span>\n                ';
  } 
 ;__p+='\n                <div class="btn-group">\n                    ';
- if (model.get('validation_status') == 'waiting' && model.get('waiting_validation') && model.isPhotoOwner()) { 
+ if (model.isWaitingValidation()) { 
 ;__p+='\n                    <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>\n                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                        <span class="caret"></span>\n                        <span class="sr-only">Toggle Dropdown</span>\n                    </button>\n                    <ul class="dropdown-menu" role="menu">\n                        <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>\n                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                    </ul>\n                    ';
  } else { 
-;__p+='\n                    <button class="btn btn-black btn-sm reportTagButton"><i class="glyphicon glyphicon-warning-sign"></i></button>\n                    ';
+;__p+='\n                    <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">\n                        '+
+( $.t('tag.actions') )+
+' <span class="caret"></span>\n                    </button>\n                    <ul class="dropdown-menu" role="menu">\n                        ';
+ if (model.isOwner()) { 
+;__p+='\n                        <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>\n                        ';
+ } 
+;__p+='\n                        <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>\n                    </ul>\n                    ';
  } 
 ;__p+='\n                </div>\n            </div>\n        </div>\n    ';
  } 
@@ -1747,7 +1949,7 @@ return __p;
 this["JST"]["app/templates/upload/localUpload.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<div class="top-grey-title-container">\n    <h1 data-i18n="upload.sendPhotosFromLocal"></h1>\n</div>\n<div class="text-center mt3">\n    <span class="btn-around-corner btn-red-grey-border btn-large fileinput-button">\n        <i class="icon-plus icon-white"></i>\n        <span data-i18n="upload.browseLocalPhotos"></span>\n        <input id="fileupload" type="file" name="files[]" multiple="multiple" accept="image/*">\n    </span>\n</div>\n<div class="upload-photos-container mt3"></div>';
+__p+='<div class="top-grey-title-container">\n    <h1 data-i18n="upload.sendPhotosFromLocal"></h1>\n</div>\n<div class="text-center mt3">\n    <span class="btn-around-corner btn-red-grey-border btn-large fileinput-button">\n        <i class="icon-plus icon-white"></i>\n        <span data-i18n="upload.browseLocalPhotos"></span>\n        <input id="fileupload" type="file" name="files[]" multiple="multiple" accept="image/*">\n    </span>\n</div>\n<div class="alert-upload"></div>\n<div class="upload-photos-container mt3"></div>';
 }
 return __p;
 };
@@ -1773,13 +1975,7 @@ return __p;
 this["JST"]["app/templates/upload/serviceButtons.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<ul class="services list-unstyled">\n    <li><a href="'+
-( rootUrl )+
-''+
-( $.t('routing.upload/local/') )+
-'" class="service-button local-service-button active"><i class="local-circle-white-icon icon"></i> '+
-( $.t('upload.myComputer') )+
-'</a></li>\n</ul>';
+__p+='<ul class="services list-unstyled">\n\n</ul>';
 }
 return __p;
 };
@@ -1933,9 +2129,9 @@ __p+='<div class="top-grey-title-container">\n    <h1>'+
 ( $.t('user.period') )+
 '</span> <input type="text" class="form-control" name="daterange">\n        </div>\n    </div>\n\n    <hr>\n\n    <div class="row">\n        <div class="col-md-7">\n            <h2>'+
 ( $.t('user.credits') )+
-' <i class="icon curve-arrow-left"></i> <span class="user-points-red"></span></h2>\n            <div class="user-credits-table"></div>\n        </div>\n        <div class="col-md-5">\n            <h2>'+
+' <i class="icon curve-arrow-left"></i> <span class="user-points-red"></span> <i class="glyphicon glyphicon-question-sign pointer rewards-hiw-link"></i></h2>\n            <div class="user-credits-table"></div>\n        </div>\n        <div class="col-md-5">\n            <h2>'+
 ( $.t('user.photos') )+
-'</h2>\n            <canvas class="userPhotosChart" style="width: 300px;"></canvas>\n            ';
+'</h2>\n            <canvas class="userPhotosChart" width="300" height="150"></canvas>\n            ';
  if (rawData) { 
 ;__p+='\n            <div class="chart-legend">\n                <div class="legend-columns">\n                    <div class="legend-column">\n                        <span class="puce legend-grey">•</span> <label>'+
 ( $.t('user.labelUnTaggedPhotos', { 'count': parseInt(rawData.untaggedPhotos) }) )+
@@ -1969,13 +2165,13 @@ var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
 __p+='<a href="'+
 ( model.get('link') )+
-'">\n<div class="pull-left">\n    <img src="'+
+'">\n    <div class="pull-left">\n        <img src="'+
 ( model.get('profilePicture') )+
 '" alt="'+
 ( model.get('fullname') )+
-'" class="profile-picture" />\n    <span>'+
+'" class="profile-picture" /> <div class="user-item-name"><span>'+
 ( model.get('fullname') )+
-'</span>\n</div>\n<div class="pull-right more-profile"></div>\n<div class="clearfix"></div>\n</a>\n<div class="clearfix"></div>';
+'</span></div>\n    </div>\n    <div class="pull-right more-profile"></div>\n    <div class="clearfix"></div>\n</a>\n<div class="clearfix"></div>';
 }
 return __p;
 };
@@ -1983,9 +2179,13 @@ return __p;
 this["JST"]["app/templates/user/list.html"] = function(obj){
 var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
 with(obj||{}){
-__p+='<div class="users-alert"></div>\n<div class="block-white-background">\n    <ul class="users list-unstyled striped"></ul>\n    <!--<a href="#" class="link-grey-whith-red-arrow">'+
-( $.t('profile.moreFollowings') )+
-'</a>-->\n</div>';
+__p+='<div class="users-alert"></div>\n<div class="block-white-background">\n    <ul class="users list-unstyled striped"></ul>\n    ';
+ if (showAllButton) { 
+;__p+='\n    <a data-bypass="" class="viewMore link-grey-whith-red-arrow">'+
+( moreMessage )+
+'</a>\n    ';
+ } 
+;__p+='\n</div>';
 }
 return __p;
 };
@@ -1999,13 +2199,13 @@ __p+='<div class="loading-gif-container">\n    <div class="loader rotate"></div>
 ( lastPhoto.get('medium_url') )+
 '\');"></div>\n            <div class="last-photo-spacer"></div>\n            ';
  } 
-;__p+='\n\n            <div class="profile-picture-wrapper">\n                <a href="'+
+;__p+='\n\n            <div class="profile-picture-wrapper">\n                <div class="table-center">\n                    <div class="table-center-cell">\n                        <a href="'+
 ( model.get('link') )+
 '"><img src="'+
 ( model.get('largeProfilePicture') )+
 '" alt="'+
 ( model.get('fullname') )+
-'" class="profile-picture" /></a>\n            </div>\n            <h1>'+
+'" class="profile-picture" /></a>\n                    </div>\n                </div>\n            </div>\n            <h1>'+
 ( model.get('fullname') )+
 '</h1>\n            ';
  if (showFollowButton) { 
@@ -2023,11 +2223,15 @@ __p+='<div class="loading-gif-container">\n    <div class="loader rotate"></div>
  } 
 ;__p+='\n            ';
  } 
-;__p+='\n\n            <div class="indicators-container text-center">\n                <a href="'+
+;__p+='\n\n            <div class="indicators-container text-center">\n                ';
+ if (currentUserId === model.get('id')) { 
+;__p+='\n                <a href="'+
 ( rootUrl )+
 ''+
 ( $.t('routing.my/photos/') )+
-'">\n                <div class="row">\n                    <div class="col-xs-6">\n                        <div class="separator-sm-vertical"></div>\n                        <div class="indicator-value">'+
+'">\n                ';
+ } 
+;__p+='\n                <div class="row">\n                    <div class="col-xs-6">\n                        <div class="separator-sm-vertical"></div>\n                        <div class="indicator-value">'+
 ( model.get("photos_count") )+
 '</div>\n                        <div class="indicator-label">'+
 ( $.t('profile.photosIndicator') )+
@@ -2035,7 +2239,11 @@ __p+='<div class="loading-gif-container">\n    <div class="loader rotate"></div>
 ( model.get("tags_count") )+
 '</div>\n                        <div class="indicator-label">'+
 ( $.t('profile.tagsIndicator') )+
-'</div>\n                    </div>\n                </div>\n                </a>\n                <div class="row">\n                    <div class="col-xs-6 followings-link">\n                        <div class="separator-sm-horizontal"></div>\n                        <div class="separator-sm-vertical"></div>\n                        <div class="indicator-value">'+
+'</div>\n                    </div>\n                </div>\n                ';
+ if (currentUserId === model.get('id')) { 
+;__p+='\n                </a>\n                ';
+ } 
+;__p+='\n                <div class="row">\n                    <div class="col-xs-6 followings-link">\n                        <div class="separator-sm-horizontal"></div>\n                        <div class="separator-sm-vertical"></div>\n                        <div class="indicator-value">'+
 ( model.get("followings_count") )+
 '</div>\n                        <div class="indicator-label">'+
 ( $.t('profile.followingIndicator') )+
@@ -2047,7 +2255,7 @@ __p+='<div class="loading-gif-container">\n    <div class="loader rotate"></div>
  if (showRewards) { 
 ;__p+='\n    <h2>'+
 ( $.t('profile.rewards') )+
-'</h2>\n    <div class="rewards"></div>\n    <hr class="menu-left-hr">\n    ';
+' <i class="glyphicon glyphicon-question-sign pointer rewards-hiw-link"></i></h2>\n    <div class="rewards"></div>\n    <hr class="menu-left-hr">\n    ';
  } 
 ;__p+='\n\n    ';
  if (showHashtags) { 
@@ -2071,7 +2279,7 @@ __p+='<div class="loading-gif-container">\n    <div class="loader rotate"></div>
  if (showBrands) { 
 ;__p+='\n    <h2>'+
 ( $.t(currentUserId != model.get('id') ? 'profile.brandsTitle' : 'profile.myBrandsTitle') )+
-'</h2>\n    <div class="brands"></div>\n    <hr class="menu-left-hr">\n    ';
+'</h2>\n    <div class="brands"></div>\n    ';
  } 
 ;__p+='\n\n    ';
  if (showServices) { 
@@ -2079,7 +2287,7 @@ __p+='<div class="loading-gif-container">\n    <div class="loader rotate"></div>
 ( $.t('profile.myLinkedServices') )+
 '</h2>\n    <div class="block-white-background">\n        <div class="services"></div>\n    </div>\n    ';
  } 
-;__p+='\n\n   <!-- <hr class="user-hr">\n\n    <h2>Ses marques</h2>\n    <div class="block-white-background">\n\n        <a href="#" class="link-grey-whith-red-arrow">Voir toutes ses marques</a>\n    </div>-->\n</aside>';
+;__p+='\n</aside>';
 }
 return __p;
 };
@@ -2096,6 +2304,48 @@ __p+='';
 ;__p+='><span class="user-points-value">'+
 ( points )+
 '</span> <sup>Points</sup></div>';
+ } 
+;__p+='';
+}
+return __p;
+};
+
+this["JST"]["app/templates/venue/address.html"] = function(obj){
+var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};
+with(obj||{}){
+__p+='';
+ if (model && typeof model.attributes !== 'undefined') { 
+;__p+='\n<address>\n    <i class="glyphicon glyphicon-home"></i>\n    <strong>'+
+( model.get('name') )+
+'</strong><br>\n    ';
+ if (model.has('address')) { 
+;__p+=''+
+( model.get('address') )+
+'<br>';
+ } 
+;__p+='\n    ';
+ if (model.has('postal_code')) { 
+;__p+=''+
+( model.get('postal_code') )+
+'';
+ } 
+;__p+=' ';
+ if (model.has('city')) { 
+;__p+=''+
+( model.get('city') )+
+'';
+ } 
+;__p+=' ';
+ if (model.get('country')) { 
+;__p+=''+
+( model.get('country') )+
+'';
+ } 
+;__p+='<br>\n    <a href="http://maps.google.com/maps'+
+( model.googleMapsQueryString() )+
+'" target="_blank" class="link-google-maps"><i class="glyphicon glyphicon-map-marker"></i> '+
+( $.t('tag.viewMap') )+
+'</a>\n</address>\n';
  } 
 ;__p+='';
 }

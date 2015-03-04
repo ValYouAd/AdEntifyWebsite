@@ -9,11 +9,11 @@ module.exports = function(grunt) {
     // JavaScript through JSHint and report any errors.  You can change the
     // options for this task, by reading this:
     // https://github.com/cowboy/grunt/blob/master/docs/task_lint.md
-    lint: {
-      files: [
-        "build/config.js", "app/**/*.js"
-      ]
-    },
+    //lint: {
+    //  files: [
+    //    "build/config.js", "app/**/*.js"
+    //  ]
+    //},
 
     // The jshint option for scripturl is set to lax, because the anchor
     // override inside main.js needs to test for them so as to not accidentally
@@ -41,23 +41,23 @@ module.exports = function(grunt) {
     // projects.  Instead of manually specifying your stylesheets inside the
     // configuration, you can use `@imports` and this task will concatenate
     // only those paths.
-    styles: {
-      // Out the concatenated contents of the following styles into the below
-      // development file path.
-      "dist/debug/index.css": {
-        // Point this to where your `index.css` file is location.
-        src: "app/styles/index.css",
-
-        // The relative path to use for the @imports.
-        paths: ["app/styles"],
-
-        // Point to where styles live.
-        prefix: "app/styles/",
-
-        // Additional production-only stylesheets here.
-        additional: []
-      }
-    },
+    //styles: {
+    //  // Out the concatenated contents of the following styles into the below
+    //  // development file path.
+    //  "dist/debug/index.css": {
+    //    // Point this to where your `index.css` file is location.
+    //    src: "app/styles/index.css",
+//
+    //    // The relative path to use for the @imports.
+    //    paths: ["app/styles"],
+//
+    //    // Point to where styles live.
+    //    prefix: "app/styles/",
+//
+    //    // Additional production-only stylesheets here.
+    //    additional: []
+    //  }
+    //},
 
     // This task uses James Burke's excellent r.js AMD build tool.  In the
     // future other builders may be contributed as drop-in alternatives.
@@ -75,7 +75,9 @@ module.exports = function(grunt) {
       name: "config",
 
       // Do not wrap everything in an IIFE.
-      wrap: false
+      wrap: false,
+
+       findNestedDependencies: true
     },
 
     // The concatenate task is used here to merge the almond require/define
@@ -100,11 +102,11 @@ module.exports = function(grunt) {
     // order and concatenate them into a single CSS file named index.css.  It
     // also minifies all the CSS as well.  This is named index.css, because we
     // only want to load one stylesheet in index.html.
-    mincss: {
-      "dist/release/index.css": [
-        "dist/debug/index.css"
-      ]
-    },
+    //mincss: {
+    //  "dist/release/index.css": [
+    //    "dist/debug/index.css"
+    //  ]
+    //},
 
     // Takes the built require.js file and minifies it for filesize benefits.
     min: {

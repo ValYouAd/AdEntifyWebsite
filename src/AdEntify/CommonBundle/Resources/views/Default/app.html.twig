@@ -293,6 +293,7 @@
         var currentUserBirthday = '{{ app.user and app.user.birthday ? app.user.birthday|date('m/d/Y') : '' }}';
         var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
         var appVersion = '{{ app_version }}';
+        var subdomain = '{{ app.environment == 'dev' ? 'local.' : '' }}';
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe0qbULIaxm2zV74LqAatdq1-uIW_iFLU&v=3&sensor=false"></script>
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
@@ -300,5 +301,9 @@
     </script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script data-main="{{ asset('bundles/adentifycommon/app/config.' ~ app_version) }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
+    {% if app.environment == 'prod' %}
+        <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/dist/release/require.js') }}"></script>
+    {% else %}
+        <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
+    {% endif %}
 {% endblock %}
