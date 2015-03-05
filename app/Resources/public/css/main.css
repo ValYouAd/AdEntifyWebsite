@@ -1407,6 +1407,11 @@ html,body,.body-grey-background {
 .advertising-tag-container .tag-buttons {
     margin: 0px;
 }
+.advertising-tag-container .advertising-icon {
+    left: 6px;
+    top: 5px;
+    font-size: 10px;
+}
 .person-tag-container .popover {
     width: 250px;
 }
