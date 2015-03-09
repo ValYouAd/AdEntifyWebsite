@@ -756,7 +756,7 @@ define([
                this.currentTag.set('tagIcon', 'tag-place-icon');
             } else if (tabName == '#person') {
                this.currentTag.set('tagIcon', 'tag-user-icon');
-            } else if (tagName == '#advertising') {
+            } else if (tabName == '#advertising') {
                this.currentTag.set('tagIcon', 'glyphicon gliphycon-euro');
             }
          }

@@ -1990,7 +1990,7 @@ __p+='';
 ( model.get("cssClass") )+
 '" style="'+
 ( model.get('cssStyle') )+
-'">\n<div class="glyphicon glyphicon-euro tag-icon"></div>\n';
+'">\n<div class="advertising-icon tag-icon">Ad</div>\n';
  if (!popoverDesactivated) { 
 ;__p+='\n<div class="popover">\n    <div class="tag-popover-arrow"></div>\n    <div class="popover-inner" style="'+
 ( model.get('popoverInnerStyle') )+
@@ -5522,7 +5522,7 @@ define('app',[
       var app = {
           // The root path to run the application.
           root: "/" + currentLocale + "/app/",
-          rootUrl: location.protocol + "//local.adentify.com/",
+          rootUrl: location.protocol + "//" + domainName + "/",
           beginUrl: location.protocol + "//" + location.host,
           secondsBetweenPoll: 15,
           version: appVersion
