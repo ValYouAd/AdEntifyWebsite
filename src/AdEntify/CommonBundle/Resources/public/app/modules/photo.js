@@ -460,28 +460,6 @@ define([
          }
       },
 
-      clickPastille: function() {
-         $tags = $(this.el).find('.tags');
-         if ($tags.data('always-visible') == 'no') {
-            $tags.data('always-visible', 'yes');
-            this.showTags();
-         } else {
-            $tags.data('always-visible', 'no');
-            this.hideTags();
-         }
-      },
-
-      showTags: function() {
-         $(this.el).find('.tags').stop().fadeIn(100);
-         app.analytic().hover(null, this.model);
-      },
-
-      hideTags: function() {
-         $tags = $(this.el).find('.tags');
-         if ($tags.data('always-visible') == 'no')
-            $(this.el).find('.tags').stop().fadeOut('fast');
-      },
-
       checkboxShowTags: function(e) {
          this.model.set('showTags', e.currentTarget.checked);
          this.updateEmbedCode();
@@ -542,9 +520,6 @@ define([
       },
 
       events: {
-         'click .adentify-pastille': 'clickPastille',
-         'mouseenter .photo-container': 'showTags',
-         'mouseleave .photo-container': 'hideTags',
          'click .showTagsCheckbox': 'checkboxShowTags',
          'click .showLikesCheckbox': 'checkboxShowLikes',
          'mouseup .selectOnFocus': 'selectTextOnFocus',
@@ -781,6 +756,8 @@ define([
                this.currentTag.set('tagIcon', 'tag-place-icon');
             } else if (tabName == '#person') {
                this.currentTag.set('tagIcon', 'tag-user-icon');
+            } else if (tabName == '#advertising') {
+               this.currentTag.set('tagIcon', 'glyphicon gliphycon-euro');
             }
          }
       },

@@ -12,10 +12,12 @@
         <% if (model.has('description') && model.get("description")) { %>
         <p><%= model.get("description") %></p>
         <% } %>
-        <% if (model.isWaitingValidation()) { %>
-        <div class="tag-validation">
-            <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname') }) %></span>
+        <div class="tag-buttons">
+            <% if (model.has('ownerModel')) { %>
+            <span class="tagged-by"><%= $.t('tag.taggedBy', { 'author': model.get('ownerModel').get('fullname'), 'link': model.get('ownerModel').get('link') }) %></span>
+            <% } %>
             <div class="btn-group">
+                <% if (model.isWaitingValidation()) { %>
                 <button type="button" class="btn btn-black btn-sm validateTagButton" data-i18n="tag.validateTag"></button>
                 <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
@@ -25,9 +27,19 @@
                     <li><button class="btn btn-link refuseTagButton" data-i18n="tag.refuseTag"></button></li>
                     <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
                 </ul>
+                <% } else { %>
+                <button type="button" class="btn btn-black btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <%= $.t('tag.actions') %> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <% if (model.isOwner()) { %>
+                    <li><button class="btn btn-link deleteTagButton" data-i18n="tag.deleteTag"></button></li>
+                    <% } %>
+                    <li><button class="btn btn-link reportTagButton" data-i18n="tag.reportTag"></button></li>
+                </ul>
+                <% } %>
             </div>
         </div>
-        <% } %>
     </div>
 </div>
 <% } %>

@@ -11,12 +11,12 @@ define([
       // Provide a global location to place configuration settings and module
       // creation.
       var app = {
-	 // The root path to run the application.
-	 root: "/" + currentLocale + "/app/",
-	 rootUrl: location.protocol + "//adentify.com/",
-	 beginUrl: location.protocol + "//" + location.host,
-	 secondsBetweenPoll: 15,
-	      version: appVersion
+          // The root path to run the application.
+          root: "/" + currentLocale + "/app/",
+          rootUrl: location.protocol + "//" + domainName + "/",
+          beginUrl: location.protocol + "//" + location.host,
+          secondsBetweenPoll: 15,
+          version: appVersion
       };
 
       // Localize or create a new JavaScript Template object.

@@ -437,10 +437,10 @@ html,body,.body-grey-background {
         float: left;
         box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
     }
-    #photos-grid .photo-container {
+    .photo-container {
         position: relative;
     }
-    #photos-grid .tags {
+    .photo-container .tags {
         opacity: 0;
         display: block;
         -webkit-transition: opacity 0.3s ease-in;
@@ -449,7 +449,7 @@ html,body,.body-grey-background {
         -o-transition: opacity 0.3s ease-in;
         transition: opacity 0.3s ease-in;
     }
-    #photos-grid .photo-container:hover .tags {
+    .photo-container:hover .tags {
         opacity: 1;
     }
     #photos-grid .photo-info {
@@ -475,24 +475,13 @@ html,body,.body-grey-background {
         vertical-align: middle;
         min-width: 20px;
     }
-    #photos-grid .photo-overlay {
-        /*background: url('../img/red_transparent.png') repeat;
-        cursor:default;*/
-    }
+
     a.photo-overlay:hover {
         text-decoration: none;
     }
     .photo-overlay {
         cursor: pointer;
-        /*opacity: 0;
-        -webkit-transition: opacity 0.2s ease-out;
-        -moz-transition: opacity 0.2s ease-out;
-        -o-transition: opacity 0.2s ease-out;
-        transition: opacity 0.2s ease-out;*/
     }
-    /*.photo-overlay:hover {
-        opacity: 1;
-    }*/
     .photo-overlay .caption {
         color: #FFFFFF;
         font-family: 'robotolight', "Helvetica Neue", "Arial", sans-serif;
@@ -1303,12 +1292,12 @@ html,body,.body-grey-background {
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
-    background-position: -102px -109px;
-    width: 35px;
-    height: 36px;
+    background-position: -156px -322px;
+    width: 25px;
+    height: 26px;
 }
 .unvalidateTag {
-    background-position: -124px -287px!important;
+    background-position: -127px -321px!important;
 }
 .tag .tag-description {
     text-align: justify;
@@ -1320,30 +1309,23 @@ html,body,.body-grey-background {
 .tag .tag-icon {
     position: absolute;
 }
-.tag .tag-brand-icon{
-    top: 9px;
-    left: 11px;
+.tag .glyphicon {
+    top: 7px;
+    left: 6px;
+    color: #606366;
+    font-size: 11px;
 }
 .tag .glyphicon-tag {
-    top: 10px;
-    left: 11px;
-    color: #606366;
+    top: 8px;
+    left: 7px;
 }
 .tag .tag-place-icon{
-    left: 12px;
-    top: 10px;
-}
-.tag .tag-text-icon{
-    left: 12px;
-    top: 10px;
+    left: 7px;
+    top: 5px;
 }
 .tag .tag-user-icon{
-    left: 11px;
-    top: 10px;
-}
-.tag .tag-video-icon{
-    left: 10px;
-    top: 11px;
+    left: 6px;
+    top: 6px;
 }
 .tag .popover {
     position: absolute;
@@ -1415,6 +1397,15 @@ html,body,.body-grey-background {
 }
 .tag .popover a.link-google-maps:hover {
     text-decoration: none;
+}
+.advertising-tag-container .popover {
+    width: auto;
+}
+.advertising-tag-container .popover-inner {
+    padding: 0px;
+}
+.advertising-tag-container .tag-buttons {
+    margin: 0px;
 }
 .person-tag-container .popover {
     width: 250px;
@@ -1519,6 +1510,9 @@ html,body,.body-grey-background {
 .add-tag-form .help-block {
     font-size: 10px;
     font-style: italic;
+}
+.add-tag-form .nav-tabs>li>a {
+    padding: 10px;
 }
 /*
 ----------------------- */

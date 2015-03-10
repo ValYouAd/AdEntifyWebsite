@@ -229,7 +229,15 @@
       "viewMap": "Map",
       "actions": "Actions",
       "labelPersonLink": "Link",
-      "personLinkPlaceholder": "You can add an URL to the website, blog or social network page of the person"
+      "personLinkPlaceholder": "You can add an URL to the website, blog or social network page of the person",
+      "advertising": "Advertising",
+      "advertisingCustomFormat": "Custom format",
+     "labelAdvertisingFormats": "Formats",
+     "labelAdvertisingWidth": "Width (pixels)",
+     "labelAdvertisingHeight": "Height (pixels)",
+     "labelAdvertisingCode": "Advertising code",
+     "submitAdvertising": "Confirm and add tag",
+     "advertisingFillAllFields": "Please fills all the fields before submitting"
    },
    "photo": {
       "loadingPhoto": "Loading photo...",

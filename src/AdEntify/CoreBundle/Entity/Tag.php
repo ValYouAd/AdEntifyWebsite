@@ -29,6 +29,7 @@ class Tag
     const TYPE_PRODUCT = "product";
     const TYPE_PERSON =  "person";
     const TYPE_BRAND =  "brand";
+    const TYPE_AD =  "advertising";
 
     const VALIDATION_NONE =    "none";
     const VALIDATION_WAITING = "waiting";
@@ -288,6 +289,14 @@ class Tag
      * @Serializer\Groups({"details", "list"})
      */
     private $clicksPercentage = 0;
+
+    /**
+     * @var TagInfo
+     *
+     * @ORM\OneToOne(targetEntity="AdEntify\CoreBundle\Entity\TagInfo", inversedBy="tag", orphanRemoval=true)
+     * @Serializer\Groups({"details", "list"})
+     */
+    protected $tagInfo;
 
     public function __construct()
     {
@@ -851,5 +860,22 @@ class Tag
     public function getClicksPercentage()
     {
         return $this->clicksPercentage;
+    }
+
+    /**
+     * @return TagInfo
+     */
+    public function getTagInfo()
+    {
+        return $this->tagInfo;
+    }
+
+    /**
+     * @param TagInfo $tagInfo
+     */
+    public function setTagInfo($tagInfo)
+    {
+        $this->tagInfo = $tagInfo;
+        return $this;
     }
 }
