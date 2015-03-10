@@ -154,14 +154,13 @@ class TagsController extends FosRestController
      */
     public function postAction(Request $request)
     {
-        $securityContext = $this->container->get('security.context');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->getUser()) {
             $tag = new Tag();
             $form = $this->getForm($tag);
             $form->handleRequest($request);
             if ($form->isValid()) {
                 // Check tag data
-                $tagValidation = TagValidator::isValidTag($tag);
+                $tagValidation = TagValidator::isValidTag($tag, $this->container->get('security.context'));
                 if ($tagValidation !== true) {
                     $form->addError(new FormError($tagValidation));
                     return $form;
@@ -202,6 +201,13 @@ class TagsController extends FosRestController
                 // Set brand
                 if ($tag->getProduct() && !$tag->getBrand() && $tag->getProduct()->getBrand()) {
                     $tag->setBrand($tag->getProduct()->getBrand());
+                }
+
+                if ($this->getRequest()->request->get('tag') && array_key_exists('tagInfo', $this->getRequest()->request->get('tag'))) {
+                    $tagInfo = $this->getRequest()->request->get('tag')['tagInfo'];
+                    $tagInfo = $em->getRepository('AdEntifyCoreBundle:TagInfo')->createAdTagInfo($tag, $tagInfo['code'],
+                        $tagInfo['width'], $tagInfo['height']);
+                    $tag->setTagInfo($tagInfo);
                 }
 
                 // Check if user is the owner of the photo

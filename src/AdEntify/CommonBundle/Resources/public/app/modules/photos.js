@@ -76,16 +76,6 @@ define([
          $(this.el).i18n();
       },
 
-      showTags: function() {
-         this.$('.tags').stop().fadeIn(100);
-      },
-
-      hideTags: function() {
-         $tags = this.$('.tags');
-         if ($tags.data('always-visible') == 'no')
-            this.$('.tags').stop().fadeOut('fast');
-      },
-
       showPhoto: function(evt) {
          switch (this.itemClickBehavior) {
             case Photos.Common.PhotoItemClickBehaviorDetail:
@@ -103,9 +93,7 @@ define([
 
       events: {
          'click .photo-link': 'showPhoto',
-         'click .add-tag': 'addTagForm',
-         'mouseenter .photo-container': 'showTags',
-         'mouseleave .photo-container': 'hideTags'
+         'click .add-tag': 'addTagForm'
       }
    });
 

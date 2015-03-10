@@ -104,6 +104,9 @@ class TagType extends AbstractType
                             : $er->createQueryBuilder('p');
                     }
             ))
+            ->add('tagInfo', 'text', array(
+                'required' => false
+            ))
             ->add('save', 'submit', array('label' => 'Create'));
     }
 

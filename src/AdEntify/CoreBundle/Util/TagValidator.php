@@ -19,7 +19,7 @@ class TagValidator
      * @param Tag $tag
      * @return bool
      */
-    public static function isValidTag(Tag $tag) {
+    public static function isValidTag(Tag $tag, $securityContext) {
         if (!$tag->getType())
             return 'error.invalidTagType';
 
@@ -27,12 +27,14 @@ class TagValidator
             case Tag::TYPE_BRAND:
             case Tag::TYPE_PRODUCT:
                 return true;
+            case Tag::TYPE_AD:
+                return ($securityContext->isGranted('ROLE_ANNOUNCER') || $securityContext->isGranted('ROLE_TEAM')) ? true : 'error.advertising.invalidRole';
             case Tag::TYPE_PERSON:
                 return $tag->getPerson() ? true : 'error.person.invalidTag';
             case Tag::TYPE_PLACE:
                 return $tag->getVenue() ? true : 'error.venue.invalidTag';
             default:
-                return true;
+                return 'error.invalidTagType';
         }
     }
 } 

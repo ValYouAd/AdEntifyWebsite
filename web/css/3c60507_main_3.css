@@ -98,7 +98,7 @@ body {
 }
 
 html,body,.body-grey-background {
-    height: 100%;
+    min-height: 100%;
     background: url('../img/graphik_background.png') repeat fixed;
 }
 .body-grey-background #dashboard {
@@ -132,6 +132,9 @@ html,body,.body-grey-background {
 
 /* NAV
 ----------------------- */
+.navbar-adentify .navbar-nav>li>a {
+    padding-left: 14px;
+}
 .navbar-adentify {
     background: url('../img/menu_top_background.png') repeat-x;
     height: 65px;
@@ -255,6 +258,32 @@ html,body,.body-grey-background {
 }
 .introjs-disabled { display: none!important; }
 .introjs-skipbutton { float: right; margin-left: 2px; }
+
+.become-ambassador {
+    background: #ff3838;
+    padding: 4px 0px;
+    font-size: 20px;
+    font-family: 'pacificoregular', Helvetica Neue, Helvetica, Arial;
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 2px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 2px 5px 0px rgba(50, 50, 50, 0.75);
+    position: relative;
+    z-index: 99;
+}
+.become-ambassador a {
+    color: white;
+}
+.become-ambassador a:hover {
+    text-decoration: none;
+}
+.become-ambassador .close {
+    color: white;
+    text-shadow: none;
+    opacity: 1;
+    font-size: 30px;
+    margin-right: 10px;
+    margin-top: -5px;
+}
 /* END NAV
 ----------------------- */
 
@@ -323,6 +352,10 @@ html,body,.body-grey-background {
     background: url('../img/ticker_background.png') repeat;
     margin-right: 240px;
     max-width: 292px;
+    z-index: 0;
+}
+#right-pane-content.with-become-ambassador {
+    top: 102px;
 }
 #right-pane .alert {
     margin-top: 20px;
@@ -404,10 +437,10 @@ html,body,.body-grey-background {
         float: left;
         box-sizing: border-box; -ms-box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box;
     }
-    #photos-grid .photo-container {
+    .photo-container {
         position: relative;
     }
-    #photos-grid .tags {
+    .photo-container .tags {
         opacity: 0;
         display: block;
         -webkit-transition: opacity 0.3s ease-in;
@@ -416,7 +449,7 @@ html,body,.body-grey-background {
         -o-transition: opacity 0.3s ease-in;
         transition: opacity 0.3s ease-in;
     }
-    #photos-grid .photo-container:hover .tags {
+    .photo-container:hover .tags {
         opacity: 1;
     }
     #photos-grid .photo-info {
@@ -442,24 +475,13 @@ html,body,.body-grey-background {
         vertical-align: middle;
         min-width: 20px;
     }
-    #photos-grid .photo-overlay {
-        /*background: url('../img/red_transparent.png') repeat;
-        cursor:default;*/
-    }
+
     a.photo-overlay:hover {
         text-decoration: none;
     }
     .photo-overlay {
         cursor: pointer;
-        /*opacity: 0;
-        -webkit-transition: opacity 0.2s ease-out;
-        -moz-transition: opacity 0.2s ease-out;
-        -o-transition: opacity 0.2s ease-out;
-        transition: opacity 0.2s ease-out;*/
     }
-    /*.photo-overlay:hover {
-        opacity: 1;
-    }*/
     .photo-overlay .caption {
         color: #FFFFFF;
         font-family: 'robotolight', "Helvetica Neue", "Arial", sans-serif;
@@ -887,12 +909,12 @@ html,body,.body-grey-background {
     top: -1px;
 }
 .services .service-button {
-    background: #eff1f4;
+    background: #dfdede;
     border: 1px solid #dfdede;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     font-size: 14px;
-    color: #aeacac;
+    color: #828081;
     font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
     height: 42px;
     display: block;
@@ -942,6 +964,7 @@ html,body,.body-grey-background {
 .full-photo .photo-container {
     margin-top: 8px;
     display: inline-block;
+    max-width: 100%;
 }
 .photo-container {
     position: relative;
@@ -1064,7 +1087,7 @@ html,body,.body-grey-background {
     height: 100%;
 }
 .modal .photo-full {
-    width: 100%;
+    max-width: 100%;
 }
 .photo-full {
     max-width: 100%;
@@ -1156,6 +1179,14 @@ html,body,.body-grey-background {
     cursor: crosshair;
 }
 /*
+----------------------- */
+
+/* MODULE : Hashtags
+----------------------- */
+.modal .hashtags-list {
+    margin: 4px 8px;
+}
+/* END MODULE : Hashtags
 ----------------------- */
 
 /* MODULE : Actions
@@ -1261,9 +1292,12 @@ html,body,.body-grey-background {
     background-image: url('../img/sprites.png');
     background-color: transparent;
     background-repeat: no-repeat;
-    background-position: -102px -109px;
-    width: 35px;
-    height: 36px;
+    background-position: -156px -322px;
+    width: 25px;
+    height: 26px;
+}
+.unvalidateTag {
+    background-position: -127px -321px!important;
 }
 .tag .tag-description {
     text-align: justify;
@@ -1275,30 +1309,23 @@ html,body,.body-grey-background {
 .tag .tag-icon {
     position: absolute;
 }
-.tag .tag-brand-icon{
-    top: 9px;
-    left: 11px;
+.tag .glyphicon {
+    top: 7px;
+    left: 6px;
+    color: #606366;
+    font-size: 11px;
 }
 .tag .glyphicon-tag {
-    top: 10px;
-    left: 11px;
-    color: #606366;
+    top: 8px;
+    left: 7px;
 }
 .tag .tag-place-icon{
-    left: 12px;
-    top: 10px;
-}
-.tag .tag-text-icon{
-    left: 12px;
-    top: 10px;
+    left: 7px;
+    top: 5px;
 }
 .tag .tag-user-icon{
-    left: 11px;
-    top: 10px;
-}
-.tag .tag-video-icon{
-    left: 10px;
-    top: 11px;
+    left: 6px;
+    top: 6px;
 }
 .tag .popover {
     position: absolute;
@@ -1371,6 +1398,20 @@ html,body,.body-grey-background {
 .tag .popover a.link-google-maps:hover {
     text-decoration: none;
 }
+.advertising-tag-container .popover {
+    width: auto;
+}
+.advertising-tag-container .popover-inner {
+    padding: 0px;
+}
+.advertising-tag-container .tag-buttons {
+    margin: 0px;
+}
+.advertising-tag-container .advertising-icon {
+    left: 6px;
+    top: 5px;
+    font-size: 10px;
+}
 .person-tag-container .popover {
     width: 250px;
 }
@@ -1424,6 +1465,15 @@ html,body,.body-grey-background {
     font-size: 16px;
     padding: 10px;
 }
+.tag-text .add-tag-info {
+    font-size: 16px;
+}
+.tag-text .add-tag-info span {
+    font-size: 16px;
+}
+.tag-text .add-tag-info li {
+    margin: 10px 0px;
+}
 .tag-buttons {
     background: url('../img/dark-grey-tag-background.jpg') repeat;
     padding: 6px 10px;
@@ -1465,6 +1515,9 @@ html,body,.body-grey-background {
 .add-tag-form .help-block {
     font-size: 10px;
     font-style: italic;
+}
+.add-tag-form .nav-tabs>li>a {
+    padding: 10px;
 }
 /*
 ----------------------- */
@@ -1726,10 +1779,11 @@ html,body,.body-grey-background {
 /* Brands */
 .search-bar .brands li {
     padding: 5px;
-    height: 30px;
+    height: 60px;
 }
 .search-bar .brands .brand-logo {
-    max-height: 30px;
+    max-height: 50px;
+    max-width: 100%;
 }
 .search-bar .brands .tagged-count {
     display: none;
@@ -1879,6 +1933,9 @@ html,body,.body-grey-background {
 .brands-wrapper {
     margin-top: 30px;
 }
+.brands-wrapper .block-white-background {
+    box-shadow: none;
+}
 #brands,
 .brands {
    border-top: 1px solid #e0dfdf;
@@ -1936,6 +1993,28 @@ html,body,.body-grey-background {
 
 /* Rewards
 ----------------------- */
+.rewards-presentation h2 {
+    color: #606366;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 40px;
+    padding: 30px 0px;
+    margin: 0px;
+    text-align: center;
+}
+.rewards-presentation h3 {
+    color: #606366;
+    font-family: 'pacificoregular', "Helvetica Neue", "Arial", sans-serif;
+    font-size: 24px;
+    margin: 0px;
+    padding-bottom: 20px;
+}
+.rewards-presentation .tab-pane {
+    padding: 20px 0px;
+}
+.rewards-presentation th {
+    font-size: 16px;
+    font-family: robotobold;
+}
 .reward-item {
     padding: 4px 10px;
     color: #cecfd1;
@@ -1997,21 +2076,25 @@ html,body,.body-grey-background {
 .brand-rewards .nav-tabs .icon {
     margin-right: 5px;
 }
-.brand-rewards .tab-content {
+.brand-rewards .tab-content,
+.rewards-presentation .tab-content {
     margin: 0px;
 }
-.brand-rewards .nav-tabs a {
+.brand-rewards .nav-tabs a,
+.rewards-presentation .nav-tabs a {
     padding: 10px 40px;
 }
 .brand-rewards .brand-profile-picture {
     max-height: 100px;
 }
-.brand-rewards .nav-tabs li {
+.brand-rewards .nav-tabs li,
+.rewards-presentation .nav-tabs li {
     display: inline-block;
     float: none;
     margin-right: -3px;
 }
-.brand-rewards .nav-tabs {
+.brand-rewards .nav-tabs,
+.rewards-presentation .nav-tabs {
     text-align: center;
 }
 .reward-users {
@@ -2134,6 +2217,14 @@ html,body,.body-grey-background {
 /*
 ----------------------- */
 
+/* End Modal
+----------------------- */
+.modal .loadMore {
+    margin: 10px 0px;
+}
+/* End Modal
+----------------------- */
+
 /* Dropdown Menu
 ----------------------- */
 .dropdown-menu {
@@ -2175,11 +2266,12 @@ html,body,.body-grey-background {
 
 /* S P R I T E S
 ----------------------- */
-.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver, .tumblr-circle-icon, .tumblr-grey-circle-icon, .small-facebook-circle-icon, .small-facebook-grey-circle-icon, .small-flickr-circle-icon, .small-flickr-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-circle-icon, .small-pinterest-grey-circle-icon, .small-tumblr-circle-icon, .small-tumblr-grey-circle-icon, .small-twitter-circle-icon, .small-twitter-grey-circle-icon, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille, .tag-button, .adentify-pastille-small, .logo-nav, .gift-icon{
+.brands-icon, .clock-icon, .heart-icon, .icon_more_red, .people-icon, .search-icon, .signin-badge, .signup_badge, .ticker_separator, .venues-icon, .facebook-icon, .twitter-icon, .my-pictures, .my-social-networks, .white-arrow-top, .show-photo-icon, .white-comment-icon, .white-heart-icon, .cross-icon, .favorites-icon, .parameters-icon, .dashboard-icon, .red-cross-right, .grey-comment-icon, .grey-share-icon, .linked-photos-icon, .red-heart-icon, .white-pencil-icon, .tag-background, .tag-brand-icon, .tag-place-icon, .tag-text-icon, .tag-user-icon, .tag-video-icon, .tag-popover-arrow-bottom, .tag-popover-arrow-left, .tag-popover-arrow-right, .tag-popover-arrow-top, .loader, .adentify-flat-pastille, .add-tag-icon, .arrow-top-adentify-pastille-hover, .favorite-icon, .like-icon, .report-icon, .share-icon, .facebook-circle-icon, .flickr-circle-icon, .google-circle-icon, .instagram-circle-icon, .link-account-icon, .pinterest-circle-icon, .twitter-circle-icon, .facebook-grey-circle-icon, .flickr-grey-circle-icon, .google-grey-circle-icon, .instagram-grey-circle-icon, .pinterest-grey-circle-icon, .twitter-grey-circle-icon, .report-red-icon, .close-white-icon, .facebook-circle-white-icon, .flickr-circle-white-icon, .google-circle-white-icon, .instagram-circle-white-icon, .pinterest-circle-white-icon, .twitter-circle-white-icon, .white-separator-32, .local-circle-white-icon, .red-add-tag-icon, .red-favorite-icon, .red-like-icon, .red-share-icon, .small-arrow-top, .more-profile, .categories-icon, .grey-tagged-icon, .search-button, .curve-arrow-left, .reward-addict, .reward-bronze, .reward-gold, .reward-silver, .tumblr-circle-icon, .tumblr-grey-circle-icon, .small-facebook-circle-icon, .small-facebook-grey-circle-icon, .small-flickr-circle-icon, .small-flickr-grey-circle-icon, .small-google-circle-icon, .small-google-grey-circle-icon, .small-instagram-circle-icon, .small-instagram-grey-circle-icon, .small-pinterest-circle-icon, .small-pinterest-grey-circle-icon, .small-tumblr-circle-icon, .small-tumblr-grey-circle-icon, .small-twitter-circle-icon, .small-twitter-grey-circle-icon, .adentify-grey-pastille-small, .adentify-grey-pastille, .adentify-pastille, .tag-button, .adentify-pastille-small, .logo-nav, .gift-icon, .tag-background-yellow{
     background-image: url('../img/sprites.png');
     background-repeat: no-repeat;
     background-color: transparent;
 }
+
 .brands-icon{
     background-position: -110px -51px ;
     width: 17px;
@@ -2816,7 +2908,11 @@ html,body,.body-grey-background {
     height: 17px;
 }
 
-
+.tag-background-yellow{
+    background-position: -124px -287px ;
+    width: 35px;
+    height: 36px;
+}
 
 
 /* DONT CHANGE IT */
@@ -2893,6 +2989,10 @@ html,body,.body-grey-background {
     background-position: -48px -251px ;
     width: 21px;
     height: 22px;
+}
+.twitter-grey-circle-icon,
+.twitter-grey-circle-icon:hover {
+    width: 32px;
 }
 
 /*
@@ -3399,6 +3499,7 @@ label,
 ----------------------- */
 .profile-aside {
     font-family: 'asapregular', sans-serif;
+    margin-bottom: 40px;
 }
     .profile-aside h2 {
         font-family: 'pacificoregular', sans-serif;
@@ -3411,16 +3512,22 @@ label,
     color: #9da0a4;
     margin: 10px 0px;
 }
+.profile-aside .profile-picture-wrapper,
+.profile-aside .profile-picture-wrapper .table-center {
+    min-height: 116px;
+}
 .profile-aside .brands,
-.profile-aside #brands {
+.profile-aside #brands,
+.modal .brands,
+.modal #brands {
     border: none;
     margin: 0px;
 }
-.profile-aside .brands {
-    background: white;
-}
 .profile-aside .brands .brand-logo {
     max-height: 55px!important;
+    max-width: 100%;
+}
+.modal .brands .brand-logo {
     max-width: 100%;
 }
 .profile-aside #brands {
@@ -3432,8 +3539,16 @@ label,
     margin: 7px 0px;
     height: 65px;
 }
+.modal #brands li, .modal .brands li{
+    border: none;
+    padding: 0px 5px;
+    margin: 7px 0px;
+    height: 115px;
+}
 .profile-aside #brands li:nth-child(3n+2),
-.profile-aside #brands li:nth-child(3n+1) {
+.profile-aside #brands li:nth-child(3n+1),
+.modal #brands li:nth-child(3n+2),
+.modal #brands li:nth-child(3n+1){
     border-right: 1px solid #e5e5e5;
 }
 .followers-link, .followings-link { cursor: pointer; }

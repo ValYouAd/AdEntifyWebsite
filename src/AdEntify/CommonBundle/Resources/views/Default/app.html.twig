@@ -81,7 +81,7 @@
                                                     <li><a href="{{ full_root_url }}{{ 'my/brands/'|trans }}"><i class="icon glyphicon glyphicon-tag"></i> {{ 'My brands'|trans }}</a></li>
                                                     <li><a href="{{ full_root_url }}{{ 'my/settings/'|trans }}"><i class="icon parameters-icon"></i> {{ 'My settings'|trans }}</a></li>
                                                     {% if is_granted('ROLE_TEAM') %}<li><a href="{{ path('brands') }}" data-bypass=""><i class="icon glyphicon glyphicon-wrench"></i> Backoffice</a></li>{% endif %}
-                                                    {% if is_granted('ROLE_ANOUNCER') %}<li><a href="{{ full_root_url }}"><i class="icon glyphicon glyphicon-wrench"></i> {{ 'My brand'|trans }}</a></li>{% endif %}
+                                                    {% if is_granted('ROLE_ANNOUNCER') %}<li><a href="{{ full_root_url }}"><i class="icon glyphicon glyphicon-wrench"></i> {{ 'My brand'|trans }}</a></li>{% endif %}
                                                     <li class="grey-background-item"><a href="{{ url('fos_user_security_logout') }}"><i class="icon cross-icon"></i> {{ 'Log out'|trans }}</a></li>
                                                 </ul>
                                             </div>
@@ -280,7 +280,7 @@
 
 {% block javascripts %}
     <script>
-        if (window.location.hash == '#_=_'){
+        if (window.location.hash == '#_=_') {
             window.location.hash = '';
         }
         var channelUrl = '{{ asset('channel.php') }}';
@@ -293,6 +293,7 @@
         var currentUserBirthday = '{{ app.user and app.user.birthday ? app.user.birthday|date('m/d/Y') : '' }}';
         var accountEnabled = {{ app.user and app.user.isEnabled() ? 1 : 0 }};
         var appVersion = '{{ app_version }}';
+        var domainName = '{{ domain_name }}';
     </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe0qbULIaxm2zV74LqAatdq1-uIW_iFLU&v=3&sensor=false"></script>
     <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
@@ -300,5 +301,9 @@
     </script>
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    <script data-main="{{ asset('bundles/adentifycommon/app/config.' ~ app_version) }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
+    {% if app.environment == 'prod' %}
+        <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/dist/release/require.js') }}"></script>
+    {% else %}
+        <script data-main="{{ asset('bundles/adentifycommon/app/config') }}" src="{{ asset('bundles/adentifycommon/vendor/js/libs/require.js') }}"></script>
+    {% endif %}
 {% endblock %}

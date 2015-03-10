@@ -259,6 +259,7 @@ twig:
         facebook_permissions:     %facebook_permissions%
         root_url:                 %root_url%
         app_version:              %app_version%
+        domain_name:              %domain_name%
 
 # Instagram
 ad_entify_instagram:

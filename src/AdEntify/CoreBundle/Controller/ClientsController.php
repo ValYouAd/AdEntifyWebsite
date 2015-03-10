@@ -53,28 +53,28 @@ class ClientsController extends FosRestController {
      */
     public function postAction(Request $request)
     {
-	$formClient = new Client();
-	$form = $this->getForm($formClient);
-	$form->bind($request);
-	if ($form->isValid()) {
-	    $client = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:OAuth\Client')->findOneBy(array('name' => $formClient->getName()));
-	    if (!$client) {
-		$clientManager = $this->get('fos_oauth_server.client_manager.default');
-		$client = $clientManager->createClient();
-		$client->setName($formClient->getName());
-		$client->setDisplayName($formClient->getDisplayName());
-		$client->setRedirectUris($formClient->getRedirectUris());
-		$client->setAllowedGrantTypes(array('token', 'authorization_code', 'password', 'http://grants.api.adentify.com/facebook_access_token', 'http://grants.api.adentify.com/twitter_access_token'));
-		$clientManager->updateClient($client);
-	    }
+        $formClient = new Client();
+        $form = $this->getForm($formClient);
+        $form->bind($request);
+        if ($form->isValid()) {
+            $client = $this->getDoctrine()->getManager()->getRepository('AdEntifyCoreBundle:OAuth\Client')->findOneBy(array('name' => $formClient->getName()));
+            if (!$client) {
+                $clientManager = $this->get('fos_oauth_server.client_manager.default');
+                $client = $clientManager->createClient();
+                $client->setName($formClient->getName());
+                $client->setDisplayName($formClient->getDisplayName());
+                $client->setRedirectUris($formClient->getRedirectUris());
+                $client->setAllowedGrantTypes(array('token', 'authorization_code', 'password', 'http://grants.api.adentify.com/facebook_access_token', 'http://grants.api.adentify.com/twitter_access_token'));
+                $clientManager->updateClient($client);
+            }
 
-	    return array(
-		'id' => $client->getPublicId(),
-		'secret' => $client->getSecret()
-	    );
-	} else {
-	    return $form;
-	}
+            return array(
+                'id' => $client->getPublicId(),
+                'secret' => $client->getSecret()
+            );
+        } else {
+            return $form;
+        }
     }
 
     /**
