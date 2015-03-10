@@ -12,7 +12,6 @@ define([
    "modules/photo",
    'modules/common',
    "isotope",
-   "jquery-ui",
    "modernizer",
    "infinitescroll"
 ], function(app, Tag, Pagination, Photo, Common) {

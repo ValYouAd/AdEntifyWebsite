@@ -2027,11 +2027,6 @@ var jam = {
             "main": "dist/jquery.js"
         },
         {
-            "name": "jquery-ui",
-            "location": "../vendor/jam/jquery-ui",
-            "main": "dist/jquery-ui.min.js"
-        },
-        {
             "name": "lodash",
             "location": "../vendor/jam/lodash",
             "main": "./dist/lodash.compat.js"
@@ -2093,11 +2088,6 @@ if (typeof require !== "undefined" && require.config) {
             "main": "dist/jquery.js"
         },
         {
-            "name": "jquery-ui",
-            "location": "../vendor/jam/jquery-ui",
-            "main": "dist/jquery-ui.min.js"
-        },
-        {
             "name": "lodash",
             "location": "../vendor/jam/lodash",
             "main": "./dist/lodash.compat.js"
@@ -2156,11 +2146,6 @@ else {
             "name": "jquery",
             "location": "../vendor/jam/jquery",
             "main": "dist/jquery.js"
-        },
-        {
-            "name": "jquery-ui",
-            "location": "../vendor/jam/jquery-ui",
-            "main": "dist/jquery-ui.min.js"
         },
         {
             "name": "lodash",

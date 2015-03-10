@@ -9,6 +9,7 @@ require.config({
 
   paths: {
      "jquery": "../vendor/js/jquery-1.11.2.min",
+     "jquery.ui.widget": "../vendor/js/jquery-ui-1.10.4.custom.min",
      "facebook": "../vendor/lib/en-fb",
      "lodash": "../vendor/jam/lodash/dist/lodash.underscore.min",
      "infinitescroll": "../vendor/js/jquery.infinitescroll.min",
@@ -19,7 +20,6 @@ require.config({
      "select2fr": "../vendor/js/select2_locale_fr",
      "jquery.fileupload": "../vendor/js/jquery.fileupload",
      "jquery.iframe-transport": "../vendor/js/jquery.iframe-transport",
-     "jquery.ui.widget": "../vendor/js/jquery-ui.min",
      "moment": "../vendor/js/moment-with-langs.min",
      "typeahead": "../vendor/js/bootstrap3-typeahead.min",
      "bday-picker": "../vendor/js/bday-picker.min",
@@ -48,8 +48,8 @@ require.config({
      },
      "bootstrap": {
       "deps": [
-	 "jquery-ui",
-	 "jquery"
+         "jquery",
+         "jquery.ui.widget"
       ]
      },
      "Backbone": {
@@ -57,11 +57,6 @@ require.config({
 	 "jquery",
 	 "facebook",
 	 "bootstrap"
-      ]
-     },
-     "jquery-ui": {
-      "deps": [
-	 "jquery"
       ]
      },
      "select2": {

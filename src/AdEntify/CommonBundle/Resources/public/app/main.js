@@ -1,19 +1,3 @@
-/*
-requirejs.config({
-   paths: {
-      "facebook": "//connect.facebook.net/fr_FR/all",
-      "bootstrap": "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min",
-      "pinterest": "//assets.pinterest.com/js/pinit",
-      "select2": "//cdn.jsdelivr.net/select2/3.4.6/select2.min",
-      "select2fr": "//cdn.jsdelivr.net/select2/3.4.6/select2_locale_fr",
-      "jquery.ui.widget": "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min",
-      "moment": "//cdn.jsdelivr.net/momentjs/2.5.1/moment-with-langs.min",
-      "Chart": "//cdn.jsdelivr.net/chart.js/0.2/Chart.min",
-      "i18next": "//cdn.jsdelivr.net/i18next/1.7.1/i18next.amd.withJQuery.min"
-   }
-});
-*/
-
 require([
    // Application.
    "app",
