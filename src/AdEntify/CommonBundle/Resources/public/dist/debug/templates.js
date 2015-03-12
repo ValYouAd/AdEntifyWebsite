@@ -1605,7 +1605,7 @@ __p+='';
 ( model.get("cssClass") )+
 '" style="'+
 ( model.get('cssStyle') )+
-'">\n<div class="advertising-icon tag-icon">Ad</div>\n';
+'">\n<div class="advertising-icon tag-icon"></div>\n';
  if (!popoverDesactivated) { 
 ;__p+='\n<div class="popover">\n    <div class="tag-popover-arrow"></div>\n    <div class="popover-inner" style="'+
 ( model.get('popoverInnerStyle') )+
