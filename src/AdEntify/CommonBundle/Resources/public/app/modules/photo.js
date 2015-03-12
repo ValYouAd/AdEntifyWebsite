@@ -757,7 +757,7 @@ define([
             } else if (tabName == '#person') {
                this.currentTag.set('tagIcon', 'tag-user-icon');
             } else if (tabName == '#advertising') {
-               this.currentTag.set('tagIcon', 'glyphicon gliphycon-euro');
+               this.currentTag.set('tagIcon', 'advertising-icon');
             }
          }
       },

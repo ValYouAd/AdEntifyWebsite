@@ -1186,6 +1186,9 @@ html,body,.body-grey-background {
 .edit-photo-wrapper .photo-overlay {
     cursor: crosshair;
 }
+.edit-photo-wrapper .tags {
+    opacity: 1!important;
+}
 /*
 ----------------------- */
 
@@ -1415,10 +1418,13 @@ html,body,.body-grey-background {
 .advertising-tag-container .tag-buttons {
     margin: 0px;
 }
-.advertising-tag-container .advertising-icon {
+.tags .advertising-icon {
     left: 6px;
     top: 5px;
     font-size: 10px;
+}
+.tags .advertising-icon:before {
+    content: "Ad";
 }
 .person-tag-container .popover {
     width: 250px;
