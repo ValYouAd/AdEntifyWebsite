@@ -753,8 +753,6 @@ class PhotosController extends FosRestController
                 $em = $this->getDoctrine()->getManager();
                 $photo->setDeletedAt(new \DateTime());
 
-                $em->getRepository('AdEntifyCoreBundle:Photo')->deleteLinkedData($photo);
-
                 $em->merge($photo);
                 $em->merge($user);
                 $em->flush();
