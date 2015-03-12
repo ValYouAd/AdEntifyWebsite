@@ -289,14 +289,14 @@ class AnalyticRepository extends EntityRepository
             $parameters['action'] = $options['action'];
             $parameters['brand'] = $profile->getId();
 
-            if ($options['element'] == Analytic::ELEMENT_PHOTO) {
+            if ($options['element'] == Analytic::ELEMENT_PHOTO)
                 $qb->leftJoin('a.photo', 'p')
                     ->leftJoin('p.tags', 't')
                     ->andWhere('b = :brand');
-            }
             else
                 $qb->leftJoin('a.tag', 't')
                     ->andWhere('b = :brand');
+
             $qb->leftJoin('t.brand', 'b')
                 ->setParameters($parameters);
         } else {
@@ -309,7 +309,8 @@ class AnalyticRepository extends EntityRepository
                     ->leftJoin('p.owner', 'u');
             else
                 $qb->leftJoin('a.tag', 't')
-                    ->leftJoin('t.owner', 'u');
+                    ->leftJoin('t.photo', 'pp')
+                    ->leftJoin('pp.owner', 'u');
 
             $qb->andWhere('u = :user')
                 ->setParameters($parameters);
@@ -324,8 +325,7 @@ class AnalyticRepository extends EntityRepository
                 ->setParameter('from', $from)
                 ->setParameter('to', $to);
         }
-        if (array_key_exists('graph', $options))
-        {
+        if (array_key_exists('graph', $options)) {
             return $qb->select('COUNT(DISTINCT a.id) as data, DATE_FORMAT(a.createdAt, :sqlDateFormat) as period')
                 ->groupBy('period')
                 ->setParameter('sqlDateFormat', $options['sqlDateFormat'])
