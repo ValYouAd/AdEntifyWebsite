@@ -23,11 +23,17 @@ define([
          this.setup();
       },
 
+      setupFullname: function() {
+         var fullname = '';
+         if (this.has('firstname') && this.get('firstname'))
+            fullname += this.get('firstname');
+         if (this.has('lastname') && this.get('lastname'))
+            fullname += ' ' + this.get('lastname');
+         this.set('fullname', fullname);
+      },
+
       setup: function() {
-         if (!this.get('firstname'))
-            this.set('fullname', this.get('username'));
-         else
-            this.set('fullname', this.get('firstname') + ' ' + this.get('lastname'));
+         this.setupFullname();
          this.set('link', app.beginUrl + app.root + $.t('routing.profile/id/', { id: this.get('id') }));
          if (this.has('profile_picture') && this.get('profile_picture')) {
             this.set('profilePicture', this.get('profile_picture'));
