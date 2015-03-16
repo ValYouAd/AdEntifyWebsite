@@ -66,7 +66,7 @@
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
          $tags = jQuery('<ul class="tags" data-state="hidden" data-always-visible="no" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
 
-         if (AdEntify.hideCopyright === false) {
+         if (AdEntify.hideCopyright === true) {
             $pastilleWrapper = jQuery('<div class="adentify-pastille-wrapper" />').insertBefore(this.getValue('selector'));
             $pastille = jQuery($pastilleWrapper).append('<div class="adentify-pastille" />');
             $pastillePopover = jQuery($pastilleWrapper).append('\
