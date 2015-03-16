@@ -3,7 +3,7 @@
     {% if cover %}
         <div style="width: 100%; height: 100%; background-image: url({{ photo.largeUrl }}); background-repeat: no-repeat;background-position: center center;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;" data-adentify-photo-id="{{ photo.id }}"{% if showTags %} data-adentify-tags="" {% endif %}{% if showLikes %} data-adentify-likes="" {% endif %}></div>
     {% else %}
-        <img id="embed-photo" src="{{ photo.largeUrl }}" alt="{{ photo.caption }}" data-adentify-photo-id="{{ photo.id }}"{% if showTags %} data-adentify-tags="" {% endif %}{% if showLikes %} data-adentify-likes="" {% endif %}{% if cover %} data-cover="" {% endif %} />
+        <img id="embed-photo" src="{{ photo.largeUrl }}" alt="{{ photo.caption }}" data-adentify-photo-id="{{ photo.id }}"{% if showTags %} data-adentify-tags="" {% endif %}{% if showLikes %} data-adentify-likes="" {% endif %}{% if cover %} data-cover="" {% endif %}{% if hideCopyright %} data-hide-copyright="" {% endif %} />
     {% endif %}
     <div id="fb-root"></div>
     <script>(function(d, s, id) {

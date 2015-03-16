@@ -38,6 +38,7 @@
          AdEntify.showTags = typeof jQuery(this.getValue('selector')).attr('data-adentify-tags') !== 'undefined';
          AdEntify.showLikes = typeof jQuery(this.getValue('selector')).attr('data-adentify-likes') !== 'undefined';
          AdEntify.cover = typeof jQuery(this.getValue('selector')).attr('data-cover') === 'undefined';
+         AdEntify.hideCopyright = typeof jQuery(this.getValue('selector')).attr('data-hide-copyright') === 'undefined';
 
          // Load CSS
          if (jQuery('meta[property="adentitfy-loaded"]').length == 0) {
@@ -64,35 +65,38 @@
          jQuery(this.getValue('selector')).wrap('<div class="adentify-photo-container" style="position: relative;display: inline-block;" />');
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
          $tags = jQuery('<ul class="tags" data-state="hidden" data-always-visible="no" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
-         $pastilleWrapper = jQuery('<div class="adentify-pastille-wrapper" />').insertBefore(this.getValue('selector'));
-         $pastille = jQuery($pastilleWrapper).append('<div class="adentify-pastille" />');
-         $pastillePopover = jQuery($pastilleWrapper).append('\
+
+         if (!AdEntify.hideCopyright) {
+            $pastilleWrapper = jQuery('<div class="adentify-pastille-wrapper" />').insertBefore(this.getValue('selector'));
+            $pastille = jQuery($pastilleWrapper).append('<div class="adentify-pastille" />');
+            $pastillePopover = jQuery($pastilleWrapper).append('\
             <div class="popover">\
                <div class="arrow-top-adentify-pastille-hover"></div>\
                <ul class="popover-pastille-buttons list-unstyled">\
                   <li><button class="btn-icon share-icon share-button"></button></li>\
                </ul>\
             </div>');
-         $pastillePopover.find('.like-icon').click(function() {
-            window.open(that.photoUrl());
-            return false;
-         });
-         $pastillePopover.find('.add-tag-icon').click(function() {
-            window.open(that.photoUrl());
-            return false;
-         });
-         $pastillePopover.find('.favorite-icon').click(function() {
-            window.open(that.photoUrl());
-            return false;
-         });
-         $pastillePopover.find('.share-icon').click(function() {
-            if (jQuery(that.getValue('selector')).siblings('.share-overlay:visible').length > 0) {
-               jQuery(that.getValue('selector')).siblings('.share-overlay').fadeOut();
-            } else {
-               jQuery(that.getValue('selector')).siblings('.share-overlay').fadeIn();
-            }
-            return false;
-         });
+            $pastillePopover.find('.like-icon').click(function() {
+               window.open(that.photoUrl());
+               return false;
+            });
+            $pastillePopover.find('.add-tag-icon').click(function() {
+               window.open(that.photoUrl());
+               return false;
+            });
+            $pastillePopover.find('.favorite-icon').click(function() {
+               window.open(that.photoUrl());
+               return false;
+            });
+            $pastillePopover.find('.share-icon').click(function() {
+               if (jQuery(that.getValue('selector')).siblings('.share-overlay:visible').length > 0) {
+                  jQuery(that.getValue('selector')).siblings('.share-overlay').fadeOut();
+               } else {
+                  jQuery(that.getValue('selector')).siblings('.share-overlay').fadeIn();
+               }
+               return false;
+            });
+         }
 
          that = this;
          jQuery.ajax({

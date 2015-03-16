@@ -905,7 +905,9 @@ __p+='<div class="top-photo-buttons pull-right">\n    <div class="like-button pu
 ( pageUrl )+
 '" class="input-block-level form-control selectOnFocus">\n\n        ';
  if (model.get('visibility_scope') == 'public') { 
-;__p+='\n        <h2 data-i18n="photo.embed"></h2>\n        <label class="checkbox">\n            <input type="checkbox" checked="checked" class="showTagsCheckbox"> <span data-i18n="embed.showTags"></span>\n        </label>\n        <textarea class="embedCode form-control input-block-level selectOnFocus" rows="3">&lt;iframe src="https://adentify.com/iframe/photo-'+
+;__p+='\n        <h2 data-i18n="photo.embed"></h2>\n        <label class="checkbox">\n            <input type="checkbox" checked="checked" class="showTagsCheckbox"> <span data-i18n="embed.showTags"></span>\n        </label>\n        <label class="checkbox">\n            <input type="checkbox" class="hideCopyrightCheckbox"> '+
+( $.t('embed.hideCopyright') )+
+'\n        </label>\n        <textarea class="embedCode form-control input-block-level selectOnFocus" rows="3">&lt;iframe src="https://adentify.com/iframe/photo-'+
 ( model.get('id') )+
 '.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="'+
 ( model.get("large_width") )+

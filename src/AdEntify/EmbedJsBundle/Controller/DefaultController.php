@@ -52,9 +52,10 @@ class DefaultController extends Controller
      */
     public function iframeAction($id)
     {
-        $showTags = $this->getRequest()->query->has('show-tags') ? true : false;
-        $showLikes = $this->getRequest()->query->has('show-likes') ? true : false;
-        $cover = $this->getRequest()->query->has('cover') ? true : false;
+        $showTags = $this->getRequest()->query->has('show-tags');
+        $showLikes = $this->getRequest()->query->has('show-likes');
+        $cover = $this->getRequest()->query->has('cover');
+        $hideCopyright = $this->getRequest()->query->has('hide-copyright');
 
         $em = $this->getDoctrine()->getManager();
         $photo = $em->createQuery('SELECT photo FROM AdEntify\CoreBundle\Entity\Photo photo LEFT JOIN photo.owner owner
@@ -71,7 +72,8 @@ class DefaultController extends Controller
                 'photo' => $photo,
                 'showTags' => $showTags,
                 'showLikes' => $showLikes,
-                'cover' => $cover
+                'cover' => $cover,
+                'hideCopyright' => $hideCopyright
             );
         } else
             throw new NotFoundHttpException('Photo not found');

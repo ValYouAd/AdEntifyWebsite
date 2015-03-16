@@ -461,7 +461,8 @@
    },
    "embed": {
       "showTags": "Show tags",
-      "showLikes": "Show likes"
+      "showLikes": "Show likes",
+      "hideCopyright": "Hide copyright"
    },
    "filter": {
       "brands": "Brands",

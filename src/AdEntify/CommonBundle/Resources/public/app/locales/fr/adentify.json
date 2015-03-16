@@ -461,7 +461,8 @@
    },
    "embed": {
       "showTags": "Afficher les tags par défaut",
-      "showLikes": "Afficher les likes"
+      "showLikes": "Afficher les likes",
+      "hideCopyright": "Cacher copyright"
    },
    "filter": {
       "brands": "Marques",
