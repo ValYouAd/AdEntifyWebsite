@@ -83,6 +83,8 @@ define([
             query.push('show-likes=true');
          if (this.get('showTags'))
             query.push('show-tags=true');
+         if (this.get('hideCopyright'))
+            query.push('hide-copyright=true')
          if (query.length > 0)
             query = '?' + query.join('&');
 
@@ -470,6 +472,11 @@ define([
          this.updateEmbedCode();
       },
 
+      checkboxHideCopyright: function(e) {
+         this.model.set('hideCopyright', e.currentTarget.checked);
+         this.updateEmbedCode();
+      },
+
       updateEmbedCode: function() {
          $('.embedCode').html(this.model.getEmbed());
       },
@@ -520,6 +527,7 @@ define([
       },
 
       events: {
+         'click .hideCopyrightCheckbox': 'checkboxHideCopyright',
          'click .showTagsCheckbox': 'checkboxShowTags',
          'click .showLikesCheckbox': 'checkboxShowLikes',
          'mouseup .selectOnFocus': 'selectTextOnFocus',

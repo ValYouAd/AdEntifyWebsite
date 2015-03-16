@@ -64,6 +64,9 @@
         <label class="checkbox">
             <input type="checkbox" checked="checked" class="showTagsCheckbox"> <span data-i18n="embed.showTags"></span>
         </label>
+        <label class="checkbox">
+            <input type="checkbox" class="hideCopyrightCheckbox"> <%= $.t('embed.hideCopyright') %>
+        </label>
         <textarea class="embedCode form-control input-block-level selectOnFocus" rows="3">&lt;iframe src="https://adentify.com/iframe/photo-<%= model.get('id') %>.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden;" width="<%= model.get("large_width") %>" height="<%= model.get("large_height") %>" allowTransparency="true"&gt;&lt;/iframe&gt;</textarea>
         <% } else { %>
             <div class="alert alert-info mt2">
