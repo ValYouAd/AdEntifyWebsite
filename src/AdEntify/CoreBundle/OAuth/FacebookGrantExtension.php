@@ -36,6 +36,7 @@ class FacebookGrantExtension implements GrantExtensionInterface
             return false;
         }
 
+        // Get the access token sent from mobile or external device
         $this->facebookSdk->setAccessToken($inputData['facebook_access_token']);
         try {
             // Try to get the user with the facebook token from Open Graph
