@@ -312,7 +312,7 @@ body {
 }
     .tag {
         position: absolute;
-        background-image: url('../img/sprites.png');
+        background-image: url('../../bundles/adentifyembedjs/img/sprites.png');
         background-color: transparent;
         background-repeat: no-repeat;
         background-position: -156px -322px;
@@ -343,8 +343,8 @@ body {
             height: 17px;
         }
         .tag .tag-place-icon{
-            left: 7px;
-            top: 5px;
+            left: 11px;
+            top: 10px;
             background-position: -163px -127px ;
             width: 11px;
             height: 14px;
@@ -356,26 +356,16 @@ body {
             width: 11px;
             height: 15px;
         }
-        .tag>.glyphicon {
-            top: 7px;
-            left: 6px;
-            color: #606366;
-            font-size: 11px;
-        }
-        .tag .glyphicon-tag {
-            top: 8px;
-            left: 7px;
-        }
         .tag .tag-user-icon{
-            left: 6px;
-            top: 6px;
+            left: 11px;
+            top: 10px;
             background-position: -142px -126px ;
             width: 13px;
             height: 13px;
         }
         .tag .tag-video-icon{
-            left: 6px;
-            top: 6px;
+            left: 10px;
+            top: 11px;
             background-position: -141px -109px;
             width: 16px;
             height: 13px;
