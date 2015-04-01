@@ -68,9 +68,11 @@ class AnalyticsController extends FosRestController
                 $analytic->setUser($this->getUser());
 
             if (!$em->getRepository('AdEntifyCoreBundle:Analytic')->isAlreadyTracked($analytic)) {
+                // Limit interaction time
                 $maxInteractionTime = 2 * 60 * 1000; // 2 minutes in milliseconds
                 if ($analytic->getAction() == Analytic::ACTION_INTERACTION && $analytic->getActionValue() > $maxInteractionTime)
                     $analytic->setActionValue($maxInteractionTime);
+
                 $em->persist($analytic);
                 $em->flush();
 
