@@ -249,7 +249,7 @@
                   '<div id="map' + tag.id + '" class="map" data-lng="' + tag.venue.lng + '" data-lat="' + tag.venue.lat + '"></div>\
                               <div class="popover-details">\
                                  <address>\
-                                 <strong>' + tag.title + '</strong><br>\
+                                 <i class="glyphicon glyphicon-home"></i><strong>' + tag.title + '</strong><br>\
                                    ' + (tag.venue.address ? tag.venue.address + '<br>' : '') +
                   (tag.venue.postal_code ? tag.venue.postal_code + ' ' : '') + (tag.venue.city ? tag.venue.city + ' ' : '') + (tag.venue.country ? tag.venue.country + ' ' : '') +
                   '</address></div></div></div></div>');
@@ -262,16 +262,24 @@
                   $tag = jQuery($tags).append('<div class="tag" data-x="'+tag.x_position+'" data-y="'+tag.y_position+'" data-tag-id="'+ tag.id +'" style="left: '+ (tag.x_position*100) +'%; top: '+ (tag.y_position*100) +'%"><div class="tag-brand-icon glyphicon glyphicon-tag tag-icon"></div><div class="popover popover-product"><div class="tag-popover-arrow"></div><div class="popover-inner"><span class="title">' +
                   (typeof tag.link !== 'undefined' ? '<a href="'+ tag.link +'" target="_blank">' + tag.title + '</a></span>' : tag.title + '</span>') + (tag.product && typeof tag.product.small_url !== 'undefined' ? '<img class="pull-left product-image" src="'+tag.product.small_url+'">' : '') +
                   (tag.description ? '<p>' + tag.description + '</p>' : '') +
-                  (tag.brand ? typeof tag.brand.small_logo_url !== 'undefined' ? '<div class="brand"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div>' : '' : '') +
-                  '</div></div></div>');
+                  (tag.brand ? typeof tag.brand.small_logo_url !== 'undefined' ? '<div class="brand"><img src="' + tag.brand.small_logo_url + '" alt="' + tag.brand.name + '" class="brand-logo" /></div><div class="clearfix"></div>' : '' : '') +
+                     '<div class="popover-details">\
+                  <p>\
+                     <a href="' + tag.link + '" target="_blank" class="more-info"><i class="icon-shopping-cart icon-white"></i> En savoir plus</a>\
+                     </p>\
+                     <div class="row">\
+                     <div class="col-xs-6 more-info-url-wrapper">\
+                     <a href="' + tag.link + '" target="_blank" class="more-info-url"><i class="glyphicon glyphicon-globe icon"></i> Fiche produit</a>\
+                     </div>\
+                     </div></div></div></div>');
                } else {
                   jQuery($tags).append('');
                }
                if ($tag) {
                   var popoverArrow = $tag.find('[data-tag-id="'+ tag.id + '"] .tag-popover-arrow');
                   popoverArrow.addClass('tag-popover-arrow-top');
-                  popoverArrow.css({top: '30px'});
-                  popoverArrow.css({left: '12px'});
+                  popoverArrow.css({top: '25px'});
+                  popoverArrow.css({left: '7px'});
                }
 
                if (typeof popover !== 'undefined') {
@@ -315,7 +323,7 @@
 
             var popoverInnerOffset = jQuery(popoverInner).offset();
             var left = popoverInnerOffset.left;
-            var top = popoverInnerOffset.top + 40;
+            var top = popoverInnerOffset.top + 35;
             var failPosition = ''; // r: right, b: bottom, l: left, t: top, d: droite
             failPosition += ((popoverInnerOffset.left + popoverInner.outerWidth(true)) > jQuery('.adentify-photo-container').width()) ? 'r' : '';
             failPosition += ((popoverInnerOffset.top + popoverInner.outerHeight(true) + 40) > jQuery('.adentify-photo-container').height()) ? 'b' : '';

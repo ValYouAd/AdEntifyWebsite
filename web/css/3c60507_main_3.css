@@ -1312,7 +1312,7 @@ html,body,.body-grey-background {
 .tag .tag-icon {
     position: absolute;
 }
-.tag .glyphicon {
+.tag>.glyphicon {
     top: 7px;
     left: 6px;
     color: #606366;
