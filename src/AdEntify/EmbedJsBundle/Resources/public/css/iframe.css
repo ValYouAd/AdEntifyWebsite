@@ -41,7 +41,13 @@ body {
     }
 }
 .popover-product .brand-logo {
-    max-height: 50px;
+    max-height: 100px;
+    max-width: 150px;
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+    padding: 0px 10px 10px 10px;
+    float: right;
 }
 .popover.top {
     margin-top:-10px;
@@ -263,14 +269,23 @@ body {
 .popover .popover-details {
     background: #f5f5f7;
     padding: 10px 25px;
+    margin: 0px -10px -10px -10px;
 }
-.popover-details strong {
+.tag .popover .popover-details strong {
     font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;
     font-weight: normal;
 }
-.popover-details a.buy-link {
+.tag .popover .popover-details .buy-link {
     font-size: 16px;
     color: #4e4e50;
+}
+.tag .popover .popover-details .more-info {
+    font-size: 16px;
+    color: #4e4e50;
+}
+.tag .popover .popover-details .more-info-url {
+    color: #5b5756;
+    font-size: 12px;
 }
 .popover-product {
     min-width: 250px;
@@ -381,15 +396,16 @@ body {
             height: 13px;
         }
         .tag .map {
-            width: 270px;
+            width: 276px;
             height: 260px;
+            margin: 0px -10px;
         }
 /*****************/
 /* popover
 /*****************/
 .tag .popover p {
     text-decoration: none;
-    margin: 10px 0 20px 0;
+    margin: 0px 0px 10px 0px;
     font-family: "lato", sans-serif;
     font-size: 15px;
     color: grey;
@@ -430,8 +446,10 @@ body {
     top: 15px;
     margin-left: 10px;
 }
+.tag .popover .glyphicon {
+    margin-right: 5px;
+}
 .tag .popover a {
-
     font-family: "lato", sans-serif;
     font-size: 15px;
     text-align: justify;
@@ -445,10 +463,10 @@ body {
     color: #5b5756;
     font-size: 12px;
 }
-/*.tag .popover a {*/
-    /*color: #000000;*/
-    /*font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;*/
-/*}*/
+.tag .popover a {
+    color: #000000;
+    font-family: "asapbold", "Helvetica Neue", "Arial", sans-serif;
+}
 .add-tag-icon {
     background-position: -83px -174px;
     width: 19px;
