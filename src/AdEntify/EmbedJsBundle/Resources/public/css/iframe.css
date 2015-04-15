@@ -283,9 +283,17 @@ body {
     font-size: 16px;
     color: #4e4e50;
 }
+.tag .popover .popover-details .row {
+    margin: 0px;
+}
 .tag .popover .popover-details .more-info-url {
     color: #5b5756;
     font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 300px;
+    display: inline-block;
 }
 .popover-product {
     min-width: 250px;
@@ -399,6 +407,9 @@ body {
             width: 276px;
             height: 260px;
             margin: 0px -10px;
+        }
+        .tag .map a {
+            font-size: 9px!important;
         }
 /*****************/
 /* popover

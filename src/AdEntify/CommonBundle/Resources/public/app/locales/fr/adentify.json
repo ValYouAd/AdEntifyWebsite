@@ -413,7 +413,8 @@
       "addButton": "Poster",
       "noBody": "Veuillez taper un message avant de valider votre commentaire",
       "addButtonLoading": "Ajout en cours...",
-      "errorCommentPost": "Une erreur est survenue lors de l'ajout de votre commentaire. Veuillez réessayer"
+      "errorCommentPost": "Une erreur est survenue lors de l'ajout de votre commentaire. Veuillez réessayer",
+      "deleteButton": "Supprimer commentaire"
    },
    "notification": {
       "read": "lu",
