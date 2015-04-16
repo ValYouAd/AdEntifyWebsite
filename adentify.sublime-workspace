@@ -3,6 +3,14 @@
 	{
 		"selected_items":
 		[
+			[
+				"wor",
+				"word-wrap"
+			],
+			[
+				"exec",
+				"executeUpdate"
+			]
 		]
 	},
 	"buffers":
@@ -15,12 +23,16 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 377.0,
-		"last_filter": "",
+		"height": 400.0,
+		"last_filter": "grunt",
 		"selected_items":
 		[
 			[
-				"ins",
+				"grunt",
+				"Git: Diff Current File"
+			],
+			[
+				"insta",
 				"Package Control: Install Package"
 			],
 			[
@@ -28,11 +40,15 @@
 				"Package Control: Install Package"
 			],
 			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
 				"instal",
 				"Package Control: Install Package"
 			]
 		],
-		"width": 475.0
+		"width": 601.0
 	},
 	"console":
 	{
@@ -53,22 +69,35 @@
 	},
 	"expanded_folders":
 	[
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/modules",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/translations",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/web",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/web/bundles"
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Controller",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/css",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/js",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/views",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/views/Default"
 	],
 	"file_history":
 	[
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/js/adentify.js",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/fr/adentify.json",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/en/adentify.json",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Command/UpdateCountersCommand.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/css/iframe.css",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/views/Default/iframe.html.twig",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Entity/Tag.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/fr/[Finished in 0.2s]",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/dev/adentify.json",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/adentify.sublime-project",
 		"/Users/pierrickmartos/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings"
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -82,6 +111,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"tag-background",
+			"more-info-url"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -106,7 +137,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -139,6 +170,10 @@
 	{
 		"height": 0.0
 	},
+	"output.exec":
+	{
+		"height": 98.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -147,7 +182,7 @@
 	"project": "adentify.sublime-project",
 	"replace":
 	{
-		"height": 0.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -156,6 +191,22 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"tag.p",
+				"src/AdEntify/CoreBundle/Entity/Tag.php"
+			],
+			[
+				"adentifyjso",
+				"src/AdEntify/CommonBundle/Resources/public/app/locales/en/adentify.json"
+			],
+			[
+				"adentifyjson",
+				"src/AdEntify/CommonBundle/Resources/public/app/locales/fr/adentify.json"
+			],
+			[
+				"locajso",
+				"src/AdEntify/CommonBundle/Resources/public/app/locales/dev/adentify.json"
+			]
 		],
 		"width": 0.0
 	},
