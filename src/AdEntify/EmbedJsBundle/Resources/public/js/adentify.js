@@ -27,7 +27,7 @@
 
    var AdEntify = {
       hoverTimeout: null,
-      rootUrl: "//adentify.com/",
+      rootUrl: "//local.adentify.com/",
       showTags: false,
       showLikes: false,
 
@@ -38,7 +38,7 @@
          AdEntify.showTags = typeof jQuery(this.getValue('selector')).attr('data-adentify-tags') !== 'undefined';
          AdEntify.showLikes = typeof jQuery(this.getValue('selector')).attr('data-adentify-likes') !== 'undefined';
          AdEntify.cover = typeof jQuery(this.getValue('selector')).attr('data-cover') === 'undefined';
-         AdEntify.hideCopyright = typeof jQuery(this.getValue('selector')).attr('data-hide-copyright') === 'undefined';
+         AdEntify.hideCopyright = typeof jQuery(this.getValue('selector')).attr('data-hide-copyright') !== 'undefined';
 
          // Load CSS
          if (jQuery('meta[property="adentitfy-loaded"]').length == 0) {
@@ -50,7 +50,7 @@
                '#embed-photo {max-height: ' + window.innerHeight + 'px; max-width: ' + window.innerWidth + 'px}' +
                '.adentify-pastille {background: url("'+ AdEntify.rootUrl +'img/adentify-pastille.png") no-repeat;}' +
                (AdEntify.showTags === true ? '.adentify-photo-container .tags {opacity: 1;}' : '.adentify-photo-container .tags {opacity: 0;}') +
-               '.tag {background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");}' +
+               (AdEntify.hideCopyright === true ? '.tag {background-image: url("'+ AdEntify.rootUrl +'/img/tagShape1.png"); background-position: 0px 0px;} .tags .tag-icon { display: none; }' : '.tag {background-image: url("'+ AdEntify.rootUrl +'/img/sprites.png");}') +
                '.tag .popover {width: ' + window.innerWidth * 0.85 + 'px;}' +
                '.tag .popover p {max-width: 400px;}' +
                '[class^="icon-"],[class*=" icon-"]{background-image:url("'+ AdEntify.rootUrl + 'img/glyphicons-halflings.png");}' +
@@ -66,7 +66,7 @@
          jQuery('<div class="adentify-photo-overlay" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;" />').insertBefore(this.getValue('selector'));
          $tags = jQuery('<ul class="tags" data-state="hidden" data-always-visible="no" style="list-style-type: none;margin: 0;padding: 0;" />').insertBefore(this.getValue('selector'));
 
-         if (AdEntify.hideCopyright === true) {
+         if (AdEntify.hideCopyright === false) {
             $pastilleWrapper = jQuery('<div class="adentify-pastille-wrapper" />').insertBefore(this.getValue('selector'));
             $pastille = jQuery($pastilleWrapper).append('<div class="adentify-pastille" />');
             $pastillePopover = jQuery($pastilleWrapper).append('\
@@ -269,7 +269,7 @@
                      </p>\
                      <div class="row">\
                      <div class="col-xs-6 more-info-url-wrapper">\
-                     <a href="' + tag.link + '" target="_blank" class="more-info-url"><i class="glyphicon glyphicon-globe icon"></i> Fiche produit</a>\
+                     <a href="' + tag.link + '" target="_blank" class="more-info-url"><i class="glyphicon glyphicon-globe icon"></i> ' + tag.link + '</a>\
                      </div>\
                      </div></div></div></div>');
                } else {

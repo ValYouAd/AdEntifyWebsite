@@ -18,14 +18,12 @@ class UpdateCountersCommand extends ContainerAwareCommand
 {
     protected $em;
 
-    protected function configure ()
-    {
+    protected function configure () {
         $this->setName('adentify:update-counters')
             ->setDescription('Update counters');
     }
 
-    protected function execute (InputInterface $input, OutputInterface $output)
-    {
+    protected function execute (InputInterface $input, OutputInterface $output) {
         $this->setup();
 
         $output->writeln('Update users');
@@ -40,6 +38,11 @@ class UpdateCountersCommand extends ContainerAwareCommand
                     followers_count = (SELECT COUNT(bu.user_id) FROM brand_user as bu WHERE bu.brand_id = b.id)';
         $this->em->getConnection()->executeUpdate($sql);
 
+        $output->writeln('Update tags count');
+        $sql = 'UPDATE photos as p SET tags_count = (SELECT count(t.id) FROM tags as t WHERE t.photo_id = p.id AND t.deleted_at IS NULL 
+                    AND t.waiting_validation = TRUE AND t.validation_status = \'granted\')';
+        $this->em->getConnection()->executeUpdate($sql);
+
         $output->writeln('Flush modifications');
         $this->em->flush();
         $output->writeln('Done!');
@@ -48,8 +51,7 @@ class UpdateCountersCommand extends ContainerAwareCommand
     /**
      * Setup fields
      */
-    private function setup()
-    {
+    private function setup() {
         $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 } 

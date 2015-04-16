@@ -407,7 +407,8 @@
     "addButton": "Add",
     "noBody": "You must type a message before adding a comment",
     "addButtonLoading": "Adding comment...",
-    "errorCommentPost": "Error adding comment. Please try again."
+    "errorCommentPost": "Error adding comment. Please try again.",
+    "deleteButton": "Supprimer le commentaire"
   },
   "notification": {
     "read": "read",
