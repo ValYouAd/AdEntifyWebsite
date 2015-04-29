@@ -161,6 +161,7 @@ class ProductsController extends FosRestController
             $providers = explode('+', $providers);
             $activatedProviders = array();
 
+            // Get user providers
             $userProductProviders = $em->createQuery('SELECT pp
                                           FROM AdEntifyCoreBundle:UserProductProvider pp
                                           WHERE pp.users = :id')
@@ -169,12 +170,11 @@ class ProductsController extends FosRestController
                 ))
                 ->getResult();
 
-            foreach ($userProductProviders as $userProductProvider) {
+            foreach ($userProductProviders as $userProductProvider)
                 $activatedProviders[] = $userProductProvider->getProductProviders()->getProviderKey();
-            }
-
             $providers = array_intersect($providers, $activatedProviders);
 
+            // Launch AdEntify product search
             if (in_array('adentify', $providers)) {
                 $adentifyProducts = $em->getRepository('AdEntifyCoreBundle:Product')->searchProducts($query, $page, $limit, $brandId);
                 if ($adentifyProducts && count($adentifyProducts))
