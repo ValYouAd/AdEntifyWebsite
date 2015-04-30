@@ -61,9 +61,10 @@ class TradedoublerFactory extends BaseProductFactory
         $request = $this->client->send($request);
         if ($request && $request->getStatusCode() == 200) {
             $body = json_decode($request->getBody());
-            return $this->buildProduct(array_merge(array(
-                'json' => $body
-            ), $options));
+            if (property_exists($body, 'products') && is_array($body->products) && count($body->products))
+                return $this->buildProduct(array_merge(array(
+                    'json' => end($body->products)
+                ), $options));
         }
 
         return null;
@@ -75,12 +76,33 @@ class TradedoublerFactory extends BaseProductFactory
 
         if (array_key_exists('json', $options)) {
             $data = $options['json'];
+            if (!array_key_exists('brand', $options) || $options['brand'] !== false) {
+                $brand = $this->loadBrandFromJSON($data);
+                if ($brand) {
+                    $product->setBrand($brand);
+                    $brand->setProductProvider($this->productProvider);
+                }
+            }
             $this->loadProductFromJSON($product, $data);
         }
 
         $product->setProductProvider($this->productProvider);
 
         return $product;
+    }
+
+    public function buildBrand($options = array())
+    {
+        $brand = parent::buildBrand($options);
+
+        if (array_key_exists('json', $options)) {
+            $data = $options['json'];
+            $this->loadBrandFromJSON($brand, $data);
+        }
+
+        $brand->setProductProvider($this->productProvider);
+
+        return $brand;
     }
 
     /**
@@ -116,5 +138,31 @@ class TradedoublerFactory extends BaseProductFactory
             $product->setOriginalUrl($json->productImage->url);
 
         return $product;
+    }
+
+    /**
+     * Load brand
+     *
+     * @param $product
+     * @param $json
+     * @return
+     */
+    protected function loadBrandFromJSON($json, $persist = false)
+    {
+        if (property_exists($json, 'brand')) {
+            $brand = $this->em->getRepository('AdEntifyCoreBundle:Brand')->findOneByName($json->brand);
+            if (!$brand) {
+                // Create new brand
+                $brand = new Brand();
+                $brand->setName($json->name);
+
+                if ($persist)
+                    $this->em->persist($brand);
+            }
+
+            return $brand;
+        }
+
+        return null;
     }
 } 
