@@ -12,6 +12,7 @@ class Factory
 {
     const FACTORY_SHOPSENSE = 'shopsense';
     const FACTORY_TRADEDOUBLER = 'tradedoubler';
+    const FACTORY_ZANOX = 'zanox';
 
     protected $container;
 
@@ -28,6 +29,8 @@ class Factory
                 return $this->container->get('ad_entify_core.shopSenseFactory');
             case self::FACTORY_TRADEDOUBLER:
                 return $this->container->get('ad_entity_core.tradedoublerFactory');
+            case self::FACTORY_ZANOX:
+                return $this->container->get('ad_entify_core.zanoxFactory');
             default:
                 throw new \Exception('Factory not supported');
         }
