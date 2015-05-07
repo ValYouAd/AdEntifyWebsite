@@ -50,3 +50,4 @@ parameters:
     push_notifications_api_key:   naO8yCSHNVQU9itjlDC0YjC3zLC3b3NO8gEcIoNAUl1oWszu1vDiI6CBQBwDZlvH
     analytics:
         nb_elements_by_page: 10
+    domain_name: local.adentify.com
