@@ -238,7 +238,7 @@ class BrandsController extends FosRestController
                 if ($newBrand) {
                     $em->persist($newBrand);
                     $em->flush();
-
+                    
                     return $newBrand;
                 }
             } else {
