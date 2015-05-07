@@ -18,11 +18,8 @@
         <parameter key="ad_entify_core.pushNotificationsService">AdEntify\CoreBundle\Services\PushNotificationsService</parameter>
         <parameter key="ad_entify_core.productFactory.class">AdEntify\CoreBundle\Factory\Product\Factory</parameter>
         <parameter key="ad_entify_core.shopSenseFactory.class">AdEntify\CoreBundle\Factory\Product\ShopSenseFactory</parameter>
-<<<<<<< HEAD
         <parameter key="ad_entity_core.tradedoublerFactory.class">AdEntify\CoreBundle\Factory\Product\TradedoublerFactory</parameter>
-=======
         <parameter key="ad_entify_core.zanoxFactory.class">AdEntify\CoreBundle\Factory\Product\ZanoxFactory</parameter>
->>>>>>> zanox
     </parameters>
 
     <services>

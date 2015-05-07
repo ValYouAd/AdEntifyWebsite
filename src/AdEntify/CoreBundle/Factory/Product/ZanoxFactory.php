@@ -23,11 +23,11 @@ class ZanoxFactory extends BaseProductFactory
     public function __construct($em, Client $client)
     {
         parent::__construct($em, $client);
-        $this->productProvider = $em->getRepository('AdEntifyCoreBundle:ProductProvider')->findOneBy(array('providerKey' => Factory::FACTORY_SHOPSENSE));
+        $this->productProvider = $em->getRepository('AdEntifyCoreBundle:ProductProvider')->findOneBy(array('providerKey' => Factory::FACTORY_ZANOX));
     }
 
     public function search(&$products, $options = array())
-    {
+    {   
         if (!array_key_exists('limit', $options))
             $options['limit'] = 20;
         $options['url'] = sprintf('%sproducts?connectid=EEFF059400699C7AE7DE&q=%s&limit=%s', self::API_BASE_URL, $options['keywords'], $options['limit']);
@@ -95,7 +95,7 @@ class ZanoxFactory extends BaseProductFactory
      */
     protected function loadProductFromJSON(Product $product, $json)
     {
-        $product->setName($json->name)->setProductProviderId($json['@id'])->setId(0);
+        $product->setName($json->name)->setProductProviderId($json->{"@id"})->setId(0);
 
         if (property_exists($json, 'descriptionLong'))
             $product->setDescription($json->descriptionLong);
