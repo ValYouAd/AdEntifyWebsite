@@ -11,6 +11,7 @@ namespace AdEntify\CoreBundle\Factory\Product;
 class Factory
 {
     const FACTORY_SHOPSENSE = 'shopsense';
+    const FACTORY_ZANOX = 'zanox';
 
     protected $container;
 
@@ -25,6 +26,8 @@ class Factory
         {
             case self::FACTORY_SHOPSENSE:
                 return $this->container->get('ad_entify_core.shopSenseFactory');
+            case self::FACTORY_ZANOX:
+                return $this->container->get('ad_entify_core.zanoxFactory');
             default:
                 throw new \Exception('Factory not supported');
         }

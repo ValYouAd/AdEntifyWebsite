@@ -18,6 +18,7 @@
         <parameter key="ad_entify_core.pushNotificationsService">AdEntify\CoreBundle\Services\PushNotificationsService</parameter>
         <parameter key="ad_entify_core.productFactory.class">AdEntify\CoreBundle\Factory\Product\Factory</parameter>
         <parameter key="ad_entify_core.shopSenseFactory.class">AdEntify\CoreBundle\Factory\Product\ShopSenseFactory</parameter>
+        <parameter key="ad_entify_core.zanoxFactory.class">AdEntify\CoreBundle\Factory\Product\ZanoxFactory</parameter>
     </parameters>
 
     <services>
@@ -78,6 +79,11 @@
         </service>
 
         <service id="ad_entify_core.shopSenseFactory" class="%ad_entify_core.shopSenseFactory.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="guzzle.client"></argument>
+        </service>
+
+        <service id="ad_entify_core.zanoxFactory" class="%ad_entify_core.zanoxFactory.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="guzzle.client"></argument>
         </service>
