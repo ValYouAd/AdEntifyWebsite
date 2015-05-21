@@ -71,18 +71,11 @@
 	[
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Controller",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/css",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/js",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/views",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/views/Default"
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify"
 	],
 	"file_history":
 	[
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/adentify.sublime-project",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/js/adentify.js",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/fr/adentify.json",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/en/adentify.json",
@@ -92,7 +85,6 @@
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Entity/Tag.php",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/fr/[Finished in 0.2s]",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/dev/adentify.json",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/adentify.sublime-project",
 		"/Users/pierrickmartos/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings"
 	],
 	"find":
@@ -192,6 +184,10 @@
 		"selected_items":
 		[
 			[
+				"adentify.js",
+				"src/AdEntify/EmbedJsBundle/Resources/public/js/adentify.js"
+			],
+			[
 				"tag.p",
 				"src/AdEntify/CoreBundle/Entity/Tag.php"
 			],
@@ -212,12 +208,12 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"select_symbol":
 	{
