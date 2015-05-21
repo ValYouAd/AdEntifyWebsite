@@ -100,4 +100,13 @@ class BrandRepository extends EntityRepository
                 'providerId' => $providerId
             ))->getQuery()->getOneOrNullResult();
     }
+
+    public function findOneByName($name)
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.name = :name')
+            ->setParameters(array(
+                'name' => $name,
+            ))->getQuery()->getOneOrNullResult();
+    }
 }

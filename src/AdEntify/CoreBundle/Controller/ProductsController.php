@@ -161,6 +161,7 @@ class ProductsController extends FosRestController
             $providers = explode('+', $providers);
             $activatedProviders = array();
 
+            // Get user providers
             $userProductProviders = $em->createQuery('SELECT pp
                                           FROM AdEntifyCoreBundle:UserProductProvider pp
                                           WHERE pp.users = :id')
@@ -169,12 +170,11 @@ class ProductsController extends FosRestController
                 ))
                 ->getResult();
 
-            foreach ($userProductProviders as $userProductProvider) {
+            foreach ($userProductProviders as $userProductProvider)
                 $activatedProviders[] = $userProductProvider->getProductProviders()->getProviderKey();
-            }
-
             $providers = array_intersect($providers, $activatedProviders);
 
+            // Launch AdEntify product search
             if (in_array('adentify', $providers)) {
                 $adentifyProducts = $em->getRepository('AdEntifyCoreBundle:Product')->searchProducts($query, $page, $limit, $brandId);
                 if ($adentifyProducts && count($adentifyProducts))
@@ -246,30 +246,32 @@ class ProductsController extends FosRestController
                     if ($newProduct)
                         return $newProduct;
 
-                    $newProduct = $this->get('ad_entify_core.productFactory')->getProductFactory($product->getProductProvider()->getProviderKey())
-                        ->getProductById($product->getProductProviderId());
-                    if ($newProduct) {
-                        $em->persist($newProduct);
-                        $em->flush();
+                    // $newProduct = $this->get('ad_entify_core.productFactory')->getProductFactory($product->getProductProvider()->getProviderKey())
+                    //     ->getProductById($product->getProductProviderId(), [
+                    //         'brand' => false
+                    //     ]);
+                    // if ($newProduct) {
+                    //     $em->persist($newProduct);
+                    //     $em->flush();
 
-                        return $newProduct;
-                    }
-                } else {
-                    // Add venue products
-                    if ($product->getPurchaseUrl()) {
-                        $product->setPurchaseUrl(CommonTools::addScheme($product->getPurchaseUrl()));
-
-                        $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
-                        if ($shortUrl)
-                            $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
-                                'id' => $shortUrl->getBase62Id()
-                            )));
-                    }
-                    $em->persist($product);
-                    $em->flush();
-
-                    return $product;
+                    //     return $newProduct;
+                    // }
                 }
+
+                if ($product->getPurchaseUrl()) {
+                    $product->setPurchaseUrl(CommonTools::addScheme($product->getPurchaseUrl()));
+
+                    $shortUrl = $em->getRepository('AdEntifyCoreBundle:ShortUrl')->createShortUrl($product->getPurchaseUrl());
+                    if ($shortUrl)
+                        $product->setPurchaseShortUrl($shortUrl)->setLink($this->generateUrl('redirect_url', array(
+                            'id' => $shortUrl->getBase62Id()
+                        )));
+                }
+                $em->persist($product);
+                $em->flush();
+
+                return $product;
+                
             } else
                 return $form;
         } else

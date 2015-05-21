@@ -39,7 +39,7 @@ parameters:
     twitter_consumer_secret:      d27XZ9UpNyowFiLpugC1EhC8xwdQlwcwtrkTHIXE
     facebook_app_id:              159587157398776
     facebook_secret:              6465372f50a4b1e570cfe4ce7fd62cca
-    facebook_permissions:         email,user_birthday,user_photos,read_friendlists,publish_actions
+    facebook_permissions:         email,user_birthday,user_photos,publish_actions
     root_url:                     "https://adentify.com/"
     root_url_without_trailing:    "https://adentify.com"
     facebook_grant_extension_uri: "http://grants.api.adentify.com/facebook_access_token"
@@ -50,3 +50,4 @@ parameters:
     push_notifications_api_key:   naO8yCSHNVQU9itjlDC0YjC3zLC3b3NO8gEcIoNAUl1oWszu1vDiI6CBQBwDZlvH
     analytics:
         nb_elements_by_page: 10
+    domain_name: local.adentify.com
