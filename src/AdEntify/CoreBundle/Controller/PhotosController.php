@@ -73,10 +73,7 @@ class PhotosController extends FosRestController
         $em = $this->getDoctrine()->getManager();
 
         $securityContext = $this->container->get('security.context');
-        $user = null;
-        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-        }
+        $user = $this->getUser();
 
         // If no user connected, 0 is default
         $facebookFriendsIds = array(0);

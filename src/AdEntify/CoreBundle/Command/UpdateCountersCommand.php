@@ -40,7 +40,7 @@ class UpdateCountersCommand extends ContainerAwareCommand
 
         $output->writeln('Update tags count');
         $sql = 'UPDATE photos as p SET tags_count = (SELECT count(t.id) FROM tags as t WHERE t.photo_id = p.id AND t.deleted_at IS NULL 
-                    AND t.waiting_validation = TRUE AND t.validation_status = \'granted\')';
+                    AND t.waiting_validation = FALSE AND (t.validation_status = \'granted\' OR t.validation_status = \'none\'))';
         $this->em->getConnection()->executeUpdate($sql);
 
         $output->writeln('Flush modifications');
