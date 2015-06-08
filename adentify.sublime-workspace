@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"is",
+				"is_array"
+			],
+			[
+				"F",
+				"FACTORY_TRADEDOUBLER〔constant〕"
+			],
+			[
 				"wor",
 				"word-wrap"
 			],
@@ -15,6 +23,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "src/AdEntify/CommonBundle/Resources/views/Default/app.html.twig",
+			"settings":
+			{
+				"buffer_size": 21251,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/AdEntify/BackofficeBundle/Controller/UserController.php",
+			"settings":
+			{
+				"buffer_size": 7927,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -71,15 +95,55 @@
 	[
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify"
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/BackofficeBundle",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/BackofficeBundle/Controller",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/BackofficeBundle/Form",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Controller",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/views",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/views/Default",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/views/Form",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Command",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Controller",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Resources",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Resources/config"
 	],
 	"file_history":
 	[
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/BackofficeBundle/Form/UserType.php",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/adentify.sublime-project",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Entity/User.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/app/config/parameters.yml.dist",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/app/config/parameters.yml",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/OAuth/FacebookGrantExtension.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Controller/UsersController.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/UserBundle/Controller/DefaultController.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Controller/PhotosController.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Command/UpdateCountersCommand.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Factory/Product/ShopSenseFactory.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Controller/ProductsController.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Factory/Product/Factory.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Resources/config/services.xml",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Entity/ShortUrl.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Factory/Product/ZanoxFactory.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Form/ProductType.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Entity/Product.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Factory/Product/BaseProductFactory.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/vendor/sebastian/comparator/src/Factory.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Entity/BrandRepository.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Entity/Brand.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Factory/Product/TradedoublerFactory.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Controller/BrandsController.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Command/BrandsSynchroCommand.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/app/cache/dev/appDevDebugProjectContainer.php",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/app/config/config.yml",
+		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/vendor/friendsofsymfony/oauth2-php/lib/OAuth2/OAuth2.php",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/js/adentify.js",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/fr/adentify.json",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CommonBundle/Resources/public/app/locales/en/adentify.json",
-		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Command/UpdateCountersCommand.php",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/public/css/iframe.css",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/EmbedJsBundle/Resources/views/Default/iframe.html.twig",
 		"/Users/pierrickmartos/Projects/AdEntify/Sources/AdEntifyWebsite/src/AdEntify/CoreBundle/Entity/Tag.php",
@@ -89,13 +153,14 @@
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 41.0
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 109.0,
 		"where_history":
 		[
+			"*"
 		]
 	},
 	"find_state":
@@ -103,6 +168,20 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"setUsername",
+			"Timestampa",
+			"getProductFactory",
+			"$sizes",
+			"body->products",
+			"SELECT EXISTS",
+			"EXISTS ",
+			"nativeQuery",
+			"'brand'",
+			"setProductProvi",
+			"buildBrand",
+			"GRANT_TYPE_AUTH_CODE",
+			"domain_name",
+			"getProductById",
 			"tag-background",
 			"more-info-url"
 		],
@@ -122,8 +201,101 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "src/AdEntify/CommonBundle/Resources/views/Default/app.html.twig",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21251,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18000,
+								18000
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								}
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/fox.dark (SL).tmTheme",
+							"syntax": "Packages/PHP-Twig/Syntaxes/HTML (Twig).tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4980.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/AdEntify/BackofficeBundle/Controller/UserController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7927,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5657,
+								5705
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".#",
+									"selector": "text.html"
+								}
+							],
+							"color_scheme": "Packages/User/Color Highlighter/themes/fox.dark (SL).tmTheme",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3121.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -183,6 +355,78 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"param",
+				"app/config/parameters.yml"
+			],
+			[
+				"user",
+				"src/AdEntify/CoreBundle/Entity/User.php"
+			],
+			[
+				"face",
+				"src/AdEntify/CoreBundle/OAuth/FacebookGrantExtension.php"
+			],
+			[
+				"servi",
+				"src/AdEntify/CoreBundle/Resources/config/services.xml"
+			],
+			[
+				"",
+				"src/AdEntify/CoreBundle/Factory/Product/Factory.php"
+			],
+			[
+				"zano",
+				"src/AdEntify/CoreBundle/Factory/Product/ZanoxFactory.php"
+			],
+			[
+				"fact",
+				"src/AdEntify/CoreBundle/Factory/Product/Factory.php"
+			],
+			[
+				"factor",
+				"vendor/sebastian/comparator/src/Factory.php"
+			],
+			[
+				"services.xm",
+				"src/AdEntify/CoreBundle/Resources/config/services.xml"
+			],
+			[
+				"brandrep",
+				"src/AdEntify/CoreBundle/Entity/BrandRepository.php"
+			],
+			[
+				"zanox",
+				"src/AdEntify/CoreBundle/Factory/Product/ZanoxFactory.php"
+			],
+			[
+				"brandsc",
+				"src/AdEntify/CoreBundle/Controller/BrandsController.php"
+			],
+			[
+				"brand",
+				"src/AdEntify/CoreBundle/Entity/Brand.php"
+			],
+			[
+				"productt",
+				"src/AdEntify/CoreBundle/Form/ProductType.php"
+			],
+			[
+				"productscon",
+				"src/AdEntify/CoreBundle/Controller/ProductsController.php"
+			],
+			[
+				"shopse",
+				"src/AdEntify/CoreBundle/Factory/Product/ShopSenseFactory.php"
+			],
+			[
+				"tradou",
+				"src/AdEntify/CoreBundle/Factory/Product/TradedoublerFactory.php"
+			],
+			[
+				"oauth",
+				"vendor/friendsofsymfony/oauth2-php/lib/OAuth2/OAuth2.php"
+			],
 			[
 				"adentify.js",
 				"src/AdEntify/EmbedJsBundle/Resources/public/js/adentify.js"
